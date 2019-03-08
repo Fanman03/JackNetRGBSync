@@ -241,7 +241,6 @@
                                 <Button
                                     DockPanel.Dock="Bottom"
                                     HorizontalAlignment="Center" 
-                                    Margin="8" 
                                     Height="30"
                                     Content="Toggle Asus Device-Provider"
                                     Command="{Binding ToggleAuraCommand}" />
