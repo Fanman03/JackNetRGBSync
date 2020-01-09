@@ -1,0 +1,429 @@
+﻿<controls:BlurredDecorationWindow x:Class="RGBSyncPlus.UI.ConfigurationWindow"
+                                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                  xmlns:core="clr-namespace:RGB.NET.Core;assembly=RGB.NET.Core"
+                                  xmlns:ui="clr-namespace:RGBSyncPlus.UI"
+                                  xmlns:controls="clr-namespace:RGBSyncPlus.Controls"
+                                  xmlns:p = "clr-namespace:RGBSyncPlus.Properties"
+                                  xmlns:styles="clr-namespace:RGBSyncPlus.Styles"
+                                  xmlns:attached="clr-namespace:RGBSyncPlus.Attached"
+                                  xmlns:helper="clr-namespace:RGBSyncPlus.Helper"
+                                  xmlns:dd="urn:gong-wpf-dragdrop"
+                                  mc:Ignorable="d"
+                                  Title="{x:Static p:Resources.Title}" 
+                                  Icon="pack://application:,,,/RGBSync+;component/tl_icon.ico"
+                                  IconCommand="{Binding OpenHomepageCommand}"
+                                  Width="1280"  Height="720"
+                                  Closed="ConfigurationWindow_OnClosed" ResizeMode="CanMinimize">
+
+    <controls:BlurredDecorationWindow.Resources>
+        <styles:CachedResourceDictionary>
+            <styles:CachedResourceDictionary.MergedDictionaries>
+                <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Navigation.xaml" />
+                <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Scrollbar.xaml" />
+            </styles:CachedResourceDictionary.MergedDictionaries>
+        </styles:CachedResourceDictionary>
+    </controls:BlurredDecorationWindow.Resources>
+
+
+    <controls:BlurredDecorationWindow.DataContext>
+        <ui:ConfigurationViewModel />
+    </controls:BlurredDecorationWindow.DataContext>
+
+    <TabControl Style="{StaticResource StyleTabControlNavigation}">
+        <TabItem Header="{x:Static p:Resources.Page1Header}">
+
+            <AdornerDecorator>
+                <DockPanel LastChildFill="True" >
+                    <GroupBox DockPanel.Dock="Bottom" Margin="0,8,1006,0" >
+                        <DockPanel VerticalAlignment="Bottom">
+                            <Button DockPanel.Dock="Top"
+                                    HorizontalAlignment="Center" 
+                                    Command="{Binding ImportCommand}" Click="Button_Click" >
+                                <StackPanel Height="Auto" Orientation="Horizontal">
+                                    <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/import.png" />
+                                    <TextBlock TextWrapping="Wrap" Text="{x:Static p:Resources.ImportButton}"></TextBlock>
+                                </StackPanel>
+                            </Button>
+                            <Button DockPanel.Dock="Bottom"
+                                    HorizontalAlignment="Center" 
+                                    Command="{Binding ExportCommand}" >
+                                <StackPanel Height="Auto" Orientation="Horizontal">
+                                    <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/export.png" />
+                                    <TextBlock Text="{x:Static p:Resources.ExportButton}"></TextBlock>
+                                </StackPanel>
+                            </Button>
+
+
+                        </DockPanel>
+
+
+                    </GroupBox>
+                    <GroupBox DockPanel.Dock="Bottom" Margin="0,8,1006,0" >
+                        <GroupBox.Resources>
+                            <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
+                        </GroupBox.Resources>
+                        <DockPanel VerticalAlignment="Bottom">
+                            <Label controls:Form.IsLabel="True" 
+                                               Content="{x:Static p:Resources.ProfileNameLabel}" />
+                            <TextBox controls:Form.Fill="True"
+                                                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" SpellCheck.IsEnabled="True" />
+
+                        </DockPanel>
+                    </GroupBox>
+                    <GroupBox DockPanel.Dock="Left" Width="260">
+                        <DockPanel VerticalAlignment="Top" >
+                            <Button DockPanel.Dock="Bottom"
+                                    HorizontalAlignment="Center" 
+                                    Margin="8" 
+                                    Command="{Binding AddSyncGroupCommand}" >
+                                <StackPanel VerticalAlignment="Center" Height="Auto" Orientation="Horizontal">
+                                    <Image Margin="0,0,2,0" Width="18" Height="18" Source="/RGBSync+;component/Resources/add.png" />
+                                    <TextBlock VerticalAlignment="Center" FontSize="16" Text="{x:Static p:Resources.NewGroupButton}"></TextBlock>
+                                </StackPanel>
+                            </Button>
+
+
+                            <ListBox ItemsSource="{Binding SyncGroups}"
+                                     SelectedItem="{Binding SelectedSyncGroup}"
+                                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                     Name="LEDGroupsListbox">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Button Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                                    ToolTip="Remove"
+                                                    Command="{Binding DataContext.RemoveSyncGroupCommand, RelativeSource={RelativeSource AncestorType={x:Type controls:BlurredDecorationWindow}}}"
+                                                    CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
+                                                <Image Source="/RGBSync+;component/Resources/close.png" />
+                                            </Button>
+                                            <TextBlock Grid.Column="1" Margin="4" Text="{Binding DisplayName}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </DockPanel>
+                    </GroupBox>
+
+
+
+                    <DockPanel Margin="8,0,0,-41">
+                        <GroupBox DockPanel.Dock="Top">
+                            <Grid>
+                                <Border HorizontalAlignment="Center" 
+                                        VerticalAlignment="Top" 
+                                        Margin="16"
+                                        Visibility="{Binding SelectedSyncGroup, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=True}">
+                                    <TextBlock Text="{x:Static p:Resources.NoGroupSelected}" />
+                                </Border>
+
+                                <Border Visibility="{Binding SelectedSyncGroup, Converter={StaticResource NullToVisibilityConverter}}">
+                                    <Border.Resources>
+                                        <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
+                                        <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="TextBlock" />
+                                    </Border.Resources>
+
+                                    <controls:Form DockPanel.Dock="Top" >
+                                        <Label controls:Form.IsLabel="True" 
+                                               Content="{x:Static p:Resources.GroupNameLabel}" />
+                                        <TextBox controls:Form.Fill="True"
+                                                 Text="{Binding SelectedSyncGroup.Name, UpdateSourceTrigger=PropertyChanged}" />
+
+                                        <Label controls:Form.IsLabel="True" 
+                                               Content="{x:Static p:Resources.MasterLEDLabel}" />
+                                        <ComboBox controls:Form.Fill="True"
+                                                  ItemsSource="{Binding AvailableSyncLeds}"
+                                                  SelectedItem="{Binding SelectedSyncGroup.SyncLed}"
+                                                  >
+                                            <ComboBox.GroupStyle>
+                                                <GroupStyle>
+                                                    <GroupStyle.HeaderTemplate>
+                                                        <DataTemplate>
+                                                            <Border VerticalAlignment="Stretch"
+                                                                    HorizontalAlignment="Stretch"
+                                                                    Background="{StaticResource BrushComboBoxBackgroundGroupHeader}">
+                                                                <TextBlock VerticalAlignment="Center"
+                                                                           HorizontalAlignment="Left"
+                                                                           FontWeight="Bold"
+                                                                           Text="{Binding Name}" />
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </GroupStyle.HeaderTemplate>
+                                                </GroupStyle>
+                                            </ComboBox.GroupStyle>
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding LedId}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </controls:Form>
+                                </Border>
+                            </Grid>
+                        </GroupBox>
+
+                        <Grid Margin="0,8,0,0"
+                              Visibility="{Binding SelectedSyncGroup, Converter={StaticResource NullToVisibilityConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+
+                            <Grid.Resources>
+                                <GroupStyle x:Key="StyleListBoxGroup">
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock VerticalAlignment="Center"
+                                                       HorizontalAlignment="Left"
+                                                       Margin="0,8,0,0"
+                                                       FontWeight="Bold"
+                                                       Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+
+                                <DataTemplate x:Key="DataTemplateListBoxItem">
+                                    <TextBlock Text="{Binding LedId}"/>
+                                </DataTemplate>
+                            </Grid.Resources>
+
+                            <GroupBox Grid.Column="0" Margin="0,0,0,-42">
+                                <DockPanel>
+                                    <TextBlock DockPanel.Dock="Top"
+                                               HorizontalAlignment="Center" 
+                                               Margin="0,0,0,8" 
+                                               FontWeight="Bold" 
+                                               Text="{x:Static p:Resources.AvaliableLEDsLabel}" />
+                                    <ListBox Name="AvailableLEDsListbox" SelectionMode="Extended"
+                                             dd:DragDrop.IsDragSource="True"
+                                             dd:DragDrop.IsDropTarget="True"
+                                             dd:DragDrop.DropHandler="{Binding}"
+                                             ItemTemplate="{StaticResource DataTemplateListBoxItem}"
+                                             ItemsSource="{Binding AvailableLeds}"
+                                             ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                             >
+                                        <ListBox.GroupStyle>
+                                            <StaticResource ResourceKey="StyleListBoxGroup" />
+                                        </ListBox.GroupStyle>
+                                    </ListBox>
+                                </DockPanel>
+                            </GroupBox>
+
+                            <GroupBox Grid.Column="2" Margin="0,0,0,-42">
+                                <DockPanel>
+                                    <TextBlock DockPanel.Dock="Top"
+                                               HorizontalAlignment="Center" 
+                                               Margin="0,0,0,8" 
+                                               FontWeight="Bold" 
+                                               Text="{x:Static p:Resources.SyncedLEDsLabel}" />
+                                    <ListBox SelectionMode="Extended"
+                                             dd:DragDrop.IsDragSource="True"
+                                             dd:DragDrop.IsDropTarget="True"
+                                             dd:DragDrop.DropHandler="{Binding}"
+                                             ItemTemplate="{StaticResource DataTemplateListBoxItem}"
+                                             ItemsSource="{Binding SynchronizedLeds}"
+                                             ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                                        <ListBox.GroupStyle>
+                                            <StaticResource ResourceKey="StyleListBoxGroup" />
+                                        </ListBox.GroupStyle>
+                                    </ListBox>
+                                </DockPanel>
+                            </GroupBox>
+                        </Grid>
+                    </DockPanel>
+                </DockPanel>
+            </AdornerDecorator>
+        </TabItem>
+
+        <TabItem Header="{x:Static p:Resources.Page2Header}" VerticalAlignment="Top">
+            <AdornerDecorator>
+                <GroupBox VerticalAlignment="Top">
+                    <StackPanel Orientation="Vertical">
+
+                        <Grid>
+                            <Grid.Resources>
+                                <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="{x:Type Label}" />
+                                <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="{x:Type TextBlock}" />
+                                <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="{x:Type ListBox}" />
+                            </Grid.Resources>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="97*"/>
+                                <RowDefinition Height="81*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200*" />
+                                <ColumnDefinition Width="0*"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="150*"/>
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="413*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="414*" />
+                            </Grid.ColumnDefinitions>
+
+                            <controls:Form Grid.Column="0" Grid.ColumnSpan="6" Margin="10,0,199,10" Grid.RowSpan="2">
+
+                                <Label controls:Form.IsLabel="True" 
+                                       Content="{x:Static p:Resources.VersionLabel}"  Margin="0,0,-75,0" />
+                                <TextBlock Margin="75,0,-75,0" Text="{Binding Version}" />
+
+                                <Label controls:Form.IsLabel="True" 
+                                       Content="{x:Static p:Resources.LanguageLabel}"  Margin="0,0,-75,0" />
+                                <ComboBox x:Name="LangBox" SelectionChanged="Lang_SelectionChanged" Margin="75,0,-75,0">
+                                    <ComboBoxItem Selected="DutchSelected" x:Name="dutchItem" Content="Dutch (Nederlands)"/>
+                                    <ComboBoxItem Selected="EnglishSelected" x:Name="englishItem" Content="English"/>
+                                    <ComboBoxItem Selected="FrenchSelected" x:Name="frenchItem" Content="French (Français)"/>
+                                    <ComboBoxItem Selected="GermanSelected" x:Name="germanItem" Content="German (Deutsch)"/>
+                                    <ComboBoxItem Selected="PortugeseSelected" x:Name="portugeseItem" Content="Portugese (Português)"/>
+                                    <ComboBoxItem Selected="RussianSelected" x:Name="russianItem" Content="Russian (русский)"/>
+                                    <ComboBoxItem Selected="SpanishSelected" x:Name="spanishItem" Content="Spanish (Español)"/>
+                                </ComboBox>
+
+                                <Label Margin="0,0,-75,0"  Width="350" controls:Form.IsLabel="True" 
+                                       Content="{x:Static p:Resources.PollingRateLabel}" />
+                                <Slider Margin="75,0,-75,0" Minimum="1" Maximum="100" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
+                                        Value="{Binding UpdateRate}"
+                                        attached:SliderValue.Unit="{x:Static p:Resources.PollingRateUnit}"
+                                        ToolTip="{x:Static p:Resources.PollingRateTooltip}" />
+
+                                <Label controls:Form.IsLabel="True" Margin="0,0,-75,0"  Width="350"
+                                       Content="{x:Static p:Resources.MinimizationLabel}" />
+                                <CheckBox Margin="75,0,-75,0" VerticalAlignment="Center" IsChecked="{Binding IsMinimized}"  Command="{Binding OpenSetCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.MinimizationText}"/>
+
+
+                                <Label Margin="0,0,-75,0" controls:Form.IsLabel="True" 
+                                       Content="{x:Static p:Resources.DiscordLabel}"
+                                       />
+                                <CheckBox Margin="75,0,-75,0" ToolTip="{x:Static p:Resources.DiscordTooltip}" VerticalAlignment="Center" IsChecked="{Binding EnableDiscordRPC}"  Command="{Binding SetRPCCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.DiscordText}"/>
+
+                                <Label  Margin="0,0,-75,0" controls:Form.IsLabel="True" 
+                                       Content="{x:Static p:Resources.DelayLabel}"   />
+                                <Slider Margin="75,0,-75,0" Minimum="0" Maximum="120" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
+                                        Value="{Binding StartupDelay}"
+                                        attached:SliderValue.Unit="{x:Static p:Resources.DelayUnit}"
+                                        ToolTip="{x:Static p:Resources.DelayTooltip}" />
+
+                                <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="{x:Static p:Resources.DevicesLabel}"  Margin="0,0,-75,0" />
+
+                            </controls:Form>
+
+                        </Grid>
+
+                        <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="200,-25,-20,0" ItemsSource="{Binding Devices, Source={x:Static core:RGBSurface.Instance}}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource StyleTextBlockForm}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="&gt;  {0} {1} ({2})">
+                                                <Binding Path="DeviceInfo.Manufacturer" />
+                                                <Binding Path="DeviceInfo.Model" />
+                                                <Binding Path="DeviceInfo.DeviceType" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </GroupBox>
+            </AdornerDecorator>
+        </TabItem>
+        <TabItem Header="{x:Static p:Resources.Page3Header}">
+            <AdornerDecorator>
+                <DockPanel LastChildFill="True" HorizontalAlignment="Center">
+                    <GroupBox DockPanel.Dock="Left"  Width="630" Margin="0,0,4,0">
+                        <DockPanel>
+                            <TextBlock>
+                            <Image Margin="0,-5" Width="25" Height="25" Source="/RGBSync+;component/Resources/client.png" /><Run FontSize="20" Text="{x:Static p:Resources.ClientHeading}" /> <LineBreak/>
+                            <CheckBox HorizontalAlignment="Center" IsChecked="{Binding EnableClient}"  Command="{Binding ToggleClientCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.EnableClientLabel}"></CheckBox><LineBreak/>
+                            <Label controls:Form.IsLabel="True" Content="{x:Static p:Resources.ServerIPLabel}" Foreground="White" />
+                                <TextBox x:Name="ClientHost" Text="{Binding ClientIP}" Width="80" Cursor="IBeam"/><LineBreak/>
+                            <Label controls:Form.IsLabel="True" Content="{x:Static p:Resources.ServerPortLabel}" Foreground="White" />
+                                <TextBox x:Name="ClientPort" Text="{Binding ClientPort}" Width="40" /><LineBreak/>
+                                <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding StartClientCommand}"  IsEnabled="{Binding EnableClient}">
+                                        <StackPanel VerticalAlignment="Center" Height="Auto" Orientation="Horizontal">
+                                <Image Margin="0,0,2,0" Width="20" Height="20" Source="/RGBSync+;component/Resources/start.png" />
+                                <TextBlock VerticalAlignment="Center" Text="{x:Static p:Resources.StartClientButton}"></TextBlock>
+                            </StackPanel>
+                             </Button>
+                            </TextBlock>
+                        </DockPanel>
+
+
+                    </GroupBox>
+                    <GroupBox Width="630">
+                        <DockPanel>
+                            <TextBlock>
+                            <Image Margin="0,-5" Width="25" Height="25" Source="/RGBSync+;component/Resources/server.png" /><Run FontSize="20" Text="{x:Static p:Resources.ServerHeading}" /> <LineBreak/>
+                            <CheckBox HorizontalAlignment="Center" IsChecked="{Binding EnableServer}"  Command="{Binding ToggleServerCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.EnableServerLabel}"></CheckBox><LineBreak/>
+                            <Label controls:Form.IsLabel="True" Content="{x:Static p:Resources.ServerPortLabel}" Foreground="White" />
+                                <TextBox x:Name="ServerPort" Text="{Binding ServerPort}" Width="40" /><LineBreak/>
+                                <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding StartServerCommand}"  IsEnabled="{Binding EnableServer}">
+                                        <StackPanel VerticalAlignment="Center" Height="Auto" Orientation="Horizontal">
+                                <Image Margin="0,0,2,0" Width="20" Height="20" Source="/RGBSync+;component/Resources/start.png" />
+                                <TextBlock VerticalAlignment="Center" Text="{x:Static p:Resources.StartServerButton}" ></TextBlock>
+                            </StackPanel>
+                             </Button>
+                            </TextBlock>
+                        </DockPanel>
+                    </GroupBox>
+
+                </DockPanel>
+
+            </AdornerDecorator>
+        </TabItem>
+        <TabItem Header="{x:Static p:Resources.Page4Header}">
+            <AdornerDecorator>
+                <DockPanel LastChildFill="True">
+                    <GroupBox DockPanel.Dock="Left" Margin="0,0,0,0" >
+                        <TextBlock TextWrapping="Wrap">
+                            <Run Text="{x:Static p:Resources.AboutTitle}" FontSize="20"/><LineBreak />
+                            <Run Text="{x:Static p:Resources.AboutDescription}" />
+                            <LineBreak /><LineBreak />
+                            <Run Text="{x:Static p:Resources.TechSupportCTA}"/><LineBreak /><InlineUIContainer/><InlineUIContainer>
+                                <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding DiscordCommand}" >
+                                        <StackPanel VerticalAlignment="Center" Height="Auto" Orientation="Horizontal">
+                                <Image Margin="0,0,2,0" Width="20" Height="20" Source="/RGBSync+;component/Resources/discord.png" />
+                                <TextBlock VerticalAlignment="Center" Text="{x:Static p:Resources.JoinDiscordButton}"></TextBlock>
+                            </StackPanel>
+                             </Button>
+                            </InlineUIContainer><LineBreak /><InlineUIContainer><Image Height="50" Width="50" Margin="2,2,4,2" Source="/RGBSync+;component/Resources/argebee_old.ico"/>
+                            </InlineUIContainer><Run BaselineAlignment="Center" Text="{x:Static p:Resources.RGBNetNotice}"></Run>
+                            <LineBreak /><Run BaselineAlignment="Center" Text="{x:Static p:Resources.EVGANotice}"></Run>
+                            <LineBreak></LineBreak><LineBreak></LineBreak><Button Content="{x:Static p:Resources.LicenseButton}" Command="{Binding AttribCommand}"></Button>
+                            <LineBreak />
+                            <LineBreak />
+                            <Run Text="{x:Static p:Resources.TranslationsLabel}"></Run>
+                            <LineBreak />
+                            <Run Text="Teun - Dutch (Nederlands)"></Run>
+                            <LineBreak />
+                            <Run Text="Grifka - French (Français)"></Run>
+                            <LineBreak />
+                            <Run Text="Crashniels -  German (Deutsch)"></Run>
+                            <LineBreak />
+                            <Run Text="DrMeteor -  Portuguese (Português)"></Run>
+                            <LineBreak />
+                            <Run Text="Ksusha Volkova -  Russian (русский)"></Run>
+                            <LineBreak />
+                            <Run Text="Ed3n18 -  Spanish (Español)"></Run>
+                        </TextBlock>
+
+                    </GroupBox>
+                </DockPanel>
+            </AdornerDecorator>
+        </TabItem>
+    </TabControl>
+
+</controls:BlurredDecorationWindow>

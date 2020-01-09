@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="." xml:space="preserve">
+    <value />
+  </data>
+  <data name="AboutDescription" xml:space="preserve">
+    <value>A utilidade para sincronizar os teus periféricos e componentes RGB. Compatível com Corsair iCUE, Asus Aura, Razer Synapse, Logitech Gaming, e CoolerMaster Masterplus.</value>
+  </data>
+  <data name="AboutTitle" xml:space="preserve">
+    <value>JackNet RGB Sync v1.7 por Fanman03</value>
+  </data>
+  <data name="AffirmativeCommand" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="AvaliableLEDsLabel" xml:space="preserve">
+    <value>LEDs Disponíveis</value>
+  </data>
+  <data name="ClientHeading" xml:space="preserve">
+    <value>Cliente</value>
+  </data>
+  <data name="DelayLabel" xml:space="preserve">
+    <value>Startup delay:</value>
+  </data>
+  <data name="DelayTooltip" xml:space="preserve">
+    <value>Defines how long to wait, if at all, before the program starts.</value>
+  </data>
+  <data name="DelayUnit" xml:space="preserve">
+    <value>Seconds</value>
+  </data>
+  <data name="DevicesLabel" xml:space="preserve">
+    <value>Dispositivos:</value>
+  </data>
+  <data name="DiscordLabel" xml:space="preserve">
+    <value>Discord RPC:</value>
+  </data>
+  <data name="DiscordText" xml:space="preserve">
+    <value>Ativar Discord Rich Presence</value>
+  </data>
+  <data name="DiscordTooltip" xml:space="preserve">
+    <value>Mostra que estás a usar JackNet RGB Sync assim como o nome do perfil ativo no teu perfil do Discord.</value>
+  </data>
+  <data name="EnableClientLabel" xml:space="preserve">
+    <value>Ativar Cliente</value>
+  </data>
+  <data name="EnableServerLabel" xml:space="preserve">
+    <value>Ativar Servidor</value>
+  </data>
+  <data name="EVGANotice" xml:space="preserve">
+    <value>Suporte para EVGA escrito por emulamer</value>
+  </data>
+  <data name="ExitItem" xml:space="preserve">
+    <value>Sair</value>
+  </data>
+  <data name="ExportButton" xml:space="preserve">
+    <value>Exportar grupos</value>
+  </data>
+  <data name="FeatureNotAvailable" xml:space="preserve">
+    <value>Esta função requer Premium. Gostarias de ir à página web onde podes comprar Premium?</value>
+  </data>
+  <data name="GroupNameLabel" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ImportButton" xml:space="preserve">
+    <value>Importar grupos</value>
+  </data>
+  <data name="JoinDiscordButton" xml:space="preserve">
+    <value>Junta-te ao meu servidor de Discord</value>
+  </data>
+  <data name="LanguageLabel" xml:space="preserve">
+    <value>Language:</value>
+  </data>
+  <data name="LicenseButton" xml:space="preserve">
+    <value>Ver licenças opensource</value>
+  </data>
+  <data name="MasterLEDLabel" xml:space="preserve">
+    <value>LED Principal:</value>
+  </data>
+  <data name="MinimizationLabel" xml:space="preserve">
+    <value>Minimização:</value>
+  </data>
+  <data name="MinimizationText" xml:space="preserve">
+    <value>Ativar minimização</value>
+  </data>
+  <data name="NegativeCommand" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="NewGroupButton" xml:space="preserve">
+    <value>Novo grupo de LED</value>
+  </data>
+  <data name="NoGroupSelected" xml:space="preserve">
+    <value>Nenhum grupo de LED selecionado ...</value>
+  </data>
+  <data name="OpenUIItem" xml:space="preserve">
+    <value>Abrir interface</value>
+  </data>
+  <data name="Page1Header" xml:space="preserve">
+    <value>Grupos de LED</value>
+  </data>
+  <data name="Page2Header" xml:space="preserve">
+    <value>Definições</value>
+  </data>
+  <data name="Page3Header" xml:space="preserve">
+    <value>Rede</value>
+  </data>
+  <data name="Page4Header" xml:space="preserve">
+    <value>Sobre</value>
+  </data>
+  <data name="PollingRateLabel" xml:space="preserve">
+    <value>Taxa de atualização:</value>
+  </data>
+  <data name="PollingRateTooltip" xml:space="preserve">
+    <value>Define o quão rápida a informação é atualizada. Valores baixos reduzem a utilização do CPU mas podem causar atrasos.</value>
+  </data>
+  <data name="PollingRateUnit" xml:space="preserve">
+    <value>Atualizações por segundo</value>
+  </data>
+  <data name="PremiumFeatureTitle" xml:space="preserve">
+    <value>Função não disponível</value>
+  </data>
+  <data name="ProfileNameLabel" xml:space="preserve">
+    <value>Nome do perfil:</value>
+  </data>
+  <data name="RemoveHeader" xml:space="preserve">
+    <value>Eliminar grupo de LED?</value>
+  </data>
+  <data name="RemovePrompt" xml:space="preserve">
+    <value>Tens a certeza de que queres eliminar o grupo</value>
+  </data>
+  <data name="RestartAppItem" xml:space="preserve">
+    <value>Reinicar aplicação</value>
+  </data>
+  <data name="RGBNetNotice" xml:space="preserve">
+    <value>JackNet RGBSync funciona com RGB.NET por Darth Affe</value>
+  </data>
+  <data name="ServerHeading" xml:space="preserve">
+    <value>Servidor</value>
+  </data>
+  <data name="ServerIPLabel" xml:space="preserve">
+    <value>IP do servidor:</value>
+  </data>
+  <data name="ServerPortLabel" xml:space="preserve">
+    <value>Porta do Servidor:</value>
+  </data>
+  <data name="StartClientButton" xml:space="preserve">
+    <value>Iniciar Cliente</value>
+  </data>
+  <data name="StartServerButton" xml:space="preserve">
+    <value>Iniciar Servidor</value>
+  </data>
+  <data name="SyncedLEDsLabel" xml:space="preserve">
+    <value>LEDs Sincronizados</value>
+  </data>
+  <data name="TechSupportCTA" xml:space="preserve">
+    <value>Tens algum problema ou precisas de ajuda?</value>
+  </data>
+  <data name="TechSupportItem" xml:space="preserve">
+    <value>Suporte Técnico</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>JackNet RGB Sync - Configuração</value>
+  </data>
+  <data name="TranslationsLabel" xml:space="preserve">
+    <value>Traduções fornecidas por:</value>
+  </data>
+  <data name="VersionLabel" xml:space="preserve">
+    <value>Versão:</value>
+  </data>
+</root>

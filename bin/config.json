@@ -1,0 +1,10 @@
+{
+  "client": {
+    "host": "1.2.3.4",
+    "port": "1234",
+    "status": "Stop Client"
+  },
+  "server": {
+    "port": "5678"
+  }
+}
