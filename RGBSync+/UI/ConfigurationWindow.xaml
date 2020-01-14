@@ -276,6 +276,10 @@
                             <controls:Form Grid.Column="0" Grid.ColumnSpan="6" Margin="10,0,199,10" Grid.RowSpan="2">
 
                                 <Label controls:Form.IsLabel="True" 
+                                       Content="Update"  Margin="0,0,-75,0" />
+                                <Button Margin="75,0,-75,0" Content="Check for Update" Command="{Binding CheckUpdateCommand}"></Button>
+
+                                <Label controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.VersionLabel}"  Margin="0,0,-75,0" />
                                 <TextBlock Margin="75,0,-75,0" Text="{Binding Version}" />
 
@@ -320,8 +324,12 @@
                             </controls:Form>
 
                         </Grid>
-
-                        <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="200,-25,-20,0" ItemsSource="{Binding Devices, Source={x:Static core:RGBSurface.Instance}}">
+                        <ListBox ItemsSource="{Binding Devices, Source={x:Static core:RGBSurface.Instance}}"
+                                     ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                                     Name="AvailableDevicesListBox"
+                                 Height="400"
+                                 Width="480" Margin="-355,-25,0,0">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{StaticResource StyleTextBlockForm}">

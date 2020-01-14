@@ -261,6 +261,9 @@ namespace RGBSyncPlus.UI
         private ActionCommand _discord;
         public ActionCommand DiscordCommand => _discord ?? (_discord = new ActionCommand(Discord));
 
+        private ActionCommand _checkUpdate;
+        public ActionCommand CheckUpdateCommand => _checkUpdate ?? (_checkUpdate = new ActionCommand(checkUpdate));
+
         private ActionCommand _attribs;
         public ActionCommand AttribCommand => _attribs ?? (_attribs = new ActionCommand(Attribs));
 
@@ -320,6 +323,15 @@ namespace RGBSyncPlus.UI
         private void Discord() => Process.Start("https://discordapp.com/invite/pRyBKPr");
 
         private void Attribs() => Process.Start("https://fanman03.com/?page=attribution");
+
+        private void checkUpdate()
+        {
+            string updateCheckPath = "https://fanman03.com/?page=updateCheck&major=";
+            string versionMajor = Version.Major.ToString();
+            string versionMinor = Version.Minor.ToString();
+            string versionBuild = Version.Build.ToString();
+            Process.Start(updateCheckPath + versionMajor + "&minor=" + versionMinor + "&build=" + versionBuild);
+        }
 
         private void OpenSet()
         {
