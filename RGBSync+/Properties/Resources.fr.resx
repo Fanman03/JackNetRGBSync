@@ -129,6 +129,9 @@
   <data name="AvaliableLEDsLabel" xml:space="preserve">
     <value>LEDs disponibles</value>
   </data>
+  <data name="CheckUpdateCommand" xml:space="preserve">
+    <value>Vérifier les mises à jour</value>
+  </data>
   <data name="ClientHeading" xml:space="preserve">
     <value>Client</value>
   </data>
@@ -203,6 +206,12 @@
   </data>
   <data name="NoGroupSelected" xml:space="preserve">
     <value>Pas de groupe LED sélectionné ...</value>
+  </data>
+  <data name="NoUpdateText" xml:space="preserve">
+    <value>Aucune mise à jour trouvée. Vous utilisez actuellement la dernière version de l'application.</value>
+  </data>
+  <data name="NoUpdateTitle" xml:space="preserve">
+    <value>Pas de mise à jour disponible</value>
   </data>
   <data name="OKCommand" xml:space="preserve">
     <value>OK</value>
@@ -281,6 +290,15 @@
   </data>
   <data name="TranslationsLabel" xml:space="preserve">
     <value>Traductions fournies par:</value>
+  </data>
+  <data name="UpdateAvailableText" xml:space="preserve">
+    <value>Une mise à jour de JackNet RGB Sync est disponible. Voulez-vous installer la mise à jour?</value>
+  </data>
+  <data name="UpdateLabel" xml:space="preserve">
+    <value>Mises à jour:</value>
+  </data>
+  <data name="UpdateTitle" xml:space="preserve">
+    <value>Mise à jour disponible!</value>
   </data>
   <data name="VersionLabel" xml:space="preserve">
     <value>Version:</value>

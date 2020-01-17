@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="." xml:space="preserve">
+    <value />
+  </data>
   <data name="AboutDescription" xml:space="preserve">
     <value>The one-stop utlility for syncing your RGB perhipherals and components. Compatible with Corsair iCUE, Asus AURA, Razer Synapse, Logitech Gaming, EVGA Precision X1, and Cooler Master Masterplus.</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="AvaliableLEDsLabel" xml:space="preserve">
     <value>Avaliable LEDs</value>
+  </data>
+  <data name="CheckUpdateCommand" xml:space="preserve">
+    <value>Check for Update</value>
   </data>
   <data name="ClientHeading" xml:space="preserve">
     <value>Client</value>
@@ -148,7 +154,7 @@
     <value>Discord RPC:</value>
   </data>
   <data name="DiscordText" xml:space="preserve">
-    <value>Enable Discord Rich Presense</value>
+    <value>Enable Discord Rich Presence</value>
   </data>
   <data name="DiscordTooltip" xml:space="preserve">
     <value>Displays that you are using JackNet RGB Sync as well as the name of the active profile on your Discord profile.</value>
@@ -203,6 +209,12 @@
   </data>
   <data name="NoGroupSelected" xml:space="preserve">
     <value>No LED group selected ...</value>
+  </data>
+  <data name="NoUpdateText" xml:space="preserve">
+    <value>No update found. You are currently using the latest version of the application.</value>
+  </data>
+  <data name="NoUpdateTitle" xml:space="preserve">
+    <value>No Update Available</value>
   </data>
   <data name="OKCommand" xml:space="preserve">
     <value>OK</value>
@@ -278,6 +290,15 @@
   </data>
   <data name="TranslationsLabel" xml:space="preserve">
     <value>Translations provided by:</value>
+  </data>
+  <data name="UpdateAvaiableText" xml:space="preserve">
+    <value>An update to JackNet RGB Sync is available. Would you like to update?</value>
+  </data>
+  <data name="UpdateText" xml:space="preserve">
+    <value>Update:</value>
+  </data>
+  <data name="UpdateTitle" xml:space="preserve">
+    <value>Update Available!</value>
   </data>
   <data name="VersionLabel" xml:space="preserve">
     <value>Version:</value>

@@ -129,6 +129,9 @@
   <data name="AvaliableLEDsLabel" xml:space="preserve">
     <value>LEDs Disponibles</value>
   </data>
+  <data name="CheckUpdateCommand" xml:space="preserve">
+    <value>Buscar Actualizaciones</value>
+  </data>
   <data name="ClientHeading" xml:space="preserve">
     <value>Cliente</value>
   </data>
@@ -204,6 +207,12 @@
   <data name="NoGroupSelected" xml:space="preserve">
     <value>Grupo de LED No Seleccionado ...</value>
   </data>
+  <data name="NoUpdateText" xml:space="preserve">
+    <value>No hay actualizaciones disponibles. Estas usando la ultima versión.</value>
+  </data>
+  <data name="NoUpdateTitle" xml:space="preserve">
+    <value>No hay Actualizaciones Disponibles</value>
+  </data>
   <data name="OKCommand" xml:space="preserve">
     <value>﻿¡Vale!</value>
   </data>
@@ -278,6 +287,15 @@
   </data>
   <data name="TranslationsLabel" xml:space="preserve">
     <value>Traducciones proporcionadas por:</value>
+  </data>
+  <data name="UpdateAvailableText" xml:space="preserve">
+    <value>Hay una nueva actualización disponible. ¿Te gustaría actualizar?</value>
+  </data>
+  <data name="UpdateLabel" xml:space="preserve">
+    <value>Actualización:</value>
+  </data>
+  <data name="UpdateTitle" xml:space="preserve">
+    <value>Actualización Disponible!</value>
   </data>
   <data name="VersionLabel" xml:space="preserve">
     <value>Versión:</value>

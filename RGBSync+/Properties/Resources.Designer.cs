@@ -61,6 +61,15 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string _ {
+            get {
+                return ResourceManager.GetString(".", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The one-stop utlility for syncing your RGB perhipherals and components. Compatible with Corsair iCUE, Asus AURA, Razer Synapse, Logitech Gaming, EVGA Precision X1, and Cooler Master Masterplus..
         /// </summary>
         public static string AboutDescription {
@@ -93,6 +102,15 @@ namespace RGBSyncPlus.Properties {
         public static string AvaliableLEDsLabel {
             get {
                 return ResourceManager.GetString("AvaliableLEDsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check for Update.
+        /// </summary>
+        public static string CheckUpdateCommand {
+            get {
+                return ResourceManager.GetString("CheckUpdateCommand", resourceCulture);
             }
         }
         
@@ -151,7 +169,7 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enable Discord Rich Presense.
+        ///   Looks up a localized string similar to Enable Discord Rich Presence.
         /// </summary>
         public static string DiscordText {
             get {
@@ -318,6 +336,24 @@ namespace RGBSyncPlus.Properties {
         public static string NoGroupSelected {
             get {
                 return ResourceManager.GetString("NoGroupSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No update found. You are currently using the latest version of the application..
+        /// </summary>
+        public static string NoUpdateText {
+            get {
+                return ResourceManager.GetString("NoUpdateText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Update Available.
+        /// </summary>
+        public static string NoUpdateTitle {
+            get {
+                return ResourceManager.GetString("NoUpdateTitle", resourceCulture);
             }
         }
         
@@ -543,6 +579,33 @@ namespace RGBSyncPlus.Properties {
         public static string TranslationsLabel {
             get {
                 return ResourceManager.GetString("TranslationsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An update to JackNet RGB Sync is available. Would you like to update?.
+        /// </summary>
+        public static string UpdateAvaiableText {
+            get {
+                return ResourceManager.GetString("UpdateAvaiableText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update:.
+        /// </summary>
+        public static string UpdateText {
+            get {
+                return ResourceManager.GetString("UpdateText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Available!.
+        /// </summary>
+        public static string UpdateTitle {
+            get {
+                return ResourceManager.GetString("UpdateTitle", resourceCulture);
             }
         }
         

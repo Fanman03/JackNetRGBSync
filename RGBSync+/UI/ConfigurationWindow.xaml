@@ -276,8 +276,8 @@
                             <controls:Form Grid.Column="0" Grid.ColumnSpan="6" Margin="10,0,199,10" Grid.RowSpan="2">
 
                                 <Label controls:Form.IsLabel="True" 
-                                       Content="Update"  Margin="0,0,-75,0" />
-                                <Button Margin="75,0,-75,0" Content="Check for Update" Command="{Binding CheckUpdateCommand}"></Button>
+                                       Content="{x:Static p:Resources.UpdateText}"  Margin="0,0,-75,0" />
+                                <Button Margin="75,0,-75,0" Content="{x:Static p:Resources.CheckUpdateCommand}" Command="{Binding CheckUpdateCommand}"></Button>
 
                                 <Label controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.VersionLabel}"  Margin="0,0,-75,0" />
@@ -328,8 +328,8 @@
                                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                                      ScrollViewer.HorizontalScrollBarVisibility="Visible"
                                      Name="AvailableDevicesListBox"
-                                 Height="400"
-                                 Width="480" Margin="-355,-25,0,0">
+                                 Height="394"
+                                 Width="480" Margin="220,-30,556,0" Padding="0,0,0,10">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{StaticResource StyleTextBlockForm}">

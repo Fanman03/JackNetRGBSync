@@ -26,11 +26,13 @@ using AppSettings = RGBSyncPlus.Configuration.AppSettings;
 using Application = System.Windows.Application;
 using Newtonsoft.Json.Linq;
 using System.Text;
+using System.Net;
 
 namespace RGBSyncPlus.UI
 {
     public sealed class ConfigurationViewModel : AbstractBindable, IDropTarget
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         #region Properties & Fields
 
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
@@ -237,9 +239,6 @@ namespace RGBSyncPlus.UI
         private ActionCommand _importCommand;
         public ActionCommand ImportCommand => _importCommand ?? (_importCommand = new ActionCommand(Import));
 
-        private ActionCommand _toggleAura;
-        public ActionCommand ToggleAuraCommand => _toggleAura ?? (_toggleAura = new ActionCommand(ToggleAura));
-
         private ActionCommand _openSetCommand;
         public ActionCommand OpenSetCommand => _openSetCommand ?? (_openSetCommand = new ActionCommand(OpenSet));
 
@@ -312,9 +311,9 @@ namespace RGBSyncPlus.UI
                 AvailableLeds = GetGroupedLedList(RGBSurface.Instance.Leds.Where(led => !SelectedSyncGroup.Leds.Any(sc => (sc.LedId == led.Id) && (sc.Device == led.Device.GetDeviceName()))));
                 OnPropertyChanged(nameof(AvailableLeds));
             }
-            catch
+            catch(Exception ex)
             {
-                
+                Logger.Error("Error updating LedLists." + ex);
             }
         }
 
@@ -326,11 +325,49 @@ namespace RGBSyncPlus.UI
 
         private void checkUpdate()
         {
-            string updateCheckPath = "https://fanman03.com/?page=updateCheck&major=";
-            string versionMajor = Version.Major.ToString();
-            string versionMinor = Version.Minor.ToString();
-            string versionBuild = Version.Build.ToString();
-            Process.Start(updateCheckPath + versionMajor + "&minor=" + versionMinor + "&build=" + versionBuild);
+            using (WebClient w = new WebClient())
+            {
+                Logger.Info("Checking for update...");
+                var json = w.DownloadString(ApplicationManager.Instance.AppSettings.versionURL);
+                ProgVersion versionFromApi = JsonConvert.DeserializeObject<ProgVersion>(json);
+                int versionMajor = Version.Major;
+                int versionMinor = Version.Minor;
+                int versionBuild = Version.Build;
+
+                if (versionFromApi.major > versionMajor)
+                {
+                    PromptUpdate();
+                    Logger.Info("Update available. (major)");
+                }
+                else if (versionFromApi.minor > versionMinor)
+                {
+                    PromptUpdate();
+                    Logger.Info("Update available. (minor)");
+                }
+                else if (versionFromApi.build > versionBuild)
+                {
+                    PromptUpdate();
+                    Logger.Info("Update available. (build)");
+                }
+                else
+                {
+                    NoUpdate();
+                    Logger.Info("No update available.");
+                }
+
+            }
+        }
+
+        public void PromptUpdate()
+        {
+            GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
+            getUpdateWindow.Show();
+        }
+
+        public void NoUpdate()
+        {
+            NoUpdateDialog noUpdate = new NoUpdateDialog();
+            noUpdate.Show();
         }
 
         private void OpenSet()
@@ -388,15 +425,16 @@ namespace RGBSyncPlus.UI
         {
             Process[] pname = Process.GetProcessesByName("netsync");
             if (pname.Length == 0) {
-                if (!File.Exists("netsync.exe"))
+                if (!File.Exists("netplugin\\netsync.exe"))
                 {
+                    Logger.Info("User does not have premium, cannot start client.");
                     PremiumMessageBox notAvailable = new PremiumMessageBox();
                     notAvailable.Show();
                 }
                 else
                 {
-
-                    Process.Start("netsync.exe");
+                    Logger.Info("Starting client...");
+                    Process.Start("netplugin\\netsync.exe");
                 }
 
             }
@@ -414,15 +452,16 @@ namespace RGBSyncPlus.UI
             Process[] pname = Process.GetProcessesByName("netserve");
             if (pname.Length == 0)
             {
-                if (!File.Exists("netserve.exe"))
+                if (!File.Exists("netplugin\\netserve.exe"))
                 {
                     PremiumMessageBox notAvailable = new PremiumMessageBox();
                     notAvailable.Show();
+                    Logger.Info("User does not have premium, cannot start server.");
                 }
                 else
                 {
-
-                    Process.Start("netserve.exe");
+                    Logger.Info("Starting server...");
+                    Process.Start("netplugin\\netserve.exe");
                 }
             }
             else
@@ -497,30 +536,6 @@ namespace RGBSyncPlus.UI
             SyncGroup syncGroup = new SyncGroup();
             SyncGroups.Add(syncGroup);
             ApplicationManager.Instance.AddSyncGroup(syncGroup);
-        }
-
-        private void ToggleAura()
-        {
-            if (File.Exists("DeviceProvider/RGB.NET.Devices.Asus1.dll") && File.Exists("DeviceProvider/RGB.NET.Devices.Asus2.dll.disabled"))
-            {
-                File.Move("DeviceProvider/RGB.NET.Devices.Asus1.dll", "DeviceProvider/RGB.NET.Devices.Asus1.dll.disabled");
-                File.Move("DeviceProvider/RGB.NET.Devices.Asus2.dll.disabled", "DeviceProvider/RGB.NET.Devices.Asus2.dll");
-
-                System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-                Application.Current.Shutdown();
-            } 
-            else if (File.Exists("DeviceProvider/RGB.NET.Devices.Asus1.dll.disabled") && File.Exists("DeviceProvider/RGB.NET.Devices.Asus2.dll"))
-            {
-                File.Move("DeviceProvider/RGB.NET.Devices.Asus1.dll.disabled", "DeviceProvider/RGB.NET.Devices.Asus1.dll");
-                File.Move("DeviceProvider/RGB.NET.Devices.Asus2.dll", "DeviceProvider/RGB.NET.Devices.Asus2.dll.disabled");
-
-                System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-                Application.Current.Shutdown();
-            } else
-            {
-                MessageBox.Show("Asus device providers are missing, please reinstall the software", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            
         }
 
         private void RemoveSyncGroup(SyncGroup syncGroup)

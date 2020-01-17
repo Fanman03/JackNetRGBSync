@@ -26,6 +26,10 @@ namespace RGBSyncPlus.Configuration
 
         public bool EnableServer { get; set; } = false;
 
+        public string versionURL { get; set; } = "https://fanman03.com/inc/version.json";
+
+        public string updateURL { get; set; } = "http://fanman03.com/dlmgr/click.php?id=jnsync_latest";
+
         #endregion
     }
 }

@@ -16,12 +16,16 @@ using RGBSyncPlus.UI;
 using DiscordRPC;
 using DiscordRPC.Message;
 using System.Globalization;
+using Newtonsoft.Json;
+using System.Net;
+using NLog;
 
 namespace RGBSyncPlus
 {
     public class ApplicationManager
     {
         #region Constants
+        public Version Version => Assembly.GetEntryAssembly().GetName().Version;
 
         private const string DEVICEPROVIDER_DIRECTORY = "DeviceProvider";
 
@@ -65,21 +69,53 @@ namespace RGBSyncPlus
 
         public DiscordRpcClient client;
 
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         #endregion
 
         #region Methods
 
         public void Initialize()
         {
+
+            var config = new NLog.Config.LoggingConfiguration();
+
+            // Targets where to log to: File and Console
+            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = "rgbsync.log" };
+
+            // Rules for mapping loggers to targets            
+            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logfile);
+
+            // Apply config           
+            LogManager.Configuration = config;
+
+            Logger.Debug("============ JackNet RGB Sync is Starting ============");
+
             CultureInfo ci = CultureInfo.InstalledUICulture;
             if (AppSettings.Lang == null)
             {
+                Logger.Debug("Language is not set, inferring language from system culture. Lang="+ ci.TwoLetterISOLanguageName);
                 AppSettings.Lang = ci.TwoLetterISOLanguageName;
             }
             System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(AppSettings.Lang);
 
             client = new DiscordRpcClient("581567509959016456");
-                client.Initialize();
+            client.Initialize();
+
+            string tempSetup = Directory.GetCurrentDirectory() + "\\~TEMP_setup.exe";
+            if (File.Exists(tempSetup))
+            {
+                Logger.Debug("Found old installer, removing...");
+                try
+                {
+                    File.Delete(tempSetup);
+                    Logger.Debug("Old installer successfully removed.");
+                }
+                catch(Exception ex)
+                {
+                    Logger.Error("Error deleting file: "+ex.ToString());
+                }
+            }
 
             int delay = AppSettings.StartDelay * 1000;
             Thread.Sleep(delay);
@@ -108,6 +144,7 @@ namespace RGBSyncPlus
             {
                 try
                 {
+                    Logger.Debug("Loading provider " + file);
                     Assembly assembly = Assembly.LoadFrom(file);
                     foreach (Type loaderType in assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass
                                                                                && typeof(IRGBDeviceProviderLoader).IsAssignableFrom(t)))
@@ -118,10 +155,15 @@ namespace RGBSyncPlus
                             if (deviceProviderLoader.RequiresInitialization) continue;
 
                             RGBSurface.Instance.LoadDevices(deviceProviderLoader);
+                            Logger.Debug(file+" has been loaded");
                         }
                     }
                 }
-                catch { /* #sadprogrammer */ }
+                catch(Exception ex) 
+                { 
+                    Logger.Error("Error loading " + file);
+                    Logger.Error(ex);
+                }
             }
         }
 
@@ -186,12 +228,15 @@ namespace RGBSyncPlus
         public void OpenConfiguration()
         {
             if (AppSettings.EnableDiscordRPC == true)
-            { 
+            {
+                Logger.Info("Discord RPC enabled.");
                 if (client.IsDisposed == true)
                 {
+                    Logger.Info("Discord RPC client disposed, initializing new one.");
                     client = new DiscordRpcClient("581567509959016456");
                     client.Initialize();
                 }
+                Logger.Info("Setting Discord presensce.");
                 client.SetPresence(new RichPresence()
                 {
                     State = "Profile: " + Settings.Name,
@@ -211,10 +256,43 @@ namespace RGBSyncPlus
 
             if (_configurationWindow.WindowState == WindowState.Minimized)
                 _configurationWindow.WindowState = WindowState.Normal;
+            using (WebClient w = new WebClient())
+            {
+                Logger.Info("Checking for update...");
+                var json = w.DownloadString(ApplicationManager.Instance.AppSettings.versionURL);
+                ProgVersion versionFromApi = JsonConvert.DeserializeObject<ProgVersion>(json);
+                int versionMajor = Version.Major;
+                int versionMinor = Version.Minor;
+                int versionBuild = Version.Build;
+
+                if (versionFromApi.major > versionMajor)
+                {
+                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
+                    getUpdateWindow.Show();
+                    Logger.Info("Update available. (major)");
+                }
+                else if (versionFromApi.minor > versionMinor)
+                {
+                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
+                    getUpdateWindow.Show();
+                    Logger.Info("Update available. (minor)");
+                }
+                else if (versionFromApi.build > versionBuild)
+                {
+                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
+                    Logger.Info("Update available. (build)");
+                    getUpdateWindow.Show();
+                } else
+                {
+                    Logger.Info("No update available.");
+                }
+
+            }
         }
 
         public void RestartApp()
         {
+            Logger.Debug("App is restarting.");
             System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
             if (AppSettings.EnableDiscordRPC == true)
             {
@@ -228,8 +306,9 @@ namespace RGBSyncPlus
 
         private void TechSupport() => System.Diagnostics.Process.Start("https://discordapp.com/invite/pRyBKPr");
 
-        private void Exit()
+        public void Exit()
         {
+            Logger.Debug("============ App is Shutting Down ============");
             try { RGBSurface.Instance?.Dispose(); } catch { /* well, we're shuting down anyway ... */ }
             client.Dispose();
             Application.Current.Shutdown();
