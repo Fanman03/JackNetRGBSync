@@ -21,8 +21,8 @@
     <controls:BlurredDecorationWindow.Resources>
         <styles:CachedResourceDictionary>
             <styles:CachedResourceDictionary.MergedDictionaries>
-                <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Navigation.xaml" />
-                <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Scrollbar.xaml" />
+                <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Navigation.xaml" />
+                <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Scrollbar.xaml" />
             </styles:CachedResourceDictionary.MergedDictionaries>
         </styles:CachedResourceDictionary>
     </controls:BlurredDecorationWindow.Resources>
@@ -39,27 +39,34 @@
                 <DockPanel LastChildFill="True" >
                     <GroupBox DockPanel.Dock="Bottom" Margin="0,8,1006,0" >
                         <DockPanel VerticalAlignment="Bottom">
-                            <Button DockPanel.Dock="Top"
-                                    HorizontalAlignment="Center" 
-                                    Command="{Binding ImportCommand}" Click="Button_Click" >
-                                <StackPanel Height="Auto" Orientation="Horizontal">
-                                    <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/import.png" />
-                                    <TextBlock TextWrapping="Wrap" Text="{x:Static p:Resources.ImportButton}"></TextBlock>
-                                </StackPanel>
-                            </Button>
-                            <Button DockPanel.Dock="Bottom"
-                                    HorizontalAlignment="Center" 
+                            <DockPanel DockPanel.Dock="Top"
+                                    HorizontalAlignment="Center" >
+                                <Button Command="{Binding ImportCommand}" >
+                                    <StackPanel Height="Auto" Orientation="Horizontal">
+                                        <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/import.png" />
+                                        <TextBlock TextWrapping="Wrap" Text="{x:Static p:Resources.ImportButton}"></TextBlock>
+                                    </StackPanel>
+                                </Button>
+                                <Button
+                                    Command="{Binding ImportCloudCommand}" ToolTip="Import data from cloud save.">
+                                    <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/DownloadFromCloud.png" />
+                                </Button>
+                            </DockPanel>
+                            <DockPanel  DockPanel.Dock="Bottom"
+                                    HorizontalAlignment="Center" >
+                                <Button
                                     Command="{Binding ExportCommand}" >
-                                <StackPanel Height="Auto" Orientation="Horizontal">
-                                    <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/export.png" />
-                                    <TextBlock Text="{x:Static p:Resources.ExportButton}"></TextBlock>
-                                </StackPanel>
-                            </Button>
-
-
+                                    <StackPanel Height="Auto" Orientation="Horizontal">
+                                        <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/export.png" />
+                                        <TextBlock Text="{x:Static p:Resources.ExportButton}"></TextBlock>
+                                    </StackPanel>
+                                </Button>
+                                <Button
+                                    Command="{Binding ExportCloudCommand}" ToolTip="Export data to cloud save.">
+                                    <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/UploadToCloud.png" />
+                                </Button>
+                            </DockPanel>
                         </DockPanel>
-
-
                     </GroupBox>
                     <GroupBox DockPanel.Dock="Bottom" Margin="0,8,1006,0" >
                         <GroupBox.Resources>
@@ -184,21 +191,24 @@
                                 <GroupStyle x:Key="StyleListBoxGroup">
                                     <GroupStyle.HeaderTemplate>
                                         <DataTemplate>
-                                            <TextBlock VerticalAlignment="Center"
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock VerticalAlignment="Center"
                                                        HorizontalAlignment="Left"
-                                                       Margin="0,8,0,0"
                                                        FontWeight="Bold"
                                                        Text="{Binding Name}" />
+                                            </StackPanel>
                                         </DataTemplate>
                                     </GroupStyle.HeaderTemplate>
                                 </GroupStyle>
 
                                 <DataTemplate x:Key="DataTemplateListBoxItem">
-                                    <TextBlock Text="{Binding LedId}"/>
+                                    <StackPanel>
+                                        <TextBlock Visibility="{Binding LedVisibility}" Text="{Binding LedId}"/>
+                                    </StackPanel>
                                 </DataTemplate>
                             </Grid.Resources>
 
-                            <GroupBox Grid.Column="0" Margin="0,0,0,-42">
+                            <GroupBox Grid.Column="0" Margin="0,0,0,-58">
                                 <DockPanel>
                                     <TextBlock DockPanel.Dock="Top"
                                                HorizontalAlignment="Center" 
@@ -220,7 +230,7 @@
                                 </DockPanel>
                             </GroupBox>
 
-                            <GroupBox Grid.Column="2" Margin="0,0,0,-42">
+                            <GroupBox Grid.Column="2" Margin="0,0,0,-58">
                                 <DockPanel>
                                     <TextBlock DockPanel.Dock="Top"
                                                HorizontalAlignment="Center" 
@@ -246,108 +256,7 @@
             </AdornerDecorator>
         </TabItem>
 
-        <TabItem Header="{x:Static p:Resources.Page2Header}" VerticalAlignment="Top">
-            <AdornerDecorator>
-                <GroupBox VerticalAlignment="Top">
-                    <StackPanel Orientation="Vertical">
 
-                        <Grid>
-                            <Grid.Resources>
-                                <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="{x:Type Label}" />
-                                <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="{x:Type TextBlock}" />
-                                <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="{x:Type ListBox}" />
-                            </Grid.Resources>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="97*"/>
-                                <RowDefinition Height="81*"/>
-                            </Grid.RowDefinitions>
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200*" />
-                                <ColumnDefinition Width="0*"/>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="150*"/>
-                                <ColumnDefinition Width="8" />
-                                <ColumnDefinition Width="413*" />
-                                <ColumnDefinition Width="8" />
-                                <ColumnDefinition Width="414*" />
-                            </Grid.ColumnDefinitions>
-
-                            <controls:Form Grid.Column="0" Grid.ColumnSpan="6" Margin="10,0,199,10" Grid.RowSpan="2">
-
-                                <Label controls:Form.IsLabel="True" 
-                                       Content="{x:Static p:Resources.UpdateText}"  Margin="0,0,-75,0" />
-                                <Button Margin="75,0,-75,0" Content="{x:Static p:Resources.CheckUpdateCommand}" Command="{Binding CheckUpdateCommand}"></Button>
-
-                                <Label controls:Form.IsLabel="True" 
-                                       Content="{x:Static p:Resources.VersionLabel}"  Margin="0,0,-75,0" />
-                                <TextBlock Margin="75,0,-75,0" Text="{Binding Version}" />
-
-                                <Label controls:Form.IsLabel="True" 
-                                       Content="{x:Static p:Resources.LanguageLabel}"  Margin="0,0,-75,0" />
-                                <ComboBox x:Name="LangBox" SelectionChanged="Lang_SelectionChanged" Margin="75,0,-75,0">
-                                    <ComboBoxItem Selected="DutchSelected" x:Name="dutchItem" Content="Dutch (Nederlands)"/>
-                                    <ComboBoxItem Selected="EnglishSelected" x:Name="englishItem" Content="English"/>
-                                    <ComboBoxItem Selected="FrenchSelected" x:Name="frenchItem" Content="French (Français)"/>
-                                    <ComboBoxItem Selected="GermanSelected" x:Name="germanItem" Content="German (Deutsch)"/>
-                                    <ComboBoxItem Selected="PortugeseSelected" x:Name="portugeseItem" Content="Portugese (Português)"/>
-                                    <ComboBoxItem Selected="RussianSelected" x:Name="russianItem" Content="Russian (русский)"/>
-                                    <ComboBoxItem Selected="SpanishSelected" x:Name="spanishItem" Content="Spanish (Español)"/>
-                                </ComboBox>
-
-                                <Label Margin="0,0,-75,0"  Width="350" controls:Form.IsLabel="True" 
-                                       Content="{x:Static p:Resources.PollingRateLabel}" />
-                                <Slider Margin="75,0,-75,0" Minimum="1" Maximum="100" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
-                                        Value="{Binding UpdateRate}"
-                                        attached:SliderValue.Unit="{x:Static p:Resources.PollingRateUnit}"
-                                        ToolTip="{x:Static p:Resources.PollingRateTooltip}" />
-
-                                <Label controls:Form.IsLabel="True" Margin="0,0,-75,0"  Width="350"
-                                       Content="{x:Static p:Resources.MinimizationLabel}" />
-                                <CheckBox Margin="75,0,-75,0" VerticalAlignment="Center" IsChecked="{Binding IsMinimized}"  Command="{Binding OpenSetCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.MinimizationText}"/>
-
-
-                                <Label Margin="0,0,-75,0" controls:Form.IsLabel="True" 
-                                       Content="{x:Static p:Resources.DiscordLabel}"
-                                       />
-                                <CheckBox Margin="75,0,-75,0" ToolTip="{x:Static p:Resources.DiscordTooltip}" VerticalAlignment="Center" IsChecked="{Binding EnableDiscordRPC}"  Command="{Binding SetRPCCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.DiscordText}"/>
-
-                                <Label  Margin="0,0,-75,0" controls:Form.IsLabel="True" 
-                                       Content="{x:Static p:Resources.DelayLabel}"   />
-                                <Slider Margin="75,0,-75,0" Minimum="0" Maximum="120" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
-                                        Value="{Binding StartupDelay}"
-                                        attached:SliderValue.Unit="{x:Static p:Resources.DelayUnit}"
-                                        ToolTip="{x:Static p:Resources.DelayTooltip}" />
-
-                                <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="{x:Static p:Resources.DevicesLabel}"  Margin="0,0,-75,0" />
-
-                            </controls:Form>
-
-                        </Grid>
-                        <ListBox ItemsSource="{Binding Devices, Source={x:Static core:RGBSurface.Instance}}"
-                                     ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                     ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                                     Name="AvailableDevicesListBox"
-                                 Height="394"
-                                 Width="480" Margin="220,-30,556,0" Padding="0,0,0,10">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Style="{StaticResource StyleTextBlockForm}">
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="&gt;  {0} {1} ({2})">
-                                                <Binding Path="DeviceInfo.Manufacturer" />
-                                                <Binding Path="DeviceInfo.Model" />
-                                                <Binding Path="DeviceInfo.DeviceType" />
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </StackPanel>
-                </GroupBox>
-            </AdornerDecorator>
-        </TabItem>
         <TabItem Header="{x:Static p:Resources.Page3Header}">
             <AdornerDecorator>
                 <DockPanel LastChildFill="True" HorizontalAlignment="Center">
@@ -407,9 +316,11 @@
                                 <TextBlock VerticalAlignment="Center" Text="{x:Static p:Resources.JoinDiscordButton}"></TextBlock>
                             </StackPanel>
                              </Button>
-                            </InlineUIContainer><LineBreak /><InlineUIContainer><Image Height="50" Width="50" Margin="2,2,4,2" Source="/RGBSync+;component/Resources/argebee_old.ico"/>
+                                
+                            </InlineUIContainer><LineBreak /><LineBreak /><InlineUIContainer><Image Height="50" Width="50" Margin="2,2,4,2" Source="/RGBSync+;component/Resources/argebee_old.ico"/>
                             </InlineUIContainer><Run BaselineAlignment="Center" Text="{x:Static p:Resources.RGBNetNotice}"></Run>
                             <LineBreak /><Run BaselineAlignment="Center" Text="{x:Static p:Resources.EVGANotice}"></Run>
+                            <LineBreak /><Run BaselineAlignment="Center" Text="{x:Static p:Resources.MSINotice}"></Run>
                             <LineBreak></LineBreak><LineBreak></LineBreak><Button Content="{x:Static p:Resources.LicenseButton}" Command="{Binding AttribCommand}"></Button>
                             <LineBreak />
                             <LineBreak />
@@ -421,6 +332,8 @@
                             <LineBreak />
                             <Run Text="Crashniels -  German (Deutsch)"></Run>
                             <LineBreak />
+                            <Run Text="Sicily94 -  Italian (Italiano)"></Run>
+                            <LineBreak />
                             <Run Text="DrMeteor -  Portuguese (Português)"></Run>
                             <LineBreak />
                             <Run Text="Ksusha Volkova -  Russian (русский)"></Run>
@@ -430,6 +343,140 @@
 
                     </GroupBox>
                 </DockPanel>
+            </AdornerDecorator>
+        </TabItem>
+        <TabItem Header="{x:Static p:Resources.Page2Header}" VerticalAlignment="Top">
+            <AdornerDecorator>
+                <GroupBox VerticalAlignment="Top">
+                    <StackPanel Orientation="Vertical">
+
+                        <Grid>
+                            <Grid.Resources>
+                                <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="{x:Type Label}" />
+                                <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="{x:Type TextBlock}" />
+                                <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="{x:Type ListBox}" />
+                            </Grid.Resources>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="97*"/>
+                                <RowDefinition Height="81*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200*" />
+                                <ColumnDefinition Width="0*"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="150*"/>
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="413*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="414*" />
+                            </Grid.ColumnDefinitions>
+
+                            <controls:Form Grid.Column="0" Grid.ColumnSpan="6" Margin="10,0,199,120" Grid.RowSpan="2">
+
+                                <Label controls:Form.IsLabel="True" 
+                                       Content="{x:Static p:Resources.UpdateText}"  Margin="0,0,-75,0" />
+                                <Button Margin="75,0,-75,0" Content="{x:Static p:Resources.CheckUpdateCommand}" Command="{Binding CheckUpdateCommand}"></Button>
+
+                                <Label controls:Form.IsLabel="True" 
+                                       Content="{x:Static p:Resources.VersionLabel}"  Margin="0,0,-75,0" />
+                                <TextBlock Margin="75,0,-75,0" Text="{Binding Version}" />
+
+                                <Label controls:Form.IsLabel="True" 
+                                       Content="Plugins:"  Margin="0,0,-75,0" />
+                                <Button  Margin="75,0,-75,0" Click="ManagePlugin" Content="{x:Static p:Resources.ManagePluginsBtn}"></Button>
+
+                                <Label controls:Form.IsLabel="True" 
+                                       Content="{x:Static p:Resources.PremiumLabel}"  Margin="0,0,-75,0" />
+                                <StackPanel x:Name="InstalledBox" Visibility="{Binding PremiumStatus}">
+                                    <TextBlock Margin="75,4,-75,0" Text="{x:Static p:Resources.InstalledLabel}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" x:Name="NotInstalledBox" Visibility="{Binding NotPremiumStatus}">
+                                    <TextBlock Margin="15,4,0,0" Text="{x:Static p:Resources.NotInstalledLabel}" />
+                                    <Button Margin="10,1,0,0" Content="{x:Static p:Resources.PremiumCTAButton}" Click="Button_Click_1"></Button>
+                                </StackPanel>
+
+                                <Label controls:Form.IsLabel="True" 
+                                       Content="{x:Static p:Resources.ThemeLabel}"  Margin="0,0,-75,0" />
+                                <StackPanel Orientation="Horizontal" >
+                                    <ComboBox x:Name="ThemeBox" Margin="75,0,-75,0" >
+                                        <ComboBoxItem Selected="rgbSelected" x:Name="rgbItem" Content="RGB"/>
+                                        <ComboBoxItem Selected="darkSelected" x:Name="darkItem" Content="Dark"/>
+                                        <ComboBoxItem Visibility="Hidden" Selected="customSelected" x:Name="customItem" Content="Custom"/>
+                                    </ComboBox>
+                                    <Button Margin="100,1,-100,0" Click="ApplyButton_Click" Content="{x:Static p:Resources.ApplyLabel}" Name="ApplyButton"  Visibility="Visible"/>
+                                </StackPanel>
+
+                                <Label controls:Form.IsLabel="True" 
+                                       Content="{x:Static p:Resources.LanguageLabel}"  Margin="0,0,-75,0" />
+                                <ComboBox x:Name="LangBox" SelectionChanged="Lang_SelectionChanged" Margin="75,0,-75,0">
+                                    <ComboBoxItem Selected="DutchSelected" x:Name="dutchItem" Content="Dutch (Nederlands)"/>
+                                    <ComboBoxItem Selected="EnglishSelected" x:Name="englishItem" Content="English"/>
+                                    <ComboBoxItem Selected="FrenchSelected" x:Name="frenchItem" Content="French (Français)"/>
+                                    <ComboBoxItem Selected="GermanSelected" x:Name="germanItem" Content="German (Deutsch)"/>
+                                    <ComboBoxItem Selected="ItalianSelected" x:Name="italianItem" Content="Italian (Italiano)"/>
+                                    <ComboBoxItem Selected="PortugeseSelected" x:Name="portugeseItem" Content="Portugese (Português)"/>
+                                    <ComboBoxItem Selected="RussianSelected" x:Name="russianItem" Content="Russian (русский)"/>
+                                    <ComboBoxItem Selected="SpanishSelected" x:Name="spanishItem" Content="Spanish (Español)"/>
+                                    <ComboBoxItem Selected="TestSelected" x:Name="testItem" Content="UI Test Mode" Visibility="Hidden"/>
+                                </ComboBox>
+
+                                <Label Margin="0,0,-75,0"  Width="350" controls:Form.IsLabel="True" 
+                                       Content="{x:Static p:Resources.PollingRateLabel}" />
+                                <Slider Margin="75,0,-75,0" Minimum="1" Maximum="100" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
+                                        Value="{Binding UpdateRate}"
+                                        attached:SliderValue.Unit="{x:Static p:Resources.PollingRateUnit}"
+                                        ToolTip="{x:Static p:Resources.PollingRateTooltip}" />
+
+                                <Label controls:Form.IsLabel="True" Margin="0,0,-75,0"  Width="350"
+                                        Content="{x:Static p:Resources.RunasAdminLabel}" />
+                                <CheckBox Margin="75,0,-75,0" VerticalAlignment="Center" IsChecked="{Binding RunAsAdmin}"  Command="{Binding SetAdminCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White"  Content="{x:Static p:Resources.RunasAdmin}"/>
+
+                                <Label controls:Form.IsLabel="True" Margin="0,0,-75,0"  Width="350"
+                                       Content="{x:Static p:Resources.MinimizationLabel}" />
+                                <CheckBox Margin="75,0,-75,0" VerticalAlignment="Center" IsChecked="{Binding IsMinimized}"  Command="{Binding OpenSetCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.MinimizationText}"/>
+
+
+                                <Label Margin="0,0,-75,0" controls:Form.IsLabel="True" 
+                                       Content="{x:Static p:Resources.DiscordLabel}"
+                                       />
+                                <CheckBox Margin="75,0,-75,0" ToolTip="{x:Static p:Resources.DiscordTooltip}" VerticalAlignment="Center" IsChecked="{Binding EnableDiscordRPC}"  Command="{Binding SetRPCCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.DiscordText}"/>
+
+                                <Label  Margin="0,0,-75,0" controls:Form.IsLabel="True" 
+                                       Content="{x:Static p:Resources.DelayLabel}"   />
+                                <Slider Margin="75,0,-75,0" Minimum="0" Maximum="120" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
+                                        Value="{Binding StartupDelay}"
+                                        attached:SliderValue.Unit="{x:Static p:Resources.DelayUnit}"
+                                        ToolTip="{x:Static p:Resources.DelayTooltip}" />
+
+                                <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="{x:Static p:Resources.DevicesLabel}"  Margin="0,0,-75,0" />
+                                <Button Command="{Binding OpenExcludeToolCommand}" Margin="80,2,0,-2"  Content="{x:Static p:Resources.ExcludeBtn}"></Button>
+
+                            </controls:Form>
+
+                        </Grid>
+                        <ListBox ItemsSource="{Binding Devices, Source={x:Static core:RGBSurface.Instance}}"
+                                     ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                                     x:Name="AvailableDevicesListBox"
+                                 Height="200"
+                                 Width="480" Margin="-350,-110,0,0" Padding="0,0,0,10">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource StyleTextBlockForm}">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="&gt;  {0} {1} ({2})">
+                                                <Binding Path="DeviceInfo.Manufacturer" />
+                                                <Binding Path="DeviceInfo.Model" />
+                                                <Binding Path="DeviceInfo.DeviceType" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </GroupBox>
             </AdornerDecorator>
         </TabItem>
     </TabControl>

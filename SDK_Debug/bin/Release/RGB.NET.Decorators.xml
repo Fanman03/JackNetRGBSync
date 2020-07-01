@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RGB.NET.Decorators</name>
+    </assembly>
+    <members>
+        <member name="T:RGB.NET.Decorators.Brush.FlashDecorator">
+            <inheritdoc cref="T:RGB.NET.Core.AbstractUpdateAwareDecorator" />
+            <inheritdoc cref="T:RGB.NET.Core.IBrushDecorator" />
+            <summary>
+            Represents a decorator which allows to flash a brush by modifying his opacity.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Decorators.Brush.FlashDecorator.Attack">
+            <summary>
+            Gets or sets the attack-time (in seconds) of the decorator. (default: 0.2)<br />
+            This is close to a synthesizer envelope. (See <see href="http://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope" />  as reference)
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Decorators.Brush.FlashDecorator.Decay">
+            <summary>
+            Gets or sets the decay-time (in seconds) of the decorator. (default: 0)<br />
+            This is close to a synthesizer envelope. (See <see href="http://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope" /> as reference)
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Decorators.Brush.FlashDecorator.Sustain">
+            <summary>
+            Gets or sets the sustain-time (in seconds) of the decorator. (default: 0.3)<br />
+            This is close to a synthesizer envelope. (See <see href="http://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope" /> as reference)<br />
+            Note that this value for naming reasons represents the time NOT the level.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Decorators.Brush.FlashDecorator.Release">
+            <summary>
+            Gets or sets the release-time (in seconds) of the decorator. (default: 0.2)<br />
+            This is close to a synthesizer envelope. (See <see href="http://en.wikipedia.org/wiki/Synthesizer#ADSR_envelope" /> as reference)
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Decorators.Brush.FlashDecorator.AttackValue">
+            <summary>
+            Gets or sets the level to which the oppacity (percentage) should raise in the attack-cycle. (default: 1);
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Decorators.Brush.FlashDecorator.SustainValue">
+            <summary>
+            Gets or sets the level at which the oppacity (percentage) should stay in the sustain-cycle. (default: 1);
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Decorators.Brush.FlashDecorator.PauseValue">
+            <summary>
+            Gets or sets the level at which the oppacity (percentage) should stay in the pause-cycle. (default: 0);
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Decorators.Brush.FlashDecorator.Interval">
+            <summary>
+            Gets or sets the interval (in seconds) in which the decorator should repeat (if repetition is enabled). (default: 1)
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Decorators.Brush.FlashDecorator.Repetitions">
+            <summary>
+            Gets or sets the amount of repetitions the decorator should do until it's finished. Zero means infinite. (default: 0)
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Decorators.Brush.FlashDecorator.ManipulateColor(RGB.NET.Core.Rectangle,RGB.NET.Core.BrushRenderTarget,RGB.NET.Core.Color)">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Decorators.Brush.FlashDecorator.Update(System.Double)">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Decorators.Brush.FlashDecorator.OnAttached(RGB.NET.Core.IDecoratable)">
+            <inheritdoc cref="M:RGB.NET.Core.AbstractUpdateAwareDecorator.OnAttached(RGB.NET.Core.IDecoratable)" />
+            <inheritdoc cref="M:RGB.NET.Core.IDecorator.OnAttached(RGB.NET.Core.IDecoratable)" />
+        </member>
+        <member name="T:RGB.NET.Decorators.Gradient.MoveGradientDecorator">
+            <inheritdoc cref="T:RGB.NET.Core.AbstractUpdateAwareDecorator" />
+            <inheritdoc cref="T:RGB.NET.Brushes.IGradientDecorator" />
+            <summary>
+            Represents a decorator which allows to move an <see cref="T:RGB.NET.Brushes.Gradients.IGradient" /> by modifying his offset.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Decorators.Gradient.MoveGradientDecorator.Direction">
+            <summary>
+            Gets or sets the direction the <see cref="T:RGB.NET.Brushes.Gradients.IGradient"/> is moved.
+            True leads to an offset-increment (normaly moving to the right), false to an offset-decrement (normaly moving to the left).
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Decorators.Gradient.MoveGradientDecorator.Speed">
+            <summary>
+            Gets or sets the speed of the movement in units per second.
+            The meaning of units differs for the different <see cref="T:RGB.NET.Brushes.Gradients.IGradient"/>, but 360 units will always be one complete cycle:
+              <see cref="T:RGB.NET.Brushes.Gradients.LinearGradient"/>: 360 unit = 1 offset.
+              <see cref="T:RGB.NET.Brushes.Gradients.RainbowGradient"/>: 1 unit = 1 degree.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Decorators.Gradient.MoveGradientDecorator.#ctor(System.Double,System.Boolean)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Decorators.Gradient.MoveGradientDecorator" /> class.
+            </summary>
+            <param name="speed">The speed of the movement in units per second.
+            The meaning of units differs for the different <see cref="T:RGB.NET.Brushes.Gradients.IGradient" />  but 360 units will always be one complete cycle:
+              <see cref="T:RGB.NET.Brushes.Gradients.LinearGradient" />: 360 unit = 1 offset.
+              <see cref="T:RGB.NET.Brushes.Gradients.RainbowGradient" />: 1 unit = 1 degree.</param>
+            <param name="direction">The direction the <see cref="T:RGB.NET.Brushes.Gradients.IGradient" /> is moved.
+            True leads to an offset-increment (normaly moving to the right), false to an offset-decrement (normaly moving to the left).</param>
+        </member>
+        <member name="M:RGB.NET.Decorators.Gradient.MoveGradientDecorator.Update(System.Double)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

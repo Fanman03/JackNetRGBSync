@@ -1,0 +1,6 @@
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper.exe\bin\Debug\RestartHelper.exe.exe.config
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper.exe\bin\Debug\RestartHelper.exe.exe
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper.exe\bin\Debug\RestartHelper.exe.pdb
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper.exe\obj\Debug\RestartHelper.exe.csprojAssemblyReference.cache
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper.exe\obj\Debug\RestartHelper.exe.exe
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper.exe\obj\Debug\RestartHelper.exe.pdb

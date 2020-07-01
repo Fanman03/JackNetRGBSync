@@ -231,6 +231,9 @@
   <data name="PremiumFeatureTitle" xml:space="preserve">
     <value>Feature not Available</value>
   </data>
+  <data name="PremiumLabel" xml:space="preserve">
+    <value>Premium:</value>
+  </data>
   <data name="ProfileNameLabel" xml:space="preserve">
     <value>Profile Name:</value>
   </data>

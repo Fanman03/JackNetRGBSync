@@ -27,6 +27,7 @@ using Application = System.Windows.Application;
 using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Net;
+using System.Resources;
 
 namespace RGBSyncPlus.UI
 {
@@ -34,8 +35,42 @@ namespace RGBSyncPlus.UI
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         #region Properties & Fields
+        
+
 
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
+
+        public static string PremiumStatus
+        {
+            get
+            {
+                if(Directory.Exists("netplugin"))
+                    {
+                    //netplugin is installed
+                    return "Visible";
+                }
+                else
+                {
+                    return "Hidden";
+                }
+            }
+        }
+
+        public string NotPremiumStatus
+        {
+            get
+            {
+                if (Directory.Exists("netplugin"))
+                {
+                    //netplugin is installed
+                    return "Hidden";
+                }
+                else
+                {
+                    return "Visible";
+                }
+            }
+        }
 
         public double UpdateRate
         {
@@ -95,6 +130,17 @@ namespace RGBSyncPlus.UI
             set
             {
                 ApplicationManager.Instance.AppSettings.EnableDiscordRPC = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public bool RunAsAdmin
+        {
+            get => ApplicationManager.Instance.AppSettings.RunAsAdmin;
+            set
+            {
+                ApplicationManager.Instance.AppSettings.RunAsAdmin = value;
                 OnPropertyChanged();
             }
         }
@@ -236,14 +282,26 @@ namespace RGBSyncPlus.UI
         private ActionCommand _exportCommand;
         public ActionCommand ExportCommand => _exportCommand ?? (_exportCommand = new ActionCommand(Export));
 
+        private ActionCommand _exportCloudCommand;
+        public ActionCommand ExportCloudCommand => _exportCloudCommand ?? (_exportCloudCommand = new ActionCommand(ExportCloud));
+
         private ActionCommand _importCommand;
         public ActionCommand ImportCommand => _importCommand ?? (_importCommand = new ActionCommand(Import));
+
+        private ActionCommand _importCloudCommand;
+        public ActionCommand ImportCloudCommand => _importCloudCommand ?? (_importCloudCommand = new ActionCommand(ImportCloud));
 
         private ActionCommand _openSetCommand;
         public ActionCommand OpenSetCommand => _openSetCommand ?? (_openSetCommand = new ActionCommand(OpenSet));
 
+        private ActionCommand _openExcludeToolCommand;
+        public ActionCommand OpenExcludeToolCommand => _openExcludeToolCommand ?? (_openExcludeToolCommand = new ActionCommand(OpenExcludeTool));
+
         private ActionCommand _rpcCommand;
         public ActionCommand SetRPCCommand => _rpcCommand ?? (_rpcCommand = new ActionCommand(SetRPC));
+
+        private ActionCommand _adminCommand;
+        public ActionCommand SetAdminCommand => _adminCommand ?? (_adminCommand = new ActionCommand(SetAdmin));
 
         private ActionCommand _startClientCommand;
         public ActionCommand StartClientCommand => _startClientCommand ?? (_startClientCommand = new ActionCommand(StartClient));
@@ -317,45 +375,54 @@ namespace RGBSyncPlus.UI
             }
         }
 
-        private void OpenHomepage() => Process.Start("https://www.fanman03.com/");
+        private void OpenHomepage() => Process.Start("https://www.rgbsync.com");
+
+        private void OpenExcludeTool() => Process.Start("ExcludeHelper.exe");
 
         private void Discord() => Process.Start("https://discordapp.com/invite/pRyBKPr");
 
-        private void Attribs() => Process.Start("https://fanman03.com/?page=attribution");
+        private void Attribs() => Process.Start("https://fanman03.com/rgbsync/?attribution");
 
         private void checkUpdate()
         {
-            using (WebClient w = new WebClient())
+            try
             {
-                Logger.Info("Checking for update...");
-                var json = w.DownloadString(ApplicationManager.Instance.AppSettings.versionURL);
-                ProgVersion versionFromApi = JsonConvert.DeserializeObject<ProgVersion>(json);
-                int versionMajor = Version.Major;
-                int versionMinor = Version.Minor;
-                int versionBuild = Version.Build;
+                using (WebClient w = new WebClient())
+                {
+                    Logger.Info("Checking for update...");
+                    var json = w.DownloadString(ApplicationManager.Instance.AppSettings.versionURL);
+                    ProgVersion versionFromApi = JsonConvert.DeserializeObject<ProgVersion>(json);
+                    int versionMajor = Version.Major;
+                    int versionMinor = Version.Minor;
+                    int versionBuild = Version.Build;
 
-                if (versionFromApi.major > versionMajor)
-                {
-                    PromptUpdate();
-                    Logger.Info("Update available. (major)");
-                }
-                else if (versionFromApi.minor > versionMinor)
-                {
-                    PromptUpdate();
-                    Logger.Info("Update available. (minor)");
-                }
-                else if (versionFromApi.build > versionBuild)
-                {
-                    PromptUpdate();
-                    Logger.Info("Update available. (build)");
-                }
-                else
-                {
-                    NoUpdate();
-                    Logger.Info("No update available.");
-                }
+                    if (versionFromApi.major > versionMajor)
+                    {
+                        PromptUpdate();
+                        Logger.Info("Update available. (major)");
+                    }
+                    else if (versionFromApi.minor > versionMinor)
+                    {
+                        PromptUpdate();
+                        Logger.Info("Update available. (minor)");
+                    }
+                    else if (versionFromApi.build > versionBuild)
+                    {
+                        PromptUpdate();
+                        Logger.Info("Update available. (build)");
+                    }
+                    else
+                    {
+                        NoUpdate();
+                        Logger.Info("No update available.");
+                    }
 
+                }
+            } catch (Exception ex)
+            {
+                Logger.Error("Unable to check for updates. Download failed with exception: " + ex);
             }
+            
         }
 
         public void PromptUpdate()
@@ -391,6 +458,18 @@ namespace RGBSyncPlus.UI
             else if (ApplicationManager.Instance.AppSettings.EnableDiscordRPC == false)
             {
                 EnableDiscordRPC = false;
+            }
+        }
+
+        private void SetAdmin()
+        {
+            if (ApplicationManager.Instance.AppSettings.RunAsAdmin == true)
+            {
+                RunAsAdmin = true;
+            }
+            else if (ApplicationManager.Instance.AppSettings.RunAsAdmin == false)
+            {
+                RunAsAdmin = false;
             }
         }
 
@@ -494,12 +573,68 @@ namespace RGBSyncPlus.UI
 
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                GenericErrorDialog infoDialog = new GenericErrorDialog("Access is denied", "Error");
+                GenericErrorDialog infoDialog = new GenericErrorDialog("Access is denied", "Error", ex.GetFullMessage());
                 infoDialog.Show();
             }
             
+        }
+
+        private void ExportCloud()
+        {
+            if(ApplicationManager.Instance.AppSettings.ApiKey != null)
+            {
+                try
+                {
+                    WebClient client = new WebClient();
+                    string profileData = Base64Encode(JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
+                    string response = client.DownloadString("https://rgbsync.com/api/saveData.php?token=zQlszc7d1l9t8cv734nmte8ui4o3s8d15pcz&key=" + ApplicationManager.Instance.AppSettings.ApiKey + "&profile=" + profileData);
+                    if(response == "success")
+                    {
+                        GenericInfoDialog infoDialog = new GenericInfoDialog("Profile has successfully been uploaded to the cloud.", "Success!");
+                        infoDialog.Show();
+                    } else
+                    {
+                        GenericErrorDialog errorDialog = new GenericErrorDialog("Error uploading profile.", "Error!", "Error uploading profile. Api response: "+ response);
+                        errorDialog.Show();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    GenericErrorDialog errorDialog = new GenericErrorDialog("Error uploading profile.", "Error!", "Error uploading profile. " + ex);
+                    errorDialog.Show();
+                }
+            } else
+            {
+                EnterKeyDialog enterKeyDialog = new EnterKeyDialog();
+                enterKeyDialog.Show();
+            }
+        }
+
+        private void ImportCloud()
+        {
+            if (ApplicationManager.Instance.AppSettings.ApiKey != null)
+            {
+                try
+                {
+                    WebClient client = new WebClient();
+                    string response = client.DownloadString("https://rgbsync.com/api/fetchData.php?token=zQlszc7d1l9t8cv734nmte8ui4o3s8d15pcz&key=" + ApplicationManager.Instance.AppSettings.ApiKey);
+                    ApplicationManager.Instance.Settings = JsonConvert.DeserializeObject<Settings>(Base64Decode(response));
+                    App.SaveSettings();
+                    ApplicationManager.Instance.RestartApp();
+                }
+                catch (Exception ex)
+                {
+                    GenericErrorDialog errorDialog = new GenericErrorDialog("Error downloading profile.", "Error!", "Error downloading profile. " + ex);
+                    errorDialog.Show();
+                }
+            }
+            else
+            {
+                EnterKeyDialog enterKeyDialog = new EnterKeyDialog();
+                enterKeyDialog.Show();
+            }
         }
 
         private void Import()
@@ -589,6 +724,18 @@ namespace RGBSyncPlus.UI
                 targetList.CommitNew();
                 sourceList.CommitEdit();
             }
+        }
+
+        public static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+
+        public static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
 
         #endregion

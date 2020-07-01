@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using RGB.NET.Core;
 using RGBSyncPlus.Model;
 
 namespace RGBSyncPlus.Configuration
@@ -18,17 +20,25 @@ namespace RGBSyncPlus.Configuration
 
         public int StartDelay { get; set; } = 0;
 
+        public string ApiKey { get; set; } = null;
+
         public bool MinimizeToTray { get; set; } = false;
 
         public bool EnableDiscordRPC { get; set; } = true;
-
+        public bool RunAsAdmin { get; set; } = false;
+        public RGBDeviceType DeviceTypes { get; set; } = RGBDeviceType.All;
+ 
         public bool EnableClient { get; set; } = false;
 
         public bool EnableServer { get; set; } = false;
 
+        public string BackgroundImg { get; set; } = "default";
+
         public string versionURL { get; set; } = "https://fanman03.com/inc/version.json";
 
         public string updateURL { get; set; } = "http://fanman03.com/dlmgr/click.php?id=jnsync_latest";
+
+        public bool ShowHelperConsole { get; set; } = false;
 
         #endregion
     }

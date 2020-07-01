@@ -19,6 +19,8 @@ using System.Globalization;
 using Newtonsoft.Json;
 using System.Net;
 using NLog;
+using System.Diagnostics;
+using System.Security.Principal;
 
 namespace RGBSyncPlus
 {
@@ -91,6 +93,25 @@ namespace RGBSyncPlus
 
             Logger.Debug("============ JackNet RGB Sync is Starting ============");
 
+            if (AppSettings.RunAsAdmin == true)
+            {
+                Logger.Debug("App should be run as administrator.");
+                Logger.Debug("Checking to see if app is running as administrator...");
+                var identity = WindowsIdentity.GetCurrent();
+                var principal = new WindowsPrincipal(identity);
+                bool isRunningAsAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
+                if (isRunningAsAdmin == false)
+                {
+                    Logger.Debug("App is not running as administrator, restarting...");
+                    ExecuteAsAdmin("RGBSync+.exe");
+                    Exit();
+                }
+                else
+                {
+                    Logger.Debug("App is running as administrator, proceding with startup.");
+                }
+            }
+
             CultureInfo ci = CultureInfo.InstalledUICulture;
             if (AppSettings.Lang == null)
             {
@@ -118,7 +139,6 @@ namespace RGBSyncPlus
             }
 
             int delay = AppSettings.StartDelay * 1000;
-            Thread.Sleep(delay);
 
             RGBSurface surface = RGBSurface.Instance;
             LoadDeviceProviders();
@@ -154,8 +174,20 @@ namespace RGBSyncPlus
                             //TODO DarthAffe 03.06.2018: Support Initialization
                             if (deviceProviderLoader.RequiresInitialization) continue;
 
-                            RGBSurface.Instance.LoadDevices(deviceProviderLoader);
-                            Logger.Debug(file+" has been loaded");
+                            var deviceTypes = AppSettings.DeviceTypes;
+
+
+                            try
+                            {
+                                RGBSurface.Instance.LoadDevices(deviceProviderLoader, deviceTypes);
+                                Logger.Debug(file + " has been loaded");
+                            }
+                            catch
+                            {
+                                RGBSurface.Instance.LoadDevices(deviceProviderLoader, RGBDeviceType.All);
+                                Logger.Debug(file + " has been loaded with all types.");
+                            }
+
                         }
                     }
                 }
@@ -175,9 +207,18 @@ namespace RGBSyncPlus
 
         private void RegisterSyncGroup(SyncGroup syncGroup)
         {
-            syncGroup.LedGroup = new ListLedGroup(syncGroup.Leds.GetLeds()) { Brush = new SyncBrush(syncGroup) };
-            syncGroup.LedsChangedEventHandler = (sender, args) => UpdateLedGroup(syncGroup.LedGroup, args);
-            syncGroup.Leds.CollectionChanged += syncGroup.LedsChangedEventHandler;
+            try
+            {
+                syncGroup.LedGroup = new ListLedGroup(syncGroup.Leds.GetLeds()) { Brush = new SyncBrush(syncGroup) };
+                syncGroup.LedsChangedEventHandler = (sender, args) => UpdateLedGroup(syncGroup.LedGroup, args);
+                syncGroup.Leds.CollectionChanged += syncGroup.LedsChangedEventHandler;
+            }
+            catch(Exception ex)
+            {
+                Logger.Error("Error registering group: " + syncGroup.Name);
+                Logger.Error(ex);
+            }
+
         }
 
         public void RemoveSyncGroup(SyncGroup syncGroup)
@@ -186,10 +227,6 @@ namespace RGBSyncPlus
             syncGroup.Leds.CollectionChanged -= syncGroup.LedsChangedEventHandler;
             syncGroup.LedGroup.Detach();
             syncGroup.LedGroup = null;
-        }
-        private void OnJoin(object sender, JoinMessage args)
-        {
-            System.Diagnostics.Process.Start("https://fanman03.com");
         }
         private void UpdateLedGroup(ListLedGroup group, NotifyCollectionChangedEventArgs args)
         {
@@ -256,38 +293,48 @@ namespace RGBSyncPlus
 
             if (_configurationWindow.WindowState == WindowState.Minimized)
                 _configurationWindow.WindowState = WindowState.Normal;
-            using (WebClient w = new WebClient())
+
+            try
             {
-                Logger.Info("Checking for update...");
-                var json = w.DownloadString(ApplicationManager.Instance.AppSettings.versionURL);
-                ProgVersion versionFromApi = JsonConvert.DeserializeObject<ProgVersion>(json);
-                int versionMajor = Version.Major;
-                int versionMinor = Version.Minor;
-                int versionBuild = Version.Build;
+                using (WebClient w = new WebClient())
+                {
+                    Logger.Info("Checking for update...");
+                    var json = w.DownloadString(ApplicationManager.Instance.AppSettings.versionURL);
+                    ProgVersion versionFromApi = JsonConvert.DeserializeObject<ProgVersion>(json);
+                    int versionMajor = Version.Major;
+                    int versionMinor = Version.Minor;
+                    int versionBuild = Version.Build;
 
-                if (versionFromApi.major > versionMajor)
-                {
-                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
-                    getUpdateWindow.Show();
-                    Logger.Info("Update available. (major)");
-                }
-                else if (versionFromApi.minor > versionMinor)
-                {
-                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
-                    getUpdateWindow.Show();
-                    Logger.Info("Update available. (minor)");
-                }
-                else if (versionFromApi.build > versionBuild)
-                {
-                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
-                    Logger.Info("Update available. (build)");
-                    getUpdateWindow.Show();
-                } else
-                {
-                    Logger.Info("No update available.");
+                    if (versionFromApi.major > versionMajor)
+                    {
+                        GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
+                        getUpdateWindow.Show();
+                        Logger.Info("Update available. (major)");
+                    }
+                    else if (versionFromApi.minor > versionMinor)
+                    {
+                        GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
+                        getUpdateWindow.Show();
+                        Logger.Info("Update available. (minor)");
+                    }
+                    else if (versionFromApi.build > versionBuild)
+                    {
+                        GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
+                        Logger.Info("Update available. (build)");
+                        getUpdateWindow.Show();
+                    }
+                    else
+                    {
+                        Logger.Info("No update available.");
+                    }
+
                 }
 
+            } catch(Exception ex)
+            {
+                Logger.Error("Unable to check for updates. Download failed with exception: " + ex);
             }
+
         }
 
         public void RestartApp()
@@ -304,13 +351,23 @@ namespace RGBSyncPlus
             Application.Current.Shutdown();
         }
 
-        private void TechSupport() => System.Diagnostics.Process.Start("https://discordapp.com/invite/pRyBKPr");
+        public void ExecuteAsAdmin(string fileName)
+        {
+            Process proc = new Process();
+            proc.StartInfo.FileName = fileName;
+            proc.StartInfo.UseShellExecute = true;
+            proc.StartInfo.Verb = "runas";
+            proc.Start();
+        }
+
+        private void TechSupport() => System.Diagnostics.Process.Start("https://rgbsync.com/discord");
 
         public void Exit()
         {
             Logger.Debug("============ App is Shutting Down ============");
             try { RGBSurface.Instance?.Dispose(); } catch { /* well, we're shuting down anyway ... */ }
-            client.Dispose();
+            try { client.Dispose(); } catch { /* well, we're shuting down anyway ... */ }
+            
             Application.Current.Shutdown();
         }
 

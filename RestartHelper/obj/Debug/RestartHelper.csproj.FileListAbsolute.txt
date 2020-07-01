@@ -1,0 +1,14 @@
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper.exe\bin\Debug\RestartHelper.exe.exe.config
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper.exe\bin\Debug\RestartHelper.exe.exe
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper.exe\bin\Debug\RestartHelper.exe.pdb
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper.exe\obj\Debug\RestartHelper.exe.exe
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper.exe\obj\Debug\RestartHelper.exe.pdb
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper\bin\Debug\RestartHelper.exe.exe.config
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper\bin\Debug\RestartHelper.exe.exe
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper\bin\Debug\RestartHelper.exe.pdb
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper\obj\Debug\RestartHelper.csprojAssemblyReference.cache
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper\obj\Debug\RestartHelper.exe.exe
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper\obj\Debug\RestartHelper.exe.pdb
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper\obj\Debug\RestartHelper.csproj.Fody.CopyLocal.cache
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper\bin\Debug\Newtonsoft.Json.xml
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper\obj\Debug\RestartHelper.csproj.CopyComplete

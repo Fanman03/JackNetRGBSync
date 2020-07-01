@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name=".." xml:space="preserve">
+    <value />
+  </data>
   <data name="AboutDescription" xml:space="preserve">
     <value>AboutDescription</value>
   </data>
@@ -125,6 +128,9 @@
   </data>
   <data name="AffirmativeCommand" xml:space="preserve">
     <value>AffirmativeCommand</value>
+  </data>
+  <data name="ApplyLabel" xml:space="preserve">
+    <value>ApplyLabel</value>
   </data>
   <data name="AvaliableLEDsLabel" xml:space="preserve">
     <value>AvaliableLEDsLabel</value>
@@ -177,6 +183,9 @@
   <data name="ImportButton" xml:space="preserve">
     <value>ImportButton</value>
   </data>
+  <data name="InstalledLabel" xml:space="preserve">
+    <value>InstalledLabel</value>
+  </data>
   <data name="JoinDiscordButton" xml:space="preserve">
     <value>JoinDiscordButton</value>
   </data>
@@ -195,6 +204,9 @@
   <data name="MinimizationText" xml:space="preserve">
     <value>MinimizationText</value>
   </data>
+  <data name="MSINotice" xml:space="preserve">
+    <value>MSINotice</value>
+  </data>
   <data name="NegativeCommand" xml:space="preserve">
     <value>NegativeCommand</value>
   </data>
@@ -203,6 +215,9 @@
   </data>
   <data name="NoGroupSelected" xml:space="preserve">
     <value>NoGroupSelected</value>
+  </data>
+  <data name="NotInstalledLabel" xml:space="preserve">
+    <value>NotInstalledLabel</value>
   </data>
   <data name="OKCommand" xml:space="preserve">
     <value>OKCommand</value>
@@ -222,6 +237,9 @@
   <data name="Page4Header" xml:space="preserve">
     <value>Page4Header</value>
   </data>
+  <data name="PickFileLabel" xml:space="preserve">
+    <value>PickFileLabel</value>
+  </data>
   <data name="PollingRateLabel" xml:space="preserve">
     <value>PollingRateLabel</value>
   </data>
@@ -231,8 +249,14 @@
   <data name="PollingRateUnit" xml:space="preserve">
     <value>PollingRateUnit</value>
   </data>
+  <data name="PremiumCTAButton" xml:space="preserve">
+    <value>PremiumCTAButton</value>
+  </data>
   <data name="PremiumFeatureTitle" xml:space="preserve">
     <value>PremiumFeatureTitle</value>
+  </data>
+  <data name="PremiumLabel" xml:space="preserve">
+    <value>PremiumLabel</value>
   </data>
   <data name="ProfileNameLabel" xml:space="preserve">
     <value>ProfileNameLabel</value>
@@ -272,6 +296,9 @@
   </data>
   <data name="TechSupportItem" xml:space="preserve">
     <value>TechSupportItem</value>
+  </data>
+  <data name="ThemeLabel" xml:space="preserve">
+    <value>ThemeLabel</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Title</value>

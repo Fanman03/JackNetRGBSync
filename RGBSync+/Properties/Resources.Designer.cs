@@ -70,6 +70,15 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string __ {
+            get {
+                return ResourceManager.GetString("..", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The one-stop utlility for syncing your RGB perhipherals and components. Compatible with Corsair iCUE, Asus AURA, Razer Synapse, Logitech Gaming, EVGA Precision X1, and Cooler Master Masterplus..
         /// </summary>
         public static string AboutDescription {
@@ -97,7 +106,16 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Avaliable LEDs.
+        ///   Looks up a localized string similar to Apply.
+        /// </summary>
+        public static string ApplyLabel {
+            get {
+                return ResourceManager.GetString("ApplyLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Available LEDs.
         /// </summary>
         public static string AvaliableLEDsLabel {
             get {
@@ -120,6 +138,15 @@ namespace RGBSyncPlus.Properties {
         public static string ClientHeading {
             get {
                 return ResourceManager.GetString("ClientHeading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy to Clipboard.
+        /// </summary>
+        public static string ClipboardCommand {
+            get {
+                return ResourceManager.GetString("ClipboardCommand", resourceCulture);
             }
         }
         
@@ -214,6 +241,15 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exclude Devices.
+        /// </summary>
+        public static string ExcludeBtn {
+            get {
+                return ResourceManager.GetString("ExcludeBtn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit.
         /// </summary>
         public static string ExitItem {
@@ -259,6 +295,15 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Installed.
+        /// </summary>
+        public static string InstalledLabel {
+            get {
+                return ResourceManager.GetString("InstalledLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Join my Discord server.
         /// </summary>
         public static string JoinDiscordButton {
@@ -286,7 +331,16 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Master LED:.
+        ///   Looks up a localized string similar to Manage Plugins.
+        /// </summary>
+        public static string ManagePluginsBtn {
+            get {
+                return ResourceManager.GetString("ManagePluginsBtn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Control LED:.
         /// </summary>
         public static string MasterLEDLabel {
             get {
@@ -309,6 +363,15 @@ namespace RGBSyncPlus.Properties {
         public static string MinimizationText {
             get {
                 return ResourceManager.GetString("MinimizationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MSI support written by Hex3l..
+        /// </summary>
+        public static string MSINotice {
+            get {
+                return ResourceManager.GetString("MSINotice", resourceCulture);
             }
         }
         
@@ -336,6 +399,15 @@ namespace RGBSyncPlus.Properties {
         public static string NoGroupSelected {
             get {
                 return ResourceManager.GetString("NoGroupSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Installed.
+        /// </summary>
+        public static string NotInstalledLabel {
+            get {
+                return ResourceManager.GetString("NotInstalledLabel", resourceCulture);
             }
         }
         
@@ -412,6 +484,15 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pick File.
+        /// </summary>
+        public static string PickFileLabel {
+            get {
+                return ResourceManager.GetString("PickFileLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Polling Rate:.
         /// </summary>
         public static string PollingRateLabel {
@@ -439,11 +520,29 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Get Premium.
+        /// </summary>
+        public static string PremiumCTAButton {
+            get {
+                return ResourceManager.GetString("PremiumCTAButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Feature not Available.
         /// </summary>
         public static string PremiumFeatureTitle {
             get {
                 return ResourceManager.GetString("PremiumFeatureTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Premium:.
+        /// </summary>
+        public static string PremiumLabel {
+            get {
+                return ResourceManager.GetString("PremiumLabel", resourceCulture);
             }
         }
         
@@ -489,6 +588,24 @@ namespace RGBSyncPlus.Properties {
         public static string RGBNetNotice {
             get {
                 return ResourceManager.GetString("RGBNetNotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run as Admin.
+        /// </summary>
+        public static string RunasAdmin {
+            get {
+                return ResourceManager.GetString("RunasAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run as Admin:.
+        /// </summary>
+        public static string RunasAdminLabel {
+            get {
+                return ResourceManager.GetString("RunasAdminLabel", resourceCulture);
             }
         }
         
@@ -561,6 +678,15 @@ namespace RGBSyncPlus.Properties {
         public static string TechSupportItem {
             get {
                 return ResourceManager.GetString("TechSupportItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Theme:.
+        /// </summary>
+        public static string ThemeLabel {
+            get {
+                return ResourceManager.GetString("ThemeLabel", resourceCulture);
             }
         }
         

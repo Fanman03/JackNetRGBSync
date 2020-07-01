@@ -6,18 +6,18 @@
                                     xmlns:converter="clr-namespace:RGBSyncPlus.Converter">
 
     <styles:CachedResourceDictionary.MergedDictionaries>
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/BlurredDecorationWindow.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/ImageButton.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Form.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/GroupBox.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/ToolTip.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/ComboBox.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Button.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/ListBox.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Slider.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/TextBox.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/ColorSelector.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/GradientEditor.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/BlurredDecorationWindow.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ImageButton.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Form.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/GroupBox.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ToolTip.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ComboBox.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Button.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ListBox.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Slider.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/TextBox.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ColorSelector.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/GradientEditor.xaml" />
     </styles:CachedResourceDictionary.MergedDictionaries>
 
     <converter:EqualsToBoolConverter x:Key="EqualsToBoolConverter" />

@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RGB.NET.Groups</name>
+    </assembly>
+    <members>
+        <member name="T:RGB.NET.Groups.LedGroupExtension">
+            <summary>
+            Offers some extensions and helper-methods for <see cref="T:RGB.NET.Core.ILedGroup"/> related things.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Groups.LedGroupExtension.ToListLedGroup(RGB.NET.Core.ILedGroup)">
+            <summary>
+            Converts the given <see cref="T:RGB.NET.Core.ILedGroup" /> to a <see cref="T:RGB.NET.Groups.ListLedGroup" />.
+            </summary>
+            <param name="ledGroup">The <see cref="T:RGB.NET.Core.ILedGroup" /> to convert.</param>
+            <returns>The converted <see cref="T:RGB.NET.Groups.ListLedGroup" />.</returns>
+        </member>
+        <member name="M:RGB.NET.Groups.LedGroupExtension.Exclude(RGB.NET.Core.ILedGroup,RGB.NET.Core.Led[])">
+            <summary>
+            Returns a new <see cref="T:RGB.NET.Groups.ListLedGroup" /> which contains all <see cref="T:RGB.NET.Core.Led"/> from the given <see cref="T:RGB.NET.Core.ILedGroup"/> excluding the specified ones.
+            </summary>
+            <param name="ledGroup">The base <see cref="T:RGB.NET.Core.ILedGroup"/>.</param>
+            <param name="ledIds">The <see cref="T:RGB.NET.Core.Led"/> to exclude.</param>
+            <returns>The new <see cref="T:RGB.NET.Groups.ListLedGroup" />.</returns>
+        </member>
+        <member name="M:RGB.NET.Groups.LedGroupExtension.Attach(RGB.NET.Core.ILedGroup)">
+            <summary>
+            Attaches the given <see cref="T:RGB.NET.Core.ILedGroup"/> to the <see cref="T:RGB.NET.Core.RGBSurface"/>.
+            </summary>
+            <param name="ledGroup">The <see cref="T:RGB.NET.Core.ILedGroup"/> to attach.</param>
+            <returns><c>true</c> if the <see cref="T:RGB.NET.Core.ILedGroup"/> could be attached; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:RGB.NET.Groups.LedGroupExtension.Detach(RGB.NET.Core.ILedGroup)">
+            <summary>
+            Detaches the given <see cref="T:RGB.NET.Core.ILedGroup"/> from the <see cref="T:RGB.NET.Core.RGBSurface"/>.
+            </summary>
+            <param name="ledGroup">The <see cref="T:RGB.NET.Core.ILedGroup"/> to attach.</param>
+            <returns><c>true</c> if the <see cref="T:RGB.NET.Core.ILedGroup"/> could be detached; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="T:RGB.NET.Groups.ListLedGroup">
+            <inheritdoc />
+            <summary>
+            Represents a ledgroup containing arbitrary <see cref="T:RGB.NET.Core.Led" />.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Groups.ListLedGroup.GroupLeds">
+            <summary>
+            Gets the list containing the <see cref="T:RGB.NET.Core.Led"/> of this <see cref="T:RGB.NET.Groups.ListLedGroup"/>.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Groups.ListLedGroup.#ctor(System.Boolean)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
+            </summary>
+            <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
+        </member>
+        <member name="M:RGB.NET.Groups.ListLedGroup.#ctor(RGB.NET.Core.Led[])">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
+            </summary>
+            <param name="leds">The initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
+        </member>
+        <member name="M:RGB.NET.Groups.ListLedGroup.#ctor(System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
+            </summary>
+            <param name="leds">The initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
+        </member>
+        <member name="M:RGB.NET.Groups.ListLedGroup.#ctor(System.Boolean,System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
+            </summary>
+            <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
+            <param name="leds">The initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
+        </member>
+        <member name="M:RGB.NET.Groups.ListLedGroup.#ctor(System.Boolean,RGB.NET.Core.Led[])">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Groups.ListLedGroup" /> class.
+            </summary>
+            <param name="autoAttach">Specifies whether this <see cref="T:RGB.NET.Groups.ListLedGroup" /> should be automatically attached or not.</param>
+            <param name="leds">The initial <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.ListLedGroup" />.</param>
+        </member>
+        <member name="M:RGB.NET.Groups.ListLedGroup.AddLed(RGB.NET.Core.Led[])">
+            <summary>
+            Adds the given LED(s) to this <see cref="T:RGB.NET.Groups.ListLedGroup"/>.
+            </summary>
+            <param name="leds">The LED(s) to add.</param>
+        </member>
+        <member name="M:RGB.NET.Groups.ListLedGroup.AddLeds(System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <summary>
+            Adds the given <see cref="T:RGB.NET.Core.Led"/> to this <see cref="T:RGB.NET.Groups.ListLedGroup"/>.
+            </summary>
+            <param name="leds">The <see cref="T:RGB.NET.Core.Led"/> to add.</param>
+        </member>
+        <member name="M:RGB.NET.Groups.ListLedGroup.RemoveLed(RGB.NET.Core.Led[])">
+            <summary>
+            Removes the given LED(s) from this <see cref="T:RGB.NET.Groups.ListLedGroup"/>.
+            </summary>
+            <param name="leds">The LED(s) to remove.</param>
+        </member>
+        <member name="M:RGB.NET.Groups.ListLedGroup.RemoveLeds(System.Collections.Generic.IEnumerable{RGB.NET.Core.Led})">
+            <summary>
+            Removes the given <see cref="T:RGB.NET.Core.Led"/> from this <see cref="T:RGB.NET.Groups.ListLedGroup"/>.
+            </summary>
+            <param name="leds">The <see cref="T:RGB.NET.Core.Led"/> to remove.</param>
+        </member>
+        <member name="M:RGB.NET.Groups.ListLedGroup.ContainsLed(RGB.NET.Core.Led)">
+            <summary>
+            Checks if a given LED is contained by this ledgroup.
+            </summary>
+            <param name="led">The LED which should be checked.</param>
+            <returns><c>true</c> if the LED is contained by this ledgroup; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:RGB.NET.Groups.ListLedGroup.MergeLeds(RGB.NET.Core.ILedGroup)">
+            <summary>
+            Merges the <see cref="T:RGB.NET.Core.Led"/> from the given ledgroup in this ledgroup. 
+            </summary>
+            <param name="groupToMerge">The ledgroup to merge.</param>
+        </member>
+        <member name="M:RGB.NET.Groups.ListLedGroup.GetLeds">
+            <inheritdoc />
+            <summary>
+            Gets a list containing the <see cref="T:RGB.NET.Core.Led" /> from this group.
+            </summary>
+            <returns>The list containing the <see cref="T:RGB.NET.Core.Led" />.</returns>
+        </member>
+        <member name="T:RGB.NET.Groups.RectangleLedGroup">
+            <inheritdoc />
+            <summary>
+            Represents a <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> containing <see cref="T:RGB.NET.Core.Led" /> which physically lay inside a <see cref="T:RGB.NET.Core.Rectangle" />.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Groups.RectangleLedGroup.Rectangle">
+            <summary>
+            Gets or sets the <see cref="T:RGB.NET.Core.Rectangle"/> the <see cref="T:RGB.NET.Core.Led"/>  should be taken from.
+            </summary>
+        </member>
+        <member name="P:RGB.NET.Groups.RectangleLedGroup.MinOverlayPercentage">
+            <summary>
+            Gets or sets the minimal percentage overlay a <see cref="T:RGB.NET.Core.Led"/>  must have with the <see cref="T:RGB.NET.Core.Rectangle" /> to be taken into the <see cref="T:RGB.NET.Groups.RectangleLedGroup"/>.
+            </summary>
+        </member>
+        <member name="M:RGB.NET.Groups.RectangleLedGroup.#ctor(RGB.NET.Core.Led,RGB.NET.Core.Led,System.Double,System.Boolean)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> class.
+            </summary>
+            <param name="fromLed">They first <see cref="T:RGB.NET.Core.Led" />  to calculate the <see cref="T:RGB.NET.Core.Rectangle" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> from.</param>
+            <param name="toLed">They second <see cref="T:RGB.NET.Core.Led" />  to calculate the <see cref="T:RGB.NET.Core.Rectangle" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> from.</param>
+            <param name="minOverlayPercentage">(optional) The minimal percentage overlay a <see cref="T:RGB.NET.Core.Led" />  must have with the <see cref="P:RGB.NET.Groups.RectangleLedGroup.Rectangle" /> to be taken into the <see cref="T:RGB.NET.Groups.RectangleLedGroup" />. (default: 0.5)</param>
+            <param name="autoAttach">(optional) Specifies whether this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> should be automatically attached or not. (default: true)</param>
+        </member>
+        <member name="M:RGB.NET.Groups.RectangleLedGroup.#ctor(RGB.NET.Core.Point,RGB.NET.Core.Point,System.Double,System.Boolean)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> class.
+            </summary>
+            <param name="fromPoint">They first point to calculate the <see cref="T:RGB.NET.Core.Rectangle" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> from.</param>
+            <param name="toPoint">They second point to calculate the <see cref="T:RGB.NET.Core.Rectangle" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> from.</param>
+            <param name="minOverlayPercentage">(optional) The minimal percentage overlay a <see cref="T:RGB.NET.Core.Led" />  must have with the <see cref="P:RGB.NET.Groups.RectangleLedGroup.Rectangle" /> to be taken into the <see cref="T:RGB.NET.Groups.RectangleLedGroup" />. (default: 0.5)</param>
+            <param name="autoAttach">(optional) Specifies whether this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> should be automatically attached or not. (default: true)</param>
+        </member>
+        <member name="M:RGB.NET.Groups.RectangleLedGroup.#ctor(RGB.NET.Core.Rectangle,System.Double,System.Boolean)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> class.
+            </summary>
+            <param name="rectangle">The <see cref="T:RGB.NET.Core.Rectangle" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" />.</param>
+            <param name="minOverlayPercentage">(optional) The minimal percentage overlay a <see cref="T:RGB.NET.Core.Led" />  must have with the <see cref="P:RGB.NET.Groups.RectangleLedGroup.Rectangle" /> to be taken into the <see cref="T:RGB.NET.Groups.RectangleLedGroup" />. (default: 0.5)</param>
+            <param name="autoAttach">(optional) Specifies whether this <see cref="T:RGB.NET.Groups.RectangleLedGroup" /> should be automatically attached or not. (default: true)</param>
+        </member>
+        <member name="M:RGB.NET.Groups.RectangleLedGroup.OnAttach">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Groups.RectangleLedGroup.OnDetach">
+            <inheritdoc />
+        </member>
+        <member name="M:RGB.NET.Groups.RectangleLedGroup.GetLeds">
+            <inheritdoc />
+            <summary>
+            Gets a list containing all <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" />.
+            </summary>
+            <returns>The list containing all <see cref="T:RGB.NET.Core.Led" /> of this <see cref="T:RGB.NET.Groups.RectangleLedGroup" />.</returns>
+        </member>
+    </members>
+</doc>

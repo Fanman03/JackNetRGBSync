@@ -1,18 +1,68 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
-using System.Windows.Controls;
+﻿using Microsoft.Win32;
 using RGBSyncPlus.Controls;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace RGBSyncPlus.UI
 {
     public partial class ConfigurationWindow : BlurredDecorationWindow
     {
         public bool DoNotRestart;
+        public bool promptForFile = false;
+        public bool customRestart = false;
+        public string imageFileName;
+        public string localFilePath = Directory.GetCurrentDirectory() + "\\CustomTheme\\base.png";
+        public string localTemplatePath = Directory.GetCurrentDirectory() + "\\CustomTheme\\presets\\";
         public ConfigurationWindow()
         {
             InitializeComponent();
+            ApplyButton.Visibility = Visibility.Hidden;
+            if (ConfigurationViewModel.PremiumStatus == "Visible")
+            {
+                customItem.Visibility = Visibility.Visible;
+            }
             DoNotRestart = true;
+            if (ApplicationManager.Instance.AppSettings.BackgroundImg == "custom")
+            {
+                try
+                {
+                    customItem.IsSelected = true;
+                    Uri LocalFile = new Uri(localFilePath, UriKind.Absolute);
+                    ImageSource imgSource = new BitmapImage(LocalFile);
+                    this.BackgroundImage = imgSource;
+                }
+                catch
+                {
+                    darkItem.IsSelected = true;
+                    BitmapImage bimage = new BitmapImage();
+                    bimage.BeginInit();
+                    bimage.UriSource = new Uri("pack://application:,,,/Resources/base.png", UriKind.RelativeOrAbsolute);
+                    bimage.EndInit();
+                    this.BackgroundImage = bimage;
+                }
+            } else if (ApplicationManager.Instance.AppSettings.BackgroundImg == "rgb")
+            {
+                rgbItem.IsSelected = true;
+                BitmapImage bimage = new BitmapImage();
+                bimage.BeginInit();
+                bimage.UriSource = new Uri("pack://application:,,,/Resources/background.png", UriKind.RelativeOrAbsolute);
+                bimage.EndInit();
+                this.BackgroundImage = bimage;
+            } else
+            {
+                    darkItem.IsSelected = true;
+                    BitmapImage bimage = new BitmapImage();
+                    bimage.BeginInit();
+                    bimage.UriSource = new Uri("pack://application:,,,/Resources/base.png", UriKind.RelativeOrAbsolute);
+                    bimage.EndInit();
+                    this.BackgroundImage = bimage;
+            }
+
             if (ApplicationManager.Instance.AppSettings.Lang == "en")
             {
                 englishItem.IsSelected = true;
@@ -40,9 +90,14 @@ namespace RGBSyncPlus.UI
             {
                 portugeseItem.IsSelected = true;
             }
+            else if (ApplicationManager.Instance.AppSettings.Lang == "it")
+            {
+                italianItem.IsSelected = true;
+            }
             else if (ApplicationManager.Instance.AppSettings.Lang == "te")
             {
-                LangBox.Text = "UI Test Mode";
+                testItem.Visibility = System.Windows.Visibility.Visible;
+                testItem.IsSelected = true;
             }
             else
             {
@@ -57,11 +112,6 @@ namespace RGBSyncPlus.UI
         private void ConfigurationWindow_OnClosed(object sender, EventArgs e)
         {
             ApplicationManager.Instance.ExitCommand.Execute(null);
-        }
-
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-
         }
 
         private void EnglishSelected(object sender, System.Windows.RoutedEventArgs e)
@@ -92,22 +142,130 @@ namespace RGBSyncPlus.UI
         {
             ApplicationManager.Instance.AppSettings.Lang = "pt";
         }
+        private void ItalianSelected(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ApplicationManager.Instance.AppSettings.Lang = "it";
+        }
+        private void TestSelected(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ApplicationManager.Instance.AppSettings.Lang = "te";
+        }
+
+        private void rgbSelected(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ApplicationManager.Instance.AppSettings.BackgroundImg = "rgb";
+            if (ThemeBox.IsVisible)
+            {
+                ApplyButton.Visibility = Visibility.Visible;
+            }
+
+        }
+
+        private void darkSelected(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ApplicationManager.Instance.AppSettings.BackgroundImg = "dark";
+            if (ThemeBox.IsVisible)
+            {
+                ApplyButton.Visibility = Visibility.Visible;
+            }
+
+        }
+
+
+        public void PromptForFile(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (UI.ConfigurationViewModel.PremiumStatus == "Visible")
+            {
+                ApplicationManager.Instance.AppSettings.BackgroundImg = "custom";
+                Process.Start("BackgroundUploadHelper.exe");
+            }
+            else
+            {
+                if (ApplicationManager.Instance.AppSettings.BackgroundImg == "rgb")
+                {
+                    rgbItem.IsSelected = true;
+                }
+                else
+                {
+                    darkItem.IsSelected = true;
+                }
+            }
+        }
+
         private void Lang_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
+            RestartViaHelper();
+        }
+
+        public void RestartViaHelper()
+        {
             if (!DoNotRestart)
-            { 
+            {
                 try
                 {
-                    Process.Start("RestartHelper.bat");
+                    Process.Start("RestartHelper.exe");
                     System.Windows.Application.Current.Shutdown();
                 }
                 catch
                 {
                     ApplicationManager.Instance.RestartApp();
                 }
-                
+
 
             }
+        }
+
+        private void customSelected(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (UI.ConfigurationViewModel.PremiumStatus == "Hidden")
+            {
+
+                PremiumMessageBox pMsgBox = new PremiumMessageBox();
+                pMsgBox.Show();
+                if (ApplicationManager.Instance.AppSettings.BackgroundImg == "rgb")
+                {
+                    rgbItem.IsSelected = true;
+                }
+                else
+                {
+                    darkItem.IsSelected = true;
+                }
+            }
+            else
+            {
+                customRestart = true;
+            }
+
+            if (ThemeBox.IsVisible)
+            {
+                ApplyButton.Visibility = Visibility.Visible;
+            }
+
+        }
+
+        private void Button_Click_1(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Process.Start("https://patreon.com/fanman03");
+        }
+
+        private void ApplyButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (customRestart == true)
+            {
+                ApplicationManager.Instance.AppSettings.BackgroundImg = "custom";
+                Process.Start("BackgroundUploadHelper.exe");
+                App.SaveSettings();
+                ApplicationManager.Instance.Exit();
+            }
+            else
+            {
+                RestartViaHelper();
+            }
+        }
+
+        private void ManagePlugin(object sender, RoutedEventArgs e)
+        {
+            Process.Start("PluginManager.exe");
         }
     }
 }

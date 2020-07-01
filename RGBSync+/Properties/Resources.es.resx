@@ -126,6 +126,9 @@
   <data name="AffirmativeCommand" xml:space="preserve">
     <value>Si</value>
   </data>
+  <data name="ApplyLabel" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
   <data name="AvaliableLEDsLabel" xml:space="preserve">
     <value>LEDs Disponibles</value>
   </data>
@@ -165,6 +168,9 @@
   <data name="EVGANotice" xml:space="preserve">
     <value>Soporte para EVGA escrito por emulamer</value>
   </data>
+  <data name="ExcludeBtn" xml:space="preserve">
+    <value>Excluir Dispositivos</value>
+  </data>
   <data name="ExitItem" xml:space="preserve">
     <value>Salir</value>
   </data>
@@ -180,6 +186,9 @@
   <data name="ImportButton" xml:space="preserve">
     <value>Importar Grupos</value>
   </data>
+  <data name="InstalledLabel" xml:space="preserve">
+    <value>Instalado</value>
+  </data>
   <data name="JoinDiscordButton" xml:space="preserve">
     <value>Únete a mi servidor de Discord</value>
   </data>
@@ -188,6 +197,9 @@
   </data>
   <data name="LicenseButton" xml:space="preserve">
     <value>Ver Licencias de Código Abierto</value>
+  </data>
+  <data name="ManagePluginsBtn" xml:space="preserve">
+    <value>Administrar Plugins</value>
   </data>
   <data name="MasterLEDLabel" xml:space="preserve">
     <value>LED Principal:</value>
@@ -198,6 +210,9 @@
   <data name="MinimizationText" xml:space="preserve">
     <value>Habilitar Minimización</value>
   </data>
+  <data name="MSINotice" xml:space="preserve">
+    <value>Soporte para MSI escrito por Hex3l</value>
+  </data>
   <data name="NegativeCommand" xml:space="preserve">
     <value>No</value>
   </data>
@@ -206,6 +221,9 @@
   </data>
   <data name="NoGroupSelected" xml:space="preserve">
     <value>Grupo de LED No Seleccionado ...</value>
+  </data>
+  <data name="NotInstalledLabel" xml:space="preserve">
+    <value>No Instalado</value>
   </data>
   <data name="NoUpdateText" xml:space="preserve">
     <value>No hay actualizaciones disponibles. Estas usando la ultima versión.</value>
@@ -231,6 +249,9 @@
   <data name="Page4Header" xml:space="preserve">
     <value>Acerca de</value>
   </data>
+  <data name="PickFileLabel" xml:space="preserve">
+    <value>Seleccionar Archivo</value>
+  </data>
   <data name="PollingRateLabel" xml:space="preserve">
     <value>Frecuencia de Actualización:</value>
   </data>
@@ -240,8 +261,14 @@
   <data name="PollingRateUnit" xml:space="preserve">
     <value>Actualizaciones por Segundo</value>
   </data>
+  <data name="PremiumCTAButton" xml:space="preserve">
+    <value>Hazte premium</value>
+  </data>
   <data name="PremiumFeatureTitle" xml:space="preserve">
     <value>Función no Disponible</value>
+  </data>
+  <data name="PremiumLabel" xml:space="preserve">
+    <value>Premium:</value>
   </data>
   <data name="ProfileNameLabel" xml:space="preserve">
     <value>Nombre de Perfil:</value>
@@ -253,10 +280,16 @@
     <value>¿Estás seguro de que quieres eliminar este grupo </value>
   </data>
   <data name="RestartAppItem" xml:space="preserve">
-    <value>Reiniciar Aplicación</value>
+    <value>Reiniciar App</value>
   </data>
   <data name="RGBNetNotice" xml:space="preserve">
     <value>JackNet RGB Sync funciona con RGB.NET hecho por Darth Affe</value>
+  </data>
+  <data name="RunasAdmin" xml:space="preserve">
+    <value>Ejecutar como Admin</value>
+  </data>
+  <data name="RunasAdminLabel" xml:space="preserve">
+    <value>Ejecutar como Admin:</value>
   </data>
   <data name="ServerHeading" xml:space="preserve">
     <value>Servidor</value>
@@ -281,6 +314,9 @@
   </data>
   <data name="TechSupportItem" xml:space="preserve">
     <value>Soporte Técnico</value>
+  </data>
+  <data name="ThemeLabel" xml:space="preserve">
+    <value>Tema:</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>JackNet RGB Sync - Configuración</value>

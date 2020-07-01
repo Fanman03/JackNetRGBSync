@@ -78,6 +78,7 @@
     <Reference Include="HidSharp">
       <HintPath>..\..\..\RGB Utilities\JackNet RGB SYNC Beta\RGBSync+\HidSharp.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -140,6 +141,9 @@
     <Compile Include="UI\DeleteLayerDialog.xaml.cs">
       <DependentUpon>DeleteLayerDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\EnterKeyDialog.xaml.cs">
+      <DependentUpon>EnterKeyDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\GenericErrorDialog.xaml.cs">
       <DependentUpon>GenericErrorDialog.xaml</DependentUpon>
     </Compile>
@@ -155,15 +159,19 @@
     <Compile Include="UI\PremiumMessageBox.xaml.cs">
       <DependentUpon>PremiumMessageBox.xaml</DependentUpon>
     </Compile>
-    <Page Include="Styles\Scrollbar.xaml">
+    <Page Include="Resources\DarkTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\TextBox.xaml">
+    <Page Include="Styles\RainbowDefault\Scrollbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\RainbowDefault\TextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ListBox.xaml">
+    <Page Include="Styles\RainbowDefault\ListBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -175,59 +183,63 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\BlurredDecorationWindow.xaml">
+    <Page Include="Styles\RainbowDefault\BlurredDecorationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Button.xaml">
+    <Page Include="Styles\RainbowDefault\Button.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ColorSelector.xaml">
+    <Page Include="Styles\RainbowDefault\ColorSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ComboBox.xaml">
+    <Page Include="Styles\RainbowDefault\ComboBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Form.xaml">
+    <Page Include="Styles\RainbowDefault\Form.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\FrameworkElement.xaml">
+    <Page Include="Styles\RainbowDefault\FrameworkElement.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\GradientEditor.xaml">
+    <Page Include="Styles\RainbowDefault\GradientEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\GroupBox.xaml">
+    <Page Include="Styles\RainbowDefault\GroupBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ImageButton.xaml">
+    <Page Include="Styles\RainbowDefault\ImageButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Navigation.xaml">
+    <Page Include="Styles\RainbowDefault\Navigation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Slider.xaml">
+    <Page Include="Styles\RainbowDefault\Slider.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Theme.xaml">
+    <Page Include="Styles\RainbowDefault\Theme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ToolTip.xaml">
+    <Page Include="Styles\RainbowDefault\ToolTip.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\DeleteLayerDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\EnterKeyDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -269,16 +281,30 @@
     <EmbeddedResource Include="Properties\Resources.de.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.es.resx" />
-    <EmbeddedResource Include="Properties\Resources.fr.resx" />
-    <EmbeddedResource Include="Properties\Resources.km.resx" />
-    <EmbeddedResource Include="Properties\Resources.nl.resx" />
-    <EmbeddedResource Include="Properties\Resources.pt.resx" />
+    <EmbeddedResource Include="Properties\Resources.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.fr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.it.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.km.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.nl.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.pt.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.ru.resx" />
     <EmbeddedResource Include="Properties\Resources.te.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -293,32 +319,38 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Costura.Fody">
+      <Version>4.1.0</Version>
+    </PackageReference>
     <PackageReference Include="DiscordRichPresence">
-      <Version>1.0.121</Version>
+      <Version>1.0.150</Version>
     </PackageReference>
     <PackageReference Include="gong-wpf-dragdrop">
-      <Version>1.1.0</Version>
+      <Version>2.2.0</Version>
     </PackageReference>
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf">
       <Version>1.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="HidSharp">
+      <Version>2.1.0</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.6.8</Version>
+      <Version>4.7.0</Version>
     </PackageReference>
     <PackageReference Include="RGB.NET.Brushes">
-      <Version>0.1.23</Version>
+      <Version>0.1.32</Version>
     </PackageReference>
     <PackageReference Include="RGB.NET.Core">
-      <Version>0.1.23</Version>
+      <Version>0.1.32</Version>
     </PackageReference>
     <PackageReference Include="RGB.NET.Decorators">
-      <Version>0.1.23</Version>
+      <Version>0.1.32</Version>
     </PackageReference>
     <PackageReference Include="RGB.NET.Groups">
-      <Version>0.1.23</Version>
+      <Version>0.1.32</Version>
     </PackageReference>
     <PackageReference Include="System.ValueTuple">
       <Version>4.5.0</Version>
@@ -405,6 +437,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\base.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UploadToCloud.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DownloadFromCloud.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

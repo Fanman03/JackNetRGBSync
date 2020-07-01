@@ -85,7 +85,7 @@ namespace RGBSyncPlus
             catch (Exception ex)
             {
                 File.WriteAllText("error.log", $"[{DateTime.Now:G}] Exception!\r\n\r\nMessage:\r\n{ex.GetFullMessage()}\r\n\r\nStackTrace:\r\n{ex.StackTrace}\r\n\r\n");
-                GenericErrorDialog dialog = new GenericErrorDialog("An error occured while starting JackNet RGB Sync.\r\nMore information can be found in the error.log file in the application directory.", "Can't start JackNet RGB Sync.");
+                GenericErrorDialog dialog = new GenericErrorDialog("An error occured while starting JackNet RGB Sync.\r\nMore information can be found in the error.log file in the application directory.", "Can't start JackNet RGB Sync.", $"[{DateTime.Now:G}] Exception!\r\n\r\nMessage:\r\n{ex.GetFullMessage()}\r\n\r\nStackTrace:\r\n{ex.StackTrace}\r\n\r\n");
                 dialog.Show();
 
                 try { ApplicationManager.Instance.ExitCommand.Execute(null); }
@@ -97,6 +97,12 @@ namespace RGBSyncPlus
         {
             base.OnExit(e);
 
+            File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
+            File.WriteAllText(PATH_APPSETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.AppSettings, new ColorSerializer()));
+        }
+
+        public static void SaveSettings()
+        {
             File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
             File.WriteAllText(PATH_APPSETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.AppSettings, new ColorSerializer()));
         }
