@@ -39,10 +39,10 @@ namespace RGBSyncPlus
 
         private ConfigurationWindow _configurationWindow;
 
-        public Settings Settings { get; set; }
+        public Settings Settings { get; set; } = new Settings();
 
-        public AppSettings AppSettings { get; set; }
-        public TimerUpdateTrigger UpdateTrigger { get; private set; }
+        public AppSettings AppSettings { get; set; } = new AppSettings();
+        public TimerUpdateTrigger UpdateTrigger { get; private set; } = new TimerUpdateTrigger();
 
         #endregion
 

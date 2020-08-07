@@ -1,4 +1,4 @@
-﻿<controls:BlurredDecorationWindow x:Class="RGBSyncPlus.UI.ConfigurationWindow"
+﻿<controls:BlurredDecorationWindow
                                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,6 +11,7 @@
                                   xmlns:attached="clr-namespace:RGBSyncPlus.Attached"
                                   xmlns:helper="clr-namespace:RGBSyncPlus.Helper"
                                   xmlns:dd="urn:gong-wpf-dragdrop"
+                                  xmlns:Converter="clr-namespace:RGBSyncPlus.Converter" x:Class="RGBSyncPlus.UI.ConfigurationWindow"
                                   mc:Ignorable="d"
                                   Title="{x:Static p:Resources.Title}" 
                                   Icon="pack://application:,,,/RGBSync+;component/tl_icon.ico"
@@ -24,12 +25,104 @@
                 <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Navigation.xaml" />
                 <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Scrollbar.xaml" />
             </styles:CachedResourceDictionary.MergedDictionaries>
+            <Converter:IndeterminateBoolToOpacityConverter x:Key="IndeterminateBoolToOpacityConverter"/>
+            <Converter:InvertedBoolToVisibilityConverter x:Key="InvertedBoolToVisibilityConverter"/>
+            <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
+            <DataTemplate x:Key="DeviceGroupItemTemplate">
+        
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding AllSelected}" Opacity="{Binding AllSelectedIndeterminate, Converter={StaticResource IndeterminateBoolToOpacityConverter}}"></CheckBox>
+                        <Image Width="64" Height="64"  Grid.Column="1">
+                                <Image.OpacityMask>
+                                    <ImageBrush ImageSource="{Binding RGBDevice.DeviceInfo.Image}"/>
+                                </Image.OpacityMask>
+                            </Image>
+                            <TextBlock Grid.Column="1" Text="{Binding Name}" FontSize="24" Margin="80,0,0,0" FontFamily="Segoe UI Light" Foreground="White"/>
+
+                            <Button Grid.Column="2" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" Click="ToggleExpanded" Width="32" HorizontalAlignment="Right">
+                                <TextBlock Foreground="White" MouseDown="ToggleExpanded"><Run Text="^"/></TextBlock>
+                            </Button>
+
+                            <Button Grid.Column="2" Visibility="{Binding Expanded, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="ToggleExpanded"  Width="32" HorizontalAlignment="Right">
+                                <TextBlock Foreground="White" MouseDown="ToggleExpanded" RenderTransformOrigin="0.5,0.5">
+                                    <TextBlock.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="180"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </TextBlock.RenderTransform><Run Text="^"/></TextBlock>
+                            </Button>
+
+                        </Grid>
+                        <ListView Grid.Row="1" ItemsSource="{Binding DeviceLeds}" ItemTemplate="{DynamicResource DeviceGroupLEDItemTemplate}" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </Grid>
+          
+            </DataTemplate>
+            <DataTemplate x:Key="DeviceGroupLEDItemTemplate">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding IsSelected}"/>
+                    <TextBlock Text="{Binding Led.Id, Mode=OneWay}"/>
+                </StackPanel>
+            </DataTemplate>
+            <SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3"/>
+            <SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9"/>
+            <Style x:Key="ListViewStyle1" TargetType="{x:Type ListView}">
+                <Setter Property="Background" Value="{StaticResource ListBox.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+                <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+                <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListView}">
+                            <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="1" SnapsToDevicePixels="true">
+                                <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
+                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </ScrollViewer>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="Bd" Value="{StaticResource ListBox.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ListBox.Disabled.Border}"/>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsGrouping" Value="false"/>
+                                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </styles:CachedResourceDictionary>
     </controls:BlurredDecorationWindow.Resources>
 
 
     <controls:BlurredDecorationWindow.DataContext>
-        <ui:ConfigurationViewModel />
+        <ui:ConfigurationViewModel/>
     </controls:BlurredDecorationWindow.DataContext>
 
     <TabControl Style="{StaticResource StyleTabControlNavigation}">
@@ -44,7 +137,7 @@
                                 <Button Command="{Binding ImportCommand}" >
                                     <StackPanel Height="Auto" Orientation="Horizontal">
                                         <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/import.png" />
-                                        <TextBlock TextWrapping="Wrap" Text="{x:Static p:Resources.ImportButton}"></TextBlock>
+                                        <TextBlock TextWrapping="Wrap" Text="{x:Static p:Resources.ImportButton}"/>
                                     </StackPanel>
                                 </Button>
                                 <Button
@@ -58,7 +151,7 @@
                                     Command="{Binding ExportCommand}" >
                                     <StackPanel Height="Auto" Orientation="Horizontal">
                                         <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/export.png" />
-                                        <TextBlock Text="{x:Static p:Resources.ExportButton}"></TextBlock>
+                                        <TextBlock Text="{x:Static p:Resources.ExportButton}"/>
                                     </StackPanel>
                                 </Button>
                                 <Button
@@ -70,7 +163,7 @@
                     </GroupBox>
                     <GroupBox DockPanel.Dock="Bottom" Margin="0,8,1006,0" >
                         <GroupBox.Resources>
-                            <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
+                            <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="{x:Type Label}" />
                         </GroupBox.Resources>
                         <DockPanel VerticalAlignment="Bottom">
                             <Label controls:Form.IsLabel="True" 
@@ -82,13 +175,14 @@
                     </GroupBox>
                     <GroupBox DockPanel.Dock="Left" Width="260">
                         <DockPanel VerticalAlignment="Top" >
+
                             <Button DockPanel.Dock="Bottom"
                                     HorizontalAlignment="Center" 
                                     Margin="8" 
                                     Command="{Binding AddSyncGroupCommand}" >
                                 <StackPanel VerticalAlignment="Center" Height="Auto" Orientation="Horizontal">
                                     <Image Margin="0,0,2,0" Width="18" Height="18" Source="/RGBSync+;component/Resources/add.png" />
-                                    <TextBlock VerticalAlignment="Center" FontSize="16" Text="{x:Static p:Resources.NewGroupButton}"></TextBlock>
+                                    <TextBlock VerticalAlignment="Center" FontSize="16" Text="{x:Static p:Resources.NewGroupButton}"/>
                                 </StackPanel>
                             </Button>
 
@@ -97,7 +191,7 @@
                                      SelectedItem="{Binding SelectedSyncGroup}"
                                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
                                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                                     Name="LEDGroupsListbox">
+                                     x:Name="LEDGroupsListbox">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -110,7 +204,7 @@
                                             <Button Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                                                     ToolTip="Remove"
                                                     Command="{Binding DataContext.RemoveSyncGroupCommand, RelativeSource={RelativeSource AncestorType={x:Type controls:BlurredDecorationWindow}}}"
-                                                    CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
+                                                    CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}">
                                                 <Image Source="/RGBSync+;component/Resources/close.png" />
                                             </Button>
                                             <TextBlock Grid.Column="1" Margin="4" Text="{Binding DisplayName}" />
@@ -129,15 +223,19 @@
                                 <Border HorizontalAlignment="Center" 
                                         VerticalAlignment="Top" 
                                         Margin="16"
-                                        Visibility="{Binding SelectedSyncGroup, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=True}">
+                                        Visibility="{Binding SelectedSyncGroup, ConverterParameter=True, Converter={StaticResource NullToVisibilityConverter}}">
                                     <TextBlock Text="{x:Static p:Resources.NoGroupSelected}" />
                                 </Border>
 
-                                <Border Visibility="{Binding SelectedSyncGroup, Converter={StaticResource NullToVisibilityConverter}}">
+                                <Border>
                                     <Border.Resources>
-                                        <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
-                                        <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="TextBlock" />
+                                        <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="{x:Type Label}" />
+                                        <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="{x:Type TextBlock}" />
                                     </Border.Resources>
+
+                                    <Border.Visibility>
+                                        <Binding Converter="{StaticResource NullToVisibilityConverter}" Path="SelectedSyncGroup"/>
+                                    </Border.Visibility>
 
                                     <controls:Form DockPanel.Dock="Top" >
                                         <Label controls:Form.IsLabel="True" 
@@ -179,12 +277,7 @@
                         </GroupBox>
 
                         <Grid Margin="0,8,0,0"
-                              Visibility="{Binding SelectedSyncGroup, Converter={StaticResource NullToVisibilityConverter}}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="8" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                              >
 
 
                             <Grid.Resources>
@@ -208,36 +301,24 @@
                                 </DataTemplate>
                             </Grid.Resources>
 
-                            <GroupBox Grid.Column="0" Margin="0,0,0,-58">
-                                <DockPanel>
-                                    <TextBlock DockPanel.Dock="Top"
-                                               HorizontalAlignment="Center" 
-                                               Margin="0,0,0,8" 
-                                               FontWeight="Bold" 
-                                               Text="{x:Static p:Resources.AvaliableLEDsLabel}" />
-                                    <ListBox Name="AvailableLEDsListbox" SelectionMode="Extended"
-                                             dd:DragDrop.IsDragSource="True"
-                                             dd:DragDrop.IsDropTarget="True"
-                                             dd:DragDrop.DropHandler="{Binding}"
-                                             ItemTemplate="{StaticResource DataTemplateListBoxItem}"
-                                             ItemsSource="{Binding AvailableLeds}"
-                                             ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                                             >
-                                        <ListBox.GroupStyle>
-                                            <StaticResource ResourceKey="StyleListBoxGroup" />
-                                        </ListBox.GroupStyle>
-                                    </ListBox>
-                                </DockPanel>
-                            </GroupBox>
+                            <Grid.Visibility>
+                                <Binding Converter="{StaticResource NullToVisibilityConverter}" Path="SelectedSyncGroup"/>
+                            </Grid.Visibility>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-                            <GroupBox Grid.Column="2" Margin="0,0,0,-58">
+
+                            <GroupBox Grid.Column="0" Margin="0,0,0,-58" Grid.ColumnSpan="3">
                                 <DockPanel>
                                     <TextBlock DockPanel.Dock="Top"
                                                HorizontalAlignment="Center" 
                                                Margin="0,0,0,8" 
                                                FontWeight="Bold" 
                                                Text="{x:Static p:Resources.SyncedLEDsLabel}" />
-                                    <ListBox SelectionMode="Extended"
+                                    <!--<ListBox SelectionMode="Extended"
                                              dd:DragDrop.IsDragSource="True"
                                              dd:DragDrop.IsDropTarget="True"
                                              dd:DragDrop.DropHandler="{Binding}"
@@ -247,7 +328,16 @@
                                         <ListBox.GroupStyle>
                                             <StaticResource ResourceKey="StyleListBoxGroup" />
                                         </ListBox.GroupStyle>
-                                    </ListBox>
+                                    </ListBox>-->
+<ScrollViewer>
+                                    <ListView ItemsSource="{Binding Devices}" ItemTemplate="{DynamicResource DeviceGroupItemTemplate}" Background="{x:Null}" Foreground="White" Style="{DynamicResource ListViewStyle1}">
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                    </ListView>
+</ScrollViewer>
                                 </DockPanel>
                             </GroupBox>
                         </Grid>
@@ -262,38 +352,48 @@
                 <DockPanel LastChildFill="True" HorizontalAlignment="Center">
                     <GroupBox DockPanel.Dock="Left"  Width="630" Margin="0,0,4,0">
                         <DockPanel>
-                            <TextBlock>
-                            <Image Margin="0,-5" Width="25" Height="25" Source="/RGBSync+;component/Resources/client.png" /><Run FontSize="20" Text="{x:Static p:Resources.ClientHeading}" /> <LineBreak/>
-                            <CheckBox HorizontalAlignment="Center" IsChecked="{Binding EnableClient}"  Command="{Binding ToggleClientCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.EnableClientLabel}"></CheckBox><LineBreak/>
-                            <Label controls:Form.IsLabel="True" Content="{x:Static p:Resources.ServerIPLabel}" Foreground="White" />
-                                <TextBox x:Name="ClientHost" Text="{Binding ClientIP}" Width="80" Cursor="IBeam"/><LineBreak/>
-                            <Label controls:Form.IsLabel="True" Content="{x:Static p:Resources.ServerPortLabel}" Foreground="White" />
-                                <TextBox x:Name="ClientPort" Text="{Binding ClientPort}" Width="40" /><LineBreak/>
-                                <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding StartClientCommand}"  IsEnabled="{Binding EnableClient}">
+                            <TextBlock><InlineUIContainer>
+                                    <Image Margin="0,-5" Width="25" Height="25" Source="/RGBSync+;component/Resources/client.png" />
+                                </InlineUIContainer><Run FontSize="20" Text="{x:Static p:Resources.ClientHeading}" /><LineBreak/><InlineUIContainer>
+                                    <CheckBox HorizontalAlignment="Center" IsChecked="{Binding EnableClient}"  Command="{Binding ToggleClientCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.EnableClientLabel}"/>
+                                </InlineUIContainer><LineBreak/><InlineUIContainer>
+                                    <Label controls:Form.IsLabel="True" Content="{x:Static p:Resources.ServerIPLabel}" Foreground="White" />
+                                </InlineUIContainer><Run Text=" "/><InlineUIContainer>
+                                    <TextBox x:Name="ClientHost" Text="{Binding ClientIP}" Width="80" Cursor="IBeam"/>
+                                </InlineUIContainer><LineBreak/><InlineUIContainer>
+                                    <Label controls:Form.IsLabel="True" Content="{x:Static p:Resources.ServerPortLabel}" Foreground="White" />
+                                </InlineUIContainer><Run Text=" "/><InlineUIContainer>
+                                    <TextBox x:Name="ClientPort" Text="{Binding ClientPort}" Width="40" />
+                                </InlineUIContainer><LineBreak/><InlineUIContainer>
+                                    <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding StartClientCommand}"  IsEnabled="{Binding EnableClient}">
                                         <StackPanel VerticalAlignment="Center" Height="Auto" Orientation="Horizontal">
-                                <Image Margin="0,0,2,0" Width="20" Height="20" Source="/RGBSync+;component/Resources/start.png" />
-                                <TextBlock VerticalAlignment="Center" Text="{x:Static p:Resources.StartClientButton}"></TextBlock>
-                            </StackPanel>
-                             </Button>
-                            </TextBlock>
+                                            <Image Margin="0,0,2,0" Width="20" Height="20" Source="/RGBSync+;component/Resources/start.png" />
+                                            <TextBlock VerticalAlignment="Center" Text="{x:Static p:Resources.StartClientButton}"/>
+                                        </StackPanel>
+                                    </Button>
+                                </InlineUIContainer></TextBlock>
                         </DockPanel>
 
 
                     </GroupBox>
                     <GroupBox Width="630">
                         <DockPanel>
-                            <TextBlock>
-                            <Image Margin="0,-5" Width="25" Height="25" Source="/RGBSync+;component/Resources/server.png" /><Run FontSize="20" Text="{x:Static p:Resources.ServerHeading}" /> <LineBreak/>
-                            <CheckBox HorizontalAlignment="Center" IsChecked="{Binding EnableServer}"  Command="{Binding ToggleServerCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.EnableServerLabel}"></CheckBox><LineBreak/>
-                            <Label controls:Form.IsLabel="True" Content="{x:Static p:Resources.ServerPortLabel}" Foreground="White" />
-                                <TextBox x:Name="ServerPort" Text="{Binding ServerPort}" Width="40" /><LineBreak/>
-                                <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding StartServerCommand}"  IsEnabled="{Binding EnableServer}">
+                            <TextBlock><InlineUIContainer>
+                                    <Image Margin="0,-5" Width="25" Height="25" Source="/RGBSync+;component/Resources/server.png" />
+                                </InlineUIContainer><Run FontSize="20" Text="{x:Static p:Resources.ServerHeading}" /><LineBreak/><InlineUIContainer>
+                                    <CheckBox HorizontalAlignment="Center" IsChecked="{Binding EnableServer}"  Command="{Binding ToggleServerCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.EnableServerLabel}"/>
+                                </InlineUIContainer><LineBreak/><InlineUIContainer>
+                                    <Label controls:Form.IsLabel="True" Content="{x:Static p:Resources.ServerPortLabel}" Foreground="White" />
+                                </InlineUIContainer><Run Text=" "/><InlineUIContainer>
+                                    <TextBox x:Name="ServerPort" Text="{Binding ServerPort}" Width="40" />
+                                </InlineUIContainer><LineBreak/><InlineUIContainer>
+                                    <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding StartServerCommand}"  IsEnabled="{Binding EnableServer}">
                                         <StackPanel VerticalAlignment="Center" Height="Auto" Orientation="Horizontal">
-                                <Image Margin="0,0,2,0" Width="20" Height="20" Source="/RGBSync+;component/Resources/start.png" />
-                                <TextBlock VerticalAlignment="Center" Text="{x:Static p:Resources.StartServerButton}" ></TextBlock>
-                            </StackPanel>
-                             </Button>
-                            </TextBlock>
+                                            <Image Margin="0,0,2,0" Width="20" Height="20" Source="/RGBSync+;component/Resources/start.png" />
+                                            <TextBlock VerticalAlignment="Center" Text="{x:Static p:Resources.StartServerButton}" />
+                                        </StackPanel>
+                                    </Button>
+                                </InlineUIContainer></TextBlock>
                         </DockPanel>
                     </GroupBox>
 
@@ -305,41 +405,18 @@
             <AdornerDecorator>
                 <DockPanel LastChildFill="True">
                     <GroupBox DockPanel.Dock="Left" Margin="0,0,0,0" >
-                        <TextBlock TextWrapping="Wrap">
-                            <Run Text="{x:Static p:Resources.AboutTitle}" FontSize="20"/><LineBreak />
-                            <Run Text="{x:Static p:Resources.AboutDescription}" />
-                            <LineBreak /><LineBreak />
-                            <Run Text="{x:Static p:Resources.TechSupportCTA}"/><LineBreak /><InlineUIContainer/><InlineUIContainer>
+                        <TextBlock TextWrapping="Wrap"><Run Text="{x:Static p:Resources.AboutTitle}" FontSize="20"/><LineBreak /><Run Text="{x:Static p:Resources.AboutDescription}" /><LineBreak /><LineBreak /><Run Text="{x:Static p:Resources.TechSupportCTA}"/><LineBreak /><InlineUIContainer/><InlineUIContainer>
                                 <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding DiscordCommand}" >
                                         <StackPanel VerticalAlignment="Center" Height="Auto" Orientation="Horizontal">
                                 <Image Margin="0,0,2,0" Width="20" Height="20" Source="/RGBSync+;component/Resources/discord.png" />
-                                <TextBlock VerticalAlignment="Center" Text="{x:Static p:Resources.JoinDiscordButton}"></TextBlock>
+                                <TextBlock VerticalAlignment="Center" Text="{x:Static p:Resources.JoinDiscordButton}"/>
                             </StackPanel>
                              </Button>
                                 
                             </InlineUIContainer><LineBreak /><LineBreak /><InlineUIContainer><Image Height="50" Width="50" Margin="2,2,4,2" Source="/RGBSync+;component/Resources/argebee_old.ico"/>
-                            </InlineUIContainer><Run BaselineAlignment="Center" Text="{x:Static p:Resources.RGBNetNotice}"></Run>
-                            <LineBreak /><Run BaselineAlignment="Center" Text="{x:Static p:Resources.EVGANotice}"></Run>
-                            <LineBreak /><Run BaselineAlignment="Center" Text="{x:Static p:Resources.MSINotice}"></Run>
-                            <LineBreak></LineBreak><LineBreak></LineBreak><Button Content="{x:Static p:Resources.LicenseButton}" Command="{Binding AttribCommand}"></Button>
-                            <LineBreak />
-                            <LineBreak />
-                            <Run Text="{x:Static p:Resources.TranslationsLabel}"></Run>
-                            <LineBreak />
-                            <Run Text="Teun - Dutch (Nederlands)"></Run>
-                            <LineBreak />
-                            <Run Text="Grifka - French (Français)"></Run>
-                            <LineBreak />
-                            <Run Text="Crashniels -  German (Deutsch)"></Run>
-                            <LineBreak />
-                            <Run Text="Sicily94 -  Italian (Italiano)"></Run>
-                            <LineBreak />
-                            <Run Text="DrMeteor -  Portuguese (Português)"></Run>
-                            <LineBreak />
-                            <Run Text="Ksusha Volkova -  Russian (русский)"></Run>
-                            <LineBreak />
-                            <Run Text="Ed3n18 -  Spanish (Español)"></Run>
-                        </TextBlock>
+                            </InlineUIContainer><Run BaselineAlignment="Center" Text="{x:Static p:Resources.RGBNetNotice}"/><LineBreak /><Run BaselineAlignment="Center" Text="{x:Static p:Resources.EVGANotice}"/><LineBreak /><Run BaselineAlignment="Center" Text="{x:Static p:Resources.MSINotice}"/><LineBreak/><LineBreak/><InlineUIContainer>
+                                <Button Content="{x:Static p:Resources.LicenseButton}" Command="{Binding AttribCommand}"/>
+                            </InlineUIContainer><LineBreak /><LineBreak /><Run Text="{x:Static p:Resources.TranslationsLabel}"/><LineBreak /><Run Text="Teun - Dutch (Nederlands)"/><LineBreak /><Run Text="Grifka - French (Français)"/><LineBreak /><Run Text="Crashniels -  German (Deutsch)"/><LineBreak /><Run Text="Sicily94 -  Italian (Italiano)"/><LineBreak /><Run Text="DrMeteor -  Portuguese (Português)"/><LineBreak /><Run Text="Ksusha Volkova -  Russian (русский)"/><LineBreak /><Run Text="Ed3n18 -  Spanish (Español)"/></TextBlock>
 
                     </GroupBox>
                 </DockPanel>
@@ -376,7 +453,7 @@
 
                                 <Label controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.UpdateText}"  Margin="0,0,-75,0" />
-                                <Button Margin="75,0,-75,0" Content="{x:Static p:Resources.CheckUpdateCommand}" Command="{Binding CheckUpdateCommand}"></Button>
+                                <Button Margin="75,0,-75,0" Content="{x:Static p:Resources.CheckUpdateCommand}" Command="{Binding CheckUpdateCommand}"/>
 
                                 <Label controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.VersionLabel}"  Margin="0,0,-75,0" />
@@ -384,7 +461,7 @@
 
                                 <Label controls:Form.IsLabel="True" 
                                        Content="Plugins:"  Margin="0,0,-75,0" />
-                                <Button  Margin="75,0,-75,0" Click="ManagePlugin" Content="{x:Static p:Resources.ManagePluginsBtn}"></Button>
+                                <Button  Margin="75,0,-75,0" Click="ManagePlugin" Content="{x:Static p:Resources.ManagePluginsBtn}"/>
 
                                 <Label controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.PremiumLabel}"  Margin="0,0,-75,0" />
@@ -393,7 +470,7 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" x:Name="NotInstalledBox" Visibility="{Binding NotPremiumStatus}">
                                     <TextBlock Margin="15,4,0,0" Text="{x:Static p:Resources.NotInstalledLabel}" />
-                                    <Button Margin="10,1,0,0" Content="{x:Static p:Resources.PremiumCTAButton}" Click="Button_Click_1"></Button>
+                                    <Button Margin="10,1,0,0" Content="{x:Static p:Resources.PremiumCTAButton}" Click="Button_Click_1"/>
                                 </StackPanel>
 
                                 <Label controls:Form.IsLabel="True" 
@@ -404,7 +481,7 @@
                                         <ComboBoxItem Selected="darkSelected" x:Name="darkItem" Content="Dark"/>
                                         <ComboBoxItem Visibility="Hidden" Selected="customSelected" x:Name="customItem" Content="Custom"/>
                                     </ComboBox>
-                                    <Button Margin="100,1,-100,0" Click="ApplyButton_Click" Content="{x:Static p:Resources.ApplyLabel}" Name="ApplyButton"  Visibility="Visible"/>
+                                    <Button Margin="100,1,-100,0" Click="ApplyButton_Click" Content="{x:Static p:Resources.ApplyLabel}" x:Name="ApplyButton"  Visibility="Visible"/>
                                 </StackPanel>
 
                                 <Label controls:Form.IsLabel="True" 
@@ -450,7 +527,7 @@
                                         ToolTip="{x:Static p:Resources.DelayTooltip}" />
 
                                 <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="{x:Static p:Resources.DevicesLabel}"  Margin="0,0,-75,0" />
-                                <Button Command="{Binding OpenExcludeToolCommand}" Margin="80,2,0,-2"  Content="{x:Static p:Resources.ExcludeBtn}"></Button>
+                                <Button Command="{Binding OpenExcludeToolCommand}" Margin="80,2,0,-2"  Content="{x:Static p:Resources.ExcludeBtn}"/>
 
                             </controls:Form>
 

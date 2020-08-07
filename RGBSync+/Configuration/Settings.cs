@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using Newtonsoft.Json;
+using RGB.NET.Core;
 using RGBSyncPlus.Model;
 
 namespace RGBSyncPlus.Configuration
@@ -17,7 +20,10 @@ namespace RGBSyncPlus.Configuration
 
         public string Name { get; set; } = "Default";
 
-        public List<SyncGroup> SyncGroups { get; set; } = new List<SyncGroup>();
+        public List<SyncGroup> SyncGroups
+        {
+            get;set;
+        }
 
         #endregion
     }

@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>RGBSyncPlus</RootNamespace>
     <AssemblyName>RGBSync+</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -27,6 +27,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -113,6 +114,7 @@
     <Compile Include="Configuration\AppSettings.cs" />
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Configuration\ProgVersion.cs" />
+    <Compile Include="Converter\IndeterminateBoolToOpacityConverter.cs" />
     <Compile Include="Converter\NullToVisibilityConverter.cs" />
     <Compile Include="Converter\ScrollOffsetToOpacityMaskConverter.cs" />
     <Compile Include="Converter\ScrollOffsetToVisibilityConverter.cs" />
@@ -120,6 +122,8 @@
     <Compile Include="Helper\RGBNetExtension.cs" />
     <Compile Include="Helper\ExceptionExtension.cs" />
     <Compile Include="Helper\MathHelper.cs" />
+    <Compile Include="Model\AbstractBindableExtended.cs" />
+    <Compile Include="Model\DeviceGroup.cs" />
     <Compile Include="Model\SyncGroup.cs" />
     <Compile Include="Model\SyncLed.cs" />
     <Compile Include="UI\ConfigurationViewModel.cs" />
@@ -324,6 +328,11 @@
     </PackageReference>
     <PackageReference Include="DiscordRichPresence">
       <Version>1.0.150</Version>
+    </PackageReference>
+    <PackageReference Include="Fody">
+      <Version>6.2.4</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="gong-wpf-dragdrop">
       <Version>2.2.0</Version>

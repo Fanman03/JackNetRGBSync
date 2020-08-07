@@ -40,8 +40,12 @@ namespace RGBSyncPlus.Styles
 
             _cachedDictionaries.Add(uriPath);
 
-            ResourceDictionary newDictionary = new ResourceDictionary { Source = new Uri(uriPath, source.IsAbsoluteUri ? UriKind.Absolute : UriKind.Relative) };
-            CopyDictionaryEntries(newDictionary, _innerDictionary);
+            try
+            {
+                ResourceDictionary newDictionary = new ResourceDictionary { Source = new Uri(uriPath, source.IsAbsoluteUri ? UriKind.Absolute : UriKind.Relative) };
+                CopyDictionaryEntries(newDictionary, _innerDictionary);
+            }
+            catch { }
         }
 
         private static void CopyDictionaryEntries(IDictionary source, IDictionary target)
