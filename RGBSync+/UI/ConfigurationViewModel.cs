@@ -432,7 +432,9 @@ namespace RGBSyncPlus.UI
                 ((List<Led>)leds).AddRange(deviceGroup.DeviceLeds.Where(x => x.IsSelected).Select(y => y.Led));
             }
 
-            SynchronizedLeds = GetGroupedLedList(leds);
+            SelectedSyncGroup.Leds=new ObservableCollection<SyncLed>(leds.Select(led => new SyncLed(led)));
+
+            SynchronizedLeds = GetGroupedLedList(SelectedSyncGroup.Leds);
             OnPropertyChanged(nameof(SynchronizedLeds));
         }
 
