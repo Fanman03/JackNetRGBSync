@@ -474,5 +474,14 @@
   <ItemGroup>
     <Resource Include="Resources\DefaultBanner.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DevImg\Fan.png" />
+    <Resource Include="Resources\DevImg\GPU.png" />
+    <Resource Include="Resources\DevImg\Headphones.png" />
+    <Resource Include="Resources\DevImg\Keyboard.png" />
+    <Resource Include="Resources\DevImg\LedStrip.png" />
+    <Resource Include="Resources\DevImg\Motherboard.png" />
+    <Resource Include="Resources\DevImg\Mouse.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

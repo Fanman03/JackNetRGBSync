@@ -40,19 +40,20 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="40"/>
                             </Grid.ColumnDefinitions>
                             <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding AllSelected}" Opacity="{Binding AllSelectedIndeterminate, Converter={StaticResource IndeterminateBoolToOpacityConverter}}"></CheckBox>
-                        <Image Width="64" Height="64"  Grid.Column="1" Margin="-520,0,0,0" Source="{Binding RGBDevice.DeviceInfo.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}">
+                        <Image ToolTip="{Binding RGBDevice.DeviceInfo.DeviceType}" Width="42" Height="42"  Grid.Column="1" Margin="-5,0,0,0" Source="{Binding RGBDevice.DeviceInfo.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}">
                         </Image>
-                            <TextBlock Grid.Column="1" Text="{Binding Name}" FontSize="24" Margin="80,-5,0,0" FontFamily="Segoe UI Light" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock MaxWidth="530" TextTrimming="CharacterEllipsis" Grid.Column="2" Text="{Binding Name}" ToolTip="{Binding Name}" FontSize="24" Margin="0" FontFamily="Segoe UI Light" Foreground="White" VerticalAlignment="Center"/>
 
-                            <Button Grid.Column="2" Margin="0,0,5,0" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" Click="ToggleExpanded" Width="32" Height="32" HorizontalAlignment="Right">
+                            <Button Grid.Column="3" Margin="0,0,5,0" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" Click="ToggleExpanded" Width="32" Height="32" HorizontalAlignment="Right">
                                 <TextBlock Foreground="White" MouseDown="ToggleExpanded"><Image Source="arrow_up.png"></Image></TextBlock>
                             </Button>
 
-                        <Button Grid.Column="2" Margin="0,0,5,0" Visibility="{Binding Expanded, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="ToggleExpanded"  Width="32" Height="32" HorizontalAlignment="Right">
+                        <Button Grid.Column="3" Margin="0,0,5,0" Visibility="{Binding Expanded, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="ToggleExpanded"  Width="32" Height="32" HorizontalAlignment="Right">
                             <TextBlock Foreground="White" MouseDown="ToggleExpanded"><Image Source="arrow_down.png"></Image></TextBlock>
                         </Button>
 
