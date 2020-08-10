@@ -33,9 +33,12 @@ namespace RGBSyncPlus.UI
 {
     public sealed class ConfigurationViewModel : AbstractBindable, IDropTarget
     {
+        private bool isDesign = DesignerProperties.GetIsInDesignMode(new DependencyObject());
+
+
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         #region Properties & Fields
-        
+
 
 
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
@@ -44,8 +47,8 @@ namespace RGBSyncPlus.UI
         {
             get
             {
-                if(Directory.Exists("netplugin"))
-                    {
+                if (Directory.Exists("netplugin"))
+                {
                     //netplugin is installed
                     return "Visible";
                 }
@@ -169,16 +172,16 @@ namespace RGBSyncPlus.UI
         {
             get
             {
-                JObject config = JObject.Parse(File.ReadAllText("config.json", Encoding.UTF8));
+                JObject config = JObject.Parse(ReadConfig());
                 JObject client = (JObject)config["client"];
                 return client["status"].ToString();
             }
             set
             {
-                JObject config = JObject.Parse(File.ReadAllText("config.json", Encoding.UTF8));
+                JObject config = JObject.Parse(ReadConfig());
                 JObject client = (JObject)config["client"];
                 client["status"] = value;
-                File.WriteAllText("config.json", config.ToString());
+                WriteConfig(config);
             }
         }
 
@@ -186,16 +189,16 @@ namespace RGBSyncPlus.UI
         {
             get
             {
-                JObject config = JObject.Parse(File.ReadAllText("config.json", Encoding.UTF8));
+                JObject config = JObject.Parse(ReadConfig());
                 JObject client = (JObject)config["client"];
                 return client["host"].ToString();
             }
             set
             {
-                JObject config = JObject.Parse(File.ReadAllText("config.json", Encoding.UTF8));
+                JObject config = JObject.Parse(ReadConfig());
                 JObject client = (JObject)config["client"];
                 client["host"] = value;
-                File.WriteAllText("config.json", config.ToString());
+                WriteConfig(config);
             }
         }
 
@@ -203,16 +206,16 @@ namespace RGBSyncPlus.UI
         {
             get
             {
-                JObject config = JObject.Parse(File.ReadAllText("config.json", Encoding.UTF8));
+                JObject config = JObject.Parse(ReadConfig());
                 JObject client = (JObject)config["client"];
                 return client["port"].ToString();
             }
             set
             {
-                JObject config = JObject.Parse(File.ReadAllText("config.json", Encoding.UTF8));
+                JObject config = JObject.Parse(ReadConfig());
                 JObject client = (JObject)config["client"];
                 client["port"] = value;
-                File.WriteAllText("config.json", config.ToString());
+                WriteConfig(config);
             }
         }
 
@@ -220,16 +223,32 @@ namespace RGBSyncPlus.UI
         {
             get
             {
-                JObject config = JObject.Parse(File.ReadAllText("config.json", Encoding.UTF8));
+                JObject config = JObject.Parse(ReadConfig());
                 JObject client = (JObject)config["server"];
                 return client["port"].ToString();
             }
             set
             {
-                JObject config = JObject.Parse(File.ReadAllText("config.json", Encoding.UTF8));
+                JObject config = JObject.Parse(ReadConfig());
                 JObject client = (JObject)config["server"];
                 client["port"] = value;
-                File.WriteAllText("config.json", config.ToString());
+                WriteConfig(config);
+            }
+        }
+
+        private void WriteConfig(JObject config)
+        {
+            File.WriteAllText("config.json", config.ToString());
+        }
+        private string ReadConfig()
+        {
+            if (File.Exists("config.json"))
+            {
+                return File.ReadAllText("config.json", Encoding.UTF8);
+            }
+            else
+            {
+                return "{\r\n  \"client\": {\r\n    \"host\": \"1.1.1.1\",\r\n    \"port\": \"3784\",\r\n    \"status\": \"Stop Client\"\r\n  },\r\n  \"server\": {\r\n    \"port\": \"3784\"\r\n  }\r\n}";
             }
         }
 
@@ -336,7 +355,14 @@ namespace RGBSyncPlus.UI
 
         public ConfigurationViewModel()
         {
-            SyncGroups = new ObservableCollection<SyncGroup>(ApplicationManager.Instance.Settings.SyncGroups);
+            if (isDesign)
+            {
+                ApplicationManager.Instance.Settings = JsonConvert.DeserializeObject<Settings>("{\"Version\":1,\"Name\":\"Default\",\"SyncGroups\":[{\"DisplayName\":\"Jeff\",\"Name\":\"Jeff\",\"SyncLed\":null,\"Leds\":[{\"Device\":\"MSI GraphicsCard (GraphicsCard)\",\"LedId\":7340033}]}]}");
+            }
+            else
+            {
+                SyncGroups = new ObservableCollection<SyncGroup>(ApplicationManager.Instance.Settings.SyncGroups);
+            }
 
             AvailableSyncLeds = GetGroupedLedList(RGBSurface.Instance.Leds.Where(x => x.Device.DeviceInfo.SupportsSyncBack));
             OnPropertyChanged(nameof(AvailableSyncLeds));
@@ -345,7 +371,7 @@ namespace RGBSyncPlus.UI
         #endregion
 
         #region Methods
-
+        public ObservableCollection<DeviceGroup> Devices { get; set; } = new ObservableCollection<DeviceGroup>();
         private ListCollectionView GetGroupedLedList(IEnumerable<Led> leds) => GetGroupedLedList(leds.Select(led => new SyncLed(led)).ToList());
 
         private ListCollectionView GetGroupedLedList(IList syncLeds)
@@ -362,17 +388,54 @@ namespace RGBSyncPlus.UI
         {
             try
             {
+                List<IRGBDevice> devices = RGBSurface.Instance.Leds.Select(x => x.Device).Distinct().ToList();
+                Devices = new ObservableCollection<DeviceGroup>();
+                foreach (var d in devices)
+                {
+
+                    var dg = new DeviceGroup
+                    {
+                        Name = d.GetDeviceName(),
+                        RGBDevice = d,
+                        SyncBack = SyncBack
+                    };
+
+                    dg.DeviceLeds = new ObservableCollection<DeviceLED>(RGBSurface.Instance.Leds
+                        .Where(x => x.Device == d)
+                        .Select(y => new DeviceLED(y, SelectedSyncGroup.Leds.Any(x => x.LedId == y.Id))
+                        {
+                            ParentalRollUp = dg.RollUpCheckBoxes
+                        }).ToList());
+
+                    Devices.Add(dg);
+                }
+
                 SynchronizedLeds = GetGroupedLedList(SelectedSyncGroup.Leds);
 
                 OnPropertyChanged(nameof(SynchronizedLeds));
 
                 AvailableLeds = GetGroupedLedList(RGBSurface.Instance.Leds.Where(led => !SelectedSyncGroup.Leds.Any(sc => (sc.LedId == led.Id) && (sc.Device == led.Device.GetDeviceName()))));
                 OnPropertyChanged(nameof(AvailableLeds));
+                OnPropertyChanged(nameof(Devices));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Error("Error updating LedLists." + ex);
             }
+        }
+
+        public void SyncBack()
+        {
+            IEnumerable<Led> leds = new List<Led>();
+            foreach (var deviceGroup in Devices)
+            {
+                ((List<Led>)leds).AddRange(deviceGroup.DeviceLeds.Where(x => x.IsSelected).Select(y => y.Led));
+            }
+
+            SelectedSyncGroup.Leds=new ObservableCollection<SyncLed>(leds.Select(led => new SyncLed(led)));
+
+            SynchronizedLeds = GetGroupedLedList(SelectedSyncGroup.Leds);
+            OnPropertyChanged(nameof(SynchronizedLeds));
         }
 
         private void OpenHomepage() => Process.Start("https://www.rgbsync.com");
@@ -418,11 +481,12 @@ namespace RGBSyncPlus.UI
                     }
 
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Logger.Error("Unable to check for updates. Download failed with exception: " + ex);
             }
-            
+
         }
 
         public void PromptUpdate()
@@ -439,7 +503,7 @@ namespace RGBSyncPlus.UI
 
         private void OpenSet()
         {
-            if(ApplicationManager.Instance.AppSettings.MinimizeToTray == true)
+            if (ApplicationManager.Instance.AppSettings.MinimizeToTray == true)
             {
                 IsMinimized = true;
             }
@@ -475,11 +539,12 @@ namespace RGBSyncPlus.UI
 
         public void ToggleServer()
         {
-            if(EnableServer == true)
+            if (EnableServer == true)
             {
                 EnableServer = true;
                 EnableClient = false;
-            } else
+            }
+            else
             {
                 EnableServer = false;
             }
@@ -503,7 +568,8 @@ namespace RGBSyncPlus.UI
         private void StartClient()
         {
             Process[] pname = Process.GetProcessesByName("netsync");
-            if (pname.Length == 0) {
+            if (pname.Length == 0)
+            {
                 if (!File.Exists("netplugin\\netsync.exe"))
                 {
                     Logger.Info("User does not have premium, cannot start client.");
@@ -556,7 +622,8 @@ namespace RGBSyncPlus.UI
         private void Export()
         {
             string settingsPath = "Profile.json";
-            try {
+            try
+            {
                 File.WriteAllText(settingsPath, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
                 string data = System.IO.File.ReadAllText(settingsPath);
 
@@ -578,25 +645,26 @@ namespace RGBSyncPlus.UI
                 GenericErrorDialog infoDialog = new GenericErrorDialog("Access is denied", "Error", ex.GetFullMessage());
                 infoDialog.Show();
             }
-            
+
         }
 
         private void ExportCloud()
         {
-            if(ApplicationManager.Instance.AppSettings.ApiKey != null)
+            if (ApplicationManager.Instance.AppSettings.ApiKey != null)
             {
                 try
                 {
                     WebClient client = new WebClient();
                     string profileData = Base64Encode(JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
                     string response = client.DownloadString("https://rgbsync.com/api/saveData.php?token=zQlszc7d1l9t8cv734nmte8ui4o3s8d15pcz&key=" + ApplicationManager.Instance.AppSettings.ApiKey + "&profile=" + profileData);
-                    if(response == "success")
+                    if (response == "success")
                     {
                         GenericInfoDialog infoDialog = new GenericInfoDialog("Profile has successfully been uploaded to the cloud.", "Success!");
                         infoDialog.Show();
-                    } else
+                    }
+                    else
                     {
-                        GenericErrorDialog errorDialog = new GenericErrorDialog("Error uploading profile.", "Error!", "Error uploading profile. Api response: "+ response);
+                        GenericErrorDialog errorDialog = new GenericErrorDialog("Error uploading profile.", "Error!", "Error uploading profile. Api response: " + response);
                         errorDialog.Show();
                     }
                 }
@@ -605,7 +673,8 @@ namespace RGBSyncPlus.UI
                     GenericErrorDialog errorDialog = new GenericErrorDialog("Error uploading profile.", "Error!", "Error uploading profile. " + ex);
                     errorDialog.Show();
                 }
-            } else
+            }
+            else
             {
                 EnterKeyDialog enterKeyDialog = new EnterKeyDialog();
                 enterKeyDialog.Show();

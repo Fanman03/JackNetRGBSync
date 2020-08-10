@@ -1,17 +1,27 @@
 ﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using RGBSyncPlus.Controls;
+using RGBSyncPlus.Model;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using RGB.NET.Core;
 
 namespace RGBSyncPlus.UI
 {
     public partial class ConfigurationWindow : BlurredDecorationWindow
     {
+        private bool isDesign = Application.Current?.MainWindow != null && DesignerProperties.GetIsInDesignMode(Application.Current.MainWindow);
+
         public bool DoNotRestart;
         public bool promptForFile = false;
         public bool customRestart = false;
@@ -21,6 +31,35 @@ namespace RGBSyncPlus.UI
         public ConfigurationWindow()
         {
             InitializeComponent();
+            Debug.WriteLine("starting config View");
+            if (isDesign)
+            {
+                ApplicationManager.Instance.AppSettings = new Configuration.AppSettings
+                {
+                    EnableClient = false,
+
+                };
+
+                Debug.WriteLine("mocking data");
+                var vm = ((this.DataContext) as ConfigurationViewModel);
+                vm.Devices = new ObservableCollection<DeviceGroup>
+                {
+                    new DeviceGroup
+                    {
+                        Name="Device Group",
+                        DeviceLeds= new ObservableCollection<DeviceLED>
+                        {
+                            
+                        }
+                    }
+                };
+                vm.SyncGroups = new ObservableCollection<SyncGroup>(JsonConvert.DeserializeObject<List<SyncGroup>>("\"SyncGroups\":[{\"DisplayName\":\"Jeff\",\"Name\":\"Jeff\",\"SyncLed\":null,\"Leds\":[{\"Device\":\"MSI GraphicsCard (GraphicsCard)\",\"LedId\":7340033}]}]"));
+                vm.SelectedSyncGroup = vm.SyncGroups.First();
+                vm.AvailableLeds = new ListCollectionView(vm.SelectedSyncGroup.Leds);
+                vm.AvailableSyncLeds = new ListCollectionView(vm.SelectedSyncGroup.Leds);
+                //return;
+            }
+
             ApplyButton.Visibility = Visibility.Hidden;
             if (ConfigurationViewModel.PremiumStatus == "Visible")
             {
@@ -104,7 +143,7 @@ namespace RGBSyncPlus.UI
                 LangBox.Text = "Unknown";
             }
             DoNotRestart = false;
-                ScrollViewer.SetVerticalScrollBarVisibility(AvailableLEDsListbox, ScrollBarVisibility.Visible);
+                //ScrollViewer.SetVerticalScrollBarVisibility(AvailableLEDsListbox, ScrollBarVisibility.Visible);
                 ScrollViewer.SetVerticalScrollBarVisibility(LEDGroupsListbox, ScrollBarVisibility.Visible);
         }
 
@@ -266,6 +305,16 @@ namespace RGBSyncPlus.UI
         private void ManagePlugin(object sender, RoutedEventArgs e)
         {
             Process.Start("PluginManager.exe");
+        }
+
+
+        private void ToggleExpanded(object sender, RoutedEventArgs e)
+        {
+            if ((sender as TextBlock)?.DataContext is DeviceGroup devGroup)
+            {
+                devGroup.Expanded = !devGroup.Expanded;
+
+            }
         }
     }
 }
