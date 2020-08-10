@@ -333,7 +333,7 @@
                                 </DockPanel>
                             </GroupBox>
                             <GroupBox Grid.Column="2" Margin="0,0,0,-87">
-                                <TextBlock TextWrapping="Wrap" FontSize="40">haha banner image go brrrrrrrrrrrrr</TextBlock>
+                                <Image Cursor="Hand" MouseLeftButtonDown="BannerImage_MouseLeftButtonDown" x:Name="BannerImage" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill"/>
                             </GroupBox>
                         </Grid>
                     </DockPanel>

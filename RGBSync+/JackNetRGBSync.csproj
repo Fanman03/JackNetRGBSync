@@ -108,6 +108,7 @@
     <Compile Include="Attached\SliderValueAdorner.cs" />
     <Compile Include="Brushes\SyncBrush.cs" />
     <Compile Include="Configuration\AbstractConfiguration.cs" />
+    <Compile Include="Configuration\BannerSchema.cs" />
     <Compile Include="Configuration\ColorSerializer.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Configuration\Legacy\ConfigurationUpdates.cs" />
@@ -466,6 +467,12 @@
   <ItemGroup>
     <Resource Include="Resources\DevImg\DRAM.png" />
     <Resource Include="Resources\DevImg\Unknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\DefaultBanner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DefaultBanner.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

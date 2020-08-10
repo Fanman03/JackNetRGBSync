@@ -15,6 +15,8 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using RGB.NET.Core;
+using RGBSyncPlus.Configuration;
+using System.Net;
 
 namespace RGBSyncPlus.UI
 {
@@ -58,6 +60,29 @@ namespace RGBSyncPlus.UI
                 vm.AvailableLeds = new ListCollectionView(vm.SelectedSyncGroup.Leds);
                 vm.AvailableSyncLeds = new ListCollectionView(vm.SelectedSyncGroup.Leds);
                 //return;
+            }
+
+            try
+            {
+                WebClient client = new WebClient();
+
+                string bannerJson = client.DownloadString("https://www.rgbsync.com/api/banner.json");
+                BannerSchema schema = JsonConvert.DeserializeObject<BannerSchema>(bannerJson);
+
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.UriSource = new Uri(schema.imgUrl); ;
+                bitmapImage.EndInit();
+
+                BannerImage.Source = bitmapImage;
+            } 
+            catch
+            {
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.UriSource = new Uri("pack://application:,,,/RGBSync+;component/Resources/DefaultBanner.png", UriKind.Absolute);
+                bitmapImage.EndInit();
+                BannerImage.Source = bitmapImage;
             }
 
             ApplyButton.Visibility = Visibility.Hidden;
@@ -314,6 +339,23 @@ namespace RGBSyncPlus.UI
             {
                 devGroup.Expanded = !devGroup.Expanded;
 
+            }
+        }
+
+        private void BannerImage_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            try
+            {
+                WebClient client = new WebClient();
+
+                string bannerJson = client.DownloadString("https://www.rgbsync.com/api/banner.json");
+                BannerSchema schema = JsonConvert.DeserializeObject<BannerSchema>(bannerJson);
+
+                Process.Start(schema.clickUrl);
+            }
+            catch
+            {
+                Process.Start("https://rgbsync.com");
             }
         }
     }
