@@ -114,6 +114,7 @@
     <Compile Include="Configuration\AppSettings.cs" />
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Configuration\ProgVersion.cs" />
+    <Compile Include="Converter\DeviceTypeToImageConverter.cs" />
     <Compile Include="Converter\IndeterminateBoolToOpacityConverter.cs" />
     <Compile Include="Converter\NullToVisibilityConverter.cs" />
     <Compile Include="Converter\ScrollOffsetToOpacityMaskConverter.cs" />
@@ -455,6 +456,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\DownloadFromCloud.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\arrow_up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\arrow_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DevImg\DRAM.png" />
+    <Resource Include="Resources\DevImg\Unknown.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
