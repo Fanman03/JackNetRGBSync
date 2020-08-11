@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using RGB.NET.Core;
 using RGBSyncPlus.Configuration;
 using System.Net;
+using System.Windows.Input;
 
 namespace RGBSyncPlus.UI
 {
@@ -51,7 +52,7 @@ namespace RGBSyncPlus.UI
                         Name="Device Group",
                         DeviceLeds= new ObservableCollection<DeviceLED>
                         {
-                            
+
                         }
                     }
                 };
@@ -75,7 +76,7 @@ namespace RGBSyncPlus.UI
                 bitmapImage.EndInit();
 
                 BannerImage.Source = bitmapImage;
-            } 
+            }
             catch
             {
                 var bitmapImage = new BitmapImage();
@@ -109,7 +110,8 @@ namespace RGBSyncPlus.UI
                     bimage.EndInit();
                     this.BackgroundImage = bimage;
                 }
-            } else if (ApplicationManager.Instance.AppSettings.BackgroundImg == "rgb")
+            }
+            else if (ApplicationManager.Instance.AppSettings.BackgroundImg == "rgb")
             {
                 rgbItem.IsSelected = true;
                 BitmapImage bimage = new BitmapImage();
@@ -117,20 +119,22 @@ namespace RGBSyncPlus.UI
                 bimage.UriSource = new Uri("pack://application:,,,/Resources/background.png", UriKind.RelativeOrAbsolute);
                 bimage.EndInit();
                 this.BackgroundImage = bimage;
-            } else
+            }
+            else
             {
-                    darkItem.IsSelected = true;
-                    BitmapImage bimage = new BitmapImage();
-                    bimage.BeginInit();
-                    bimage.UriSource = new Uri("pack://application:,,,/Resources/base.png", UriKind.RelativeOrAbsolute);
-                    bimage.EndInit();
-                    this.BackgroundImage = bimage;
+                darkItem.IsSelected = true;
+                BitmapImage bimage = new BitmapImage();
+                bimage.BeginInit();
+                bimage.UriSource = new Uri("pack://application:,,,/Resources/base.png", UriKind.RelativeOrAbsolute);
+                bimage.EndInit();
+                this.BackgroundImage = bimage;
             }
 
             if (ApplicationManager.Instance.AppSettings.Lang == "en")
             {
                 englishItem.IsSelected = true;
-            } else if (ApplicationManager.Instance.AppSettings.Lang == "es")
+            }
+            else if (ApplicationManager.Instance.AppSettings.Lang == "es")
             {
                 spanishItem.IsSelected = true;
             }
@@ -168,8 +172,8 @@ namespace RGBSyncPlus.UI
                 LangBox.Text = "Unknown";
             }
             DoNotRestart = false;
-                //ScrollViewer.SetVerticalScrollBarVisibility(AvailableLEDsListbox, ScrollBarVisibility.Visible);
-                ScrollViewer.SetVerticalScrollBarVisibility(LEDGroupsListbox, ScrollBarVisibility.Visible);
+            //ScrollViewer.SetVerticalScrollBarVisibility(AvailableLEDsListbox, ScrollBarVisibility.Visible);
+            ScrollViewer.SetVerticalScrollBarVisibility(LEDGroupsListbox, ScrollBarVisibility.Visible);
         }
 
         //DarthAffe 07.02.2018: This prevents the applicaiton from not shutting down and crashing afterwards if 'close' is selected in the taskbar-context-menu
@@ -356,6 +360,19 @@ namespace RGBSyncPlus.UI
             catch
             {
                 Process.Start("https://rgbsync.com");
+            }
+        }
+
+        private void HandlePreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = true;
+                var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+                eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+                eventArg.Source = sender;
+                var parent = ((Control)sender).Parent as UIElement;
+                parent.RaiseEvent(eventArg);
             }
         }
     }

@@ -14,6 +14,7 @@
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ComboBox.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Button.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ListBox.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ListView.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Slider.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/TextBox.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ColorSelector.xaml" />
@@ -33,6 +34,7 @@
     <Style TargetType="ComboBox" BasedOn="{StaticResource StyleComboBox}" />
     <Style TargetType="Button" BasedOn="{StaticResource StyleButton}" />
     <Style TargetType="ListBox" BasedOn="{StaticResource StyleListBox}" />
+    <Style TargetType="ListView" BasedOn="{StaticResource StyleListView}" />
     <Style TargetType="Slider" BasedOn="{StaticResource StyleSlider}" />
     <Style TargetType="TextBox" BasedOn="{StaticResource StyleTextBox}" />
     <Style TargetType="{x:Type ContextMenu}">

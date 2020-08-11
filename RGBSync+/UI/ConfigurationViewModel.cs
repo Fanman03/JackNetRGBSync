@@ -442,9 +442,9 @@ namespace RGBSyncPlus.UI
 
         private void OpenExcludeTool() => Process.Start("ExcludeHelper.exe");
 
-        private void Discord() => Process.Start("https://discordapp.com/invite/pRyBKPr");
+        private void Discord() => Process.Start("https://www.rgbsync.com/discord");
 
-        private void Attribs() => Process.Start("https://fanman03.com/rgbsync/?attribution");
+        private void Attribs() => Process.Start("https://www.rgbsync.com?attribution");
 
         private void checkUpdate()
         {

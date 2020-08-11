@@ -148,11 +148,23 @@ namespace RGBSyncPlus
                 device.UpdateMode = DeviceUpdateMode.Sync | DeviceUpdateMode.SyncBack;
 
             UpdateTrigger = new TimerUpdateTrigger { UpdateFrequency = 1.0 / MathHelper.Clamp(AppSettings.UpdateRate, 1, 100) };
+
             surface.RegisterUpdateTrigger(UpdateTrigger);
             UpdateTrigger.Start();
 
-            foreach (SyncGroup syncGroup in Settings.SyncGroups)
-                RegisterSyncGroup(syncGroup);
+            try
+            {
+                foreach (SyncGroup syncGroup in Settings.SyncGroups)
+                    RegisterSyncGroup(syncGroup);
+            }
+            catch
+            {
+                SyncGroup newSyncGroup = new SyncGroup();
+                Settings.SyncGroups = new List<SyncGroup>();
+                Settings.SyncGroups.Add(newSyncGroup);
+
+            }
+
         }
 
         private void LoadDeviceProviders()

@@ -94,5 +94,22 @@
         <Setter Property="ItemContainerStyle" Value="{StaticResource StyleListBoxItemForm}" />
     </Style>
 
+    <Style x:Key="StyleListViewForm"           
+           TargetType="ListView">
+        <Setter Property="Focusable" Value="False" />
+
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource StyleListViewItemForm}" />
+    </Style>
+
 </styles:CachedResourceDictionary>
     

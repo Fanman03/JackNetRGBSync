@@ -32,7 +32,7 @@
 
             <DataTemplate x:Key="DeviceGroupItemTemplate">
         
-                    <Grid>
+                    <Grid Margin="0,5,0,5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -44,7 +44,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="40"/>
                             </Grid.ColumnDefinitions>
-                            <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding AllSelected}" Opacity="{Binding AllSelectedIndeterminate, Converter={StaticResource IndeterminateBoolToOpacityConverter}}"></CheckBox>
+                            <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" IsChecked="{Binding AllSelected}" Opacity="{Binding AllSelectedIndeterminate, Converter={StaticResource IndeterminateBoolToOpacityConverter}}"></CheckBox>
                         <Image ToolTip="{Binding RGBDevice.DeviceInfo.DeviceType}" Width="42" Height="42"  Grid.Column="1" Margin="-5,0,0,0" Source="{Binding RGBDevice.DeviceInfo.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}">
                         </Image>
                             <TextBlock MaxWidth="530" TextTrimming="CharacterEllipsis" Grid.Column="2" Text="{Binding Name}" ToolTip="{Binding Name}" FontSize="24" Margin="0" FontFamily="Segoe UI Light" Foreground="White" VerticalAlignment="Center"/>
@@ -58,56 +58,16 @@
                         </Button>
 
                         </Grid>
-                        <ListView Grid.Row="1" ItemsSource="{Binding DeviceLeds}" ItemTemplate="{DynamicResource DeviceGroupLEDItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <ListView Grid.Row="1" Margin="50,10,0,10" ItemsSource="{Binding DeviceLeds}" ItemTemplate="{DynamicResource DeviceGroupLEDItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" />
                     </Grid>
           
             </DataTemplate>
             <DataTemplate x:Key="DeviceGroupLEDItemTemplate">
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="1" Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding IsSelected}"/>
-                    <TextBlock Text="{Binding Led.Id, Mode=OneWay}"/>
+                    <TextBlock Margin="10,0,0,0" Text="{Binding Led.Id, Mode=OneWay}"/>
                 </StackPanel>
             </DataTemplate>
-            <SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF"/>
-            <SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3"/>
-            <SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF"/>
-            <SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9"/>
-            <Style x:Key="ListViewStyle1" TargetType="{x:Type ListView}">
-                <Setter Property="Background" Value="{StaticResource ListBox.Static.Background}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-                <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
-                <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
-                <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ListView}">
-                            <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="1" SnapsToDevicePixels="true">
-                                <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
-                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                </ScrollViewer>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsEnabled" Value="false">
-                                    <Setter Property="Background" TargetName="Bd" Value="{StaticResource ListBox.Disabled.Background}"/>
-                                    <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ListBox.Disabled.Border}"/>
-                                </Trigger>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="IsGrouping" Value="false"/>
-                                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
-                                    </MultiTrigger.Conditions>
-                                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
-                                </MultiTrigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
         </styles:CachedResourceDictionary>
     </controls:BlurredDecorationWindow.Resources>
 
@@ -321,15 +281,8 @@
                                         </ListBox.GroupStyle>
                                     </ListBox>-->
                                     <ScrollViewer>
-                                        <ListView ItemsSource="{Binding Devices}" ItemTemplate="{DynamicResource DeviceGroupItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" Style="{DynamicResource ListViewStyle1}" >
-                                        <ListView.ItemContainerStyle>
-                                            <Style TargetType="ListViewItem">
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                <Setter Property="BorderBrush" Value="#B8111111" />
-                                                <Setter Property="BorderThickness" Value="2" />
-                                            </Style>
-                                        </ListView.ItemContainerStyle>
-                                    </ListView>
+                                        <ListView ItemsSource="{Binding Devices}" ItemTemplate="{DynamicResource DeviceGroupItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" PreviewMouseWheel="HandlePreviewMouseWheel" >
+                                        </ListView>
                                     </ScrollViewer>
                                 </DockPanel>
                             </GroupBox>

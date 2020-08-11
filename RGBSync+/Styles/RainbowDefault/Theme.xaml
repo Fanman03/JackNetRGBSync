@@ -52,6 +52,16 @@
     <Color x:Key="ColorListBoxItemBackgroundHover">#60111111</Color>
     <Color x:Key="ColorListBoxItemBackgroundSelected">#B8111111</Color>
 
+    <!-- ListView -->
+    <SolidColorBrush x:Key="BrushListViewForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />
+    <SolidColorBrush x:Key="BrushListViewScrollButtonBackground" presentationOptions:Freeze="True" Color="Transparent" />
+    <SolidColorBrush x:Key="BrushListViewScrollButtonBackgroundHover" presentationOptions:Freeze="True" Color="Transparent" />
+    <SolidColorBrush x:Key="BrushListViewScrollButtonBorder" presentationOptions:Freeze="True" Color="Transparent" />
+    <SolidColorBrush x:Key="BrushListViewItemBackground" presentationOptions:Freeze="True" Color="#00111111" />
+    <Color x:Key="ColorListViewItemBackgroundHover">#60111111</Color>
+    <Color x:Key="ColorListViewItemBackgroundSelected">#B8111111</Color>
+
+
     <!-- TextBox -->
     <SolidColorBrush x:Key="BrushTextBoxForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />
     <SolidColorBrush x:Key="BrushTextBoxBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorBuckinghamGrayTransparent}" />
