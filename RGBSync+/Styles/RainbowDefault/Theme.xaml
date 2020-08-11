@@ -42,6 +42,12 @@
     <SolidColorBrush x:Key="BrushButtonBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorBuckinghamGrayTransparent}" />
     <SolidColorBrush x:Key="BrushButtonBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackTransparent}" />
     <SolidColorBrush x:Key="BrushButtonHover" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlack}" />
+    
+    <!-- CheckBox -->
+    <SolidColorBrush x:Key="BrushCheckBoxForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />
+    <SolidColorBrush x:Key="BrushCheckBoxBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorBuckinghamGrayTransparent}" />
+    <SolidColorBrush x:Key="BrushCheckBoxBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackTransparent}" />
+    <SolidColorBrush x:Key="BrushCheckBoxHover" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlack}" />
 
     <!-- ListBox -->
     <SolidColorBrush x:Key="BrushListBoxForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />

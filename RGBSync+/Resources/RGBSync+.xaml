@@ -19,6 +19,7 @@
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/TextBox.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ColorSelector.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/GradientEditor.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/CheckBox.xaml" />
     </styles:CachedResourceDictionary.MergedDictionaries>
 
     <converter:EqualsToBoolConverter x:Key="EqualsToBoolConverter" />
@@ -37,6 +38,7 @@
     <Style TargetType="ListView" BasedOn="{StaticResource StyleListView}" />
     <Style TargetType="Slider" BasedOn="{StaticResource StyleSlider}" />
     <Style TargetType="TextBox" BasedOn="{StaticResource StyleTextBox}" />
+    <Style TargetType="CheckBox" BasedOn="{StaticResource StyleCheckBox}" />
     <Style TargetType="{x:Type ContextMenu}">
       <Setter Property = "FontSize" Value="14"/>  
     </Style>

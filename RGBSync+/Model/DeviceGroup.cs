@@ -26,7 +26,7 @@ namespace RGBSyncPlus.Model
             set => SetProperty(ref name, value);
         }
 
-        private bool expanded = true;
+        private bool expanded = false;
         public bool Expanded
         {
             get => expanded;

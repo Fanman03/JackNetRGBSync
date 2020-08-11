@@ -375,5 +375,11 @@ namespace RGBSyncPlus.UI
                 parent.RaiseEvent(eventArg);
             }
         }
+
+        private void CloseBanner_Click(object sender, RoutedEventArgs e)
+        {
+            BannerColumn.Visibility = Visibility.Collapsed;
+            SyncLedsColumn.SetValue(Grid.ColumnSpanProperty, 3);
+        }
     }
 }

@@ -170,6 +170,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\RainbowDefault\CheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\RainbowDefault\ListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -471,7 +475,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\DevImg\DRAM.png" />
-    <Resource Include="Resources\DevImg\Unknown.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\DefaultBanner.png" />
@@ -487,6 +490,22 @@
     <Resource Include="Resources\DevImg\LedStrip.png" />
     <Resource Include="Resources\DevImg\Motherboard.png" />
     <Resource Include="Resources\DevImg\Mouse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DevImg\Default.png" />
+    <Resource Include="Resources\DevImg\Mousepad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DevImg\Invalid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DevImg\Speaker.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DevImg\Pump.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
