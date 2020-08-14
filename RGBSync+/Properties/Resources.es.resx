@@ -121,7 +121,7 @@
     <value>La utilidad para sincronizar sus periféricos y componentes RGB. Compatible con Corsair iCUE, Asus AURA, Razer Synapse, Logitech Gaming y Cooler Master Masterplus.</value>
   </data>
   <data name="AboutTitle" xml:space="preserve">
-    <value>JackNet RGB Sync v1.7 hecho por Fanman03</value>
+    <value>JackNet RGB Sync v1.8</value>
   </data>
   <data name="AffirmativeCommand" xml:space="preserve">
     <value>Si</value>
