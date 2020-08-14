@@ -124,7 +124,7 @@
     <value>Ein Programm für das Steuern von verschiedenen RGB Komponenten. Es ist kompatibel mit Corsair iCUE, Asus AURA, Razer Synapse, Logitech Gaming und Cooler Master MasterPlus.</value>
   </data>
   <data name="AboutTitle" xml:space="preserve">
-    <value>JackNet RGB Sync v1.7 von Fanman03</value>
+    <value>JackNet RGB Sync v1.8</value>
   </data>
   <data name="AffirmativeCommand" xml:space="preserve">
     <value>Ja</value>
@@ -283,7 +283,7 @@
     <value>App Neustarten</value>
   </data>
   <data name="RGBNetNotice" xml:space="preserve">
-    <value>JackNetRGB Sync v1.7 wird mit Hilfe von RGB.NET von Darth Affe betrieben.</value>
+    <value>JackNetRGB Sync v1.8 wird mit Hilfe von RGB.NET von Darth Affe betrieben.</value>
   </data>
   <data name="RunasAdmin" xml:space="preserve">
     <value>Als Admin starten</value>

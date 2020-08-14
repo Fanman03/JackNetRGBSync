@@ -31,7 +31,7 @@
             <Converter:DeviceTypeToImageConverter x:Key="DeviceTypeToImageConverter"/>
 
             <DataTemplate x:Key="DeviceGroupItemTemplate">
-        
+
                     <Grid Margin="0,5,0,5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -45,7 +45,7 @@
                                 <ColumnDefinition Width="40"/>
                             </Grid.ColumnDefinitions>
                             
-                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" IsChecked="{Binding AllSelected}" Opacity="{Binding AllSelectedIndeterminate, Converter={StaticResource IndeterminateBoolToOpacityConverter}}"></CheckBox>
+                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" IsChecked="{Binding AllSelected}" ></CheckBox>
                         <Image ToolTip="{Binding RGBDevice.DeviceInfo.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding RGBDevice.DeviceInfo.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"/>
                         <TextBlock TextTrimming="CharacterEllipsis" Grid.Column="2" Text="{Binding Name}" ToolTip="{Binding Name}" Margin="10,-2,0,0" FontSize="24" FontFamily="Segoe UI Light" Foreground="White" VerticalAlignment="Center" MouseUp="ToggleCheckBox">
                         </TextBlock>
@@ -394,14 +394,8 @@
                             </Grid.RowDefinitions>
 
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200*" />
-                                <ColumnDefinition Width="0*"/>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="150*"/>
-                                <ColumnDefinition Width="8" />
-                                <ColumnDefinition Width="413*" />
-                                <ColumnDefinition Width="8" />
-                                <ColumnDefinition Width="414*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
                             <controls:Form Grid.Column="0" Grid.ColumnSpan="6" Margin="10,0,199,120" Grid.RowSpan="2">
@@ -434,7 +428,7 @@
                                     <ComboBox x:Name="ThemeBox" Margin="75,0,-75,0" >
                                         <ComboBoxItem Selected="rgbSelected" x:Name="rgbItem" Content="RGB"/>
                                         <ComboBoxItem Selected="darkSelected" x:Name="darkItem" Content="Dark"/>
-                                        <ComboBoxItem Visibility="Hidden" Selected="customSelected" x:Name="customItem" Content="Custom"/>
+                                        <ComboBoxItem Visibility="Collapsed" Selected="customSelected" x:Name="customItem" Content="Custom"/>
                                     </ComboBox>
                                     <Button Margin="100,1,-100,0" Click="ApplyButton_Click" Content="{x:Static p:Resources.ApplyLabel}" x:Name="ApplyButton"  Visibility="Visible"/>
                                 </StackPanel>
@@ -450,12 +444,12 @@
                                     <ComboBoxItem Selected="PortugeseSelected" x:Name="portugeseItem" Content="Portugese (Português)"/>
                                     <ComboBoxItem Selected="RussianSelected" x:Name="russianItem" Content="Russian (русский)"/>
                                     <ComboBoxItem Selected="SpanishSelected" x:Name="spanishItem" Content="Spanish (Español)"/>
-                                    <ComboBoxItem Selected="TestSelected" x:Name="testItem" Content="UI Test Mode" Visibility="Hidden"/>
+                                    <ComboBoxItem Selected="TestSelected" x:Name="testItem" Content="UI Test Mode" Visibility="Collapsed"/>
                                 </ComboBox>
 
                                 <Label Margin="0,0,-75,0"  Width="350" controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.PollingRateLabel}" />
-                                <Slider Margin="75,0,-75,0" Minimum="1" Maximum="100" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
+                                <Slider Margin="-270,0,100,0" Minimum="1" Maximum="100" controls:Form.Fill="True" Width="400"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
                                         Value="{Binding UpdateRate}"
                                         attached:SliderValue.Unit="{x:Static p:Resources.PollingRateUnit}"
                                         ToolTip="{x:Static p:Resources.PollingRateTooltip}" />
@@ -476,37 +470,44 @@
 
                                 <Label  Margin="0,0,-75,0" controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.DelayLabel}"   />
-                                <Slider Margin="75,0,-75,0" Minimum="0" Maximum="120" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
+                                <Slider Margin="-270,0,100,0" Minimum="0" Maximum="120"  Width="400" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
                                         Value="{Binding StartupDelay}"
                                         attached:SliderValue.Unit="{x:Static p:Resources.DelayUnit}"
                                         ToolTip="{x:Static p:Resources.DelayTooltip}" />
 
-                                <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="{x:Static p:Resources.DevicesLabel}"  Margin="0,0,-75,0" />
-                                <Button Command="{Binding OpenExcludeToolCommand}" Margin="80,2,0,-2"  Content="{x:Static p:Resources.ExcludeBtn}"/>
 
                             </controls:Form>
 
-                        </Grid>
-                        <ListBox ItemsSource="{Binding Devices, Source={x:Static core:RGBSurface.Instance}}"
+                            <controls:Form Grid.Column="1" Grid.ColumnSpan="6" Margin="10,0,199,120" Grid.RowSpan="2">
+
+                                <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="{x:Static p:Resources.DevicesLabel}"  Margin="0,0,0,0" />
+                                <Button Command="{Binding OpenExcludeToolCommand}" Margin="10,0,0,-2"  Content="{x:Static p:Resources.ExcludeBtn}"/>
+
+                                
+
+                            </controls:Form>
+
+                            <ListBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Devices, Source={x:Static core:RGBSurface.Instance}}"
                                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                                      ScrollViewer.HorizontalScrollBarVisibility="Visible"
                                      x:Name="AvailableDevicesListBox"
-                                 Height="200"
-                                 Width="480" Margin="-350,-110,0,0" Padding="0,0,0,10">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Style="{StaticResource StyleTextBlockForm}">
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="&gt;  {0} {1} ({2})">
-                                                <Binding Path="DeviceInfo.Manufacturer" />
-                                                <Binding Path="DeviceInfo.Model" />
-                                                <Binding Path="DeviceInfo.DeviceType" />
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                                 Width="480" Padding="0,-190,0,10">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource StyleTextBlockForm}">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="&gt;  {0} {1} ({2})">
+                                                    <Binding Path="DeviceInfo.Manufacturer" />
+                                                    <Binding Path="DeviceInfo.Model" />
+                                                    <Binding Path="DeviceInfo.DeviceType" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                        </Grid>
                     </StackPanel>
                 </GroupBox>
             </AdornerDecorator>

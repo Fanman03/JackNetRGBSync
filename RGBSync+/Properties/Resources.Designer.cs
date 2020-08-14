@@ -88,7 +88,7 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to JackNet RGB Sync v1.7 by Fanman03.
+        ///   Looks up a localized string similar to JackNet RGB Sync v1.8.
         /// </summary>
         public static string AboutTitle {
             get {

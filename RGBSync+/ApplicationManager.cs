@@ -21,6 +21,9 @@ using System.Net;
 using NLog;
 using System.Diagnostics;
 using System.Security.Principal;
+using System.ComponentModel;
+using System.Windows.Data;
+using System.Collections.ObjectModel;
 
 namespace RGBSyncPlus
 {
@@ -160,10 +163,13 @@ namespace RGBSyncPlus
             catch
             {
                 SyncGroup newSyncGroup = new SyncGroup();
+                newSyncGroup.Name = "Default Group";
+
                 Settings.SyncGroups = new List<SyncGroup>();
                 Settings.SyncGroups.Add(newSyncGroup);
 
             }
+
 
         }
 
@@ -382,7 +388,6 @@ namespace RGBSyncPlus
             
             Application.Current.Shutdown();
         }
-
         #endregion
     }
 }
