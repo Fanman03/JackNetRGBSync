@@ -47,7 +47,8 @@
                             
                         <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" IsChecked="{Binding AllSelected}" Opacity="{Binding AllSelectedIndeterminate, Converter={StaticResource IndeterminateBoolToOpacityConverter}}"></CheckBox>
                         <Image ToolTip="{Binding RGBDevice.DeviceInfo.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding RGBDevice.DeviceInfo.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"/>
-                        <TextBlock TextTrimming="CharacterEllipsis" Grid.Column="2" Text="{Binding Name}" ToolTip="{Binding Name}" Margin="10,-2,0,0" FontSize="24" FontFamily="Segoe UI Light" Foreground="White" VerticalAlignment="Center"/>
+                        <TextBlock TextTrimming="CharacterEllipsis" Grid.Column="2" Text="{Binding Name}" ToolTip="{Binding Name}" Margin="10,-2,0,0" FontSize="24" FontFamily="Segoe UI Light" Foreground="White" VerticalAlignment="Center" MouseUp="ToggleCheckBox">
+                        </TextBlock>
 
                         <Button Grid.Column="3" Margin="0,0,5,0" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" Click="ToggleExpanded" Width="32" Height="32" HorizontalAlignment="Right">
                            <TextBlock Foreground="White" MouseDown="ToggleExpanded"><Image Source="arrow_up.png"></Image></TextBlock>

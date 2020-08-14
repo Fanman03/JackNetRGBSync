@@ -346,6 +346,15 @@ namespace RGBSyncPlus.UI
             }
         }
 
+        private void ToggleCheckBox(object sender, RoutedEventArgs e)
+        {
+            if ((sender as TextBlock)?.DataContext is DeviceGroup devGroup)
+            {
+                devGroup.AllSelected = !devGroup.AllSelected;
+
+            }
+        }
+
         private void BannerImage_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             try

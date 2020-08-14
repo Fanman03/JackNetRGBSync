@@ -355,14 +355,8 @@ namespace RGBSyncPlus.UI
 
         public ConfigurationViewModel()
         {
-            if (isDesign)
-            {
-                ApplicationManager.Instance.Settings = JsonConvert.DeserializeObject<Settings>("{\"Version\":1,\"Name\":\"Default\",\"SyncGroups\":[{\"DisplayName\":\"Jeff\",\"Name\":\"Jeff\",\"SyncLed\":null,\"Leds\":[{\"Device\":\"MSI GraphicsCard (GraphicsCard)\",\"LedId\":7340033}]}]}");
-            }
-            else
-            {
-                SyncGroups = new ObservableCollection<SyncGroup>(ApplicationManager.Instance.Settings.SyncGroups);
-            }
+
+            SyncGroups = new ObservableCollection<SyncGroup>(ApplicationManager.Instance.Settings.SyncGroups);
 
             AvailableSyncLeds = GetGroupedLedList(RGBSurface.Instance.Leds.Where(x => x.Device.DeviceInfo.SupportsSyncBack));
             OnPropertyChanged(nameof(AvailableSyncLeds));
@@ -426,16 +420,21 @@ namespace RGBSyncPlus.UI
 
         public void SyncBack()
         {
+            
             IEnumerable<Led> leds = new List<Led>();
             foreach (var deviceGroup in Devices)
             {
                 ((List<Led>)leds).AddRange(deviceGroup.DeviceLeds.Where(x => x.IsSelected).Select(y => y.Led));
             }
 
-            SelectedSyncGroup.Leds=new ObservableCollection<SyncLed>(leds.Select(led => new SyncLed(led)));
+            SelectedSyncGroup.Leds = new ObservableCollection<SyncLed>(leds.Select(led => new SyncLed(led)));
 
             SynchronizedLeds = GetGroupedLedList(SelectedSyncGroup.Leds);
             OnPropertyChanged(nameof(SynchronizedLeds));
+
+            ApplicationManager.Instance.RemoveSyncGroup(SelectedSyncGroup);
+            ApplicationManager.Instance.RegisterSyncGroup(SelectedSyncGroup);
+
         }
 
         private void OpenHomepage() => Process.Start("https://www.rgbsync.com");
