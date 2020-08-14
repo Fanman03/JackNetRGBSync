@@ -217,7 +217,7 @@ namespace RGBSyncPlus
             RegisterSyncGroup(syncGroup);
         }
 
-        private void RegisterSyncGroup(SyncGroup syncGroup)
+        public void RegisterSyncGroup(SyncGroup syncGroup)
         {
             try
             {
