@@ -24,6 +24,8 @@ using System.Security.Principal;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Collections.ObjectModel;
+using MadLedFrameworkSDK;
+using RGB.NET.Brushes;
 
 namespace RGBSyncPlus
 {
@@ -33,6 +35,7 @@ namespace RGBSyncPlus
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
 
         private const string DEVICEPROVIDER_DIRECTORY = "DeviceProvider";
+        private const string SLSPROVIDER_DIRECTORY = "SLSProvider";
 
         #endregion
 
@@ -75,13 +78,14 @@ namespace RGBSyncPlus
         public DiscordRpcClient client;
 
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
+        public SLSManager SLSManager;
         #endregion
 
         #region Methods
 
         public void Initialize()
         {
+            SLSManager = new SLSManager();
 
             var config = new NLog.Config.LoggingConfiguration();
 
@@ -118,7 +122,7 @@ namespace RGBSyncPlus
             CultureInfo ci = CultureInfo.InstalledUICulture;
             if (AppSettings.Lang == null)
             {
-                Logger.Debug("Language is not set, inferring language from system culture. Lang="+ ci.TwoLetterISOLanguageName);
+                Logger.Debug("Language is not set, inferring language from system culture. Lang=" + ci.TwoLetterISOLanguageName);
                 AppSettings.Lang = ci.TwoLetterISOLanguageName;
             }
             System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(AppSettings.Lang);
@@ -135,22 +139,25 @@ namespace RGBSyncPlus
                     File.Delete(tempSetup);
                     Logger.Debug("Old installer successfully removed.");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    Logger.Error("Error deleting file: "+ex.ToString());
+                    Logger.Error("Error deleting file: " + ex.ToString());
                 }
             }
 
             int delay = AppSettings.StartDelay * 1000;
 
             RGBSurface surface = RGBSurface.Instance;
+            LoadSLSProviders();
             LoadDeviceProviders();
             surface.AlignDevices();
 
             foreach (IRGBDevice device in surface.Devices)
                 device.UpdateMode = DeviceUpdateMode.Sync | DeviceUpdateMode.SyncBack;
 
-            UpdateTrigger = new TimerUpdateTrigger { UpdateFrequency = 1.0 / MathHelper.Clamp(AppSettings.UpdateRate, 1, 100) };
+            var tmr = 1.0 / MathHelper.Clamp(AppSettings.UpdateRate, 1, 100);
+            var tmr2 = 1000.0 / MathHelper.Clamp(AppSettings.UpdateRate, 1, 100);
+            UpdateTrigger = new TimerUpdateTrigger { UpdateFrequency = tmr };
 
             surface.RegisterUpdateTrigger(UpdateTrigger);
             UpdateTrigger.Start();
@@ -170,7 +177,48 @@ namespace RGBSyncPlus
 
             }
 
+            slsTimer = new Timer(SLSUpdate, null, 0, (int)tmr2);
+        }
 
+        public Timer slsTimer;
+        private void SLSUpdate(object state)
+        {
+            List<ControlDevice> devicesToPush=new List<ControlDevice>();
+            foreach (SyncGroup syncGroup in Instance.Settings.SyncGroups.ToArray())
+            {
+                int r = 0;
+                int g = 0;
+                int b = 0;
+                if (syncGroup.SyncLed.SLSLedUnit != null)
+                {
+                    r = syncGroup.SyncLed.SLSLedUnit.Color.Red;
+                    g = syncGroup.SyncLed.SLSLedUnit.Color.Green;
+                    b = syncGroup.SyncLed.SLSLedUnit.Color.Blue;
+                    syncGroup.LedGroup.Brush = new SolidColorBrush(new Color((byte)r,(byte)g,(byte)b));
+                }
+                else
+                {
+                    Led sled = syncGroup.SyncLed.GetLed();
+                    r = sled.Color.GetR();
+                    g = sled.Color.GetG();
+                    b = sled.Color.GetB();
+                }
+
+                foreach (var l in syncGroup.Leds.Where(x => x.SLSLedUnit != null))
+                {
+                    l.SLSLedUnit.Color = new ControlDevice.LEDColor(r,g,b);
+                    if (!devicesToPush.Contains(l.ControlDevice))
+                    {
+                        devicesToPush.Add(l.ControlDevice);
+                    }
+                }
+
+            }
+
+            foreach (var cd in devicesToPush)
+            {
+                cd.Push();
+            }
         }
 
         private void LoadDeviceProviders()
@@ -209,12 +257,50 @@ namespace RGBSyncPlus
                         }
                     }
                 }
-                catch(Exception ex) 
-                { 
+                catch (Exception ex)
+                {
                     Logger.Error("Error loading " + file);
                     Logger.Error(ex);
                 }
             }
+        }
+
+
+        private void LoadSLSProviders()
+        {
+            string deviceProvierDir = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? string.Empty, SLSPROVIDER_DIRECTORY);
+
+            if (!Directory.Exists(deviceProvierDir)) return;
+
+            foreach (string file in Directory.GetFiles(deviceProvierDir, "*.dll"))
+            {
+                try
+                {
+                    Logger.Debug("Loading provider " + file);
+                    Assembly assembly = Assembly.LoadFrom(file);
+                    foreach (Type loaderType in assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass && typeof(ISimpleLEDDriver).IsAssignableFrom(t)))
+                    {
+                        if (Activator.CreateInstance(loaderType) is ISimpleLEDDriver slsDriver)
+                        {
+                            SLSManager.Drivers.Add(slsDriver);
+                            slsDriver.Configure(null);
+                        }
+                    }
+
+                }
+                catch
+                {
+                }
+            }
+
+            UpdateSLSDevices();
+        }
+
+        public List<ControlDevice> SLSDevices = new List<ControlDevice>();
+
+        public void UpdateSLSDevices()
+        {
+            SLSDevices = SLSManager.GetDevices();
         }
 
         public void AddSyncGroup(SyncGroup syncGroup)
@@ -231,7 +317,7 @@ namespace RGBSyncPlus
                 syncGroup.LedsChangedEventHandler = (sender, args) => UpdateLedGroup(syncGroup.LedGroup, args);
                 syncGroup.Leds.CollectionChanged += syncGroup.LedsChangedEventHandler;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Error("Error registering group: " + syncGroup.Name);
                 Logger.Error(ex);
@@ -348,7 +434,8 @@ namespace RGBSyncPlus
 
                 }
 
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Logger.Error("Unable to check for updates. Download failed with exception: " + ex);
             }
@@ -385,7 +472,7 @@ namespace RGBSyncPlus
             Logger.Debug("============ App is Shutting Down ============");
             try { RGBSurface.Instance?.Dispose(); } catch { /* well, we're shuting down anyway ... */ }
             try { client.Dispose(); } catch { /* well, we're shuting down anyway ... */ }
-            
+
             Application.Current.Shutdown();
         }
         #endregion

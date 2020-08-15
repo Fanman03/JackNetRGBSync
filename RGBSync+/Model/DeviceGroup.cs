@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MadLedFrameworkSDK;
 
 namespace RGBSyncPlus.Model
 {
@@ -81,22 +82,54 @@ namespace RGBSyncPlus.Model
         }
 
         public ObservableCollection<DeviceLED> DeviceLeds { get; set; } = new ObservableCollection<DeviceLED>();
+        public ControlDevice ControlDevice { get; set; }
     }
 
     public class DeviceLED : AbstractBindable
     {
         public Action ParentalRollUp;
+        public DeviceLED(ControlDevice.LedUnit led, bool isSynced)
+        {
+            SLSLed = led;
+            IsSelected = isSynced;
+        }
+
+
         public DeviceLED(Led led, bool isSynced)
         {
             Led = led;
             IsSelected = isSynced;
         }
-
+        
         private Led led;
         public Led Led
         {
             get => led;
-            set => SetProperty(ref led, value);
+            set
+            {
+                SetProperty(ref led, value);
+                AutoName = value.Id.ToString();
+            }
+        }
+
+        private string autoName;
+
+        public string AutoName
+        {
+            get => autoName;
+            set => SetProperty(ref autoName, value);
+        }
+
+        private ControlDevice.LedUnit slsLed;
+
+        public ControlDevice.LedUnit SLSLed
+        {
+            get => slsLed;
+            set
+            {
+                SetProperty(ref slsLed, value);
+                AutoName = value.LEDName;
+            }
         }
 
         private bool isSelected;

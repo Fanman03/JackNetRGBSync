@@ -76,10 +76,10 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
-    <Reference Include="HidSharp">
-      <HintPath>..\..\..\RGB Utilities\JackNet RGB SYNC Beta\RGBSync+\HidSharp.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationFramework.Aero2" />
+    <Reference Include="SLSInterface">
+      <HintPath>Libs\SLSInterface.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MadLedFrameworkSDK;
+using Newtonsoft.Json;
 using RGB.NET.Core;
 using RGBSyncPlus.Helper;
 
@@ -22,7 +23,22 @@ namespace RGBSyncPlus.Model
             set => SetProperty(ref _ledId, value);
         }
 
+        public int Index
+        {
+            get
+            {
+                if (SLSLedUnit != null)
+                {
+                    return SLSLedUnit.Data.LEDNumber;
+                }
+
+                return (int) LedId;
+            }
+        }
+
         private Led _led;
+        public string SLSLEDUID { get; set; }
+
         [JsonIgnore]
         public Led Led
         {
@@ -30,6 +46,22 @@ namespace RGBSyncPlus.Model
             set => SetProperty(ref _led, value);
         }
 
+        private ControlDevice.LedUnit slsLedUnit;
+        [JsonIgnore]
+        public ControlDevice.LedUnit SLSLedUnit
+        {
+            get => slsLedUnit;
+            set => SetProperty(ref slsLedUnit, value);
+        }
+
+        private ControlDevice controlDevice;
+
+        [JsonIgnore]
+        public ControlDevice ControlDevice
+        {
+            get => controlDevice;
+            set => SetProperty(ref controlDevice, value);
+        }
         #endregion
 
         #region Constructors
@@ -48,6 +80,24 @@ namespace RGBSyncPlus.Model
             this.Device = led.Device.GetDeviceName();
             this.LedId = led.Id;
             this.Led = led;
+            this.AutoName = led.Id.ToString();
+        }
+
+        public SyncLed(ControlDevice controlDevice, ControlDevice.LedUnit ledUnit)
+        {
+            this.SLSLedUnit = ledUnit;
+            this.SLSLEDUID = controlDevice.GetLedUID(ledUnit);
+            this.Device = controlDevice.Name;
+            this.ControlDevice = controlDevice;
+            this.AutoName = ledUnit.LEDName;
+        }
+
+        private string autoName;
+
+        public string AutoName
+        {
+            get => autoName;
+            set => SetProperty(ref autoName, value);
         }
 
         #endregion
