@@ -28,6 +28,7 @@ using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Net;
 using System.Resources;
+using MadLedFrameworkSDK;
 
 namespace RGBSyncPlus.UI
 {
@@ -358,7 +359,7 @@ namespace RGBSyncPlus.UI
 
             SyncGroups = new ObservableCollection<SyncGroup>(ApplicationManager.Instance.Settings.SyncGroups);
 
-            AvailableSyncLeds = GetGroupedLedList(RGBSurface.Instance.Leds.Where(x => x.Device.DeviceInfo.SupportsSyncBack));
+            AvailableSyncLeds = GetGroupedLedList(GetSyncLeds());
             OnPropertyChanged(nameof(AvailableSyncLeds));
         }
 
@@ -366,14 +367,33 @@ namespace RGBSyncPlus.UI
 
         #region Methods
         public ObservableCollection<DeviceGroup> Devices { get; set; } = new ObservableCollection<DeviceGroup>();
-        private ListCollectionView GetGroupedLedList(IEnumerable<Led> leds) => GetGroupedLedList(leds.Select(led => new SyncLed(led)).ToList());
+        private ListCollectionView GetGroupedLedList(IEnumerable<Led> leds)
+        {
+            var thing = GetGroupedLedList(leds.Select(led => new SyncLed(led)).ToList());
+
+            return thing;
+        }
+
+        public List<SyncLed> GetSyncLeds()
+        {
+            List<SyncLed> leds = new List<SyncLed>();
+
+            leds.AddRange(RGBSurface.Instance.Leds.Where(x => x.Device.DeviceInfo.SupportsSyncBack).Select(p=>new SyncLed(p)));
+
+            foreach (var cd in ApplicationManager.Instance.SLSDevices.Where(v => v.Driver.GetProperties().IsSource))
+            {
+                leds.AddRange(cd.LEDs.OrderBy(x=>x.Data.LEDNumber).Select(l=>new SyncLed(cd,l)));
+            }
+
+            return leds;
+        }
 
         private ListCollectionView GetGroupedLedList(IList syncLeds)
         {
             ListCollectionView collectionView = new ListCollectionView(syncLeds);
             collectionView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(SyncLed.Device)));
             collectionView.SortDescriptions.Add(new SortDescription(nameof(SyncLed.Device), ListSortDirection.Ascending));
-            collectionView.SortDescriptions.Add(new SortDescription(nameof(SyncLed.LedId), ListSortDirection.Ascending));
+            collectionView.SortDescriptions.Add(new SortDescription(nameof(SyncLed.Index), ListSortDirection.Ascending));
             collectionView.Refresh();
             return collectionView;
         }
@@ -382,8 +402,26 @@ namespace RGBSyncPlus.UI
         {
             try
             {
+                List<ControlDevice> slsDevices = ApplicationManager.Instance.SLSDevices;
+                foreach (var controlDevice in slsDevices.Where(p=>p.Driver.GetProperties().SupportsPush))
+                {
+                    DeviceGroup dg = new DeviceGroup
+                    {
+                        Name = controlDevice.Name,
+                        ControlDevice = controlDevice,
+                        SyncBack = SyncBack
+                    };
+
+                    dg.DeviceLeds = new ObservableCollection<DeviceLED>(controlDevice.LEDs.Select(x => new DeviceLED(x, SelectedSyncGroup.Leds.Any(y=>y.SLSLEDUID == controlDevice.GetLedUID(x)))
+                    {
+                        ParentalRollUp = dg.RollUpCheckBoxes
+                    }));
+
+                    Devices.Add(dg);
+                }
+
                 List<IRGBDevice> devices = RGBSurface.Instance.Leds.Select(x => x.Device).Distinct().ToList();
-                Devices = new ObservableCollection<DeviceGroup>();
+               // Devices = new ObservableCollection<DeviceGroup>();
                 foreach (var d in devices)
                 {
 
@@ -420,21 +458,32 @@ namespace RGBSyncPlus.UI
 
         public void SyncBack()
         {
-            
-            IEnumerable<Led> leds = new List<Led>();
-            foreach (var deviceGroup in Devices)
+            List<SyncLed> leds = new List<SyncLed>();
+            List<ControlDevice.LedUnit> slsleds = new List<ControlDevice.LedUnit>();
+            foreach (DeviceGroup deviceGroup in Devices)
             {
-                ((List<Led>)leds).AddRange(deviceGroup.DeviceLeds.Where(x => x.IsSelected).Select(y => y.Led));
+                if (deviceGroup.DeviceLeds.Where(x => x.IsSelected).Select(y => y.Led).All(p => p != null))
+                {
+                    leds.AddRange(deviceGroup.DeviceLeds.Where(x => x.IsSelected).Select(y => y.Led).Select(p=>new SyncLed(p)));
+                }
             }
 
-            SelectedSyncGroup.Leds = new ObservableCollection<SyncLed>(leds.Select(led => new SyncLed(led)));
+            foreach (DeviceGroup deviceGroup in Devices)
+            {
+                if (deviceGroup.DeviceLeds.Where(x => x.IsSelected).Select(y => y.SLSLed).All(p => p != null))
+                {
+                    leds.AddRange(deviceGroup.DeviceLeds.Where(x => x.IsSelected).Select(y => new SyncLed(deviceGroup.ControlDevice, y.SLSLed)));
+                }
+            }
+            
+            SelectedSyncGroup.Leds = new ObservableCollection<SyncLed>(leds);
 
             SynchronizedLeds = GetGroupedLedList(SelectedSyncGroup.Leds);
             OnPropertyChanged(nameof(SynchronizedLeds));
 
             ApplicationManager.Instance.RemoveSyncGroup(SelectedSyncGroup);
-            ApplicationManager.Instance.RegisterSyncGroup(SelectedSyncGroup);
-
+            ApplicationManager.Instance.AddSyncGroup(SelectedSyncGroup);
+            
         }
 
         private void OpenHomepage() => Process.Start("https://www.rgbsync.com");

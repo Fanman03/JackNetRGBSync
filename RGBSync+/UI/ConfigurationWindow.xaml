@@ -66,7 +66,7 @@
             <DataTemplate x:Key="DeviceGroupLEDItemTemplate">
                 <StackPanel Margin="1" Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding IsSelected}"/>
-                    <TextBlock Margin="10,0,0,0" Text="{Binding Led.Id, Mode=OneWay}"/>
+                    <TextBlock Margin="10,0,0,0" Text="{Binding AutoName, Mode=OneWay}"/>
                 </StackPanel>
             </DataTemplate>
         </styles:CachedResourceDictionary>
@@ -219,7 +219,7 @@
                                             </ComboBox.GroupStyle>
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding LedId}"/>
+                                                    <TextBlock Text="{Binding AutoName}"/>
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
