@@ -41,7 +41,7 @@ namespace RGBSyncPlus.UI
         #region Properties & Fields
 
 
-
+        public ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> DeviceMappingViewModel { get; set; }
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
 
         public static string PremiumStatus
@@ -107,6 +107,8 @@ namespace RGBSyncPlus.UI
                 OnPropertyChanged();
             }
         }
+
+        public ObservableCollection<DeviceMappingModels.DeviceMapping> DeviceMaps { get; set; } = new ObservableCollection<DeviceMappingModels.DeviceMapping>();
 
         public string Name
         {
@@ -361,6 +363,23 @@ namespace RGBSyncPlus.UI
 
             AvailableSyncLeds = GetGroupedLedList(GetSyncLeds());
             OnPropertyChanged(nameof(AvailableSyncLeds));
+            DeviceMappingViewModel = new ObservableCollection<DeviceMappingModels.DeviceMappingViewModel>();
+            var sourceDevices = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
+
+            foreach (ControlDevice instanceSlsDevice in sourceDevices)
+            {
+                DeviceMappingViewModel.Add(new DeviceMappingModels.DeviceMappingViewModel
+                {
+                    SourceDevice = instanceSlsDevice,
+                    DestinationDevices = new ObservableCollection<DeviceMappingModels.DeviceMappingItemViewModel>(ApplicationManager.Instance.SLSDevices.Select(x=>new DeviceMappingModels.DeviceMappingItemViewModel
+                    {
+                        DestinationDevice = x,
+                        Enabled = false
+                    }))
+                });
+            }
+
+            OnPropertyChanged(nameof(DeviceMappingViewModel));
         }
 
         #endregion

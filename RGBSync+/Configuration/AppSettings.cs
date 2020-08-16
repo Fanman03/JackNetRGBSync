@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using RGB.NET.Core;
 using RGBSyncPlus.Model;
 
@@ -22,7 +23,17 @@ namespace RGBSyncPlus.Configuration
 
         public string ApiKey { get; set; } = null;
 
-        public bool MinimizeToTray { get; set; } = false;
+        private bool minimizeToTray = false;
+
+        public bool MinimizeToTray
+        {
+            get
+            {
+                if (Debugger.IsAttached) return false;
+                return minimizeToTray;
+            } 
+            set=>minimizeToTray=value;
+        }
 
         public bool EnableDiscordRPC { get; set; } = true;
         public bool RunAsAdmin { get; set; } = false;

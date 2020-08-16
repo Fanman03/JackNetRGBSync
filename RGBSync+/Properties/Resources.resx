@@ -258,6 +258,10 @@
   <data name="Page4Header" xml:space="preserve">
     <value>About</value>
   </data>
+
+  <data name="Page5Header" xml:space="preserve">
+    <value>Device Mapping</value>
+    </data>
   <data name="PickFileLabel" xml:space="preserve">
     <value>Pick File</value>
   </data>

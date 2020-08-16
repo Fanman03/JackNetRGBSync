@@ -100,7 +100,7 @@ namespace RGBSyncPlus
 
             Logger.Debug("============ JackNet RGB Sync is Starting ============");
 
-            if (AppSettings.RunAsAdmin == true)
+            if (AppSettings.RunAsAdmin == true && !Debugger.IsAttached)
             {
                 Logger.Debug("App should be run as administrator.");
                 Logger.Debug("Checking to see if app is running as administrator...");

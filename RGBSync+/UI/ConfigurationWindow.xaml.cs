@@ -18,6 +18,7 @@ using RGB.NET.Core;
 using RGBSyncPlus.Configuration;
 using System.Net;
 using System.Windows.Input;
+using MadLedFrameworkSDK;
 
 namespace RGBSyncPlus.UI
 {
@@ -60,6 +61,8 @@ namespace RGBSyncPlus.UI
                 vm.SelectedSyncGroup = vm.SyncGroups.First();
                 vm.AvailableLeds = new ListCollectionView(vm.SelectedSyncGroup.Leds);
                 vm.AvailableSyncLeds = new ListCollectionView(vm.SelectedSyncGroup.Leds);
+
+               
                 //return;
             }
 

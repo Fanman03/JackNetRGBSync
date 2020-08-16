@@ -77,9 +77,6 @@
   <PropertyGroup />
   <ItemGroup>
     <Reference Include="PresentationFramework.Aero2" />
-    <Reference Include="SLSInterface">
-      <HintPath>Libs\SLSInterface.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
@@ -127,6 +124,7 @@
     <Compile Include="Helper\MathHelper.cs" />
     <Compile Include="Model\AbstractBindableExtended.cs" />
     <Compile Include="Model\DeviceGroup.cs" />
+    <Compile Include="Model\DeviceMappingModels.cs" />
     <Compile Include="Model\SyncGroup.cs" />
     <Compile Include="Model\SyncLed.cs" />
     <Compile Include="UI\ConfigurationViewModel.cs" />
@@ -506,6 +504,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\DevImg\Pump.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SLS\MadLedFrameworkSDK\SimpleLEDSDK.csproj">
+      <Project>{EB4729F4-0BF6-41D3-9548-F8C7846A2025}</Project>
+      <Name>SimpleLEDSDK</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
