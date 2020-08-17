@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using MadLedFrameworkSDK;
 using RGB.NET.Core;
 
@@ -33,8 +35,13 @@ namespace RGBSyncPlus.Model
             public bool expanded;
             public bool Expanded
             {
-                get => enabled;
-                set => SetProperty(ref expanded, value);
+                get => expanded;
+                set
+                {
+                    Debug.WriteLine("expanded is currently " + expanded);
+                    SetProperty(ref expanded, value);
+                    Debug.WriteLine("expanded changed to " + value+", "+expanded);
+                }
             }
         }
 

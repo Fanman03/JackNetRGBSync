@@ -41,7 +41,8 @@ namespace RGBSyncPlus.UI
         #region Properties & Fields
 
 
-        public ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> DeviceMappingViewModel { get; set; }
+        private ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> deviceMappingViewModel;
+        public ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> DeviceMappingViewModel { get=>deviceMappingViewModel; set=>SetProperty(ref deviceMappingViewModel,value); }
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
 
         public static string PremiumStatus
@@ -371,7 +372,7 @@ namespace RGBSyncPlus.UI
                 DeviceMappingViewModel.Add(new DeviceMappingModels.DeviceMappingViewModel
                 {
                     SourceDevice = instanceSlsDevice,
-                    DestinationDevices = new ObservableCollection<DeviceMappingModels.DeviceMappingItemViewModel>(ApplicationManager.Instance.SLSDevices.Select(x=>new DeviceMappingModels.DeviceMappingItemViewModel
+                    DestinationDevices = new ObservableCollection<DeviceMappingModels.DeviceMappingItemViewModel>(ApplicationManager.Instance.SLSDevices.Where(x=>x.Driver.GetProperties().SupportsPush).Select(x=>new DeviceMappingModels.DeviceMappingItemViewModel
                     {
                         DestinationDevice = x,
                         Enabled = false

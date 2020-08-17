@@ -84,16 +84,16 @@
                         <TextBlock TextTrimming="CharacterEllipsis" Grid.Column="2" Text="{Binding SourceDevice.Name}" ToolTip="{Binding SourceDevice.Name}" Margin="10,-2,0,0" FontSize="24" FontFamily="Segoe UI Light" Foreground="White" VerticalAlignment="Center" MouseUp="ToggleCheckBox">
                         </TextBlock>
 
-                        <Button Grid.Column="3" Margin="0,0,5,0" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" Click="ToggleExpanded" Width="32" Height="32" HorizontalAlignment="Right">
+                        <Button Grid.Column="3" Margin="0,0,5,0" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" Click="ToggleDMExpanded" Width="32" Height="32" HorizontalAlignment="Right">
                             <TextBlock Foreground="White" MouseDown="ToggleExpanded"><Image Source="arrow_up.png"></Image></TextBlock>
                         </Button>
 
-                        <Button Grid.Column="3" Margin="0,0,5,0" Visibility="{Binding Expanded, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="ToggleExpanded"  Width="32" Height="32" HorizontalAlignment="Right">
+                        <Button Grid.Column="3" Margin="0,0,5,0" Visibility="{Binding Expanded, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="ToggleDMExpanded"  Width="32" Height="32" HorizontalAlignment="Right">
                             <TextBlock Foreground="White" MouseDown="ToggleExpanded"><Image Source="arrow_down.png"></Image></TextBlock>
                         </Button>
 
                     </Grid>
-                    <ListView Grid.Row="1" Margin="50,10,0,10" ItemsSource="{Binding DestinationDevices}" ItemTemplate="{DynamicResource DeviceGroupLEDItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <ListView Grid.Row="1" Margin="50,10,0,10" ItemsSource="{Binding DestinationDevices}" ItemTemplate="{DynamicResource DeviceMapDestinationItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" />
                 </Grid>
 
             </DataTemplate>
@@ -103,6 +103,15 @@
                     <TextBlock Margin="10,0,0,0" Text="{Binding AutoName, Mode=OneWay}"/>
                 </StackPanel>
             </DataTemplate>
+
+
+            <DataTemplate x:Key="DeviceMapDestinationItemTemplate">
+                <StackPanel Margin="1" Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding Enabled}"/>
+                    <TextBlock Margin="10,0,0,0" Text="{Binding DestinationDevice.Name, Mode=OneWay}"/>
+                </StackPanel>
+            </DataTemplate>
+
             <DataTemplate x:Key="DeviceMapItemTemplate">
                 <Grid>
                     <TextBlock Text="{Binding SourceDevice.Name}" FontFamily="Segoe UI Light" FontSize="24" HorizontalAlignment="Left"></TextBlock>
@@ -342,14 +351,18 @@
 
         
         <TabItem Header="{x:Static p:Resources.Page5Header}">
+
             <AdornerDecorator>
-                <DockPanel LastChildFill="True" HorizontalAlignment="Center">
+                <DockPanel LastChildFill="True">
+                    <GroupBox DockPanel.Dock="Left" Margin="0,0,0,0" >
+
                     <!--<ListView ItemsSource="{Binding DeviceMaps}" ItemTemplate="{DynamicResource DeviceMapperItemTemplate}"></ListView>-->
 
                     <ScrollViewer>
                         <ListView ItemsSource="{Binding DeviceMappingViewModel}" ItemTemplate="{DynamicResource DeviceMapperItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" PreviewMouseWheel="HandlePreviewMouseWheel" >
                         </ListView>
                     </ScrollViewer>
+                    </GroupBox>
                 </DockPanel>
             </AdornerDecorator>
         </TabItem>

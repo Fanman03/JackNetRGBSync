@@ -342,9 +342,20 @@ namespace RGBSyncPlus.UI
 
         private void ToggleExpanded(object sender, RoutedEventArgs e)
         {
-            if ((sender as TextBlock)?.DataContext is DeviceGroup devGroup)
+            if ((sender as Control)?.DataContext is DeviceGroup devGroup)
             {
                 devGroup.Expanded = !devGroup.Expanded;
+
+            }
+        }
+
+        private void ToggleDMExpanded(object sender, RoutedEventArgs e)
+        {
+            if ((sender as Control)?.DataContext is DeviceMappingModels.DeviceMappingViewModel dmvm)
+            {
+                bool test = dmvm.Expanded;
+                bool newValue = !test;
+                dmvm.Expanded = newValue;
 
             }
         }
