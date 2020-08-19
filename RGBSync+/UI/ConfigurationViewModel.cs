@@ -359,31 +359,65 @@ namespace RGBSyncPlus.UI
 
         public ConfigurationViewModel()
         {
-
+            
             SyncGroups = new ObservableCollection<SyncGroup>(ApplicationManager.Instance.Settings.SyncGroups);
 
             AvailableSyncLeds = GetGroupedLedList(GetSyncLeds());
             OnPropertyChanged(nameof(AvailableSyncLeds));
             DeviceMappingViewModel = new ObservableCollection<DeviceMappingModels.DeviceMappingViewModel>();
-            var sourceDevices = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
+            
+            SetUpDeviceMapViewModel();
+        }
 
+        private void SetUpDeviceMapViewModel()
+        {
+            var sourceDevices = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
+            var proxy = ApplicationManager.Instance.Settings.DeviceMappingProxy;
+            if (proxy == null)
+            {
+                return;
+            }
             foreach (ControlDevice instanceSlsDevice in sourceDevices)
             {
                 Guid id = Guid.NewGuid();
-                
-                DeviceMappingViewModel.Add(new DeviceMappingModels.DeviceMappingViewModel
+                var pushers = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().SupportsPush).ToList();
+                var dmm = new DeviceMappingModels.DeviceMappingViewModel
                 {
                     Id = id,
                     SyncBack = MappingSyncBack,
                     SourceDevice = instanceSlsDevice,
-                    DestinationDevices = new ObservableCollection<DeviceMappingModels.DeviceMappingItemViewModel>(ApplicationManager.Instance.SLSDevices.Where(x=>x.Driver.GetProperties().SupportsPush).Select(x=>new DeviceMappingModels.DeviceMappingItemViewModel
+
+                };
+
+                List<DeviceMappingModels.DeviceMappingItemViewModel> items = new List<DeviceMappingModels.DeviceMappingItemViewModel>();
+                foreach (var controlDevice in pushers)
+                {
+                    bool enabled = false;
+                    DeviceMappingModels.DeviceMapping prxSource = proxy.FirstOrDefault(x =>
+                        x.SourceDevice.DeviceName == instanceSlsDevice.Name &&
+                        x.SourceDevice.DeviceName == instanceSlsDevice.Driver.Name());
+                    if (prxSource != null)
                     {
-                        DestinationDevice = x,
-                        Enabled = false,
+                        enabled = prxSource.DestinationDevices.Any(x =>
+                            x.DeviceName == controlDevice.Name && x.DriverName == controlDevice.Driver.Name());
+
+
+                    }
+
+                    items.Add(new DeviceMappingModels.DeviceMappingItemViewModel
+                    {
+                        DestinationDevice = controlDevice,
+                        Enabled = enabled,
                         SyncBack = MappingSyncBack,
                         ParentId = id
-                    }))
-                });
+                    });
+                }
+
+
+                var dd = new ObservableCollection<DeviceMappingModels.DeviceMappingItemViewModel>(items);
+
+                dmm.DestinationDevices = dd;
+                DeviceMappingViewModel.Add(dmm);
             }
 
             OnPropertyChanged(nameof(DeviceMappingViewModel));

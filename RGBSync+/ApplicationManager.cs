@@ -192,24 +192,31 @@ namespace RGBSyncPlus
             {
                 foreach (var deviceMapping in Settings.DeviceMappingProxy)
                 {
-                    DeviceMappingModels.DeviceMap dm = new DeviceMappingModels.DeviceMap
+                    var src = SLSDevices.First(x =>
+                        x.Name == deviceMapping.SourceDevice.DeviceName &&
+                        x.Driver.Name() == deviceMapping.SourceDevice.DriverName);
+                    if (src != null)
                     {
-                        Source = SLSDevices.First(x =>
-                            x.Name == deviceMapping.SourceDevice.DeviceName &&
-                            x.Driver.Name() == deviceMapping.SourceDevice.DriverName),
-                        Dest = new List<ControlDevice>()
-                    };
+                        DeviceMappingModels.DeviceMap dm = new DeviceMappingModels.DeviceMap
+                        {
+                            Source = src,
+                            Dest = new List<ControlDevice>()
+                        };
 
-                    foreach (var deviceMappingDestinationDevice in deviceMapping.DestinationDevices)
-                    {
-                        var tmp = SLSDevices.FirstOrDefault(x =>
-                            x.Name == deviceMappingDestinationDevice.DeviceName &&
-                            x.Driver.Name() == deviceMappingDestinationDevice.DriverName);
+                        foreach (var deviceMappingDestinationDevice in deviceMapping.DestinationDevices)
+                        {
+                            var tmp = SLSDevices.FirstOrDefault(x =>
+                                x.Name == deviceMappingDestinationDevice.DeviceName &&
+                                x.Driver.Name() == deviceMappingDestinationDevice.DriverName);
 
-                        dm.Dest.Add(tmp);
+                            if (tmp != null)
+                            {
+                                dm.Dest.Add(tmp);
+                            }
+                        }
+
+                        MappedDevices.Add(dm);
                     }
-
-                    MappedDevices.Add(dm);
                 }
             }
         }
