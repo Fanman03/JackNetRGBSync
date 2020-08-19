@@ -369,18 +369,70 @@ namespace RGBSyncPlus.UI
 
             foreach (ControlDevice instanceSlsDevice in sourceDevices)
             {
+                Guid id = Guid.NewGuid();
+                
                 DeviceMappingViewModel.Add(new DeviceMappingModels.DeviceMappingViewModel
                 {
+                    Id = id,
+                    SyncBack = MappingSyncBack,
                     SourceDevice = instanceSlsDevice,
                     DestinationDevices = new ObservableCollection<DeviceMappingModels.DeviceMappingItemViewModel>(ApplicationManager.Instance.SLSDevices.Where(x=>x.Driver.GetProperties().SupportsPush).Select(x=>new DeviceMappingModels.DeviceMappingItemViewModel
                     {
                         DestinationDevice = x,
-                        Enabled = false
+                        Enabled = false,
+                        SyncBack = MappingSyncBack,
+                        ParentId = id
                     }))
                 });
             }
 
             OnPropertyChanged(nameof(DeviceMappingViewModel));
+        }
+
+        public void MappingSyncBack(object trigger)
+        {
+            Debug.WriteLine(trigger);
+
+
+            if (trigger is DeviceMappingModels.DeviceMappingViewModel dmvm)
+            {
+                Debug.WriteLine(dmvm.SourceDevice.Name+" Changed");
+            }
+            else
+            {
+                if (trigger is DeviceMappingModels.DeviceMappingItemViewModel dmivm)
+                {
+                    
+                    DeviceMappingModels.DeviceMappingViewModel parent = DeviceMappingViewModel.First(x => x.Id == dmivm.ParentId);
+
+
+                    //it was set enabled, disable other sources using it.
+                    if (parent != null && dmivm.Enabled)
+                    {
+                        foreach (DeviceMappingModels.DeviceMappingViewModel model in DeviceMappingViewModel.Where(x=>x.Id!=parent.Id))
+                        {
+                            foreach (var enabledDevice in parent.DestinationDevices.Where(x=>x.Enabled))
+                            {
+                                model.DestinationDevices.First(x => x.DestinationDevice.Name == enabledDevice.DestinationDevice.Name).Enabled = false;
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            List<DeviceMappingModels.DeviceMapping> mappingProxy = new List<DeviceMappingModels.DeviceMapping>();
+            foreach (var mappingViewModel in DeviceMappingViewModel)
+            {
+                mappingProxy.Add(new DeviceMappingModels.DeviceMapping
+                {
+                    SourceDevice = new DeviceMappingModels.DeviceProxy(mappingViewModel.SourceDevice),
+                    DestinationDevices = mappingViewModel.DestinationDevices.Where(x=>x.Enabled).Select(x=>new DeviceMappingModels.DeviceProxy(x.DestinationDevice)).ToList()
+                });
+            }
+
+            ApplicationManager.Instance.Settings.DeviceMappingProxy = mappingProxy;
+            ApplicationManager.Instance.SetUpMappedDevicesFromConfig();
         }
 
         #endregion
@@ -429,7 +481,7 @@ namespace RGBSyncPlus.UI
                     {
                         Name = controlDevice.Name,
                         ControlDevice = controlDevice,
-                        SyncBack = SyncBack
+                        SyncBack = LedMappingSyncBack
                     };
 
                     dg.DeviceLeds = new ObservableCollection<DeviceLED>(controlDevice.LEDs.Select(x => new DeviceLED(x, SelectedSyncGroup.Leds.Any(y=>y.SLSLEDUID == controlDevice.GetLedUID(x)))
@@ -449,7 +501,7 @@ namespace RGBSyncPlus.UI
                     {
                         Name = d.GetDeviceName(),
                         RGBDevice = d,
-                        SyncBack = SyncBack
+                        SyncBack = LedMappingSyncBack
                     };
 
                     dg.DeviceLeds = new ObservableCollection<DeviceLED>(RGBSurface.Instance.Leds
@@ -476,7 +528,7 @@ namespace RGBSyncPlus.UI
             }
         }
 
-        public void SyncBack()
+        public void LedMappingSyncBack()
         {
             List<SyncLed> leds = new List<SyncLed>();
             List<ControlDevice.LedUnit> slsleds = new List<ControlDevice.LedUnit>();

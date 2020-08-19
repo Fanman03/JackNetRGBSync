@@ -69,6 +69,7 @@ namespace RGBSyncPlus
         private ActionCommand _exitCommand;
         public ActionCommand ExitCommand => _exitCommand ?? (_exitCommand = new ActionCommand(Exit));
 
+
         #endregion
 
         #region Constructors
@@ -152,6 +153,8 @@ namespace RGBSyncPlus
             LoadDeviceProviders();
             surface.AlignDevices();
 
+            SetUpMappedDevicesFromConfig();
+
             foreach (IRGBDevice device in surface.Devices)
                 device.UpdateMode = DeviceUpdateMode.Sync | DeviceUpdateMode.SyncBack;
 
@@ -181,300 +184,357 @@ namespace RGBSyncPlus
         }
 
         public Timer slsTimer;
-        private void SLSUpdate(object state)
+        public void SetUpMappedDevicesFromConfig()
         {
-            List<ControlDevice> devicesToPush=new List<ControlDevice>();
-            foreach (SyncGroup syncGroup in Instance.Settings.SyncGroups.ToArray())
+
+            MappedDevices=new List<DeviceMappingModels.DeviceMap>();
+            if (Settings.DeviceMappingProxy != null)
             {
-                int r = 0;
-                int g = 0;
-                int b = 0;
-                if (syncGroup.SyncLed.SLSLedUnit != null)
+                foreach (var deviceMapping in Settings.DeviceMappingProxy)
                 {
-                    r = syncGroup.SyncLed.SLSLedUnit.Color.Red;
-                    g = syncGroup.SyncLed.SLSLedUnit.Color.Green;
-                    b = syncGroup.SyncLed.SLSLedUnit.Color.Blue;
-                    syncGroup.LedGroup.Brush = new SolidColorBrush(new Color((byte)r,(byte)g,(byte)b));
+                    DeviceMappingModels.DeviceMap dm = new DeviceMappingModels.DeviceMap
+                    {
+                        Source = SLSDevices.First(x =>
+                            x.Name == deviceMapping.SourceDevice.DeviceName &&
+                            x.Driver.Name() == deviceMapping.SourceDevice.DriverName),
+                        Dest = new List<ControlDevice>()
+                    };
+
+                    foreach (var deviceMappingDestinationDevice in deviceMapping.DestinationDevices)
+                    {
+                        var tmp = SLSDevices.FirstOrDefault(x =>
+                            x.Name == deviceMappingDestinationDevice.DeviceName &&
+                            x.Driver.Name() == deviceMappingDestinationDevice.DriverName);
+
+                        dm.Dest.Add(tmp);
+                    }
+
+                    MappedDevices.Add(dm);
                 }
-                else
+            }
+        }
+
+        public void DeviceMapSync()
+        {
+            foreach (var d in MappedDevices.Where(x=>x.Source!=null && x.Dest!=null && x.Dest.Count>0))
+            {
+                if (d.Source.Driver.GetProperties().SupportsPull)
                 {
-                    Led sled = syncGroup.SyncLed.GetLed();
+                    d.Source.Pull();
+                }
+
+                foreach (var controlDevice in d.Dest)
+                {
+                    controlDevice.MapLEDs(d.Source);
+                    controlDevice.Push();
+                }
+            }
+        }
+    
+
+    public List<DeviceMappingModels.DeviceMap> MappedDevices = new List<DeviceMappingModels.DeviceMap>();
+    private void SLSUpdate(object state)
+    {
+        List<ControlDevice> devicesToPush = new List<ControlDevice>();
+        foreach (SyncGroup syncGroup in Instance.Settings.SyncGroups.ToArray())
+        {
+            int r = 0;
+            int g = 0;
+            int b = 0;
+            if (syncGroup.SyncLed.SLSLedUnit != null)
+            {
+                r = syncGroup.SyncLed.SLSLedUnit.Color.Red;
+                g = syncGroup.SyncLed.SLSLedUnit.Color.Green;
+                b = syncGroup.SyncLed.SLSLedUnit.Color.Blue;
+                syncGroup.LedGroup.Brush = new SolidColorBrush(new Color((byte)r, (byte)g, (byte)b));
+            }
+            else
+            {
+                Led sled = syncGroup.SyncLed.GetLed();
+                if (sled != null)
+                {
                     r = sled.Color.GetR();
                     g = sled.Color.GetG();
                     b = sled.Color.GetB();
                 }
-
-                foreach (var l in syncGroup.Leds.Where(x => x.SLSLedUnit != null))
-                {
-                    l.SLSLedUnit.Color = new ControlDevice.LEDColor(r,g,b);
-                    if (!devicesToPush.Contains(l.ControlDevice))
-                    {
-                        devicesToPush.Add(l.ControlDevice);
-                    }
-                }
-
             }
 
-            foreach (var cd in devicesToPush)
+            foreach (var l in syncGroup.Leds.Where(x => x.SLSLedUnit != null))
             {
-                cd.Push();
-            }
-        }
-
-        private void LoadDeviceProviders()
-        {
-            string deviceProvierDir = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? string.Empty, DEVICEPROVIDER_DIRECTORY);
-            if (!Directory.Exists(deviceProvierDir)) return;
-
-            foreach (string file in Directory.GetFiles(deviceProvierDir, "*.dll"))
-            {
-                try
+                l.SLSLedUnit.Color = new ControlDevice.LEDColor(r, g, b);
+                if (!devicesToPush.Contains(l.ControlDevice))
                 {
-                    Logger.Debug("Loading provider " + file);
-                    Assembly assembly = Assembly.LoadFrom(file);
-                    foreach (Type loaderType in assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass
-                                                                               && typeof(IRGBDeviceProviderLoader).IsAssignableFrom(t)))
-                    {
-                        if (Activator.CreateInstance(loaderType) is IRGBDeviceProviderLoader deviceProviderLoader)
-                        {
-                            //TODO DarthAffe 03.06.2018: Support Initialization
-                            if (deviceProviderLoader.RequiresInitialization) continue;
-
-                            var deviceTypes = AppSettings.DeviceTypes;
-
-
-                            try
-                            {
-                                RGBSurface.Instance.LoadDevices(deviceProviderLoader, deviceTypes);
-                                Logger.Debug(file + " has been loaded");
-                            }
-                            catch
-                            {
-                                RGBSurface.Instance.LoadDevices(deviceProviderLoader, RGBDeviceType.All);
-                                Logger.Debug(file + " has been loaded with all types.");
-                            }
-
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error("Error loading " + file);
-                    Logger.Error(ex);
-                }
-            }
-        }
-
-
-        private void LoadSLSProviders()
-        {
-            string deviceProvierDir = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? string.Empty, SLSPROVIDER_DIRECTORY);
-
-            if (!Directory.Exists(deviceProvierDir)) return;
-
-            foreach (string file in Directory.GetFiles(deviceProvierDir, "*.dll"))
-            {
-                try
-                {
-                    Logger.Debug("Loading provider " + file);
-                    Assembly assembly = Assembly.LoadFrom(file);
-                    foreach (Type loaderType in assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass && typeof(ISimpleLEDDriver).IsAssignableFrom(t)))
-                    {
-                        if (Activator.CreateInstance(loaderType) is ISimpleLEDDriver slsDriver)
-                        {
-                            SLSManager.Drivers.Add(slsDriver);
-                            slsDriver.Configure(null);
-                        }
-                    }
-
-                }
-                catch
-                {
+                    devicesToPush.Add(l.ControlDevice);
                 }
             }
 
-            UpdateSLSDevices();
         }
 
-        public List<ControlDevice> SLSDevices = new List<ControlDevice>();
-
-        public void UpdateSLSDevices()
+        foreach (var cd in devicesToPush)
         {
-            SLSDevices = SLSManager.GetDevices();
+            cd.Push();
         }
 
-        public void AddSyncGroup(SyncGroup syncGroup)
-        {
-            Settings.SyncGroups.Add(syncGroup);
-            RegisterSyncGroup(syncGroup);
-        }
+        DeviceMapSync();
+    }
 
-        public void RegisterSyncGroup(SyncGroup syncGroup)
+    private void LoadDeviceProviders()
+    {
+        string deviceProvierDir = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? string.Empty, DEVICEPROVIDER_DIRECTORY);
+        if (!Directory.Exists(deviceProvierDir)) return;
+
+        foreach (string file in Directory.GetFiles(deviceProvierDir, "*.dllxx"))
         {
             try
             {
-                syncGroup.LedGroup = new ListLedGroup(syncGroup.Leds.GetLeds()) { Brush = new SyncBrush(syncGroup) };
-                syncGroup.LedsChangedEventHandler = (sender, args) => UpdateLedGroup(syncGroup.LedGroup, args);
-                syncGroup.Leds.CollectionChanged += syncGroup.LedsChangedEventHandler;
+                Logger.Debug("Loading provider " + file);
+                Assembly assembly = Assembly.LoadFrom(file);
+                foreach (Type loaderType in assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass
+                                                                           && typeof(IRGBDeviceProviderLoader).IsAssignableFrom(t)))
+                {
+                    if (Activator.CreateInstance(loaderType) is IRGBDeviceProviderLoader deviceProviderLoader)
+                    {
+                        //TODO DarthAffe 03.06.2018: Support Initialization
+                        if (deviceProviderLoader.RequiresInitialization) continue;
+
+                        var deviceTypes = AppSettings.DeviceTypes;
+
+
+                        try
+                        {
+                            RGBSurface.Instance.LoadDevices(deviceProviderLoader, deviceTypes);
+                            Logger.Debug(file + " has been loaded");
+                        }
+                        catch
+                        {
+                            RGBSurface.Instance.LoadDevices(deviceProviderLoader, RGBDeviceType.All);
+                            Logger.Debug(file + " has been loaded with all types.");
+                        }
+
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Logger.Error("Error registering group: " + syncGroup.Name);
+                Logger.Error("Error loading " + file);
                 Logger.Error(ex);
             }
-
         }
 
-        public void RemoveSyncGroup(SyncGroup syncGroup)
-        {
-            Settings.SyncGroups.Remove(syncGroup);
-            syncGroup.Leds.CollectionChanged -= syncGroup.LedsChangedEventHandler;
-            syncGroup.LedGroup.Detach();
-            syncGroup.LedGroup = null;
-        }
-        private void UpdateLedGroup(ListLedGroup group, NotifyCollectionChangedEventArgs args)
-        {
-            if (args.Action == NotifyCollectionChangedAction.Reset)
-            {
-                List<Led> leds = group.GetLeds().ToList();
-                group.RemoveLeds(leds);
-            }
-            else
-            {
-                if (args.NewItems != null)
-                    group.AddLeds(args.NewItems.Cast<SyncLed>().GetLeds());
 
-                if (args.OldItems != null)
-                    group.RemoveLeds(args.OldItems.Cast<SyncLed>().GetLeds());
-            }
-        }
-        private void HideConfiguration()
+
+    }
+
+
+    private void LoadSLSProviders()
+    {
+        string deviceProvierDir = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? string.Empty, SLSPROVIDER_DIRECTORY);
+
+        if (!Directory.Exists(deviceProvierDir)) return;
+
+        foreach (string file in Directory.GetFiles(deviceProvierDir, "*.dll"))
         {
-            if (AppSettings.EnableDiscordRPC == true)
-            {
-                if (client.IsDisposed == false)
-                {
-                    client.Dispose();
-                }
-            }
-            if (AppSettings.MinimizeToTray)
-            {
-                if (_configurationWindow.IsVisible)
-                    _configurationWindow.Hide();
-            }
-            else
-                _configurationWindow.WindowState = WindowState.Minimized;
-        }
-
-        public void OpenConfiguration()
-        {
-            if (AppSettings.EnableDiscordRPC == true)
-            {
-                Logger.Info("Discord RPC enabled.");
-                if (client.IsDisposed == true)
-                {
-                    Logger.Info("Discord RPC client disposed, initializing new one.");
-                    client = new DiscordRpcClient("581567509959016456");
-                    client.Initialize();
-                }
-                Logger.Info("Setting Discord presensce.");
-                client.SetPresence(new RichPresence()
-                {
-                    State = "Profile: " + Settings.Name,
-                    Details = "Syncing lighting effects",
-                    Assets = new Assets()
-                    {
-                        LargeImageKey = "large_image",
-                        LargeImageText = "JackNet RGB Sync",
-                        SmallImageKey = "small_image",
-                        SmallImageText = "by Fanman03"
-                    }
-                });
-            }
-            if (_configurationWindow == null) _configurationWindow = new ConfigurationWindow();
-            if (!_configurationWindow.IsVisible)
-                _configurationWindow.Show();
-
-            if (_configurationWindow.WindowState == WindowState.Minimized)
-                _configurationWindow.WindowState = WindowState.Normal;
-
             try
             {
-                using (WebClient w = new WebClient())
+                Logger.Debug("Loading provider " + file);
+                Assembly assembly = Assembly.LoadFrom(file);
+                foreach (Type loaderType in assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass && typeof(ISimpleLEDDriver).IsAssignableFrom(t)))
                 {
-                    Logger.Info("Checking for update...");
-                    var json = w.DownloadString(ApplicationManager.Instance.AppSettings.versionURL);
-                    ProgVersion versionFromApi = JsonConvert.DeserializeObject<ProgVersion>(json);
-                    int versionMajor = Version.Major;
-                    int versionMinor = Version.Minor;
-                    int versionBuild = Version.Build;
-
-                    if (versionFromApi.major > versionMajor)
+                    if (Activator.CreateInstance(loaderType) is ISimpleLEDDriver slsDriver)
                     {
-                        GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
-                        getUpdateWindow.Show();
-                        Logger.Info("Update available. (major)");
+                        SLSManager.Drivers.Add(slsDriver);
+                        slsDriver.Configure(null);
                     }
-                    else if (versionFromApi.minor > versionMinor)
-                    {
-                        GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
-                        getUpdateWindow.Show();
-                        Logger.Info("Update available. (minor)");
-                    }
-                    else if (versionFromApi.build > versionBuild)
-                    {
-                        GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
-                        Logger.Info("Update available. (build)");
-                        getUpdateWindow.Show();
-                    }
-                    else
-                    {
-                        Logger.Info("No update available.");
-                    }
-
                 }
 
             }
-            catch (Exception ex)
+            catch
             {
-                Logger.Error("Unable to check for updates. Download failed with exception: " + ex);
             }
-
         }
 
-        public void RestartApp()
-        {
-            Logger.Debug("App is restarting.");
-            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-            if (AppSettings.EnableDiscordRPC == true)
-            {
-                if (client.IsDisposed == false)
-                {
-                    client.Dispose();
-                }
-            }
-            Application.Current.Shutdown();
-        }
-
-        public void ExecuteAsAdmin(string fileName)
-        {
-            Process proc = new Process();
-            proc.StartInfo.FileName = fileName;
-            proc.StartInfo.UseShellExecute = true;
-            proc.StartInfo.Verb = "runas";
-            proc.Start();
-        }
-
-        private void TechSupport() => System.Diagnostics.Process.Start("https://rgbsync.com/discord");
-
-        public void Exit()
-        {
-            Logger.Debug("============ App is Shutting Down ============");
-            try { RGBSurface.Instance?.Dispose(); } catch { /* well, we're shuting down anyway ... */ }
-            try { client.Dispose(); } catch { /* well, we're shuting down anyway ... */ }
-
-            Application.Current.Shutdown();
-        }
-        #endregion
+        UpdateSLSDevices();
     }
+
+    public List<ControlDevice> SLSDevices = new List<ControlDevice>();
+
+    public void UpdateSLSDevices()
+    {
+        SLSDevices = SLSManager.GetDevices();
+    }
+
+    public void AddSyncGroup(SyncGroup syncGroup)
+    {
+        Settings.SyncGroups.Add(syncGroup);
+        RegisterSyncGroup(syncGroup);
+    }
+
+    public void RegisterSyncGroup(SyncGroup syncGroup)
+    {
+        try
+        {
+            syncGroup.LedGroup = new ListLedGroup(syncGroup.Leds.GetLeds()) { Brush = new SyncBrush(syncGroup) };
+            syncGroup.LedsChangedEventHandler = (sender, args) => UpdateLedGroup(syncGroup.LedGroup, args);
+            syncGroup.Leds.CollectionChanged += syncGroup.LedsChangedEventHandler;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("Error registering group: " + syncGroup.Name);
+            Logger.Error(ex);
+        }
+
+    }
+
+    public void RemoveSyncGroup(SyncGroup syncGroup)
+    {
+        Settings.SyncGroups.Remove(syncGroup);
+        syncGroup.Leds.CollectionChanged -= syncGroup.LedsChangedEventHandler;
+        syncGroup.LedGroup.Detach();
+        syncGroup.LedGroup = null;
+    }
+    private void UpdateLedGroup(ListLedGroup group, NotifyCollectionChangedEventArgs args)
+    {
+        if (args.Action == NotifyCollectionChangedAction.Reset)
+        {
+            List<Led> leds = group.GetLeds().ToList();
+            group.RemoveLeds(leds);
+        }
+        else
+        {
+            if (args.NewItems != null)
+                group.AddLeds(args.NewItems.Cast<SyncLed>().GetLeds());
+
+            if (args.OldItems != null)
+                group.RemoveLeds(args.OldItems.Cast<SyncLed>().GetLeds());
+        }
+    }
+    private void HideConfiguration()
+    {
+        if (AppSettings.EnableDiscordRPC == true)
+        {
+            if (client.IsDisposed == false)
+            {
+                client.Dispose();
+            }
+        }
+        if (AppSettings.MinimizeToTray)
+        {
+            if (_configurationWindow.IsVisible)
+                _configurationWindow.Hide();
+        }
+        else
+            _configurationWindow.WindowState = WindowState.Minimized;
+    }
+
+    public void OpenConfiguration()
+    {
+        if (AppSettings.EnableDiscordRPC == true)
+        {
+            Logger.Info("Discord RPC enabled.");
+            if (client.IsDisposed == true)
+            {
+                Logger.Info("Discord RPC client disposed, initializing new one.");
+                client = new DiscordRpcClient("581567509959016456");
+                client.Initialize();
+            }
+            Logger.Info("Setting Discord presensce.");
+            client.SetPresence(new RichPresence()
+            {
+                State = "Profile: " + Settings.Name,
+                Details = "Syncing lighting effects",
+                Assets = new Assets()
+                {
+                    LargeImageKey = "large_image",
+                    LargeImageText = "JackNet RGB Sync",
+                    SmallImageKey = "small_image",
+                    SmallImageText = "by Fanman03"
+                }
+            });
+        }
+        if (_configurationWindow == null) _configurationWindow = new ConfigurationWindow();
+        if (!_configurationWindow.IsVisible)
+            _configurationWindow.Show();
+
+        if (_configurationWindow.WindowState == WindowState.Minimized)
+            _configurationWindow.WindowState = WindowState.Normal;
+
+        try
+        {
+            using (WebClient w = new WebClient())
+            {
+                Logger.Info("Checking for update...");
+                var json = w.DownloadString(ApplicationManager.Instance.AppSettings.versionURL);
+                ProgVersion versionFromApi = JsonConvert.DeserializeObject<ProgVersion>(json);
+                int versionMajor = Version.Major;
+                int versionMinor = Version.Minor;
+                int versionBuild = Version.Build;
+
+                if (versionFromApi.major > versionMajor)
+                {
+                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
+                    getUpdateWindow.Show();
+                    Logger.Info("Update available. (major)");
+                }
+                else if (versionFromApi.minor > versionMinor)
+                {
+                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
+                    getUpdateWindow.Show();
+                    Logger.Info("Update available. (minor)");
+                }
+                else if (versionFromApi.build > versionBuild)
+                {
+                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
+                    Logger.Info("Update available. (build)");
+                    getUpdateWindow.Show();
+                }
+                else
+                {
+                    Logger.Info("No update available.");
+                }
+
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("Unable to check for updates. Download failed with exception: " + ex);
+        }
+
+    }
+
+    public void RestartApp()
+    {
+        Logger.Debug("App is restarting.");
+        System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+        if (AppSettings.EnableDiscordRPC == true)
+        {
+            if (client.IsDisposed == false)
+            {
+                client.Dispose();
+            }
+        }
+        Application.Current.Shutdown();
+    }
+
+    public void ExecuteAsAdmin(string fileName)
+    {
+        Process proc = new Process();
+        proc.StartInfo.FileName = fileName;
+        proc.StartInfo.UseShellExecute = true;
+        proc.StartInfo.Verb = "runas";
+        proc.Start();
+    }
+
+    private void TechSupport() => System.Diagnostics.Process.Start("https://rgbsync.com/discord");
+
+    public void Exit()
+    {
+        Logger.Debug("============ App is Shutting Down ============");
+        try { RGBSurface.Instance?.Dispose(); } catch { /* well, we're shuting down anyway ... */ }
+        try { client.Dispose(); } catch { /* well, we're shuting down anyway ... */ }
+
+        Application.Current.Shutdown();
+    }
+    #endregion
+}
 }
