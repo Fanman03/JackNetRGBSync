@@ -72,13 +72,16 @@ namespace RGBSyncPlus.UI
 
                 string bannerJson = client.DownloadString("https://www.rgbsync.com/api/banner.json");
                 BannerSchema schema = JsonConvert.DeserializeObject<BannerSchema>(bannerJson);
+                if (schema.imgUrl != null)
+                {
+                    var bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.UriSource = new Uri(schema.imgUrl);
+                    ;
+                    bitmapImage.EndInit();
 
-                var bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.UriSource = new Uri(schema.imgUrl); ;
-                bitmapImage.EndInit();
-
-                BannerImage.Source = bitmapImage;
+                    BannerImage.Source = bitmapImage;
+                }
             }
             catch
             {
