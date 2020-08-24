@@ -268,7 +268,7 @@ namespace RGBSyncPlus
 
             foreach (var l in syncGroup.Leds.Where(x => x.SLSLedUnit != null))
             {
-                l.SLSLedUnit.Color = new LEDColor(r, g, b);
+                l.SLSLedUnit.Color = new ControlDevice.LEDColor(r, g, b);
                 if (!devicesToPush.Contains(l.ControlDevice))
                 {
                     devicesToPush.Add(l.ControlDevice);
