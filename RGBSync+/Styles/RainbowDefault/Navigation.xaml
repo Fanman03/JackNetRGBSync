@@ -114,20 +114,25 @@
                             Background="Transparent">
                         <Grid>
                             <TextBlock x:Name="TxtBlurred" 
-                                       VerticalAlignment="Center" 
-                                       HorizontalAlignment="Center" 
-                                       FontWeight="Black" 
-                                       Opacity="0"
+                                       VerticalAlignment="Bottom" 
+                                       HorizontalAlignment="Left" 
+                                       FontWeight="Normal" 
+                                       FontFamily="Segoe UI Light" 
+                                       FontSize="28px"
                                        Foreground="{StaticResource BrushNavigationItemBlur}"
                                        Text="{TemplateBinding Header}">
                                 <TextBlock.Effect>
                                     <BlurEffect Radius="{StaticResource DoubleNavigationBlurRadius}" />
                                 </TextBlock.Effect>
                             </TextBlock>
-                            <TextBlock VerticalAlignment="Center" 
-                                       HorizontalAlignment="Center" 
-                                       Foreground="{StaticResource BrushNavigationItem}"
-                                       Text="{TemplateBinding Header}" />
+                            <TextBlock VerticalAlignment="Bottom" 
+                                       HorizontalAlignment="Left" 
+                                       FontWeight="Normal" 
+                                       FontFamily="Segoe UI Light" 
+                                       FontSize="28px"
+                                       Foreground="White"
+                                       Text="{TemplateBinding Header}"
+                                       x:Name="TabText"/>
                         </Grid>
                     </Border>
 
@@ -166,7 +171,14 @@
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
+                            <Setter TargetName="TabText" Property="Foreground" Value="#ffffff"></Setter>
                         </Trigger>
+
+                        <Trigger Property="IsSelected" Value="false">
+                            <Setter TargetName="TabText" Property="Foreground" Value="#808080"></Setter>
+                        </Trigger>
+
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

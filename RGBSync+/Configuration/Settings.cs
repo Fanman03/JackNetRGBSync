@@ -25,6 +25,14 @@ namespace RGBSyncPlus.Configuration
             get;set;
         }
 
+        private List<DeviceMappingModels.DeviceMapping> deviceMappingProxy;
+
+        public List<DeviceMappingModels.DeviceMapping> DeviceMappingProxy
+        {
+            get => deviceMappingProxy;
+            set { deviceMappingProxy = value; }
+        }
+
         #endregion
     }
 }

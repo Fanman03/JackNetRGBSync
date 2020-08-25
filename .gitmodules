@@ -1,0 +1,3 @@
+[submodule "SLS"]
+	path = SLS
+	url = https://github.com/madninjaskillz/Simple-LED-SDK.git

@@ -18,6 +18,7 @@ using RGB.NET.Core;
 using RGBSyncPlus.Configuration;
 using System.Net;
 using System.Windows.Input;
+using MadLedFrameworkSDK;
 
 namespace RGBSyncPlus.UI
 {
@@ -60,6 +61,8 @@ namespace RGBSyncPlus.UI
                 vm.SelectedSyncGroup = vm.SyncGroups.First();
                 vm.AvailableLeds = new ListCollectionView(vm.SelectedSyncGroup.Leds);
                 vm.AvailableSyncLeds = new ListCollectionView(vm.SelectedSyncGroup.Leds);
+
+               
                 //return;
             }
 
@@ -69,13 +72,16 @@ namespace RGBSyncPlus.UI
 
                 string bannerJson = client.DownloadString("https://www.rgbsync.com/api/banner.json");
                 BannerSchema schema = JsonConvert.DeserializeObject<BannerSchema>(bannerJson);
+                if (schema.imgUrl != null)
+                {
+                    var bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.UriSource = new Uri(schema.imgUrl);
+                    ;
+                    bitmapImage.EndInit();
 
-                var bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.UriSource = new Uri(schema.imgUrl); ;
-                bitmapImage.EndInit();
-
-                BannerImage.Source = bitmapImage;
+                    BannerImage.Source = bitmapImage;
+                }
             }
             catch
             {
@@ -339,9 +345,20 @@ namespace RGBSyncPlus.UI
 
         private void ToggleExpanded(object sender, RoutedEventArgs e)
         {
-            if ((sender as TextBlock)?.DataContext is DeviceGroup devGroup)
+            if ((sender as Control)?.DataContext is DeviceGroup devGroup)
             {
                 devGroup.Expanded = !devGroup.Expanded;
+
+            }
+        }
+
+        private void ToggleDMExpanded(object sender, RoutedEventArgs e)
+        {
+            if ((sender as Control)?.DataContext is DeviceMappingModels.DeviceMappingViewModel dmvm)
+            {
+                bool test = dmvm.Expanded;
+                bool newValue = !test;
+                dmvm.Expanded = newValue;
 
             }
         }

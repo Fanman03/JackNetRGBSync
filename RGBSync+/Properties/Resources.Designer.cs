@@ -484,6 +484,15 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Device Mapping.
+        /// </summary>
+        public static string Page5Header {
+            get {
+                return ResourceManager.GetString("Page5Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pick File.
         /// </summary>
         public static string PickFileLabel {

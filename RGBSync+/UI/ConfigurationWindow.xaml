@@ -32,42 +32,90 @@
 
             <DataTemplate x:Key="DeviceGroupItemTemplate">
 
-                    <Grid Margin="0,5,0,5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
-                                <ColumnDefinition Width="32"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="40"/>
-                            </Grid.ColumnDefinitions>
-                            
+                <Grid Margin="0,5,0,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+
                         <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" IsChecked="{Binding AllSelected}" ></CheckBox>
                         <Image ToolTip="{Binding RGBDevice.DeviceInfo.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding RGBDevice.DeviceInfo.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"/>
                         <TextBlock TextTrimming="CharacterEllipsis" Grid.Column="2" Text="{Binding Name}" ToolTip="{Binding Name}" Margin="10,-2,0,0" FontSize="24" FontFamily="Segoe UI Light" Foreground="White" VerticalAlignment="Center" MouseUp="ToggleCheckBox">
                         </TextBlock>
 
                         <Button Grid.Column="3" Margin="0,0,5,0" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" Click="ToggleExpanded" Width="32" Height="32" HorizontalAlignment="Right">
-                           <TextBlock Foreground="White" MouseDown="ToggleExpanded"><Image Source="arrow_up.png"></Image></TextBlock>
+                            <TextBlock Foreground="White" MouseDown="ToggleExpanded"><Image Source="arrow_up.png"></Image></TextBlock>
                         </Button>
 
                         <Button Grid.Column="3" Margin="0,0,5,0" Visibility="{Binding Expanded, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="ToggleExpanded"  Width="32" Height="32" HorizontalAlignment="Right">
                             <TextBlock Foreground="White" MouseDown="ToggleExpanded"><Image Source="arrow_down.png"></Image></TextBlock>
                         </Button>
 
-                        </Grid>
-                        <ListView Grid.Row="1" Margin="50,10,0,10" ItemsSource="{Binding DeviceLeds}" ItemTemplate="{DynamicResource DeviceGroupLEDItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" />
                     </Grid>
-          
+                    <ListView Grid.Row="1" Margin="50,10,0,10" ItemsSource="{Binding DeviceLeds}" ItemTemplate="{DynamicResource DeviceGroupLEDItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </Grid>
+
+            </DataTemplate>
+
+            <DataTemplate x:Key="DeviceMapperItemTemplate">
+
+                <Grid Margin="0,5,0,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" IsChecked="{Binding Enabled}" ></CheckBox>
+                        <Image ToolTip="{Binding SourceDevice.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding SourceDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"/>
+                        <TextBlock TextTrimming="CharacterEllipsis" Grid.Column="2" Text="{Binding SourceDevice.Name}" ToolTip="{Binding SourceDevice.Name}" Margin="10,-2,0,0" FontSize="24" FontFamily="Segoe UI Light" Foreground="White" VerticalAlignment="Center" MouseUp="ToggleCheckBox">
+                        </TextBlock>
+
+                        <Button Grid.Column="3" Margin="0,0,5,0" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" Click="ToggleDMExpanded" Width="32" Height="32" HorizontalAlignment="Right">
+                            <TextBlock Foreground="White" MouseDown="ToggleExpanded"><Image Source="arrow_up.png"></Image></TextBlock>
+                        </Button>
+
+                        <Button Grid.Column="3" Margin="0,0,5,0" Visibility="{Binding Expanded, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="ToggleDMExpanded"  Width="32" Height="32" HorizontalAlignment="Right">
+                            <TextBlock Foreground="White" MouseDown="ToggleExpanded"><Image Source="arrow_down.png"></Image></TextBlock>
+                        </Button>
+
+                    </Grid>
+                    <ListView Grid.Row="1" Margin="50,10,0,10" ItemsSource="{Binding DestinationDevices}" ItemTemplate="{DynamicResource DeviceMapDestinationItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </Grid>
+
             </DataTemplate>
             <DataTemplate x:Key="DeviceGroupLEDItemTemplate">
                 <StackPanel Margin="1" Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding IsSelected}"/>
                     <TextBlock Margin="10,0,0,0" Text="{Binding AutoName, Mode=OneWay}"/>
                 </StackPanel>
+            </DataTemplate>
+
+
+            <DataTemplate x:Key="DeviceMapDestinationItemTemplate">
+                <StackPanel Margin="1" Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding Enabled}"/>
+                    <TextBlock Margin="10,0,0,0" Text="{Binding DestinationDevice.Name, Mode=OneWay}"/>
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DeviceMapItemTemplate">
+                <Grid>
+                    <TextBlock Text="{Binding SourceDevice.Name}" FontFamily="Segoe UI Light" FontSize="24" HorizontalAlignment="Left"></TextBlock>
+                </Grid>
             </DataTemplate>
         </styles:CachedResourceDictionary>
     </controls:BlurredDecorationWindow.Resources>
@@ -77,7 +125,7 @@
         <ui:ConfigurationViewModel/>
     </controls:BlurredDecorationWindow.DataContext>
 
-    <TabControl Style="{StaticResource StyleTabControlNavigation}">
+    <TabControl Style="{StaticResource StyleTabControlNavigation}" >
         <TabItem Header="{x:Static p:Resources.Page1Header}">
 
             <AdornerDecorator>
@@ -301,7 +349,23 @@
             </AdornerDecorator>
         </TabItem>
 
+        
+        <TabItem Header="{x:Static p:Resources.Page5Header}">
 
+            <AdornerDecorator>
+                <DockPanel LastChildFill="True">
+                    <GroupBox DockPanel.Dock="Left" Margin="0,0,0,0" >
+
+                    <!--<ListView ItemsSource="{Binding DeviceMaps}" ItemTemplate="{DynamicResource DeviceMapperItemTemplate}"></ListView>-->
+
+                    <ScrollViewer>
+                        <ListView ItemsSource="{Binding DeviceMappingViewModel}" ItemTemplate="{DynamicResource DeviceMapperItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" PreviewMouseWheel="HandlePreviewMouseWheel" >
+                        </ListView>
+                    </ScrollViewer>
+                    </GroupBox>
+                </DockPanel>
+            </AdornerDecorator>
+        </TabItem>
         <TabItem Header="{x:Static p:Resources.Page3Header}">
             <AdornerDecorator>
                 <DockPanel LastChildFill="True" HorizontalAlignment="Center">
@@ -483,7 +547,7 @@
                                 <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="{x:Static p:Resources.DevicesLabel}"  Margin="0,0,0,0" />
                                 <Button Command="{Binding OpenExcludeToolCommand}" Margin="10,0,0,-2"  Content="{x:Static p:Resources.ExcludeBtn}"/>
 
-                                
+
 
                             </controls:Form>
 
