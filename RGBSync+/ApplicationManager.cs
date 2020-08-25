@@ -223,66 +223,79 @@ namespace RGBSyncPlus
 
         public void DeviceMapSync()
         {
-            foreach (var d in MappedDevices.Where(x=>x.Source!=null && x.Dest!=null && x.Dest.Count>0))
+            try
             {
-                if (d.Source.Driver.GetProperties().SupportsPull)
+                var mapping = MappedDevices.Where(x => x.Source != null && x.Dest != null && x.Dest.Count > 0).ToList();
+                foreach (var d in mapping)
                 {
-                    d.Source.Pull();
-                }
+                    if (d.Source.Driver.GetProperties().SupportsPull)
+                    {
+                        d.Source.Pull();
+                    }
 
-                foreach (var controlDevice in d.Dest)
-                {
-                    controlDevice.MapLEDs(d.Source);
-                    controlDevice.Push();
+                    var dst = d.Dest.Where(x => x.LEDs != null && x.LEDs.Length > 0 && x.Driver.GetProperties().SupportsPush).ToList();
+                    foreach (var controlDevice in dst)
+                    {
+                        controlDevice.MapLEDs(d.Source);
+                        controlDevice.Push();
+                    }
                 }
             }
-        }
-    
+            catch
+            {
 
-    public List<DeviceMappingModels.DeviceMap> MappedDevices = new List<DeviceMappingModels.DeviceMap>();
+            }
+        }
+
+
+        public List<DeviceMappingModels.DeviceMap> MappedDevices = new List<DeviceMappingModels.DeviceMap>();
     private void SLSUpdate(object state)
     {
-        List<ControlDevice> devicesToPush = new List<ControlDevice>();
-        foreach (SyncGroup syncGroup in Instance.Settings.SyncGroups.ToArray())
-        {
-            int r = 0;
-            int g = 0;
-            int b = 0;
-            if (syncGroup.SyncLed.SLSLedUnit != null)
-            {
-                r = syncGroup.SyncLed.SLSLedUnit.Color.Red;
-                g = syncGroup.SyncLed.SLSLedUnit.Color.Green;
-                b = syncGroup.SyncLed.SLSLedUnit.Color.Blue;
-                syncGroup.LedGroup.Brush = new SolidColorBrush(new Color((byte)r, (byte)g, (byte)b));
-            }
-            else
-            {
-                Led sled = syncGroup.SyncLed.GetLed();
-                if (sled != null)
+
+                List<ControlDevice> devicesToPush = new List<ControlDevice>();
+                foreach (SyncGroup syncGroup in Instance.Settings.SyncGroups.ToArray())
                 {
-                    r = sled.Color.GetR();
-                    g = sled.Color.GetG();
-                    b = sled.Color.GetB();
-                }
-            }
+                    int r = 0;
+                    int g = 0;
+                    int b = 0;
+                    if (syncGroup?.SyncLed?.SLSLedUnit != null)
+                    {
+                        r = syncGroup.SyncLed.SLSLedUnit.Color.Red;
+                        g = syncGroup.SyncLed.SLSLedUnit.Color.Green;
+                        b = syncGroup.SyncLed.SLSLedUnit.Color.Blue;
+                        syncGroup.LedGroup.Brush = new SolidColorBrush(new Color((byte)r, (byte)g, (byte)b));
+                    }
+                    else
+                    {
+                        Led sled = syncGroup.SyncLed.GetLed();
+                        if (sled != null)
+                        {
+                            r = sled.Color.GetR();
+                            g = sled.Color.GetG();
+                            b = sled.Color.GetB();
+                        }
+                    }
 
-            foreach (var l in syncGroup.Leds.Where(x => x.SLSLedUnit != null))
-            {
-                l.SLSLedUnit.Color = new ControlDevice.LEDColor(r, g, b);
-                if (!devicesToPush.Contains(l.ControlDevice))
+                    foreach (var l in syncGroup.Leds.Where(x => x.SLSLedUnit != null))
+                    {
+                        l.SLSLedUnit.Color = new LEDColor(r, g, b);
+                        if (!devicesToPush.Contains(l.ControlDevice))
+                        {
+                            devicesToPush.Add(l.ControlDevice);
+                        }
+                    }
+
+                }
+
+                foreach (var cd in devicesToPush)
                 {
-                    devicesToPush.Add(l.ControlDevice);
+                    cd.Push();
                 }
-            }
 
-        }
+                DeviceMapSync();
 
-        foreach (var cd in devicesToPush)
-        {
-            cd.Push();
-        }
+  
 
-        DeviceMapSync();
     }
 
     private void LoadDeviceProviders()

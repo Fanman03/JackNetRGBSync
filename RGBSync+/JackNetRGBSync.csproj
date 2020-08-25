@@ -52,7 +52,7 @@
     <StartupObject>RGBSyncPlus.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>ProgramIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -77,6 +77,9 @@
   <PropertyGroup />
   <ItemGroup>
     <Reference Include="PresentationFramework.Aero2" />
+    <Reference Include="SLSInterface">
+      <HintPath>..\..\..\..\Downloads\SLSInterface.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
@@ -378,9 +381,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\argebee.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\background.png" />
     <Resource Include="Resources\close.png" />
     <Resource Include="Resources\minimize.png" />
@@ -404,9 +404,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\argebee_old.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\icon.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\exit.png" />
@@ -506,10 +503,13 @@
     <Resource Include="Resources\DevImg\Pump.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SLS\MadLedFrameworkSDK\SimpleLEDSDK.csproj">
-      <Project>{EB4729F4-0BF6-41D3-9548-F8C7846A2025}</Project>
-      <Name>SimpleLEDSDK</Name>
-    </ProjectReference>
+    <Resource Include="ProgramIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ProgramIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\hires.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

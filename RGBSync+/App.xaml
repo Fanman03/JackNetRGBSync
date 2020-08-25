@@ -12,7 +12,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <tb:TaskbarIcon x:Key="TaskbarIcon"
-                            IconSource="Resources/argebee.ico"
+                            IconSource="Resources/ProgramIcon.ico"
                             ToolTip="JackNet RGB Sync"
                             MenuActivation="LeftOrRightClick">
                 <tb:TaskbarIcon.ContextMenu >
