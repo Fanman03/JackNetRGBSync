@@ -14,7 +14,7 @@
                                   xmlns:Converter="clr-namespace:RGBSyncPlus.Converter" x:Class="RGBSyncPlus.UI.ConfigurationWindow"
                                   mc:Ignorable="d"
                                   Title="{x:Static p:Resources.Title}" 
-                                  Icon="pack://application:,,,/RGBSync+;component/tl_icon.ico"
+                                  Icon="pack://application:,,,/RGBSync+;component/Resources/HiRes.ico"
                                   IconCommand="{Binding OpenHomepageCommand}"
                                   Width="1280"  Height="720"
                                   Closed="ConfigurationWindow_OnClosed" ResizeMode="CanMinimize">
