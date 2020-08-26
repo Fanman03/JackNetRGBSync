@@ -511,5 +511,11 @@
   <ItemGroup>
     <Resource Include="Resources\hires.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SLS\MadLedFrameworkSDK\SimpleLEDSDK.csproj">
+      <Project>{eb4729f4-0bf6-41d3-9548-f8c7846a2025}</Project>
+      <Name>SimpleLEDSDK</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
