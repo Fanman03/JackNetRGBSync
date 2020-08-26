@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceExcludeTool", "..\Dev
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundUploadHelper", "..\BackgroundUploadHelper\BackgroundUploadHelper.csproj", "{BD9D6D04-1F12-4C2C-8973-FF9D9C1BE24C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLEDSDK", "..\SLS\MadLedFrameworkSDK\SimpleLEDSDK.csproj", "{EB4729F4-0BF6-41D3-9548-F8C7846A2025}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLEDSDK", "..\SimpleLEDSDK\MadLedFrameworkSDK\SimpleLEDSDK.csproj", "{EB4729F4-0BF6-41D3-9548-F8C7846A2025}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

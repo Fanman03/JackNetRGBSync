@@ -77,9 +77,6 @@
   <PropertyGroup />
   <ItemGroup>
     <Reference Include="PresentationFramework.Aero2" />
-    <Reference Include="SLSInterface">
-      <HintPath>..\..\..\..\Downloads\SLSInterface.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
@@ -512,8 +509,8 @@
     <Resource Include="Resources\hires.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SLS\MadLedFrameworkSDK\SimpleLEDSDK.csproj">
-      <Project>{eb4729f4-0bf6-41d3-9548-f8c7846a2025}</Project>
+    <ProjectReference Include="..\SimpleLEDSDK\MadLedFrameworkSDK\SimpleLEDSDK.csproj">
+      <Project>{EB4729F4-0BF6-41D3-9548-F8C7846A2025}</Project>
       <Name>SimpleLEDSDK</Name>
     </ProjectReference>
   </ItemGroup>
