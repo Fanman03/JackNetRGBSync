@@ -59,6 +59,9 @@ namespace RGBSyncPlus.Converter
                     case DeviceTypes.Speaker:
                         return new BitmapImage(new Uri(
                             "pack://application:,,,/RGBSync+;component/Resources/DevImg/Speaker.png", UriKind.Absolute));
+                    case DeviceTypes.Effect:
+                        return new BitmapImage(new Uri(
+                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/Effect.png", UriKind.Absolute));
                     case DeviceTypes.Other:
                         return new BitmapImage(new Uri(
                             "pack://application:,,,/RGBSync+;component/Resources/DevImg/Invalid.png", UriKind.Absolute));

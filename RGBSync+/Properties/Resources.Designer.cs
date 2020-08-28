@@ -700,7 +700,7 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to JackNet RGB Sync - Configuration.
+        ///   Looks up a localized string similar to RGB Sync - Configuration.
         /// </summary>
         public static string Title {
             get {

@@ -7,12 +7,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("JackNet RGB SYNC")]
-[assembly: AssemblyDescription("The one-stop utlility for syncing your RGB perhipherals and components. Compatible with Corsair iCUE, Asus AURA, Razer Synapse, Logitech Gaming, and Cooler Master Masterplus.")]
+[assembly: AssemblyTitle("RGB Sync")]
+[assembly: AssemblyDescription("The one-stop utility for syncing your RGB perhipherals and components. Compatible with Corsair iCUE, Asus AURA, Razer Synapse, Logitech Gaming, and Cooler Master Masterplus.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("JackNet Systems")]
-[assembly: AssemblyProduct("JackNet RGB SYNC")]
-[assembly: AssemblyCopyright("Copyright ©  2020 JackNet Systems")]
+[assembly: AssemblyCompany("RGB Suite Software")]
+[assembly: AssemblyProduct("RGB Sync")]
+[assembly: AssemblyCopyright("Copyright © 2020 RGB Suite Software")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.8.0.*")]
-[assembly: AssemblyFileVersion("1.8.0.*")]
+[assembly: AssemblyVersion("2.0.0.*")]
+[assembly: AssemblyFileVersion("2.0.0.*")]

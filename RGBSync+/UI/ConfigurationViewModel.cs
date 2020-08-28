@@ -99,6 +99,16 @@ namespace RGBSyncPlus.UI
             }
         }
 
+        public bool EnableStartupDelay
+        {
+            get => ApplicationManager.Instance.AppSettings.RunOnStartup;
+            set
+            {
+                ApplicationManager.Instance.AppSettings.RunOnStartup = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string SelectedLanguage
         {
             get => ApplicationManager.Instance.AppSettings.Lang;
@@ -322,6 +332,9 @@ namespace RGBSyncPlus.UI
 
         private ActionCommand _rpcCommand;
         public ActionCommand SetRPCCommand => _rpcCommand ?? (_rpcCommand = new ActionCommand(SetRPC));
+
+        private ActionCommand _setDelayCommand;
+        public ActionCommand SetDelayCommand => _setDelayCommand ?? (_setDelayCommand = new ActionCommand(SetDelay));
 
         private ActionCommand _adminCommand;
         public ActionCommand SetAdminCommand => _adminCommand ?? (_adminCommand = new ActionCommand(SetAdmin));
@@ -671,6 +684,18 @@ namespace RGBSyncPlus.UI
             else if (ApplicationManager.Instance.AppSettings.EnableDiscordRPC == false)
             {
                 EnableDiscordRPC = false;
+            }
+        }
+
+        private void SetDelay()
+        {
+            if (ApplicationManager.Instance.AppSettings.RunOnStartup == true)
+            {
+                EnableStartupDelay = true;
+            }
+            else if (ApplicationManager.Instance.AppSettings.RunOnStartup == false)
+            {
+                EnableStartupDelay = false;
             }
         }
 

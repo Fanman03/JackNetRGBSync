@@ -106,7 +106,7 @@
                                                               Margin="8"
                                                               Style="{StaticResource StyleImageButtonWithOpacity}"
                                                               Image="{TemplateBinding Icon}"
-                                                              ToolTip="JackNet RGB Sync" />
+                                                              ToolTip="RGB Sync" />
                                     </DockPanel>
                                 </Border>
 

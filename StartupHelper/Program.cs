@@ -34,21 +34,33 @@ namespace StartupHelper
                 ShowWindow(hwnd, SW_HIDE);
             }
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Title = "JackNet RGB Sync is starting...";
-            Console.WriteLine("JackNet RGB Sync Autostart Helper");
-            Console.ForegroundColor = ConsoleColor.White;
+                if (settings.RunOnStartup)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Title = "JackNet RGB Sync is starting...";
+                    Console.WriteLine("JackNet RGB Sync Autostart Helper");
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    for (int i = settings.StartDelay; i > 0; i = i - 1)
+                    {
+                        Console.WriteLine("Waiting {0} seconds...", i);
+                        Thread.Sleep(1000);
+                    }
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Starting App...");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Process.Start("RGBSync+.exe");
+                } else
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Title = "JackNet RGB Sync is not starting...";
+                    Console.WriteLine("Exiting...");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Environment.Exit(0);
+                }
+            }
+
             
-            for (int i = settings.StartDelay; i > 0; i = i - 1)
-            {
-                Console.WriteLine("Waiting {0} seconds...", i);
-                Thread.Sleep(1000);
-            }
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Starting App...");
-            Console.ForegroundColor = ConsoleColor.White;
-            Process.Start("RGBSync+.exe");
-            }
             catch(Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;

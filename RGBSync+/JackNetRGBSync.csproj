@@ -511,5 +511,11 @@
   <ItemGroup>
     <Resource Include="Resources\hires.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\hires.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DevImg\Effect.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

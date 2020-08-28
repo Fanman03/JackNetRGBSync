@@ -465,7 +465,7 @@ namespace RGBSyncPlus
                 Assets = new Assets()
                 {
                     LargeImageKey = "large_image",
-                    LargeImageText = "JackNet RGB Sync",
+                    LargeImageText = "RGB Sync",
                     SmallImageKey = "small_image",
                     SmallImageText = "by Fanman03"
                 }

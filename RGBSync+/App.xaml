@@ -13,13 +13,13 @@
 
             <tb:TaskbarIcon x:Key="TaskbarIcon"
                             IconSource="Resources/ProgramIcon.ico"
-                            ToolTip="JackNet RGB Sync"
+                            ToolTip="RGB Sync"
                             MenuActivation="LeftOrRightClick">
                 <tb:TaskbarIcon.ContextMenu >
                     <ContextMenu>
-                        <MenuItem Header="JackNet RGB Sync v1.8" IsEnabled="False">
+                        <MenuItem Header="RGB Sync v2.0" IsEnabled="False">
                             <MenuItem.Icon>
-                                <Image Source="/RGBSync+;component/Resources/argebee.ico" />
+                                <Image Source="/RGBSync+;component/Resources/ProgramIcon.ico" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
