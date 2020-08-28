@@ -19,7 +19,7 @@ namespace RGBSyncPlus.Configuration
         public int Version { get; set; } = 0;
         public double UpdateRate { get; set; } = 30.0;
         public bool RunOnStartup { get; set; } = false;
-        public int StartDelay { get; set; } = 0;
+        public int StartDelay { get; set; } = 15;
         public string ApiKey { get; set; } = null;
         private bool minimizeToTray = false;
         public bool MinimizeToTray
