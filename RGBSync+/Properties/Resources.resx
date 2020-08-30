@@ -252,8 +252,8 @@
   <data name="Page2Header" xml:space="preserve">
     <value>Settings</value>
   </data>
-  <data name="Page3Header" xml:space="preserve">
-    <value>Network</value>
+  <data name="DevicesHeader" xml:space="preserve">
+    <value>Devices</value>
   </data>
   <data name="Page4Header" xml:space="preserve">
     <value>About</value>

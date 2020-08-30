@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using MadLedFrameworkSDK;
 using RGB.NET.Core;
 
@@ -34,6 +36,40 @@ namespace RGBSyncPlus.Model
             {
                 DriverName = device.Driver.Name();
                 DeviceName = device.Name;
+            }
+        }
+
+        public class Device : AbstractBindable
+        {
+            private string name;
+            public string Name
+            {
+                get => name;
+                set => SetProperty(ref name, value);
+            }
+
+
+            private string providerName;
+            public string ProviderName
+            {
+                get => providerName;
+                set => SetProperty(ref providerName, value);
+            }
+
+            private BitmapImage image;
+
+            public BitmapImage Image
+            {
+                get => image;
+                set => SetProperty(ref image, value);
+            }
+
+            private ControlDevice controlDevice;
+
+            public ControlDevice ControlDevice
+            {
+                get => controlDevice;
+                set => SetProperty(ref controlDevice, value);
             }
         }
 

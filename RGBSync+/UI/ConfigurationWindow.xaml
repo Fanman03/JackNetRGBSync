@@ -117,6 +117,54 @@
                     <TextBlock Text="{Binding SourceDevice.Name}" FontFamily="Segoe UI Light" FontSize="24" HorizontalAlignment="Left"></TextBlock>
                 </Grid>
             </DataTemplate>
+            <DataTemplate x:Key="DeviceControlTemplate">
+                <Grid Width="192" Height="192" Margin="10" Background="#F2000000" MaxWidth="192">
+                    <Image Width="192" Height="192" Source="generic2.png"></Image>
+                    <Image Source="{Binding Image}" Width="192" Height="192"></Image>
+                    <Rectangle Width="192" Height="192">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                <GradientStop Color="#00000000" Offset="0.724"/>
+                                <GradientStop Color="Black" Offset="0.93"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Grid Width="192" Background="#CC000000" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
+                        <StackPanel Orientation="Horizontal">
+                        <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="24" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6"/>
+                            <TextBlock Text="{Binding ControlDevice.DeviceType}" FontSize="18" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <StackPanel MaxWidth="192">
+                        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="192">
+                            <Grid.Background>
+                                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                    <GradientStop Color="White" Offset="0"/>
+                                    <GradientStop Color="Black" Offset="0.019"/>
+                                    <GradientStop Color="#CC000000" Offset="0.025"/>
+                                    <GradientStop Color="#CC000000" Offset="0.837"/>
+                                    <GradientStop Color="#10000000" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Grid.Background>
+                            <TextBlock Text="{Binding ProviderName}" Margin="6" FontSize="22" FontWeight="Bold" MaxWidth="192" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
+                        </Grid>
+
+                        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="192">
+                            <Grid.Background>
+                                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                    <GradientStop Color="White" Offset="0"/>
+                                    <GradientStop Color="Black" Offset="0.019"/>
+                                    <GradientStop Color="#CC000000" Offset="0.025"/>
+                                    <GradientStop Color="#CC000000" Offset="0.837"/>
+                                    <GradientStop Color="#10000000" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Grid.Background>
+                            <TextBlock Text="{Binding Name}" Margin="6" FontSize="16" MaxWidth="192" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
+                        </Grid>
+                    </StackPanel>
+                    <Border BorderBrush="White" BorderThickness="1"></Border>
+                </Grid>
+            </DataTemplate>
         </styles:CachedResourceDictionary>
     </controls:BlurredDecorationWindow.Resources>
 
@@ -349,74 +397,38 @@
             </AdornerDecorator>
         </TabItem>
 
-        
+
         <TabItem Header="{x:Static p:Resources.Page5Header}">
 
             <AdornerDecorator>
                 <DockPanel LastChildFill="True">
                     <GroupBox DockPanel.Dock="Left" Margin="0,0,0,0" >
 
-                    <!--<ListView ItemsSource="{Binding DeviceMaps}" ItemTemplate="{DynamicResource DeviceMapperItemTemplate}"></ListView>-->
+                        <!--<ListView ItemsSource="{Binding DeviceMaps}" ItemTemplate="{DynamicResource DeviceMapperItemTemplate}"></ListView>-->
 
-                    <ScrollViewer>
-                        <ListView ItemsSource="{Binding DeviceMappingViewModel}" ItemTemplate="{DynamicResource DeviceMapperItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" PreviewMouseWheel="HandlePreviewMouseWheel" >
-                        </ListView>
-                    </ScrollViewer>
+                        <ScrollViewer>
+                            <ListView ItemsSource="{Binding DeviceMappingViewModel}" ItemTemplate="{DynamicResource DeviceMapperItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" PreviewMouseWheel="HandlePreviewMouseWheel" >
+                            </ListView>
+                        </ScrollViewer>
                     </GroupBox>
                 </DockPanel>
             </AdornerDecorator>
         </TabItem>
-        <TabItem Header="{x:Static p:Resources.Page3Header}">
+        <TabItem Header="{x:Static p:Resources.DevicesHeader}">
             <AdornerDecorator>
-                <DockPanel LastChildFill="True" HorizontalAlignment="Center">
-                    <GroupBox DockPanel.Dock="Left"  Width="630" Margin="0,0,4,0">
-                        <DockPanel>
-                            <TextBlock><InlineUIContainer>
-                                    <Image Margin="0,-5" Width="25" Height="25" Source="/RGBSync+;component/Resources/client.png" />
-                                </InlineUIContainer><Run FontSize="20" Text="{x:Static p:Resources.ClientHeading}" /><LineBreak/><InlineUIContainer>
-                                    <CheckBox HorizontalAlignment="Center" IsChecked="{Binding EnableClient}"  Command="{Binding ToggleClientCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.EnableClientLabel}"/>
-                                </InlineUIContainer><LineBreak/><InlineUIContainer>
-                                    <Label controls:Form.IsLabel="True" Content="{x:Static p:Resources.ServerIPLabel}" Foreground="White" />
-                                </InlineUIContainer><Run Text=" "/><InlineUIContainer>
-                                    <TextBox x:Name="ClientHost" Text="{Binding ClientIP}" Width="80" Cursor="IBeam"/>
-                                </InlineUIContainer><LineBreak/><InlineUIContainer>
-                                    <Label controls:Form.IsLabel="True" Content="{x:Static p:Resources.ServerPortLabel}" Foreground="White" />
-                                </InlineUIContainer><Run Text=" "/><InlineUIContainer>
-                                    <TextBox x:Name="ClientPort" Text="{Binding ClientPort}" Width="40" />
-                                </InlineUIContainer><LineBreak/><InlineUIContainer>
-                                    <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding StartClientCommand}"  IsEnabled="{Binding EnableClient}">
-                                        <StackPanel VerticalAlignment="Center" Height="Auto" Orientation="Horizontal">
-                                            <Image Margin="0,0,2,0" Width="20" Height="20" Source="/RGBSync+;component/Resources/start.png" />
-                                            <TextBlock VerticalAlignment="Center" Text="{x:Static p:Resources.StartClientButton}"/>
-                                        </StackPanel>
-                                    </Button>
-                                </InlineUIContainer></TextBlock>
-                        </DockPanel>
+                <Grid>
+                    <ListView ItemsSource="{Binding SLSDevices}" ItemTemplate="{DynamicResource DeviceControlTemplate}">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
+                                           ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                           MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
+                                           ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
 
-
-                    </GroupBox>
-                    <GroupBox Width="630">
-                        <DockPanel>
-                            <TextBlock><InlineUIContainer>
-                                    <Image Margin="0,-5" Width="25" Height="25" Source="/RGBSync+;component/Resources/server.png" />
-                                </InlineUIContainer><Run FontSize="20" Text="{x:Static p:Resources.ServerHeading}" /><LineBreak/><InlineUIContainer>
-                                    <CheckBox HorizontalAlignment="Center" IsChecked="{Binding EnableServer}"  Command="{Binding ToggleServerCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.EnableServerLabel}"/>
-                                </InlineUIContainer><LineBreak/><InlineUIContainer>
-                                    <Label controls:Form.IsLabel="True" Content="{x:Static p:Resources.ServerPortLabel}" Foreground="White" />
-                                </InlineUIContainer><Run Text=" "/><InlineUIContainer>
-                                    <TextBox x:Name="ServerPort" Text="{Binding ServerPort}" Width="40" />
-                                </InlineUIContainer><LineBreak/><InlineUIContainer>
-                                    <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding StartServerCommand}"  IsEnabled="{Binding EnableServer}">
-                                        <StackPanel VerticalAlignment="Center" Height="Auto" Orientation="Horizontal">
-                                            <Image Margin="0,0,2,0" Width="20" Height="20" Source="/RGBSync+;component/Resources/start.png" />
-                                            <TextBlock VerticalAlignment="Center" Text="{x:Static p:Resources.StartServerButton}" />
-                                        </StackPanel>
-                                    </Button>
-                                </InlineUIContainer></TextBlock>
-                        </DockPanel>
-                    </GroupBox>
-
-                </DockPanel>
+                    </ListView>
+                </Grid>
 
             </AdornerDecorator>
         </TabItem>

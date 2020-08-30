@@ -514,5 +514,11 @@
       <Name>SimpleLEDSDK</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\generic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\generic2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

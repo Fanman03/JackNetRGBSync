@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -28,6 +30,7 @@ using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Net;
 using System.Resources;
+using System.Windows.Media.Imaging;
 using MadLedFrameworkSDK;
 
 namespace RGBSyncPlus.UI
@@ -40,6 +43,9 @@ namespace RGBSyncPlus.UI
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         #region Properties & Fields
 
+
+        private ObservableCollection<DeviceMappingModels.Device> slsDevices;
+        public ObservableCollection<DeviceMappingModels.Device> SLSDevices { get => slsDevices; set => SetProperty(ref slsDevices, value); }
 
         private ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> deviceMappingViewModel;
         public ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> DeviceMappingViewModel { get => deviceMappingViewModel; set => SetProperty(ref deviceMappingViewModel, value); }
@@ -371,6 +377,17 @@ namespace RGBSyncPlus.UI
 
         private void SetUpDeviceMapViewModel()
         {
+            SLSDevices = new ObservableCollection<DeviceMappingModels.Device>();
+            foreach (ControlDevice device in ApplicationManager.Instance.SLSDevices)
+            {
+                SLSDevices.Add(new DeviceMappingModels.Device
+                {
+                    ControlDevice = device,
+                    Image = ToBitmapImage(device.ProductImage),
+                    Name = device.Name,
+                    ProviderName = device.Driver.Name()
+                });
+            }
             var sourceDevices = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
             var proxy = ApplicationManager.Instance.Settings.DeviceMappingProxy;
 
@@ -416,6 +433,36 @@ namespace RGBSyncPlus.UI
             }
 
             OnPropertyChanged(nameof(DeviceMappingViewModel));
+        }
+
+        public static BitmapImage ToBitmapImage(Bitmap bitmap)
+        {
+            if (bitmap == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                using (var memory = new MemoryStream())
+                {
+                    bitmap.Save(memory, ImageFormat.Png);
+                    memory.Position = 0;
+
+                    var bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = memory;
+                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmapImage.EndInit();
+                    bitmapImage.Freeze();
+
+                    return bitmapImage;
+                }
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public void MappingSyncBack(object trigger)

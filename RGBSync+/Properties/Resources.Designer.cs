@@ -178,6 +178,15 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Devices.
+        /// </summary>
+        public static string DevicesHeader {
+            get {
+                return ResourceManager.GetString("DevicesHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Devices:.
         /// </summary>
         public static string DevicesLabel {
@@ -462,15 +471,6 @@ namespace RGBSyncPlus.Properties {
         public static string Page2Header {
             get {
                 return ResourceManager.GetString("Page2Header", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Network.
-        /// </summary>
-        public static string Page3Header {
-            get {
-                return ResourceManager.GetString("Page3Header", resourceCulture);
             }
         }
         
