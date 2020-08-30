@@ -545,11 +545,17 @@
                                 <CheckBox Margin="75,0,-75,0" ToolTip="{x:Static p:Resources.DiscordTooltip}" VerticalAlignment="Center" IsChecked="{Binding EnableDiscordRPC}"  Command="{Binding SetRPCCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.DiscordText}"/>
 
                                 <Label  Margin="0,0,-75,0" controls:Form.IsLabel="True" 
+                                       Content="Run on Startup:"   />
+                                <CheckBox IsChecked="{Binding EnableStartupDelay}"  Command="{Binding SetDelayCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="75,0,-60,0"></CheckBox>
+
+                                <Label  Margin="0,0,-75,0" controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.DelayLabel}"   />
                                 <Slider Margin="-270,0,100,0" Minimum="0" Maximum="120"  Width="400" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
-                                        Value="{Binding StartupDelay}"
+                                        Value="{Binding StartupDelay}" IsEnabled="{Binding EnableStartupDelay}"
                                         attached:SliderValue.Unit="{x:Static p:Resources.DelayUnit}"
                                         ToolTip="{x:Static p:Resources.DelayTooltip}" />
+
+
 
 
                             </controls:Form>

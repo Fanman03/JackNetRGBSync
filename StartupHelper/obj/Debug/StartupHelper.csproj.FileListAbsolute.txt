@@ -11,3 +11,6 @@ C:\Projects\RGBSyncOrigin\JackNetRGBSync\StartupHelper\obj\Debug\StartupHelper.c
 C:\Projects\RGBSyncOrigin\JackNetRGBSync\StartupHelper\obj\Debug\StartupHelper.csproj.CoreCompileInputs.cache
 C:\Projects\RGBSyncOrigin\JackNetRGBSync\StartupHelper\obj\Debug\StartupHelper.exe
 C:\Projects\RGBSyncOrigin\JackNetRGBSync\StartupHelper\obj\Debug\StartupHelper.pdb
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\bin\StartupHelper.exe.config
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\bin\StartupHelper.exe
+C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\bin\StartupHelper.pdb

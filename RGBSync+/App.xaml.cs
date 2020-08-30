@@ -61,7 +61,7 @@ namespace RGBSyncPlus
                 if (settings == null)
                 {
                     settings = new Settings { Version = Settings.CURRENT_VERSION };
-                    _taskbarIcon.ShowBalloonTip("JackNet RGB Sync is starting in the tray!", "Click on the icon to open the configuration.", BalloonIcon.Info);
+                    _taskbarIcon.ShowBalloonTip("RGB Sync is starting in the tray!", "Click on the icon to open the configuration.", BalloonIcon.Info);
                 }
 
                 else if (settings.Version != Settings.CURRENT_VERSION)
@@ -85,7 +85,7 @@ namespace RGBSyncPlus
             catch (Exception ex)
             {
                 File.WriteAllText("error.log", $"[{DateTime.Now:G}] Exception!\r\n\r\nMessage:\r\n{ex.GetFullMessage()}\r\n\r\nStackTrace:\r\n{ex.StackTrace}\r\n\r\n");
-                GenericErrorDialog dialog = new GenericErrorDialog("An error occured while starting JackNet RGB Sync.\r\nMore information can be found in the error.log file in the application directory.", "Can't start JackNet RGB Sync.", $"[{DateTime.Now:G}] Exception!\r\n\r\nMessage:\r\n{ex.GetFullMessage()}\r\n\r\nStackTrace:\r\n{ex.StackTrace}\r\n\r\n");
+                GenericErrorDialog dialog = new GenericErrorDialog("An error occured while starting RGB Sync.\r\nMore information can be found in the error.log file in the application directory.", "Can't start JackNet RGB Sync.", $"[{DateTime.Now:G}] Exception!\r\n\r\nMessage:\r\n{ex.GetFullMessage()}\r\n\r\nStackTrace:\r\n{ex.StackTrace}\r\n\r\n");
                 dialog.Show();
 
                 try { ApplicationManager.Instance.ExitCommand.Execute(null); }
