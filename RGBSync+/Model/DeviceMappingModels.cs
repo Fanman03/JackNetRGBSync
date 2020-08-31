@@ -71,6 +71,23 @@ namespace RGBSyncPlus.Model
                 get => controlDevice;
                 set => SetProperty(ref controlDevice, value);
             }
+
+            private bool supportsPush;
+
+            public bool SupportsPush
+            {
+                get => supportsPush;
+                set => SetProperty(ref supportsPush, value);
+            }
+
+
+            private bool supportsPull;
+
+            public bool SupportsPull
+            {
+                get => supportsPull;
+                set => SetProperty(ref supportsPull, value);
+            }
         }
 
         public class DeviceMappingViewModel : AbstractBindable

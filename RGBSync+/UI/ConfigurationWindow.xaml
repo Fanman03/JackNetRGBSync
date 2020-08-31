@@ -17,7 +17,7 @@
                                   Icon="pack://application:,,,/RGBSync+;component/Resources/HiRes.ico"
                                   IconCommand="{Binding OpenHomepageCommand}"
                                   Width="1280"  Height="720"
-                                  Closed="ConfigurationWindow_OnClosed" ResizeMode="CanMinimize">
+                                  Closed="ConfigurationWindow_OnClosed" ResizeMode="CanResizeWithGrip">
 
     <controls:BlurredDecorationWindow.Resources>
         <styles:CachedResourceDictionary>
@@ -131,9 +131,14 @@
                     </Rectangle>
                     <Grid Width="192" Background="#CC000000" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
                         <StackPanel Orientation="Horizontal">
-                        <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="24" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6"/>
+                            <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="24" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6"/>
                             <TextBlock Text="{Binding ControlDevice.DeviceType}" FontSize="18" VerticalAlignment="Center"></TextBlock>
                         </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Image Source="pull.png" Width="24" Visibility="{Binding SupportsPull, Converter={StaticResource BoolToVisibilityConverter}}"></Image>
+                            <Image Source="push.png" Width="24" Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}"></Image>
+                            </StackPanel>
                     </Grid>
                     <StackPanel MaxWidth="192">
                         <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="192">
@@ -178,7 +183,7 @@
 
             <AdornerDecorator>
                 <DockPanel LastChildFill="True" >
-                    <GroupBox DockPanel.Dock="Bottom" Margin="0,8,1006,0" >
+                    <GroupBox DockPanel.Dock="Bottom" Width="260" HorizontalAlignment="Left" >
                         <DockPanel VerticalAlignment="Bottom">
                             <DockPanel DockPanel.Dock="Top"
                                     HorizontalAlignment="Center" >
@@ -209,7 +214,7 @@
                             </DockPanel>
                         </DockPanel>
                     </GroupBox>
-                    <GroupBox DockPanel.Dock="Bottom" Margin="0,8,1006,0" >
+                    <GroupBox DockPanel.Dock="Bottom" Width="260" HorizontalAlignment="Left" >
                         <GroupBox.Resources>
                             <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="{x:Type Label}" />
                         </GroupBox.Resources>
@@ -417,17 +422,49 @@
         <TabItem Header="{x:Static p:Resources.DevicesHeader}">
             <AdornerDecorator>
                 <Grid>
-                    <ListView ItemsSource="{Binding SLSDevices}" ItemTemplate="{DynamicResource DeviceControlTemplate}">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <GroupBox>
+                        <ListView ItemsSource="{Binding SLSDevices}" ItemTemplate="{DynamicResource DeviceControlTemplate}" SelectionChanged="DevicesListSelectionChanged" x:Name="DeviceConfigList">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
                                            ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}"
                                            MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
                                            ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}" />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
 
-                    </ListView>
+                        </ListView>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" x:Name="ConfigPanel" Background="#80000000" Foreground="White" BorderBrush="Transparent" Margin="-8,0,-8,-8">
+                        <TabControl Background="#40000000" Foreground="White" BorderBrush="#80000000" BorderThickness="2" Margin="-8">
+                            <TabItem Header="Alignment" Background="#80000000" Foreground="White" BorderBrush="Transparent">
+                                <AdornerDecorator >
+                                    <Grid  >
+                                    <StackPanel Background="Transparent" >
+                                    <TextBlock Text="{Binding Name}"></TextBlock>
+                                            <Label Foreground="White" FontSize="16">Use the controls below to make your devices match the images</Label>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button FontSize="24" Content="&lt;" Height="60" Width="60" Margin="8" Click="Button_Click" ></Button>
+                                            <Button FontSize="24" Content="&gt;" Height="60" Width="60" Margin="8" Click="Button_Click_2" ></Button>
+                                            <Button FontSize="24" Content="&lt; &gt;" Height="60" Width="60"  Margin="8" Click="Button_Click_3"></Button>
+
+                                        <Image Source="alignment_template.png" Width="172"></Image>
+                                    </StackPanel>
+                                    
+                                    </StackPanel>
+                                    </Grid>
+                                </AdornerDecorator>
+                            </TabItem>
+
+                            <TabItem Header="Custom">
+
+                            </TabItem>
+                        </TabControl>
+                    </GroupBox>
                 </Grid>
 
             </AdornerDecorator>

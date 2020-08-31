@@ -393,12 +393,16 @@ namespace RGBSyncPlus.UI
             SLSDevices = new ObservableCollection<DeviceMappingModels.Device>();
             foreach (ControlDevice device in ApplicationManager.Instance.SLSDevices)
             {
+                var props = device.Driver.GetProperties();
+
                 SLSDevices.Add(new DeviceMappingModels.Device
                 {
                     ControlDevice = device,
                     Image = ToBitmapImage(device.ProductImage),
                     Name = device.Name,
-                    ProviderName = device.Driver.Name()
+                    ProviderName = device.Driver.Name(),
+                    SupportsPull = props.SupportsPull,
+                    SupportsPush = props.SupportsPush
                 });
             }
             var sourceDevices = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
