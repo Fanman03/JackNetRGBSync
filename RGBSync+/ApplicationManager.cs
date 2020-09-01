@@ -549,7 +549,7 @@ namespace RGBSyncPlus
 
             List<ControlDevice> devicesToPull = new List<ControlDevice>();
 
-            foreach (var currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings)
+            foreach (var currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
             {
                 ControlDevice cd = SLSDevices.First(x =>
                     x.Name == currentProfileDeviceProfileSetting.SourceName &&
@@ -570,7 +570,7 @@ namespace RGBSyncPlus
             }
 
 
-            foreach (var currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings)
+            foreach (var currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
             {
                 ControlDevice cd = SLSDevices.First(x =>
                     x.Name == currentProfileDeviceProfileSetting.SourceName &&
