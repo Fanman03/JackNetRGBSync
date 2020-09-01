@@ -542,7 +542,7 @@ namespace RGBSyncPlus
 
             //DeviceMapSync();
 
-            if (CurrentProfile == null)
+            if (CurrentProfile == null || CurrentProfile.DeviceProfileSettings==null)
             {
                 return;
             }

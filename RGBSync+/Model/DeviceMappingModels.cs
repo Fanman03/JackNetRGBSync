@@ -110,7 +110,7 @@ namespace RGBSyncPlus.Model
                 }
             }
 
-            private ObservableCollection<NGDeviceProfileSettings> deviceProfileSettings;
+            private ObservableCollection<NGDeviceProfileSettings> deviceProfileSettings = new ObservableCollection<NGDeviceProfileSettings>();
 
             public ObservableCollection<NGDeviceProfileSettings> DeviceProfileSettings
             {
