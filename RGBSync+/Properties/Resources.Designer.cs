@@ -664,6 +664,15 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Store.
+        /// </summary>
+        public static string StoreHeader {
+            get {
+                return ResourceManager.GetString("StoreHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Synchronized LEDs.
         /// </summary>
         public static string SyncedLEDsLabel {

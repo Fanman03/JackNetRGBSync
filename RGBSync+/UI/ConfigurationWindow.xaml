@@ -98,9 +98,9 @@
 
             </DataTemplate>
 
-            <DataTemplate x:Key="DeviceMapperSourceItemTemplate">
+            <DataTemplate x:Key="DeviceMapperSourceItemTemplate" >
 
-                <Grid Margin="0,5,0,5" Background="#80000000" Width="370" MinWidth="370">
+                <Grid Margin="0,5,0,5" Background="#80000000" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -124,8 +124,8 @@
                                     </LinearGradientBrush>
                                 </Rectangle.Fill>
                             </Rectangle>
-                   
-                            
+
+
                             <Border BorderBrush="White" BorderThickness="1"></Border>
                         </Grid>
                         <StackPanel Grid.Column="3">
@@ -135,15 +135,16 @@
                                 <TextBlock TextTrimming="CharacterEllipsis" Margin="8" Text="{Binding ProviderName}" />
                             </StackPanel>
                             <TextBlock TextTrimming="CharacterEllipsis"  Text="{Binding Name}" ToolTip="{Binding Name}" Margin="0,-8,0,0" FontSize="24" FontFamily="Segoe UI Light" Foreground="White" VerticalAlignment="Center"/>
-                                
+
                         </StackPanel>
 
 
                     </Grid>
                     <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisibilityConverter}}">
                         <Border BorderThickness="8" BorderBrush="#ff007F0E">
-                        <Image Source="selectedCorner.png" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right"></Image>
-                    </Border></Grid>
+                            <Image Source="selectedCorner.png" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right"></Image>
+                        </Border>
+                    </Grid>
                 </Grid>
 
             </DataTemplate>
@@ -168,10 +169,18 @@
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="DeviceControlTemplate">
-                <Grid Width="192" Height="192" Margin="10" Background="#F2000000" MaxWidth="192">
-                    <Image Width="192" Height="192" Source="generic2.png"></Image>
-                    <Image Source="{Binding Image}" Width="192" Height="192"></Image>
-                    <Rectangle Width="192" Height="192">
+                <Grid Width="256" Height="192" Margin="10" Background="#F2000000" MaxWidth="256">
+                    <!--<Image Width="192" Height="192" Source="generic2.png"></Image>-->
+                    <Rectangle Width="256" Height="192">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black" Offset="0"/>
+                                <GradientStop Color="#FF0F0F0F" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Image Source="{Binding Image}" Width="256" Height="192"></Image>
+                    <Rectangle Width="256" Height="192">
                         <Rectangle.Fill>
                             <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
                                 <GradientStop Color="#00000000" Offset="0.724"/>
@@ -179,32 +188,24 @@
                             </LinearGradientBrush>
                         </Rectangle.Fill>
                     </Rectangle>
-                    <Grid Width="192" Background="#CC000000" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
+                    <Grid Width="256" Background="#40000000" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
                         <StackPanel Orientation="Horizontal">
                             <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="24" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6"/>
-                            <TextBlock Text="{Binding ControlDevice.DeviceType}" FontSize="18" VerticalAlignment="Center"></TextBlock>
+                            <TextBlock Text="{Binding ControlDevice.DeviceType}" FontSize="18" VerticalAlignment="Center" Margin="8,0,0,0"></TextBlock>
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,8,0">
                             <Image Source="pull.png" Width="24" Visibility="{Binding SupportsPull, Converter={StaticResource BoolToVisibilityConverter}}"></Image>
                             <Image Source="push.png" Width="24" Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}"></Image>
                         </StackPanel>
                     </Grid>
-                    <StackPanel MaxWidth="192">
-                        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="192">
-                            <Grid.Background>
-                                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                    <GradientStop Color="White" Offset="0"/>
-                                    <GradientStop Color="Black" Offset="0.019"/>
-                                    <GradientStop Color="#CC000000" Offset="0.025"/>
-                                    <GradientStop Color="#CC000000" Offset="0.837"/>
-                                    <GradientStop Color="#10000000" Offset="1"/>
-                                </LinearGradientBrush>
-                            </Grid.Background>
-                            <TextBlock Text="{Binding ProviderName}" Margin="6" FontSize="22" FontWeight="Bold" MaxWidth="192" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
+                    <StackPanel MaxWidth="256">
+                        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="256" Background="#ddFFFFFF">
+
+                            <TextBlock Text="{Binding ProviderName}" Margin="6" FontSize="20" FontWeight="Bold" MaxWidth="192" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right" Foreground="Black"></TextBlock>
                         </Grid>
 
-                        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="192">
+                        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="256">
                             <Grid.Background>
                                 <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
                                     <GradientStop Color="White" Offset="0"/>
@@ -214,10 +215,10 @@
                                     <GradientStop Color="#10000000" Offset="1"/>
                                 </LinearGradientBrush>
                             </Grid.Background>
-                            <TextBlock Text="{Binding Name}" Margin="6" FontSize="16" MaxWidth="192" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
+                            <TextBlock Text="{Binding Name}" Margin="6" FontSize="14" MaxWidth="256" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
                         </Grid>
                     </StackPanel>
-                    <Border BorderBrush="White" BorderThickness="1"></Border>
+                    <!--<Border BorderBrush="White" BorderThickness="1"></Border>-->
                 </Grid>
             </DataTemplate>
         </styles:CachedResourceDictionary>
@@ -234,7 +235,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="302"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid Margin="-8">
                         <Grid.RowDefinitions>
@@ -254,79 +255,57 @@
 
                         </Grid>
                         <GroupBox Grid.Row="1">
-                            <ListView ItemsSource="{Binding SLSDevices}" ItemTemplate="{DynamicResource DeviceControlTemplate}" SelectionChanged="DevicesListSelectionChanged" x:Name="DeviceConfigList">
-                                <ListView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
+                            <Grid>
+                                <Rectangle Height="30" Width="200"></Rectangle>
+
+                                <ListView ItemsSource="{Binding SLSDevices}" ItemTemplate="{DynamicResource DeviceControlTemplate}" SelectionChanged="DevicesListSelectionChanged" x:Name="DeviceConfigList">
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <!--<StackPanel Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.PanningMode="HorizontalOnly"></StackPanel>-->
+                                            <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
                                            ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}"
                                            MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
-                                           ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}" />
-                                    </ItemsPanelTemplate>
-                                </ListView.ItemsPanel>
+                                           ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
 
-                            </ListView>
+                                </ListView>
+                            </Grid>
                         </GroupBox>
                     </Grid>
                     <GroupBox Grid.Row="1" x:Name="ConfigPanel" Background="#80000000" Foreground="White" BorderBrush="Transparent" Margin="-8,0,-8,-8">
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition MaxWidth="240"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid Width="192" Height="192" Margin="10" Background="#F2000000" MaxWidth="192" VerticalAlignment="Top">
-                                <Image Width="192" Height="192" Source="generic2.png"></Image>
-                                <Image Source="{Binding Image}" Width="192" Height="192"></Image>
-                                <Rectangle Width="192" Height="192">
-                                    <Rectangle.Fill>
-                                        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                            <GradientStop Color="#00000000" Offset="0.724"/>
-                                            <GradientStop Color="Black" Offset="0.93"/>
-                                        </LinearGradientBrush>
-                                    </Rectangle.Fill>
-                                </Rectangle>
-                                <Grid Width="192" Background="#CC000000" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="24" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6"/>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="48"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                           
+                            <Image  Grid.Row="0"  Grid.RowSpan="2" Source="{Binding Image}" Stretch="UniformToFill" VerticalAlignment="Center" Margin="0">
+                                <Image.Effect>
+                                    <BlurEffect Radius="8"></BlurEffect>
+                                </Image.Effect>
+                            </Image>
+                            <Rectangle Grid.Row="0" Fill="#d0000000" Margin="-8" Grid.RowSpan="2"></Rectangle>
+                            <Grid Margin="0" VerticalAlignment="Top">
+                                <Grid Background="#CC000000" Margin="-4">
+                                    <StackPanel Orientation="Horizontal"  Height="48" Margin="8,0,0,0">
+                                        <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="32" Height="32"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6"/>
                                         <TextBlock Text="{Binding ControlDevice.DeviceType}" FontSize="18" VerticalAlignment="Center"></TextBlock>
                                     </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  Height="48">
+                                        <TextBlock FontSize="36" Text="{Binding ProviderName}" FontWeight="Bold"></TextBlock>
 
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <TextBlock FontSize="36" Text="{Binding Name}" FontWeight="Light" Margin="12,0,0,0"></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="48" Margin="0,0,8,0">
                                         <Image Source="pull.png" Width="24" Visibility="{Binding SupportsPull, Converter={StaticResource BoolToVisibilityConverter}}"></Image>
                                         <Image Source="push.png" Width="24" Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}"></Image>
                                     </StackPanel>
                                 </Grid>
-                                <StackPanel MaxWidth="192">
-                                    <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="192">
-                                        <Grid.Background>
-                                            <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                                <GradientStop Color="White" Offset="0"/>
-                                                <GradientStop Color="Black" Offset="0.019"/>
-                                                <GradientStop Color="#CC000000" Offset="0.025"/>
-                                                <GradientStop Color="#CC000000" Offset="0.837"/>
-                                                <GradientStop Color="#10000000" Offset="1"/>
-                                            </LinearGradientBrush>
-                                        </Grid.Background>
-                                        <TextBlock Text="{Binding ProviderName}" Margin="6" FontSize="22" FontWeight="Bold" MaxWidth="192" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
-                                    </Grid>
-
-                                    <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="192">
-                                        <Grid.Background>
-                                            <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                                <GradientStop Color="White" Offset="0"/>
-                                                <GradientStop Color="Black" Offset="0.019"/>
-                                                <GradientStop Color="#CC000000" Offset="0.025"/>
-                                                <GradientStop Color="#CC000000" Offset="0.837"/>
-                                                <GradientStop Color="#10000000" Offset="1"/>
-                                            </LinearGradientBrush>
-                                        </Grid.Background>
-                                        <TextBlock Text="{Binding Name}" Margin="6" FontSize="16" MaxWidth="192" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
-                                    </Grid>
-                                </StackPanel>
-                                <Border BorderBrush="White" BorderThickness="1"></Border>
                             </Grid>
-                            <TabControl Background="#40000000" Foreground="White" BorderBrush="#80000000" BorderThickness="0" Margin="-8,0,-8,0" Grid.Column="1" Padding="8">
+                            <TabControl Grid.Row="1" Background="#40000000" Foreground="White" BorderBrush="#80000000" BorderThickness="0" Margin="-8" Padding="8" VerticalAlignment="Top"  FontSize="24" FontWeight="Light">
                                 <TabItem Header="Alignment" Background="#00000000" Foreground="White" BorderBrush="Transparent">
-                                    <AdornerDecorator >
+                                    
                                         <Grid  >
                                             <StackPanel Background="Transparent" >
 
@@ -341,32 +320,37 @@
 
                                             </StackPanel>
                                         </Grid>
-                                    </AdornerDecorator>
+                                    
                                 </TabItem>
 
-                                <TabItem Header="Source" Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}" Background="#80000000" Foreground="White" BorderBrush="Transparent">
+                                <TabItem 
+                                    Header="Source" 
+                                    FontSize="24" FontWeight="Light"
+                                    Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}" 
+                                    Background="#80000000" 
+                                    Foreground="White" 
+                                    BorderBrush="Transparent">
+                                    <ListView 
 
-                                    <Grid MaxHeight="200" MinWidth="400" Width="Auto"  Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}" >
+                                            ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SourceDevices}" 
+                                            ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
+                                            Background="Transparent" 
+                                            Foreground="White" 
+                                            BorderBrush="Transparent" 
+                                            SelectionMode="Single" 
+                                            SelectionChanged="ListView_SelectionChanged" HorizontalContentAlignment="Stretch" >
+                                        
 
-                                        <ListView ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SourceDevices}" ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
-                                                          Background="Transparent" Foreground="White" BorderBrush="Transparent" SelectionMode="Single" SelectionChanged="ListView_SelectionChanged" >
-                                            <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem">
-                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                </Style>
-                                            </ListView.ItemContainerStyle>
-                                            <ListView.ItemsPanel>
+<!--<ListView.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
-                                                                       ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                                       MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
-                                                                       ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}" />
+                                                                        />
                                                 </ItemsPanelTemplate>
-                                            </ListView.ItemsPanel>
-                                        </ListView>
-                                    </Grid>
+                                            </ListView.ItemsPanel>-->
+                                    </ListView>
+
                                 </TabItem>
-                                <TabItem Header="Custom">
+                                <TabItem Header="Config" >
 
                                 </TabItem>
                             </TabControl>
@@ -376,7 +360,8 @@
 
             </AdornerDecorator>
         </TabItem>
-        <TabItem Header="{x:Static p:Resources.Page1Header}">
+
+        <!--<TabItem Header="{x:Static p:Resources.Page1Header}">
 
             <AdornerDecorator>
                 <DockPanel LastChildFill="True" >
@@ -568,7 +553,8 @@
                                                Margin="0,0,0,8" 
                                                FontWeight="Bold" 
                                                Text="{x:Static p:Resources.SyncedLEDsLabel}" />
-                                    <!--<ListBox SelectionMode="Extended"
+                                    -->
+        <!--<ListBox SelectionMode="Extended"
                                              dd:DragDrop.IsDragSource="True"
                                              dd:DragDrop.IsDropTarget="True"
                                              dd:DragDrop.DropHandler="{Binding}"
@@ -579,6 +565,7 @@
                                             <StaticResource ResourceKey="StyleListBoxGroup" />
                                         </ListBox.GroupStyle>
                                     </ListBox>-->
+        <!--
                                     <ScrollViewer>
                                         <ListView ItemsSource="{Binding Devices}" ItemTemplate="{DynamicResource DeviceGroupItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" PreviewMouseWheel="HandlePreviewMouseWheel" >
                                         </ListView>
@@ -597,9 +584,9 @@
                     </DockPanel>
                 </DockPanel>
             </AdornerDecorator>
-        </TabItem>
+        </TabItem>-->
 
-<!--
+        <!--
         <TabItem Header="{x:Static p:Resources.Page5Header}">
 
             <AdornerDecorator>
@@ -777,6 +764,16 @@
                         </Grid>
                     </StackPanel>
                 </GroupBox>
+            </AdornerDecorator>
+        </TabItem>
+        <TabItem Header="{x:Static p:Resources.StoreHeader}">
+
+            <AdornerDecorator>
+                <DockPanel LastChildFill="True" >
+                    <GroupBox DockPanel.Dock="Bottom" Width="260" HorizontalAlignment="Left" >
+
+                    </GroupBox>
+                </DockPanel>
             </AdornerDecorator>
         </TabItem>
     </TabControl>

@@ -551,13 +551,15 @@ namespace RGBSyncPlus
 
             foreach (var currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
             {
-                ControlDevice cd = SLSDevices.First(x =>
+                ControlDevice cd = SLSDevices.FirstOrDefault(x =>
                     x.Name == currentProfileDeviceProfileSetting.SourceName &&
                     x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName);
-
-                if (!devicesToPull.Contains(cd))
+                if (cd != null)
                 {
-                    devicesToPull.Add(cd);
+                    if (!devicesToPull.Contains(cd))
+                    {
+                        devicesToPull.Add(cd);
+                    }
                 }
             }
 
@@ -572,19 +574,22 @@ namespace RGBSyncPlus
 
             foreach (var currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
             {
-                ControlDevice cd = SLSDevices.First(x =>
+                ControlDevice cd = SLSDevices.FirstOrDefault(x =>
                     x.Name == currentProfileDeviceProfileSetting.SourceName &&
                     x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName);
 
-                ControlDevice dest = SLSDevices.First(x =>
+                ControlDevice dest = SLSDevices.FirstOrDefault(x =>
                     x.Name == currentProfileDeviceProfileSetting.Name &&
                     x.Driver.Name() == currentProfileDeviceProfileSetting.ProviderName);
 
-                dest.MapLEDs(cd);
-
-                if (dest.Driver.GetProperties().SupportsPush)
+                if (cd != null && dest != null)
                 {
-                    dest.Push();
+                    dest.MapLEDs(cd);
+
+                    if (dest.Driver.GetProperties().SupportsPush)
+                    {
+                        dest.Push();
+                    }
                 }
             }
 

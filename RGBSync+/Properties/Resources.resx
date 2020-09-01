@@ -246,6 +246,9 @@
   <data name="OpenUIItem" xml:space="preserve">
     <value>Open UI</value>
   </data>
+  <data name="StoreHeader" xml:space="preserve">
+    <value>Store</value>
+  </data>
   <data name="Page1Header" xml:space="preserve">
     <value>LED Groups</value>
   </data>

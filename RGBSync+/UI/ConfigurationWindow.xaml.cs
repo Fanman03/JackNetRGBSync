@@ -67,31 +67,32 @@ namespace RGBSyncPlus.UI
                 //return;
             }
 
-            try
-            {
-                WebClient client = new WebClient();
+            //todo where does banner image go?
+            //try
+            //{
+            //    WebClient client = new WebClient();
 
-                string bannerJson = client.DownloadString("https://www.rgbsync.com/api/banner.json");
-                BannerSchema schema = JsonConvert.DeserializeObject<BannerSchema>(bannerJson);
-                if (schema.imgUrl != null)
-                {
-                    var bitmapImage = new BitmapImage();
-                    bitmapImage.BeginInit();
-                    bitmapImage.UriSource = new Uri(schema.imgUrl);
-                    ;
-                    bitmapImage.EndInit();
+            //    string bannerJson = client.DownloadString("https://www.rgbsync.com/api/banner.json");
+            //    BannerSchema schema = JsonConvert.DeserializeObject<BannerSchema>(bannerJson);
+            //    if (schema.imgUrl != null)
+            //    {
+            //        var bitmapImage = new BitmapImage();
+            //        bitmapImage.BeginInit();
+            //        bitmapImage.UriSource = new Uri(schema.imgUrl);
+            //        ;
+            //        bitmapImage.EndInit();
 
-                    BannerImage.Source = bitmapImage;
-                }
-            }
-            catch
-            {
-                var bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.UriSource = new Uri("pack://application:,,,/RGBSync+;component/Resources/DefaultBanner.png", UriKind.Absolute);
-                bitmapImage.EndInit();
-                BannerImage.Source = bitmapImage;
-            }
+            //        BannerImage.Source = bitmapImage;
+            //    }
+            //}
+            //catch
+            //{
+            //    var bitmapImage = new BitmapImage();
+            //    bitmapImage.BeginInit();
+            //    bitmapImage.UriSource = new Uri("pack://application:,,,/RGBSync+;component/Resources/DefaultBanner.png", UriKind.Absolute);
+            //    bitmapImage.EndInit();
+            //    BannerImage.Source = bitmapImage;
+            //}
 
             ApplyButton.Visibility = Visibility.Hidden;
             if (ConfigurationViewModel.PremiumStatus == "Visible")
@@ -180,7 +181,7 @@ namespace RGBSyncPlus.UI
             }
             DoNotRestart = false;
             //ScrollViewer.SetVerticalScrollBarVisibility(AvailableLEDsListbox, ScrollBarVisibility.Visible);
-            ScrollViewer.SetVerticalScrollBarVisibility(LEDGroupsListbox, ScrollBarVisibility.Visible);
+            //ScrollViewer.SetVerticalScrollBarVisibility(LEDGroupsListbox, ScrollBarVisibility.Visible);
         }
 
         //DarthAffe 07.02.2018: This prevents the applicaiton from not shutting down and crashing afterwards if 'close' is selected in the taskbar-context-menu
@@ -405,8 +406,8 @@ namespace RGBSyncPlus.UI
 
         private void CloseBanner_Click(object sender, RoutedEventArgs e)
         {
-            BannerColumn.Visibility = Visibility.Collapsed;
-            SyncLedsColumn.SetValue(Grid.ColumnSpanProperty, 3);
+            //BannerColumn.Visibility = Visibility.Collapsed;
+            //SyncLedsColumn.SetValue(Grid.ColumnSpanProperty, 3);
         }
 
         private void DevicesListSelectionChanged(object sender, SelectionChangedEventArgs e)

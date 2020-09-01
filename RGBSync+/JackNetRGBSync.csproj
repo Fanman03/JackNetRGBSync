@@ -129,6 +129,7 @@
     <Compile Include="Model\DeviceMappingModels.cs" />
     <Compile Include="Model\SyncGroup.cs" />
     <Compile Include="Model\SyncLed.cs" />
+    <Compile Include="ReleaseNumber.cs" />
     <Compile Include="UI\ConfigurationViewModel.cs" />
     <Compile Include="UI\ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
