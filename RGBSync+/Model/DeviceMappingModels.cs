@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using MadLedFrameworkSDK;
+using Newtonsoft.Json;
 using RGB.NET.Core;
 
 namespace RGBSyncPlus.Model
@@ -30,13 +31,250 @@ namespace RGBSyncPlus.Model
         {
             public string DriverName { get; set; }
             public string DeviceName { get; set; }
-            public DeviceProxy(){}
+            public DeviceProxy() { }
 
             public DeviceProxy(ControlDevice device)
             {
                 DriverName = device.Driver.Name();
                 DeviceName = device.Name;
             }
+        }
+
+        public class NGSettings : AbstractBindable
+        {
+            [JsonIgnore]
+            public bool AreSettingsStale { get; set; }
+            private ObservableCollection<string> profileNames;
+            [JsonIgnore]
+            public ObservableCollection<string> ProfileNames
+            {
+                get => profileNames;
+                set
+                {
+                    SetProperty(ref profileNames, value);
+                    AreSettingsStale = true;
+                }
+            }
+
+            private string currentProfile;
+
+            public string CurrentProfile
+            {
+                get => currentProfile;
+                set
+                {
+                    SetProperty(ref currentProfile, value); 
+                    AreSettingsStale = true;
+                }
+            }
+
+            private bool apiEnabled;
+
+            public bool ApiEnabled
+            {
+                get => apiEnabled;
+                set
+                {
+                    SetProperty(ref apiEnabled, value);
+                    AreSettingsStale = true;
+                }
+            }
+
+            private ObservableCollection<NGDeviceSettings> deviceSettings;
+
+            public ObservableCollection<NGDeviceSettings> DeviceSettings
+            {
+                get => deviceSettings;
+                set
+
+                {
+                    SetProperty(ref deviceSettings, value);
+                    AreSettingsStale = true;
+                }
+            }
+        }
+
+        public class NGProfile : AbstractBindable
+        {
+            [JsonIgnore]
+            public bool IsProfileStale { get; set; }
+
+            private string name;
+            public string Name
+            {
+                get => name;
+                set
+                {
+                    SetProperty(ref name, value);
+                    IsProfileStale = true;
+                }
+            }
+
+            private ObservableCollection<NGDeviceProfileSettings> deviceProfileSettings;
+
+            public ObservableCollection<NGDeviceProfileSettings> DeviceProfileSettings
+            {
+                get => deviceProfileSettings;
+                set
+                {
+                    SetProperty(ref deviceProfileSettings, value);
+                    IsProfileStale = true;
+                }
+            }
+        }
+
+        public class NGDeviceSettings : AbstractBindable
+        {
+            [JsonIgnore] public bool AreDeviceSettingsStale;
+
+            private string name;
+            public string Name
+            {
+                get => name;
+                set
+                {
+                    SetProperty(ref name, value);
+                    AreDeviceSettingsStale = true;
+                }
+            }
+
+
+            private string providerName;
+            public string ProviderName
+            {
+                get => providerName;
+                set
+                {
+                    SetProperty(ref providerName, value);
+                    AreDeviceSettingsStale = true;
+                }
+            }
+
+            private int ledShift = 0;
+
+            public int LEDShift
+            {
+                get => ledShift;
+                set
+                {
+                    SetProperty(ref ledShift, value);
+                    AreDeviceSettingsStale = true;
+                }
+            }
+
+            private bool reverse = false;
+
+            public bool Reverse
+            {
+                get => reverse;
+                set
+                {
+                    SetProperty(ref reverse, value);
+                    AreDeviceSettingsStale = true;
+                }
+            }
+
+
+            private bool ledCountOverride = false;
+
+            public bool LEDCountOverride
+            {
+                get => ledCountOverride;
+                set
+                {
+                    SetProperty(ref ledCountOverride, value);
+                    AreDeviceSettingsStale = true;
+                }
+            }
+
+            private int ledCountOverrideValue = 0;
+
+            public int LEDCountOverrideValue
+            {
+                get => ledCountOverrideValue;
+                set
+                {
+                    SetProperty(ref ledCountOverrideValue, value);
+                    AreDeviceSettingsStale = true;
+                }
+            }
+        }
+
+        public class SourceModel : AbstractBindable
+        {
+            private string name;
+            public string Name
+            {
+                get => name;
+                set => SetProperty(ref name, value);
+            }
+
+
+            private string providerName;
+            public string ProviderName
+            {
+                get => providerName;
+                set => SetProperty(ref providerName, value);
+            }
+            private bool enabled;
+
+            public bool Enabled
+            {
+                get => enabled;
+                set
+                {
+                    SetProperty(ref enabled, value);
+                }
+            }
+
+            public ControlDevice Device { get; set; }
+        }
+
+        public class NGDeviceProfileSettings : AbstractBindable
+        {
+            [JsonIgnore]
+            public ControlDevice Device { get; set; }
+
+            [JsonIgnore]
+            public ControlDevice SourceDevice { get; set; }
+
+            private string name;
+            public string Name
+            {
+                get => name;
+                set => SetProperty(ref name, value);
+            }
+
+
+            private string providerName;
+            public string ProviderName
+            {
+                get => providerName;
+                set => SetProperty(ref providerName, value);
+            }
+
+
+
+
+            private string sourceName;
+            public string SourceName
+            {
+                get => sourceName;
+                set => SetProperty(ref sourceName, value);
+            }
+
+
+            private string sourceProviderName;
+            public string SourceProviderName
+            {
+                get => sourceProviderName;
+                set => SetProperty(ref sourceProviderName, value);
+            }
+
+
+
+
+
         }
 
         public class Device : AbstractBindable
@@ -107,8 +345,18 @@ namespace RGBSyncPlus.Model
             private bool suspendRollUp = false;
 
             private ControlDevice sourceDevice;
-            public ControlDevice SourceDevice { get=>sourceDevice; set=>SetProperty(ref sourceDevice, value); }
 
+            public ControlDevice SourceDevice
+            {
+                get => sourceDevice;
+                set
+                {
+                    SetProperty(ref sourceDevice, value);
+                    ProviderName = value.Driver.Name();
+                }
+            }
+
+            public string ProviderName { get; set; }
             private bool enabled;
 
             public bool Enabled
@@ -116,7 +364,7 @@ namespace RGBSyncPlus.Model
                 get => enabled;
                 set
                 {
-                    SetProperty(ref enabled, value); 
+                    SetProperty(ref enabled, value);
                     SyncBack?.Invoke(this);
                 }
             }

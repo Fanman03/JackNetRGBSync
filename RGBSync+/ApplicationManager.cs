@@ -41,11 +41,11 @@ namespace RGBSyncPlus
 
         private const string DEVICEPROVIDER_DIRECTORY = "DeviceProvider";
         private const string SLSPROVIDER_DIRECTORY = "SLSProvider";
-
+        private const string NGPROFILES_DIRECTORY = "NGProfiles";
         #endregion
 
         #region Properties & Fields
-
+        public DeviceMappingModels.NGSettings NGSettings = new DeviceMappingModels.NGSettings();
         public bool PauseSyncing { get; set; } = false;
         public static ApplicationManager Instance { get; } = new ApplicationManager();
 
@@ -89,6 +89,200 @@ namespace RGBSyncPlus
         #endregion
 
         #region Methods
+
+        private Dictionary<string, string> profilePathMapping = new Dictionary<string, string>();
+        public void LoadNGSettings()
+        {
+            if (File.Exists("NGSettings.json"))
+            {
+                string json = File.ReadAllText("NGSettings.json");
+                //try
+                {
+                    NGSettings = JsonConvert.DeserializeObject<DeviceMappingModels.NGSettings>(json);
+                    Logger.Info("Settings loaded");
+                    HotLoadNGSettings();
+                }
+                //catch
+                //{
+                //    Logger.Error("error loading settings");
+                //}
+            }
+            else
+            {
+                NGSettings = new DeviceMappingModels.NGSettings();
+                SaveNGSettings();
+            }
+        }
+
+        public DateTime TimeSettingsLastSave=DateTime.MinValue;
+
+        public void SaveNGSettings()
+        {
+            string json = JsonConvert.SerializeObject(NGSettings);
+            File.WriteAllText("NGSettings.json", json);
+            TimeSettingsLastSave=DateTime.Now;
+            NGSettings.AreSettingsStale = false;
+        }
+
+        public void SaveCurrentNGProfile()
+        {
+            string json = JsonConvert.SerializeObject(CurrentProfile);
+            string path = profilePathMapping[CurrentProfile.Name];
+            TimeSettingsLastSave = DateTime.Now;
+            File.WriteAllText(path,json);
+            CurrentProfile.IsProfileStale = false;
+        }
+
+        public void HotLoadNGSettings()
+        {
+            if (!Directory.Exists(NGPROFILES_DIRECTORY))
+            {
+                Directory.CreateDirectory(NGPROFILES_DIRECTORY);
+                GenerateNewProfile("Default");
+                return;
+            }
+
+            var profiles = Directory.GetFiles(NGPROFILES_DIRECTORY, "*.rsprofile");
+
+            if (profiles == null || profiles.Length == 0)
+            {
+                GenerateNewProfile("Default");
+            }
+
+            NGSettings.ProfileNames=new ObservableCollection<string>();
+            foreach (var profile in profiles)
+            {
+                string profileName = GetProfileFromPath(profile).Name;
+                profilePathMapping.Add(profileName,profile);
+                NGSettings.ProfileNames.Add(profileName);
+            }
+
+            if (NGSettings.ProfileNames.Contains(NGSettings.CurrentProfile))
+            {
+                LoadProfileFromName(NGSettings.CurrentProfile);
+            }
+
+            server?.CloseAsync().Wait();
+
+            if (NGSettings.ApiEnabled)
+            {
+                StartApiServer();
+            }
+
+            if (NGSettings.DeviceSettings!=null){
+                foreach (var ngSettingsDeviceSetting in NGSettings.DeviceSettings)
+                {
+                    ControlDevice cd = GetControlDeviceFromName(ngSettingsDeviceSetting.ProviderName,
+                        ngSettingsDeviceSetting.Name);
+
+                    if (cd != null)
+                    {
+                        cd.LedShift = ngSettingsDeviceSetting.LEDShift;
+                        cd.Reverse = ngSettingsDeviceSetting.Reverse;
+
+                    }
+                }
+            }
+
+        }
+
+        public bool SettingsRequiresSave()
+        {
+            if (NGSettings.AreSettingsStale) return true;
+            if (NGSettings.DeviceSettings != null)
+            {
+                if (NGSettings.DeviceSettings.Any(x => x.AreDeviceSettingsStale)) return true;
+            }
+
+            return false;
+        }
+
+        public bool ProfilesRequiresSave()
+        {
+            if (CurrentProfile == null) return false;
+            return (CurrentProfile.IsProfileStale);
+        }
+
+        public void CheckSettingStale()
+        {
+            if ((DateTime.Now - TimeSettingsLastSave).TotalSeconds > 5)
+            {
+                if (SettingsRequiresSave())
+                {
+                    SaveNGSettings();
+                }
+
+                if (ProfilesRequiresSave())
+                {
+                    SaveCurrentNGProfile();
+                }
+            }
+        }
+
+        public void GenerateNewProfile(string name)
+        {
+            if (NGSettings.ProfileNames!=null&&NGSettings.ProfileNames.Any(x => x.ToLower() == name.ToLower()))
+            {
+                throw new ArgumentException("Profile name already exists");
+            }
+
+            if (!Directory.Exists(NGPROFILES_DIRECTORY))
+            {
+                Directory.CreateDirectory(NGPROFILES_DIRECTORY);
+            }
+
+            DeviceMappingModels.NGProfile newProfile = new DeviceMappingModels.NGProfile();
+            newProfile.Name = name;
+
+            string filename = Guid.NewGuid().ToString() + ".rsprofile";
+            string fullPath = NGPROFILES_DIRECTORY + "\\" + filename;
+            string json = JsonConvert.SerializeObject(newProfile);
+            File.WriteAllText(fullPath,json);
+
+            //profilePathMapping.Add(name,fullPath);
+            NGSettings.CurrentProfile = name;
+            CurrentProfile = newProfile;
+
+            HotLoadNGSettings();
+
+        }
+
+        public ControlDevice GetControlDeviceFromName(string providerName, string name)
+        {
+            return SLSDevices.FirstOrDefault(x => x.Name == name && x.Driver.Name()==providerName);
+        }
+
+        public void StartApiServer()
+        {
+            //setup API
+            //todo make this be able to be toggled:
+            Debug.WriteLine("Setting up API");
+            var apiconfig = new HttpSelfHostConfiguration("http://localhost:9022");
+
+            apiconfig.Routes.MapHttpRoute("API Default", "api/{controller}/{id}", new { id = RouteParameter.Optional });
+
+            server = new HttpSelfHostServer(apiconfig);
+            apiconfig.EnableSwagger(c => c.SingleApiVersion("v1", "RGBSync API")).EnableSwaggerUi();
+            //server.OpenAsync();
+
+            Task.Run(() => server.OpenAsync());
+            Debug.WriteLine("API Running");
+        }
+
+        public void LoadProfileFromName(string profileName)
+        {
+            CurrentProfile = GetProfileFromPath(profilePathMapping[profileName]);
+            NGSettings.CurrentProfile = profileName;
+        }
+
+        public DeviceMappingModels.NGProfile GetProfileFromPath(string path)
+        {
+            string json = File.ReadAllText(path);
+            return JsonConvert.DeserializeObject<DeviceMappingModels.NGProfile>(json);
+        }
+
+
+        public DeviceMappingModels.NGProfile CurrentProfile;
 
         public void Initialize()
         {
@@ -189,19 +383,7 @@ namespace RGBSyncPlus
             slsTimer = new Timer(SLSUpdate, null, 0, (int)tmr2);
 
 
-            //setup API
-            //todo make this be able to be toggled:
-            Debug.WriteLine("Setting up API");
-            var apiconfig = new HttpSelfHostConfiguration("http://localhost:9022");
-
-            apiconfig.Routes.MapHttpRoute("API Default", "api/{controller}/{id}", new { id = RouteParameter.Optional });
-
-            server = new HttpSelfHostServer(apiconfig);
-            apiconfig.EnableSwagger(c => c.SingleApiVersion("v1", "RGBSync API")).EnableSwaggerUi();
-            //server.OpenAsync();
-
-            Task.Run(() => server.OpenAsync());
-            Debug.WriteLine("API Running");
+           LoadNGSettings();
 
         }
 
@@ -312,54 +494,99 @@ namespace RGBSyncPlus
         public List<DeviceMappingModels.DeviceMap> MappedDevices = new List<DeviceMappingModels.DeviceMap>();
         private void SLSUpdate(object state)
         {
+            CheckSettingStale();
             if (PauseSyncing)
             {
                 return;
             }
 
-            List<ControlDevice> devicesToPush = new List<ControlDevice>();
-            foreach (SyncGroup syncGroup in Instance.Settings.SyncGroups.ToArray())
+            //List<ControlDevice> devicesToPush = new List<ControlDevice>();
+            //foreach (SyncGroup syncGroup in Instance.Settings.SyncGroups.ToArray())
+            //{
+            //    int r = 0;
+            //    int g = 0;
+            //    int b = 0;
+            //    if (syncGroup?.SyncLed?.SLSLedUnit != null)
+            //    {
+            //        r = syncGroup.SyncLed.SLSLedUnit.Color.Red;
+            //        g = syncGroup.SyncLed.SLSLedUnit.Color.Green;
+            //        b = syncGroup.SyncLed.SLSLedUnit.Color.Blue;
+            //        syncGroup.LedGroup.Brush = new SolidColorBrush(new Color((byte)r, (byte)g, (byte)b));
+            //    }
+            //    else
+            //    {
+            //        Led sled = syncGroup.SyncLed.GetLed();
+            //        if (sled != null)
+            //        {
+            //            r = sled.Color.GetR();
+            //            g = sled.Color.GetG();
+            //            b = sled.Color.GetB();
+            //        }
+            //    }
+
+            //    foreach (var l in syncGroup.Leds.Where(x => x.SLSLedUnit != null))
+            //    {
+            //        l.SLSLedUnit.Color = new LEDColor(r, g, b);
+            //        if (!devicesToPush.Contains(l.ControlDevice))
+            //        {
+            //            devicesToPush.Add(l.ControlDevice);
+            //        }
+            //    }
+
+            //}
+
+            //foreach (var cd in devicesToPush)
+            //{
+            //    cd.Push();
+            //}
+
+            //DeviceMapSync();
+
+            if (CurrentProfile == null)
             {
-                int r = 0;
-                int g = 0;
-                int b = 0;
-                if (syncGroup?.SyncLed?.SLSLedUnit != null)
-                {
-                    r = syncGroup.SyncLed.SLSLedUnit.Color.Red;
-                    g = syncGroup.SyncLed.SLSLedUnit.Color.Green;
-                    b = syncGroup.SyncLed.SLSLedUnit.Color.Blue;
-                    syncGroup.LedGroup.Brush = new SolidColorBrush(new Color((byte)r, (byte)g, (byte)b));
-                }
-                else
-                {
-                    Led sled = syncGroup.SyncLed.GetLed();
-                    if (sled != null)
-                    {
-                        r = sled.Color.GetR();
-                        g = sled.Color.GetG();
-                        b = sled.Color.GetB();
-                    }
-                }
-
-                foreach (var l in syncGroup.Leds.Where(x => x.SLSLedUnit != null))
-                {
-                    l.SLSLedUnit.Color = new LEDColor(r, g, b);
-                    if (!devicesToPush.Contains(l.ControlDevice))
-                    {
-                        devicesToPush.Add(l.ControlDevice);
-                    }
-                }
-
+                return;
             }
 
-            foreach (var cd in devicesToPush)
+            List<ControlDevice> devicesToPull = new List<ControlDevice>();
+
+            foreach (var currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings)
             {
-                cd.Push();
+                ControlDevice cd = SLSDevices.First(x =>
+                    x.Name == currentProfileDeviceProfileSetting.SourceName &&
+                    x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName);
+
+                if (!devicesToPull.Contains(cd))
+                {
+                    devicesToPull.Add(cd);
+                }
             }
 
-            DeviceMapSync();
+            foreach (var controlDevice in devicesToPull)
+            {
+                if (controlDevice.Driver.GetProperties().SupportsPull)
+                {
+                    controlDevice.Pull();
+                }
+            }
 
 
+            foreach (var currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings)
+            {
+                ControlDevice cd = SLSDevices.First(x =>
+                    x.Name == currentProfileDeviceProfileSetting.SourceName &&
+                    x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName);
+
+                ControlDevice dest = SLSDevices.First(x =>
+                    x.Name == currentProfileDeviceProfileSetting.Name &&
+                    x.Driver.Name() == currentProfileDeviceProfileSetting.ProviderName);
+
+                dest.MapLEDs(cd);
+
+                if (dest.Driver.GetProperties().SupportsPush)
+                {
+                    dest.Push();
+                }
+            }
 
         }
 

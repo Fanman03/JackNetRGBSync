@@ -43,6 +43,13 @@ namespace RGBSyncPlus.UI
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         #region Properties & Fields
 
+        private ObservableCollection<string> profileNames;
+
+        public ObservableCollection<string> ProfileNames
+        {
+            get => profileNames;
+            set => SetProperty(ref profileNames, value);
+        }
 
         private ObservableCollection<DeviceMappingModels.Device> slsDevices;
         public ObservableCollection<DeviceMappingModels.Device> SLSDevices { get => slsDevices; set => SetProperty(ref slsDevices, value); }
@@ -50,6 +57,37 @@ namespace RGBSyncPlus.UI
         private ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> deviceMappingViewModel;
         public ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> DeviceMappingViewModel { get => deviceMappingViewModel; set => SetProperty(ref deviceMappingViewModel, value); }
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
+
+
+        private ObservableCollection<DeviceMappingModels.SourceModel> sourceDevices;
+
+        public ObservableCollection<DeviceMappingModels.SourceModel> SourceDevices
+        {
+            get => sourceDevices;
+            set => SetProperty(ref sourceDevices, value);
+        }
+
+        public void SetupSourceDevices(ControlDevice controlDevice)
+        {
+            var sources = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
+
+            ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ApplicationManager.Instance.CurrentProfile.DeviceProfileSettings;
+            DeviceMappingModels.NGDeviceProfileSettings current = temp.FirstOrDefault(x => x.Name == controlDevice.Name && x.ProviderName == controlDevice.Driver.Name());
+
+            SourceDevices = new ObservableCollection<DeviceMappingModels.SourceModel>();
+            foreach (var source in sources)
+            {
+                var enabled = current != null && source.Driver.Name() == current.SourceProviderName && source.Name == current.SourceName;
+                SourceDevices.Add(new DeviceMappingModels.SourceModel
+                {
+                    ProviderName = source.Driver.Name(),
+                    Device = source,
+                    Name = source.Name,
+                    Enabled = enabled
+                });;
+            }
+
+        }
 
         public static string PremiumStatus
         {
@@ -386,6 +424,8 @@ namespace RGBSyncPlus.UI
             DeviceMappingViewModel = new ObservableCollection<DeviceMappingModels.DeviceMappingViewModel>();
 
             SetUpDeviceMapViewModel();
+
+            ProfileNames = ApplicationManager.Instance.NGSettings.ProfileNames;
         }
 
         private void SetUpDeviceMapViewModel()
@@ -405,51 +445,51 @@ namespace RGBSyncPlus.UI
                     SupportsPush = props.SupportsPush
                 });
             }
-            var sourceDevices = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
-            var proxy = ApplicationManager.Instance.Settings.DeviceMappingProxy;
+            //var sourceDevices = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
+            //var proxy = ApplicationManager.Instance.Settings.DeviceMappingProxy;
 
-            foreach (ControlDevice instanceSlsDevice in sourceDevices)
-            {
-                Guid id = Guid.NewGuid();
-                var pushers = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().SupportsPush).ToList();
-                var dmm = new DeviceMappingModels.DeviceMappingViewModel
-                {
-                    Id = id,
-                    SyncBack = MappingSyncBack,
-                    SourceDevice = instanceSlsDevice,
+            //foreach (ControlDevice instanceSlsDevice in sourceDevices)
+            //{
+            //    Guid id = Guid.NewGuid();
+            //    var pushers = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().SupportsPush).ToList();
+            //    var dmm = new DeviceMappingModels.DeviceMappingViewModel
+            //    {
+            //        Id = id,
+            //        SyncBack = MappingSyncBack,
+            //        SourceDevice = instanceSlsDevice,
 
-                };
+            //    };
 
-                List<DeviceMappingModels.DeviceMappingItemViewModel> items = new List<DeviceMappingModels.DeviceMappingItemViewModel>();
-                foreach (var controlDevice in pushers)
-                {
-                    bool enabled = false;
-                    DeviceMappingModels.DeviceMapping prxSource = proxy?.FirstOrDefault(x =>
-                        x.SourceDevice.DeviceName == instanceSlsDevice.Name &&
-                        x.SourceDevice.DeviceName == instanceSlsDevice.Driver.Name());
-                    if (prxSource != null)
-                    {
-                        enabled = prxSource.DestinationDevices.Any(x =>
-                            x.DeviceName == controlDevice.Name && x.DriverName == controlDevice.Driver.Name());
-                    }
+            //    //List<DeviceMappingModels.DeviceMappingItemViewModel> items = new List<DeviceMappingModels.DeviceMappingItemViewModel>();
+            //    //foreach (var controlDevice in pushers)
+            //    //{
+            //    //    bool enabled = false;
+            //    //    DeviceMappingModels.DeviceMapping prxSource = proxy?.FirstOrDefault(x =>
+            //    //        x.SourceDevice.DeviceName == instanceSlsDevice.Name &&
+            //    //        x.SourceDevice.DeviceName == instanceSlsDevice.Driver.Name());
+            //    //    if (prxSource != null)
+            //    //    {
+            //    //        enabled = prxSource.DestinationDevices.Any(x =>
+            //    //            x.DeviceName == controlDevice.Name && x.DriverName == controlDevice.Driver.Name());
+            //    //    }
 
-                    items.Add(new DeviceMappingModels.DeviceMappingItemViewModel
-                    {
-                        DestinationDevice = controlDevice,
-                        Enabled = enabled,
-                        SyncBack = MappingSyncBack,
-                        ParentId = id
-                    });
-                }
+            //    //    items.Add(new DeviceMappingModels.DeviceMappingItemViewModel
+            //    //    {
+            //    //        DestinationDevice = controlDevice,
+            //    //        Enabled = enabled,
+            //    //        SyncBack = MappingSyncBack,
+            //    //        ParentId = id
+            //    //    });
+            //    //}
 
 
-                var dd = new ObservableCollection<DeviceMappingModels.DeviceMappingItemViewModel>(items);
+            //    //var dd = new ObservableCollection<DeviceMappingModels.DeviceMappingItemViewModel>(items);
 
-                dmm.DestinationDevices = dd;
-                DeviceMappingViewModel.Add(dmm);
-            }
+            //    dmm.DestinationDevices = dd;
+            //    DeviceMappingViewModel.Add(dmm);
+            //}
 
-            OnPropertyChanged(nameof(DeviceMappingViewModel));
+            //OnPropertyChanged(nameof(DeviceMappingViewModel));
         }
 
         public static BitmapImage ToBitmapImage(Bitmap bitmap)

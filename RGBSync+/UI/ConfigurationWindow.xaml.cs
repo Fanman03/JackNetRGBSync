@@ -19,6 +19,7 @@ using RGBSyncPlus.Configuration;
 using System.Net;
 using System.Windows.Input;
 using MadLedFrameworkSDK;
+using ListView = System.Windows.Forms.ListView;
 
 namespace RGBSyncPlus.UI
 {
@@ -410,9 +411,10 @@ namespace RGBSyncPlus.UI
 
         private void DevicesListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
                 ConfigPanel.DataContext = DeviceConfigList.SelectedItem;
                 ApplicationManager.Instance.DeviceBeingAligned = ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
+                
+                ((ConfigurationViewModel)this.DataContext).SetupSourceDevices(((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice);
 
         }
 
@@ -448,6 +450,45 @@ namespace RGBSyncPlus.UI
             {
                 ApplicationManager.Instance.DeviceBeingAligned.Reverse=!ApplicationManager.Instance.DeviceBeingAligned.Reverse;
 
+            }
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var items = (System.Windows.Controls.ListView) sender;
+            var selected = (DeviceMappingModels.SourceModel)items.SelectedItem;
+            foreach (var item in items.Items)
+            {
+                DeviceMappingModels.SourceModel castItem = (DeviceMappingModels.SourceModel) item;
+
+                castItem.Enabled = castItem == selected;
+            }
+
+            var parentDevice = (DeviceMappingModels.Device)ConfigPanel.DataContext;
+
+            if (selected != null)
+            {
+                var profile = ApplicationManager.Instance.CurrentProfile;
+                if (profile.DeviceProfileSettings == null)
+                {
+                    profile.DeviceProfileSettings = new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();
+                }
+                var configDevice = profile.DeviceProfileSettings.FirstOrDefault(x => x.Name == parentDevice.Name && x.ProviderName == parentDevice.ProviderName);
+
+                if (configDevice == null)
+                {
+                    configDevice = new DeviceMappingModels.NGDeviceProfileSettings
+                    {
+                        Name = parentDevice.Name,
+                        ProviderName = parentDevice.ProviderName,
+                    };
+
+                    profile.DeviceProfileSettings.Add(configDevice);
+                }
+
+                configDevice.SourceName = selected.Name;
+                configDevice.SourceProviderName = selected.ProviderName;
+                profile.IsProfileStale = true;
             }
         }
     }

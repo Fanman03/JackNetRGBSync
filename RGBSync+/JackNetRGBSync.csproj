@@ -540,5 +540,8 @@
   <ItemGroup>
     <Resource Include="UI\push.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\selectedCorner.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
