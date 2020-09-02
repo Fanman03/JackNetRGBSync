@@ -110,7 +110,7 @@
                             <ColumnDefinition Width="0"/>
                             <ColumnDefinition Width="2"/>
                             <ColumnDefinition Width="90"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <Grid Width="64" Height="64" Margin="10" Background="#F2000000" MaxWidth="128" Grid.Column="2">
@@ -304,6 +304,34 @@
                                 </Grid>
                             </Grid>
                             <TabControl Grid.Row="1" Background="#40000000" Foreground="White" BorderBrush="#80000000" BorderThickness="0" Margin="-8" Padding="8" VerticalAlignment="Top"  FontSize="24" FontWeight="Light">
+                                <TabItem 
+                                    Header="Sync To" 
+                                    FontSize="24" FontWeight="Light"
+                                    Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}" 
+                                    Foreground="White" 
+                                    BorderBrush="Transparent"
+                                    HorizontalContentAlignment="Stretch">
+                                    <ListView 
+
+                                        ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SourceDevices}" 
+                                        ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
+                                        Background="Transparent" 
+                                        Foreground="White" 
+                                        BorderBrush="Transparent" 
+                                        SelectionMode="Single" 
+                                        SelectionChanged="ListView_SelectionChanged" HorizontalContentAlignment="Stretch" >
+
+
+                                        <ListView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
+                                                                        />
+                                            </ItemsPanelTemplate>
+                                        </ListView.ItemsPanel>
+                                    </ListView>
+
+                                </TabItem>
+
                                 <TabItem Header="Alignment" Background="#00000000" Foreground="White" BorderBrush="Transparent">
                                     
                                         <Grid  >
@@ -323,33 +351,7 @@
                                     
                                 </TabItem>
 
-                                <TabItem 
-                                    Header="Source" 
-                                    FontSize="24" FontWeight="Light"
-                                    Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}" 
-                                    Background="#80000000" 
-                                    Foreground="White" 
-                                    BorderBrush="Transparent">
-                                    <ListView 
-
-                                            ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SourceDevices}" 
-                                            ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
-                                            Background="Transparent" 
-                                            Foreground="White" 
-                                            BorderBrush="Transparent" 
-                                            SelectionMode="Single" 
-                                            SelectionChanged="ListView_SelectionChanged" HorizontalContentAlignment="Stretch" >
-                                        
-
-<!--<ListView.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
-                                                                        />
-                                                </ItemsPanelTemplate>
-                                            </ListView.ItemsPanel>-->
-                                    </ListView>
-
-                                </TabItem>
+                                
                                 <TabItem Header="Config" >
 
                                 </TabItem>
