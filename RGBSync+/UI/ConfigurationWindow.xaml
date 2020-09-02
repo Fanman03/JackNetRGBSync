@@ -100,7 +100,7 @@
 
             <DataTemplate x:Key="DeviceMapperSourceItemTemplate" >
 
-                <Grid Margin="0,5,0,5" Background="#80000000" HorizontalAlignment="Stretch">
+                <Grid Margin="0,5,0,5" Background="#80000000" HorizontalAlignment="Stretch" MouseLeftButtonUp="ClickSource">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -303,7 +303,7 @@
                                     </StackPanel>
                                 </Grid>
                             </Grid>
-                            <TabControl Grid.Row="1" Background="#40000000" Foreground="White" BorderBrush="#80000000" BorderThickness="0" Margin="-8" Padding="8" VerticalAlignment="Top"  FontSize="24" FontWeight="Light">
+                            <TabControl Grid.Row="1" Background="#40000000" Foreground="White" BorderBrush="#80000000" BorderThickness="0" Margin="-8" Padding="8" VerticalAlignment="Top"  FontSize="24" FontWeight="Light" SelectionChanged="TabControl_SelectionChanged">
                                 <TabItem 
                                     Header="Sync To" 
                                     FontSize="24" FontWeight="Light"
@@ -312,14 +312,14 @@
                                     BorderBrush="Transparent"
                                     HorizontalContentAlignment="Stretch">
                                     <ListView 
-
+x:Name="SourceList"
                                         ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SourceDevices}" 
                                         ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
                                         Background="Transparent" 
                                         Foreground="White" 
                                         BorderBrush="Transparent" 
                                         SelectionMode="Single" 
-                                        SelectionChanged="ListView_SelectionChanged" HorizontalContentAlignment="Stretch" >
+                                        HorizontalContentAlignment="Stretch" >
 
 
                                         <ListView.ItemsPanel>
@@ -353,7 +353,9 @@
 
                                 
                                 <TabItem Header="Config" >
-
+<Grid x:Name="ConfigHere">
+<Button Click="Button_Click_4">Hello</Button>
+</Grid>
                                 </TabItem>
                             </TabControl>
                         </Grid>

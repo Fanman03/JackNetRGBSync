@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using RGB.NET.Core;
 using RGBSyncPlus.Configuration;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
 using MadLedFrameworkSDK;
 using ListView = System.Windows.Forms.ListView;
@@ -63,7 +64,7 @@ namespace RGBSyncPlus.UI
                 vm.AvailableLeds = new ListCollectionView(vm.SelectedSyncGroup.Leds);
                 vm.AvailableSyncLeds = new ListCollectionView(vm.SelectedSyncGroup.Leds);
 
-               
+
                 //return;
             }
 
@@ -412,10 +413,15 @@ namespace RGBSyncPlus.UI
 
         private void DevicesListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-                ConfigPanel.DataContext = DeviceConfigList.SelectedItem;
-                ApplicationManager.Instance.DeviceBeingAligned = ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
-                
-                ((ConfigurationViewModel)this.DataContext).SetupSourceDevices(((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice);
+            ConfigPanel.DataContext = DeviceConfigList.SelectedItem;
+            ApplicationManager.Instance.DeviceBeingAligned = ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
+
+            ((ConfigurationViewModel)this.DataContext).SetupSourceDevices(((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice);
+
+            DeviceMappingModels.Device dvc = ConfigHere.DataContext as DeviceMappingModels.Device;
+            ControlDevice cd = dvc.ControlDevice;
+
+            UpdateDeviceConfigUi(cd);
 
         }
 
@@ -449,20 +455,32 @@ namespace RGBSyncPlus.UI
         {
             if (ApplicationManager.Instance.DeviceBeingAligned != null)
             {
-                ApplicationManager.Instance.DeviceBeingAligned.Reverse=!ApplicationManager.Instance.DeviceBeingAligned.Reverse;
+                ApplicationManager.Instance.DeviceBeingAligned.Reverse = !ApplicationManager.Instance.DeviceBeingAligned.Reverse;
 
             }
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var items = (System.Windows.Controls.ListView) sender;
+            var items = (System.Windows.Controls.ListView)sender;
             var selected = (DeviceMappingModels.SourceModel)items.SelectedItem;
             foreach (var item in items.Items)
             {
-                DeviceMappingModels.SourceModel castItem = (DeviceMappingModels.SourceModel) item;
+                DeviceMappingModels.SourceModel castItem = (DeviceMappingModels.SourceModel)item;
 
-                castItem.Enabled = castItem == selected;
+
+                bool shouldEnable = castItem == selected;
+
+                if (castItem.Enabled && shouldEnable)
+                {
+                    castItem.Enabled = false;
+                }
+                else
+                {
+                    castItem.Enabled = shouldEnable;
+                }
+
+
             }
 
             var parentDevice = (DeviceMappingModels.Device)ConfigPanel.DataContext;
@@ -474,6 +492,7 @@ namespace RGBSyncPlus.UI
                 {
                     profile.DeviceProfileSettings = new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();
                 }
+
                 var configDevice = profile.DeviceProfileSettings.FirstOrDefault(x => x.Name == parentDevice.Name && x.ProviderName == parentDevice.ProviderName);
 
                 if (configDevice == null)
@@ -487,10 +506,58 @@ namespace RGBSyncPlus.UI
                     profile.DeviceProfileSettings.Add(configDevice);
                 }
 
+
+
                 configDevice.SourceName = selected.Name;
                 configDevice.SourceProviderName = selected.ProviderName;
                 profile.IsProfileStale = true;
             }
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            DeviceMappingModels.Device dvc = ConfigHere.DataContext as DeviceMappingModels.Device;
+            ControlDevice cd = dvc.ControlDevice;
+
+            if (cd.Driver is ISimpleLEDDriverWithConfig drv)
+            {
+                var cfgUI = drv.GetCustomConfig();
+                ConfigHere.Children.Clear();
+                ConfigHere.Children.Add(cfgUI);
+                cfgUI.DataContext = cd;
+            }
+        }
+
+        public void UpdateDeviceConfigUi(ControlDevice cd)
+        {
+            ConfigHere.Children.Clear();
+            if (cd != null)
+            {
+                if (cd.Driver is ISimpleLEDDriverWithConfig drv)
+                {
+                    var cfgUI = drv.GetCustomConfig();
+                    ConfigHere.Children.Add(cfgUI);
+                    cfgUI.DataContext = cd;
+                }
+            }
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DeviceMappingModels.Device dvc = ConfigHere.DataContext as DeviceMappingModels.Device;
+            ControlDevice cd = null;
+            if (dvc != null)
+            {
+                cd = dvc.ControlDevice;
+            }
+
+            UpdateDeviceConfigUi(cd);
+        }
+
+        private void ClickSource(object sender, MouseButtonEventArgs e)
+        {
+         Debug.WriteLine(sender);
+         ListView_SelectionChanged(this.SourceList, null);
         }
     }
 }
