@@ -351,10 +351,9 @@ x:Name="SourceList"
                                     
                                 </TabItem>
 
-                                
-                                <TabItem Header="Config" >
-<Grid x:Name="ConfigHere">
-<Button Click="Button_Click_4">Hello</Button>
+
+                                <TabItem Header="Config" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                                    <Grid x:Name="ConfigHere" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
 </Grid>
                                 </TabItem>
                             </TabControl>

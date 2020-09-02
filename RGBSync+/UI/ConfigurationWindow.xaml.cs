@@ -20,6 +20,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using MadLedFrameworkSDK;
+using Color = RGB.NET.Core.Color;
 using ListView = System.Windows.Forms.ListView;
 
 namespace RGBSyncPlus.UI
@@ -524,6 +525,16 @@ namespace RGBSyncPlus.UI
                 var cfgUI = drv.GetCustomConfig(cd);
                 ConfigHere.Children.Clear();
                 ConfigHere.Children.Add(cfgUI);
+
+                ConfigHere.HorizontalAlignment = HorizontalAlignment.Stretch;
+                ConfigHere.VerticalAlignment = VerticalAlignment.Stretch;
+
+                cfgUI.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                cfgUI.HorizontalAlignment = HorizontalAlignment.Stretch;
+                cfgUI.VerticalAlignment = VerticalAlignment.Stretch;
+                cfgUI.VerticalContentAlignment = VerticalAlignment.Stretch;
+
+                cfgUI.Foreground = new SolidColorBrush(Colors.White);
             }
         }
 
@@ -536,6 +547,17 @@ namespace RGBSyncPlus.UI
                 {
                     var cfgUI = drv.GetCustomConfig(cd);
                     ConfigHere.Children.Add(cfgUI);
+                    
+                    ConfigHere.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    ConfigHere.VerticalAlignment = VerticalAlignment.Stretch;
+
+                    cfgUI.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                    cfgUI.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    cfgUI.VerticalAlignment = VerticalAlignment.Stretch;
+                    cfgUI.VerticalContentAlignment = VerticalAlignment.Stretch;
+
+                    cfgUI.Foreground= new SolidColorBrush(Colors.White);
+
                 }
             }
         }
