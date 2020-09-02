@@ -387,14 +387,16 @@ namespace RGBSyncPlus
             }
 
             slsTimer = new Timer(SLSUpdate, null, 0, (int)tmr2);
+            configTimer = new Timer(ConfigUpdate, null, 0, (int)5000);
 
 
-           LoadNGSettings();
+            LoadNGSettings();
 
         }
 
         public HttpSelfHostServer server;
         public Timer slsTimer;
+        public Timer configTimer;
         public void SetUpMappedDevicesFromConfig()
         {
             List<ControlDevice> alreadyBeingSyncedTo= new List<ControlDevice>();
@@ -463,9 +465,28 @@ namespace RGBSyncPlus
         };
 
         public List<DeviceMappingModels.DeviceMap> MappedDevices = new List<DeviceMappingModels.DeviceMap>();
+
+        private void ConfigUpdate(object state)
+        {
+            Debug.WriteLine("Checking config");
+            CheckSettingStale();
+
+            foreach (var controlDevice in SLSDevices)
+            {
+                if (controlDevice.Driver is ISimpleLEDDriverWithConfig slsConfig)
+                {
+                    if (slsConfig.GetIsDirty())
+                    {
+                        SLSManager.SaveConfig(slsConfig);
+                    }
+                }
+            }
+        }
+
         private void SLSUpdate(object state)
         {
-            CheckSettingStale();
+  
+
             if (PauseSyncing)
             {
                 return;
