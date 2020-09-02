@@ -521,10 +521,9 @@ namespace RGBSyncPlus.UI
 
             if (cd.Driver is ISimpleLEDDriverWithConfig drv)
             {
-                var cfgUI = drv.GetCustomConfig();
+                var cfgUI = drv.GetCustomConfig(cd);
                 ConfigHere.Children.Clear();
                 ConfigHere.Children.Add(cfgUI);
-                cfgUI.DataContext = cd;
             }
         }
 
@@ -535,9 +534,8 @@ namespace RGBSyncPlus.UI
             {
                 if (cd.Driver is ISimpleLEDDriverWithConfig drv)
                 {
-                    var cfgUI = drv.GetCustomConfig();
+                    var cfgUI = drv.GetCustomConfig(cd);
                     ConfigHere.Children.Add(cfgUI);
-                    cfgUI.DataContext = cd;
                 }
             }
         }

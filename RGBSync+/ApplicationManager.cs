@@ -42,6 +42,7 @@ namespace RGBSyncPlus
         private const string DEVICEPROVIDER_DIRECTORY = "DeviceProvider";
         private const string SLSPROVIDER_DIRECTORY = "SLSProvider";
         private const string NGPROFILES_DIRECTORY = "NGProfiles";
+        private const string SLSCONFIGS_DIRECTORY = "SLSConfigs";
         #endregion
 
         #region Properties & Fields
@@ -286,7 +287,12 @@ namespace RGBSyncPlus
 
         public void Initialize()
         {
-            SLSManager = new SLSManager();
+            if (!Directory.Exists(SLSCONFIGS_DIRECTORY))
+            {
+                Directory.CreateDirectory(SLSCONFIGS_DIRECTORY);
+            }
+
+            SLSManager = new SLSManager(SLSCONFIGS_DIRECTORY);
 
             var config = new NLog.Config.LoggingConfiguration();
 
@@ -397,7 +403,7 @@ namespace RGBSyncPlus
             {
                 foreach (var deviceMapping in Settings.DeviceMappingProxy)
                 {
-                    var src = SLSDevices.First(x =>
+                    var src = SLSDevices.FirstOrDefault(x =>
                         x.Name == deviceMapping.SourceDevice.DeviceName &&
                         x.Driver.Name() == deviceMapping.SourceDevice.DriverName);
                     if (src != null)
@@ -428,41 +434,6 @@ namespace RGBSyncPlus
                         MappedDevices.Add(dm);
                     }
                 }
-            }
-        }
-
-        public void DeviceMapSync()
-        {
-            try
-            {
-                var mapping = MappedDevices.Where(x => x.Source != null && x.Dest != null && x.Dest.Count > 0).ToList();
-                foreach (var d in mapping)
-                {
-                    if (d.Source.Driver.GetProperties().SupportsPull)
-                    {
-                        d.Source.Pull();
-                    }
-
-                    var dst = d.Dest.Where(x => x.LEDs != null && x.LEDs.Length > 0 && x.Driver.GetProperties().SupportsPush).ToList();
-                    foreach (var controlDevice in dst)
-                    {
-                        if (controlDevice != DeviceBeingAligned)
-                        {
-                            controlDevice.MapLEDs(d.Source);
-                            controlDevice.Push();
-                        }
-                    }
-                }
-
-                if (DeviceBeingAligned != null)
-                {
-                    DeviceBeingAligned.MapLEDs(virtualAlignmentDevice);
-                    DeviceBeingAligned.Push();
-                }
-            }
-            catch
-            {
-
             }
         }
 
@@ -499,49 +470,7 @@ namespace RGBSyncPlus
             {
                 return;
             }
-
-            //List<ControlDevice> devicesToPush = new List<ControlDevice>();
-            //foreach (SyncGroup syncGroup in Instance.Settings.SyncGroups.ToArray())
-            //{
-            //    int r = 0;
-            //    int g = 0;
-            //    int b = 0;
-            //    if (syncGroup?.SyncLed?.SLSLedUnit != null)
-            //    {
-            //        r = syncGroup.SyncLed.SLSLedUnit.Color.Red;
-            //        g = syncGroup.SyncLed.SLSLedUnit.Color.Green;
-            //        b = syncGroup.SyncLed.SLSLedUnit.Color.Blue;
-            //        syncGroup.LedGroup.Brush = new SolidColorBrush(new Color((byte)r, (byte)g, (byte)b));
-            //    }
-            //    else
-            //    {
-            //        Led sled = syncGroup.SyncLed.GetLed();
-            //        if (sled != null)
-            //        {
-            //            r = sled.Color.GetR();
-            //            g = sled.Color.GetG();
-            //            b = sled.Color.GetB();
-            //        }
-            //    }
-
-            //    foreach (var l in syncGroup.Leds.Where(x => x.SLSLedUnit != null))
-            //    {
-            //        l.SLSLedUnit.Color = new LEDColor(r, g, b);
-            //        if (!devicesToPush.Contains(l.ControlDevice))
-            //        {
-            //            devicesToPush.Add(l.ControlDevice);
-            //        }
-            //    }
-
-            //}
-
-            //foreach (var cd in devicesToPush)
-            //{
-            //    cd.Push();
-            //}
-
-            //DeviceMapSync();
-
+            
             if (CurrentProfile == null || CurrentProfile.DeviceProfileSettings==null)
             {
                 return;
@@ -637,9 +566,6 @@ namespace RGBSyncPlus
                     Logger.Error(ex);
                 }
             }
-
-
-
         }
 
 
@@ -649,8 +575,11 @@ namespace RGBSyncPlus
 
             if (!Directory.Exists(deviceProvierDir)) return;
 
-            foreach (string file in Directory.GetFiles(deviceProvierDir, "*.dll"))
+            var files = Directory.GetFiles(deviceProvierDir, "*.dll");
+            int ct = 0;
+            foreach (string file in files)
             {
+                ct++;
                 try
                 {
                     Logger.Debug("Loading provider " + file);
