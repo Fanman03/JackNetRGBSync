@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
 using System.Windows.Documents;
+using System.Windows.Threading;
 using MadLedFrameworkSDK;
 using RGB.NET.Brushes;
 using Swashbuckle.Application;
@@ -284,9 +285,14 @@ namespace RGBSyncPlus
 
 
         public DeviceMappingModels.NGProfile CurrentProfile;
-
+        private SplashLoader loadingSplash;
         public void Initialize()
         {
+            loadingSplash=new SplashLoader();
+            loadingSplash.Show();
+
+            loadingSplash.LoadingText.Text = "Initializing";
+
             if (!Directory.Exists(SLSCONFIGS_DIRECTORY))
             {
                 Directory.CreateDirectory(SLSCONFIGS_DIRECTORY);
@@ -334,6 +340,7 @@ namespace RGBSyncPlus
             }
             System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(AppSettings.Lang);
 
+            loadingSplash.LoadingText.Text = "Starting Discord";
             client = new DiscordRpcClient("581567509959016456");
             client.Initialize();
 
@@ -356,9 +363,10 @@ namespace RGBSyncPlus
 
             RGBSurface surface = RGBSurface.Instance;
             LoadSLSProviders();
-            LoadDeviceProviders();
-            surface.AlignDevices();
+            //LoadDeviceProviders();
+            //surface.AlignDevices();
 
+            loadingSplash.LoadingText.Text = "Mapping from config";
             SetUpMappedDevicesFromConfig();
 
             foreach (IRGBDevice device in surface.Devices)
@@ -368,8 +376,10 @@ namespace RGBSyncPlus
             var tmr2 = 1000.0 / MathHelper.Clamp(AppSettings.UpdateRate, 1, 100);
             UpdateTrigger = new TimerUpdateTrigger { UpdateFrequency = tmr };
 
+            loadingSplash.LoadingText.Text = "Registering Update Trigger";
             surface.RegisterUpdateTrigger(UpdateTrigger);
             UpdateTrigger.Start();
+
 
             try
             {
@@ -389,9 +399,19 @@ namespace RGBSyncPlus
             slsTimer = new Timer(SLSUpdate, null, 0, (int)tmr2);
             configTimer = new Timer(ConfigUpdate, null, 0, (int)5000);
 
-
+            loadingSplash.LoadingText.Text = "Loading Settings";
             LoadNGSettings();
-
+            loadingSplash.LoadingText.Text = "All done";
+            
+            DispatcherTimer closeTimer = new DispatcherTimer();
+            closeTimer.Interval= TimeSpan.FromSeconds(2);
+            closeTimer.Tick += (sender, args) =>
+            {
+                loadingSplash.Close();
+                closeTimer.Stop();
+            };
+            
+            closeTimer.Start();
         }
 
         public HttpSelfHostServer server;
@@ -468,7 +488,6 @@ namespace RGBSyncPlus
 
         private void ConfigUpdate(object state)
         {
-            Debug.WriteLine("Checking config");
             CheckSettingStale();
 
             foreach (var controlDevice in SLSDevices)
@@ -597,18 +616,25 @@ namespace RGBSyncPlus
             if (!Directory.Exists(deviceProvierDir)) return;
 
             var files = Directory.GetFiles(deviceProvierDir, "*.dll");
+            loadingSplash.LoadingText.Text = "Loading SLS plugins";
+            loadingSplash.ProgressBar.Maximum = files.Length;
             int ct = 0;
             foreach (string file in files)
             {
                 ct++;
+                loadingSplash.ProgressBar.Value = ct;
                 try
                 {
+                    loadingSplash.LoadingText.Text = "Loading "+file.Split('\\').Last().Split('.').First();
                     Logger.Debug("Loading provider " + file);
                     Assembly assembly = Assembly.LoadFrom(file);
                     foreach (Type loaderType in assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass && typeof(ISimpleLEDDriver).IsAssignableFrom(t)))
                     {
                         if (Activator.CreateInstance(loaderType) is ISimpleLEDDriver slsDriver)
                         {
+                            loadingSplash.LoadingText.Text = "Loading " +slsDriver.Name();
+                            loadingSplash.UpdateLayout();
+                            Task.Delay(33).Wait();
                             SLSManager.Drivers.Add(slsDriver);
                             slsDriver.Configure(null);
                         }
@@ -620,6 +646,7 @@ namespace RGBSyncPlus
                 }
             }
 
+            loadingSplash.LoadingText.Text = "Updating SLS devices";
             UpdateSLSDevices();
         }
 
@@ -627,7 +654,32 @@ namespace RGBSyncPlus
 
         public void UpdateSLSDevices()
         {
+            loadingSplash.LoadingText.Text = "Getting devices";
             SLSDevices = SLSManager.GetDevices();
+            loadingSplash.ProgressBar.Value = 0;
+            loadingSplash.ProgressBar.Maximum = SLSManager.Drivers.Count;
+
+            int ct = 0;
+            List<ControlDevice> controlDevices = new List<ControlDevice>();
+            foreach (var simpleLedDriver in SLSManager.Drivers)
+            {
+                ct++;
+                loadingSplash.ProgressBar.Value = ct;
+                try
+                {
+                    loadingSplash.LoadingText.Text = "Getting devices from " + simpleLedDriver.Name();
+                    var devices = simpleLedDriver.GetDevices();
+                    if (devices != null)
+                    {
+                        controlDevices.AddRange(devices);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
+            }
+
         }
 
         public void AddSyncGroup(SyncGroup syncGroup)
