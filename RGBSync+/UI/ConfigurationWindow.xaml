@@ -124,16 +124,26 @@
             <DataTemplate x:Key="DeviceMapperSourceItemTemplate" >
 
                 <Grid Margin="0,5,0,5" Background="#80000000" HorizontalAlignment="Stretch" MouseLeftButtonUp="ClickSource" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisibilityConverter}}" >
-                    <Image Source="{Binding Image}" Stretch="UniformToFill" VerticalAlignment="Stretch" HorizontalAlignment="Center" Height="60"></Image>
+                    <!--<Grid Height="60">
+                        <Image Source="{Binding Image}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"></Image>
+                    </Grid>-->
+                    <Border Height="50">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill"/>
+                        </Border.Background>
+                        <Border.Effect>
+                            <BlurEffect Radius="10"></BlurEffect>
+                        </Border.Effect>
+                    </Border>
                     <Rectangle>
                         <Rectangle.Fill>
                             <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
                                 <GradientStop Color="#00000000" Offset="1"/>
-                                <GradientStop Color="Black" Offset="0.31"/>
+                                <GradientStop Color="#c0000000" Offset="0.5"/>
                             </LinearGradientBrush>
                         </Rectangle.Fill>
                     </Rectangle>
-                    <Grid Background="#80000000">
+                    <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -341,7 +351,7 @@
                                         <Image Source="push.png" Width="24" Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}"></Image>
                                     </StackPanel>
                                 </Grid>
-                                <Grid>
+                                <Grid Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <TextBox Width="200" HorizontalAlignment="Right" Margin="0,0,8,0" BorderBrush="Black" Text="{Binding SyncToSearch}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="32" TextChanged="TextBox_TextChanged" x:Name="SyncToSearchTextBox" FontSize="24" Template="{StaticResource SearchControlTemplate}" Background="White" Foreground="Black"/>
                                     <Button Width="32" Height="32" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Margin="0,0,4,-8" FontFamily="Segoe MDL2 Assets" Content="&#xE711;" MouseUp="Button_MouseUp" Foreground="Black"/>
                                 </Grid>
