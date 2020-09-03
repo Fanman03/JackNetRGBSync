@@ -5,10 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RGBSyncPlus.UI"
         mc:Ignorable="d"
-        Title="SplashLoader" Height="300" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="RGB Sync" Height="300" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Grid Background="#CC444444">
         <TextBlock x:Name="LoadingText" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,-150">Loading...</TextBlock>
-        <ProgressBar x:Name="ProgressBar" Width="350" Height="10" Background="Black" BorderBrush="{x:Null}" Margin="0,0,0,-200"></ProgressBar>
+        <ProgressBar x:Name="ProgressBar" Width="350" Height="10" Background="Black" BorderBrush="{x:Null}" Margin="0,0,0,-200">
+            <ProgressBar.Foreground>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#ff0000"></GradientStop>
+                    <GradientStop Color="#ff9900" Offset="0.1"></GradientStop>
+                    <GradientStop Color="#ff9900" Offset="0.2"></GradientStop>
+                    <GradientStop Color="#ccff00" Offset="0.3"></GradientStop>
+                    <GradientStop Color="#33ff00" Offset="0.4"></GradientStop>
+                    <GradientStop Color="#00ff66" Offset="0.5"></GradientStop>
+                    <GradientStop Color="#00ffff" Offset="0.6"></GradientStop>
+                    <GradientStop Color="#0066ff" Offset="0.7"></GradientStop>
+                    <GradientStop Color="#3300ff" Offset="0.8"></GradientStop>
+                    <GradientStop Color="#cc00ff" Offset="0.9"></GradientStop>
+                    <GradientStop Color="#ff0099" Offset="1.0"></GradientStop>
+                </LinearGradientBrush>
+            </ProgressBar.Foreground>
+        </ProgressBar>
         <Image Margin="0,-30,0,5" Source="/RGBSync+;component/placeholderLogo.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Top" StretchDirection="UpOnly" RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
                 <TransformGroup>
