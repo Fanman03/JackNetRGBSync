@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -51,6 +52,7 @@ namespace RGBSyncPlus.UI
             set => SetProperty(ref profileNames, value);
         }
 
+
         private ObservableCollection<DeviceMappingModels.Device> slsDevices;
         public ObservableCollection<DeviceMappingModels.Device> SLSDevices { get => slsDevices; set => SetProperty(ref slsDevices, value); }
 
@@ -59,12 +61,57 @@ namespace RGBSyncPlus.UI
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
 
 
+
+        private string syncToSearch = "";
+
+        public string SyncToSearch
+        {
+            get => syncToSearch;
+            set
+            {
+                SetProperty(ref syncToSearch, value);
+                FilterSourceDevices();
+            }
+        }
+
         private ObservableCollection<DeviceMappingModels.SourceModel> sourceDevices;
 
         public ObservableCollection<DeviceMappingModels.SourceModel> SourceDevices
         {
             get => sourceDevices;
-            set => SetProperty(ref sourceDevices, value);
+            set { SetProperty(ref sourceDevices, value); }
+        }
+
+        public void FilterSourceDevices()
+        {
+
+            var visibleDevices = SourceDevices.Where(sourceDevice => ((string.IsNullOrWhiteSpace(SyncToSearch) ||
+                                                                       (sourceDevice.Name.ToLower() ==
+                                                                        SyncToSearch.ToLower() ||
+                                                                        sourceDevice.ProviderName.ToLower() ==
+                                                                        SyncToSearch.ToLower()
+                                                                       )
+                    )
+                ));
+
+            Debug.WriteLine(visibleDevices.Count());
+            foreach (var sourceDevice in SourceDevices)
+            {
+                sourceDevice.IsHidden = !
+                    (sourceDevice.Enabled || (string.IsNullOrWhiteSpace(SyncToSearch) ||
+                      (sourceDevice.Name.ToLower().Contains(SyncToSearch.ToLower()) ||
+                       sourceDevice.ProviderName.ToLower().Contains(SyncToSearch.ToLower()))));
+            }
+
+            OnPropertyChanged(nameof(SourceDevices));
+        }
+
+        private ObservableCollection<DeviceMappingModels.SourceModel> filteredSourceDevices;
+
+        public ObservableCollection<DeviceMappingModels.SourceModel> FilteredSourceDevices
+        {
+            get => filteredSourceDevices;
+            set => SetProperty(ref filteredSourceDevices, value);
         }
 
         public void SetupSourceDevices(ControlDevice controlDevice)
@@ -83,7 +130,8 @@ namespace RGBSyncPlus.UI
                     ProviderName = source.Driver.Name(),
                     Device = source,
                     Name = source.Name,
-                    Enabled = enabled
+                    Enabled = enabled,
+                    Image = ToBitmapImage(source.ProductImage),
                 });;
             }
 

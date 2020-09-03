@@ -579,5 +579,20 @@ namespace RGBSyncPlus.UI
          Debug.WriteLine(sender);
          ListView_SelectionChanged(this.SourceList, null);
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
+            ConfigurationViewModel vm = (ConfigurationViewModel) this.DataContext;
+            vm.SyncToSearch = SyncToSearchTextBox.Text;
+            vm.FilterSourceDevices();
+        }
+
+        private void Button_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.SyncToSearch = "";
+            SyncToSearchTextBox.Text = "";
+        }
     }
 }

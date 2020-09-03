@@ -202,6 +202,13 @@ namespace RGBSyncPlus.Model
 
         public class SourceModel : AbstractBindable
         {
+            private bool isHidden;
+
+            public bool IsHidden
+            {
+                get => isHidden;
+                set => SetProperty(ref isHidden, value);
+            }
             private string name;
             public string Name
             {
@@ -225,6 +232,14 @@ namespace RGBSyncPlus.Model
                 {
                     SetProperty(ref enabled, value);
                 }
+            }
+
+            private BitmapImage image;
+
+            public BitmapImage Image
+            {
+                get => image;
+                set => SetProperty(ref image, value);
             }
 
             public ControlDevice Device { get; set; }

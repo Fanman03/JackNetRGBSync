@@ -30,6 +30,29 @@
             <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <Converter:DeviceTypeToImageConverter x:Key="DeviceTypeToImageConverter"/>
 
+
+            <ControlTemplate x:Key="SearchControlTemplate" TargetType="{x:Type TextBoxBase}">
+                <Border Background="{TemplateBinding Background}" 
+                        Padding="0,0,20,0"
+                        x:Name="Bd" BorderBrush="Black"
+                        BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
+                    <ScrollViewer x:Name="PART_ContentHost"/>
+                    
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" TargetName="Bd"/>
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                    </Trigger>
+                    <Trigger Property="Width" Value="Auto">
+                        <Setter Property="MinWidth" Value="100"/>
+                    </Trigger>
+                    <Trigger Property="Height" Value="Auto">
+                        <Setter Property="MinHeight" Value="20"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+
             <DataTemplate x:Key="DeviceGroupItemTemplate">
 
                 <Grid Margin="0,5,0,5">
@@ -100,7 +123,17 @@
 
             <DataTemplate x:Key="DeviceMapperSourceItemTemplate" >
 
-                <Grid Margin="0,5,0,5" Background="#80000000" HorizontalAlignment="Stretch" MouseLeftButtonUp="ClickSource">
+                <Grid Margin="0,5,0,5" Background="#80000000" HorizontalAlignment="Stretch" MouseLeftButtonUp="ClickSource" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisibilityConverter}}" >
+                    <Image Source="{Binding Image}" Stretch="UniformToFill" VerticalAlignment="Stretch" HorizontalAlignment="Center" Height="60"></Image>
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                <GradientStop Color="#00000000" Offset="1"/>
+                                <GradientStop Color="Black" Offset="0.31"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Grid Background="#80000000">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -109,14 +142,14 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0"/>
                             <ColumnDefinition Width="2"/>
-                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="110"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Grid Width="64" Height="64" Margin="10" Background="#F2000000" MaxWidth="128" Grid.Column="2">
-                            <Image Width="64" Height="64" Source="generic.png"></Image>
-                            <Image Source="{Binding Image}" Width="128" Height="128"></Image>
-                            <Rectangle Width="64" Height="64">
+                        <Grid Width="64" Height="48" Margin="10" Background="#F2000000" MaxWidth="128" Grid.Column="2">
+                            
+                            <Image Source="{Binding Image}" Width="64" Height="48"></Image>
+                            <Rectangle Width="48" Height="48">
                                 <Rectangle.Fill>
                                     <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
                                         <GradientStop Color="#00000000" Offset="0.724"/>
@@ -128,13 +161,18 @@
 
                             <Border BorderBrush="White" BorderThickness="1"></Border>
                         </Grid>
-                        <StackPanel Grid.Column="3">
-                            <StackPanel Orientation="Horizontal" Margin="0">
-                                <Image ToolTip="{Binding Device.DeviceType}" Width="20" Height="20"  Grid.Column="1"  Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"/>
-                                <TextBlock Text="{Binding Device.DeviceType}" Margin="8"></TextBlock>
-                                <TextBlock TextTrimming="CharacterEllipsis" Margin="8" Text="{Binding ProviderName}" />
+                            <StackPanel Grid.Column="3" VerticalAlignment="Center">
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image ToolTip="{Binding Device.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"  Margin="8"/>
+                                    <Grid Background="White" Margin="8" VerticalAlignment="Center">
+                                <TextBlock TextTrimming="CharacterEllipsis" Margin="8" Text="{Binding ProviderName}" FontSize="20" FontFamily="Segoe UI" FontWeight="Bold" Foreground="Black" Background="White" TextAlignment="Center"/>
+                                </Grid>
+                                <Grid Background="Black" Margin="8" VerticalAlignment="Center">
+                                    <TextBlock TextTrimming="CharacterEllipsis" Margin="8" Text="{Binding Name}" FontSize="20" FontFamily="Segoe UI" FontWeight="Light" Foreground="White"  TextAlignment="Center"/>
+                                    
+                                </Grid>
                             </StackPanel>
-                            <TextBlock TextTrimming="CharacterEllipsis"  Text="{Binding Name}" ToolTip="{Binding Name}" Margin="0,-8,0,0" FontSize="24" FontFamily="Segoe UI Light" Foreground="White" VerticalAlignment="Center"/>
 
                         </StackPanel>
 
@@ -146,6 +184,7 @@
                         </Border>
                     </Grid>
                 </Grid>
+                    </Grid>
 
             </DataTemplate>
             <DataTemplate x:Key="DeviceGroupLEDItemTemplate">
@@ -302,6 +341,10 @@
                                         <Image Source="push.png" Width="24" Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}"></Image>
                                     </StackPanel>
                                 </Grid>
+                                <Grid>
+                                    <TextBox Width="200" HorizontalAlignment="Right" Margin="0,0,8,0" BorderBrush="Black" Text="{Binding SyncToSearch}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="32" TextChanged="TextBox_TextChanged" x:Name="SyncToSearchTextBox" FontSize="24" Template="{StaticResource SearchControlTemplate}" Background="White" Foreground="Black"/>
+                                    <Button Width="32" Height="32" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Margin="0,0,4,-8" FontFamily="Segoe MDL2 Assets" Content="&#xE711;" MouseUp="Button_MouseUp" Foreground="Black"/>
+                                </Grid>
                             </Grid>
                             <TabControl Grid.Row="1" Background="#40000000" Foreground="White" BorderBrush="#80000000" BorderThickness="0" Margin="-8" Padding="8" VerticalAlignment="Top"  FontSize="24" FontWeight="Light" SelectionChanged="TabControl_SelectionChanged">
                                 <TabItem 
@@ -311,15 +354,15 @@
                                     Foreground="White" 
                                     BorderBrush="Transparent"
                                     HorizontalContentAlignment="Stretch">
-                                    <ListView 
-x:Name="SourceList"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SourceDevices}" 
-                                        ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
-                                        Background="Transparent" 
-                                        Foreground="White" 
-                                        BorderBrush="Transparent" 
-                                        SelectionMode="Single" 
-                                        HorizontalContentAlignment="Stretch" >
+                               
+                                        <ListView x:Name="SourceList"
+                                                  ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SourceDevices}" 
+                                                  ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
+                                                  Background="Transparent" 
+                                                  Foreground="White" 
+                                                  BorderBrush="Transparent" 
+                                                  SelectionMode="Single" 
+                                                  HorizontalContentAlignment="Stretch" >
 
 
                                         <ListView.ItemsPanel>
