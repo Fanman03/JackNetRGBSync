@@ -118,7 +118,7 @@ namespace RGBSyncPlus.UI
         {
             var sources = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
 
-            ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ApplicationManager.Instance.CurrentProfile.DeviceProfileSettings;
+            ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ApplicationManager.Instance.CurrentProfile?.DeviceProfileSettings;
             DeviceMappingModels.NGDeviceProfileSettings current = temp.FirstOrDefault(x => x.Name == controlDevice.Name && x.ProviderName == controlDevice.Driver.Name());
 
             SourceDevices = new ObservableCollection<DeviceMappingModels.SourceModel>();
@@ -189,6 +189,53 @@ namespace RGBSyncPlus.UI
                 ApplicationManager.Instance.AppSettings.StartDelay = value;
                 OnPropertyChanged();
             }
+        }
+
+        private int thumbWidth = 64;
+
+        public int ThumbWidth
+        {
+            get => thumbWidth;
+            set
+            {
+                SetProperty(ref thumbWidth, value);
+            }
+        }
+
+        private int thumbHeight = 48;
+
+        public int ThumbHeight
+        {
+            get => thumbHeight;
+            set
+            {
+                SetProperty(ref thumbHeight, value);
+            }
+        }
+
+        private int zoomLevel = 5;
+
+        public int ZoomLevel
+        {
+            get => zoomLevel;
+            set
+            {
+                SetProperty(ref zoomLevel, value);
+                if (ZoomLevel < 3) ZoomLevel = 3;
+                if (ZoomLevel > 9) ZoomLevel = 9;
+                ThumbWidth = new[] {16, 32, 64, 128, 192,256, 385,512,768,1024,2048,4096}[ZoomLevel];
+                ThumbHeight = (int)(ThumbWidth / 1.3333333333333333f);
+
+                ShowFullThumb = ZoomLevel > 3;
+            }
+        }
+
+        private bool showFullThumb;
+
+        public bool ShowFullThumb
+        {
+            get => showFullThumb;
+            set => SetProperty(ref showFullThumb, value);
         }
 
         public bool EnableStartupDelay
@@ -474,6 +521,7 @@ namespace RGBSyncPlus.UI
             SetUpDeviceMapViewModel();
 
             ProfileNames = ApplicationManager.Instance.NGSettings.ProfileNames;
+            this.ZoomLevel = 4;
         }
 
         private void SetUpDeviceMapViewModel()

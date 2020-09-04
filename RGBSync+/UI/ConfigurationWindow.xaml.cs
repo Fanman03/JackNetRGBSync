@@ -594,5 +594,25 @@ namespace RGBSyncPlus.UI
             vm.SyncToSearch = "";
             SyncToSearchTextBox.Text = "";
         }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.ZoomLevel++;
+        }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.ZoomLevel--;
+        }
+
+        private void UIElement_OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Button senderButton = (Button)sender;
+
+            var derp = senderButton.DataContext;
+            Debug.WriteLine(derp);
+        }
     }
 }

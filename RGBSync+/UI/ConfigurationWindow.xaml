@@ -124,9 +124,23 @@
             <DataTemplate x:Key="DeviceMapperSourceItemTemplate" >
 
                 <Grid Margin="0,5,0,5" Background="#80000000" HorizontalAlignment="Stretch" MouseLeftButtonUp="ClickSource" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisibilityConverter}}" >
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="1" Width="70" Height="70" Background="#ff007F0E" Margin="8,0,0,0" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Button HorizontalAlignment="Center" Margin="0" VerticalContentAlignment="Center" MouseUp="UIElement_OnMouseUp" FontFamily="Segoe MDL2 Assets" Background="Transparent" VerticalAlignment="Center" FontSize="36" Padding="14" BorderThickness="0"></Button>
+
+
+                    </Grid>
+
                     <!--<Grid Height="60">
                         <Image Source="{Binding Image}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"></Image>
                     </Grid>-->
+                    <Grid Grid.Column="0">
                     <Border Height="50">
                         <Border.Background>
                             <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill"/>
@@ -188,6 +202,7 @@
 
 
                     </Grid>
+                        
                     <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisibilityConverter}}">
                         <Border BorderThickness="8" BorderBrush="#ff007F0E">
                             <Image Source="selectedCorner.png" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right"></Image>
@@ -195,6 +210,7 @@
                     </Grid>
                 </Grid>
                     </Grid>
+                </Grid>
 
             </DataTemplate>
             <DataTemplate x:Key="DeviceGroupLEDItemTemplate">
@@ -218,9 +234,9 @@
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="DeviceControlTemplate">
-                <Grid Width="256" Height="192" Margin="10" Background="#F2000000" MaxWidth="256">
+                <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbHeight}" Margin="10" Background="#F2000000" MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}">
                     <!--<Image Width="192" Height="192" Source="generic2.png"></Image>-->
-                    <Rectangle Width="256" Height="192">
+                    <Rectangle Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbHeight}">
                         <Rectangle.Fill>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="Black" Offset="0"/>
@@ -228,8 +244,8 @@
                             </LinearGradientBrush>
                         </Rectangle.Fill>
                     </Rectangle>
-                    <Image Source="{Binding Image}" Width="256" Height="192"></Image>
-                    <Rectangle Width="256" Height="192">
+                    <Image Source="{Binding Image}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbHeight}"></Image>
+                    <Rectangle Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbHeight}">
                         <Rectangle.Fill>
                             <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
                                 <GradientStop Color="#00000000" Offset="0.724"/>
@@ -237,7 +253,7 @@
                             </LinearGradientBrush>
                         </Rectangle.Fill>
                     </Rectangle>
-                    <Grid Width="256" Background="#40000000" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
+                    <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" Background="#40000000" HorizontalAlignment="Left" VerticalAlignment="Bottom" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ShowFullThumb, Converter={StaticResource BoolToVisibilityConverter}}"  >
                         <StackPanel Orientation="Horizontal">
                             <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="24" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6"/>
                             <TextBlock Text="{Binding ControlDevice.DeviceType}" FontSize="18" VerticalAlignment="Center" Margin="8,0,0,0"></TextBlock>
@@ -248,13 +264,17 @@
                             <Image Source="push.png" Width="24" Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}"></Image>
                         </StackPanel>
                     </Grid>
-                    <StackPanel MaxWidth="256">
-                        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="256" Background="#ddFFFFFF">
+                    <StackPanel MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ShowFullThumb, Converter={StaticResource InvertedBoolToVisibilityConverter}}" >
+                        <TextBlock Text="{Binding ProviderName}" Margin="4,4,0,4" FontSize="14" FontWeight="Bold" MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right" Foreground="Black" Background="White"></TextBlock>
+                        <TextBlock Text="{Binding Name}" Margin="4,4,0,4" FontSize="12" MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right" Background="Black" Foreground="White"></TextBlock>
+                    </StackPanel>
+                        <StackPanel MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ShowFullThumb, Converter={StaticResource BoolToVisibilityConverter}}" >
+                        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" Background="#ddFFFFFF">
 
-                            <TextBlock Text="{Binding ProviderName}" Margin="6" FontSize="20" FontWeight="Bold" MaxWidth="192" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right" Foreground="Black"></TextBlock>
+                            <TextBlock Text="{Binding ProviderName}" Margin="6" FontSize="20" FontWeight="Bold" MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right" Foreground="Black"></TextBlock>
                         </Grid>
 
-                        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="256">
+                        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}">
                             <Grid.Background>
                                 <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
                                     <GradientStop Color="White" Offset="0"/>
@@ -264,7 +284,7 @@
                                     <GradientStop Color="#10000000" Offset="1"/>
                                 </LinearGradientBrush>
                             </Grid.Background>
-                            <TextBlock Text="{Binding Name}" Margin="6" FontSize="14" MaxWidth="256" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
+                            <TextBlock Text="{Binding Name}" Margin="6" FontSize="14" MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
                         </Grid>
                     </StackPanel>
                     <!--<Border BorderBrush="White" BorderThickness="1"></Border>-->
@@ -292,6 +312,10 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" Background="#80eeeeee">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#ee808080" Foreground="White" Width="32" Height="32" Margin="8" Click="Button_Click_6"></Button>
+                                <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#ee808080" Foreground="White" Width="32" Height="32" Margin="8" Click="Button_Click_5"></Button>
+                            </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4">
                                 <GroupBox BorderThickness="0">
                                     <StackPanel Orientation="Horizontal">
