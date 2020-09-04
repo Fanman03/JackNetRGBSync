@@ -116,10 +116,12 @@ namespace RGBSyncPlus.UI
 
         public void SetupSourceDevices(ControlDevice controlDevice)
         {
+            if (controlDevice == null) return;
+
             var sources = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
 
             ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ApplicationManager.Instance.CurrentProfile?.DeviceProfileSettings;
-            DeviceMappingModels.NGDeviceProfileSettings current = temp.FirstOrDefault(x => x.Name == controlDevice.Name && x.ProviderName == controlDevice.Driver.Name());
+            DeviceMappingModels.NGDeviceProfileSettings current = temp.FirstOrDefault(x => x != null && x.Name == controlDevice.Name && x.ProviderName == controlDevice.Driver?.Name());
 
             SourceDevices = new ObservableCollection<DeviceMappingModels.SourceModel>();
             foreach (var source in sources)
