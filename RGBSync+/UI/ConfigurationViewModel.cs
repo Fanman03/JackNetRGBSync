@@ -32,7 +32,7 @@ using System.Text;
 using System.Net;
 using System.Resources;
 using System.Windows.Media.Imaging;
-using MadLedFrameworkSDK;
+using SimpleLed;
 
 namespace RGBSyncPlus.UI
 {
@@ -60,7 +60,21 @@ namespace RGBSyncPlus.UI
         public ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> DeviceMappingViewModel { get => deviceMappingViewModel; set => SetProperty(ref deviceMappingViewModel, value); }
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
 
+        private bool singleDeviceSelected;
 
+        public bool SingledDeviceSelected
+        {
+            get => singleDeviceSelected;
+            set => SetProperty(ref singleDeviceSelected, value);
+        }
+
+        private bool multipleDeviceSelected;
+
+        public bool MultipleDeviceSelected
+        {
+            get => multipleDeviceSelected;
+            set => SetProperty(ref multipleDeviceSelected, value);
+        }
 
         private string syncToSearch = "";
 
@@ -72,6 +86,22 @@ namespace RGBSyncPlus.UI
                 SetProperty(ref syncToSearch, value);
                 FilterSourceDevices();
             }
+        }
+
+        private string subViewMode = "Info";
+
+        public string SubViewMode
+        {
+            get => subViewMode;
+            set => SetProperty(ref subViewMode, value);
+        }
+
+        private bool devicesCondenseView = false;
+
+        public bool DevicesCondenseView
+        {
+            get => devicesCondenseView;
+            set => SetProperty(ref devicesCondenseView, value);
         }
 
         private ObservableCollection<DeviceMappingModels.SourceModel> sourceDevices;
@@ -121,7 +151,13 @@ namespace RGBSyncPlus.UI
             var sources = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
 
             ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ApplicationManager.Instance.CurrentProfile?.DeviceProfileSettings;
-            DeviceMappingModels.NGDeviceProfileSettings current = temp.FirstOrDefault(x => x != null && x.Name == controlDevice.Name && x.ProviderName == controlDevice.Driver?.Name());
+            DeviceMappingModels.NGDeviceProfileSettings current = null;
+
+            if (controlDevice != null)
+            {
+                temp?.FirstOrDefault(x =>
+                    x != null && x.Name == controlDevice.Name && x.ProviderName == controlDevice.Driver?.Name());
+            }
 
             SourceDevices = new ObservableCollection<DeviceMappingModels.SourceModel>();
             foreach (var source in sources)
@@ -134,7 +170,7 @@ namespace RGBSyncPlus.UI
                     Name = source.Name,
                     Enabled = enabled,
                     Image = ToBitmapImage(source.ProductImage),
-                });;
+                }); ;
             }
 
         }
@@ -225,7 +261,7 @@ namespace RGBSyncPlus.UI
                 SetProperty(ref zoomLevel, value);
                 if (ZoomLevel < 3) ZoomLevel = 3;
                 if (ZoomLevel > 9) ZoomLevel = 9;
-                ThumbWidth = new[] {16, 32, 64, 128, 192,256, 385,512,768,1024,2048,4096}[ZoomLevel];
+                ThumbWidth = new[] { 16, 32, 64, 128, 192, 256, 385, 512, 768, 1024, 2048, 4096 }[ZoomLevel];
                 ThumbHeight = (int)(ThumbWidth / 1.3333333333333333f);
 
                 ShowFullThumb = ZoomLevel > 3;
@@ -446,6 +482,13 @@ namespace RGBSyncPlus.UI
             set => SetProperty(ref _synchronizedLeds, value);
         }
 
+        private double maxSubViewHeight;
+        public double MaxSubViewHeight
+        {
+            get => maxSubViewHeight;
+            set => SetProperty(ref maxSubViewHeight, value);
+        }
+
         #endregion
 
         #region Commands
@@ -540,7 +583,8 @@ namespace RGBSyncPlus.UI
                     Name = device.Name,
                     ProviderName = device.Driver.Name(),
                     SupportsPull = props.SupportsPull,
-                    SupportsPush = props.SupportsPush
+                    SupportsPush = props.SupportsPush,
+                    DriverProps = props
                 });
             }
             //var sourceDevices = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
@@ -670,6 +714,29 @@ namespace RGBSyncPlus.UI
 
         #region Methods
         public ObservableCollection<DeviceGroup> Devices { get; set; } = new ObservableCollection<DeviceGroup>();
+        private int devicesSelectedCount = 0;
+        public int DevicesSelectedCount
+        {
+            get => devicesSelectedCount;
+            set
+            {
+                int previousCount = devicesSelectedCount;
+                SetProperty(ref devicesSelectedCount, value);
+                if (previousCount == 0 && value > 0)
+                {
+                    SubViewMode = "Info";
+                }
+
+                SingledDeviceSelected = value == 1;
+                MultipleDeviceSelected = value > 1;
+
+                if (MultipleDeviceSelected && (SubViewMode == "Config" || SubViewMode == "Alignment"))
+                {
+                    SubViewMode = "Info";
+                }
+            }
+        }
+
         private ListCollectionView GetGroupedLedList(IEnumerable<Led> leds)
         {
             var thing = GetGroupedLedList(leds.Select(led => new SyncLed(led)).ToList());

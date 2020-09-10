@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using MadLedFrameworkSDK;
+using SimpleLed;
 using Newtonsoft.Json;
 using RGB.NET.Core;
 
@@ -92,6 +92,8 @@ namespace RGBSyncPlus.Model
                     AreSettingsStale = true;
                 }
             }
+
+
         }
 
         public class NGProfile : AbstractBindable
@@ -294,6 +296,14 @@ namespace RGBSyncPlus.Model
 
         public class Device : AbstractBindable
         {
+            private bool selected;
+
+            public bool Selected
+            {
+                get => selected;
+                set => SetProperty(ref selected, value);
+            }
+
             private string name;
             public string Name
             {
@@ -340,6 +350,14 @@ namespace RGBSyncPlus.Model
             {
                 get => supportsPull;
                 set => SetProperty(ref supportsPull, value);
+            }
+
+            private DriverProperties driverProps;
+
+            public DriverProperties DriverProps
+            {
+                get => driverProps;
+                set => SetProperty(ref driverProps, value);
             }
         }
 

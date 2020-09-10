@@ -19,7 +19,7 @@ using RGBSyncPlus.Configuration;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
-using MadLedFrameworkSDK;
+using SimpleLed;
 using Color = RGB.NET.Core.Color;
 using ListView = System.Windows.Forms.ListView;
 
@@ -414,13 +414,75 @@ namespace RGBSyncPlus.UI
 
         private void DevicesListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ConfigPanel.DataContext = DeviceConfigList.SelectedItem;
-            ApplicationManager.Instance.DeviceBeingAligned = ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
+            var vm = this.DataContext as ConfigurationViewModel;
+            bool zeroDevicesPreSelected = vm.SLSDevices.All(x => x.Selected == false);
+            foreach (var item in DeviceConfigList.Items)
+            {
+                var cItem = (DeviceMappingModels.Device)item;
 
-            ((ConfigurationViewModel)this.DataContext).SetupSourceDevices(((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice);
+                cItem.Selected = false;
+                if (DeviceConfigList.SelectedItems.Contains(item))
+                {
+                    cItem.Selected = true;
+                }
+            }
+
+            ConfigPanel.DataContext = DeviceConfigList.SelectedItem;
+            ControlDevice selectedDevice = null;
+            if (ConfigPanel != null && ((DeviceMappingModels.Device)ConfigPanel.DataContext) != null)
+            {
+                ApplicationManager.Instance.DeviceBeingAligned = ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
+                ((ConfigurationViewModel)this.DataContext).SetupSourceDevices(((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice);
+            }
+            else
+            {
+                ApplicationManager.Instance.DeviceBeingAligned = null;
+                ((ConfigurationViewModel)this.DataContext).SetupSourceDevices(null);
+            }
+
+
 
             DeviceMappingModels.Device dvc = ConfigHere.DataContext as DeviceMappingModels.Device;
             ControlDevice cd = dvc.ControlDevice;
+
+            vm.DevicesSelectedCount = vm.SLSDevices.Count(x => x.Selected);
+
+            UpdateDeviceConfigUi(cd);
+
+        }
+
+        private void DevicesListCondensedSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var vm = this.DataContext as ConfigurationViewModel;
+            bool zeroDevicesPreSelected = vm.SLSDevices.All(x => x.Selected == false);
+
+            foreach (var item in DeviceConfigCondensedList.Items)
+            {
+                var cItem = (DeviceMappingModels.Device)item;
+
+                cItem.Selected = false;
+                if (DeviceConfigCondensedList.SelectedItems.Contains(item))
+                {
+                    cItem.Selected = true;
+                }
+            }
+
+            ConfigPanel.DataContext = DeviceConfigCondensedList.SelectedItem;
+            if (ConfigPanel != null && ((DeviceMappingModels.Device)ConfigPanel.DataContext) != null)
+            {
+                ApplicationManager.Instance.DeviceBeingAligned = ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
+                ((ConfigurationViewModel)this.DataContext).SetupSourceDevices(((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice);
+            }
+            else
+            {
+                ApplicationManager.Instance.DeviceBeingAligned = null;
+                ((ConfigurationViewModel)this.DataContext).SetupSourceDevices(null);
+            }
+
+            DeviceMappingModels.Device dvc = ConfigHere.DataContext as DeviceMappingModels.Device;
+            ControlDevice cd = dvc.ControlDevice;
+
+            vm.DevicesSelectedCount = vm.SLSDevices.Count(x => x.Selected);
 
             UpdateDeviceConfigUi(cd);
 
@@ -465,12 +527,25 @@ namespace RGBSyncPlus.UI
         {
             var items = (System.Windows.Controls.ListView)sender;
             var selected = (DeviceMappingModels.SourceModel)items.SelectedItem;
-            foreach (var item in items.Items)
+            if (selected.Enabled)
+            {
+                selected = null;
+            }
+
+            List<DeviceMappingModels.SourceModel> selectedItems = new List<DeviceMappingModels.SourceModel>();
+            foreach (object itemsSelectedItem in items.SelectedItems)
+            {
+                DeviceMappingModels.SourceModel castItem = (DeviceMappingModels.SourceModel)itemsSelectedItem;
+                selectedItems.Add(castItem);
+            }
+
+            foreach (object item in items.Items)
             {
                 DeviceMappingModels.SourceModel castItem = (DeviceMappingModels.SourceModel)item;
 
 
-                bool shouldEnable = castItem == selected;
+                bool shouldEnable = selectedItems.Contains(item);
+                //castItem == selected;
 
                 if (castItem.Enabled && shouldEnable)
                 {
@@ -484,43 +559,83 @@ namespace RGBSyncPlus.UI
 
             }
 
-            var parentDevice = (DeviceMappingModels.Device)ConfigPanel.DataContext;
+            var vm = this.DataContext as ConfigurationViewModel;
+            var selectedParents = vm.SLSDevices.Where(x => x.Selected == true);
 
-            if (selected != null)
+            foreach (var parentDevice in selectedParents)
             {
-                var profile = ApplicationManager.Instance.CurrentProfile;
-                if (profile.DeviceProfileSettings == null)
                 {
-                    profile.DeviceProfileSettings = new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();
-                }
-
-                var configDevice = profile.DeviceProfileSettings.FirstOrDefault(x => x.Name == parentDevice.Name && x.ProviderName == parentDevice.ProviderName);
-
-                if (configDevice == null)
-                {
-                    configDevice = new DeviceMappingModels.NGDeviceProfileSettings
+                    var profile = ApplicationManager.Instance.CurrentProfile;
+                    if (profile.DeviceProfileSettings == null)
                     {
-                        Name = parentDevice.Name,
-                        ProviderName = parentDevice.ProviderName,
-                    };
+                        profile.DeviceProfileSettings =
+                            new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();
+                    }
 
-                    profile.DeviceProfileSettings.Add(configDevice);
+                    var configDevice = profile.DeviceProfileSettings.FirstOrDefault(x =>
+                        x.Name == parentDevice.Name && x.ProviderName == parentDevice.ProviderName);
+
+                    if (configDevice == null)
+                    {
+                        configDevice = new DeviceMappingModels.NGDeviceProfileSettings
+                        {
+                            Name = parentDevice.Name,
+                            ProviderName = parentDevice.ProviderName,
+                        };
+
+                        profile.DeviceProfileSettings.Add(configDevice);
+                    }
+
+
+                    if (selected != null)
+                    {
+                        configDevice.SourceName = selected?.Name;
+                        configDevice.SourceProviderName = selected?.ProviderName;
+                    }
+                    else
+                    {
+                        configDevice.SourceName = null;
+                        configDevice.SourceProviderName = null;
+
+                        foreach (var controlDeviceLeD in parentDevice.ControlDevice.LEDs)
+                        {
+                            controlDeviceLeD.Color = new LEDColor(0,0,0);
+                        }
+
+                        if (parentDevice.SupportsPush)
+                        {
+                            parentDevice.ControlDevice.Push();
+                        }
+                    }
+
+                    profile.IsProfileStale = true;
                 }
+            }
 
+            if (selected == null)
+            {
+                foreach (var parentDevice in selectedParents)
+                {
+                    foreach (var controlDeviceLeD in parentDevice.ControlDevice.LEDs)
+                    {
+                        controlDeviceLeD.Color = new LEDColor(0, 0, 0);
+                    }
 
-
-                configDevice.SourceName = selected.Name;
-                configDevice.SourceProviderName = selected.ProviderName;
-                profile.IsProfileStale = true;
+                    if (parentDevice.SupportsPush)
+                    {
+                        parentDevice.ControlDevice.Push();
+                    }
+                }
             }
         }
+
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
             DeviceMappingModels.Device dvc = ConfigHere.DataContext as DeviceMappingModels.Device;
             ControlDevice cd = dvc.ControlDevice;
 
-            if (cd.Driver is ISimpleLEDDriverWithConfig drv)
+            if (cd.Driver is ISimpleLedWithConfig drv)
             {
                 var cfgUI = drv.GetCustomConfig(cd);
                 ConfigHere.Children.Clear();
@@ -543,11 +658,11 @@ namespace RGBSyncPlus.UI
             ConfigHere.Children.Clear();
             if (cd != null)
             {
-                if (cd.Driver is ISimpleLEDDriverWithConfig drv)
+                if (cd.Driver is ISimpleLedWithConfig drv)
                 {
                     var cfgUI = drv.GetCustomConfig(cd);
                     ConfigHere.Children.Add(cfgUI);
-                    
+
                     ConfigHere.HorizontalAlignment = HorizontalAlignment.Stretch;
                     ConfigHere.VerticalAlignment = VerticalAlignment.Stretch;
 
@@ -556,7 +671,7 @@ namespace RGBSyncPlus.UI
                     cfgUI.VerticalAlignment = VerticalAlignment.Stretch;
                     cfgUI.VerticalContentAlignment = VerticalAlignment.Stretch;
 
-                    cfgUI.Foreground= new SolidColorBrush(Colors.White);
+                    cfgUI.Foreground = new SolidColorBrush(Colors.White);
 
                 }
             }
@@ -576,24 +691,24 @@ namespace RGBSyncPlus.UI
 
         private void ClickSource(object sender, MouseButtonEventArgs e)
         {
-         Debug.WriteLine(sender);
-         ListView_SelectionChanged(this.SourceList, null);
+            Debug.WriteLine(sender);
+            ListView_SelectionChanged(this.SourceList, null);
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            
-            ConfigurationViewModel vm = (ConfigurationViewModel) this.DataContext;
-            vm.SyncToSearch = SyncToSearchTextBox.Text;
-            vm.FilterSourceDevices();
-        }
+        //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
 
-        private void Button_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
-            vm.SyncToSearch = "";
-            SyncToSearchTextBox.Text = "";
-        }
+        //    ConfigurationViewModel vm = (ConfigurationViewModel) this.DataContext;
+        //    vm.SyncToSearch = SyncToSearchTextBox.Text;
+        //    vm.FilterSourceDevices();
+        //}
+
+        //private void Button_MouseUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+        //    vm.SyncToSearch = "";
+        //    SyncToSearchTextBox.Text = "";
+        //}
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
@@ -613,6 +728,44 @@ namespace RGBSyncPlus.UI
 
             var derp = senderButton.DataContext;
             Debug.WriteLine(derp);
+        }
+
+        private void ToggleDevicesView(object sender, RoutedEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.DevicesCondenseView = !vm.DevicesCondenseView;
+        }
+
+        private void SubInfo(object sender, RoutedEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.SubViewMode = "Info";
+        }
+
+        private void SyncTo(object sender, RoutedEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.SubViewMode = "SyncTo";
+        }
+
+        private void Config(object sender, RoutedEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.SubViewMode = "Config";
+        }
+
+        private void Alignment(object sender, RoutedEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.SubViewMode = "Alignment";
+        }
+
+        private void BlurredDecorationWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double newWindowHeight = e.NewSize.Height;
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.MaxSubViewHeight = (newWindowHeight / 2);
+            Debug.WriteLine("Max subview window height set to " + vm.MaxSubViewHeight);
         }
     }
 }
