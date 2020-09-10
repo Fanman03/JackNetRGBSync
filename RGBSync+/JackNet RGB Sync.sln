@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceExcludeTool", "..\Dev
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundUploadHelper", "..\BackgroundUploadHelper\BackgroundUploadHelper.csproj", "{BD9D6D04-1F12-4C2C-8973-FF9D9C1BE24C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLEDSDK", "..\SimpleLEDSDK\MadLedFrameworkSDK\SimpleLEDSDK.csproj", "{EB4729F4-0BF6-41D3-9548-F8C7846A2025}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,14 +71,6 @@ Global
 		{BD9D6D04-1F12-4C2C-8973-FF9D9C1BE24C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BD9D6D04-1F12-4C2C-8973-FF9D9C1BE24C}.Release|x64.ActiveCfg = Release|Any CPU
 		{BD9D6D04-1F12-4C2C-8973-FF9D9C1BE24C}.Release|x64.Build.0 = Release|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Debug|x64.Build.0 = Debug|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Release|x64.ActiveCfg = Release|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

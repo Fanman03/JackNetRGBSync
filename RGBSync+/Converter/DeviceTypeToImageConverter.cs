@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-using MadLedFrameworkSDK;
+using SimpleLed;
 
 namespace RGBSyncPlus.Converter
 {

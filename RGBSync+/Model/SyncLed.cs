@@ -1,4 +1,4 @@
-﻿using MadLedFrameworkSDK;
+﻿using SimpleLed;
 using Newtonsoft.Json;
 using RGB.NET.Core;
 using RGBSyncPlus.Helper;

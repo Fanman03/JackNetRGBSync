@@ -29,8 +29,8 @@ using System.Web.Http;
 using System.Web.Http.SelfHost;
 using System.Windows.Documents;
 using System.Windows.Threading;
-using MadLedFrameworkSDK;
-using RGB.NET.Brushes;
+using SimpleLed;
+
 using Swashbuckle.Application;
 
 namespace RGBSyncPlus
@@ -492,7 +492,7 @@ namespace RGBSyncPlus
 
             foreach (var controlDevice in SLSDevices)
             {
-                if (controlDevice.Driver is ISimpleLEDDriverWithConfig slsConfig)
+                if (controlDevice.Driver is ISimpleLedWithConfig slsConfig)
                 {
                     if (slsConfig.GetIsDirty())
                     {
@@ -628,9 +628,9 @@ namespace RGBSyncPlus
                     loadingSplash.LoadingText.Text = "Loading "+file.Split('\\').Last().Split('.').First();
                     Logger.Debug("Loading provider " + file);
                     Assembly assembly = Assembly.LoadFrom(file);
-                    foreach (Type loaderType in assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass && typeof(ISimpleLEDDriver).IsAssignableFrom(t)))
+                    foreach (Type loaderType in assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass && typeof(ISimpleLed).IsAssignableFrom(t)))
                     {
-                        if (Activator.CreateInstance(loaderType) is ISimpleLEDDriver slsDriver)
+                        if (Activator.CreateInstance(loaderType) is ISimpleLed slsDriver)
                         {
                             loadingSplash.LoadingText.Text = "Loading " +slsDriver.Name();
                             loadingSplash.UpdateLayout();

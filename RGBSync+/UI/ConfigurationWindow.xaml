@@ -17,7 +17,7 @@
                                   Icon="pack://application:,,,/RGBSync+;component/Resources/HiRes.ico"
                                   IconCommand="{Binding OpenHomepageCommand}"
                                   Width="1280"  Height="720"
-                                  Closed="ConfigurationWindow_OnClosed" ResizeMode="CanResizeWithGrip">
+                                  Closed="ConfigurationWindow_OnClosed" ResizeMode="CanResizeWithGrip" SizeChanged="BlurredDecorationWindow_SizeChanged">
 
     <controls:BlurredDecorationWindow.Resources>
         <styles:CachedResourceDictionary>
@@ -25,6 +25,7 @@
                 <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Navigation.xaml" />
                 <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Scrollbar.xaml" />
             </styles:CachedResourceDictionary.MergedDictionaries>
+            <Converter:StringMatchToVisibilityConverter x:Key="StringMatchToVisibilityConverter"/>
             <Converter:IndeterminateBoolToOpacityConverter x:Key="IndeterminateBoolToOpacityConverter"/>
             <Converter:InvertedBoolToVisibilityConverter x:Key="InvertedBoolToVisibilityConverter"/>
             <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -37,7 +38,7 @@
                         x:Name="Bd" BorderBrush="Black"
                         BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
                     <ScrollViewer x:Name="PART_ContentHost"/>
-                    
+
                 </Border>
                 <ControlTemplate.Triggers>
                     <Trigger Property="IsEnabled" Value="False">
@@ -123,7 +124,7 @@
 
             <DataTemplate x:Key="DeviceMapperSourceItemTemplate" >
 
-                <Grid Margin="0,5,0,5" Background="#80000000" HorizontalAlignment="Stretch" MouseLeftButtonUp="ClickSource" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisibilityConverter}}" >
+                <Grid Margin="0" Background="#80000000" HorizontalAlignment="Stretch" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisibilityConverter}}" >
                     <Grid.ColumnDefinitions>
 
                         <ColumnDefinition/>
@@ -131,84 +132,70 @@
 
                     </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Column="1" Width="70" Height="70" Background="#ff007F0E" Margin="8,0,0,0" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <Button HorizontalAlignment="Center" Margin="0" VerticalContentAlignment="Center" MouseUp="UIElement_OnMouseUp" FontFamily="Segoe MDL2 Assets" Background="Transparent" VerticalAlignment="Center" FontSize="36" Padding="14" BorderThickness="0"></Button>
+                    <Grid Grid.Column="1" Width="102" Height="52" Background="#ff007F0E" Margin="8,0,0,0" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Button HorizontalAlignment="Center" Margin="0" VerticalContentAlignment="Center" MouseUp="UIElement_OnMouseUp" FontFamily="Segoe UI SemiLight" Background="Transparent" VerticalAlignment="Center" FontSize="36" Padding="0" BorderThickness="0">Edit</Button>
 
 
                     </Grid>
 
-                    <!--<Grid Height="60">
-                        <Image Source="{Binding Image}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"></Image>
-                    </Grid>-->
-                    <Grid Grid.Column="0">
-                    <Border Height="50">
-                        <Border.Background>
-                            <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill"/>
-                        </Border.Background>
-                        <Border.Effect>
-                            <BlurEffect Radius="10"></BlurEffect>
-                        </Border.Effect>
-                    </Border>
-                    <Rectangle>
-                        <Rectangle.Fill>
-                            <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                <GradientStop Color="#00000000" Offset="1"/>
-                                <GradientStop Color="#c0000000" Offset="0.5"/>
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0"/>
-                            <ColumnDefinition Width="2"/>
-                            <ColumnDefinition Width="110"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" MouseLeftButtonUp="ClickSource">
+                        <Border Height="40">
+                            <Border.Background>
+                                <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill"/>
+                            </Border.Background>
+                            <Border.Effect>
+                                <BlurEffect Radius="10"></BlurEffect>
+                            </Border.Effect>
+                        </Border>
+                        <Rectangle>
+                            <Rectangle.Fill>
+                                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                    <GradientStop Color="#00000000" Offset="1"/>
+                                    <GradientStop Color="#c0000000" Offset="0.5"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Grid>
 
-                        <Grid Width="64" Height="48" Margin="10" Background="#F2000000" MaxWidth="128" Grid.Column="2">
-                            
-                            <Image Source="{Binding Image}" Width="64" Height="48"></Image>
-                            <Rectangle Width="48" Height="48">
-                                <Rectangle.Fill>
-                                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                        <GradientStop Color="#00000000" Offset="0.724"/>
-                                        <GradientStop Color="Black" Offset="0.93"/>
-                                    </LinearGradientBrush>
-                                </Rectangle.Fill>
-                            </Rectangle>
+                            <Grid>
 
 
-                            <Border BorderBrush="White" BorderThickness="1"></Border>
-                        </Grid>
-                            <StackPanel Grid.Column="3" VerticalAlignment="Center">
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Image ToolTip="{Binding Device.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"  Margin="8"/>
-                                    <Grid Background="White" Margin="8" VerticalAlignment="Center">
-                                <TextBlock TextTrimming="CharacterEllipsis" Margin="8" Text="{Binding ProviderName}" FontSize="20" FontFamily="Segoe UI" FontWeight="Bold" Foreground="Black" Background="White" TextAlignment="Center"/>
-                                </Grid>
-                                <Grid Background="Black" Margin="8" VerticalAlignment="Center">
+                                    <Grid Width="48" Height="32" Background="#F2000000" MaxWidth="64" Margin="8,0,0,0" >
+
+                                        <Image Source="{Binding Image}" Width="48" Height="32"></Image>
+                                        <Rectangle Width="48" Height="32">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                                    <GradientStop Color="#00000000" Offset="0.724"/>
+                                                    <GradientStop Color="Black" Offset="0.93"/>
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+
+
+                                        <Border BorderBrush="White" BorderThickness="1"></Border>
+                                    </Grid>
+
+                                    <Image ToolTip="{Binding Device.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"  Margin="8"/>
+
+                                    <TextBlock TextTrimming="CharacterEllipsis" Margin="8" Text="{Binding ProviderName}" FontSize="20" FontFamily="Segoe UI" FontWeight="Bold" Foreground="White" TextAlignment="Center" />
+
                                     <TextBlock TextTrimming="CharacterEllipsis" Margin="8" Text="{Binding Name}" FontSize="20" FontFamily="Segoe UI" FontWeight="Light" Foreground="White"  TextAlignment="Center"/>
-                                    
-                                </Grid>
-                            </StackPanel>
-
-                        </StackPanel>
 
 
-                    </Grid>
-                        
-                    <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <Border BorderThickness="8" BorderBrush="#ff007F0E">
-                            <Image Source="selectedCorner.png" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right"></Image>
-                        </Border>
-                    </Grid>
-                </Grid>
+                                </StackPanel>
+
+
+                            </Grid>
+
+                            <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <Border BorderThickness="4" BorderBrush="#ff007F0E">
+                                    <Image Source="selectedCorner.png" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right"></Image>
+                                </Border>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
 
@@ -231,6 +218,71 @@
             <DataTemplate x:Key="DeviceMapItemTemplate">
                 <Grid>
                     <TextBlock Text="{Binding SourceDevice.Name}" FontFamily="Segoe UI Light" FontSize="24" HorizontalAlignment="Left"></TextBlock>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="DeviceControlCondensedTemplate">
+                <Grid Margin="0" Background="#80000000" HorizontalAlignment="Stretch" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisibilityConverter}}" >
+
+
+                    <Grid Grid.Column="0" MouseLeftButtonUp="ClickSource">
+                        <Border Height="40">
+                            <Border.Background>
+                                <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill"/>
+                            </Border.Background>
+                            <Border.Effect>
+                                <BlurEffect Radius="10"></BlurEffect>
+                            </Border.Effect>
+                        </Border>
+                        <Rectangle>
+                            <Rectangle.Fill>
+                                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                    <GradientStop Color="#00000000" Offset="1"/>
+                                    <GradientStop Color="#c0000000" Offset="0.5"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Grid>
+
+                            <Grid>
+
+
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Grid Width="48" Height="32" Background="#F2000000" MaxWidth="64" Margin="8,0,0,0" >
+
+                                        <Image Source="{Binding Image}" Width="48" Height="32"></Image>
+                                        <Rectangle Width="48" Height="32">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                                    <GradientStop Color="#00000000" Offset="0.724"/>
+                                                    <GradientStop Color="Black" Offset="0.93"/>
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+
+
+                                        <Border BorderBrush="White" BorderThickness="1"></Border>
+                                    </Grid>
+
+                                    <Image ToolTip="{Binding Device.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"  Margin="8"/>
+
+                                    <TextBlock TextTrimming="CharacterEllipsis" Margin="8" Text="{Binding ProviderName}" FontSize="20" FontFamily="Segoe UI" FontWeight="Bold" Foreground="White" TextAlignment="Center" />
+
+                                    <TextBlock TextTrimming="CharacterEllipsis" Margin="8" Text="{Binding Name}" FontSize="20" FontFamily="Segoe UI" FontWeight="Light" Foreground="White"  TextAlignment="Center"/>
+
+
+                                </StackPanel>
+
+
+                            </Grid>
+
+                            <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Selected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <Border BorderThickness="4" BorderBrush="#ff007F0E">
+                                    <Image Source="selectedCorner.png" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right"></Image>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="DeviceControlTemplate">
@@ -268,7 +320,7 @@
                         <TextBlock Text="{Binding ProviderName}" Margin="4,4,0,4" FontSize="14" FontWeight="Bold" MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right" Foreground="Black" Background="White"></TextBlock>
                         <TextBlock Text="{Binding Name}" Margin="4,4,0,4" FontSize="12" MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right" Background="Black" Foreground="White"></TextBlock>
                     </StackPanel>
-                        <StackPanel MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ShowFullThumb, Converter={StaticResource BoolToVisibilityConverter}}" >
+                    <StackPanel MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ShowFullThumb, Converter={StaticResource BoolToVisibilityConverter}}" >
                         <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" Background="#ddFFFFFF">
 
                             <TextBlock Text="{Binding ProviderName}" Margin="6" FontSize="20" FontWeight="Bold" MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right" Foreground="Black"></TextBlock>
@@ -288,6 +340,11 @@
                         </Grid>
                     </StackPanel>
                     <!--<Border BorderBrush="White" BorderThickness="1"></Border>-->
+                    <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Selected, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Border BorderThickness="4" BorderBrush="#ff007F0E">
+                            <Image Source="selectedCorner.png" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right"></Image>
+                        </Border>
+                    </Grid>
                 </Grid>
             </DataTemplate>
         </styles:CachedResourceDictionary>
@@ -303,18 +360,20 @@
             <AdornerDecorator>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid Margin="-8">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="48"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
+                        
                         <Grid Grid.Row="0" Background="#80eeeeee">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#ee808080" Foreground="White" Width="32" Height="32" Margin="8" Click="Button_Click_6"></Button>
-                                <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#ee808080" Foreground="White" Width="32" Height="32" Margin="8" Click="Button_Click_5"></Button>
+                                <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="Button_Click_6"></Button>
+                                <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="Button_Click_5"></Button>
+                                <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="ToggleDevicesView"></Button>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4">
                                 <GroupBox BorderThickness="0">
@@ -328,114 +387,176 @@
 
                         </Grid>
                         <GroupBox Grid.Row="1">
-                            <Grid>
-                                <Rectangle Height="30" Width="200"></Rectangle>
-
-                                <ListView ItemsSource="{Binding SLSDevices}" ItemTemplate="{DynamicResource DeviceControlTemplate}" SelectionChanged="DevicesListSelectionChanged" x:Name="DeviceConfigList">
+                            <Grid Margin="-8,-8,-24,14">
+                                <ListView MinHeight="400" ItemsSource="{Binding SLSDevices}" ItemTemplate="{DynamicResource DeviceControlTemplate}" SelectionChanged="DevicesListSelectionChanged" x:Name="DeviceConfigList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource InvertedBoolToVisibilityConverter}}" >
                                     <ListView.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <!--<StackPanel Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.PanningMode="HorizontalOnly"></StackPanel>-->
                                             <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
-                                           ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                           MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
-                                           ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                                       ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                       MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
+                                                       ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}"/>
                                         </ItemsPanelTemplate>
                                     </ListView.ItemsPanel>
 
                                 </ListView>
+
+                                <ListView ItemsSource="{Binding SLSDevices}" ItemTemplate="{DynamicResource DeviceControlCondensedTemplate}" SelectionChanged="DevicesListCondensedSelectionChanged" x:Name="DeviceConfigCondensedList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource BoolToVisibilityConverter}}" >
+
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="2"/>
+
+                                            <!--Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"-->
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+
+                                </ListView>
+
                             </Grid>
                         </GroupBox>
                     </Grid>
-                    <GroupBox Grid.Row="1" x:Name="ConfigPanel" Background="#80000000" Foreground="White" BorderBrush="Transparent" Margin="-8,0,-8,-8">
-                        <Grid>
+                    <Grid Grid.Row="1" x:Name="ConfigPanel" Background="#80000000" Margin="0"  MaxHeight="{Binding MaxSubViewHeight}" Height="{Binding MaxSubViewHeight}">
+
+                        <Grid Margin="-8">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="48"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                           
+<!--
                             <Image  Grid.Row="0"  Grid.RowSpan="2" Source="{Binding Image}" Stretch="UniformToFill" VerticalAlignment="Center" Margin="0">
                                 <Image.Effect>
                                     <BlurEffect Radius="8"></BlurEffect>
                                 </Image.Effect>
                             </Image>
+                            -->
                             <Rectangle Grid.Row="0" Fill="#d0000000" Margin="-8" Grid.RowSpan="2"></Rectangle>
-                            <Grid Margin="0" VerticalAlignment="Top">
-                                <Grid Background="#CC000000" Margin="-4">
-                                    <StackPanel Orientation="Horizontal"  Height="48" Margin="8,0,0,0">
-                                        <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="32" Height="32"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6"/>
-                                        <TextBlock Text="{Binding ControlDevice.DeviceType}" FontSize="18" VerticalAlignment="Center"></TextBlock>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  Height="48">
-                                        <TextBlock FontSize="36" Text="{Binding ProviderName}" FontWeight="Bold"></TextBlock>
-
-                                        <TextBlock FontSize="36" Text="{Binding Name}" FontWeight="Light" Margin="12,0,0,0"></TextBlock>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="48" Margin="0,0,8,0">
-                                        <Image Source="pull.png" Width="24" Visibility="{Binding SupportsPull, Converter={StaticResource BoolToVisibilityConverter}}"></Image>
-                                        <Image Source="push.png" Width="24" Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}"></Image>
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <TextBox Width="200" HorizontalAlignment="Right" Margin="0,0,8,0" BorderBrush="Black" Text="{Binding SyncToSearch}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="32" TextChanged="TextBox_TextChanged" x:Name="SyncToSearchTextBox" FontSize="24" Template="{StaticResource SearchControlTemplate}" Background="White" Foreground="Black"/>
-                                    <Button Width="32" Height="32" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Margin="0,0,4,-8" FontFamily="Segoe MDL2 Assets" Content="&#xE711;" MouseUp="Button_MouseUp" Foreground="Black"/>
-                                </Grid>
-                            </Grid>
-                            <TabControl Grid.Row="1" Background="#40000000" Foreground="White" BorderBrush="#80000000" BorderThickness="0" Margin="-8" Padding="8" VerticalAlignment="Top"  FontSize="24" FontWeight="Light" SelectionChanged="TabControl_SelectionChanged">
-                                <TabItem 
-                                    Header="Sync To" 
-                                    FontSize="24" FontWeight="Light"
-                                    Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}" 
-                                    Foreground="White" 
-                                    BorderBrush="Transparent"
-                                    HorizontalContentAlignment="Stretch">
-                               
-                                        <ListView x:Name="SourceList"
-                                                  ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SourceDevices}" 
-                                                  ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
-                                                  Background="Transparent" 
-                                                  Foreground="White" 
-                                                  BorderBrush="Transparent" 
-                                                  SelectionMode="Single" 
-                                                  HorizontalContentAlignment="Stretch" >
 
 
-                                        <ListView.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
-                                                                        />
-                                            </ItemsPanelTemplate>
-                                        </ListView.ItemsPanel>
-                                    </ListView>
+                            <Grid Grid.Row="0" Background="#CCffffff" Margin="0" Height="60" VerticalAlignment="Top">
+                                <!--<StackPanel Orientation="Horizontal"  Height="36" Margin="0" VerticalAlignment="Top">
+                                        <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="25" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4,6"/>
+                                        <TextBlock Text="{Binding ControlDevice.DeviceType}" FontSize="18" VerticalAlignment="Center" Foreground="Black"></TextBlock>
+                                    </StackPanel>-->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Height="36" Margin="0" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SingledDeviceSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBlock FontSize="24" Text="{Binding ProviderName}" Margin="12,0,0,0" FontWeight="Bold" Foreground="Black"></TextBlock>
 
-                                </TabItem>
+                                    <TextBlock FontSize="24" Text="{Binding Name}" FontWeight="Light" Margin="12,0,0,0" Foreground="Black"></TextBlock>
 
-                                <TabItem Header="Alignment" Background="#00000000" Foreground="White" BorderBrush="Transparent">
-                                    
-                                        <Grid  >
-                                            <StackPanel Background="Transparent" >
+                                </StackPanel>
 
-                                                <Label Foreground="White" FontSize="16">Use the controls below to make your devices match the images</Label>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Button FontSize="24" Content="&lt;" Height="60" Width="60" Margin="8" Click="Button_Click" ></Button>
-                                                    <Button FontSize="24" Content="&gt;" Height="60" Width="60" Margin="8" Click="Button_Click_2" ></Button>
-                                                    <Button FontSize="24" Content="&lt; &gt;" Height="60" Width="60"  Margin="8" Click="Button_Click_3"></Button>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Height="36" Margin="0" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.MultipleDeviceSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBlock FontSize="24" Text="Multiple devices" FontWeight="Bold" Foreground="Black" Margin="12,0,0,0" ></TextBlock>
 
-                                                    <Image Source="alignment_template.png" Width="172"></Image>
-                                                </StackPanel>
+                                    <TextBlock FontSize="24" Text="selected" FontWeight="Light" Margin="12,0,0,0" Foreground="Black"></TextBlock>
 
+                                </StackPanel>
+
+                                <!--<Grid Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,0,20,0" Ho>
+                                        <TextBox Width="200" HorizontalAlignment="Right" Margin="0,0,8,0" BorderBrush="Transparent" Text="{Binding SyncToSearch}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="24" TextChanged="TextBox_TextChanged" x:Name="SyncToSearchTextBox" FontSize="24" Template="{StaticResource SearchControlTemplate}" Background="#80000000" Foreground="Black"/>
+                                        <Button Width="32" Height="32" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Margin="0,0,4,-8" FontFamily="Segoe MDL2 Assets" Content="&#xE711;" MouseUp="Button_MouseUp" Foreground="Black"/>
+                                    </Grid>-->
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="8,0,8,8" VerticalAlignment="Bottom" >
+                                    <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="SubInfo">
+                                        <Grid Margin="0" >
+                                            <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisibilityConverter}}"></Grid>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0" Margin="8,4,0,0"></TextBlock>
+                                            <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Info</TextBlock>
+                                            </StackPanel>
+                                    </Grid>
+                                    </Button>
+
+                                    <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="SyncTo">
+                                        <Grid Margin="0" >
+                                            <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisibilityConverter}}"></Grid>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0"  Margin="8,4,0,0"></TextBlock>
+                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Sync To</TextBlock>
                                             </StackPanel>
                                         </Grid>
-                                    
-                                </TabItem>
+                                    </Button>
+
+                                    <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="Config" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SingledDeviceSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <Grid Margin="0" >
+                                            <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Config, Converter={StaticResource StringMatchToVisibilityConverter}}"></Grid>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0"  Margin="8,4,0,0" ></TextBlock>
+                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Config</TextBlock>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Button>
 
 
-                                <TabItem Header="Config" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                                    <Grid x:Name="ConfigHere" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
-</Grid>
-                                </TabItem>
-                            </TabControl>
+                                    <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="Alignment" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SingledDeviceSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <Grid Margin="0" >
+                                            <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisibilityConverter}}"></Grid>
+                                        <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0" Margin="8,4,0,0" ></TextBlock>
+                                            <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Alignment</TextBlock>
+                                        </StackPanel>
+                                            </Grid>
+                                    </Button>
+
+                                </StackPanel>
+                            </Grid>
+                            <!--
+                                
+                                -->
+                            <Grid Grid.Row="1" x:Name="SubContents">
+                                <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisibilityConverter}}">
+                                    <StackPanel Margin="10">
+                                        <TextBlock Foreground="White" FontSize="18" FontWeight="Bold">Driver:</TextBlock>
+                                        <TextBlock Foreground="White" FontSize="18" FontWeight="Light" Text="{Binding ProviderName}"></TextBlock>
+                                        <TextBlock Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,8">Name:</TextBlock>
+                                        <TextBlock Foreground="White" FontSize="18" FontWeight="Light" Text="{Binding Name}"></TextBlock>
+                                        <TextBlock Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,8">Author:</TextBlock>
+                                        <TextBlock Foreground="White" FontSize="18" FontWeight="Light" Text="{Binding DriverProps.Author}"></TextBlock>
+
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid MaxHeight="200" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisibilityConverter}}">
+                                <ListView x:Name="SourceList" 
+                                          ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SourceDevices}" 
+                                          ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
+                                          BorderBrush="Transparent" 
+                                          SelectionMode="Single" 
+                                          HorizontalContentAlignment="Stretch" 
+                                           >
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="2"/>
+
+                                            <!--Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"-->
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                </ListView>
+                                </Grid>
+
+                                <Grid  Grid.Row="1" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisibilityConverter}}">
+                                    <StackPanel Background="Transparent" HorizontalAlignment="Center" >
+
+                                        <Label Foreground="White" FontSize="16">Use the controls below to make your devices match the images</Label>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button FontSize="24" Content="" Height="60" Width="60" Margin="8" Click="Button_Click" FontFamily="Segoe MDL2 Assets" Padding="16"></Button>
+                                            <Button FontSize="24" Content="" Height="60" Width="60" Margin="8" Click="Button_Click_2"  FontFamily="Segoe MDL2 Assets" Padding="16"></Button>
+                                            <Button FontSize="24" Content="" Height="60" Width="60"  Margin="8" Click="Button_Click_3" FontFamily="Segoe MDL2 Assets" Padding="16"></Button>
+
+                                            <Image Source="alignment_template.png" Width="172"></Image>
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid x:Name="ConfigHere" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Config, Converter={StaticResource StringMatchToVisibilityConverter}}">
+                                    <TextBlock Margin="20">This device has no configuration.</TextBlock>
+                                </Grid>
+
+                            </Grid>
                         </Grid>
-                    </GroupBox>
+                    </Grid>
                 </Grid>
 
             </AdornerDecorator>
