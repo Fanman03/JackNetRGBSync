@@ -86,7 +86,7 @@
                         <DockPanel VerticalAlignment="Bottom">
                             <DockPanel DockPanel.Dock="Top"
                                     HorizontalAlignment="Center" >
-                                <Button Command="{Binding ImportCommand}" >
+                                <Button Command="{Binding ImportCommand}" Width="125" >
                                     <StackPanel Height="Auto" Orientation="Horizontal">
                                         <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/import.png" />
                                         <TextBlock TextWrapping="Wrap" Text="{x:Static p:Resources.ImportButton}"/>
@@ -97,20 +97,28 @@
                                     <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/DownloadFromCloud.png" />
                                 </Button>
                             </DockPanel>
-                            <DockPanel  DockPanel.Dock="Bottom"
-                                    HorizontalAlignment="Center" >
+                            <StackPanel DockPanel.Dock="Bottom">
+                                <Button Margin="0,5,0,0" Width="155" Click="Button_Click" >
+                                    <StackPanel Height="Auto" Orientation="Horizontal">
+                                        <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/save.png" />
+                                        <TextBlock Text="Save Groups"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <DockPanel DockPanel.Dock="Bottom"
+                                       HorizontalAlignment="Center" >
                                 <Button
-                                    Command="{Binding ExportCommand}" >
+                                    Command="{Binding ExportCommand}" Width="125" >
                                     <StackPanel Height="Auto" Orientation="Horizontal">
                                         <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/export.png" />
                                         <TextBlock Text="{x:Static p:Resources.ExportButton}"/>
                                     </StackPanel>
                                 </Button>
-                                <Button
-                                    Command="{Binding ExportCloudCommand}" ToolTip="Export data to cloud save.">
+                                <Button Command="{Binding ExportCloudCommand}" ToolTip="Export data to cloud save.">
                                     <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/UploadToCloud.png" />
                                 </Button>
                             </DockPanel>
+
                         </DockPanel>
                     </GroupBox>
                     <GroupBox DockPanel.Dock="Bottom" Margin="0,8,1006,0" >
@@ -481,7 +489,7 @@
                             <controls:Form Grid.Column="1" Grid.ColumnSpan="6" Margin="10,0,199,120" Grid.RowSpan="2">
 
                                 <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="{x:Static p:Resources.DevicesLabel}"  Margin="0,0,0,0" />
-                                <Button Command="{Binding OpenExcludeToolCommand}" Margin="10,0,0,-2"  Content="{x:Static p:Resources.ExcludeBtn}"/>
+                                <Button Command="{Binding OpenExcludeToolCommand}" Margin="10,0,0,0"  Content="{x:Static p:Resources.ExcludeBtn}"/>
 
                                 
 
@@ -491,7 +499,7 @@
                                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                                      ScrollViewer.HorizontalScrollBarVisibility="Visible"
                                      x:Name="AvailableDevicesListBox"
-                                 Width="480" Padding="0,-190,0,10">
+                                 Width="480" Height="430" Padding="0,0,0,0" Margin="0,25,0,170">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Style="{StaticResource StyleTextBlockForm}">

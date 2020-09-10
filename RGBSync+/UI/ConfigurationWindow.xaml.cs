@@ -390,5 +390,10 @@ namespace RGBSyncPlus.UI
             BannerColumn.Visibility = Visibility.Collapsed;
             SyncLedsColumn.SetValue(Grid.ColumnSpanProperty, 3);
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+           App.SaveSettings(); 
+        }
     }
 }

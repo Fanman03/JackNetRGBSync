@@ -507,5 +507,8 @@
   <ItemGroup>
     <Resource Include="Resources\DevImg\Pump.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\save.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

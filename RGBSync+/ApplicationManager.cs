@@ -21,9 +21,6 @@ using System.Net;
 using NLog;
 using System.Diagnostics;
 using System.Security.Principal;
-using System.ComponentModel;
-using System.Windows.Data;
-using System.Collections.ObjectModel;
 
 namespace RGBSyncPlus
 {
@@ -118,7 +115,7 @@ namespace RGBSyncPlus
             CultureInfo ci = CultureInfo.InstalledUICulture;
             if (AppSettings.Lang == null)
             {
-                Logger.Debug("Language is not set, inferring language from system culture. Lang="+ ci.TwoLetterISOLanguageName);
+                Logger.Debug("Language is not set, inferring language from system culture. Lang=" + ci.TwoLetterISOLanguageName);
                 AppSettings.Lang = ci.TwoLetterISOLanguageName;
             }
             System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(AppSettings.Lang);
@@ -135,9 +132,9 @@ namespace RGBSyncPlus
                     File.Delete(tempSetup);
                     Logger.Debug("Old installer successfully removed.");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    Logger.Error("Error deleting file: "+ex.ToString());
+                    Logger.Error("Error deleting file: " + ex.ToString());
                 }
             }
 
@@ -163,13 +160,10 @@ namespace RGBSyncPlus
             catch
             {
                 SyncGroup newSyncGroup = new SyncGroup();
-                newSyncGroup.Name = "Default Group";
-
                 Settings.SyncGroups = new List<SyncGroup>();
                 Settings.SyncGroups.Add(newSyncGroup);
 
             }
-
 
         }
 
@@ -209,8 +203,8 @@ namespace RGBSyncPlus
                         }
                     }
                 }
-                catch(Exception ex) 
-                { 
+                catch (Exception ex)
+                {
                     Logger.Error("Error loading " + file);
                     Logger.Error(ex);
                 }
@@ -231,7 +225,7 @@ namespace RGBSyncPlus
                 syncGroup.LedsChangedEventHandler = (sender, args) => UpdateLedGroup(syncGroup.LedGroup, args);
                 syncGroup.Leds.CollectionChanged += syncGroup.LedsChangedEventHandler;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Error("Error registering group: " + syncGroup.Name);
                 Logger.Error(ex);
@@ -348,7 +342,8 @@ namespace RGBSyncPlus
 
                 }
 
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Logger.Error("Unable to check for updates. Download failed with exception: " + ex);
             }
@@ -385,9 +380,10 @@ namespace RGBSyncPlus
             Logger.Debug("============ App is Shutting Down ============");
             try { RGBSurface.Instance?.Dispose(); } catch { /* well, we're shuting down anyway ... */ }
             try { client.Dispose(); } catch { /* well, we're shuting down anyway ... */ }
-            
+
             Application.Current.Shutdown();
         }
+
         #endregion
     }
 }
