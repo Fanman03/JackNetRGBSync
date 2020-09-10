@@ -777,7 +777,8 @@ namespace RGBSyncPlus
             if (_configurationWindow.WindowState == WindowState.Minimized)
                 _configurationWindow.WindowState = WindowState.Normal;
 
-            try
+        //TODO make better update check system
+/*            try
             {
                 using (WebClient w = new WebClient())
                 {
@@ -817,7 +818,7 @@ namespace RGBSyncPlus
             catch (Exception ex)
             {
                 Logger.Error("Unable to check for updates. Download failed with exception: " + ex);
-            }
+            }*/
 
         }
 

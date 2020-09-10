@@ -909,8 +909,8 @@ namespace RGBSyncPlus.UI
 
         public void PromptUpdate()
         {
-            GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
-            getUpdateWindow.Show();
+            //TODO fix update box. Until then, disable it because its annoying af. GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
+            //getUpdateWindow.Show();
         }
 
         public void NoUpdate()
