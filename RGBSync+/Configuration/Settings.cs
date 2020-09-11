@@ -22,7 +22,7 @@ namespace RGBSyncPlus.Configuration
 
         public List<SyncGroup> SyncGroups
         {
-            get;set;
+            get; set;
         }
 
         #endregion

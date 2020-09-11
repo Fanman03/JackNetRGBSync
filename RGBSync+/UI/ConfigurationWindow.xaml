@@ -66,7 +66,7 @@
             <DataTemplate x:Key="DeviceGroupLEDItemTemplate">
                 <StackPanel Margin="1" Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding IsSelected}"/>
-                    <TextBlock Margin="10,0,0,0" Text="{Binding Led.Id, Mode=OneWay}"/>
+                    <TextBlock Margin="10,0,0,0" Text="{Binding Led.Id, Mode=OneWay}" MouseUp="ToggleLedCheckBox"  />
                 </StackPanel>
             </DataTemplate>
         </styles:CachedResourceDictionary>
@@ -98,8 +98,8 @@
                                 </Button>
                             </DockPanel>
                             <StackPanel DockPanel.Dock="Bottom">
-                                <Button Margin="0,5,0,0" Width="155" Click="Button_Click" >
-                                    <StackPanel Height="Auto" Orientation="Horizontal">
+                                <Button Margin="0,5,0,0" Width="110" Click="Button_Click" >
+                                    <StackPanel Height="Auto" Orientation="Horizontal" HorizontalAlignment="Center">
                                         <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/save.png" />
                                         <TextBlock Text="Save Groups"/>
                                     </StackPanel>
@@ -271,7 +271,7 @@
                             </Grid.ColumnDefinitions>
 
 
-                            <GroupBox Grid.Column="0" Margin="0,0,0,-87" x:Name="SyncLedsColumn" >
+                            <GroupBox Grid.Column="0" Margin="0,0,0,-117" x:Name="SyncLedsColumn" >
                                 <DockPanel>
                                     <TextBlock DockPanel.Dock="Top"
                                                HorizontalAlignment="Center" 
@@ -295,7 +295,7 @@
                                     </ScrollViewer>
                                 </DockPanel>
                             </GroupBox>
-                            <GroupBox Grid.Column="2" Margin="0,0,0,-87" x:Name="BannerColumn" >
+                            <GroupBox Grid.Column="2" Margin="0,0,0,-117" x:Name="BannerColumn" >
                                 <StackPanel>
                                     <Button Panel.ZIndex="2" Width="24" Height="24" HorizontalAlignment="Right" Margin="5" Click="CloseBanner_Click">
                                         <Image Source="close.png"></Image>

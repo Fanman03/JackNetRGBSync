@@ -160,9 +160,10 @@ namespace RGBSyncPlus
             catch
             {
                 SyncGroup newSyncGroup = new SyncGroup();
+                newSyncGroup.Name = "Default Group";
+
                 Settings.SyncGroups = new List<SyncGroup>();
                 Settings.SyncGroups.Add(newSyncGroup);
-
             }
 
         }
@@ -183,7 +184,6 @@ namespace RGBSyncPlus
                     {
                         if (Activator.CreateInstance(loaderType) is IRGBDeviceProviderLoader deviceProviderLoader)
                         {
-                            //TODO DarthAffe 03.06.2018: Support Initialization
                             if (deviceProviderLoader.RequiresInitialization) continue;
 
                             var deviceTypes = AppSettings.DeviceTypes;

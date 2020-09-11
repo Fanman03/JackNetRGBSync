@@ -355,6 +355,14 @@ namespace RGBSyncPlus.UI
             }
         }
 
+        private void ToggleLedCheckBox(object sender, RoutedEventArgs e)
+        {
+            if ((sender as TextBlock)?.DataContext is DeviceLED led)
+            {
+                led.IsSelected = !led.IsSelected;
+            }
+        }
+
         private void BannerImage_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             try
