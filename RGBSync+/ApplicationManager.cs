@@ -41,7 +41,7 @@ namespace RGBSyncPlus
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
 
         private const string DEVICEPROVIDER_DIRECTORY = "DeviceProvider";
-        private const string SLSPROVIDER_DIRECTORY = "SLSProvider";
+        public const string SLSPROVIDER_DIRECTORY = "SLSProvider";
         private const string NGPROFILES_DIRECTORY = "NGProfiles";
         private const string SLSCONFIGS_DIRECTORY = "SLSConfigs";
         #endregion
@@ -116,13 +116,13 @@ namespace RGBSyncPlus
             }
         }
 
-        public DateTime TimeSettingsLastSave=DateTime.MinValue;
+        public DateTime TimeSettingsLastSave = DateTime.MinValue;
 
         public void SaveNGSettings()
         {
             string json = JsonConvert.SerializeObject(NGSettings);
             File.WriteAllText("NGSettings.json", json);
-            TimeSettingsLastSave=DateTime.Now;
+            TimeSettingsLastSave = DateTime.Now;
             NGSettings.AreSettingsStale = false;
         }
 
@@ -131,7 +131,7 @@ namespace RGBSyncPlus
             string json = JsonConvert.SerializeObject(CurrentProfile);
             string path = profilePathMapping[CurrentProfile.Name];
             TimeSettingsLastSave = DateTime.Now;
-            File.WriteAllText(path,json);
+            File.WriteAllText(path, json);
             CurrentProfile.IsProfileStale = false;
         }
 
@@ -151,11 +151,11 @@ namespace RGBSyncPlus
                 GenerateNewProfile("Default");
             }
 
-            NGSettings.ProfileNames=new ObservableCollection<string>();
+            NGSettings.ProfileNames = new ObservableCollection<string>();
             foreach (var profile in profiles)
             {
                 string profileName = GetProfileFromPath(profile).Name;
-                profilePathMapping.Add(profileName,profile);
+                profilePathMapping.Add(profileName, profile);
                 NGSettings.ProfileNames.Add(profileName);
             }
 
@@ -171,7 +171,8 @@ namespace RGBSyncPlus
                 StartApiServer();
             }
 
-            if (NGSettings.DeviceSettings!=null){
+            if (NGSettings.DeviceSettings != null)
+            {
                 foreach (var ngSettingsDeviceSetting in NGSettings.DeviceSettings)
                 {
                     ControlDevice cd = GetControlDeviceFromName(ngSettingsDeviceSetting.ProviderName,
@@ -223,7 +224,7 @@ namespace RGBSyncPlus
 
         public void GenerateNewProfile(string name)
         {
-            if (NGSettings.ProfileNames!=null&&NGSettings.ProfileNames.Any(x => x.ToLower() == name.ToLower()))
+            if (NGSettings.ProfileNames != null && NGSettings.ProfileNames.Any(x => x.ToLower() == name.ToLower()))
             {
                 throw new ArgumentException("Profile name already exists");
             }
@@ -239,7 +240,7 @@ namespace RGBSyncPlus
             string filename = Guid.NewGuid().ToString() + ".rsprofile";
             string fullPath = NGPROFILES_DIRECTORY + "\\" + filename;
             string json = JsonConvert.SerializeObject(newProfile);
-            File.WriteAllText(fullPath,json);
+            File.WriteAllText(fullPath, json);
 
             //profilePathMapping.Add(name,fullPath);
             NGSettings.CurrentProfile = name;
@@ -251,7 +252,7 @@ namespace RGBSyncPlus
 
         public ControlDevice GetControlDeviceFromName(string providerName, string name)
         {
-            return SLSDevices.FirstOrDefault(x => x.Name == name && x.Driver.Name()==providerName);
+            return SLSDevices.FirstOrDefault(x => x.Name == name && x.Driver.Name() == providerName);
         }
 
         public void StartApiServer()
@@ -288,7 +289,7 @@ namespace RGBSyncPlus
         private SplashLoader loadingSplash;
         public void Initialize()
         {
-            loadingSplash=new SplashLoader();
+            loadingSplash = new SplashLoader();
             loadingSplash.Show();
 
             loadingSplash.LoadingText.Text = "Initializing";
@@ -402,15 +403,15 @@ namespace RGBSyncPlus
             loadingSplash.LoadingText.Text = "Loading Settings";
             LoadNGSettings();
             loadingSplash.LoadingText.Text = "All done";
-            
+
             DispatcherTimer closeTimer = new DispatcherTimer();
-            closeTimer.Interval= TimeSpan.FromSeconds(2);
+            closeTimer.Interval = TimeSpan.FromSeconds(2);
             closeTimer.Tick += (sender, args) =>
             {
                 loadingSplash.Close();
                 closeTimer.Stop();
             };
-            
+
             closeTimer.Start();
         }
 
@@ -419,7 +420,7 @@ namespace RGBSyncPlus
         public Timer configTimer;
         public void SetUpMappedDevicesFromConfig()
         {
-            List<ControlDevice> alreadyBeingSyncedTo= new List<ControlDevice>();
+            List<ControlDevice> alreadyBeingSyncedTo = new List<ControlDevice>();
             MappedDevices = new List<DeviceMappingModels.DeviceMap>();
             if (Settings.DeviceMappingProxy != null)
             {
@@ -504,14 +505,14 @@ namespace RGBSyncPlus
 
         private void SLSUpdate(object state)
         {
-  
+
 
             if (PauseSyncing)
             {
                 return;
             }
-            
-            if (CurrentProfile == null || CurrentProfile.DeviceProfileSettings==null)
+
+            if (CurrentProfile == null || CurrentProfile.DeviceProfileSettings == null)
             {
                 return;
             }
@@ -564,87 +565,112 @@ namespace RGBSyncPlus
 
         }
 
-        private void LoadDeviceProviders()
+        public void UnloadSLSProviders()
         {
-            string deviceProvierDir = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? string.Empty, DEVICEPROVIDER_DIRECTORY);
-            if (!Directory.Exists(deviceProvierDir)) return;
+            SLSManager.Drivers.ForEach(x => x.Dispose());
 
-            foreach (string file in Directory.GetFiles(deviceProvierDir, "*.dllxx"))
-            {
-                try
-                {
-                    Logger.Debug("Loading provider " + file);
-                    Assembly assembly = Assembly.LoadFrom(file);
-                    foreach (Type loaderType in assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass
-                                                                               && typeof(IRGBDeviceProviderLoader).IsAssignableFrom(t)))
-                    {
-                        if (Activator.CreateInstance(loaderType) is IRGBDeviceProviderLoader deviceProviderLoader)
-                        {
-                            //TODO DarthAffe 03.06.2018: Support Initialization
-                            if (deviceProviderLoader.RequiresInitialization) continue;
+            SLSManager.Drivers.Clear();
 
-                            var deviceTypes = AppSettings.DeviceTypes;
-
-
-                            try
-                            {
-                                RGBSurface.Instance.LoadDevices(deviceProviderLoader, deviceTypes);
-                                Logger.Debug(file + " has been loaded");
-                            }
-                            catch
-                            {
-                                RGBSurface.Instance.LoadDevices(deviceProviderLoader, RGBDeviceType.All);
-                                Logger.Debug(file + " has been loaded with all types.");
-                            }
-
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error("Error loading " + file);
-                    Logger.Error(ex);
-                }
-            }
+            GC.Collect(); // collects all unused memory
+            GC.WaitForPendingFinalizers(); // wait until GC has finished its work
+            GC.Collect();
         }
 
 
-        private void LoadSLSProviders()
+
+
+        public void LoadSLSProviders()
         {
-            string deviceProvierDir = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? string.Empty, SLSPROVIDER_DIRECTORY);
+            UnloadSLSProviders();
+
+            string deviceProvierDir =
+                    Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? string.Empty,
+                        SLSPROVIDER_DIRECTORY);
 
             if (!Directory.Exists(deviceProvierDir)) return;
-
-            var files = Directory.GetFiles(deviceProvierDir, "*.dll");
+            var pluginFolders = Directory.GetDirectories(deviceProvierDir);
             loadingSplash.LoadingText.Text = "Loading SLS plugins";
-            loadingSplash.ProgressBar.Maximum = files.Length;
+            loadingSplash.ProgressBar.Maximum = pluginFolders.Length;
+
             int ct = 0;
-            foreach (string file in files)
+
+            foreach (var pluginFolder in pluginFolders)
             {
                 ct++;
                 loadingSplash.ProgressBar.Value = ct;
-                try
+                loadingSplash.ProgressBar.Refresh();
+
+                var files = Directory.GetFiles(pluginFolder, "*.dll");
+
+                loadingSplash.ProgressBar.Value = ct;
+                List<Guid> driversAdded = new List<Guid>();
+                foreach (string file in files)
                 {
-                    loadingSplash.LoadingText.Text = "Loading "+file.Split('\\').Last().Split('.').First();
-                    Logger.Debug("Loading provider " + file);
-                    Assembly assembly = Assembly.LoadFrom(file);
-                    foreach (Type loaderType in assembly.GetTypes().Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass && typeof(ISimpleLed).IsAssignableFrom(t)))
+                    Debug.WriteLine("Checking " + file);
+                    string filename = file.Split('\\').Last();
+
+                    if (filename.ToLower().StartsWith("driver") || filename.ToLower().StartsWith("source"))
                     {
-                        if (Activator.CreateInstance(loaderType) is ISimpleLed slsDriver)
+                        try
                         {
-                            loadingSplash.LoadingText.Text = "Loading " +slsDriver.Name();
-                            loadingSplash.UpdateLayout();
-                            Task.Delay(33).Wait();
-                            SLSManager.Drivers.Add(slsDriver);
-                            slsDriver.Configure(null);
+                            loadingSplash.LoadingText.Text = "Loading " + file.Split('\\').Last().Split('.').First();
+                            Logger.Debug("Loading provider " + file);
+                            Assembly assembly = Assembly.Load(File.ReadAllBytes(file));
+                            //Assembly assembly = Assembly.LoadFrom(file);
+                            var typeroo = assembly.GetTypes();
+                            var pat2 = typeroo.Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass).ToList();
+
+
+                            var testy = pat2.Where(x => x == typeof(ISimpleLed) || x == typeof(ISimpleLedWithConfig));
+
+                            List<Type> pat3 = pat2.Where(t => typeof(ISimpleLed).IsAssignableFrom(t)).ToList();
+
+                            foreach (Type loaderType in pat3)
+                            {
+                                if (Activator.CreateInstance(loaderType) is ISimpleLed slsDriver)
+                                {
+                                    try
+                                    {
+                                        if (!driversAdded.Contains(slsDriver.GetProperties().Id))
+                                        {
+                                            //slsDriver.Configure(null);
+                                            Debug.WriteLine("We got one! "+ "Loading " + slsDriver.Name());
+                                            loadingSplash.LoadingText.Text = "Loading " + slsDriver.Name();
+                                            loadingSplash.UpdateLayout();
+                                            loadingSplash.Refresh();
+                                            loadingSplash.LoadingText.Refresh();
+                                            Task.Delay(33).Wait();
+                                            SLSManager.Drivers.Add(slsDriver);
+                                            driversAdded.Add(slsDriver.GetProperties().Id);
+                                            Debug.WriteLine("all loaded: " + slsDriver.Name());
+                                            slsDriver.Configure(new DriverDetails());
+                                            Debug.WriteLine("Have Initialized: " + slsDriver.Name());
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine(ex.Message);
+                                    }
+
+                                }
+                                else
+                                {
+                                    Debug.WriteLine("isnt ISimpleLed");
+                                }
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine(e.Message);
                         }
                     }
+                }
 
-                }
-                catch
-                {
-                }
+             
             }
+
+            //SLSManager.Init();
 
             loadingSplash.LoadingText.Text = "Updating SLS devices";
             UpdateSLSDevices();
@@ -777,48 +803,48 @@ namespace RGBSyncPlus
             if (_configurationWindow.WindowState == WindowState.Minimized)
                 _configurationWindow.WindowState = WindowState.Normal;
 
-        //TODO make better update check system
-/*            try
-            {
-                using (WebClient w = new WebClient())
-                {
-                    Logger.Info("Checking for update...");
-                    var json = w.DownloadString(ApplicationManager.Instance.AppSettings.versionURL);
-                    ProgVersion versionFromApi = JsonConvert.DeserializeObject<ProgVersion>(json);
-                    int versionMajor = Version.Major;
-                    int versionMinor = Version.Minor;
-                    int versionBuild = Version.Build;
+            //TODO make better update check system
+            /*            try
+                        {
+                            using (WebClient w = new WebClient())
+                            {
+                                Logger.Info("Checking for update...");
+                                var json = w.DownloadString(ApplicationManager.Instance.AppSettings.versionURL);
+                                ProgVersion versionFromApi = JsonConvert.DeserializeObject<ProgVersion>(json);
+                                int versionMajor = Version.Major;
+                                int versionMinor = Version.Minor;
+                                int versionBuild = Version.Build;
 
-                    if (versionFromApi.major > versionMajor)
-                    {
-                        GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
-                        getUpdateWindow.Show();
-                        Logger.Info("Update available. (major)");
-                    }
-                    else if (versionFromApi.minor > versionMinor)
-                    {
-                        GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
-                        getUpdateWindow.Show();
-                        Logger.Info("Update available. (minor)");
-                    }
-                    else if (versionFromApi.build > versionBuild)
-                    {
-                        GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
-                        Logger.Info("Update available. (build)");
-                        getUpdateWindow.Show();
-                    }
-                    else
-                    {
-                        Logger.Info("No update available.");
-                    }
+                                if (versionFromApi.major > versionMajor)
+                                {
+                                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
+                                    getUpdateWindow.Show();
+                                    Logger.Info("Update available. (major)");
+                                }
+                                else if (versionFromApi.minor > versionMinor)
+                                {
+                                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
+                                    getUpdateWindow.Show();
+                                    Logger.Info("Update available. (minor)");
+                                }
+                                else if (versionFromApi.build > versionBuild)
+                                {
+                                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
+                                    Logger.Info("Update available. (build)");
+                                    getUpdateWindow.Show();
+                                }
+                                else
+                                {
+                                    Logger.Info("No update available.");
+                                }
 
-                }
+                            }
 
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("Unable to check for updates. Download failed with exception: " + ex);
-            }*/
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error("Unable to check for updates. Download failed with exception: " + ex);
+                        }*/
 
         }
 

@@ -336,15 +336,64 @@
                                     <GradientStop Color="#10000000" Offset="1"/>
                                 </LinearGradientBrush>
                             </Grid.Background>
+
                             <TextBlock Text="{Binding Name}" Margin="6" FontSize="14" MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
                         </Grid>
                     </StackPanel>
                     <!--<Border BorderBrush="White" BorderThickness="1"></Border>-->
-                    <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Selected, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Selected, Converter={StaticResource BoolToVisibilityConverter}}" >
                         <Border BorderThickness="4" BorderBrush="#ff007F0E">
                             <Image Source="selectedCorner.png" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right"></Image>
                         </Border>
                     </Grid>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="PluginItemTemplate">
+                <Grid Height="100" Margin="8" Background="#c0000000" Visibility="{Binding Visible, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <Rectangle Grid.ColumnSpan="5" Fill="#80ffffff" Visibility="{Binding Installed, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
+                    <Rectangle Grid.ColumnSpan="5" Fill="#7FFF0000" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
+
+                    <StackPanel Orientation="Vertical" Grid.Column="1">
+                        <TextBlock Margin="10,0" FontSize="24" FontFamily="Segoe UI" Foreground="White" FontWeight="Bold" Text="{Binding Name}"  VerticalAlignment="Center" ></TextBlock>
+                        <TextBlock Margin="10,0" FontSize="24" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Author}"  VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Grid.Column="2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="10,0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Latest Version:" VerticalAlignment="Center"></TextBlock>
+                            <TextBlock Margin="0,0" FontSize="16" FontFamily="Segoe UI" Foreground="White" FontWeight="Bold" Text="{Binding Version}" VerticalAlignment="Center"></TextBlock>
+
+                            <TextBlock Margin="10,0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Total Versions:" VerticalAlignment="Center"></TextBlock>
+                            <TextBlock Margin="0,0" FontSize="16" FontFamily="Segoe UI" Foreground="White" FontWeight="Bold" Text="{Binding Releases}" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="10,0,0,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Older version" VerticalAlignment="Center" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                            <TextBlock Margin="10,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Installed" VerticalAlignment="Center" Visibility="{Binding Installed, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                        </StackPanel>
+                        <TextBlock Margin="10,0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Blurb}" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                    </StackPanel>
+                    <Button Grid.Column="4" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"  Visibility="{Binding Installed, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="InstallPlugin">
+                        <Button.Background>
+                            <ImageBrush Stretch="UniformToFill" ImageSource="/RGBSync+;component/Resources/Intro_Background.png"/>
+                        </Button.Background>
+                        <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Install" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    </Button>
+
+                    <Button Grid.Column="4" Background="Red" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"  Visibility="{Binding Installed, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Disable" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    </Button>
+
+                    <Button Grid.Column="3" Background="DarkCyan" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" >
+                        <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Versions" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    </Button>
                 </Grid>
             </DataTemplate>
         </styles:CachedResourceDictionary>
@@ -368,7 +417,7 @@
                             <RowDefinition Height="48"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        
+
                         <Grid Grid.Row="0" Background="#80eeeeee">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                 <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="Button_Click_6"></Button>
@@ -423,7 +472,7 @@
                                 <RowDefinition Height="48"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-<!--
+                            <!--
                             <Image  Grid.Row="0"  Grid.RowSpan="2" Source="{Binding Image}" Stretch="UniformToFill" VerticalAlignment="Center" Margin="0">
                                 <Image.Effect>
                                     <BlurEffect Radius="8"></BlurEffect>
@@ -463,9 +512,9 @@
                                             <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisibilityConverter}}"></Grid>
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0" Margin="8,4,0,0"></TextBlock>
-                                            <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Info</TextBlock>
+                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Info</TextBlock>
                                             </StackPanel>
-                                    </Grid>
+                                        </Grid>
                                     </Button>
 
                                     <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="SyncTo">
@@ -492,11 +541,11 @@
                                     <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="Alignment" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SingledDeviceSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <Grid Margin="0" >
                                             <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisibilityConverter}}"></Grid>
-                                        <StackPanel Orientation="Horizontal">
+                                            <StackPanel Orientation="Horizontal">
                                                 <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0" Margin="8,4,0,0" ></TextBlock>
-                                            <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Alignment</TextBlock>
-                                        </StackPanel>
-                                            </Grid>
+                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Alignment</TextBlock>
+                                            </StackPanel>
+                                        </Grid>
                                     </Button>
 
                                 </StackPanel>
@@ -518,21 +567,21 @@
                                 </Grid>
 
                                 <Grid MaxHeight="200" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisibilityConverter}}">
-                                <ListView x:Name="SourceList" 
+                                    <ListView x:Name="SourceList" 
                                           ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SourceDevices}" 
                                           ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
                                           BorderBrush="Transparent" 
                                           SelectionMode="Single" 
                                           HorizontalContentAlignment="Stretch" 
                                            >
-                                    <ListView.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <UniformGrid Columns="2"/>
+                                        <ListView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid Columns="2"/>
 
-                                            <!--Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"-->
-                                        </ItemsPanelTemplate>
-                                    </ListView.ItemsPanel>
-                                </ListView>
+                                                <!--Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"-->
+                                            </ItemsPanelTemplate>
+                                        </ListView.ItemsPanel>
+                                    </ListView>
                                 </Grid>
 
                                 <Grid  Grid.Row="1" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisibilityConverter}}">
@@ -971,7 +1020,52 @@
 
             <AdornerDecorator>
                 <DockPanel LastChildFill="True" >
-                    <GroupBox DockPanel.Dock="Bottom" Width="260" HorizontalAlignment="Left" >
+                    <GroupBox DockPanel.Dock="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="56"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0" Background="#80eeeeee" Margin="-8,-8,-6,0">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <Button Background="#c0000000" BorderThickness="0" Margin="8,0" Click="ToggleExperimental" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0">
+                                        <Grid Margin="0">
+                                            <Rectangle Fill="Green" Margin="0" Visibility="{Binding ShowPreRelease, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
+                                                <TextBlock FontFamily="Segoe UI Symbol" FontSize="20" Foreground="White" VerticalAlignment="Center" ></TextBlock>
+                                                <TextBlock VerticalAlignment="Center" Margin="8,0">Experimental</TextBlock>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Button>
+
+                                    <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="ReloadAllPlugins">
+                                        <Button.Background>
+                                            <ImageBrush Stretch="UniformToFill" ImageSource="/RGBSync+;component/Resources/Intro_Background.png"/>
+                                        </Button.Background>
+                                        <Grid Margin="0">
+                                            
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
+                                                <TextBlock FontFamily="Segoe UI Symbol" FontSize="18" Foreground="White" VerticalAlignment="Center" ></TextBlock>
+                                                <TextBlock VerticalAlignment="Center" Margin="8,0">Restart All</TextBlock>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4"  VerticalAlignment="Center">
+                                    <GroupBox BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Label  VerticalContentAlignment="Center" VerticalAlignment="Center">Filter:</Label>
+                                            <TextBox Text="{Binding PluginSearch}" Width="100" TextChanged="TextBox_TextChanged" x:Name="PluginSearchBox"></TextBox>
+                                        </StackPanel>
+                                    </GroupBox>
+
+                                </StackPanel>
+
+                            </Grid>
+
+                            <ListView ItemsSource="{Binding Plugins}" ItemTemplate="{DynamicResource PluginItemTemplate}" Grid.Row="1" Margin="0,10,0,0"></ListView>
+                        </Grid>
 
                     </GroupBox>
                 </DockPanel>

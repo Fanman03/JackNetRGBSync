@@ -36,7 +36,7 @@ using SimpleLed;
 
 namespace RGBSyncPlus.UI
 {
-    public sealed class ConfigurationViewModel : AbstractBindable, IDropTarget
+    public sealed class ConfigurationViewModel : AbstractBindable
     {
         private bool isDesign = DesignerProperties.GetIsInDesignMode(new DependencyObject());
 
@@ -52,6 +52,12 @@ namespace RGBSyncPlus.UI
             set => SetProperty(ref profileNames, value);
         }
 
+        private ObservableCollection<PositionalAssignment.PluginDetailsViewModel> plugins;
+        public ObservableCollection<PositionalAssignment.PluginDetailsViewModel> Plugins
+        {
+            get => plugins;
+            set => SetProperty(ref plugins, value);
+        }
 
         private ObservableCollection<DeviceMappingModels.Device> slsDevices;
         public ObservableCollection<DeviceMappingModels.Device> SLSDevices { get => slsDevices; set => SetProperty(ref slsDevices, value); }
@@ -489,7 +495,32 @@ namespace RGBSyncPlus.UI
             set => SetProperty(ref maxSubViewHeight, value);
         }
 
-        #endregion
+        private bool showPreRelease = false;
+
+        public bool ShowPreRelease
+        {
+            get => showPreRelease;
+            set
+            {
+                SetProperty(ref showPreRelease, value);
+                FilterPlugins();
+            }
+        }
+
+        private string pluginSearch;
+
+        public string PluginSearch
+        {
+            get => pluginSearch;
+            set
+            {
+                SetProperty(ref pluginSearch, value);
+                FilterPlugins();
+            }
+        }
+
+
+#endregion
 
         #region Commands
 
@@ -563,11 +594,135 @@ namespace RGBSyncPlus.UI
             OnPropertyChanged(nameof(AvailableSyncLeds));
             DeviceMappingViewModel = new ObservableCollection<DeviceMappingModels.DeviceMappingViewModel>();
 
-            SetUpDeviceMapViewModel();
+            
 
             ProfileNames = ApplicationManager.Instance.NGSettings.ProfileNames;
             this.ZoomLevel = 4;
+
+            storeHandler=new StoreHandler();
+
+            LoadStoreAndPlugins();
         }
+
+        public void LoadStoreAndPlugins()
+        {
+            SetUpDeviceMapViewModel();
+
+            List<PositionalAssignment.PluginDetails> pp = storeHandler.DownloadStoreManifest();
+
+            var ppu = pp.GroupBy(x => x.PluginId);
+
+            Plugins = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>();
+
+            foreach (IGrouping<Guid, PositionalAssignment.PluginDetails> pluginDetailses in ppu)
+            {
+                var insertThis = pluginDetailses.First();
+
+                var tmp = new PositionalAssignment.PluginDetailsViewModel(insertThis);
+                tmp.Versions = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(pluginDetailses
+                    .Select(x => new PositionalAssignment.PluginDetailsViewModel(x, true)).ToList());
+                Plugins.Add(tmp);
+
+            }
+
+            
+
+            
+            ////Lets handle installed plugins first
+            //foreach (var pluginDetailse in pp.Where(x => ApplicationManager.Instance.SLSManager.Drivers.Any(p => p.GetProperties().Id == x.PluginId)))
+            //{
+            //    var pluginToAdd = new PositionalAssignment.PluginDetailsViewModel(pluginDetailse);
+            //    pluginToAdd.Installed = true;
+            //    Plugins.Add(pluginToAdd);
+            //}
+
+            //foreach (var pluginDetailse in pp.Where(x => ApplicationManager.Instance.SLSManager.Drivers.All(p => p.GetProperties().Id != x.PluginId)))
+            //{
+            //    var pluginToAdd = new PositionalAssignment.PluginDetailsViewModel(pluginDetailse);
+            //    pluginToAdd.Installed = false;
+            //    Plugins.Add(pluginToAdd);
+            //}
+            
+            FilterPlugins();
+
+            foreach (var pluginDetailsViewModel in Plugins)
+            {
+
+            }
+        }
+
+        public void FilterPlugins()
+        {
+            foreach (var pluginDetailsViewModel in Plugins)
+            {
+
+                var publicReleases = pluginDetailsViewModel.Versions.Where(t => t.PluginDetails.Version != null && t.PluginDetails.DriverProperties.IsPublicRelease);
+                if (publicReleases == null || publicReleases.Count()==0)
+                {
+                    pluginDetailsViewModel.Version = "0.0.0.0";
+                }
+                else
+                {
+                    pluginDetailsViewModel.Version = publicReleases.Max(p => p.PluginDetails.Version).ToString();
+                }
+
+                var versionsWithVersions = pluginDetailsViewModel.Versions.Where(x => x.PluginDetails?.Version != null);
+                pluginDetailsViewModel.PreReleaseVersion = versionsWithVersions.Max(p => p.PluginDetails.Version)?.ToString();
+                if (pluginDetailsViewModel.PreReleaseVersion == null)
+                {
+                    pluginDetailsViewModel.PreReleaseVersion = "0.0.0.0";
+                }
+
+                var existingInstalled = ApplicationManager.Instance.SLSManager.Drivers.FirstOrDefault(x => x.GetProperties().CurrentVersion?.ToString() == pluginDetailsViewModel.Version);
+
+                ReleaseNumber highestApplicable = new ReleaseNumber(pluginDetailsViewModel.Version);
+                if (ShowPreRelease||(existingInstalled!=null&&!existingInstalled.GetProperties().IsPublicRelease))
+                {
+                    highestApplicable = new ReleaseNumber(pluginDetailsViewModel.PreReleaseVersion);
+                }
+
+                bool isoutdated = false;
+                if (existingInstalled != null)
+                {
+                    isoutdated = existingInstalled.GetProperties().CurrentVersion < highestApplicable;
+                    pluginDetailsViewModel.InstalledButOutdated = isoutdated;
+                }
+
+                var newest = pluginDetailsViewModel.Versions.FirstOrDefault(x => x.Version == highestApplicable.ToString());
+
+                if (newest == null)
+                {
+                    pluginDetailsViewModel.Visible = false;
+                }
+                else
+                {
+
+                    pluginDetailsViewModel.Version = highestApplicable.ToString();
+                    pluginDetailsViewModel.Name = newest.Name;
+                    pluginDetailsViewModel.Author = newest.Author;
+
+                    pluginDetailsViewModel.PreRelease = !newest.PluginDetails.DriverProperties.IsPublicRelease;
+
+                    pluginDetailsViewModel.InstalledButOutdated = isoutdated;
+
+                    pluginDetailsViewModel.Visible =
+                        (ShowPreRelease || !pluginDetailsViewModel.PreRelease) &&
+                        (string.IsNullOrWhiteSpace(PluginSearch) ||
+                         pluginDetailsViewModel.Name.ToLower().Contains(PluginSearch.ToLower())
+                         ||
+                         pluginDetailsViewModel.Author.ToLower().Contains(PluginSearch.ToLower())
+                         ||
+                         (pluginDetailsViewModel.Blurb != null &&
+                          pluginDetailsViewModel.Blurb.ToLower().Contains(PluginSearch.ToLower()))
+                        );
+                }
+
+                pluginDetailsViewModel.Installed = existingInstalled != null;
+                
+            }
+        }
+
+        private StoreHandler storeHandler;
 
         private void SetUpDeviceMapViewModel()
         {
@@ -587,51 +742,7 @@ namespace RGBSyncPlus.UI
                     DriverProps = props
                 });
             }
-            //var sourceDevices = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
-            //var proxy = ApplicationManager.Instance.Settings.DeviceMappingProxy;
-
-            //foreach (ControlDevice instanceSlsDevice in sourceDevices)
-            //{
-            //    Guid id = Guid.NewGuid();
-            //    var pushers = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().SupportsPush).ToList();
-            //    var dmm = new DeviceMappingModels.DeviceMappingViewModel
-            //    {
-            //        Id = id,
-            //        SyncBack = MappingSyncBack,
-            //        SourceDevice = instanceSlsDevice,
-
-            //    };
-
-            //    //List<DeviceMappingModels.DeviceMappingItemViewModel> items = new List<DeviceMappingModels.DeviceMappingItemViewModel>();
-            //    //foreach (var controlDevice in pushers)
-            //    //{
-            //    //    bool enabled = false;
-            //    //    DeviceMappingModels.DeviceMapping prxSource = proxy?.FirstOrDefault(x =>
-            //    //        x.SourceDevice.DeviceName == instanceSlsDevice.Name &&
-            //    //        x.SourceDevice.DeviceName == instanceSlsDevice.Driver.Name());
-            //    //    if (prxSource != null)
-            //    //    {
-            //    //        enabled = prxSource.DestinationDevices.Any(x =>
-            //    //            x.DeviceName == controlDevice.Name && x.DriverName == controlDevice.Driver.Name());
-            //    //    }
-
-            //    //    items.Add(new DeviceMappingModels.DeviceMappingItemViewModel
-            //    //    {
-            //    //        DestinationDevice = controlDevice,
-            //    //        Enabled = enabled,
-            //    //        SyncBack = MappingSyncBack,
-            //    //        ParentId = id
-            //    //    });
-            //    //}
-
-
-            //    //var dd = new ObservableCollection<DeviceMappingModels.DeviceMappingItemViewModel>(items);
-
-            //    dmm.DestinationDevices = dd;
-            //    DeviceMappingViewModel.Add(dmm);
-            //}
-
-            //OnPropertyChanged(nameof(DeviceMappingViewModel));
+           
         }
 
         public static BitmapImage ToBitmapImage(Bitmap bitmap)
@@ -662,52 +773,6 @@ namespace RGBSyncPlus.UI
             {
                 return null;
             }
-        }
-
-        public void MappingSyncBack(object trigger)
-        {
-            Debug.WriteLine(trigger);
-
-
-            if (trigger is DeviceMappingModels.DeviceMappingViewModel dmvm)
-            {
-                Debug.WriteLine(dmvm.SourceDevice.Name + " Changed");
-            }
-            else
-            {
-                if (trigger is DeviceMappingModels.DeviceMappingItemViewModel dmivm)
-                {
-
-                    DeviceMappingModels.DeviceMappingViewModel parent = DeviceMappingViewModel.First(x => x.Id == dmivm.ParentId);
-
-
-                    //it was set enabled, disable other sources using it.
-                    if (parent != null && dmivm.Enabled)
-                    {
-                        foreach (DeviceMappingModels.DeviceMappingViewModel model in DeviceMappingViewModel.Where(x => x.Id != parent.Id))
-                        {
-                            foreach (var enabledDevice in parent.DestinationDevices.Where(x => x.Enabled))
-                            {
-                                model.DestinationDevices.First(x => x.DestinationDevice.Name == enabledDevice.DestinationDevice.Name).Enabled = false;
-                            }
-                        }
-                    }
-
-                }
-            }
-
-            List<DeviceMappingModels.DeviceMapping> mappingProxy = new List<DeviceMappingModels.DeviceMapping>();
-            foreach (var mappingViewModel in DeviceMappingViewModel)
-            {
-                mappingProxy.Add(new DeviceMappingModels.DeviceMapping
-                {
-                    SourceDevice = new DeviceMappingModels.DeviceProxy(mappingViewModel.SourceDevice),
-                    DestinationDevices = mappingViewModel.DestinationDevices.Where(x => x.Enabled).Select(x => new DeviceMappingModels.DeviceProxy(x.DestinationDevice)).ToList()
-                });
-            }
-
-            ApplicationManager.Instance.Settings.DeviceMappingProxy = mappingProxy;
-            ApplicationManager.Instance.SetUpMappedDevicesFromConfig();
         }
 
         #endregion
@@ -1188,43 +1253,7 @@ namespace RGBSyncPlus.UI
 
 
         }
-
-        void IDropTarget.DragOver(IDropInfo dropInfo)
-        {
-            if ((dropInfo.Data is SyncLed || dropInfo.Data is IEnumerable<SyncLed>) && (dropInfo.TargetCollection is ListCollectionView))
-            {
-                dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
-                dropInfo.Effects = DragDropEffects.Copy;
-            }
-        }
-
-        void IDropTarget.Drop(IDropInfo dropInfo)
-        {
-            if (!(dropInfo.TargetCollection is ListCollectionView targetList)) return;
-
-            //HACK DarthAffe 04.06.2018: Super ugly hack - I've no idea how to do this correctly ...
-            ListCollectionView sourceList = targetList == AvailableLeds ? SynchronizedLeds : AvailableLeds;
-
-            if (dropInfo.Data is SyncLed syncLed)
-            {
-                targetList.AddNewItem(syncLed);
-                sourceList.Remove(syncLed);
-
-                targetList.CommitNew();
-                sourceList.CommitEdit();
-            }
-            else if (dropInfo.Data is IEnumerable<SyncLed> syncLeds)
-            {
-                foreach (SyncLed led in syncLeds)
-                {
-                    targetList.AddNewItem(led);
-                    sourceList.Remove(led);
-                }
-                targetList.CommitNew();
-                sourceList.CommitEdit();
-            }
-        }
-
+        
         public static string Base64Encode(string plainText)
         {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);

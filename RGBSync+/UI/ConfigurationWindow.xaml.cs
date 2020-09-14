@@ -19,6 +19,9 @@ using RGBSyncPlus.Configuration;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
+using SharpCompress.Archives;
+using SharpCompress.Common;
+using SharpCompress.Readers;
 using SimpleLed;
 using Color = RGB.NET.Core.Color;
 using ListView = System.Windows.Forms.ListView;
@@ -136,6 +139,7 @@ namespace RGBSyncPlus.UI
                 BitmapImage bimage = new BitmapImage();
                 bimage.BeginInit();
                 bimage.UriSource = new Uri("pack://application:,,,/Resources/base.png", UriKind.RelativeOrAbsolute);
+                //bimage.UriSource = new Uri("pack://application:,,,/Resources/Intro_Background.png", UriKind.RelativeOrAbsolute);
                 bimage.EndInit();
                 this.BackgroundImage = bimage;
             }
@@ -414,41 +418,51 @@ namespace RGBSyncPlus.UI
 
         private void DevicesListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var vm = this.DataContext as ConfigurationViewModel;
-            bool zeroDevicesPreSelected = vm.SLSDevices.All(x => x.Selected == false);
-            foreach (var item in DeviceConfigList.Items)
+            try
             {
-                var cItem = (DeviceMappingModels.Device)item;
-
-                cItem.Selected = false;
-                if (DeviceConfigList.SelectedItems.Contains(item))
+                var vm = this.DataContext as ConfigurationViewModel;
+                bool zeroDevicesPreSelected = vm.SLSDevices.All(x => x.Selected == false);
+                foreach (var item in DeviceConfigList.Items)
                 {
-                    cItem.Selected = true;
+                    var cItem = (DeviceMappingModels.Device) item;
+
+                    cItem.Selected = false;
+                    if (DeviceConfigList.SelectedItems.Contains(item))
+                    {
+                        cItem.Selected = true;
+                    }
+                }
+
+                ConfigPanel.DataContext = DeviceConfigList.SelectedItem;
+                ControlDevice selectedDevice = null;
+                if (ConfigPanel != null && ((DeviceMappingModels.Device) ConfigPanel.DataContext) != null)
+                {
+                    ApplicationManager.Instance.DeviceBeingAligned =
+                        ((DeviceMappingModels.Device) ConfigPanel.DataContext).ControlDevice;
+                    ((ConfigurationViewModel) this.DataContext).SetupSourceDevices(
+                        ((DeviceMappingModels.Device) ConfigPanel.DataContext).ControlDevice);
+                }
+                else
+                {
+                    ApplicationManager.Instance.DeviceBeingAligned = null;
+                    ((ConfigurationViewModel) this.DataContext).SetupSourceDevices(null);
+                }
+
+
+
+                DeviceMappingModels.Device dvc = ConfigHere.DataContext as DeviceMappingModels.Device;
+                if (dvc != null)
+                {
+                    ControlDevice cd = dvc.ControlDevice;
+
+                    vm.DevicesSelectedCount = vm.SLSDevices.Count(x => x.Selected);
+
+                    UpdateDeviceConfigUi(cd);
                 }
             }
-
-            ConfigPanel.DataContext = DeviceConfigList.SelectedItem;
-            ControlDevice selectedDevice = null;
-            if (ConfigPanel != null && ((DeviceMappingModels.Device)ConfigPanel.DataContext) != null)
+            catch
             {
-                ApplicationManager.Instance.DeviceBeingAligned = ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
-                ((ConfigurationViewModel)this.DataContext).SetupSourceDevices(((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice);
             }
-            else
-            {
-                ApplicationManager.Instance.DeviceBeingAligned = null;
-                ((ConfigurationViewModel)this.DataContext).SetupSourceDevices(null);
-            }
-
-
-
-            DeviceMappingModels.Device dvc = ConfigHere.DataContext as DeviceMappingModels.Device;
-            ControlDevice cd = dvc.ControlDevice;
-
-            vm.DevicesSelectedCount = vm.SLSDevices.Count(x => x.Selected);
-
-            UpdateDeviceConfigUi(cd);
-
         }
 
         private void DevicesListCondensedSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -766,6 +780,79 @@ namespace RGBSyncPlus.UI
             ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
             vm.MaxSubViewHeight = (newWindowHeight / 2);
             Debug.WriteLine("Max subview window height set to " + vm.MaxSubViewHeight);
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.PluginSearch = this.PluginSearchBox.Text;
+        }
+
+        private void ToggleExperimental(object sender, RoutedEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.ShowPreRelease = !vm.ShowPreRelease;
+        }
+
+        private void InstallPlugin(object sender, RoutedEventArgs e)
+        {
+            ApplicationManager.Instance.UnloadSLSProviders();
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+
+            if (((Button) sender).DataContext is PositionalAssignment.PluginDetailsViewModel bdc)
+            {
+                var newest = bdc.Versions.OrderByDescending(x => x.PluginDetails.Version).First();
+                if (!vm.ShowPreRelease)
+                {
+                    newest = bdc.Versions.Where(x=>x.PluginDetails.DriverProperties.IsPublicRelease).OrderByDescending(x => x.PluginDetails.Version).First();
+                }
+
+                string url = $"https://github.com/SimpleLed/Store/blob/master/{bdc.PluginDetails.Id}.7z?raw=true";
+
+                WebClient webClient = new WebClient();
+                string destPath = Path.GetTempPath() + bdc.PluginDetails.Id + ".7z";
+                webClient.DownloadFile(url, destPath);
+
+                string pluginPath = ApplicationManager.SLSPROVIDER_DIRECTORY + "\\" + bdc.PluginId;
+                if (!Directory.Exists(pluginPath))
+                {
+                    Directory.CreateDirectory(pluginPath);
+                }
+
+                using (Stream stream = File.OpenRead(destPath))
+                {
+                    var thingy = SharpCompress.Archives.ArchiveFactory.Open(stream);
+
+                    foreach (var archiveEntry in thingy.Entries)
+                    {
+                        
+                        archiveEntry.WriteToDirectory(pluginPath);
+                    }
+
+                    try
+                    {
+                        File.Delete(pluginPath+"\\SimpleLed.dll");
+                    }
+                    catch
+                    {
+                    }
+
+                }
+            }
+
+            ApplicationManager.Instance.LoadSLSProviders();
+            vm.LoadStoreAndPlugins();
+
+        }
+
+        private void ReloadAllPlugins(object sender, RoutedEventArgs e)
+        {
+            ApplicationManager.Instance.UnloadSLSProviders();
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+
+            ApplicationManager.Instance.LoadSLSProviders();
+            vm.LoadStoreAndPlugins();
+
         }
     }
 }

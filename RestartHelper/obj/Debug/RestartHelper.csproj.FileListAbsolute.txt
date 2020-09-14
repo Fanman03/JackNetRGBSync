@@ -12,3 +12,13 @@ C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper\obj\Debug\Res
 C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper\obj\Debug\RestartHelper.csproj.Fody.CopyLocal.cache
 C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper\bin\Debug\Newtonsoft.Json.xml
 C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\RestartHelper\obj\Debug\RestartHelper.csproj.CopyComplete
+C:\Projects\JackNet\RestartHelper\obj\Debug\RestartHelper.csprojAssemblyReference.cache
+C:\Projects\JackNet\RestartHelper\obj\Debug\RestartHelper.csproj.CoreCompileInputs.cache
+C:\Projects\JackNet\RestartHelper\obj\Debug\RestartHelper.exe.exe
+C:\Projects\JackNet\RestartHelper\obj\Debug\RestartHelper.exe.pdb
+C:\Projects\JackNet\RestartHelper\bin\Debug\RestartHelper.exe.exe.config
+C:\Projects\JackNet\RestartHelper\bin\Debug\RestartHelper.exe.exe
+C:\Projects\JackNet\RestartHelper\bin\Debug\RestartHelper.exe.pdb
+C:\Projects\JackNet\RestartHelper\bin\Debug\Newtonsoft.Json.xml
+C:\Projects\JackNet\RestartHelper\obj\Debug\RestartHelper.csproj.Fody.CopyLocal.cache
+C:\Projects\JackNet\RestartHelper\obj\Debug\RestartHelper.csproj.CopyComplete
