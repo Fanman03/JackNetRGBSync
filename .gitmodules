@@ -4,6 +4,3 @@
 [submodule "RGBPluginManager"]
 	path = RGBPluginManager
 	url = https://github.com/Fanman03/RGBPluginManager.git
-[submodule "SimpleLEDSDK"]
-	path = SimpleLEDSDK
-	url = https://github.com/madninjaskillz/Simple-LED-SDK.git
