@@ -82,6 +82,25 @@ namespace RGBSyncPlus.UI
             set => SetProperty(ref multipleDeviceSelected, value);
         }
 
+
+
+        private bool showModal;
+
+        public bool ShowModal
+        {
+            get => showModal;
+            set => SetProperty(ref showModal, value);
+        }
+
+        private string modalText = "Please Wait";
+
+        public string ModalText
+        {
+            get => modalText;
+            set => SetProperty(ref modalText, value);
+        }
+
+
         private string syncToSearch = "";
 
         public string SyncToSearch
@@ -520,7 +539,7 @@ namespace RGBSyncPlus.UI
         }
 
 
-#endregion
+        #endregion
 
         #region Commands
 
@@ -594,59 +613,88 @@ namespace RGBSyncPlus.UI
             OnPropertyChanged(nameof(AvailableSyncLeds));
             DeviceMappingViewModel = new ObservableCollection<DeviceMappingModels.DeviceMappingViewModel>();
 
-            
+
 
             ProfileNames = ApplicationManager.Instance.NGSettings.ProfileNames;
             this.ZoomLevel = 4;
 
-            storeHandler=new StoreHandler();
+            storeHandler = new StoreHandler();
 
             LoadStoreAndPlugins();
         }
 
         public void LoadStoreAndPlugins()
         {
-            SetUpDeviceMapViewModel();
-
-            List<PositionalAssignment.PluginDetails> pp = storeHandler.DownloadStoreManifest();
-
-            var ppu = pp.GroupBy(x => x.PluginId);
-
-            Plugins = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>();
-
-            foreach (IGrouping<Guid, PositionalAssignment.PluginDetails> pluginDetailses in ppu)
+            using (new SimpleModal(this,"Refreshing store...."))
             {
-                var insertThis = pluginDetailses.First();
+                
+                SetUpDeviceMapViewModel();
 
-                var tmp = new PositionalAssignment.PluginDetailsViewModel(insertThis);
-                tmp.Versions = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(pluginDetailses
-                    .Select(x => new PositionalAssignment.PluginDetailsViewModel(x, true)).ToList());
-                Plugins.Add(tmp);
+                List<PositionalAssignment.PluginDetails> pp = storeHandler.DownloadStoreManifest();
 
-            }
+                var ppu = pp.GroupBy(x => x.PluginId);
 
-            
+                Plugins = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>();
 
-            
-            ////Lets handle installed plugins first
-            //foreach (var pluginDetailse in pp.Where(x => ApplicationManager.Instance.SLSManager.Drivers.Any(p => p.GetProperties().Id == x.PluginId)))
-            //{
-            //    var pluginToAdd = new PositionalAssignment.PluginDetailsViewModel(pluginDetailse);
-            //    pluginToAdd.Installed = true;
-            //    Plugins.Add(pluginToAdd);
-            //}
+                foreach (IGrouping<Guid, PositionalAssignment.PluginDetails> pluginDetailses in ppu)
+                {
+                    var insertThis = pluginDetailses.First();
 
-            //foreach (var pluginDetailse in pp.Where(x => ApplicationManager.Instance.SLSManager.Drivers.All(p => p.GetProperties().Id != x.PluginId)))
-            //{
-            //    var pluginToAdd = new PositionalAssignment.PluginDetailsViewModel(pluginDetailse);
-            //    pluginToAdd.Installed = false;
-            //    Plugins.Add(pluginToAdd);
-            //}
-            
-            FilterPlugins();
+                    var tmp = new PositionalAssignment.PluginDetailsViewModel(insertThis);
+                    tmp.Versions = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(pluginDetailses
+                        .Select(x => new PositionalAssignment.PluginDetailsViewModel(x, true)).ToList());
 
-            foreach (var pluginDetailsViewModel in Plugins)
-            {
+                    try
+                    {
+                        if (!Directory.Exists("icons"))
+                        {
+                            try
+                            {
+                                Directory.CreateDirectory("icons");
+                            }
+                            catch
+                            {
+                            }
+                        }
+
+                        if (File.Exists("icons\\" + tmp.PluginDetails.PluginId + ".png"))
+                        {
+                            using (Bitmap bm = new Bitmap("icons\\" + tmp.PluginDetails.PluginId + ".png"))
+                            {
+                                tmp.Image = ToBitmapImage(bm);
+                            }
+                        }
+                        else
+                        {
+
+                            string imageUrl = "https://github.com/SimpleLed/Store/raw/master/Icons/" +
+                                              tmp.PluginDetails.PluginId + ".png";
+                            Debug.WriteLine("Trying to fetch: " + imageUrl);
+                            var webClient = new WebClient();
+                            using (Stream stream = webClient.OpenRead(imageUrl))
+                            {
+                                // make a new bmp using the stream
+                                using (Bitmap bitmap = new Bitmap(stream))
+                                {
+                                    //flush and close the stream
+                                    stream.Flush();
+                                    stream.Close();
+                                    // write the bmp out to disk
+                                    tmp.Image = ToBitmapImage(bitmap);
+                                    bitmap.Save("icons\\" + tmp.PluginDetails.PluginId + ".png");
+                                }
+                            }
+                        }
+                    }
+                    catch
+                    {
+                    }
+
+                    Plugins.Add(tmp);
+
+                }
+
+                FilterPlugins();
 
             }
         }
@@ -655,40 +703,103 @@ namespace RGBSyncPlus.UI
         {
             foreach (var pluginDetailsViewModel in Plugins)
             {
+                ReleaseNumber highestApplicable;
 
-                var publicReleases = pluginDetailsViewModel.Versions.Where(t => t.PluginDetails.Version != null && t.PluginDetails.DriverProperties.IsPublicRelease);
-                if (publicReleases == null || publicReleases.Count()==0)
+                ISimpleLed newestPublicModel;
+                ISimpleLed newestExperimentalModel;
+
+                ISimpleLed installedVersion=null;
+                ReleaseNumber newestPublicFound = new ReleaseNumber(0, 0, 0, 0);
+                ReleaseNumber newestExperimentalFound = new ReleaseNumber(0, 0, 0, 0);
+                ReleaseNumber installed = new ReleaseNumber(0, 0, 0, 0);
+
+                if (ApplicationManager.Instance.SLSManager.Drivers.Any(x => x.GetProperties().Id == pluginDetailsViewModel.PluginId))
                 {
-                    pluginDetailsViewModel.Version = "0.0.0.0";
+                    installedVersion = ApplicationManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == pluginDetailsViewModel.PluginId);
+                    installed = installedVersion.GetProperties().CurrentVersion;
+                    pluginDetailsViewModel.Installed = true;
                 }
                 else
                 {
-                    pluginDetailsViewModel.Version = publicReleases.Max(p => p.PluginDetails.Version).ToString();
+                    pluginDetailsViewModel.Installed = false;
                 }
 
-                var versionsWithVersions = pluginDetailsViewModel.Versions.Where(x => x.PluginDetails?.Version != null);
-                pluginDetailsViewModel.PreReleaseVersion = versionsWithVersions.Max(p => p.PluginDetails.Version)?.ToString();
-                if (pluginDetailsViewModel.PreReleaseVersion == null)
+                foreach (var detailsViewModel in pluginDetailsViewModel.Versions)
                 {
-                    pluginDetailsViewModel.PreReleaseVersion = "0.0.0.0";
+                    if (detailsViewModel.PluginDetails.DriverProperties.CurrentVersion != null &&
+                        detailsViewModel.PluginDetails.DriverProperties.CurrentVersion > newestPublicFound &&
+                        detailsViewModel.PluginDetails.DriverProperties.IsPublicRelease)
+                    {
+                        newestPublicFound = detailsViewModel.PluginDetails.DriverProperties.CurrentVersion;
+                    }
+
+                    if (detailsViewModel.PluginDetails.DriverProperties.CurrentVersion != null &&
+                        detailsViewModel.PluginDetails.DriverProperties.CurrentVersion > newestExperimentalFound &&
+                        !detailsViewModel.PluginDetails.DriverProperties.IsPublicRelease)
+                    {
+                        newestExperimentalFound = detailsViewModel.PluginDetails.DriverProperties.CurrentVersion;
+                    }
                 }
 
-                var existingInstalled = ApplicationManager.Instance.SLSManager.Drivers.FirstOrDefault(x => x.GetProperties().CurrentVersion?.ToString() == pluginDetailsViewModel.Version);
+                pluginDetailsViewModel.NewestPreReleaseVersion = newestExperimentalFound.ToString();
+                pluginDetailsViewModel.NewestPublicVersion = newestPublicFound.ToString();
 
-                ReleaseNumber highestApplicable = new ReleaseNumber(pluginDetailsViewModel.Version);
-                if (ShowPreRelease||(existingInstalled!=null&&!existingInstalled.GetProperties().IsPublicRelease))
+                if (ShowPreRelease || (installedVersion!= null && !installedVersion.GetProperties().IsPublicRelease))
                 {
-                    highestApplicable = new ReleaseNumber(pluginDetailsViewModel.PreReleaseVersion);
+                    highestApplicable = newestExperimentalFound;
+                    if (highestApplicable < newestPublicFound)
+                    {
+                        highestApplicable = newestPublicFound;
+                    }
                 }
-
-                bool isoutdated = false;
-                if (existingInstalled != null)
+                else
                 {
-                    isoutdated = existingInstalled.GetProperties().CurrentVersion < highestApplicable;
-                    pluginDetailsViewModel.InstalledButOutdated = isoutdated;
+                    highestApplicable = newestPublicFound;
                 }
 
-                var newest = pluginDetailsViewModel.Versions.FirstOrDefault(x => x.Version == highestApplicable.ToString());
+                
+                //p
+
+
+                //var publicReleases = pluginDetailsViewModel.Versions.Where(t => t.PluginDetails.Version != null && t.PluginDetails.DriverProperties.IsPublicRelease);
+                //if (publicReleases == null || publicReleases.Count()==0)
+                //{
+                //    pluginDetailsViewModel.Version = "0.0.0.0";
+                //}
+                //else
+                //{
+                //    pluginDetailsViewModel.Version = publicReleases.Max(p => p.PluginDetails.Version).ToString();
+                //}
+
+                //var versionsWithVersions = pluginDetailsViewModel.Versions.Where(x => x.PluginDetails?.Version != null);
+                //pluginDetailsViewModel.PreReleaseVersion = versionsWithVersions.Max(p => p.PluginDetails.Version)?.ToString();
+                //if (pluginDetailsViewModel.PreReleaseVersion == null)
+                //{
+                //    pluginDetailsViewModel.PreReleaseVersion = "0.0.0.0";
+                //}
+
+                //var existingInstalled = ApplicationManager.Instance.SLSManager.Drivers.FirstOrDefault(x => x.GetProperties().CurrentVersion?.ToString() == pluginDetailsViewModel.Version);
+
+                //ReleaseNumber highestApplicable = new ReleaseNumber(pluginDetailsViewModel.Version);
+                //if (ShowPreRelease||(existingInstalled!=null&&!existingInstalled.GetProperties().IsPublicRelease))
+                //{
+                //    highestApplicable = new ReleaseNumber(pluginDetailsViewModel.PreReleaseVersion);
+                //}
+
+                //bool isoutdated = false;
+                //if (existingInstalled != null)
+                //{
+                //    isoutdated = existingInstalled.GetProperties().CurrentVersion < highestApplicable;
+                //    pluginDetailsViewModel.InstalledButOutdated = isoutdated;
+                //}
+
+                
+                PositionalAssignment.PluginDetailsViewModel newest = pluginDetailsViewModel.Versions.FirstOrDefault(x => x.Version == highestApplicable.ToString());
+
+                if (newest == null && highestApplicable.ToString() == "0.0.0.0000")
+                {
+                    newest = pluginDetailsViewModel.Versions.FirstOrDefault(x => x.Version == null);
+                }
 
                 if (newest == null)
                 {
@@ -696,14 +807,14 @@ namespace RGBSyncPlus.UI
                 }
                 else
                 {
-
+                    pluginDetailsViewModel.Visible = true;
                     pluginDetailsViewModel.Version = highestApplicable.ToString();
                     pluginDetailsViewModel.Name = newest.Name;
                     pluginDetailsViewModel.Author = newest.Author;
 
                     pluginDetailsViewModel.PreRelease = !newest.PluginDetails.DriverProperties.IsPublicRelease;
 
-                    pluginDetailsViewModel.InstalledButOutdated = isoutdated;
+                    pluginDetailsViewModel.InstalledButOutdated = pluginDetailsViewModel.Installed && highestApplicable > installedVersion.GetProperties().CurrentVersion;
 
                     pluginDetailsViewModel.Visible =
                         (ShowPreRelease || !pluginDetailsViewModel.PreRelease) &&
@@ -717,8 +828,7 @@ namespace RGBSyncPlus.UI
                         );
                 }
 
-                pluginDetailsViewModel.Installed = existingInstalled != null;
-                
+
             }
         }
 
@@ -742,7 +852,7 @@ namespace RGBSyncPlus.UI
                     DriverProps = props
                 });
             }
-           
+
         }
 
         public static BitmapImage ToBitmapImage(Bitmap bitmap)
@@ -1253,7 +1363,7 @@ namespace RGBSyncPlus.UI
 
 
         }
-        
+
         public static string Base64Encode(string plainText)
         {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);

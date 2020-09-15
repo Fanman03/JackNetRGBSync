@@ -19,6 +19,7 @@ using RGBSyncPlus.Configuration;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
+using RGBSyncPlus.Helper;
 using SharpCompress.Archives;
 using SharpCompress.Common;
 using SharpCompress.Readers;
@@ -424,7 +425,7 @@ namespace RGBSyncPlus.UI
                 bool zeroDevicesPreSelected = vm.SLSDevices.All(x => x.Selected == false);
                 foreach (var item in DeviceConfigList.Items)
                 {
-                    var cItem = (DeviceMappingModels.Device) item;
+                    var cItem = (DeviceMappingModels.Device)item;
 
                     cItem.Selected = false;
                     if (DeviceConfigList.SelectedItems.Contains(item))
@@ -435,17 +436,17 @@ namespace RGBSyncPlus.UI
 
                 ConfigPanel.DataContext = DeviceConfigList.SelectedItem;
                 ControlDevice selectedDevice = null;
-                if (ConfigPanel != null && ((DeviceMappingModels.Device) ConfigPanel.DataContext) != null)
+                if (ConfigPanel != null && ((DeviceMappingModels.Device)ConfigPanel.DataContext) != null)
                 {
                     ApplicationManager.Instance.DeviceBeingAligned =
-                        ((DeviceMappingModels.Device) ConfigPanel.DataContext).ControlDevice;
-                    ((ConfigurationViewModel) this.DataContext).SetupSourceDevices(
-                        ((DeviceMappingModels.Device) ConfigPanel.DataContext).ControlDevice);
+                        ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
+                    ((ConfigurationViewModel)this.DataContext).SetupSourceDevices(
+                        ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice);
                 }
                 else
                 {
                     ApplicationManager.Instance.DeviceBeingAligned = null;
-                    ((ConfigurationViewModel) this.DataContext).SetupSourceDevices(null);
+                    ((ConfigurationViewModel)this.DataContext).SetupSourceDevices(null);
                 }
 
 
@@ -613,7 +614,7 @@ namespace RGBSyncPlus.UI
 
                         foreach (var controlDeviceLeD in parentDevice.ControlDevice.LEDs)
                         {
-                            controlDeviceLeD.Color = new LEDColor(0,0,0);
+                            controlDeviceLeD.Color = new LEDColor(0, 0, 0);
                         }
 
                         if (parentDevice.SupportsPush)
@@ -796,63 +797,93 @@ namespace RGBSyncPlus.UI
 
         private void InstallPlugin(object sender, RoutedEventArgs e)
         {
-            ApplicationManager.Instance.UnloadSLSProviders();
             ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
-
-            if (((Button) sender).DataContext is PositionalAssignment.PluginDetailsViewModel bdc)
+            using (new SimpleModal(vm, "Installing..."))
             {
-                var newest = bdc.Versions.OrderByDescending(x => x.PluginDetails.Version).First();
-                if (!vm.ShowPreRelease)
+                
+                ApplicationManager.Instance.UnloadSLSProviders();
+
+
+                if (((Button) sender).DataContext is PositionalAssignment.PluginDetailsViewModel bdc)
                 {
-                    newest = bdc.Versions.Where(x=>x.PluginDetails.DriverProperties.IsPublicRelease).OrderByDescending(x => x.PluginDetails.Version).First();
-                }
+                    var newest = bdc.Versions.First(x => x.Version == bdc.Version);
+                    //if (!vm.ShowPreRelease)
+                    //{
+                    //    newest = bdc.Versions.Where(x=>x.PluginDetails.DriverProperties.IsPublicRelease).OrderByDescending(x => x.PluginDetails.Version).First();
+                    //}
 
-                string url = $"https://github.com/SimpleLed/Store/blob/master/{bdc.PluginDetails.Id}.7z?raw=true";
+                    string url = $"https://github.com/SimpleLed/Store/blob/master/{newest.Id}.7z?raw=true";
 
-                WebClient webClient = new WebClient();
-                string destPath = Path.GetTempPath() + bdc.PluginDetails.Id + ".7z";
-                webClient.DownloadFile(url, destPath);
+                    WebClient webClient = new WebClient();
+                    string destPath = Path.GetTempPath() + bdc.PluginDetails.Id + ".7z";
+                    webClient.DownloadFile(url, destPath);
 
-                string pluginPath = ApplicationManager.SLSPROVIDER_DIRECTORY + "\\" + bdc.PluginId;
-                if (!Directory.Exists(pluginPath))
-                {
-                    Directory.CreateDirectory(pluginPath);
-                }
-
-                using (Stream stream = File.OpenRead(destPath))
-                {
-                    var thingy = SharpCompress.Archives.ArchiveFactory.Open(stream);
-
-                    foreach (var archiveEntry in thingy.Entries)
+                    string pluginPath = ApplicationManager.SLSPROVIDER_DIRECTORY + "\\" + bdc.PluginId;
+                    if (Directory.Exists(pluginPath))
                     {
-                        
-                        archiveEntry.WriteToDirectory(pluginPath);
+                        try
+                        {
+                            Directory.Delete(pluginPath, true);
+                        }
+                        catch
+                        {
+                        }
                     }
 
                     try
                     {
-                        File.Delete(pluginPath+"\\SimpleLed.dll");
+                        Directory.CreateDirectory(pluginPath);
                     }
                     catch
                     {
                     }
 
-                }
-            }
+                    using (Stream stream = File.OpenRead(destPath))
+                    {
+                        var thingy = SharpCompress.Archives.ArchiveFactory.Open(stream);
 
-            ApplicationManager.Instance.LoadSLSProviders();
-            vm.LoadStoreAndPlugins();
+                        foreach (var archiveEntry in thingy.Entries)
+                        {
+
+                            archiveEntry.WriteToDirectory(pluginPath);
+                        }
+
+                        try
+                        {
+                            File.Delete(pluginPath + "\\SimpleLed.dll");
+                        }
+                        catch
+                        {
+                        }
+
+                    }
+                }
+
+                ApplicationManager.Instance.LoadSLSProviders();
+                vm.LoadStoreAndPlugins();
+            }
 
         }
 
         private void ReloadAllPlugins(object sender, RoutedEventArgs e)
         {
-            ApplicationManager.Instance.UnloadSLSProviders();
             ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            using (new SimpleModal(vm, "Reloading Plugins"))
+            {
+                ContainingGrid.Refresh();
+                ApplicationManager.Instance.UnloadSLSProviders();
+                
 
-            ApplicationManager.Instance.LoadSLSProviders();
+                ApplicationManager.Instance.LoadSLSProviders();
+                vm.LoadStoreAndPlugins();
+            }
+
+        }
+
+        private void RefreshStore(object sender, RoutedEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
             vm.LoadStoreAndPlugins();
-
         }
     }
 }

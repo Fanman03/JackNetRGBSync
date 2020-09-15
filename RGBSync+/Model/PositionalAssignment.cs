@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using SimpleLed;
 
 namespace RGBSyncPlus.Model
@@ -37,6 +38,15 @@ namespace RGBSyncPlus.Model
 
         public class PluginDetailsViewModel : BaseViewModel
         {
+            private BitmapImage image;
+
+            public BitmapImage Image
+            {
+                get => image;
+                set => SetProperty(ref image, value);
+            }
+
+
             private string name;
             public string Name { get => name; set => SetProperty(ref name, value); }
 
@@ -54,11 +64,25 @@ namespace RGBSyncPlus.Model
                 set => SetProperty(ref version, value);
             }
 
-            private string preReleaseVersion;
-            public string PreReleaseVersion
+            private string newestPublicVersion;
+            public string NewestPublicVersion
             {
-                get => preReleaseVersion;
-                set => SetProperty(ref preReleaseVersion, value);
+                get => newestPublicVersion;
+                set => SetProperty(ref newestPublicVersion, value);
+            }
+
+            private string newestPreReleaseVersion;
+            public string NewestPreReleaseVersion
+            {
+                get => newestPreReleaseVersion;
+                set => SetProperty(ref newestPreReleaseVersion, value);
+            }
+
+            private string installedVersion;
+            public string InstalledVersion
+            {
+                get => installedVersion;
+                set => SetProperty(ref installedVersion, value);
             }
 
 
@@ -76,6 +100,15 @@ namespace RGBSyncPlus.Model
                 get => pluginId;
                 set => SetProperty(ref pluginId, value);
             }
+
+            private string id;
+
+            public string Id
+            {
+                get => id;
+                set => SetProperty(ref id, value);
+            }
+
             public PluginDetails PluginDetails;
 
             private int releases;
@@ -131,6 +164,7 @@ namespace RGBSyncPlus.Model
                 Blurb = inp.DriverProperties.Blurb;
                 PluginDetails = inp;
                 PluginId = inp.PluginId;
+                Id = inp.Id;
                 if (!dontChild)
                 {
                     Versions.Add(new PluginDetailsViewModel(inp, true));

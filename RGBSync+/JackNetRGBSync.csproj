@@ -167,6 +167,7 @@
     <Compile Include="UI\PremiumMessageBox.xaml.cs">
       <DependentUpon>PremiumMessageBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\SimpleModal.cs" />
     <Compile Include="UI\SplashLoader.xaml.cs">
       <DependentUpon>SplashLoader.xaml</DependentUpon>
     </Compile>

@@ -30,15 +30,12 @@
             <Converter:InvertedBoolToVisibilityConverter x:Key="InvertedBoolToVisibilityConverter"/>
             <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <Converter:DeviceTypeToImageConverter x:Key="DeviceTypeToImageConverter"/>
-
-
             <ControlTemplate x:Key="SearchControlTemplate" TargetType="{x:Type TextBoxBase}">
                 <Border Background="{TemplateBinding Background}" 
                         Padding="0,0,20,0"
                         x:Name="Bd" BorderBrush="Black"
                         BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
                     <ScrollViewer x:Name="PART_ContentHost"/>
-
                 </Border>
                 <ControlTemplate.Triggers>
                     <Trigger Property="IsEnabled" Value="False">
@@ -87,7 +84,6 @@
                 </Grid>
 
             </DataTemplate>
-
             <DataTemplate x:Key="DeviceMapperItemTemplate">
 
                 <Grid Margin="0,5,0,5">
@@ -121,7 +117,6 @@
                 </Grid>
 
             </DataTemplate>
-
             <DataTemplate x:Key="DeviceMapperSourceItemTemplate" >
 
                 <Grid Margin="0" Background="#80000000" HorizontalAlignment="Stretch" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisibilityConverter}}" >
@@ -206,15 +201,12 @@
                     <TextBlock Margin="10,0,0,0" Text="{Binding AutoName, Mode=OneWay}"/>
                 </StackPanel>
             </DataTemplate>
-
-
             <DataTemplate x:Key="DeviceMapDestinationItemTemplate">
                 <StackPanel Margin="1" Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding Enabled}"/>
                     <TextBlock Margin="10,0,0,0" Text="{Binding DestinationDevice.Name, Mode=OneWay}"/>
                 </StackPanel>
             </DataTemplate>
-
             <DataTemplate x:Key="DeviceMapItemTemplate">
                 <Grid>
                     <TextBlock Text="{Binding SourceDevice.Name}" FontFamily="Segoe UI Light" FontSize="24" HorizontalAlignment="Left"></TextBlock>
@@ -351,48 +343,73 @@
             <DataTemplate x:Key="PluginItemTemplate">
                 <Grid Height="100" Margin="8" Background="#c0000000" Visibility="{Binding Visible, Converter={StaticResource BoolToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="7*"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition MinWidth="180"/>
+                        <ColumnDefinition MinWidth="180"/>
                     </Grid.ColumnDefinitions>
 
 
-                    <Rectangle Grid.ColumnSpan="5" Fill="#80ffffff" Visibility="{Binding Installed, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
-                    <Rectangle Grid.ColumnSpan="5" Fill="#7FFF0000" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
+                    <Rectangle Grid.ColumnSpan="5" Fill="#8080ff80" Visibility="{Binding Installed, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
+                    <Rectangle Grid.ColumnSpan="5" Fill="#ff802020" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
+
+                    <Grid Grid.Column="0" Background="Black" Margin="10">
+                        <Image Source="{Binding Image}" Width="80" Height="80"></Image>
+                    </Grid>
 
                     <StackPanel Orientation="Vertical" Grid.Column="1">
                         <TextBlock Margin="10,0" FontSize="24" FontFamily="Segoe UI" Foreground="White" FontWeight="Bold" Text="{Binding Name}"  VerticalAlignment="Center" ></TextBlock>
                         <TextBlock Margin="10,0" FontSize="24" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Author}"  VerticalAlignment="Center"></TextBlock>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Grid.Column="2">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="10,0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Latest Version:" VerticalAlignment="Center"></TextBlock>
-                            <TextBlock Margin="0,0" FontSize="16" FontFamily="Segoe UI" Foreground="White" FontWeight="Bold" Text="{Binding Version}" VerticalAlignment="Center"></TextBlock>
 
-                            <TextBlock Margin="10,0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Total Versions:" VerticalAlignment="Center"></TextBlock>
-                            <TextBlock Margin="0,0" FontSize="16" FontFamily="Segoe UI" Foreground="White" FontWeight="Bold" Text="{Binding Releases}" VerticalAlignment="Center"></TextBlock>
-                        </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Margin="10,0,0,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Older version" VerticalAlignment="Center" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
                             <TextBlock Margin="10,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Installed" VerticalAlignment="Center" Visibility="{Binding Installed, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
                         </StackPanel>
                         <TextBlock Margin="10,0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Blurb}" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
                     </StackPanel>
-                    <Button Grid.Column="4" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"  Visibility="{Binding Installed, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="InstallPlugin">
+                    <Grid Grid.Column="4"  Visibility="{Binding InstalledButOutdated, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
+                        <Button Background="Red" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"  Visibility="{Binding Installed, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Disable" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        </Button>
+                    </Grid>
+
+
+
+                    <Button Grid.Column="4" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="10"  Visibility="{Binding Installed, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="InstallPlugin">
                         <Button.Background>
                             <ImageBrush Stretch="UniformToFill" ImageSource="/RGBSync+;component/Resources/Intro_Background.png"/>
                         </Button.Background>
-                        <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Install" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Install " VerticalAlignment="Center" HorizontalAlignment="Center"  Visibility="{Binding InstalledButOutdated, Converter={StaticResource InvertedBoolToVisibilityConverter}}"></TextBlock>
+
+                            <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Version}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+                        </StackPanel>
                     </Button>
 
-                    <Button Grid.Column="4" Background="Red" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"  Visibility="{Binding Installed, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Disable" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    <Button Grid.Column="4" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="10"  Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisibilityConverter}}" Click="InstallPlugin">
+                        <Button.Background>
+                            <ImageBrush Stretch="UniformToFill" ImageSource="/RGBSync+;component/Resources/Intro_Background.png"/>
+                        </Button.Background>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                            <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Upgrade to " VerticalAlignment="Center" HorizontalAlignment="Center"  Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                            <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Version}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+                        </StackPanel>
                     </Button>
 
-                    <Button Grid.Column="3" Background="DarkCyan" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" >
-                        <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Versions" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+
+                    <Button Grid.Column="3" Background="DarkCyan" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="10" >
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                            <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Releases}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                            <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text=" Versions" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        </StackPanel>
                     </Button>
                 </Grid>
             </DataTemplate>
@@ -403,177 +420,55 @@
     <controls:BlurredDecorationWindow.DataContext>
         <ui:ConfigurationViewModel/>
     </controls:BlurredDecorationWindow.DataContext>
-
-    <TabControl Style="{StaticResource StyleTabControlNavigation}" >
-        <TabItem Header="{x:Static p:Resources.DevicesHeader}">
-            <AdornerDecorator>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid Margin="-8">
+    <Grid x:Name="ContainingGrid">
+        <TabControl Style="{StaticResource StyleTabControlNavigation}" >
+            <TabItem Header="{x:Static p:Resources.DevicesHeader}">
+                <AdornerDecorator>
+                    <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="48"/>
-                            <RowDefinition/>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-
-                        <Grid Grid.Row="0" Background="#80eeeeee">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="Button_Click_6"></Button>
-                                <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="Button_Click_5"></Button>
-                                <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="ToggleDevicesView"></Button>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4">
-                                <GroupBox BorderThickness="0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label>Profile</Label>
-                                        <ComboBox ItemsSource="{Binding ProfileNames}"></ComboBox>
-                                    </StackPanel>
-                                </GroupBox>
-
-                            </StackPanel>
-
-                        </Grid>
-                        <GroupBox Grid.Row="1">
-                            <Grid Margin="-8,-8,-24,14">
-                                <ListView MinHeight="400" ItemsSource="{Binding SLSDevices}" ItemTemplate="{DynamicResource DeviceControlTemplate}" SelectionChanged="DevicesListSelectionChanged" x:Name="DeviceConfigList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource InvertedBoolToVisibilityConverter}}" >
-                                    <ListView.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <!--<StackPanel Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.PanningMode="HorizontalOnly"></StackPanel>-->
-                                            <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
-                                                       ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                       MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
-                                                       ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}"/>
-                                        </ItemsPanelTemplate>
-                                    </ListView.ItemsPanel>
-
-                                </ListView>
-
-                                <ListView ItemsSource="{Binding SLSDevices}" ItemTemplate="{DynamicResource DeviceControlCondensedTemplate}" SelectionChanged="DevicesListCondensedSelectionChanged" x:Name="DeviceConfigCondensedList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource BoolToVisibilityConverter}}" >
-
-                                    <ListView.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <UniformGrid Columns="2"/>
-
-                                            <!--Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"-->
-                                        </ItemsPanelTemplate>
-                                    </ListView.ItemsPanel>
-
-                                </ListView>
-
-                            </Grid>
-                        </GroupBox>
-                    </Grid>
-                    <Grid Grid.Row="1" x:Name="ConfigPanel" Background="#80000000" Margin="0"  MaxHeight="{Binding MaxSubViewHeight}" Height="{Binding MaxSubViewHeight}">
-
                         <Grid Margin="-8">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="48"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <!--
-                            <Image  Grid.Row="0"  Grid.RowSpan="2" Source="{Binding Image}" Stretch="UniformToFill" VerticalAlignment="Center" Margin="0">
-                                <Image.Effect>
-                                    <BlurEffect Radius="8"></BlurEffect>
-                                </Image.Effect>
-                            </Image>
-                            -->
-                            <Rectangle Grid.Row="0" Fill="#d0000000" Margin="-8" Grid.RowSpan="2"></Rectangle>
 
-
-                            <Grid Grid.Row="0" Background="#CCffffff" Margin="0" Height="60" VerticalAlignment="Top">
-                                <!--<StackPanel Orientation="Horizontal"  Height="36" Margin="0" VerticalAlignment="Top">
-                                        <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="25" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4,6"/>
-                                        <TextBlock Text="{Binding ControlDevice.DeviceType}" FontSize="18" VerticalAlignment="Center" Foreground="Black"></TextBlock>
-                                    </StackPanel>-->
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Height="36" Margin="0" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SingledDeviceSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <TextBlock FontSize="24" Text="{Binding ProviderName}" Margin="12,0,0,0" FontWeight="Bold" Foreground="Black"></TextBlock>
-
-                                    <TextBlock FontSize="24" Text="{Binding Name}" FontWeight="Light" Margin="12,0,0,0" Foreground="Black"></TextBlock>
+                            <Grid Grid.Row="0" Background="#80eeeeee">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="Button_Click_6"></Button>
+                                    <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="Button_Click_5"></Button>
+                                    <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="ToggleDevicesView"></Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4">
+                                    <GroupBox BorderThickness="0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label>Profile</Label>
+                                            <ComboBox ItemsSource="{Binding ProfileNames}"></ComboBox>
+                                        </StackPanel>
+                                    </GroupBox>
 
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Height="36" Margin="0" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.MultipleDeviceSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <TextBlock FontSize="24" Text="Multiple devices" FontWeight="Bold" Foreground="Black" Margin="12,0,0,0" ></TextBlock>
-
-                                    <TextBlock FontSize="24" Text="selected" FontWeight="Light" Margin="12,0,0,0" Foreground="Black"></TextBlock>
-
-                                </StackPanel>
-
-                                <!--<Grid Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,0,20,0" Ho>
-                                        <TextBox Width="200" HorizontalAlignment="Right" Margin="0,0,8,0" BorderBrush="Transparent" Text="{Binding SyncToSearch}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="24" TextChanged="TextBox_TextChanged" x:Name="SyncToSearchTextBox" FontSize="24" Template="{StaticResource SearchControlTemplate}" Background="#80000000" Foreground="Black"/>
-                                        <Button Width="32" Height="32" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Margin="0,0,4,-8" FontFamily="Segoe MDL2 Assets" Content="&#xE711;" MouseUp="Button_MouseUp" Foreground="Black"/>
-                                    </Grid>-->
-
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="8,0,8,8" VerticalAlignment="Bottom" >
-                                    <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="SubInfo">
-                                        <Grid Margin="0" >
-                                            <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisibilityConverter}}"></Grid>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0" Margin="8,4,0,0"></TextBlock>
-                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Info</TextBlock>
-                                            </StackPanel>
-                                        </Grid>
-                                    </Button>
-
-                                    <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="SyncTo">
-                                        <Grid Margin="0" >
-                                            <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisibilityConverter}}"></Grid>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0"  Margin="8,4,0,0"></TextBlock>
-                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Sync To</TextBlock>
-                                            </StackPanel>
-                                        </Grid>
-                                    </Button>
-
-                                    <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="Config" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SingledDeviceSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <Grid Margin="0" >
-                                            <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Config, Converter={StaticResource StringMatchToVisibilityConverter}}"></Grid>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0"  Margin="8,4,0,0" ></TextBlock>
-                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Config</TextBlock>
-                                            </StackPanel>
-                                        </Grid>
-                                    </Button>
-
-
-                                    <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="Alignment" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SingledDeviceSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <Grid Margin="0" >
-                                            <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisibilityConverter}}"></Grid>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0" Margin="8,4,0,0" ></TextBlock>
-                                                <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Alignment</TextBlock>
-                                            </StackPanel>
-                                        </Grid>
-                                    </Button>
-
-                                </StackPanel>
                             </Grid>
-                            <!--
-                                
-                                -->
-                            <Grid Grid.Row="1" x:Name="SubContents">
-                                <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisibilityConverter}}">
-                                    <StackPanel Margin="10">
-                                        <TextBlock Foreground="White" FontSize="18" FontWeight="Bold">Driver:</TextBlock>
-                                        <TextBlock Foreground="White" FontSize="18" FontWeight="Light" Text="{Binding ProviderName}"></TextBlock>
-                                        <TextBlock Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,8">Name:</TextBlock>
-                                        <TextBlock Foreground="White" FontSize="18" FontWeight="Light" Text="{Binding Name}"></TextBlock>
-                                        <TextBlock Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,8">Author:</TextBlock>
-                                        <TextBlock Foreground="White" FontSize="18" FontWeight="Light" Text="{Binding DriverProps.Author}"></TextBlock>
+                            <GroupBox Grid.Row="1">
+                                <Grid Margin="-8,-8,-24,14">
+                                    <ListView MinHeight="400" ItemsSource="{Binding SLSDevices}" ItemTemplate="{DynamicResource DeviceControlTemplate}" SelectionChanged="DevicesListSelectionChanged" x:Name="DeviceConfigList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource InvertedBoolToVisibilityConverter}}" >
+                                        <ListView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <!--<StackPanel Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.PanningMode="HorizontalOnly"></StackPanel>-->
+                                                <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
+                                                       ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                       MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
+                                                       ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                            </ItemsPanelTemplate>
+                                        </ListView.ItemsPanel>
 
-                                    </StackPanel>
-                                </Grid>
+                                    </ListView>
 
-                                <Grid MaxHeight="200" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisibilityConverter}}">
-                                    <ListView x:Name="SourceList" 
-                                          ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SourceDevices}" 
-                                          ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
-                                          BorderBrush="Transparent" 
-                                          SelectionMode="Single" 
-                                          HorizontalContentAlignment="Stretch" 
-                                           >
+                                    <ListView ItemsSource="{Binding SLSDevices}" ItemTemplate="{DynamicResource DeviceControlCondensedTemplate}" SelectionChanged="DevicesListCondensedSelectionChanged" x:Name="DeviceConfigCondensedList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource BoolToVisibilityConverter}}" >
+
                                         <ListView.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <UniformGrid Columns="2"/>
@@ -581,284 +476,171 @@
                                                 <!--Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"-->
                                             </ItemsPanelTemplate>
                                         </ListView.ItemsPanel>
+
                                     </ListView>
+
                                 </Grid>
+                            </GroupBox>
+                        </Grid>
+                        <Grid Grid.Row="1" x:Name="ConfigPanel" Background="#80000000" Margin="0"  MaxHeight="{Binding MaxSubViewHeight}" Height="{Binding MaxSubViewHeight}">
 
-                                <Grid  Grid.Row="1" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisibilityConverter}}">
-                                    <StackPanel Background="Transparent" HorizontalAlignment="Center" >
+                            <Grid Margin="-8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="48"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <!--
+                            <Image  Grid.Row="0"  Grid.RowSpan="2" Source="{Binding Image}" Stretch="UniformToFill" VerticalAlignment="Center" Margin="0">
+                                <Image.Effect>
+                                    <BlurEffect Radius="8"></BlurEffect>
+                                </Image.Effect>
+                            </Image>
+                            -->
+                                <Rectangle Grid.Row="0" Fill="#d0000000" Margin="-8" Grid.RowSpan="2"></Rectangle>
 
-                                        <Label Foreground="White" FontSize="16">Use the controls below to make your devices match the images</Label>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button FontSize="24" Content="" Height="60" Width="60" Margin="8" Click="Button_Click" FontFamily="Segoe MDL2 Assets" Padding="16"></Button>
-                                            <Button FontSize="24" Content="" Height="60" Width="60" Margin="8" Click="Button_Click_2"  FontFamily="Segoe MDL2 Assets" Padding="16"></Button>
-                                            <Button FontSize="24" Content="" Height="60" Width="60"  Margin="8" Click="Button_Click_3" FontFamily="Segoe MDL2 Assets" Padding="16"></Button>
 
-                                            <Image Source="alignment_template.png" Width="172"></Image>
-                                        </StackPanel>
+                                <Grid Grid.Row="0" Background="#CCffffff" Margin="0" Height="60" VerticalAlignment="Top">
+                                    <!--<StackPanel Orientation="Horizontal"  Height="36" Margin="0" VerticalAlignment="Top">
+                                        <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="25" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4,6"/>
+                                        <TextBlock Text="{Binding ControlDevice.DeviceType}" FontSize="18" VerticalAlignment="Center" Foreground="Black"></TextBlock>
+                                    </StackPanel>-->
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Height="36" Margin="0" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SingledDeviceSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock FontSize="24" Text="{Binding ProviderName}" Margin="12,0,0,0" FontWeight="Bold" Foreground="Black"></TextBlock>
+
+                                        <TextBlock FontSize="24" Text="{Binding Name}" FontWeight="Light" Margin="12,0,0,0" Foreground="Black"></TextBlock>
+
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Height="36" Margin="0" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.MultipleDeviceSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock FontSize="24" Text="Multiple devices" FontWeight="Bold" Foreground="Black" Margin="12,0,0,0" ></TextBlock>
+
+                                        <TextBlock FontSize="24" Text="selected" FontWeight="Light" Margin="12,0,0,0" Foreground="Black"></TextBlock>
+
+                                    </StackPanel>
+
+                                    <!--<Grid Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,0,20,0" Ho>
+                                        <TextBox Width="200" HorizontalAlignment="Right" Margin="0,0,8,0" BorderBrush="Transparent" Text="{Binding SyncToSearch}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Height="24" TextChanged="TextBox_TextChanged" x:Name="SyncToSearchTextBox" FontSize="24" Template="{StaticResource SearchControlTemplate}" Background="#80000000" Foreground="Black"/>
+                                        <Button Width="32" Height="32" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Margin="0,0,4,-8" FontFamily="Segoe MDL2 Assets" Content="&#xE711;" MouseUp="Button_MouseUp" Foreground="Black"/>
+                                    </Grid>-->
+
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="8,0,8,8" VerticalAlignment="Bottom" >
+                                        <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="SubInfo">
+                                            <Grid Margin="0" >
+                                                <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisibilityConverter}}"></Grid>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0" Margin="8,4,0,0"></TextBlock>
+                                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Info</TextBlock>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Button>
+
+                                        <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="SyncTo">
+                                            <Grid Margin="0" >
+                                                <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisibilityConverter}}"></Grid>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0"  Margin="8,4,0,0"></TextBlock>
+                                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Sync To</TextBlock>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Button>
+
+                                        <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="Config" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SingledDeviceSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <Grid Margin="0" >
+                                                <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Config, Converter={StaticResource StringMatchToVisibilityConverter}}"></Grid>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0"  Margin="8,4,0,0" ></TextBlock>
+                                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Config</TextBlock>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Button>
+
+
+                                        <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="Alignment" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SingledDeviceSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <Grid Margin="0" >
+                                                <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisibilityConverter}}"></Grid>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0" Margin="8,4,0,0" ></TextBlock>
+                                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0">Alignment</TextBlock>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Button>
 
                                     </StackPanel>
                                 </Grid>
+                                <!--
+                                
+                                -->
+                                <Grid Grid.Row="1" x:Name="SubContents">
+                                    <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisibilityConverter}}">
 
-                                <Grid x:Name="ConfigHere" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Config, Converter={StaticResource StringMatchToVisibilityConverter}}">
-                                    <TextBlock Margin="20">This device has no configuration.</TextBlock>
+
+                                        <StackPanel Margin="10" Orientation="Horizontal">
+                                            <StackPanel>
+                                                <TextBlock Foreground="White" FontSize="18" FontWeight="Bold">Driver:</TextBlock>
+                                                <TextBlock Foreground="White" FontSize="18" FontWeight="Light" Text="{Binding ProviderName}"></TextBlock>
+                                                <TextBlock Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,8">Name:</TextBlock>
+                                                <TextBlock Foreground="White" FontSize="18" FontWeight="Light" Text="{Binding Name}"></TextBlock>
+                                                <TextBlock Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,8">Author:</TextBlock>
+                                                <TextBlock Foreground="White" FontSize="18" FontWeight="Light" Text="{Binding DriverProps.Author}"></TextBlock>
+
+                                            </StackPanel>
+                                            <StackPanel Margin="40,0">
+                                                <TextBlock Foreground="White" FontSize="18" FontWeight="Bold">Driver Version:</TextBlock>
+                                                <TextBlock Foreground="White" FontSize="18" FontWeight="Light" Text="{Binding DriverProps.CurrentVersion}"></TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Grid MaxHeight="200" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisibilityConverter}}">
+                                        <ListView x:Name="SourceList" 
+                                          ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SourceDevices}" 
+                                          ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
+                                          BorderBrush="Transparent" 
+                                          SelectionMode="Single" 
+                                          HorizontalContentAlignment="Stretch" 
+                                           >
+                                            <ListView.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <UniformGrid Columns="2"/>
+
+                                                    <!--Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"-->
+                                                </ItemsPanelTemplate>
+                                            </ListView.ItemsPanel>
+                                        </ListView>
+                                    </Grid>
+
+                                    <Grid  Grid.Row="1" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisibilityConverter}}">
+                                        <StackPanel Background="Transparent" HorizontalAlignment="Center" >
+
+                                            <Label Foreground="White" FontSize="16">Use the controls below to make your devices match the images</Label>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button FontSize="24" Content="" Height="60" Width="60" Margin="8" Click="Button_Click" FontFamily="Segoe MDL2 Assets" Padding="16"></Button>
+                                                <Button FontSize="24" Content="" Height="60" Width="60" Margin="8" Click="Button_Click_2"  FontFamily="Segoe MDL2 Assets" Padding="16"></Button>
+                                                <Button FontSize="24" Content="" Height="60" Width="60"  Margin="8" Click="Button_Click_3" FontFamily="Segoe MDL2 Assets" Padding="16"></Button>
+
+                                                <Image Source="alignment_template.png" Width="172"></Image>
+                                            </StackPanel>
+
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Grid x:Name="ConfigHere" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Config, Converter={StaticResource StringMatchToVisibilityConverter}}">
+                                        <TextBlock Margin="20">This device has no configuration.</TextBlock>
+                                    </Grid>
+
                                 </Grid>
-
                             </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
 
-            </AdornerDecorator>
-        </TabItem>
+                </AdornerDecorator>
+            </TabItem>
 
-        <!--<TabItem Header="{x:Static p:Resources.Page1Header}">
-
-            <AdornerDecorator>
-                <DockPanel LastChildFill="True" >
-                    <GroupBox DockPanel.Dock="Bottom" Width="260" HorizontalAlignment="Left" >
-                        <DockPanel VerticalAlignment="Bottom">
-                            <DockPanel DockPanel.Dock="Top"
-                                    HorizontalAlignment="Center" >
-                                <Button Command="{Binding ImportCommand}" >
-                                    <StackPanel Height="Auto" Orientation="Horizontal">
-                                        <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/import.png" />
-                                        <TextBlock TextWrapping="Wrap" Text="{x:Static p:Resources.ImportButton}"/>
-                                    </StackPanel>
-                                </Button>
-                                <Button
-                                    Command="{Binding ImportCloudCommand}" ToolTip="Import data from cloud save.">
-                                    <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/DownloadFromCloud.png" />
-                                </Button>
-                            </DockPanel>
-                            <DockPanel  DockPanel.Dock="Bottom"
-                                    HorizontalAlignment="Center" >
-                                <Button
-                                    Command="{Binding ExportCommand}" >
-                                    <StackPanel Height="Auto" Orientation="Horizontal">
-                                        <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/export.png" />
-                                        <TextBlock Text="{x:Static p:Resources.ExportButton}"/>
-                                    </StackPanel>
-                                </Button>
-                                <Button
-                                    Command="{Binding ExportCloudCommand}" ToolTip="Export data to cloud save.">
-                                    <Image Margin="0,0,2,0" Width="16" Height="16" Source="/RGBSync+;component/Resources/UploadToCloud.png" />
-                                </Button>
-                            </DockPanel>
-                        </DockPanel>
-                    </GroupBox>
-                    <GroupBox DockPanel.Dock="Bottom" Width="260" HorizontalAlignment="Left" >
-                        <GroupBox.Resources>
-                            <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="{x:Type Label}" />
-                        </GroupBox.Resources>
-                        <DockPanel VerticalAlignment="Bottom">
-                            <Label controls:Form.IsLabel="True" 
-                                               Content="{x:Static p:Resources.ProfileNameLabel}" />
-                            <TextBox controls:Form.Fill="True"
-                                                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" SpellCheck.IsEnabled="True" />
-
-                        </DockPanel>
-                    </GroupBox>
-                    <GroupBox DockPanel.Dock="Left" Width="260">
-                        <DockPanel VerticalAlignment="Top" >
-
-                            <Button DockPanel.Dock="Bottom"
-                                    HorizontalAlignment="Center" 
-                                    Margin="8" 
-                                    Command="{Binding AddSyncGroupCommand}" >
-                                <StackPanel VerticalAlignment="Center" Height="Auto" Orientation="Horizontal">
-                                    <Image Margin="0,0,2,0" Width="18" Height="18" Source="/RGBSync+;component/Resources/add.png" />
-                                    <TextBlock VerticalAlignment="Center" FontSize="16" Text="{x:Static p:Resources.NewGroupButton}"/>
-                                </StackPanel>
-                            </Button>
-
-
-                            <ListBox ItemsSource="{Binding SyncGroups}"
-                                     SelectedItem="{Binding SelectedSyncGroup}"
-                                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                                     x:Name="LEDGroupsListbox">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-
-                                            <Button Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                                                    ToolTip="Remove"
-                                                    Command="{Binding DataContext.RemoveSyncGroupCommand, RelativeSource={RelativeSource AncestorType={x:Type controls:BlurredDecorationWindow}}}"
-                                                    CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}">
-                                                <Image Source="/RGBSync+;component/Resources/close.png" />
-                                            </Button>
-                                            <TextBlock Grid.Column="1" Margin="4" Text="{Binding DisplayName}" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </DockPanel>
-                    </GroupBox>
-
-
-
-                    <DockPanel Margin="8,0,0,-41">
-                        <GroupBox DockPanel.Dock="Top">
-                            <Grid>
-                                <Border HorizontalAlignment="Center" 
-                                        VerticalAlignment="Top" 
-                                        Margin="16"
-                                        Visibility="{Binding SelectedSyncGroup, ConverterParameter=True, Converter={StaticResource NullToVisibilityConverter}}">
-                                    <TextBlock Text="{x:Static p:Resources.NoGroupSelected}" />
-                                </Border>
-
-                                <Border>
-                                    <Border.Resources>
-                                        <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="{x:Type Label}" />
-                                        <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="{x:Type TextBlock}" />
-                                    </Border.Resources>
-
-                                    <Border.Visibility>
-                                        <Binding Converter="{StaticResource NullToVisibilityConverter}" Path="SelectedSyncGroup"/>
-                                    </Border.Visibility>
-
-                                    <controls:Form DockPanel.Dock="Top" >
-                                        <Label controls:Form.IsLabel="True" 
-                                               Content="{x:Static p:Resources.GroupNameLabel}" />
-                                        <TextBox controls:Form.Fill="True"
-                                                 Text="{Binding SelectedSyncGroup.Name, UpdateSourceTrigger=PropertyChanged}" />
-
-                                        <Label controls:Form.IsLabel="True" 
-                                               Content="{x:Static p:Resources.MasterLEDLabel}" />
-                                        <ComboBox controls:Form.Fill="True"
-                                                  ItemsSource="{Binding AvailableSyncLeds}"
-                                                  SelectedItem="{Binding SelectedSyncGroup.SyncLed}"
-                                                  >
-                                            <ComboBox.GroupStyle>
-                                                <GroupStyle>
-                                                    <GroupStyle.HeaderTemplate>
-                                                        <DataTemplate>
-                                                            <Border VerticalAlignment="Stretch"
-                                                                    HorizontalAlignment="Stretch"
-                                                                    Background="{StaticResource BrushComboBoxBackgroundGroupHeader}">
-                                                                <TextBlock VerticalAlignment="Center"
-                                                                           HorizontalAlignment="Left"
-                                                                           FontWeight="Bold"
-                                                                           Text="{Binding Name}" />
-                                                            </Border>
-                                                        </DataTemplate>
-                                                    </GroupStyle.HeaderTemplate>
-                                                </GroupStyle>
-                                            </ComboBox.GroupStyle>
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding AutoName}"/>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                    </controls:Form>
-                                </Border>
-                            </Grid>
-                        </GroupBox>
-
-                        <Grid Margin="0,8,0,0"
-                              >
-
-
-                            <Grid.Resources>
-                                <GroupStyle x:Key="StyleListBoxGroup">
-                                    <GroupStyle.HeaderTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock VerticalAlignment="Center"
-                                                       HorizontalAlignment="Left"
-                                                       FontWeight="Bold"
-                                                       Text="{Binding Name}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </GroupStyle.HeaderTemplate>
-                                </GroupStyle>
-
-                                <DataTemplate x:Key="DataTemplateListBoxItem">
-                                    <StackPanel>
-                                        <TextBlock Visibility="{Binding LedVisibility}" Text="{Binding LedId}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </Grid.Resources>
-
-                            <Grid.Visibility>
-                                <Binding Converter="{StaticResource NullToVisibilityConverter}" Path="SelectedSyncGroup"/>
-                            </Grid.Visibility>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="8" />
-                                <ColumnDefinition Width="300" />
-                            </Grid.ColumnDefinitions>
-
-
-                            <GroupBox Grid.Column="0" Margin="0,0,0,-87" x:Name="SyncLedsColumn" >
-                                <DockPanel>
-                                    <TextBlock DockPanel.Dock="Top"
-                                               HorizontalAlignment="Center" 
-                                               Margin="0,0,0,8" 
-                                               FontWeight="Bold" 
-                                               Text="{x:Static p:Resources.SyncedLEDsLabel}" />
-                                    -->
-        <!--<ListBox SelectionMode="Extended"
-                                             dd:DragDrop.IsDragSource="True"
-                                             dd:DragDrop.IsDropTarget="True"
-                                             dd:DragDrop.DropHandler="{Binding}"
-                                             ItemTemplate="{StaticResource DataTemplateListBoxItem}"
-                                             ItemsSource="{Binding SynchronizedLeds}"
-                                             ScrollViewer.VerticalScrollBarVisibility="Hidden">
-                                        <ListBox.GroupStyle>
-                                            <StaticResource ResourceKey="StyleListBoxGroup" />
-                                        </ListBox.GroupStyle>
-                                    </ListBox>-->
-        <!--
-                                    <ScrollViewer>
-                                        <ListView ItemsSource="{Binding Devices}" ItemTemplate="{DynamicResource DeviceGroupItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" PreviewMouseWheel="HandlePreviewMouseWheel" >
-                                        </ListView>
-                                    </ScrollViewer>
-                                </DockPanel>
-                            </GroupBox>
-                            <GroupBox Grid.Column="2" Margin="0,0,0,-87" x:Name="BannerColumn" >
-                                <StackPanel>
-                                    <Button Panel.ZIndex="2" Width="24" Height="24" HorizontalAlignment="Right" Margin="5" Click="CloseBanner_Click">
-                                        <Image Source="close.png"></Image>
-                                    </Button>
-                                    <Image Panel.ZIndex="1" Cursor="Hand" Margin="0,-35,0,0" MouseLeftButtonDown="BannerImage_MouseLeftButtonDown" x:Name="BannerImage" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill"/>
-                                </StackPanel>
-                            </GroupBox>
-                        </Grid>
-                    </DockPanel>
-                </DockPanel>
-            </AdornerDecorator>
-        </TabItem>-->
-
-        <!--
-        <TabItem Header="{x:Static p:Resources.Page5Header}">
-
-            <AdornerDecorator>
-                <DockPanel LastChildFill="True">
-                    <GroupBox DockPanel.Dock="Left" Margin="0,0,0,0" >
-
-
-    <ScrollViewer Grid.Row="1">
-                            <ListView ItemsSource="{Binding DeviceMappingViewModel}" ItemTemplate="{DynamicResource DeviceMapperItemTemplate}" Background="Transparent" Foreground="White" BorderBrush="Transparent" PreviewMouseWheel="HandlePreviewMouseWheel" >
-                            </ListView>
-                        </ScrollViewer>
-
-                    </GroupBox>
-                </DockPanel>
-            </AdornerDecorator>
-        </TabItem>
-      -->
-        <TabItem Header="{x:Static p:Resources.Page4Header}">
-            <AdornerDecorator>
-                <DockPanel LastChildFill="True">
-                    <GroupBox DockPanel.Dock="Left" Margin="0,0,0,0" >
-                        <TextBlock TextWrapping="Wrap"><Run Text="{x:Static p:Resources.AboutTitle}" FontSize="20"/><LineBreak /><Run Text="{x:Static p:Resources.AboutDescription}" /><LineBreak /><LineBreak /><Run Text="{x:Static p:Resources.TechSupportCTA}"/><LineBreak /><InlineUIContainer/><InlineUIContainer>
+            <TabItem Header="{x:Static p:Resources.Page4Header}">
+                <AdornerDecorator>
+                    <DockPanel LastChildFill="True">
+                        <GroupBox DockPanel.Dock="Left" Margin="0,0,0,0" >
+                            <TextBlock TextWrapping="Wrap"><Run Text="{x:Static p:Resources.AboutTitle}" FontSize="20"/><LineBreak /><Run Text="{x:Static p:Resources.AboutDescription}" /><LineBreak /><LineBreak /><Run Text="{x:Static p:Resources.TechSupportCTA}"/><LineBreak /><InlineUIContainer/><InlineUIContainer>
                                 <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding DiscordCommand}" >
                                         <StackPanel VerticalAlignment="Center" Height="Auto" Orientation="Horizontal">
                                 <Image Margin="0,0,2,0" Width="20" Height="20" Source="/RGBSync+;component/Resources/discord.png" />
@@ -871,108 +653,108 @@
                                 <Button Content="{x:Static p:Resources.LicenseButton}" Command="{Binding AttribCommand}"/>
                             </InlineUIContainer><LineBreak /><LineBreak /><Run Text="{x:Static p:Resources.TranslationsLabel}"/><LineBreak /><Run Text="Teun - Dutch (Nederlands)"/><LineBreak /><Run Text="Grifka - French (Français)"/><LineBreak /><Run Text="Crashniels -  German (Deutsch)"/><LineBreak /><Run Text="Sicily94 -  Italian (Italiano)"/><LineBreak /><Run Text="DrMeteor -  Portuguese (Português)"/><LineBreak /><Run Text="Ksusha Volkova -  Russian (русский)"/><LineBreak /><Run Text="Ed3n18 -  Spanish (Español)"/></TextBlock>
 
-                    </GroupBox>
-                </DockPanel>
-            </AdornerDecorator>
-        </TabItem>
-        <TabItem Header="{x:Static p:Resources.Page2Header}" VerticalAlignment="Top">
-            <AdornerDecorator>
-                <GroupBox VerticalAlignment="Top">
-                    <StackPanel Orientation="Vertical">
+                        </GroupBox>
+                    </DockPanel>
+                </AdornerDecorator>
+            </TabItem>
+            <TabItem Header="{x:Static p:Resources.Page2Header}" VerticalAlignment="Top">
+                <AdornerDecorator>
+                    <GroupBox VerticalAlignment="Top">
+                        <StackPanel Orientation="Vertical">
 
-                        <Grid>
-                            <Grid.Resources>
-                                <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="{x:Type Label}" />
-                                <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="{x:Type TextBlock}" />
-                                <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="{x:Type ListBox}" />
-                            </Grid.Resources>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="97*"/>
-                                <RowDefinition Height="81*"/>
-                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.Resources>
+                                    <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="{x:Type Label}" />
+                                    <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="{x:Type TextBlock}" />
+                                    <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="{x:Type ListBox}" />
+                                </Grid.Resources>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="97*"/>
+                                    <RowDefinition Height="81*"/>
+                                </Grid.RowDefinitions>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                            <controls:Form Grid.Column="0" Grid.ColumnSpan="6" Margin="10,0,199,120" Grid.RowSpan="2">
+                                <controls:Form Grid.Column="0" Grid.ColumnSpan="6" Margin="10,0,199,120" Grid.RowSpan="2">
 
-                                <Label controls:Form.IsLabel="True" 
+                                    <Label controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.UpdateText}"  Margin="0,0,-75,0" />
-                                <Button Margin="75,0,-75,0" Content="{x:Static p:Resources.CheckUpdateCommand}" Command="{Binding CheckUpdateCommand}"/>
+                                    <Button Margin="75,0,-75,0" Content="{x:Static p:Resources.CheckUpdateCommand}" Command="{Binding CheckUpdateCommand}"/>
 
-                                <Label controls:Form.IsLabel="True" 
+                                    <Label controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.VersionLabel}"  Margin="0,0,-75,0" />
-                                <TextBlock Margin="75,0,-75,0" Text="{Binding Version}" />
+                                    <TextBlock Margin="75,0,-75,0" Text="{Binding Version}" />
 
-                                <Label controls:Form.IsLabel="True" 
+                                    <Label controls:Form.IsLabel="True" 
                                        Content="Plugins:"  Margin="0,0,-75,0" />
-                                <Button  Margin="75,0,-75,0" Click="ManagePlugin" Content="{x:Static p:Resources.ManagePluginsBtn}"/>
+                                    <Button  Margin="75,0,-75,0" Click="ManagePlugin" Content="{x:Static p:Resources.ManagePluginsBtn}"/>
 
-                                <Label controls:Form.IsLabel="True" 
+                                    <Label controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.PremiumLabel}"  Margin="0,0,-75,0" />
-                                <StackPanel x:Name="InstalledBox" Visibility="{Binding PremiumStatus}">
-                                    <TextBlock Margin="75,4,-75,0" Text="{x:Static p:Resources.InstalledLabel}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" x:Name="NotInstalledBox" Visibility="{Binding NotPremiumStatus}">
-                                    <TextBlock Margin="15,4,0,0" Text="{x:Static p:Resources.NotInstalledLabel}" />
-                                    <Button Margin="10,1,0,0" Content="{x:Static p:Resources.PremiumCTAButton}" Click="Button_Click_1"/>
-                                </StackPanel>
+                                    <StackPanel x:Name="InstalledBox" Visibility="{Binding PremiumStatus}">
+                                        <TextBlock Margin="75,4,-75,0" Text="{x:Static p:Resources.InstalledLabel}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" x:Name="NotInstalledBox" Visibility="{Binding NotPremiumStatus}">
+                                        <TextBlock Margin="15,4,0,0" Text="{x:Static p:Resources.NotInstalledLabel}" />
+                                        <Button Margin="10,1,0,0" Content="{x:Static p:Resources.PremiumCTAButton}" Click="Button_Click_1"/>
+                                    </StackPanel>
 
-                                <Label controls:Form.IsLabel="True" 
+                                    <Label controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.ThemeLabel}"  Margin="0,0,-75,0" />
-                                <StackPanel Orientation="Horizontal" >
-                                    <ComboBox x:Name="ThemeBox" Margin="75,0,-75,0" >
-                                        <ComboBoxItem Selected="rgbSelected" x:Name="rgbItem" Content="RGB"/>
-                                        <ComboBoxItem Selected="darkSelected" x:Name="darkItem" Content="Dark"/>
-                                        <ComboBoxItem Visibility="Collapsed" Selected="customSelected" x:Name="customItem" Content="Custom"/>
-                                    </ComboBox>
-                                    <Button Margin="100,1,-100,0" Click="ApplyButton_Click" Content="{x:Static p:Resources.ApplyLabel}" x:Name="ApplyButton"  Visibility="Visible"/>
-                                </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <ComboBox x:Name="ThemeBox" Margin="75,0,-75,0" >
+                                            <ComboBoxItem Selected="rgbSelected" x:Name="rgbItem" Content="RGB"/>
+                                            <ComboBoxItem Selected="darkSelected" x:Name="darkItem" Content="Dark"/>
+                                            <ComboBoxItem Visibility="Collapsed" Selected="customSelected" x:Name="customItem" Content="Custom"/>
+                                        </ComboBox>
+                                        <Button Margin="100,1,-100,0" Click="ApplyButton_Click" Content="{x:Static p:Resources.ApplyLabel}" x:Name="ApplyButton"  Visibility="Visible"/>
+                                    </StackPanel>
 
-                                <Label controls:Form.IsLabel="True" 
+                                    <Label controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.LanguageLabel}"  Margin="0,0,-75,0" />
-                                <ComboBox x:Name="LangBox" SelectionChanged="Lang_SelectionChanged" Margin="75,0,-75,0">
-                                    <ComboBoxItem Selected="DutchSelected" x:Name="dutchItem" Content="Dutch (Nederlands)"/>
-                                    <ComboBoxItem Selected="EnglishSelected" x:Name="englishItem" Content="English"/>
-                                    <ComboBoxItem Selected="FrenchSelected" x:Name="frenchItem" Content="French (Français)"/>
-                                    <ComboBoxItem Selected="GermanSelected" x:Name="germanItem" Content="German (Deutsch)"/>
-                                    <ComboBoxItem Selected="ItalianSelected" x:Name="italianItem" Content="Italian (Italiano)"/>
-                                    <ComboBoxItem Selected="PortugeseSelected" x:Name="portugeseItem" Content="Portugese (Português)"/>
-                                    <ComboBoxItem Selected="RussianSelected" x:Name="russianItem" Content="Russian (русский)"/>
-                                    <ComboBoxItem Selected="SpanishSelected" x:Name="spanishItem" Content="Spanish (Español)"/>
-                                    <ComboBoxItem Selected="TestSelected" x:Name="testItem" Content="UI Test Mode" Visibility="Collapsed"/>
-                                </ComboBox>
+                                    <ComboBox x:Name="LangBox" SelectionChanged="Lang_SelectionChanged" Margin="75,0,-75,0">
+                                        <ComboBoxItem Selected="DutchSelected" x:Name="dutchItem" Content="Dutch (Nederlands)"/>
+                                        <ComboBoxItem Selected="EnglishSelected" x:Name="englishItem" Content="English"/>
+                                        <ComboBoxItem Selected="FrenchSelected" x:Name="frenchItem" Content="French (Français)"/>
+                                        <ComboBoxItem Selected="GermanSelected" x:Name="germanItem" Content="German (Deutsch)"/>
+                                        <ComboBoxItem Selected="ItalianSelected" x:Name="italianItem" Content="Italian (Italiano)"/>
+                                        <ComboBoxItem Selected="PortugeseSelected" x:Name="portugeseItem" Content="Portugese (Português)"/>
+                                        <ComboBoxItem Selected="RussianSelected" x:Name="russianItem" Content="Russian (русский)"/>
+                                        <ComboBoxItem Selected="SpanishSelected" x:Name="spanishItem" Content="Spanish (Español)"/>
+                                        <ComboBoxItem Selected="TestSelected" x:Name="testItem" Content="UI Test Mode" Visibility="Collapsed"/>
+                                    </ComboBox>
 
-                                <Label Margin="0,0,-75,0"  Width="350" controls:Form.IsLabel="True" 
+                                    <Label Margin="0,0,-75,0"  Width="350" controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.PollingRateLabel}" />
-                                <Slider Margin="-270,0,100,0" Minimum="1" Maximum="100" controls:Form.Fill="True" Width="400"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
+                                    <Slider Margin="-270,0,100,0" Minimum="1" Maximum="100" controls:Form.Fill="True" Width="400"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
                                         Value="{Binding UpdateRate}"
                                         attached:SliderValue.Unit="{x:Static p:Resources.PollingRateUnit}"
                                         ToolTip="{x:Static p:Resources.PollingRateTooltip}" />
 
-                                <Label controls:Form.IsLabel="True" Margin="0,0,-75,0"  Width="350"
+                                    <Label controls:Form.IsLabel="True" Margin="0,0,-75,0"  Width="350"
                                         Content="{x:Static p:Resources.RunasAdminLabel}" />
-                                <CheckBox Margin="75,0,-75,0" VerticalAlignment="Center" IsChecked="{Binding RunAsAdmin}"  Command="{Binding SetAdminCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White"  Content="{x:Static p:Resources.RunasAdmin}"/>
+                                    <CheckBox Margin="75,0,-75,0" VerticalAlignment="Center" IsChecked="{Binding RunAsAdmin}"  Command="{Binding SetAdminCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White"  Content="{x:Static p:Resources.RunasAdmin}"/>
 
-                                <Label controls:Form.IsLabel="True" Margin="0,0,-75,0"  Width="350"
+                                    <Label controls:Form.IsLabel="True" Margin="0,0,-75,0"  Width="350"
                                        Content="{x:Static p:Resources.MinimizationLabel}" />
-                                <CheckBox Margin="75,0,-75,0" VerticalAlignment="Center" IsChecked="{Binding IsMinimized}"  Command="{Binding OpenSetCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.MinimizationText}"/>
+                                    <CheckBox Margin="75,0,-75,0" VerticalAlignment="Center" IsChecked="{Binding IsMinimized}"  Command="{Binding OpenSetCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.MinimizationText}"/>
 
 
-                                <Label Margin="0,0,-75,0" controls:Form.IsLabel="True" 
+                                    <Label Margin="0,0,-75,0" controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.DiscordLabel}"
                                        />
-                                <CheckBox Margin="75,0,-75,0" ToolTip="{x:Static p:Resources.DiscordTooltip}" VerticalAlignment="Center" IsChecked="{Binding EnableDiscordRPC}"  Command="{Binding SetRPCCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.DiscordText}"/>
+                                    <CheckBox Margin="75,0,-75,0" ToolTip="{x:Static p:Resources.DiscordTooltip}" VerticalAlignment="Center" IsChecked="{Binding EnableDiscordRPC}"  Command="{Binding SetRPCCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.DiscordText}"/>
 
-                                <Label  Margin="0,0,-75,0" controls:Form.IsLabel="True" 
+                                    <Label  Margin="0,0,-75,0" controls:Form.IsLabel="True" 
                                        Content="Run on Startup:"   />
-                                <CheckBox IsChecked="{Binding EnableStartupDelay}"  Command="{Binding SetDelayCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="75,0,-60,0"></CheckBox>
+                                    <CheckBox IsChecked="{Binding EnableStartupDelay}"  Command="{Binding SetDelayCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="75,0,-60,0"></CheckBox>
 
-                                <Label  Margin="0,0,-75,0" controls:Form.IsLabel="True" 
+                                    <Label  Margin="0,0,-75,0" controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.DelayLabel}"   />
-                                <Slider Margin="-270,0,100,0" Minimum="0" Maximum="120"  Width="400" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
+                                    <Slider Margin="-270,0,100,0" Minimum="0" Maximum="120"  Width="400" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
                                         Value="{Binding StartupDelay}" IsEnabled="{Binding EnableStartupDelay}"
                                         attached:SliderValue.Unit="{x:Static p:Resources.DelayUnit}"
                                         ToolTip="{x:Static p:Resources.DelayTooltip}" />
@@ -980,97 +762,123 @@
 
 
 
-                            </controls:Form>
+                                </controls:Form>
 
-                            <controls:Form Grid.Column="1" Grid.ColumnSpan="6" Margin="10,0,199,120" Grid.RowSpan="2">
+                                <controls:Form Grid.Column="1" Grid.ColumnSpan="6" Margin="10,0,199,120" Grid.RowSpan="2">
 
-                                <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="{x:Static p:Resources.DevicesLabel}"  Margin="0,0,0,0" />
-                                <Button Command="{Binding OpenExcludeToolCommand}" Margin="10,0,0,-2"  Content="{x:Static p:Resources.ExcludeBtn}"/>
+                                    <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="{x:Static p:Resources.DevicesLabel}"  Margin="0,0,0,0" />
+                                    <Button Command="{Binding OpenExcludeToolCommand}" Margin="10,0,0,-2"  Content="{x:Static p:Resources.ExcludeBtn}"/>
 
 
 
-                            </controls:Form>
+                                </controls:Form>
 
-                            <ListBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Devices, Source={x:Static core:RGBSurface.Instance}}"
+                                <ListBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Devices, Source={x:Static core:RGBSurface.Instance}}"
                                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                                      ScrollViewer.HorizontalScrollBarVisibility="Visible"
                                      x:Name="AvailableDevicesListBox"
                                  Width="480" Padding="0,-190,0,10">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Style="{StaticResource StyleTextBlockForm}">
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="&gt;  {0} {1} ({2})">
-                                                    <Binding Path="DeviceInfo.Manufacturer" />
-                                                    <Binding Path="DeviceInfo.Model" />
-                                                    <Binding Path="DeviceInfo.DeviceType" />
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-
-                        </Grid>
-                    </StackPanel>
-                </GroupBox>
-            </AdornerDecorator>
-        </TabItem>
-        <TabItem Header="{x:Static p:Resources.StoreHeader}">
-
-            <AdornerDecorator>
-                <DockPanel LastChildFill="True" >
-                    <GroupBox DockPanel.Dock="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="56"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-
-                            <Grid Grid.Row="0" Background="#80eeeeee" Margin="-8,-8,-6,0">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                    <Button Background="#c0000000" BorderThickness="0" Margin="8,0" Click="ToggleExperimental" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0">
-                                        <Grid Margin="0">
-                                            <Rectangle Fill="Green" Margin="0" Visibility="{Binding ShowPreRelease, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
-                                                <TextBlock FontFamily="Segoe UI Symbol" FontSize="20" Foreground="White" VerticalAlignment="Center" ></TextBlock>
-                                                <TextBlock VerticalAlignment="Center" Margin="8,0">Experimental</TextBlock>
-                                            </StackPanel>
-                                        </Grid>
-                                    </Button>
-
-                                    <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="ReloadAllPlugins">
-                                        <Button.Background>
-                                            <ImageBrush Stretch="UniformToFill" ImageSource="/RGBSync+;component/Resources/Intro_Background.png"/>
-                                        </Button.Background>
-                                        <Grid Margin="0">
-                                            
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
-                                                <TextBlock FontFamily="Segoe UI Symbol" FontSize="18" Foreground="White" VerticalAlignment="Center" ></TextBlock>
-                                                <TextBlock VerticalAlignment="Center" Margin="8,0">Restart All</TextBlock>
-                                            </StackPanel>
-                                        </Grid>
-                                    </Button>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4"  VerticalAlignment="Center">
-                                    <GroupBox BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                            <Label  VerticalContentAlignment="Center" VerticalAlignment="Center">Filter:</Label>
-                                            <TextBox Text="{Binding PluginSearch}" Width="100" TextChanged="TextBox_TextChanged" x:Name="PluginSearchBox"></TextBox>
-                                        </StackPanel>
-                                    </GroupBox>
-
-                                </StackPanel>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Style="{StaticResource StyleTextBlockForm}">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="&gt;  {0} {1} ({2})">
+                                                        <Binding Path="DeviceInfo.Manufacturer" />
+                                                        <Binding Path="DeviceInfo.Model" />
+                                                        <Binding Path="DeviceInfo.DeviceType" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
 
                             </Grid>
-
-                            <ListView ItemsSource="{Binding Plugins}" ItemTemplate="{DynamicResource PluginItemTemplate}" Grid.Row="1" Margin="0,10,0,0"></ListView>
-                        </Grid>
-
+                        </StackPanel>
                     </GroupBox>
-                </DockPanel>
-            </AdornerDecorator>
-        </TabItem>
-    </TabControl>
+                </AdornerDecorator>
+            </TabItem>
+            <TabItem Header="{x:Static p:Resources.StoreHeader}">
+
+                <AdornerDecorator>
+                    <DockPanel LastChildFill="True" >
+                        <GroupBox DockPanel.Dock="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="56"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0" Background="#80eeeeee" Margin="-8,-8,-6,0">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <Button Background="#c0000000" BorderThickness="0" Margin="8,0" Click="ToggleExperimental" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0">
+                                            <Grid Margin="0">
+                                                <Rectangle Fill="Red" Margin="0" Visibility="{Binding ShowPreRelease, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
+                                                    <TextBlock FontFamily="Segoe UI Symbol" FontSize="24" Foreground="White" VerticalAlignment="Center" ></TextBlock>
+                                                    <TextBlock VerticalAlignment="Center" Margin="8,0">Experimental</TextBlock>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Button>
+
+                                        <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="ReloadAllPlugins">
+                                            <Button.Background>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="/RGBSync+;component/Resources/Intro_Background.png"/>
+                                            </Button.Background>
+                                            <Grid Margin="0">
+
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
+                                                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="White" VerticalAlignment="Center" ></TextBlock>
+                                                    <TextBlock VerticalAlignment="Center" Margin="8,0">Restart All</TextBlock>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Button>
+
+
+                                        <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="RefreshStore">
+                                            <Button.Background>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="/RGBSync+;component/Resources/Intro_Background.png"/>
+                                            </Button.Background>
+                                            <Grid Margin="0">
+
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
+                                                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="White" VerticalAlignment="Center" ></TextBlock>
+                                                    <TextBlock VerticalAlignment="Center" Margin="8,0">Refresh Store</TextBlock>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4"  VerticalAlignment="Center">
+                                        <GroupBox BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <Label  VerticalContentAlignment="Center" VerticalAlignment="Center">Filter:</Label>
+                                                <TextBox Text="{Binding PluginSearch}" Width="100" TextChanged="TextBox_TextChanged" x:Name="PluginSearchBox"></TextBox>
+                                            </StackPanel>
+                                        </GroupBox>
+
+                                    </StackPanel>
+
+                                </Grid>
+
+                                <ListView ItemsSource="{Binding Plugins}" ItemTemplate="{DynamicResource PluginItemTemplate}" Grid.Row="1" Margin="0,10,0,0"></ListView>
+                            </Grid>
+
+                        </GroupBox>
+                    </DockPanel>
+                </AdornerDecorator>
+            </TabItem>
+        </TabControl>
+
+        <Grid Background="#c0000000" Visibility="{Binding ShowModal, Converter={StaticResource BoolToVisibilityConverter}}" d:IsHidden="True">
+            <Grid Width="400" Height="100" Background="White" VerticalAlignment="Center">
+                <StackPanel Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock  FontFamily="Segoe UI" FontSize="36" FontWeight="Bold" Margin="10,0" Text="{Binding ModalText}"></TextBlock>
+
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+    </Grid>
+
 
 </controls:BlurredDecorationWindow>

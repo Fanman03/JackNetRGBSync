@@ -51,7 +51,7 @@ namespace RGBSyncPlus
         public bool PauseSyncing { get; set; } = false;
         public static ApplicationManager Instance { get; } = new ApplicationManager();
 
-        private ConfigurationWindow _configurationWindow;
+        public ConfigurationWindow ConfigurationWindow;
 
         public Settings Settings { get; set; } = new Settings();
 
@@ -101,6 +101,10 @@ namespace RGBSyncPlus
                 //try
                 {
                     NGSettings = JsonConvert.DeserializeObject<DeviceMappingModels.NGSettings>(json);
+                    if (NGSettings == null)
+                    {
+                        NGSettings=new DeviceMappingModels.NGSettings();
+                    }
                     Logger.Info("Settings loaded");
                     HotLoadNGSettings();
                 }
@@ -191,10 +195,13 @@ namespace RGBSyncPlus
 
         public bool SettingsRequiresSave()
         {
-            if (NGSettings.AreSettingsStale) return true;
-            if (NGSettings.DeviceSettings != null)
+            if (NGSettings != null)
             {
-                if (NGSettings.DeviceSettings.Any(x => x.AreDeviceSettingsStale)) return true;
+                if (NGSettings.AreSettingsStale) return true;
+                if (NGSettings.DeviceSettings != null)
+                {
+                    if (NGSettings.DeviceSettings.Any(x => x.AreDeviceSettingsStale)) return true;
+                }
             }
 
             return false;
@@ -567,7 +574,16 @@ namespace RGBSyncPlus
 
         public void UnloadSLSProviders()
         {
-            SLSManager.Drivers.ForEach(x => x.Dispose());
+            SLSManager.Drivers.ForEach(x =>
+            {
+                try
+                {
+                    x.Dispose();
+                }
+                catch
+                {
+                }
+            });
 
             SLSManager.Drivers.Clear();
 
@@ -593,7 +609,7 @@ namespace RGBSyncPlus
             loadingSplash.ProgressBar.Maximum = pluginFolders.Length;
 
             int ct = 0;
-
+            List<Exception> log = new List<Exception>();
             foreach (var pluginFolder in pluginFolders)
             {
                 ct++;
@@ -650,6 +666,9 @@ namespace RGBSyncPlus
                                     catch (Exception ex)
                                     {
                                         Debug.WriteLine(ex.Message);
+                                        log.Add(ex);
+
+
                                     }
 
                                 }
@@ -663,6 +682,7 @@ namespace RGBSyncPlus
                         catch (Exception e)
                         {
                             Debug.WriteLine(e.Message);
+                            log.Add(e);
                         }
                     }
                 }
@@ -671,7 +691,7 @@ namespace RGBSyncPlus
             }
 
             //SLSManager.Init();
-
+            Debug.WriteLine(log);
             loadingSplash.LoadingText.Text = "Updating SLS devices";
             UpdateSLSDevices();
         }
@@ -764,11 +784,11 @@ namespace RGBSyncPlus
             }
             if (AppSettings.MinimizeToTray)
             {
-                if (_configurationWindow.IsVisible)
-                    _configurationWindow.Hide();
+                if (ConfigurationWindow.IsVisible)
+                    ConfigurationWindow.Hide();
             }
             else
-                _configurationWindow.WindowState = WindowState.Minimized;
+                ConfigurationWindow.WindowState = WindowState.Minimized;
         }
 
         public void OpenConfiguration()
@@ -796,12 +816,12 @@ namespace RGBSyncPlus
                     }
                 });
             }
-            if (_configurationWindow == null) _configurationWindow = new ConfigurationWindow();
-            if (!_configurationWindow.IsVisible)
-                _configurationWindow.Show();
+            if (ConfigurationWindow == null) ConfigurationWindow = new ConfigurationWindow();
+            if (!ConfigurationWindow.IsVisible)
+                ConfigurationWindow.Show();
 
-            if (_configurationWindow.WindowState == WindowState.Minimized)
-                _configurationWindow.WindowState = WindowState.Normal;
+            if (ConfigurationWindow.WindowState == WindowState.Minimized)
+                ConfigurationWindow.WindowState = WindowState.Normal;
 
             //TODO make better update check system
             /*            try
