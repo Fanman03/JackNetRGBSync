@@ -16,6 +16,16 @@
     <SolidColorBrush x:Key="BrushBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlack}" />
     <SolidColorBrush x:Key="BrushForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />
 
+    <SolidColorBrush x:Key="Tc-Blue" Color="#ff007bff"></SolidColorBrush>
+    <SolidColorBrush x:Key="Tc-Green" Color="#ff28a745"></SolidColorBrush>
+    <SolidColorBrush x:Key="Tc-Red" Color="#ffdc3545"></SolidColorBrush>
+    <SolidColorBrush x:Key="Tc-Yellow" Color="#ffffc107"></SolidColorBrush>
+    <SolidColorBrush x:Key="Tc-Cyan" Color="#ff17a2b8"></SolidColorBrush>
+
+    <SolidColorBrush x:Key="Tc-LightGray" Color="#fff8f9fa"></SolidColorBrush>
+    <SolidColorBrush x:Key="Tc-MediumGray" Color="#ff6c757d"></SolidColorBrush>
+    <SolidColorBrush x:Key="Tc-DarkGray" Color="#ff343a40"></SolidColorBrush>
+
     <!-- Window -->
     <SolidColorBrush x:Key="BrushWindowBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorBlackTransparent}" />
     <SolidColorBrush x:Key="BrushWindowBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlack}" />

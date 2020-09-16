@@ -61,704 +61,416 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string _ {
-            get {
-                return ResourceManager.GetString(".", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string __ {
-            get {
-                return ResourceManager.GetString("..", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The one-stop utlility for syncing your RGB perhipherals and components. Compatible with Corsair iCUE, Asus AURA, Razer Synapse, Logitech Gaming, EVGA Precision X1, and Cooler Master Masterplus..
-        /// </summary>
-        public static string AboutDescription {
-            get {
-                return ResourceManager.GetString("AboutDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to JackNet RGB Sync v1.8.
-        /// </summary>
-        public static string AboutTitle {
-            get {
-                return ResourceManager.GetString("AboutTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Yes.
-        /// </summary>
-        public static string AffirmativeCommand {
-            get {
-                return ResourceManager.GetString("AffirmativeCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Apply.
-        /// </summary>
-        public static string ApplyLabel {
-            get {
-                return ResourceManager.GetString("ApplyLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Available LEDs.
-        /// </summary>
-        public static string AvaliableLEDsLabel {
-            get {
-                return ResourceManager.GetString("AvaliableLEDsLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Check for Update.
-        /// </summary>
-        public static string CheckUpdateCommand {
-            get {
-                return ResourceManager.GetString("CheckUpdateCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Client.
-        /// </summary>
-        public static string ClientHeading {
-            get {
-                return ResourceManager.GetString("ClientHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Copy to Clipboard.
         /// </summary>
-        public static string ClipboardCommand {
+        public static string Dialog_CopyCommand {
             get {
-                return ResourceManager.GetString("ClipboardCommand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Startup delay:.
-        /// </summary>
-        public static string DelayLabel {
-            get {
-                return ResourceManager.GetString("DelayLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Defines how long to wait, if at all, before the program starts..
-        /// </summary>
-        public static string DelayTooltip {
-            get {
-                return ResourceManager.GetString("DelayTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Seconds.
-        /// </summary>
-        public static string DelayUnit {
-            get {
-                return ResourceManager.GetString("DelayUnit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Devices.
-        /// </summary>
-        public static string DevicesHeader {
-            get {
-                return ResourceManager.GetString("DevicesHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Devices:.
-        /// </summary>
-        public static string DevicesLabel {
-            get {
-                return ResourceManager.GetString("DevicesLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Discord RPC:.
-        /// </summary>
-        public static string DiscordLabel {
-            get {
-                return ResourceManager.GetString("DiscordLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enable Discord Rich Presence.
-        /// </summary>
-        public static string DiscordText {
-            get {
-                return ResourceManager.GetString("DiscordText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Displays that you are using JackNet RGB Sync as well as the name of the active profile on your Discord profile..
-        /// </summary>
-        public static string DiscordTooltip {
-            get {
-                return ResourceManager.GetString("DiscordTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enable Client.
-        /// </summary>
-        public static string EnableClientLabel {
-            get {
-                return ResourceManager.GetString("EnableClientLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enable Server.
-        /// </summary>
-        public static string EnableServerLabel {
-            get {
-                return ResourceManager.GetString("EnableServerLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to EVGA support written by emulamer.
-        /// </summary>
-        public static string EVGANotice {
-            get {
-                return ResourceManager.GetString("EVGANotice", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Exclude Devices.
-        /// </summary>
-        public static string ExcludeBtn {
-            get {
-                return ResourceManager.GetString("ExcludeBtn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Exit.
-        /// </summary>
-        public static string ExitItem {
-            get {
-                return ResourceManager.GetString("ExitItem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Export Groups.
-        /// </summary>
-        public static string ExportButton {
-            get {
-                return ResourceManager.GetString("ExportButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This feature requires Premium. Would you like to go to the webpage where you can purchase Premium?.
-        /// </summary>
-        public static string FeatureNotAvailable {
-            get {
-                return ResourceManager.GetString("FeatureNotAvailable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Name:.
-        /// </summary>
-        public static string GroupNameLabel {
-            get {
-                return ResourceManager.GetString("GroupNameLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Import Groups.
-        /// </summary>
-        public static string ImportButton {
-            get {
-                return ResourceManager.GetString("ImportButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Installed.
-        /// </summary>
-        public static string InstalledLabel {
-            get {
-                return ResourceManager.GetString("InstalledLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Join my Discord server.
-        /// </summary>
-        public static string JoinDiscordButton {
-            get {
-                return ResourceManager.GetString("JoinDiscordButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Language:.
-        /// </summary>
-        public static string LanguageLabel {
-            get {
-                return ResourceManager.GetString("LanguageLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to View Opensource Licenses.
-        /// </summary>
-        public static string LicenseButton {
-            get {
-                return ResourceManager.GetString("LicenseButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Manage Plugins.
-        /// </summary>
-        public static string ManagePluginsBtn {
-            get {
-                return ResourceManager.GetString("ManagePluginsBtn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Control LED:.
-        /// </summary>
-        public static string MasterLEDLabel {
-            get {
-                return ResourceManager.GetString("MasterLEDLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Minimization:.
-        /// </summary>
-        public static string MinimizationLabel {
-            get {
-                return ResourceManager.GetString("MinimizationLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enable Minimization.
-        /// </summary>
-        public static string MinimizationText {
-            get {
-                return ResourceManager.GetString("MinimizationText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MSI support written by Hex3l..
-        /// </summary>
-        public static string MSINotice {
-            get {
-                return ResourceManager.GetString("MSINotice", resourceCulture);
+                return ResourceManager.GetString("Dialog.CopyCommand", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
-        public static string NegativeCommand {
+        public static string Dialog_No {
             get {
-                return ResourceManager.GetString("NegativeCommand", resourceCulture);
+                return ResourceManager.GetString("Dialog.No", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New LED Group.
+        ///   Looks up a localized string similar to NoPremiumTitle.
         /// </summary>
-        public static string NewGroupButton {
+        public static string Dialog_NoPremiumTitle {
             get {
-                return ResourceManager.GetString("NewGroupButton", resourceCulture);
+                return ResourceManager.GetString("Dialog.NoPremiumTitle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No LED group selected ....
+        ///   Looks up a localized string similar to You are currently using the latest version of the app..
         /// </summary>
-        public static string NoGroupSelected {
+        public static string Dialog_NoUpdateText {
             get {
-                return ResourceManager.GetString("NoGroupSelected", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Not Installed.
-        /// </summary>
-        public static string NotInstalledLabel {
-            get {
-                return ResourceManager.GetString("NotInstalledLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No update found. You are currently using the latest version of the application..
-        /// </summary>
-        public static string NoUpdateText {
-            get {
-                return ResourceManager.GetString("NoUpdateText", resourceCulture);
+                return ResourceManager.GetString("Dialog.NoUpdateText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to No Update Available.
         /// </summary>
-        public static string NoUpdateTitle {
+        public static string Dialog_NoUpdateTitle {
             get {
-                return ResourceManager.GetString("NoUpdateTitle", resourceCulture);
+                return ResourceManager.GetString("Dialog.NoUpdateTitle", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
-        public static string OKCommand {
+        public static string Dialog_OKCommand {
             get {
-                return ResourceManager.GetString("OKCommand", resourceCulture);
+                return ResourceManager.GetString("Dialog.OKCommand", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open UI.
+        ///   Looks up a localized string similar to An update to RGB Sync is available. Would you like to update?.
         /// </summary>
-        public static string OpenUIItem {
+        public static string Dialog_UpdateText {
             get {
-                return ResourceManager.GetString("OpenUIItem", resourceCulture);
+                return ResourceManager.GetString("Dialog.UpdateText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LED Groups.
+        ///   Looks up a localized string similar to Update Available.
         /// </summary>
-        public static string Page1Header {
+        public static string Dialog_UpdateTitle {
             get {
-                return ResourceManager.GetString("Page1Header", resourceCulture);
+                return ResourceManager.GetString("Dialog.UpdateTitle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Settings.
+        ///   Looks up a localized string similar to Yes.
         /// </summary>
-        public static string Page2Header {
+        public static string Dialog_Yes {
             get {
-                return ResourceManager.GetString("Page2Header", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to About.
-        /// </summary>
-        public static string Page4Header {
-            get {
-                return ResourceManager.GetString("Page4Header", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Device Mapping.
-        /// </summary>
-        public static string Page5Header {
-            get {
-                return ResourceManager.GetString("Page5Header", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pick File.
-        /// </summary>
-        public static string PickFileLabel {
-            get {
-                return ResourceManager.GetString("PickFileLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Polling Rate:.
-        /// </summary>
-        public static string PollingRateLabel {
-            get {
-                return ResourceManager.GetString("PollingRateLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Defines how fast the data is updated. Low value reduce CPU usage but might cause stuttering..
-        /// </summary>
-        public static string PollingRateTooltip {
-            get {
-                return ResourceManager.GetString("PollingRateTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Updates per Second.
-        /// </summary>
-        public static string PollingRateUnit {
-            get {
-                return ResourceManager.GetString("PollingRateUnit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Get Premium.
-        /// </summary>
-        public static string PremiumCTAButton {
-            get {
-                return ResourceManager.GetString("PremiumCTAButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Feature not Available.
-        /// </summary>
-        public static string PremiumFeatureTitle {
-            get {
-                return ResourceManager.GetString("PremiumFeatureTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Premium:.
-        /// </summary>
-        public static string PremiumLabel {
-            get {
-                return ResourceManager.GetString("PremiumLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Profile Name:.
-        /// </summary>
-        public static string ProfileNameLabel {
-            get {
-                return ResourceManager.GetString("ProfileNameLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove LED Group?.
-        /// </summary>
-        public static string RemoveHeader {
-            get {
-                return ResourceManager.GetString("RemoveHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure that you want to delete the group.
-        /// </summary>
-        public static string RemovePrompt {
-            get {
-                return ResourceManager.GetString("RemovePrompt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Restart App.
-        /// </summary>
-        public static string RestartAppItem {
-            get {
-                return ResourceManager.GetString("RestartAppItem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to JackNet RGB Sync is powered by RGB.NET by Darth Affe.
-        /// </summary>
-        public static string RGBNetNotice {
-            get {
-                return ResourceManager.GetString("RGBNetNotice", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Run as Admin.
-        /// </summary>
-        public static string RunasAdmin {
-            get {
-                return ResourceManager.GetString("RunasAdmin", resourceCulture);
+                return ResourceManager.GetString("Dialog.Yes", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Run as Admin:.
         /// </summary>
-        public static string RunasAdminLabel {
+        public static string Settings_AdminLabel {
             get {
-                return ResourceManager.GetString("RunasAdminLabel", resourceCulture);
+                return ResourceManager.GetString("Settings.AdminLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server.
+        ///   Looks up a localized string similar to AdminText.
         /// </summary>
-        public static string ServerHeading {
+        public static string Settings_AdminText {
             get {
-                return ResourceManager.GetString("ServerHeading", resourceCulture);
+                return ResourceManager.GetString("Settings.AdminText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server IP:.
+        ///   Looks up a localized string similar to Startup Delay:.
         /// </summary>
-        public static string ServerIPLabel {
+        public static string Settings_DelayLabel {
             get {
-                return ResourceManager.GetString("ServerIPLabel", resourceCulture);
+                return ResourceManager.GetString("Settings.DelayLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server Port:.
+        ///   Looks up a localized string similar to DelayToolTip.
         /// </summary>
-        public static string ServerPortLabel {
+        public static string Settings_DelayToolTip {
             get {
-                return ResourceManager.GetString("ServerPortLabel", resourceCulture);
+                return ResourceManager.GetString("Settings.DelayToolTip", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start Client.
+        ///   Looks up a localized string similar to Seconds.
         /// </summary>
-        public static string StartClientButton {
+        public static string Settings_DelayUnit {
             get {
-                return ResourceManager.GetString("StartClientButton", resourceCulture);
+                return ResourceManager.GetString("Settings.DelayUnit", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start Server.
+        ///   Looks up a localized string similar to Devices:.
         /// </summary>
-        public static string StartServerButton {
+        public static string Settings_DevicesLabel {
             get {
-                return ResourceManager.GetString("StartServerButton", resourceCulture);
+                return ResourceManager.GetString("Settings.DevicesLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Store.
+        ///   Looks up a localized string similar to Discord:.
         /// </summary>
-        public static string StoreHeader {
+        public static string Settings_DiscordLabel {
             get {
-                return ResourceManager.GetString("StoreHeader", resourceCulture);
+                return ResourceManager.GetString("Settings.DiscordLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Synchronized LEDs.
+        ///   Looks up a localized string similar to DiscordText.
         /// </summary>
-        public static string SyncedLEDsLabel {
+        public static string Settings_DiscordText {
             get {
-                return ResourceManager.GetString("SyncedLEDsLabel", resourceCulture);
+                return ResourceManager.GetString("Settings.DiscordText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Having an issue or need help setting up this program?.
+        ///   Looks up a localized string similar to DiscordToolTip.
         /// </summary>
-        public static string TechSupportCTA {
+        public static string Settings_DiscordToolTip {
             get {
-                return ResourceManager.GetString("TechSupportCTA", resourceCulture);
+                return ResourceManager.GetString("Settings.DiscordToolTip", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tech Support.
+        ///   Looks up a localized string similar to Language:.
         /// </summary>
-        public static string TechSupportItem {
+        public static string Settings_LanguageLabel {
             get {
-                return ResourceManager.GetString("TechSupportItem", resourceCulture);
+                return ResourceManager.GetString("Settings.LanguageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable Minimization:.
+        /// </summary>
+        public static string Settings_MinimizationLabel {
+            get {
+                return ResourceManager.GetString("Settings.MinimizationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MinimizationText.
+        /// </summary>
+        public static string Settings_MinimizationText {
+            get {
+                return ResourceManager.GetString("Settings.MinimizationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Polling Rate:.
+        /// </summary>
+        public static string Settings_PollingRateLabel {
+            get {
+                return ResourceManager.GetString("Settings.PollingRateLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PollingRateTooltip.
+        /// </summary>
+        public static string Settings_PollingRateToolTip {
+            get {
+                return ResourceManager.GetString("Settings.PollingRateToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PollingRateUnit.
+        /// </summary>
+        public static string Settings_PollingRateUnit {
+            get {
+                return ResourceManager.GetString("Settings.PollingRateUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.ThemeApplyBtnText.
+        /// </summary>
+        public static string Settings_ThemeApplyBtnText {
+            get {
+                return ResourceManager.GetString("Settings.ThemeApplyBtnText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Theme:.
         /// </summary>
-        public static string ThemeLabel {
+        public static string Settings_ThemeLabel {
             get {
-                return ResourceManager.GetString("ThemeLabel", resourceCulture);
+                return ResourceManager.GetString("Settings.ThemeLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to RGB Sync - Configuration.
+        ///   Looks up a localized string similar to Check for Update.
         /// </summary>
-        public static string Title {
+        public static string Settings_UpdateBtnText {
             get {
-                return ResourceManager.GetString("Title", resourceCulture);
+                return ResourceManager.GetString("Settings.UpdateBtnText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Translations provided by:.
+        ///   Looks up a localized string similar to Updates:.
         /// </summary>
-        public static string TranslationsLabel {
+        public static string Settings_UpdateLabel {
             get {
-                return ResourceManager.GetString("TranslationsLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An update to JackNet RGB Sync is available. Would you like to update?.
-        /// </summary>
-        public static string UpdateAvaiableText {
-            get {
-                return ResourceManager.GetString("UpdateAvaiableText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Update:.
-        /// </summary>
-        public static string UpdateText {
-            get {
-                return ResourceManager.GetString("UpdateText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Update Available!.
-        /// </summary>
-        public static string UpdateTitle {
-            get {
-                return ResourceManager.GetString("UpdateTitle", resourceCulture);
+                return ResourceManager.GetString("Settings.UpdateLabel", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Version:.
         /// </summary>
-        public static string VersionLabel {
+        public static string Settings_VersionLabel {
             get {
-                return ResourceManager.GetString("VersionLabel", resourceCulture);
+                return ResourceManager.GetString("Settings.VersionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Experimental.
+        /// </summary>
+        public static string Store_ExperimentalBtnText {
+            get {
+                return ResourceManager.GetString("Store.ExperimentalBtnText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter:.
+        /// </summary>
+        public static string Store_FilterLabel {
+            get {
+                return ResourceManager.GetString("Store.FilterLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disable.
+        /// </summary>
+        public static string Store_Plugin_DisableBtnLabel {
+            get {
+                return ResourceManager.GetString("Store.Plugin.DisableBtnLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Install .
+        /// </summary>
+        public static string Store_Plugin_InstallBtnLabel {
+            get {
+                return ResourceManager.GetString("Store.Plugin.InstallBtnLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installed .
+        /// </summary>
+        public static string Store_Plugin_InstalledBtnLabel {
+            get {
+                return ResourceManager.GetString("Store.Plugin.InstalledBtnLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Versions.
+        /// </summary>
+        public static string Store_Plugin_VersionsBtnLabel {
+            get {
+                return ResourceManager.GetString("Store.Plugin.VersionsBtnLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh Store.
+        /// </summary>
+        public static string Store_RefreshBtnText {
+            get {
+                return ResourceManager.GetString("Store.RefreshBtnText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart All.
+        /// </summary>
+        public static string Store_RestartAllBtnText {
+            get {
+                return ResourceManager.GetString("Store.RestartAllBtnText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit App.
+        /// </summary>
+        public static string TrayMenu_ExitAppItem {
+            get {
+                return ResourceManager.GetString("TrayMenu.ExitAppItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open App.
+        /// </summary>
+        public static string TrayMenu_OpenUIItem {
+            get {
+                return ResourceManager.GetString("TrayMenu.OpenUIItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart App.
+        /// </summary>
+        public static string TrayMenu_RestartAppItem {
+            get {
+                return ResourceManager.GetString("TrayMenu.RestartAppItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tech Support.
+        /// </summary>
+        public static string TrayMenu_TechSupportItem {
+            get {
+                return ResourceManager.GetString("TrayMenu.TechSupportItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string UI_AboutTabHeader {
+            get {
+                return ResourceManager.GetString("UI.AboutTabHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RGB Sync.
+        /// </summary>
+        public static string UI_AppName {
+            get {
+                return ResourceManager.GetString("UI.AppName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Devices.
+        /// </summary>
+        public static string UI_DeviceTabHeader {
+            get {
+                return ResourceManager.GetString("UI.DeviceTabHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string UI_SettingsTabHeader {
+            get {
+                return ResourceManager.GetString("UI.SettingsTabHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Store.
+        /// </summary>
+        public static string UI_StoreTabHeader {
+            get {
+                return ResourceManager.GetString("UI.StoreTabHeader", resourceCulture);
             }
         }
     }

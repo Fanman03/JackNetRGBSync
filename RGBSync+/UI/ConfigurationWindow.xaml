@@ -13,7 +13,7 @@
                                   xmlns:dd="urn:gong-wpf-dragdrop"
                                   xmlns:Converter="clr-namespace:RGBSyncPlus.Converter" x:Class="RGBSyncPlus.UI.ConfigurationWindow"
                                   mc:Ignorable="d"
-                                  Title="{x:Static p:Resources.Title}" 
+                                  Title="{x:Static p:Resources.UI_AppName}" 
                                   Icon="pack://application:,,,/RGBSync+;component/Resources/HiRes.ico"
                                   IconCommand="{Binding OpenHomepageCommand}"
                                   Width="1280"  Height="720"
@@ -127,7 +127,7 @@
 
                     </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Column="1" Width="102" Height="52" Background="#ff007F0E" Margin="8,0,0,0" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid Grid.Column="1" Width="102" Height="52" Background="#ff015eea" Margin="8,0,0,0" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisibilityConverter}}">
                         <Button HorizontalAlignment="Center" Margin="0" VerticalContentAlignment="Center" MouseUp="UIElement_OnMouseUp" FontFamily="Segoe UI SemiLight" Background="Transparent" VerticalAlignment="Center" FontSize="36" Padding="0" BorderThickness="0">Edit</Button>
 
 
@@ -186,7 +186,7 @@
                             </Grid>
 
                             <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <Border BorderThickness="4" BorderBrush="#ff007F0E">
+                                <Border BorderThickness="4" BorderBrush="{StaticResource Tc-Blue}">
                                     <Image Source="selectedCorner.png" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right"></Image>
                                 </Border>
                             </Grid>
@@ -269,7 +269,7 @@
                             </Grid>
 
                             <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Selected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <Border BorderThickness="4" BorderBrush="#ff007F0E">
+                                <Border BorderThickness="4" BorderBrush="{StaticResource Tc-Blue}">
                                     <Image Source="selectedCorner.png" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right"></Image>
                                 </Border>
                             </Grid>
@@ -334,7 +334,7 @@
                     </StackPanel>
                     <!--<Border BorderBrush="White" BorderThickness="1"></Border>-->
                     <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Selected, Converter={StaticResource BoolToVisibilityConverter}}" >
-                        <Border BorderThickness="4" BorderBrush="#ff007F0E">
+                        <Border BorderThickness="4" BorderBrush="{StaticResource Tc-Blue}">
                             <Image Source="selectedCorner.png" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right"></Image>
                         </Border>
                     </Grid>
@@ -351,8 +351,8 @@
                     </Grid.ColumnDefinitions>
 
 
-                    <Rectangle Grid.ColumnSpan="5" Fill="#8080ff80" Visibility="{Binding Installed, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
-                    <Rectangle Grid.ColumnSpan="5" Fill="#ff802020" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
+                    <Rectangle Grid.ColumnSpan="5" Fill="{StaticResource Tc-Blue}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
+                    <Rectangle Grid.ColumnSpan="5" Fill="{StaticResource Tc-Red}" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
 
                     <Grid Grid.Column="0" Background="Black" Margin="10">
                         <Image Source="{Binding Image}" Width="80" Height="80"></Image>
@@ -366,34 +366,28 @@
 
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Margin="10,0,0,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Older version" VerticalAlignment="Center" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
-                            <TextBlock Margin="10,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Installed" VerticalAlignment="Center" Visibility="{Binding Installed, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                            <TextBlock Margin="10,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{x:Static p:Resources.Store_Plugin_InstallBtnLabel}" VerticalAlignment="Center" Visibility="{Binding Installed, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
                         </StackPanel>
                         <TextBlock Margin="10,0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Blurb}" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
                     </StackPanel>
                     <Grid Grid.Column="4"  Visibility="{Binding InstalledButOutdated, Converter={StaticResource InvertedBoolToVisibilityConverter}}">
-                        <Button Background="Red" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"  Visibility="{Binding Installed, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Disable" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        <Button Background="{StaticResource Tc-Red}" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"  Visibility="{Binding Installed, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{x:Static p:Resources.Store_Plugin_DisableBtnLabel}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
                         </Button>
                     </Grid>
 
 
 
-                    <Button Grid.Column="4" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="10"  Visibility="{Binding Installed, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="InstallPlugin">
-                        <Button.Background>
-                            <ImageBrush Stretch="UniformToFill" ImageSource="/RGBSync+;component/Resources/Intro_Background.png"/>
-                        </Button.Background>
+                    <Button Grid.Column="4" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="10"  Visibility="{Binding Installed, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="InstallPlugin" Background="{StaticResource Tc-Green}">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Install " VerticalAlignment="Center" HorizontalAlignment="Center"  Visibility="{Binding InstalledButOutdated, Converter={StaticResource InvertedBoolToVisibilityConverter}}"></TextBlock>
+                            <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{x:Static p:Resources.Store_Plugin_InstallBtnLabel}" VerticalAlignment="Center" HorizontalAlignment="Center"  Visibility="{Binding InstalledButOutdated, Converter={StaticResource InvertedBoolToVisibilityConverter}}"></TextBlock>
 
                             <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Version}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
 
                         </StackPanel>
                     </Button>
 
-                    <Button Grid.Column="4" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="10"  Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisibilityConverter}}" Click="InstallPlugin">
-                        <Button.Background>
-                            <ImageBrush Stretch="UniformToFill" ImageSource="/RGBSync+;component/Resources/Intro_Background.png"/>
-                        </Button.Background>
+                    <Button Grid.Column="4" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="10" Background="{StaticResource Tc-Blue}"  Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisibilityConverter}}" Click="InstallPlugin">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Upgrade to " VerticalAlignment="Center" HorizontalAlignment="Center"  Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
@@ -404,11 +398,11 @@
 
 
 
-                    <Button Grid.Column="3" Background="DarkCyan" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="10" >
+                    <Button Grid.Column="3" Background="#ff17a2b8" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="10" >
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Releases}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-                            <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text=" Versions" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                            <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{x:Static p:Resources.Store_Plugin_VersionsBtnLabel}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
                         </StackPanel>
                     </Button>
                 </Grid>
@@ -422,7 +416,7 @@
     </controls:BlurredDecorationWindow.DataContext>
     <Grid x:Name="ContainingGrid">
         <TabControl Style="{StaticResource StyleTabControlNavigation}" >
-            <TabItem Header="{x:Static p:Resources.DevicesHeader}">
+            <TabItem Header="{x:Static p:Resources.UI_DeviceTabHeader}">
                 <AdornerDecorator>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -636,28 +630,10 @@
                 </AdornerDecorator>
             </TabItem>
 
-            <TabItem Header="{x:Static p:Resources.Page4Header}">
-                <AdornerDecorator>
-                    <DockPanel LastChildFill="True">
-                        <GroupBox DockPanel.Dock="Left" Margin="0,0,0,0" >
-                            <TextBlock TextWrapping="Wrap"><Run Text="{x:Static p:Resources.AboutTitle}" FontSize="20"/><LineBreak /><Run Text="{x:Static p:Resources.AboutDescription}" /><LineBreak /><LineBreak /><Run Text="{x:Static p:Resources.TechSupportCTA}"/><LineBreak /><InlineUIContainer/><InlineUIContainer>
-                                <Button DockPanel.Dock="Bottom" HorizontalAlignment="Center" Command="{Binding DiscordCommand}" >
-                                        <StackPanel VerticalAlignment="Center" Height="Auto" Orientation="Horizontal">
-                                <Image Margin="0,0,2,0" Width="20" Height="20" Source="/RGBSync+;component/Resources/discord.png" />
-                                <TextBlock VerticalAlignment="Center" Text="{x:Static p:Resources.JoinDiscordButton}"/>
-                            </StackPanel>
-                             </Button>
-                                
-                            </InlineUIContainer><LineBreak /><LineBreak /><InlineUIContainer><Image Height="50" Width="50" Margin="2,2,4,2" Source="/RGBSync+;component/Resources/argebee_old.ico"/>
-                            </InlineUIContainer><Run BaselineAlignment="Center" Text="{x:Static p:Resources.RGBNetNotice}"/><LineBreak /><Run BaselineAlignment="Center" Text="{x:Static p:Resources.EVGANotice}"/><LineBreak /><Run BaselineAlignment="Center" Text="{x:Static p:Resources.MSINotice}"/><LineBreak/><LineBreak/><InlineUIContainer>
-                                <Button Content="{x:Static p:Resources.LicenseButton}" Command="{Binding AttribCommand}"/>
-                            </InlineUIContainer><LineBreak /><LineBreak /><Run Text="{x:Static p:Resources.TranslationsLabel}"/><LineBreak /><Run Text="Teun - Dutch (Nederlands)"/><LineBreak /><Run Text="Grifka - French (Français)"/><LineBreak /><Run Text="Crashniels -  German (Deutsch)"/><LineBreak /><Run Text="Sicily94 -  Italian (Italiano)"/><LineBreak /><Run Text="DrMeteor -  Portuguese (Português)"/><LineBreak /><Run Text="Ksusha Volkova -  Russian (русский)"/><LineBreak /><Run Text="Ed3n18 -  Spanish (Español)"/></TextBlock>
-
-                        </GroupBox>
-                    </DockPanel>
-                </AdornerDecorator>
+            <TabItem Header="{x:Static p:Resources.UI_AboutTabHeader}">
+                <TextBlock>TODO</TextBlock>
             </TabItem>
-            <TabItem Header="{x:Static p:Resources.Page2Header}" VerticalAlignment="Top">
+            <TabItem Header="{x:Static p:Resources.UI_SettingsTabHeader}" VerticalAlignment="Top">
                 <AdornerDecorator>
                     <GroupBox VerticalAlignment="Top">
                         <StackPanel Orientation="Vertical">
@@ -674,47 +650,34 @@
                                 </Grid.RowDefinitions>
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="160*" />
+                                    <ColumnDefinition Width="468*"/>
+                                    <ColumnDefinition Width="627*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <controls:Form Grid.Column="0" Grid.ColumnSpan="6" Margin="10,0,199,120" Grid.RowSpan="2">
+                                <controls:Form Grid.Column="0" Grid.ColumnSpan="3" Margin="10,0,198.667,120" Grid.RowSpan="2">
 
                                     <Label controls:Form.IsLabel="True" 
-                                       Content="{x:Static p:Resources.UpdateText}"  Margin="0,0,-75,0" />
-                                    <Button Margin="75,0,-75,0" Content="{x:Static p:Resources.CheckUpdateCommand}" Command="{Binding CheckUpdateCommand}"/>
+                                       Content="{x:Static p:Resources.Settings_UpdateLabel}"  Margin="0,0,-75,0" />
+                                    <Button Margin="75,0,-75,0" Content="{x:Static p:Resources.Settings_UpdateBtnText}" Command="{Binding CheckUpdateCommand}"/>
 
                                     <Label controls:Form.IsLabel="True" 
-                                       Content="{x:Static p:Resources.VersionLabel}"  Margin="0,0,-75,0" />
+                                       Content="{x:Static p:Resources.Settings_VersionLabel}"  Margin="0,0,-75,0" />
                                     <TextBlock Margin="75,0,-75,0" Text="{Binding Version}" />
-
+                                    
                                     <Label controls:Form.IsLabel="True" 
-                                       Content="Plugins:"  Margin="0,0,-75,0" />
-                                    <Button  Margin="75,0,-75,0" Click="ManagePlugin" Content="{x:Static p:Resources.ManagePluginsBtn}"/>
-
-                                    <Label controls:Form.IsLabel="True" 
-                                       Content="{x:Static p:Resources.PremiumLabel}"  Margin="0,0,-75,0" />
-                                    <StackPanel x:Name="InstalledBox" Visibility="{Binding PremiumStatus}">
-                                        <TextBlock Margin="75,4,-75,0" Text="{x:Static p:Resources.InstalledLabel}" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" x:Name="NotInstalledBox" Visibility="{Binding NotPremiumStatus}">
-                                        <TextBlock Margin="15,4,0,0" Text="{x:Static p:Resources.NotInstalledLabel}" />
-                                        <Button Margin="10,1,0,0" Content="{x:Static p:Resources.PremiumCTAButton}" Click="Button_Click_1"/>
-                                    </StackPanel>
-
-                                    <Label controls:Form.IsLabel="True" 
-                                       Content="{x:Static p:Resources.ThemeLabel}"  Margin="0,0,-75,0" />
+                                       Content="{x:Static p:Resources.Settings_ThemeLabel}"  Margin="0,0,-75,0" />
                                     <StackPanel Orientation="Horizontal" >
                                         <ComboBox x:Name="ThemeBox" Margin="75,0,-75,0" >
                                             <ComboBoxItem Selected="rgbSelected" x:Name="rgbItem" Content="RGB"/>
                                             <ComboBoxItem Selected="darkSelected" x:Name="darkItem" Content="Dark"/>
                                             <ComboBoxItem Visibility="Collapsed" Selected="customSelected" x:Name="customItem" Content="Custom"/>
                                         </ComboBox>
-                                        <Button Margin="100,1,-100,0" Click="ApplyButton_Click" Content="{x:Static p:Resources.ApplyLabel}" x:Name="ApplyButton"  Visibility="Visible"/>
+                                        <Button Margin="100,1,-100,0" Click="ApplyButton_Click" Content="{x:Static p:Resources.Settings_ThemeApplyBtnText}" x:Name="ApplyButton"  Visibility="Visible"/>
                                     </StackPanel>
 
                                     <Label controls:Form.IsLabel="True" 
-                                       Content="{x:Static p:Resources.LanguageLabel}"  Margin="0,0,-75,0" />
+                                       Content="{x:Static p:Resources.Settings_LanguageLabel}"  Margin="0,0,-75,0" />
                                     <ComboBox x:Name="LangBox" SelectionChanged="Lang_SelectionChanged" Margin="75,0,-75,0">
                                         <ComboBoxItem Selected="DutchSelected" x:Name="dutchItem" Content="Dutch (Nederlands)"/>
                                         <ComboBoxItem Selected="EnglishSelected" x:Name="englishItem" Content="English"/>
@@ -728,56 +691,53 @@
                                     </ComboBox>
 
                                     <Label Margin="0,0,-75,0"  Width="350" controls:Form.IsLabel="True" 
-                                       Content="{x:Static p:Resources.PollingRateLabel}" />
+                                       Content="{x:Static p:Resources.Settings_PollingRateLabel}" />
                                     <Slider Margin="-270,0,100,0" Minimum="1" Maximum="100" controls:Form.Fill="True" Width="400"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
                                         Value="{Binding UpdateRate}"
-                                        attached:SliderValue.Unit="{x:Static p:Resources.PollingRateUnit}"
-                                        ToolTip="{x:Static p:Resources.PollingRateTooltip}" />
+                                        attached:SliderValue.Unit="{x:Static p:Resources.Settings_PollingRateUnit}"
+                                        ToolTip="{x:Static p:Resources.Settings_PollingRateToolTip}" />
 
                                     <Label controls:Form.IsLabel="True" Margin="0,0,-75,0"  Width="350"
-                                        Content="{x:Static p:Resources.RunasAdminLabel}" />
-                                    <CheckBox Margin="75,0,-75,0" VerticalAlignment="Center" IsChecked="{Binding RunAsAdmin}"  Command="{Binding SetAdminCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White"  Content="{x:Static p:Resources.RunasAdmin}"/>
+                                        Content="{x:Static p:Resources.Settings_AdminLabel}" />
+                                    <CheckBox Margin="75,0,-75,0" VerticalAlignment="Center" IsChecked="{Binding RunAsAdmin}"  Command="{Binding SetAdminCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White"  Content="{x:Static p:Resources.Settings_AdminText}"/>
 
                                     <Label controls:Form.IsLabel="True" Margin="0,0,-75,0"  Width="350"
-                                       Content="{x:Static p:Resources.MinimizationLabel}" />
-                                    <CheckBox Margin="75,0,-75,0" VerticalAlignment="Center" IsChecked="{Binding IsMinimized}"  Command="{Binding OpenSetCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.MinimizationText}"/>
+                                       Content="{x:Static p:Resources.Settings_MinimizationLabel}" />
+                                    <CheckBox Margin="75,0,-75,0" VerticalAlignment="Center" IsChecked="{Binding IsMinimized}"  Command="{Binding OpenSetCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.Settings_MinimizationText}"/>
 
 
                                     <Label Margin="0,0,-75,0" controls:Form.IsLabel="True" 
-                                       Content="{x:Static p:Resources.DiscordLabel}"
+                                       Content="{x:Static p:Resources.Settings_DiscordLabel}"
                                        />
-                                    <CheckBox Margin="75,0,-75,0" ToolTip="{x:Static p:Resources.DiscordTooltip}" VerticalAlignment="Center" IsChecked="{Binding EnableDiscordRPC}"  Command="{Binding SetRPCCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.DiscordText}"/>
+                                    <CheckBox Margin="75,0,-75,0" ToolTip="{x:Static p:Resources.Settings_DiscordToolTip}" VerticalAlignment="Center" IsChecked="{Binding EnableDiscordRPC}"  Command="{Binding SetRPCCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Foreground="White" Content="{x:Static p:Resources.Settings_DiscordText}"/>
 
                                     <Label  Margin="0,0,-75,0" controls:Form.IsLabel="True" 
                                        Content="Run on Startup:"   />
                                     <CheckBox IsChecked="{Binding EnableStartupDelay}"  Command="{Binding SetDelayCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" Margin="75,0,-60,0"></CheckBox>
 
                                     <Label  Margin="0,0,-75,0" controls:Form.IsLabel="True" 
-                                       Content="{x:Static p:Resources.DelayLabel}"   />
+                                       Content="{x:Static p:Resources.Settings_DelayLabel}"   />
                                     <Slider Margin="-270,0,100,0" Minimum="0" Maximum="120"  Width="400" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
                                         Value="{Binding StartupDelay}" IsEnabled="{Binding EnableStartupDelay}"
-                                        attached:SliderValue.Unit="{x:Static p:Resources.DelayUnit}"
-                                        ToolTip="{x:Static p:Resources.DelayTooltip}" />
+                                        attached:SliderValue.Unit="{x:Static p:Resources.Settings_DelayUnit}"
+                                        ToolTip="{x:Static p:Resources.Settings_DelayToolTip}" />
 
 
 
 
                                 </controls:Form>
 
-                                <controls:Form Grid.Column="1" Grid.ColumnSpan="6" Margin="10,0,199,120" Grid.RowSpan="2">
+                                <controls:Form Grid.Column="2" Margin="9.666,0,198.667,120" Grid.RowSpan="2">
 
-                                    <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="{x:Static p:Resources.DevicesLabel}"  Margin="0,0,0,0" />
-                                    <Button Command="{Binding OpenExcludeToolCommand}" Margin="10,0,0,-2"  Content="{x:Static p:Resources.ExcludeBtn}"/>
-
-
+                                    <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="{x:Static p:Resources.Settings_DevicesLabel}"  Margin="0,0,0,0" />
 
                                 </controls:Form>
 
-                                <ListBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Devices, Source={x:Static core:RGBSurface.Instance}}"
+                                <ListBox Grid.Column="2" ItemsSource="{Binding Devices, Source={x:Static core:RGBSurface.Instance}}"
                                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                                      ScrollViewer.HorizontalScrollBarVisibility="Visible"
                                      x:Name="AvailableDevicesListBox"
-                                 Width="480" Padding="0,-190,0,10">
+                                 Width="480" Padding="0,-190,0,10" Margin="73.666,193,73.667,0" Grid.RowSpan="2">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Style="{StaticResource StyleTextBlockForm}">
@@ -798,7 +758,7 @@
                     </GroupBox>
                 </AdornerDecorator>
             </TabItem>
-            <TabItem Header="{x:Static p:Resources.StoreHeader}">
+            <TabItem Header="{x:Static p:Resources.UI_StoreTabHeader}">
 
                 <AdornerDecorator>
                     <DockPanel LastChildFill="True" >
@@ -813,37 +773,31 @@
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <Button Background="#c0000000" BorderThickness="0" Margin="8,0" Click="ToggleExperimental" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0">
                                             <Grid Margin="0">
-                                                <Rectangle Fill="Red" Margin="0" Visibility="{Binding ShowPreRelease, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
+                                                <Rectangle Fill="{StaticResource Tc-Red}" Margin="0" Visibility="{Binding ShowPreRelease, Converter={StaticResource BoolToVisibilityConverter}}"></Rectangle>
                                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
                                                     <TextBlock FontFamily="Segoe UI Symbol" FontSize="24" Foreground="White" VerticalAlignment="Center" ></TextBlock>
-                                                    <TextBlock VerticalAlignment="Center" Margin="8,0">Experimental</TextBlock>
+                                                    <TextBlock VerticalAlignment="Center" Margin="8,0" Text="{x:Static p:Resources.Store_ExperimentalBtnText}"></TextBlock>
                                                 </StackPanel>
                                             </Grid>
                                         </Button>
 
-                                        <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="ReloadAllPlugins">
-                                            <Button.Background>
-                                                <ImageBrush Stretch="UniformToFill" ImageSource="/RGBSync+;component/Resources/Intro_Background.png"/>
-                                            </Button.Background>
+                                        <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="ReloadAllPlugins" Background="{StaticResource Tc-Blue}">
                                             <Grid Margin="0">
 
                                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
                                                     <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="White" VerticalAlignment="Center" ></TextBlock>
-                                                    <TextBlock VerticalAlignment="Center" Margin="8,0">Restart All</TextBlock>
+                                                    <TextBlock VerticalAlignment="Center" Margin="8,0" Text="{x:Static p:Resources.Store_RestartAllBtnText}"></TextBlock>
                                                 </StackPanel>
                                             </Grid>
                                         </Button>
 
 
-                                        <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="RefreshStore">
-                                            <Button.Background>
-                                                <ImageBrush Stretch="UniformToFill" ImageSource="/RGBSync+;component/Resources/Intro_Background.png"/>
-                                            </Button.Background>
+                                        <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="RefreshStore" Background="{StaticResource Tc-Blue}">
                                             <Grid Margin="0">
 
                                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
                                                     <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="White" VerticalAlignment="Center" ></TextBlock>
-                                                    <TextBlock VerticalAlignment="Center" Margin="8,0">Refresh Store</TextBlock>
+                                                    <TextBlock VerticalAlignment="Center" Margin="8,0" Text="{x:Static p:Resources.Store_RefreshBtnText}"></TextBlock>
                                                 </StackPanel>
                                             </Grid>
                                         </Button>
@@ -851,7 +805,7 @@
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4"  VerticalAlignment="Center">
                                         <GroupBox BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center">
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <Label  VerticalContentAlignment="Center" VerticalAlignment="Center">Filter:</Label>
+                                                <Label  VerticalContentAlignment="Center" VerticalAlignment="Center" Content="{x:Static p:Resources.Store_FilterLabel}"></Label>
                                                 <TextBox Text="{Binding PluginSearch}" Width="100" TextChanged="TextBox_TextChanged" x:Name="PluginSearchBox"></TextBox>
                                             </StackPanel>
                                         </GroupBox>

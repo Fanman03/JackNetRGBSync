@@ -23,22 +23,22 @@
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="{x:Static p:Resources.OpenUIItem}" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=OpenConfigurationCommand}" >
+                        <MenuItem Header="{x:Static p:Resources.TrayMenu_OpenUIItem}" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=OpenConfigurationCommand}" >
                             <MenuItem.Icon>
                                 <Image Source="/RGBSync+;component/Resources/settings.png" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="{x:Static p:Resources.TechSupportItem}" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=TechSupportCommand}" >
+                        <MenuItem Header="{x:Static p:Resources.TrayMenu_TechSupportItem}" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=TechSupportCommand}" >
                             <MenuItem.Icon>
                                <Image Source="/RGBSync+;component/Resources/support.png" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="{x:Static p:Resources.RestartAppItem}" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=RestartAppCommand}" >
+                        <MenuItem Header="{x:Static p:Resources.TrayMenu_RestartAppItem}" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=RestartAppCommand}" >
                             <MenuItem.Icon>
                                 <Image Source="/RGBSync+;component/Resources/reload.png" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="{x:Static p:Resources.ExitItem}" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=ExitCommand}" >
+                        <MenuItem Header="{x:Static p:Resources.TrayMenu_ExitAppItem}" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=ExitCommand}" >
                             <MenuItem.Icon>
                                 <Image Source="/RGBSync+;component/Resources/exit.png" />
                             </MenuItem.Icon>

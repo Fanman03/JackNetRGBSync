@@ -9,7 +9,7 @@
         ResizeMode="NoResize"
         Title="Please enter cloud access key." Height="220" Width="405" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Topmost="True">
     <Grid Background="#525252" Margin="0,0,0,0">
-        <Button Content="{x:Static p:Resources.OKCommand}" HorizontalAlignment="Left" Margin="304,145,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" />
+        <Button Content="{x:Static p:Resources.Dialog_OKCommand}" HorizontalAlignment="Left" Margin="304,145,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" />
         <TextBox x:Name="keyBox" Margin="10,111,200,47" FontSize="14" Width="Auto"/>
         <Button Content="Submit" HorizontalAlignment="Left" Margin="10,145,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1" RenderTransformOrigin="0.541,1.233" />
         <TextBlock Name="Message" TextWrapping="WrapWithOverflow" FontSize="18" Foreground="White"  HorizontalAlignment="Left" Margin="130,10,0,0" VerticalAlignment="Top" Width="259">
