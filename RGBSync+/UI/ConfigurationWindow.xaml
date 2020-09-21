@@ -398,7 +398,7 @@
 
 
 
-                    <Button Grid.Column="3" Background="#ff17a2b8" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="10" >
+                    <Button Grid.Column="3" Background="{StaticResource Tc-Blue}" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="10" >
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Releases}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
@@ -435,14 +435,20 @@
                                     <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="Button_Click_5"></Button>
                                     <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="ToggleDevicesView"></Button>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4">
-                                    <GroupBox BorderThickness="0">
-                                        <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <GroupBox BorderThickness="0"  Padding="0" Margin="0,8,20,8">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                             <Label>Profile</Label>
-                                            <ComboBox ItemsSource="{Binding ProfileNames}"></ComboBox>
+                                            <ComboBox ItemsSource="{Binding ProfileNames}" SelectedIndex="{Binding SelectedProfileIndex}" IsSynchronizedWithCurrentItem="True" SelectedItem="{Binding SelectedProfileItem}"></ComboBox>
                                         </StackPanel>
                                     </GroupBox>
 
+                                    <Button Background="#c0000000" BorderThickness="0" Foreground="White" Height="32" Click="ShowCreateNewProfile" Padding="0" Margin="0,0,20,0">
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,8,0">
+                                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Margin="8,0"></TextBlock>
+                                        <TextBlock FontFamily="Segoe UI Light" FontSize="20" >Add Profile</TextBlock>
+                                        </StackPanel>
+                                    </Button>
                                 </StackPanel>
 
                             </Grid>
@@ -824,11 +830,16 @@
         </TabControl>
 
         <Grid Background="#c0000000" Visibility="{Binding ShowModal, Converter={StaticResource BoolToVisibilityConverter}}" d:IsHidden="True">
-            <Grid Width="400" Height="100" Background="White" VerticalAlignment="Center">
+            <Grid Width="500" Background="White" VerticalAlignment="Center">
                 <StackPanel Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock  FontFamily="Segoe UI" FontSize="36" FontWeight="Bold" Margin="10,0" Text="{Binding ModalText}"></TextBlock>
+                    <TextBlock  FontFamily="Segoe UI Light" FontSize="36" FontWeight="Bold" Margin="10,0" Text="{Binding ModalText}" TextWrapping="WrapWithOverflow"></TextBlock>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding ShowModalTextBox, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,20,0,0" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <TextBox FontFamily="Segoe UI Light" FontSize="24" Width="330" x:Name="ModalTextBox" BorderThickness="0" Background="#e0e0e0" Foreground="Black"></TextBox>
+                        <Button  FontFamily="Segoe UI Light" FontSize="24" Click="SubmitModalText" Background="{StaticResource Tc-Blue}" BorderThickness="0">Submit</Button>
+                    </StackPanel>
 
                 </StackPanel>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="CloseModal" Visibility="{Binding ShowModalCloseButton, Converter={StaticResource BoolToVisibilityConverter}}" Foreground="Red"></Button>
             </Grid>
         </Grid>
 

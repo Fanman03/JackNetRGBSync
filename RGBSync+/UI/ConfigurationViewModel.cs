@@ -40,6 +40,35 @@ namespace RGBSyncPlus.UI
     {
         private bool isDesign = DesignerProperties.GetIsInDesignMode(new DependencyObject());
 
+        private int selectedProfileIndex = 0;
+
+        public int SelectedProfileIndex
+        {
+            get => selectedProfileIndex;
+            set
+            {
+                selectedProfileIndex = value;
+                if (value > -1 && value < profileNames.Count)
+                {
+                    string newProfileName = ProfileNames[value];
+                    if (ApplicationManager.Instance.CurrentProfile.Name != newProfileName)
+                    {
+                        ApplicationManager.Instance.LoadProfileFromName(newProfileName);
+
+                    }
+                }
+            }
+        }
+
+        private string selectedProfileItem;
+        public string SelectedProfileItem
+        {
+            get => selectedProfileItem;
+            set
+            {
+                SetProperty(ref selectedProfileItem, value);
+            }
+        }
 
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         #region Properties & Fields
@@ -98,6 +127,22 @@ namespace RGBSyncPlus.UI
         {
             get => modalText;
             set => SetProperty(ref modalText, value);
+        }
+
+        private bool showModalTextBox = false;
+
+        public bool ShowModalTextBox
+        {
+            get => showModalTextBox;
+            set => SetProperty(ref showModalTextBox, value);
+        }
+
+        private bool showModalCloseButton = false;
+
+        public bool ShowModalCloseButton
+        {
+            get => showModalCloseButton;
+            set => SetProperty(ref showModalCloseButton, value);
         }
 
 
@@ -621,6 +666,7 @@ namespace RGBSyncPlus.UI
             storeHandler = new StoreHandler();
 
             LoadStoreAndPlugins();
+            EnsureCorrectProfileIndex();
         }
 
         public void LoadStoreAndPlugins()
@@ -911,6 +957,8 @@ namespace RGBSyncPlus.UI
                 }
             }
         }
+
+        
 
         private ListCollectionView GetGroupedLedList(IEnumerable<Led> leds)
         {
@@ -1377,5 +1425,34 @@ namespace RGBSyncPlus.UI
         }
 
         #endregion
+
+        public void SubmitModalTextBox(string text)
+        {
+            modalSubmitAction?.Invoke(text);
+        }
+
+        public void ShowCreateNewProfile()
+        {
+            ShowModal = true;
+            ModalText = "Enter name for new profile";
+            ShowModalTextBox = true;
+            ShowModalCloseButton = true;
+            modalSubmitAction = (text) =>
+            {
+                ApplicationManager.Instance.GenerateNewProfile(text);
+                ProfileNames = ApplicationManager.Instance.NGSettings.ProfileNames;
+                ApplicationManager.Instance.LoadProfileFromName(text);
+                EnsureCorrectProfileIndex();
+            };
+
+        }
+
+        public void EnsureCorrectProfileIndex()
+        {
+            SelectedProfileIndex = profileNames.IndexOf(ApplicationManager.Instance.CurrentProfile.Name);
+            SelectedProfileItem = ApplicationManager.Instance.CurrentProfile.Name;
+        }
+
+        private Action<string> modalSubmitAction;
     }
 }

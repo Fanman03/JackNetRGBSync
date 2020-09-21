@@ -103,7 +103,7 @@ namespace RGBSyncPlus
                     NGSettings = JsonConvert.DeserializeObject<DeviceMappingModels.NGSettings>(json);
                     if (NGSettings == null)
                     {
-                        NGSettings=new DeviceMappingModels.NGSettings();
+                        NGSettings = new DeviceMappingModels.NGSettings();
                     }
                     Logger.Info("Settings loaded");
                     HotLoadNGSettings();
@@ -252,7 +252,7 @@ namespace RGBSyncPlus
             //profilePathMapping.Add(name,fullPath);
             NGSettings.CurrentProfile = name;
             CurrentProfile = newProfile;
-
+            profilePathMapping.Clear();
             HotLoadNGSettings();
 
         }
@@ -281,8 +281,27 @@ namespace RGBSyncPlus
 
         public void LoadProfileFromName(string profileName)
         {
-            CurrentProfile = GetProfileFromPath(profilePathMapping[profileName]);
-            NGSettings.CurrentProfile = profileName;
+            if (profilePathMapping.ContainsKey(profileName))
+            {
+                CurrentProfile = GetProfileFromPath(profilePathMapping[profileName]);
+                NGSettings.CurrentProfile = profileName;
+
+                if (ConfigurationWindow != null)
+                {
+                    ConfigurationWindow.Dispatcher.Invoke(() =>
+                    {
+                        if (ConfigurationWindow?.DataContext != null)
+                        {
+
+
+
+                            ConfigurationViewModel vm = (ConfigurationViewModel)ConfigurationWindow.DataContext;
+                            vm.EnsureCorrectProfileIndex();
+
+                        }
+                    });
+                }
+            }
         }
 
         public DeviceMappingModels.NGProfile GetProfileFromPath(string path)
@@ -369,7 +388,6 @@ namespace RGBSyncPlus
 
             int delay = AppSettings.StartDelay * 1000;
 
-            RGBSurface surface = RGBSurface.Instance;
             LoadSLSProviders();
             //LoadDeviceProviders();
             //surface.AlignDevices();
@@ -377,15 +395,12 @@ namespace RGBSyncPlus
             loadingSplash.LoadingText.Text = "Mapping from config";
             SetUpMappedDevicesFromConfig();
 
-            foreach (IRGBDevice device in surface.Devices)
-                device.UpdateMode = DeviceUpdateMode.Sync | DeviceUpdateMode.SyncBack;
-
             var tmr = 1.0 / MathHelper.Clamp(AppSettings.UpdateRate, 1, 100);
             var tmr2 = 1000.0 / MathHelper.Clamp(AppSettings.UpdateRate, 1, 100);
             UpdateTrigger = new TimerUpdateTrigger { UpdateFrequency = tmr };
 
             loadingSplash.LoadingText.Text = "Registering Update Trigger";
-            surface.RegisterUpdateTrigger(UpdateTrigger);
+
             UpdateTrigger.Start();
 
 
@@ -420,9 +435,18 @@ namespace RGBSyncPlus
             };
 
             closeTimer.Start();
+
+            profileTriggerTimer = new DispatcherTimer();
+            profileTriggerTimer.Interval = TimeSpan.FromSeconds(1);
+            profileTriggerTimer.Tick += (sender, args) => ProfileTriggerManager.CheckTriggers();
+            profileTriggerTimer.Start();
         }
 
+
+        public ProfileTriggerManager ProfileTriggerManager = new ProfileTriggerManager();
+
         public HttpSelfHostServer server;
+        public DispatcherTimer profileTriggerTimer;
         public Timer slsTimer;
         public Timer configTimer;
         public void SetUpMappedDevicesFromConfig()
@@ -561,16 +585,41 @@ namespace RGBSyncPlus
 
                 if (cd != null && dest != null)
                 {
-                    dest.MapLEDs(cd);
+                    string key = currentProfileDeviceProfileSetting.SourceName +
+                                 currentProfileDeviceProfileSetting.SourceProviderName +
+                                 currentProfileDeviceProfileSetting.Name +
+                                 currentProfileDeviceProfileSetting.ProviderName;
 
-                    if (dest.Driver.GetProperties().SupportsPush)
+                    if (!isMapping.ContainsKey(key) || isMapping[key] == false)
                     {
-                        dest.Push();
+                        if (!isMapping.ContainsKey(key))
+                        {
+                            isMapping.Add(key, true);
+                        }
+                        dest.MapLEDs(cd);
+                        isMapping[key] = true;
+                        Task.Run(() =>
+                        {
+                            try
+                            {
+                                if (dest.Driver.GetProperties().SupportsPush)
+                                {
+                                    dest.Push();
+                                }
+                            }
+                            catch
+                            {
+                            }
+
+                            isMapping[key] = false;
+
+                        });
                     }
                 }
             }
-
         }
+
+        public Dictionary<string,bool> isMapping = new Dictionary<string, bool>();
 
         public void UnloadSLSProviders()
         {
@@ -650,7 +699,7 @@ namespace RGBSyncPlus
                                         if (!driversAdded.Contains(slsDriver.GetProperties().Id))
                                         {
                                             //slsDriver.Configure(null);
-                                            Debug.WriteLine("We got one! "+ "Loading " + slsDriver.Name());
+                                            Debug.WriteLine("We got one! " + "Loading " + slsDriver.Name());
                                             loadingSplash.LoadingText.Text = "Loading " + slsDriver.Name();
                                             loadingSplash.UpdateLayout();
                                             loadingSplash.Refresh();
@@ -687,7 +736,7 @@ namespace RGBSyncPlus
                     }
                 }
 
-             
+
             }
 
             //SLSManager.Init();
@@ -901,6 +950,7 @@ namespace RGBSyncPlus
 
             Application.Current.Shutdown();
         }
+
         #endregion
     }
 }

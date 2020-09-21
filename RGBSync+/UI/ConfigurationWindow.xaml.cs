@@ -885,5 +885,24 @@ namespace RGBSyncPlus.UI
             ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
             vm.LoadStoreAndPlugins();
         }
+
+        private void SubmitModalText(object sender, RoutedEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.ShowModal = false;
+            vm.SubmitModalTextBox(ModalTextBox.Text);
+        }
+
+        private void CloseModal(object sender, RoutedEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.ShowModal = false;
+        }
+
+        private void ShowCreateNewProfile(object sender, RoutedEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.ShowCreateNewProfile();
+        }
     }
 }
