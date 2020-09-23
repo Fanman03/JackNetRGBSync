@@ -51,7 +51,7 @@ namespace RGBSyncPlus
         public bool PauseSyncing { get; set; } = false;
         public static ApplicationManager Instance { get; } = new ApplicationManager();
 
-        public ConfigurationWindow ConfigurationWindow;
+        public MainWindow ConfigurationWindow;
 
         public Settings Settings { get; set; } = new Settings();
 
@@ -865,7 +865,7 @@ namespace RGBSyncPlus
                     }
                 });
             }
-            if (ConfigurationWindow == null) ConfigurationWindow = new ConfigurationWindow();
+            if (ConfigurationWindow == null) ConfigurationWindow = new MainWindow();
             if (!ConfigurationWindow.IsVisible)
                 ConfigurationWindow.Show();
 
@@ -945,7 +945,6 @@ namespace RGBSyncPlus
         public void Exit()
         {
             Logger.Debug("============ App is Shutting Down ============");
-            try { RGBSurface.Instance?.Dispose(); } catch { /* well, we're shuting down anyway ... */ }
             try { client.Dispose(); } catch { /* well, we're shuting down anyway ... */ }
 
             Application.Current.Shutdown();

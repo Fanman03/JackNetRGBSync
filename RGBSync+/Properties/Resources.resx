@@ -252,6 +252,9 @@
   <data name="UI.SettingsTabHeader" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="UI.ProfileTabHeader" xml:space="preserve">
+    <value>Profile</value>
+  </data>
   <data name="UI.StoreTabHeader" xml:space="preserve">
     <value>Store</value>
   </data>

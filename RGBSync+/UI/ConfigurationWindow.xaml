@@ -9,15 +9,16 @@
                                   xmlns:p = "clr-namespace:RGBSyncPlus.Properties"
                                   xmlns:styles="clr-namespace:RGBSyncPlus.Styles"
                                   xmlns:attached="clr-namespace:RGBSyncPlus.Attached"
-                                  xmlns:helper="clr-namespace:RGBSyncPlus.Helper"
-                                  xmlns:dd="urn:gong-wpf-dragdrop"
+                                  
                                   xmlns:Converter="clr-namespace:RGBSyncPlus.Converter" x:Class="RGBSyncPlus.UI.ConfigurationWindow"
                                   mc:Ignorable="d"
                                   Title="{x:Static p:Resources.UI_AppName}" 
                                   Icon="pack://application:,,,/RGBSync+;component/Resources/HiRes.ico"
                                   IconCommand="{Binding OpenHomepageCommand}"
                                   Width="1280"  Height="720"
-                                  Closed="ConfigurationWindow_OnClosed" ResizeMode="CanResizeWithGrip" SizeChanged="BlurredDecorationWindow_SizeChanged">
+                                  Closed="ConfigurationWindow_OnClosed" ResizeMode="CanResizeWithGrip" SizeChanged="BlurredDecorationWindow_SizeChanged"
+                                  xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+                                  fw:AcrylicWindow.Enabled="True">
 
     <controls:BlurredDecorationWindow.Resources>
         <styles:CachedResourceDictionary>
@@ -407,6 +408,51 @@
                     </Button>
                 </Grid>
             </DataTemplate>
+            <DataTemplate x:Key="ManageProfilesTemplateItem">
+                <Grid Margin="0,4" VerticalAlignment="Top">
+                    <Grid Height="60" Background="#80d0d0d0" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button FontFamily="Segoe MDL2 Assets" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#c0ff0000" BorderThickness="0" FontSize="22" Padding="6,4" Foreground="White" Width="32" Height="32" Margin="0" Click="Button_Click_6"></Button>
+                        <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20"></TextBlock>
+                        <StackPanel Orientation="Horizontal"  Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,20,0">
+                            <TextBlock Text="0 Triggers" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="14"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Margin="120,60,0,0" Background="#80000000">
+                        <ListBox ItemsSource="{Binding Triggers}" ItemTemplate="{DynamicResource MageProfilesTriggerItemTemplate}" ></ListBox>
+                    </Grid>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="MageProfilesTriggerItemTemplate">
+                <Grid Height="40">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="7*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button FontFamily="Segoe MDL2 Assets" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#c0ff0000" BorderThickness="0" FontSize="22" Padding="6,4" Foreground="White" Width="32" Height="32" Margin="0" Click="Button_Click_6"></Button>
+                    <!--<TextBlock Grid.Column="1" Text="{Binding TriggerType}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20"></TextBlock>-->
+                    <ComboBox Grid.Column="1" SelectedItem="{Binding TriggerType}" ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=ProfileTriggerTypeNames}">
+                        </ComboBox>
+                    <Grid Grid.Column="2">
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource StringMatchToVisibilityConverter}}" >
+                            <TextBox Text="{Binding Hour}"></TextBox>
+                            <TextBox Text="{Binding Minute}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource StringMatchToVisibilityConverter}}" >
+                            <TextBox Text="{Binding ProcessName}"></TextBox>
+                            <Label>Trigger when not found</Label>
+                            <CheckBox IsChecked="{Binding TriggerWhenNotFound}" ></CheckBox>
+                            
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </DataTemplate>
         </styles:CachedResourceDictionary>
     </controls:BlurredDecorationWindow.Resources>
 
@@ -414,7 +460,8 @@
     <controls:BlurredDecorationWindow.DataContext>
         <ui:ConfigurationViewModel/>
     </controls:BlurredDecorationWindow.DataContext>
-    <Grid x:Name="ContainingGrid">
+    <Grid x:Name="ContainingGrid" Background="#70000000">
+        
         <TabControl Style="{StaticResource StyleTabControlNavigation}" >
             <TabItem Header="{x:Static p:Resources.UI_DeviceTabHeader}">
                 <AdornerDecorator>
@@ -446,9 +493,16 @@
                                     <Button Background="#c0000000" BorderThickness="0" Foreground="White" Height="32" Click="ShowCreateNewProfile" Padding="0" Margin="0,0,20,0">
                                         <StackPanel Orientation="Horizontal" Margin="0,0,8,0">
                                             <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Margin="8,0"></TextBlock>
-                                        <TextBlock FontFamily="Segoe UI Light" FontSize="20" >Add Profile</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI Light" FontSize="20" >Add Profile</TextBlock>
                                         </StackPanel>
                                     </Button>
+
+                                    <!--<Button Background="#c0000000" BorderThickness="0" Foreground="White" Height="32" Click="ShowManageProfilesClick" Padding="0" Margin="0,0,20,0">
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,8,0">
+                                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Margin="8,0"></TextBlock>
+                                            <TextBlock FontFamily="Segoe UI Light" FontSize="20" >Manage Profiles</TextBlock>
+                                        </StackPanel>
+                                    </Button>-->
                                 </StackPanel>
 
                             </Grid>
@@ -639,6 +693,11 @@
             <TabItem Header="{x:Static p:Resources.UI_AboutTabHeader}">
                 <TextBlock>TODO</TextBlock>
             </TabItem>
+
+            <TabItem Header="Profiles" VerticalAlignment="Top">
+                <ListBox ItemsSource="{Binding ProfileItems}" Margin="0,0,0,0" ItemTemplate="{DynamicResource ManageProfilesTemplateItem}"></ListBox>
+            </TabItem>
+
             <TabItem Header="{x:Static p:Resources.UI_SettingsTabHeader}" VerticalAlignment="Top">
                 <AdornerDecorator>
                     <GroupBox VerticalAlignment="Top">
@@ -670,7 +729,7 @@
                                     <Label controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.Settings_VersionLabel}"  Margin="0,0,-75,0" />
                                     <TextBlock Margin="75,0,-75,0" Text="{Binding Version}" />
-                                    
+
                                     <Label controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.Settings_ThemeLabel}"  Margin="0,0,-75,0" />
                                     <StackPanel Orientation="Horizontal" >
@@ -842,6 +901,26 @@
                 <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="CloseModal" Visibility="{Binding ShowModalCloseButton, Converter={StaticResource BoolToVisibilityConverter}}" Foreground="Red"></Button>
             </Grid>
         </Grid>
+
+        <!--<Grid Background="#c0000000" Visibility="{Binding ShowManageProfiles, Converter={StaticResource BoolToVisibilityConverter}}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition  Height="*"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+
+            </Grid.ColumnDefinitions>
+            <Grid Background="White" Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="CloseModal" Foreground="Red" Margin="10"></Button>
+                <TextBlock FontFamily="Segoe UI Light" FontSize="24" Foreground="Black" Margin="20">Manage Profiles</TextBlock>
+                <ListBox ItemsSource="{Binding ProfileNames}" Margin="00,70,0,0" ItemTemplate="{DynamicResource ManageProfilesTemplateItem}"></ListBox>
+            </Grid>
+        </Grid>-->
 
     </Grid>
 

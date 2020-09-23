@@ -9,6 +9,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <styles:CachedResourceDictionary Source="/RGBSync+;component/Resources/RGBSync+.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <tb:TaskbarIcon x:Key="TaskbarIcon"

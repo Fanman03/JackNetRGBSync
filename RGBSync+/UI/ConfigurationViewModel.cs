@@ -38,6 +38,13 @@ namespace RGBSyncPlus.UI
 {
     public sealed class ConfigurationViewModel : AbstractBindable
     {
+        private bool showManageProfiles;
+
+        public bool ShowManageProfiles
+        {
+            get => showManageProfiles;
+            set => SetProperty(ref showManageProfiles, value);
+        }
         private bool isDesign = DesignerProperties.GetIsInDesignMode(new DependencyObject());
 
         private int selectedProfileIndex = 0;
@@ -58,6 +65,44 @@ namespace RGBSyncPlus.UI
                     }
                 }
             }
+        }
+
+        private ObservableCollection<string> profileTriggerTypeNames = new ObservableCollection<string>
+        {
+            ProfileTriggerManager.ProfileTriggerTypes.TimeBased,
+            ProfileTriggerManager.ProfileTriggerTypes.RunningProccess
+        };
+
+        public ObservableCollection<string> ProfileTriggerTypeNames
+        {
+            get => profileTriggerTypeNames;
+            set => SetProperty(ref profileTriggerTypeNames, value);
+        }
+
+        public class ProfileItemViewModel : BaseViewModel
+        {
+            private string name;
+            public string Name
+            {
+                get => name;
+                set => SetProperty(ref name, value);
+            }
+
+            private ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry> triggers;
+
+            public ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry> Triggers
+            {
+                get => triggers;
+                set => SetProperty(ref triggers, value);
+            }
+        }
+
+        private ObservableCollection<ProfileItemViewModel> profileItems = new ObservableCollection<ProfileItemViewModel>();
+
+        public ObservableCollection<ProfileItemViewModel> ProfileItems
+        {
+            get => profileItems;
+            set => SetProperty(ref profileItems, value);
         }
 
         private string selectedProfileItem;
@@ -661,12 +706,27 @@ namespace RGBSyncPlus.UI
 
 
             ProfileNames = ApplicationManager.Instance.NGSettings.ProfileNames;
+            SetUpProfileModels();
             this.ZoomLevel = 4;
 
             storeHandler = new StoreHandler();
 
             LoadStoreAndPlugins();
             EnsureCorrectProfileIndex();
+
+            OnPropertyChanged(nameof(ProfileTriggerTypeNames));
+        }
+
+        public void SetUpProfileModels()
+        {
+            foreach (string profileName in ProfileNames)
+            {
+                ProfileItems.Add(new ProfileItemViewModel
+                {
+                    Name = profileName,
+                    Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Where(x=>x.ProfileName==profileName))
+                });
+            }
         }
 
         public void LoadStoreAndPlugins()

@@ -29,7 +29,7 @@ using ListView = System.Windows.Forms.ListView;
 
 namespace RGBSyncPlus.UI
 {
-    public partial class ConfigurationWindow : BlurredDecorationWindow
+    public partial class ConfigurationWindow
     {
         private bool isDesign = Application.Current?.MainWindow != null && DesignerProperties.GetIsInDesignMode(Application.Current.MainWindow);
 
@@ -106,44 +106,44 @@ namespace RGBSyncPlus.UI
                 customItem.Visibility = Visibility.Visible;
             }
             DoNotRestart = true;
-            if (ApplicationManager.Instance.AppSettings.BackgroundImg == "custom")
-            {
-                try
-                {
-                    customItem.IsSelected = true;
-                    Uri LocalFile = new Uri(localFilePath, UriKind.Absolute);
-                    ImageSource imgSource = new BitmapImage(LocalFile);
-                    this.BackgroundImage = imgSource;
-                }
-                catch
-                {
-                    darkItem.IsSelected = true;
-                    BitmapImage bimage = new BitmapImage();
-                    bimage.BeginInit();
-                    bimage.UriSource = new Uri("pack://application:,,,/Resources/base.png", UriKind.RelativeOrAbsolute);
-                    bimage.EndInit();
-                    this.BackgroundImage = bimage;
-                }
-            }
-            else if (ApplicationManager.Instance.AppSettings.BackgroundImg == "rgb")
-            {
-                rgbItem.IsSelected = true;
-                BitmapImage bimage = new BitmapImage();
-                bimage.BeginInit();
-                bimage.UriSource = new Uri("pack://application:,,,/Resources/background.png", UriKind.RelativeOrAbsolute);
-                bimage.EndInit();
-                this.BackgroundImage = bimage;
-            }
-            else
-            {
+            //if (ApplicationManager.Instance.AppSettings.BackgroundImg == "custom")
+            //{
+            //    try
+            //    {
+            //        customItem.IsSelected = true;
+            //        Uri LocalFile = new Uri(localFilePath, UriKind.Absolute);
+            //        ImageSource imgSource = new BitmapImage(LocalFile);
+            //        this.BackgroundImage = imgSource;
+            //    }
+            //    catch
+            //    {
+            //        darkItem.IsSelected = true;
+            //        BitmapImage bimage = new BitmapImage();
+            //        bimage.BeginInit();
+            //        //bimage.UriSource = new Uri("pack://application:,,,/Resources/base.png", UriKind.RelativeOrAbsolute);
+            //        bimage.EndInit();
+            //        this.BackgroundImage = bimage;
+            //    }
+            //}
+            //else if (ApplicationManager.Instance.AppSettings.BackgroundImg == "rgb")
+            //{
+            //    rgbItem.IsSelected = true;
+            //    BitmapImage bimage = new BitmapImage();
+            //    bimage.BeginInit();
+            //    bimage.UriSource = new Uri("pack://application:,,,/Resources/background.png", UriKind.RelativeOrAbsolute);
+            //    bimage.EndInit();
+            //    this.BackgroundImage = bimage;
+            //}
+            //else
+            //{
                 darkItem.IsSelected = true;
-                BitmapImage bimage = new BitmapImage();
-                bimage.BeginInit();
-                bimage.UriSource = new Uri("pack://application:,,,/Resources/base.png", UriKind.RelativeOrAbsolute);
-                //bimage.UriSource = new Uri("pack://application:,,,/Resources/Intro_Background.png", UriKind.RelativeOrAbsolute);
-                bimage.EndInit();
-                this.BackgroundImage = bimage;
-            }
+            //    BitmapImage bimage = new BitmapImage();
+            //    bimage.BeginInit();
+            //    //bimage.UriSource = new Uri("pack://application:,,,/Resources/base.png", UriKind.RelativeOrAbsolute);
+            //    //bimage.UriSource = new Uri("pack://application:,,,/Resources/Intro_Background.png", UriKind.RelativeOrAbsolute);
+            //    bimage.EndInit();
+            //    this.BackgroundImage = bimage;
+            //}
 
             if (ApplicationManager.Instance.AppSettings.Lang == "en")
             {
@@ -725,6 +725,15 @@ namespace RGBSyncPlus.UI
         //    SyncToSearchTextBox.Text = "";
         //}
 
+
+
+        private void UIElement_OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Button senderButton = (Button)sender;
+
+            var derp = senderButton.DataContext;
+            Debug.WriteLine(derp);
+        }
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
             ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
@@ -736,15 +745,6 @@ namespace RGBSyncPlus.UI
             ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
             vm.ZoomLevel--;
         }
-
-        private void UIElement_OnMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            Button senderButton = (Button)sender;
-
-            var derp = senderButton.DataContext;
-            Debug.WriteLine(derp);
-        }
-
         private void ToggleDevicesView(object sender, RoutedEventArgs e)
         {
             ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
@@ -903,6 +903,12 @@ namespace RGBSyncPlus.UI
         {
             ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
             vm.ShowCreateNewProfile();
+        }
+
+        private void ShowManageProfilesClick(object sender, RoutedEventArgs e)
+        {
+            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
+            vm.ShowManageProfiles = true;
         }
     }
 }

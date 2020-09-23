@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RGBSyncPlus.UI"
+        xmlns:fluentWpf="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         mc:Ignorable="d"
-        Title="RGB Sync" Height="300" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
-    <Grid Background="#CC444444">
+        Title="" Height="300" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        fluentWpf:AcrylicWindow.Enabled="True" Background="#40000000">
+    <Grid>
         <TextBlock x:Name="LoadingText" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,-150">Loading...</TextBlock>
         <ProgressBar x:Name="ProgressBar" Width="350" Height="10" Background="Black" BorderBrush="{x:Null}" Margin="0,0,0,-200">
             <ProgressBar.Foreground>
