@@ -12,7 +12,7 @@
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/GroupBox.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ToolTip.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ComboBox.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Button.xaml" />
+        <!-- <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Button.xaml" /> -->
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ListBox.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ListView.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Slider.xaml" />
@@ -33,7 +33,7 @@
     <Style TargetType="GroupBox" BasedOn="{StaticResource StyleGroupBoxBox}" />
     <Style TargetType="ToolTip" BasedOn="{StaticResource StyleToolTip}" />
     <Style TargetType="ComboBox" BasedOn="{StaticResource StyleComboBox}" />
-    <Style TargetType="Button" BasedOn="{StaticResource StyleButton}" />
+    <!-- <Style TargetType="Button" BasedOn="{StaticResource StyleButton}" /> -->
     <Style TargetType="ListBox" BasedOn="{StaticResource StyleListBox}" />
     <Style TargetType="ListView" BasedOn="{StaticResource StyleListView}" />
     <Style TargetType="Slider" BasedOn="{StaticResource StyleSlider}" />

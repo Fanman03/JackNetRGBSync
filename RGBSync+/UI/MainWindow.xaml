@@ -9,9 +9,11 @@
         x:Class="RGBSyncPlus.UI.MainWindow"
         mc:Ignorable="d"
         Title="RGB Sync" 
-        Height="450" 
-        Width="800"
-        fw:AcrylicWindow.Enabled="True" Icon="/RGBSync+;component/Resources/argebee_old.ico">
+        Height="720" 
+        Width="1280"
+        MinHeight="360"
+        MinWidth="640"
+        fw:AcrylicWindow.Enabled="True" Icon="/RGBSync+;component/ProgramIcon.ico">
     <Window.Resources>
         <Converter:StringMatchToVisibilityConverter x:Key="StringMatchToVisibilityConverter"/>
         <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>

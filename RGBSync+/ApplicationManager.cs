@@ -302,9 +302,7 @@ namespace RGBSyncPlus
                         if (ConfigurationWindow?.DataContext != null)
                         {
 
-
-
-                            DevicesViewModel vm = (DevicesViewModel)ConfigurationWindow.DevicesUserControl.DataContext;
+                         //   DevicesViewModel vm = (DevicesViewModel)ConfigurationWindow.DevicesUserControl.DataContext;
                          //   vm.EnsureCorrectProfileIndex();
 
                         }

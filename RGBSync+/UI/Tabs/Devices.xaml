@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RGBSyncPlus.UI.Tabs"
-             xmlns:Converter="clr-namespace:RGBSyncPlus.Converter" x:Class="RGBSyncPlus.UI.Tabs.Devices"
+             xmlns:Converter="clr-namespace:RGBSyncPlus.Converter"
+             xmlns:fluentWpf="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+             x:Class="RGBSyncPlus.UI.Tabs.Devices"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1280">
     <UserControl.Resources>
@@ -254,11 +256,11 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Background="#80ffffff">
+            <Grid Grid.Row="0" Background="{DynamicResource SystemBaseLowColorBrush}" fluentWpf:PointerTracker.Enabled="True">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="ZoomOut" Content="&#xE71F;"/>
-                    <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="ZoomIn" Content="&#xE8A3;"/>
-                    <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="ToggleDevicesView" Content="&#xE71D;"/>
+                    <Button FontFamily="Segoe MDL2 Assets" Padding="4" Background="{DynamicResource SystemBaseLowColorBrush}" Style="{StaticResource ButtonRevealStyle}" FontSize="20" Foreground="{DynamicResource SystemBaseHighColorBrush}" Width="32" Height="32" Margin="8" Click="ZoomOut" Content="&#xE71F;"/>
+                    <Button FontFamily="Segoe MDL2 Assets" Padding="4" Background="{DynamicResource SystemBaseLowColorBrush}" Style="{StaticResource ButtonRevealStyle}" FontSize="20" Foreground="{DynamicResource SystemBaseHighColorBrush}" Width="32" Height="32" Margin="8" Click="ZoomIn" Content="&#xE8A3;"/>
+                    <Button FontFamily="Segoe MDL2 Assets" Padding="4" Background="{DynamicResource SystemBaseLowColorBrush}" Style="{StaticResource ButtonRevealStyle}" FontSize="20" Foreground="{DynamicResource SystemBaseHighColorBrush}" Width="32" Height="32" Margin="8" Click="ToggleDevicesView" Content="&#xE71D;"/>
                 </StackPanel>
                 
             </Grid>
@@ -290,11 +292,11 @@
 
                 </Grid>
         </Grid>
-        <Grid Grid.Row="1" x:Name="ConfigPanel" Background="#80000000" Margin="0"  MaxHeight="{Binding MaxSubViewHeight}" Height="{Binding MaxSubViewHeight}">
+        <Grid Grid.Row="1" x:Name="ConfigPanel" Background="#80000000" Margin="0"  MaxHeight="{Binding MaxSubViewHeight}" Height="{Binding MaxSubViewHeight}" fluentWpf:PointerTracker.Enabled="True">
 
             <Grid Margin="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="48"/>
+                    <RowDefinition Height="56"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <!--
@@ -304,10 +306,10 @@
                                 </Image.Effect>
                             </Image>
                             -->
-                <Rectangle Grid.Row="0" Fill="#d0000000" Margin="0" Grid.RowSpan="2"/>
+                <Rectangle Grid.Row="0" Fill="{DynamicResource SystemAltHighColorBrush}" Margin="0" Grid.RowSpan="2"/>
 
 
-                <Grid Grid.Row="0" Background="#CCffffff" Margin="0" Height="60" VerticalAlignment="Top">
+                <Grid Grid.Row="0" Background="{DynamicResource SystemBaseLowColorBrush}"  Height="60" VerticalAlignment="Top">
                     <!--<StackPanel Orientation="Horizontal"  Height="36" Margin="0" VerticalAlignment="Top">
                                         <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="25" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4,6"/>
                                         <TextBlock Text="{Binding ControlDevice.DeviceType}" FontSize="18" VerticalAlignment="Center" Foreground="Black"></TextBlock>
@@ -324,23 +326,23 @@
                         <TextBlock FontSize="24" Text="selected" FontWeight="Light" Margin="12,0,0,0" Foreground="Black"/>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="8,0,8,8" VerticalAlignment="Bottom" >
-                        <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="SubInfo">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="8,0,8,8" VerticalAlignment="Bottom"  >
+                        <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="{DynamicResource SystemBaseLowColorBrush}" BorderThickness="0"  Margin="8,0" Click="SubInfo" Style="{StaticResource ButtonRevealStyle}">
                             <Grid Margin="0" >
                                 <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisConverter}}"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0" Margin="8,4,0,0"><Run Text="&#xE7C3;"/></TextBlock>
-                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"><Run Text="Info"/></TextBlock>
+                                    <TextBlock FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" FontFamily="Segoe MDL2 Assets" Padding="0" Margin="8,4,0,0"><Run Text="&#xE7C3;"/></TextBlock>
+                                    <TextBlock FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"><Run Text="Info"/></TextBlock>
                                 </StackPanel>
                             </Grid>
                         </Button>
 
-                        <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0"  Margin="8,0" Click="SyncTo">
+                        <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="{DynamicResource SystemBaseLowColorBrush}" BorderThickness="0"  Margin="8,0" Click="SyncTo" Style="{StaticResource ButtonRevealStyle}">
                             <Grid Margin="0" >
                                 <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisConverter}}"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0"  Margin="8,4,0,0"><Run Text="&#xE8CB;"/></TextBlock>
-                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"><Run Text="Sync To"/></TextBlock>
+                                    <TextBlock FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" FontFamily="Segoe MDL2 Assets" Padding="0"  Margin="8,4,0,0"><Run Text="&#xE8CB;"/></TextBlock>
+                                    <TextBlock FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"><Run Text="Sync To"/></TextBlock>
                                 </StackPanel>
                             </Grid>
                         </Button>
@@ -377,17 +379,17 @@
 
                         <StackPanel Margin="10" Orientation="Horizontal">
                             <StackPanel>
-                                <TextBlock Foreground="White" FontSize="18" FontWeight="Bold"><Run Text="Driver:"/></TextBlock>
-                                <TextBlock Foreground="White" FontSize="18" FontWeight="Light" Text="{Binding ProviderName}"/>
-                                <TextBlock Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,8"><Run Text="Name:"/></TextBlock>
-                                <TextBlock Foreground="White" FontSize="18" FontWeight="Light" Text="{Binding Name}"/>
-                                <TextBlock Foreground="White" FontSize="18" FontWeight="Bold" Margin="0,8"><Run Text="Author:"/></TextBlock>
-                                <TextBlock Foreground="White" FontSize="18" FontWeight="Light" Text="{Binding DriverProps.Author}"/>
+                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Bold"><Run Text="Driver:"/></TextBlock>
+                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Light" Text="{Binding ProviderName}"/>
+                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Bold" Margin="0,8"><Run Text="Name:"/></TextBlock>
+                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Light" Text="{Binding Name}"/>
+                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Bold" Margin="0,8"><Run Text="Author:"/></TextBlock>
+                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Light" Text="{Binding DriverProps.Author}"/>
 
                             </StackPanel>
                             <StackPanel Margin="40,0">
-                                <TextBlock Foreground="White" FontSize="18" FontWeight="Bold"><Run Text="Driver Version:"/></TextBlock>
-                                <TextBlock Foreground="White" FontSize="18" FontWeight="Light" Text="{Binding DriverProps.CurrentVersion}"/>
+                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Bold"><Run Text="Driver Version:"/></TextBlock>
+                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Light" Text="{Binding DriverProps.CurrentVersion}"/>
                             </StackPanel>
                         </StackPanel>
                     </Grid>
@@ -426,7 +428,7 @@
                     </Grid>
 
                     <Grid x:Name="ConfigHere" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{Binding SubViewMode, ConverterParameter=Config, Converter={StaticResource StringMatchToVisConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}">
-                        <TextBlock Margin="20"><Run Text="This device has no configuration."/></TextBlock>
+                        <TextBlock Margin="10,35,0,0"><Run Text="This device has no configuration."/></TextBlock>
                     </Grid>
 
                 </Grid>
