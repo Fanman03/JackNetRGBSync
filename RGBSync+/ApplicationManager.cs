@@ -29,6 +29,7 @@ using System.Web.Http;
 using System.Web.Http.SelfHost;
 using System.Windows.Documents;
 using System.Windows.Threading;
+using RGBSyncPlus.UI.Tabs;
 using SimpleLed;
 
 using Swashbuckle.Application;
@@ -158,13 +159,21 @@ namespace RGBSyncPlus
             NGSettings.ProfileNames = new ObservableCollection<string>();
             foreach (var profile in profiles)
             {
-                string profileName = GetProfileFromPath(profile).Name;
-                profilePathMapping.Add(profileName, profile);
-                NGSettings.ProfileNames.Add(profileName);
+                string profileName = GetProfileFromPath(profile)?.Name;
+                if (!string.IsNullOrWhiteSpace(profileName))
+                {
+                    profilePathMapping.Add(profileName, profile);
+                    NGSettings.ProfileNames.Add(profileName);
+                }
             }
 
             if (NGSettings.ProfileNames.Contains(NGSettings.CurrentProfile))
             {
+                LoadProfileFromName(NGSettings.CurrentProfile);
+            }
+            else
+            {
+                NGSettings.CurrentProfile = "Default";
                 LoadProfileFromName(NGSettings.CurrentProfile);
             }
 
@@ -295,8 +304,8 @@ namespace RGBSyncPlus
 
 
 
-                            ConfigurationViewModel vm = (ConfigurationViewModel)ConfigurationWindow.DataContext;
-                            vm.EnsureCorrectProfileIndex();
+                            DevicesViewModel vm = (DevicesViewModel)ConfigurationWindow.DevicesUserControl.DataContext;
+                         //   vm.EnsureCorrectProfileIndex();
 
                         }
                     });

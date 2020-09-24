@@ -61,7 +61,7 @@
             </Button>
 
         </Grid>
-        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=devices, Converter={StaticResource StringMatchToVisibilityConverter}}">
+        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=devices, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="DevicesUserControl">
             <Tabs:Devices HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>
         <Grid Grid.Column="1" Background="#c0000000" Visibility="{Binding ShowModal, Converter={StaticResource BoolToVisibilityConverter}}" d:IsHidden="True">

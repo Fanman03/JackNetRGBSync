@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using RGBSyncPlus.UI.Tabs;
 
 namespace RGBSyncPlus.UI
 {
@@ -55,5 +56,7 @@ namespace RGBSyncPlus.UI
                 }
             }
         }
+
+        public DevicesViewModel DevicesViewModel=> DevicesUserControl.DataContext as DevicesViewModel;
     }
 }

@@ -18,8 +18,11 @@ namespace RGBSyncPlus.UI.Tabs
     {
         public DevicesViewModel()
         {
+            this.ZoomLevel = 4;
             SetUpDeviceMapViewModel();
         }
+
+
 
         private ObservableCollection<DeviceMappingModels.Device> slsDevices;
         public ObservableCollection<DeviceMappingModels.Device> SLSDevices { get => slsDevices; set => SetProperty(ref slsDevices, value); }
@@ -50,8 +53,7 @@ namespace RGBSyncPlus.UI.Tabs
                 }
             }
         }
-
-
+        
         private string syncToSearch = "";
 
         public string SyncToSearch
@@ -119,7 +121,6 @@ namespace RGBSyncPlus.UI.Tabs
             get => filteredSourceDevices;
             set => SetProperty(ref filteredSourceDevices, value);
         }
-
         public void SetupSourceDevices(ControlDevice controlDevice)
         {
             if (controlDevice == null) return;
@@ -150,6 +151,8 @@ namespace RGBSyncPlus.UI.Tabs
             }
 
         }
+
+
 
         public static BitmapImage ToBitmapImage(Bitmap bitmap)
         {

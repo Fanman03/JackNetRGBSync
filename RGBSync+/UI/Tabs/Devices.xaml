@@ -260,15 +260,7 @@
                     <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="ZoomIn" Content="&#xE8A3;"/>
                     <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="#c0000000" BorderThickness="0" FontSize="20" Foreground="White" Width="32" Height="32" Margin="8" Click="ToggleDevicesView" Content="&#xE71D;"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <GroupBox BorderThickness="0"  Padding="0" Margin="0,8,20,8">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <Label Content="Profile"/>
-                            <ComboBox ItemsSource="{Binding ProfileNames}" SelectedIndex="{Binding SelectedProfileIndex}" IsSynchronizedWithCurrentItem="True" SelectedItem="{Binding SelectedProfileItem}"/>
-                        </StackPanel>
-                    </GroupBox>
-                </StackPanel>
-
+                
             </Grid>
 
             <Grid Margin="0,0,0,0" Grid.Row="1">
@@ -421,13 +413,13 @@
 
                             <Label Foreground="White" FontSize="16" Content="Use the controls below to make your devices match the images"/>
                             <StackPanel Orientation="Horizontal">
-                                <!--
+                                
                                 <Button FontSize="24" Content="" Height="60" Width="60" Margin="8" Click="Button_Click" FontFamily="Segoe MDL2 Assets" Padding="16"></Button>
                                 <Button FontSize="24" Content="" Height="60" Width="60" Margin="8" Click="Button_Click_2"  FontFamily="Segoe MDL2 Assets" Padding="16"></Button>
                                 <Button FontSize="24" Content="" Height="60" Width="60"  Margin="8" Click="Button_Click_3" FontFamily="Segoe MDL2 Assets" Padding="16"></Button>
-                                -->
+                                
 
-                                <Image Source="UI/alignment_template.png" Width="172"/>
+                                <Image Source="/RGBSync+;component/UI/alignment_template.png" Width="172"/>
                             </StackPanel>
 
                         </StackPanel>

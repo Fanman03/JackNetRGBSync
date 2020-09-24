@@ -65,6 +65,42 @@ namespace RGBSyncPlus.UI.Tabs
             vm.SubViewMode = "Alignment";
         }
 
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (ApplicationManager.Instance.DeviceBeingAligned != null)
+            {
+                int vl = ApplicationManager.Instance.DeviceBeingAligned.LedShift;
+
+                vl--;
+                if (vl < 0) vl = ApplicationManager.Instance.DeviceBeingAligned.LEDs.Length - 1;
+
+                ApplicationManager.Instance.DeviceBeingAligned.LedShift = vl;
+            }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            if (ApplicationManager.Instance.DeviceBeingAligned != null)
+            {
+                int vl = ApplicationManager.Instance.DeviceBeingAligned.LedShift;
+
+                vl++;
+                if (vl >= ApplicationManager.Instance.DeviceBeingAligned.LEDs.Length) vl = 0;
+
+                ApplicationManager.Instance.DeviceBeingAligned.LedShift = vl;
+            }
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            if (ApplicationManager.Instance.DeviceBeingAligned != null)
+            {
+                ApplicationManager.Instance.DeviceBeingAligned.Reverse = !ApplicationManager.Instance.DeviceBeingAligned.Reverse;
+
+            }
+        }
+
         private void DevicesListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -313,6 +349,8 @@ namespace RGBSyncPlus.UI.Tabs
             UpdateDeviceConfigUi(cd);
 
         }
+
+       
 
     }
 }
