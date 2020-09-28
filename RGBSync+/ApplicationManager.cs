@@ -604,7 +604,15 @@ namespace RGBSyncPlus
                         {
                             isMapping.Add(key, true);
                         }
-                        dest.MapLEDs(cd);
+
+                        try
+                        {
+                            dest.MapLEDs(cd);
+                        }
+                        catch
+                        {
+                        }
+
                         isMapping[key] = true;
                         Task.Run(() =>
                         {
