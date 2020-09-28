@@ -731,7 +731,7 @@ namespace RGBSyncPlus.UI
 
         public void LoadStoreAndPlugins()
         {
-            using (new SimpleModal(this,"Refreshing store...."))
+          //  using (new SimpleModal(this,"Refreshing store...."))
             {
                 
                 SetUpDeviceMapViewModel();

@@ -1,0 +1,146 @@
+﻿<UserControl x:Class="RGBSyncPlus.UI.Tabs.Store"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RGBSyncPlus.UI.Tabs"
+             xmlns:p="clr-namespace:RGBSyncPlus.Properties"
+             xmlns:converter="clr-namespace:RGBSyncPlus.Converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converter:StringMatchToVisibilityConverter x:Key="StringMatchToVisConverter"/>
+        <converter:IndeterminateBoolToOpacityConverter x:Key="IndeterminateBoolToOpacityConverter"/>
+        <converter:InvertedBoolToVisibilityConverter x:Key="InvertedBoolToVisConverter"/>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisConverter"/>
+        <converter:DeviceTypeToImageConverter x:Key="DeviceTypeToImageConverter"/>
+
+        <DataTemplate x:Key="PluginItemTemplate">
+            <Grid Height="100" Margin="8" Background="#c0000000" Visibility="{Binding Visible, Converter={StaticResource BoolToVisConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="7*"/>
+                    <ColumnDefinition MinWidth="180"/>
+                    <ColumnDefinition MinWidth="180"/>
+                </Grid.ColumnDefinitions>
+
+
+                <Rectangle Grid.ColumnSpan="5" Fill="{StaticResource Tc-Blue}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}"></Rectangle>
+                <Rectangle Grid.ColumnSpan="5" Fill="{StaticResource Tc-Red}" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}"></Rectangle>
+
+                <Grid Grid.Column="0" Background="Black" Margin="10">
+                    <Image Source="{Binding Image}" Width="80" Height="80"></Image>
+                </Grid>
+
+                <StackPanel Orientation="Vertical" Grid.Column="1">
+                    <TextBlock Margin="10,0" FontSize="24" FontFamily="Segoe UI" Foreground="White" FontWeight="Bold" Text="{Binding Name}"  VerticalAlignment="Center" ></TextBlock>
+                    <TextBlock Margin="10,0" FontSize="24" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Author}"  VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Grid.Column="2">
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="10,0,0,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Older version" VerticalAlignment="Center" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
+                        <TextBlock Margin="10,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{x:Static p:Resources.Store_Plugin_InstallBtnLabel}" VerticalAlignment="Center" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
+                    </StackPanel>
+                    <TextBlock Margin="10,0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Blurb}" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                </StackPanel>
+                <Grid Grid.Column="4"  Visibility="{Binding InstalledButOutdated, Converter={StaticResource InvertedBoolToVisConverter}}">
+                    <Button Background="{StaticResource Tc-Red}" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"  Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}">
+                        <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{x:Static p:Resources.Store_Plugin_DisableBtnLabel}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    </Button>
+                </Grid>
+
+
+
+                <Button Grid.Column="4" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="10"  Visibility="{Binding Installed, Converter={StaticResource InvertedBoolToVisConverter}}" Click="InstallPlugin" Background="{StaticResource Tc-Green}">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{x:Static p:Resources.Store_Plugin_InstallBtnLabel}" VerticalAlignment="Center" HorizontalAlignment="Center"  Visibility="{Binding InstalledButOutdated, Converter={StaticResource InvertedBoolToVisConverter}}"></TextBlock>
+
+                        <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Version}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+                    </StackPanel>
+                </Button>
+
+                <Button Grid.Column="4" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="10" Background="{StaticResource Tc-Blue}"  Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}" Click="InstallPlugin">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                        <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Upgrade to " VerticalAlignment="Center" HorizontalAlignment="Center"  Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
+                        <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Version}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+                    </StackPanel>
+                </Button>
+
+
+
+                <Button Grid.Column="3" Background="{StaticResource Tc-Blue}" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Margin="10" >
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                        <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Releases}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        <TextBlock Margin="0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{x:Static p:Resources.Store_Plugin_VersionsBtnLabel}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <local:StoreViewModel/>
+    </UserControl.DataContext>
+    <Grid x:Name="ContainingGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="287*"/>
+            <ColumnDefinition Width="113*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#80eeeeee" Margin="0" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Background="#c0000000" BorderThickness="0" Margin="8,0" Click="ToggleExperimental" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0">
+                    <Grid Margin="0">
+                        <Rectangle Fill="{StaticResource Tc-Red}" Margin="0" Visibility="{Binding ShowPreRelease, Converter={StaticResource BoolToVisConverter}}"></Rectangle>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
+                            <TextBlock FontFamily="Segoe UI Symbol" FontSize="24" Foreground="White" VerticalAlignment="Center" ></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="8,0" Text="{x:Static p:Resources.Store_ExperimentalBtnText}"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Button>
+
+                <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="ReloadAllPlugins" Background="{StaticResource Tc-Blue}">
+                    <Grid Margin="0">
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="White" VerticalAlignment="Center" ></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="8,0" Text="{x:Static p:Resources.Store_RestartAllBtnText}"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Button>
+
+
+                <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="RefreshStore" Background="{StaticResource Tc-Blue}">
+                    <Grid Margin="0">
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="White" VerticalAlignment="Center" ></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="8,0" Text="{x:Static p:Resources.Store_RefreshBtnText}"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4"  VerticalAlignment="Center">
+                <GroupBox BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Label  VerticalContentAlignment="Center" VerticalAlignment="Center" Content="{x:Static p:Resources.Store_FilterLabel}"></Label>
+                        <TextBox Text="{Binding PluginSearch}" Width="100" TextChanged="TextBox_TextChanged" x:Name="PluginSearchBox"></TextBox>
+                    </StackPanel>
+                </GroupBox>
+
+            </StackPanel>
+
+        </Grid>
+
+        <ListView ItemsSource="{Binding Plugins}" ItemTemplate="{DynamicResource PluginItemTemplate}" Grid.Row="1" Margin="0,0,0,0" Grid.ColumnSpan="2"></ListView>
+    </Grid>
+</UserControl>
