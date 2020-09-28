@@ -29,7 +29,6 @@ using System.Web.Http;
 using System.Web.Http.SelfHost;
 using System.Windows.Documents;
 using System.Windows.Threading;
-using Driver.PhillipsHue;
 using RGBSyncPlus.UI.Tabs;
 using SimpleLed;
 
@@ -755,9 +754,9 @@ namespace RGBSyncPlus
 
             }
 
-            ISimpleLed phillips = new PhillipsHue();
+/*            ISimpleLed phillips = new PhillipsHue();
             phillips.Configure(null);
-            SLSManager.Drivers.Add(phillips);
+            SLSManager.Drivers.Add(phillips);*/
 
             //SLSManager.Init();
             Debug.WriteLine(log);
