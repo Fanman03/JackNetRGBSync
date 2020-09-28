@@ -8,7 +8,7 @@
         xmlns:Converter="clr-namespace:RGBSyncPlus.Converter" xmlns:Tabs="clr-namespace:RGBSyncPlus.UI.Tabs" 
         x:Class="RGBSyncPlus.UI.MainWindow"
         mc:Ignorable="d"
-        Title="RGB Sync" 
+        Title="RGB Sync Studio" 
         Height="720" 
         Width="1280"
         MinHeight="360"
@@ -18,9 +18,9 @@
         <Converter:StringMatchToVisibilityConverter x:Key="StringMatchToVisibilityConverter"/>
         <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <DataTemplate x:Key="TabItemTemplate">
-            <Grid>
-            <Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="SetTab">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Grid fw:PointerTracker.Enabled="True">
+                <Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="SetTab" Style="{DynamicResource ButtonRevealStyle}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,8,0">
                     <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" Text="{Binding Icon}" VerticalAlignment="Center" Margin="0,0"/>
                     <TextBlock Margin="20,0" 
                                FontSize="24" 
@@ -28,6 +28,7 @@
                                FontFamily="Segoe UI Light" 
                                Foreground="White" 
                                VerticalAlignment="Center" 
+                               Width="100"
                                Text="{Binding Name}" 
                                Visibility="{Binding DataContext.HamburgerExtended, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Window}}}"/>
                 </StackPanel>
@@ -44,12 +45,12 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Width="Auto" Background="{x:Null}">
+        <Grid Grid.Column="0" Width="auto" Background="{x:Null}" fw:PointerTracker.Enabled="True">
             <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"/>
             <ListView ItemsSource="{Binding TabItems}" ItemTemplate="{DynamicResource TabItemTemplate}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" Padding="0" Margin="0" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-            
-            <Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="ToggleHamburger" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="0,0">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+
+            <Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="ToggleHamburger" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="0,0" Style="{DynamicResource ButtonRevealStyle}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8,0,8,0">
                     <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE713;" VerticalAlignment="Center" Margin="0,0" FontSize="24" />
                     <TextBlock Margin="20,0" 
                                FontSize="24" 
@@ -58,6 +59,7 @@
                                Foreground="White" 
                                VerticalAlignment="Center" 
                                Text="Settings" 
+                               Width="100"
                                Visibility="{Binding DataContext.HamburgerExtended, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Window}}}"/>
                 </StackPanel>
             </Button>
