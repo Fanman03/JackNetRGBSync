@@ -249,7 +249,7 @@ namespace RGBSyncPlus.UI.Tabs
             set => SetProperty(ref multipleDeviceSelected, value);
         }
 
-        private void SetUpDeviceMapViewModel()
+        public void SetUpDeviceMapViewModel()
         {
             SLSDevices = new ObservableCollection<DeviceMappingModels.Device>();
             foreach (ControlDevice device in ApplicationManager.Instance.SLSDevices)

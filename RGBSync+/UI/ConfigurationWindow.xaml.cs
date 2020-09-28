@@ -798,7 +798,7 @@ namespace RGBSyncPlus.UI
         private void InstallPlugin(object sender, RoutedEventArgs e)
         {
             ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
-            using (new SimpleModal(vm, "Installing..."))
+            //using (new SimpleModal(vm, "Installing..."))
             {
                 
                 ApplicationManager.Instance.UnloadSLSProviders();
@@ -868,7 +868,7 @@ namespace RGBSyncPlus.UI
         private void ReloadAllPlugins(object sender, RoutedEventArgs e)
         {
             ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
-            using (new SimpleModal(vm, "Reloading Plugins"))
+            //using (new SimpleModal(vm, "Reloading Plugins"))
             {
                 ContainingGrid.Refresh();
                 ApplicationManager.Instance.UnloadSLSProviders();

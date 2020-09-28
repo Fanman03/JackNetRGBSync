@@ -9,35 +9,41 @@ namespace RGBSyncPlus.UI
 {
     public class SimpleModal : IDisposable
     {
-        private ConfigurationViewModel viewmodel;
+        private MainWindowViewModel viewmodel;
         private bool actuallyDispose = true;
-        public SimpleModal(ConfigurationViewModel vm, string text)
+        public SimpleModal(MainWindowViewModel vm, string text)
         {
-            if (vm.ShowModal)
+            if (vm != null)
             {
-                actuallyDispose = false;
-                Task.Delay(200).Wait();
-            }
-            else
-            {
-                viewmodel = vm;
-                vm.ShowModal = true;
-                vm.ModalText = text;
-                if (ApplicationManager.Instance?.ConfigurationWindow?.ContainingGrid != null)
+                if (vm.ShowModal)
                 {
-                    Task.Delay(200).Wait();
-                    ApplicationManager.Instance.ConfigurationWindow.ContainingGrid.Refresh();
+                    actuallyDispose = false;
                     Task.Delay(200).Wait();
                 }
+                else
+                {
+                    viewmodel = vm;
+                    vm.ShowModal = true;
+                    vm.ModalText = text;
+                    if (ApplicationManager.Instance?.ConfigurationWindow?.ContainingGrid != null)
+                    {
+                        Task.Delay(200).Wait();
+                        ApplicationManager.Instance.ConfigurationWindow.ContainingGrid.Refresh();
+                        Task.Delay(200).Wait();
+                    }
 
-                Task.Delay(200).Wait();
+                    Task.Delay(200).Wait();
+                }
             }
         }
         public void Dispose()
         {
-            if (actuallyDispose)
+            if (viewmodel != null)
             {
-                viewmodel.ShowModal = false;
+                if (actuallyDispose)
+                {
+                    viewmodel.ShowModal = false;
+                }
             }
         }
     }
