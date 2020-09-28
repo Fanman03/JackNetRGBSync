@@ -39,7 +39,7 @@ namespace RGBSyncPlus.UI.Tabs
 
             }
         }
-            
+
         private bool showPreRelease = false;
 
         public bool ShowPreRelease
@@ -50,6 +50,14 @@ namespace RGBSyncPlus.UI.Tabs
                 SetProperty(ref showPreRelease, value);
                 FilterPlugins();
             }
+        }
+
+        private bool showConfig = false;
+
+        public bool ShowConfig
+        {
+            get => showConfig;
+            set => SetProperty(ref showConfig, value);
         }
 
         private string pluginSearch;
