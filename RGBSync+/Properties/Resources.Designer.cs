@@ -484,7 +484,7 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Store.
+        ///   Looks up a localized string similar to Devices.
         /// </summary>
         public static string UI_StoreTabHeader {
             get {

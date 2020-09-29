@@ -17,7 +17,7 @@
         <converter:DeviceTypeToImageConverter x:Key="DeviceTypeToImageConverter"/>
 
         <DataTemplate x:Key="PluginItemTemplate">
-            <Grid Height="100" Margin="8" Background="#c0000000" Visibility="{Binding Visible, Converter={StaticResource BoolToVisConverter}}" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
+            <Grid Height="100" Margin="8" Background="#c0000000" Visibility="{Binding Visible, Converter={StaticResource BoolToVisConverter}}" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" fw:PointerTracker.Enabled="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="3*"/>
@@ -61,7 +61,7 @@
                 </StackPanel>
             </Grid>
         </DataTemplate>
-        <Style TargetType="Button" x:Key="SmallSquareIcon" >
+        <Style TargetType="Button" x:Key="SmallSquareIcon" BasedOn="{StaticResource ButtonRevealStyle}"  >
             <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="Foreground" Value="White"/>
@@ -83,9 +83,9 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Background="#80eeeeee" Margin="0" Grid.ColumnSpan="2">
+        <Grid Grid.Row="0" Background="{DynamicResource SystemBaseLowColorBrush}" Margin="0" Grid.ColumnSpan="2" fw:PointerTracker.Enabled="True">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <Button Background="#c0000000" BorderThickness="0" Margin="8,0" Click="ToggleExperimental" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0">
+                <Button Background="#c0000000" BorderThickness="0" Margin="8,0" Click="ToggleExperimental" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Style="{StaticResource ButtonRevealStyle}">
                     <Grid Margin="0">
                         <Rectangle Fill="{StaticResource Tc-Red}" Margin="0" Visibility="{Binding ShowPreRelease, Converter={StaticResource BoolToVisConverter}}"></Rectangle>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
@@ -95,7 +95,7 @@
                     </Grid>
                 </Button>
 
-                <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="ReloadAllPlugins" Background="{StaticResource Tc-Blue}">
+                <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="ReloadAllPlugins" Background="{x:Static fw:AccentColors.ImmersiveSystemAccentBrush}" Style="{StaticResource ButtonAccentRevealStyle}">
                     <Grid Margin="0">
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
@@ -106,7 +106,7 @@
                 </Button>
 
 
-                <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="RefreshStore" Background="{StaticResource Tc-Blue}">
+                <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="RefreshStore" Background="{x:Static fw:AccentColors.ImmersiveSystemAccentBrush}" Style="{StaticResource ButtonAccentRevealStyle}">
                     <Grid Margin="0">
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
@@ -116,14 +116,11 @@
                     </Grid>
                 </Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4"  VerticalAlignment="Center">
-                <GroupBox BorderThickness="0" VerticalContentAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <Label  VerticalContentAlignment="Center" VerticalAlignment="Center" Content="{x:Static p:Resources.Store_FilterLabel}"></Label>
-                        <TextBox Text="{Binding PluginSearch}" Width="100" TextChanged="TextBox_TextChanged" x:Name="PluginSearchBox"></TextBox>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4,4,8,4"  VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Label  VerticalContentAlignment="Center" VerticalAlignment="Center" Content="{x:Static p:Resources.Store_FilterLabel}" Foreground="{DynamicResource SystemBaseHighColorBrush}"></Label>
+                    <TextBox Text="{Binding PluginSearch}" Width="100" Background="{DynamicResource SystemAltMediumLowColorBrush}" Foreground="{DynamicResource SystemBaseHighColorBrush}" TextChanged="TextBox_TextChanged" x:Name="PluginSearchBox" Style="{StaticResource TextBoxRevealStyle}"></TextBox>
                     </StackPanel>
-                </GroupBox>
-
             </StackPanel>
 
             
@@ -168,7 +165,7 @@
                 
                     <TextBlock Grid.Row="0" FontFamily="Segoe UI Light" FontSize="36" FontWeight="Bold" Margin="10,0" Text="Configure" TextWrapping="WrapWithOverflow" Foreground="Black"/>
                     <Grid x:Name="ConfigHere" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1"/>
-                    <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="CloseConfigure" Foreground="Red" Content="&#xE711;" FontSize="24" Margin="0,8,8,0"/>
+                    <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="CloseConfigure" Foreground="{DynamicResource Tc-Red}" Content="&#xE711;" FontSize="24" Margin="0,8,8,0"/>
                 
             </Grid>
             
