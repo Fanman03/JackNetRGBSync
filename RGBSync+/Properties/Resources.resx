@@ -213,8 +213,11 @@
   <data name="Store.Plugin.DisableBtnLabel" xml:space="preserve">
     <value>Disable</value>
   </data>
+  <data name="Store.Plugin.UninstallBtnLabel" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
   <data name="Store.Plugin.InstallBtnLabel" xml:space="preserve">
-    <value>Install </value>
+    <value>Installed </value>
   </data>
   <data name="Store.Plugin.InstalledBtnLabel" xml:space="preserve">
     <value>Installed </value>

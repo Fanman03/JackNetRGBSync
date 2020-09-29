@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using RGBSyncPlus.Helper;
 using RGBSyncPlus.Model;
 using SharpCompress.Archives;
+using SimpleLed;
 using Path = System.IO.Path;
 
 namespace RGBSyncPlus.UI.Tabs
@@ -134,6 +135,75 @@ namespace RGBSyncPlus.UI.Tabs
         private void RefreshStore(object sender, RoutedEventArgs e)
         {
             vm.LoadStoreAndPlugins();
+        }
+
+        private void DisablePlugin(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DeletePlugin(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Grid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (sender is Grid grid)
+            {
+                if (grid.DataContext is PositionalAssignment.PluginDetailsViewModel tvm)
+                {
+                    tvm.IsHovered = true;
+                }
+            }
+        }
+
+        private void Grid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (sender is Grid grid)
+            {
+                if (grid.DataContext is PositionalAssignment.PluginDetailsViewModel tvm)
+                {
+                    tvm.IsHovered = false;
+                }
+            }
+        }
+
+        private void ConfigurePlugin(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn)
+            {
+                if (btn.DataContext is PositionalAssignment.PluginDetailsViewModel tvm)
+                {
+                    var existingPlugin =
+                        ApplicationManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == tvm.PluginId);
+
+
+                    if (existingPlugin is ISimpleLedWithConfig drv)
+                    {
+                        var cfgUI = drv.GetCustomConfig(null);
+                        ConfigHere.Children.Clear();
+                        ConfigHere.Children.Add(cfgUI);
+
+                        ConfigHere.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        ConfigHere.VerticalAlignment = VerticalAlignment.Stretch;
+
+                        cfgUI.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                        cfgUI.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        cfgUI.VerticalAlignment = VerticalAlignment.Stretch;
+                        cfgUI.VerticalContentAlignment = VerticalAlignment.Stretch;
+
+                        cfgUI.Foreground = new SolidColorBrush(Colors.Black); //Make theme aware
+
+                        vm.ShowConfig = true;
+                    }
+                }
+            }
+        }
+
+        private void CloseConfigure(object sender, RoutedEventArgs e)
+        {
+            vm.ShowConfig = false;
         }
     }
 }

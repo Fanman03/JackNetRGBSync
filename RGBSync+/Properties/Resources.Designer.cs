@@ -349,7 +349,7 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Install .
+        ///   Looks up a localized string similar to Installed .
         /// </summary>
         public static string Store_Plugin_InstallBtnLabel {
             get {
@@ -363,6 +363,15 @@ namespace RGBSyncPlus.Properties {
         public static string Store_Plugin_InstalledBtnLabel {
             get {
                 return ResourceManager.GetString("Store.Plugin.InstalledBtnLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall.
+        /// </summary>
+        public static string Store_Plugin_UninstallBtnLabel {
+            get {
+                return ResourceManager.GetString("Store.Plugin.UninstallBtnLabel", resourceCulture);
             }
         }
         
@@ -473,14 +482,12 @@ namespace RGBSyncPlus.Properties {
                 return ResourceManager.GetString("UI.SettingsTabHeader", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Store.
         /// </summary>
-        public static string UI_StoreTabHeader
-        {
-            get
-            {
+        public static string UI_StoreTabHeader {
+            get {
                 return ResourceManager.GetString("UI.StoreTabHeader", resourceCulture);
             }
         }

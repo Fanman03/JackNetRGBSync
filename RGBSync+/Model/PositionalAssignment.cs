@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
 using SimpleLed;
 
 namespace RGBSyncPlus.Model
@@ -153,6 +154,19 @@ namespace RGBSyncPlus.Model
 
 
             public ObservableCollection<PluginDetailsViewModel> Versions { get; set; } = new ObservableCollection<PluginDetailsViewModel>();
+            
+            private bool isHovered;
+
+            [JsonIgnore]
+            public bool IsHovered
+            {
+                get => isHovered;
+                set => SetProperty(ref isHovered, value);
+            }
+
+            public PluginDetailsViewModel()
+            {
+            }
 
             public PluginDetailsViewModel(PluginDetails inp, bool dontChild=false)
             {

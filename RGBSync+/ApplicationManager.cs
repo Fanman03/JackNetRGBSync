@@ -528,17 +528,25 @@ namespace RGBSyncPlus
         private void ConfigUpdate(object state)
         {
             CheckSettingStale();
-
-            foreach (var controlDevice in SLSDevices)
+            foreach (ISimpleLed slsManagerDriver in SLSManager.Drivers.Where(x=>x is ISimpleLedWithConfig))
             {
-                if (controlDevice.Driver is ISimpleLedWithConfig slsConfig)
+                ISimpleLedWithConfig cfgable = slsManagerDriver as ISimpleLedWithConfig;
+                if (cfgable.GetIsDirty())
                 {
-                    if (slsConfig.GetIsDirty())
-                    {
-                        SLSManager.SaveConfig(slsConfig);
-                    }
+                    SLSManager.SaveConfig(cfgable);
                 }
             }
+
+            //foreach (var controlDevice in SLSDevices)
+            //{
+            //    if (controlDevice.Driver is ISimpleLedWithConfig slsConfig)
+            //    {
+            //        if (slsConfig.GetIsDirty())
+            //        {
+            //            SLSManager.SaveConfig(slsConfig);
+            //        }
+            //    }
+            //}
         }
 
         private void SLSUpdate(object state)
@@ -758,6 +766,8 @@ namespace RGBSyncPlus
             phillips.Configure(null);
             SLSManager.Drivers.Add(phillips);*/
 
+
+            
             //SLSManager.Init();
             Debug.WriteLine(log);
             loadingSplash.LoadingText.Text = "Updating SLS devices";
@@ -768,6 +778,23 @@ namespace RGBSyncPlus
 
         public void UpdateSLSDevices()
         {
+            loadingSplash.LoadingText.Text = "Loading Configs";
+            foreach (var drv in SLSManager.Drivers)
+            {
+                if (drv is ISimpleLedWithConfig cfgdrv)
+                {
+                    try
+                    {
+                        SLSManager.LoadConfig(cfgdrv);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+                }
+            }
+
+
             loadingSplash.LoadingText.Text = "Getting devices";
             SLSDevices = SLSManager.GetDevices();
             loadingSplash.ProgressBar.Value = 0;

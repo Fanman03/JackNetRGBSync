@@ -422,7 +422,7 @@
                         </StackPanel>
                     </Grid>
 
-                    <Grid x:Name="ConfigHere" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{Binding SubViewMode, ConverterParameter=Config, Converter={StaticResource StringMatchToVisConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}">
+                    <Grid x:Name="ConfigHere" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Config, Converter={StaticResource StringMatchToVisConverter}}">
                         <TextBlock Margin="10,35,0,0"><Run Text="This device has no configuration."/></TextBlock>
                     </Grid>
 
