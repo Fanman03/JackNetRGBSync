@@ -164,6 +164,10 @@ namespace RGBSyncPlus.Model
                 set => SetProperty(ref isHovered, value);
             }
 
+            public PluginDetailsViewModel()
+            {
+            }
+
             public PluginDetailsViewModel(PluginDetails inp, bool dontChild=false)
             {
                 string versionAsString = inp.Version!=null ? inp.Version.ToString() : "0.0.0.0";
