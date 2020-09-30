@@ -29,7 +29,6 @@ using System.Web.Http;
 using System.Web.Http.SelfHost;
 using System.Windows.Documents;
 using System.Windows.Threading;
-using Driver.PhillipsHue;
 using RGBSyncPlus.UI.Tabs;
 using SimpleLed;
 
@@ -303,8 +302,8 @@ namespace RGBSyncPlus
                         if (ConfigurationWindow?.DataContext != null)
                         {
 
-                         //   DevicesViewModel vm = (DevicesViewModel)ConfigurationWindow.DevicesUserControl.DataContext;
-                         //   vm.EnsureCorrectProfileIndex();
+                            //   DevicesViewModel vm = (DevicesViewModel)ConfigurationWindow.DevicesUserControl.DataContext;
+                            //   vm.EnsureCorrectProfileIndex();
 
                         }
                     });
@@ -529,7 +528,7 @@ namespace RGBSyncPlus
         private void ConfigUpdate(object state)
         {
             CheckSettingStale();
-            foreach (ISimpleLed slsManagerDriver in SLSManager.Drivers.Where(x=>x is ISimpleLedWithConfig))
+            foreach (ISimpleLed slsManagerDriver in SLSManager.Drivers.Where(x => x is ISimpleLedWithConfig))
             {
                 ISimpleLedWithConfig cfgable = slsManagerDriver as ISimpleLedWithConfig;
                 if (cfgable.GetIsDirty())
@@ -643,11 +642,11 @@ namespace RGBSyncPlus
             }
         }
 
-        public Dictionary<string,bool> isMapping = new Dictionary<string, bool>();
+        public Dictionary<string, bool> isMapping = new Dictionary<string, bool>();
 
         public void UnloadSLSProviders()
         {
-            SLSManager.Drivers.ForEach(x =>
+            SLSManager.Drivers.ToList().ForEach(x =>
             {
                 try
                 {
@@ -658,7 +657,13 @@ namespace RGBSyncPlus
                 }
             });
 
-            SLSManager.Drivers.Clear();
+            try
+            {
+                SLSManager.Drivers.Clear();
+            }
+            catch
+            {
+            }
 
             GC.Collect(); // collects all unused memory
             GC.WaitForPendingFinalizers(); // wait until GC has finished its work
@@ -763,16 +768,36 @@ namespace RGBSyncPlus
 
             }
 
-            ISimpleLed phillips = new PhillipsHue();
-            phillips.Configure(null);
-            SLSManager.Drivers.Add(phillips);
+            SLSManager.RescanRequired += Rescan;
 
-
-            
             //SLSManager.Init();
             Debug.WriteLine(log);
             loadingSplash.LoadingText.Text = "Updating SLS devices";
             UpdateSLSDevices();
+        }
+
+        public void Rescan(object sender, EventArgs args)
+        {
+            StoreViewModel vm = null;
+            if (ConfigurationWindow.StoreUserControl != null)
+            {
+                vm = ConfigurationWindow.StoreUserControl.DataContext as StoreViewModel;
+            }
+
+            using (new SimpleModal((MainWindowViewModel)ConfigurationWindow.DataContext, "Reloading Plugins"))
+            {
+                ConfigurationWindow.Refresh();
+
+                ApplicationManager.Instance.UpdateSLSDevices();
+                vm?.LoadStoreAndPlugins();
+
+                if (ConfigurationWindow.DevicesUserControl.Content != null)
+                {
+                    DevicesViewModel ducvm = ((Devices)ConfigurationWindow.DevicesUserControl.Content).DataContext as DevicesViewModel;
+                    ducvm?.SetUpDeviceMapViewModel();
+
+                }
+            }
         }
 
         public List<ControlDevice> SLSDevices = new List<ControlDevice>();
