@@ -200,8 +200,8 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,8,0">
-                        <Image Source="pull.png" Width="24" Visibility="{Binding SupportsPull, Converter={StaticResource BoolToVisConverter}}"></Image>
-                        <Image Source="push.png" Width="24" Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisConverter}}"></Image>
+                        <Image Source="UI/pull.png" Width="24" Visibility="{Binding SupportsPull, Converter={StaticResource BoolToVisConverter}}"></Image>
+                        <Image Source="UI/push.png" Width="24" Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisConverter}}"></Image>
                     </StackPanel>
                 </Grid>
                 <StackPanel MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.ThumbWidth}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.ShowFullThumb, Converter={StaticResource InvertedBoolToVisConverter}}" >
