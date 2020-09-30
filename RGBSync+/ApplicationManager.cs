@@ -83,7 +83,24 @@ namespace RGBSyncPlus
 
         #region Constructors
 
-        private ApplicationManager() { }
+        private ApplicationManager()
+        {
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                string dllName = args.Name.Split(',').First() + ".dll";
+
+                foreach (string basePath in BasePaths)
+                {
+                    if (File.Exists(basePath + "\\" + dllName))
+                    {
+                        return Assembly.Load(File.ReadAllBytes(basePath + "\\" + dllName));
+                    }
+                }
+
+                return null;
+
+            };
+        }
 
         public DiscordRpcClient client;
 
@@ -659,6 +676,11 @@ namespace RGBSyncPlus
 
             try
             {
+                if (SLSManager.Drivers == null)
+                {
+                    SLSManager.Drivers = new ObservableCollection<ISimpleLed>();
+                }
+
                 SLSManager.Drivers.Clear();
             }
             catch
@@ -671,8 +693,9 @@ namespace RGBSyncPlus
         }
 
 
+        public static List<string> BasePaths = new List<string>();
 
-
+          
         public void LoadSLSProviders()
         {
             UnloadSLSProviders();
@@ -702,20 +725,19 @@ namespace RGBSyncPlus
                 {
                     Debug.WriteLine("Checking " + file);
                     string filename = file.Split('\\').Last();
-
+                    string justPath = file.Substring(0, file.Length - filename.Length);
                     if (filename.ToLower().StartsWith("driver") || filename.ToLower().StartsWith("source"))
                     {
                         try
                         {
                             loadingSplash.LoadingText.Text = "Loading " + file.Split('\\').Last().Split('.').First();
                             Logger.Debug("Loading provider " + file);
+
+                            BasePaths.Add(justPath);
                             Assembly assembly = Assembly.Load(File.ReadAllBytes(file));
                             //Assembly assembly = Assembly.LoadFrom(file);
                             var typeroo = assembly.GetTypes();
                             var pat2 = typeroo.Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass).ToList();
-
-
-                            var testy = pat2.Where(x => x == typeof(ISimpleLed) || x == typeof(ISimpleLedWithConfig));
 
                             List<Type> pat3 = pat2.Where(t => typeof(ISimpleLed).IsAssignableFrom(t)).ToList();
 
@@ -779,19 +801,19 @@ namespace RGBSyncPlus
         public void Rescan(object sender, EventArgs args)
         {
             StoreViewModel vm = null;
-            if (ConfigurationWindow.StoreUserControl != null)
+            if (ConfigurationWindow?.StoreUserControl != null)
             {
                 vm = ConfigurationWindow.StoreUserControl.DataContext as StoreViewModel;
             }
 
-            using (new SimpleModal((MainWindowViewModel)ConfigurationWindow.DataContext, "Reloading Plugins"))
+            using (new SimpleModal((MainWindowViewModel)ConfigurationWindow?.DataContext, "Reloading Plugins"))
             {
                 ConfigurationWindow.Refresh();
 
                 ApplicationManager.Instance.UpdateSLSDevices();
                 vm?.LoadStoreAndPlugins();
 
-                if (ConfigurationWindow.DevicesUserControl.Content != null)
+                if (ConfigurationWindow?.DevicesUserControl.Content != null)
                 {
                     DevicesViewModel ducvm = ((Devices)ConfigurationWindow.DevicesUserControl.Content).DataContext as DevicesViewModel;
                     ducvm?.SetUpDeviceMapViewModel();
