@@ -27,6 +27,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Threading;
 using RGBSyncPlus.UI.Tabs;
@@ -85,21 +86,22 @@ namespace RGBSyncPlus
 
         private ApplicationManager()
         {
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-            {
-                string dllName = args.Name.Split(',').First() + ".dll";
+            //AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            //{
+            //    string dllName = args.Name.Split(',').First() + ".dll";
 
-                foreach (string basePath in BasePaths)
-                {
-                    if (File.Exists(basePath + "\\" + dllName))
-                    {
-                        return Assembly.Load(File.ReadAllBytes(basePath + "\\" + dllName));
-                    }
-                }
+            //    foreach (string basePath in BasePaths)
+            //    {
+            //        if (File.Exists(basePath + "\\" + dllName))
+            //        {
+            //            return Assembly.Load(File.ReadAllBytes(basePath + "\\" + dllName));
+            //        }
+            //    }
 
-                return null;
+            //    Debug.WriteLine("Failed to Load: "+dllName);
+            //    return null;
 
-            };
+            //};
         }
 
         public DiscordRpcClient client;
@@ -692,10 +694,78 @@ namespace RGBSyncPlus
             GC.Collect();
         }
 
+        public void LoadChildAssemblies(Assembly assembly, string basePath)
+        {
+
+            var names = assembly.GetReferencedAssemblies();
+
+            foreach (AssemblyName assemblyName in names)
+            {
+                try
+                {
+                    var temp = Assembly.Load(File.ReadAllBytes(basePath + "\\" + assemblyName.Name + ".dll"));
+                    LoadChildAssemblies(temp, basePath);
+                }
+                catch
+                {
+                }
+            }
+        }
+        internal ISimpleLed LoadDll(string basePath, string dllFileName)
+        {
+            ISimpleLed result = null;
+
+            ResolveEventHandler delly = (sender, args) => CurrentDomainOnAssemblyResolve(sender, args, basePath);
+
+            AppDomain.CurrentDomain.AssemblyResolve += delly;
+
+            Assembly assembly = Assembly.Load(File.ReadAllBytes(basePath + "\\" + dllFileName));
+            //Assembly assembly = Assembly.LoadFrom(file);
+            var typeroo = assembly.GetTypes();
+            var pat2 = typeroo.Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass).ToList();
+
+            List<Type> pat3 = pat2.Where(t => typeof(ISimpleLed).IsAssignableFrom(t)).ToList();
+
+            foreach (Type loaderType in pat3)
+            {
+                if (Activator.CreateInstance(loaderType) is ISimpleLed slsDriver)
+                {
+                    if (slsDriver is ISimpleLedWithConfig slsWithConfig)
+                    {
+                        UserControl temp = slsWithConfig.GetCustomConfig(null);
+
+                    }
+
+
+                    LoadChildAssemblies(assembly, basePath);
+
+                    result = slsDriver;
+                }
+            }
+
+            AppDomain.CurrentDomain.AssemblyResolve -= delly;
+
+            return result;
+        }
+
+        private Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args, string basePath)
+        {
+            string assemblyName = new AssemblyName(args.Name).Name;
+
+            string dllName = assemblyName + ".dll";
+            string dllFullPath = Path.Combine(basePath, dllName);
+
+            if (File.Exists(dllFullPath))
+            {
+                return Assembly.Load(File.ReadAllBytes(dllFullPath));
+            }
+
+            return null;
+        }
 
         public static List<string> BasePaths = new List<string>();
 
-          
+
         public void LoadSLSProviders()
         {
             UnloadSLSProviders();
@@ -733,48 +803,34 @@ namespace RGBSyncPlus
                             loadingSplash.LoadingText.Text = "Loading " + file.Split('\\').Last().Split('.').First();
                             Logger.Debug("Loading provider " + file);
 
-                            BasePaths.Add(justPath);
-                            Assembly assembly = Assembly.Load(File.ReadAllBytes(file));
-                            //Assembly assembly = Assembly.LoadFrom(file);
-                            var typeroo = assembly.GetTypes();
-                            var pat2 = typeroo.Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass).ToList();
+                            var slsDriver = LoadDll(justPath, filename);
 
-                            List<Type> pat3 = pat2.Where(t => typeof(ISimpleLed).IsAssignableFrom(t)).ToList();
-
-                            foreach (Type loaderType in pat3)
+                            if (slsDriver != null)
                             {
-                                if (Activator.CreateInstance(loaderType) is ISimpleLed slsDriver)
+                                try
                                 {
-                                    try
+                                    if (!driversAdded.Contains(slsDriver.GetProperties().Id))
                                     {
-                                        if (!driversAdded.Contains(slsDriver.GetProperties().Id))
-                                        {
-                                            //slsDriver.Configure(null);
-                                            Debug.WriteLine("We got one! " + "Loading " + slsDriver.Name());
-                                            loadingSplash.LoadingText.Text = "Loading " + slsDriver.Name();
-                                            loadingSplash.UpdateLayout();
-                                            loadingSplash.Refresh();
-                                            loadingSplash.LoadingText.Refresh();
-                                            Task.Delay(33).Wait();
-                                            SLSManager.Drivers.Add(slsDriver);
-                                            driversAdded.Add(slsDriver.GetProperties().Id);
-                                            Debug.WriteLine("all loaded: " + slsDriver.Name());
-                                            slsDriver.Configure(new DriverDetails());
-                                            Debug.WriteLine("Have Initialized: " + slsDriver.Name());
-                                        }
+                                        //slsDriver.Configure(null);
+                                        Debug.WriteLine("We got one! " + "Loading " + slsDriver.Name());
+                                        loadingSplash.LoadingText.Text = "Loading " + slsDriver.Name();
+                                        loadingSplash.UpdateLayout();
+                                        loadingSplash.Refresh();
+                                        loadingSplash.LoadingText.Refresh();
+                                        Task.Delay(33).Wait();
+                                        SLSManager.Drivers.Add(slsDriver);
+                                        driversAdded.Add(slsDriver.GetProperties().Id);
+                                        Debug.WriteLine("all loaded: " + slsDriver.Name());
+                                        slsDriver.Configure(new DriverDetails());
+                                        Debug.WriteLine("Have Initialized: " + slsDriver.Name());
                                     }
-                                    catch (Exception ex)
-                                    {
-                                        Debug.WriteLine(ex.Message);
-                                        log.Add(ex);
-
-
-                                    }
-
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    Debug.WriteLine("isnt ISimpleLed");
+                                    Debug.WriteLine(ex.Message);
+                                    log.Add(ex);
+
+
                                 }
                             }
 
