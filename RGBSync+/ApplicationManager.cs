@@ -703,11 +703,20 @@ namespace RGBSyncPlus
             {
                 try
                 {
-                    var temp = Assembly.Load(File.ReadAllBytes(basePath + "\\" + assemblyName.Name + ".dll"));
-                    LoadChildAssemblies(temp, basePath);
+                    if (File.Exists(basePath + "\\" + assemblyName.Name + ".dll"))
+                    {
+                        var temp = Assembly.Load(File.ReadAllBytes(basePath + "\\" + assemblyName.Name + ".dll"));
+                        LoadChildAssemblies(temp, basePath);
+                    }
+                    else
+                    {
+                        Assembly.Load(assemblyName);
+                    }
+                    
                 }
-                catch
+                catch (Exception e)
                 {
+                    Debug.WriteLine(e.Message);
                 }
             }
         }
