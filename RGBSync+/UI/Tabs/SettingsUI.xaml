@@ -6,10 +6,13 @@
              xmlns:local="clr-namespace:RGBSyncPlus.UI.Tabs"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-<StackPanel>
+    <UserControl.DataContext>
+        <local:SettingsUIViewModel/>
+    </UserControl.DataContext>
+    <StackPanel>
     <StackPanel Orientation="Horizontal">
             <Label Width="120" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="White">API Server</Label>
-        <CheckBox VerticalAlignment="Center" Margin="10,0" Foreground="White" BorderBrush="White" VerticalContentAlignment="Center"></CheckBox>
+        <CheckBox VerticalAlignment="Center" Margin="10,0" Foreground="White" BorderBrush="White" VerticalContentAlignment="Center" IsChecked="{Binding NGSettings.ApiEnabled}"></CheckBox>
             <Label HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="12" Foreground="White" VerticalAlignment="Center">Enable this to enable the RGB Sync Studio REST API server</Label>
         <Label></Label>
     </StackPanel>

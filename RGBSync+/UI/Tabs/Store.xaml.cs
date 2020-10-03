@@ -205,5 +205,15 @@ namespace RGBSyncPlus.UI.Tabs
         {
             vm.ShowConfig = false;
         }
+
+        private void ToggleStore(object sender, RoutedEventArgs e)
+        {
+            vm.ShowStore = !vm.ShowStore;
+        }
+
+        private void ToggleUpdates(object sender, RoutedEventArgs e)
+        {
+            vm.ShowUpdates = !vm.ShowUpdates;
+        }
     }
 }

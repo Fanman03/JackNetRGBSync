@@ -49,6 +49,7 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 SetProperty(ref showPreRelease, value);
                 FilterPlugins();
+                OnPropertyChanged("FilteredPlugins");
             }
         }
 
@@ -60,6 +61,19 @@ namespace RGBSyncPlus.UI.Tabs
             set => SetProperty(ref showConfig, value);
         }
 
+        private bool showUpdates = false;
+
+        public bool ShowUpdates
+        {
+            get => showUpdates;
+            set
+            {
+                SetProperty(ref showUpdates, value);
+                FilterPlugins();
+                OnPropertyChanged("FilteredPlugins");
+            }
+        }
+
         private string pluginSearch;
 
         public string PluginSearch
@@ -69,6 +83,7 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 SetProperty(ref pluginSearch, value);
                 FilterPlugins();
+                OnPropertyChanged("FilteredPlugins");
             }
         }
 
@@ -77,7 +92,36 @@ namespace RGBSyncPlus.UI.Tabs
         public ObservableCollection<PositionalAssignment.PluginDetailsViewModel> Plugins
         {
             get => plugins;
-            set => SetProperty(ref plugins, value);
+            set
+            {
+                SetProperty(ref plugins, value); 
+                OnPropertyChanged("FilteredPlugins");
+            }
+        }
+
+        private ObservableCollection<PositionalAssignment.PluginDetailsViewModel> filteredPlugins;
+        public ObservableCollection<PositionalAssignment.PluginDetailsViewModel> FilteredPlugins
+        {
+            get
+            {
+                if (ShowUpdates)
+                {
+                    return new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(Plugins.Where(x => x.InstalledButOutdated));
+                }
+                else
+                {
+                    if (ShowStore)
+                    {
+                        return new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(Plugins.Where(x =>
+                            !x.Installed));
+                    }
+                    else
+                    {
+                        return new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(Plugins.Where(x =>
+                            x.Installed));
+                    }
+                }
+            }
         }
 
 
@@ -86,6 +130,18 @@ namespace RGBSyncPlus.UI.Tabs
         {
             get => installedPlugins;
             set => SetProperty(ref installedPlugins, value);
+        }
+
+        private bool showStore;
+
+        public bool ShowStore
+        {
+            get => showStore;
+            set
+            {
+                SetProperty(ref showStore, value);
+                OnPropertyChanged("FilteredPlugins");
+            }
         }
 
 

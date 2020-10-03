@@ -40,7 +40,7 @@ namespace RGBSyncPlus.Model
             }
         }
 
-        public class NGSettings : AbstractBindable
+        public class NGSettings : BaseViewModel
         {
             [JsonIgnore]
             public bool AreSettingsStale { get; set; }
@@ -96,7 +96,7 @@ namespace RGBSyncPlus.Model
 
         }
 
-        public class NGProfile : AbstractBindable
+        public class NGProfile : BaseViewModel
         {
             [JsonIgnore]
             public bool IsProfileStale { get; set; }
