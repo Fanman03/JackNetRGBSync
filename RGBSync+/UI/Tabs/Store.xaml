@@ -53,22 +53,15 @@
 
                     <Button Background="#c0000000" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="Details"/>
                     <Button Background="#c0000000" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="Configure" Click="ConfigurePlugin"/>
-                    <Button Background="{StaticResource Tc-Green}" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="Install" Visibility="{Binding Installed, Converter={StaticResource InvertedBoolToVisConverter}}" Click="InstallPlugin" />
-                    <Button Background="{StaticResource Tc-Blue}" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="Install" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}" Click="InstallPlugin" />
-                    <Button Background="{StaticResource Tc-Red}" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="{x:Static p:Resources.Store_Plugin_DisableBtnLabel}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DisablePlugin" />
-                    <Button Background="{StaticResource Tc-Red}" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="{x:Static p:Resources.Store_Plugin_UninstallBtnLabel}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DeletePlugin" />
+                    <Button Background="{StaticResource Tc-Green}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Install" Visibility="{Binding Installed, Converter={StaticResource InvertedBoolToVisConverter}}" Click="InstallPlugin" />
+                    <Button Background="{StaticResource Tc-Blue}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Install" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}" Click="InstallPlugin" />
+                    <Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{x:Static p:Resources.Store_Plugin_DisableBtnLabel}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DisablePlugin" />
+                    <Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{x:Static p:Resources.Store_Plugin_UninstallBtnLabel}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DeletePlugin" />
                     
                 </StackPanel>
             </Grid>
         </DataTemplate>
-        <Style TargetType="Button" x:Key="SmallSquareIcon" BasedOn="{StaticResource ButtonRevealStyle}"  >
-            <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
-            <Setter Property="FontSize" Value="24"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Margin" Value="8,0"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="8"/>
-        </Style>
+       
     </UserControl.Resources>
     <UserControl.DataContext>
         <local:StoreViewModel/>
@@ -132,9 +125,9 @@
         <!--
         If acrylic brush worked, id use this. but it doesnt and im angry :(
         <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="{fw:AcrylicBrush grid}" Visibility="{Binding ShowConfig, Converter={StaticResource BoolToVisConverter}}"/>-->
-        <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="#d0000000" Visibility="{Binding ShowConfig, Converter={StaticResource BoolToVisConverter}}"/>
+        <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="#d0000000" Visibility="{Binding ShowConfig, Converter={StaticResource BoolToVisConverter}}" d:IsHidden="True"/>
 
-        <Grid Grid.Column="0" Visibility="{Binding ShowConfig, Converter={StaticResource BoolToVisConverter}}" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2">
+        <Grid Grid.Column="0" Visibility="{Binding ShowConfig, Converter={StaticResource BoolToVisConverter}}" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2" d:IsHidden="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
                 <ColumnDefinition Width="6*"></ColumnDefinition>

@@ -49,7 +49,7 @@
             <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"/>
             <ListView ItemsSource="{Binding TabItems}" ItemTemplate="{DynamicResource TabItemTemplate}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" Padding="0" Margin="0" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
 
-            <Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="ToggleHamburger" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="0,0" Style="{DynamicResource ButtonRevealStyle}">
+            <Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="ShowSettings" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="0,0" Style="{DynamicResource ButtonRevealStyle}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8,0,8,0">
                     <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE713;" VerticalAlignment="Center" Margin="0,0" FontSize="24" />
                     <TextBlock Margin="20,0" 
@@ -71,6 +71,10 @@
 
         <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=store, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="StoreUserControl">
             <Tabs:Store HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </UserControl>
+
+        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="SettingsUserControl">
+            <Tabs:SettingsUI HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>
         <Grid Grid.Column="1" Background="#c0000000" Visibility="{Binding ShowModal, Converter={StaticResource BoolToVisibilityConverter}}" d:IsHidden="True">
             <Grid Width="500" Background="White" VerticalAlignment="Center">

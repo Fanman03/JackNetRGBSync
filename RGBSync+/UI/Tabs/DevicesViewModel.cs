@@ -25,7 +25,22 @@ namespace RGBSyncPlus.UI.Tabs
 
 
         private ObservableCollection<DeviceMappingModels.Device> slsDevices;
-        public ObservableCollection<DeviceMappingModels.Device> SLSDevices { get => slsDevices; set => SetProperty(ref slsDevices, value); }
+        public ObservableCollection<DeviceMappingModels.Device> SLSDevices { get => slsDevices;
+            set
+            {
+                SetProperty(ref slsDevices, value);
+                this.OnPropertyChanged("SLSDevicesFiltered");
+            }
+
+        }
+
+        public ObservableCollection<DeviceMappingModels.Device> SLSDevicesFiltered
+        {
+            get
+            {
+                return new ObservableCollection<DeviceMappingModels.Device>(SLSDevices.Where(x => x.SupportsPush || ShowSources));
+            }
+        }
 
         private ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> deviceMappingViewModel;
         public ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> DeviceMappingViewModel { get => deviceMappingViewModel; set => SetProperty(ref deviceMappingViewModel, value); }
@@ -185,7 +200,7 @@ namespace RGBSyncPlus.UI.Tabs
         }
 
 
-        private int thumbWidth = 64;
+        private int thumbWidth = 192;
 
         public int ThumbWidth
         {
@@ -196,7 +211,7 @@ namespace RGBSyncPlus.UI.Tabs
             }
         }
 
-        private int thumbHeight = 48;
+        private int thumbHeight = 144;
 
         public int ThumbHeight
         {
@@ -247,6 +262,18 @@ namespace RGBSyncPlus.UI.Tabs
         {
             get => multipleDeviceSelected;
             set => SetProperty(ref multipleDeviceSelected, value);
+        }
+
+        private bool showSources;
+
+        public bool ShowSources
+        {
+            get => showSources;
+            set
+            {
+                SetProperty(ref showSources, value);
+                this.OnPropertyChanged("SLSDevicesFiltered");
+            }
         }
 
         public void SetUpDeviceMapViewModel()

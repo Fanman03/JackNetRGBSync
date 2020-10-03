@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:RGBSyncPlus.UI.Tabs"
              xmlns:Converter="clr-namespace:RGBSyncPlus.Converter"
              xmlns:fluentWpf="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+             xmlns:p="clr-namespace:RGBSyncPlus.Properties"
              x:Class="RGBSyncPlus.UI.Tabs.Devices"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1280">
@@ -35,7 +36,7 @@
         </DataTemplate>
         <DataTemplate x:Key="DeviceMapperSourceItemTemplate" >
 
-            <Grid Margin="0" Background="#80000000" HorizontalAlignment="Stretch" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisConverter}}" >
+            <Grid Margin="5,0,5,0"  HorizontalAlignment="Stretch" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisConverter}}" >
                 <Grid.ColumnDefinitions>
 
                     <ColumnDefinition/>
@@ -48,22 +49,29 @@
                 </Grid>
 
                 <Grid Grid.Column="0" MouseLeftButtonUp="ClickSource">
-                    <Border Height="40">
-                        <Border.Background>
-                            <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill"/>
-                        </Border.Background>
-                        <Border.Effect>
-                            <BlurEffect Radius="10"></BlurEffect>
-                        </Border.Effect>
-                    </Border>
-                    <Rectangle>
-                        <Rectangle.Fill>
-                            <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                <GradientStop Color="{DynamicResource SystemAltMediumLowColor}" Offset="1"/>
-                                <GradientStop Color="{DynamicResource SytemAltMediumColor}" Offset="0.5"/>
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
+                    <Grid ClipToBounds="True" Height="40" >
+                        <Border Opacity="0.5">
+                            <Border.Background>
+                                <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill"/>
+                            </Border.Background>
+                            <Border.Effect>
+                                <BlurEffect Radius="10"></BlurEffect>
+                            </Border.Effect>
+                            <Border.RenderTransform>
+                                <ScaleTransform ScaleX="1.1" ScaleY="1.1"></ScaleTransform>
+                            </Border.RenderTransform>
+                        </Border>
+                        <Rectangle Opacity="0.75">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                    <GradientStop Color="{DynamicResource SystemAltMediumLowColor}" Offset="1"/>
+                                    <GradientStop Color="{DynamicResource SytemAltMediumColor}" Offset="0.5"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+
+                        <Rectangle Fill="Black" Opacity="0.5"></Rectangle>
+                    </Grid>
                     <Grid>
 
                         <Grid>
@@ -252,27 +260,37 @@
 
             <Grid Grid.Row="0" Background="{DynamicResource SystemBaseLowColorBrush}" fluentWpf:PointerTracker.Enabled="True">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <Button FontFamily="Segoe MDL2 Assets" Padding="4" Background="{DynamicResource SystemBaseLowColorBrush}" Style="{StaticResource ButtonRevealStyle}" FontSize="20" Foreground="{DynamicResource SystemBaseHighColorBrush}" Width="32" Height="32" Margin="8" Click="ZoomOut" Content="&#xE71F;"/>
+                    <!--<Button FontFamily="Segoe MDL2 Assets" Padding="4" Background="{DynamicResource SystemBaseLowColorBrush}" Style="{StaticResource ButtonRevealStyle}" FontSize="20" Foreground="{DynamicResource SystemBaseHighColorBrush}" Width="32" Height="32" Margin="8" Click="ZoomOut" Content="&#xE71F;"/>
                     <Button FontFamily="Segoe MDL2 Assets" Padding="4" Background="{DynamicResource SystemBaseLowColorBrush}" Style="{StaticResource ButtonRevealStyle}" FontSize="20" Foreground="{DynamicResource SystemBaseHighColorBrush}" Width="32" Height="32" Margin="8" Click="ZoomIn" Content="&#xE8A3;"/>
                     <Button FontFamily="Segoe MDL2 Assets" Padding="4" Background="{DynamicResource SystemBaseLowColorBrush}" Style="{StaticResource ButtonRevealStyle}" FontSize="20" Foreground="{DynamicResource SystemBaseHighColorBrush}" Width="32" Height="32" Margin="8" Click="ToggleDevicesView" Content="&#xE71D;"/>
+-->
+                    <Button Background="#80000000" Content="&#xE71F;" Style="{StaticResource SmallSquareIcon}" ToolTip="Zoom Out" Click="ZoomOut"/>
+                    <Button Background="#80000000" Content="&#xE8A3;" Style="{StaticResource SmallSquareIcon}" ToolTip="Zoom In"  Click="ZoomIn"/>
+
+                    <Button Background="#80000000" Content="&#xE71D;" Style="{StaticResource SmallSquareIcon}" ToolTip="Condensed View" Click="ToggleDevicesView" Visibility="{Binding DevicesCondenseView, Converter={StaticResource InvertedBoolToVisConverter}}"/>
+                    <Button Background="{StaticResource Tc-Green}" Content="&#xE71D;" Style="{StaticResource SmallSquareIcon}" ToolTip="Icon View" Click="ToggleDevicesView" Visibility="{Binding DevicesCondenseView, Converter={StaticResource BoolToVisConverter}}"/>
+
+                    <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Show sources" Click="ToggleShowSources" Visibility="{Binding ShowSources, Converter={StaticResource InvertedBoolToVisConverter}}"/>
+                    <Button Background="{StaticResource Tc-Green}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Show sources" Click="ToggleShowSources" Visibility="{Binding ShowSources, Converter={StaticResource BoolToVisConverter}}"/>
                 </StackPanel>
                 
             </Grid>
 
-            <Grid Margin="0,0,0,0" Grid.Row="1">
-                    <ListView MinHeight="400" ItemsSource="{Binding SLSDevices}" ItemTemplate="{DynamicResource DeviceControlTemplate}" SelectionChanged="DevicesListSelectionChanged" x:Name="DeviceConfigList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource InvertedBoolToVisConverter}}" Background="#ff0000" >
+            <Grid Margin="0,0,0,0" Grid.Row="1" HorizontalAlignment="Stretch">
+                <ListView MinHeight="400" ItemsSource="{Binding SLSDevicesFiltered}" ItemTemplate="{DynamicResource DeviceControlTemplate}" SelectionChanged="DevicesListSelectionChanged" x:Name="DeviceConfigList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource InvertedBoolToVisConverter}}" Background="#ff0000"  >
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
                                            ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}"
                                            MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
-                                           ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                           ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                           />
                             </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
 
                     </ListView>
 
-                    <ListView ItemsSource="{Binding SLSDevices}" ItemTemplate="{DynamicResource DeviceControlCondensedTemplate}" SelectionChanged="DevicesListCondensedSelectionChanged" x:Name="DeviceConfigCondensedList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource BoolToVisConverter}}" >
+                <ListView ItemsSource="{Binding SLSDevicesFiltered}" ItemTemplate="{DynamicResource DeviceControlCondensedTemplate}" SelectionChanged="DevicesListCondensedSelectionChanged" x:Name="DeviceConfigCondensedList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource BoolToVisConverter}}" >
 
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -286,7 +304,7 @@
 
                 </Grid>
         </Grid>
-        <Grid Grid.Row="1" x:Name="ConfigPanel" Background="#80000000" Margin="0"  MaxHeight="{Binding MaxSubViewHeight}" Height="{Binding MaxSubViewHeight}" fluentWpf:PointerTracker.Enabled="True">
+        <Grid Grid.Row="1" x:Name="ConfigPanel"  Margin="0"  MaxHeight="{Binding MaxSubViewHeight}" Height="{Binding MaxSubViewHeight}" fluentWpf:PointerTracker.Enabled="True">
 
             <Grid Margin="0">
                 <Grid.RowDefinitions>
@@ -300,7 +318,7 @@
                                 </Image.Effect>
                             </Image>
                             -->
-                <Rectangle Grid.Row="0" Fill="{DynamicResource SystemAltHighColorBrush}" Margin="0" Grid.RowSpan="2"/>
+          
 
 
                 <Grid Grid.Row="0" Background="{DynamicResource SystemBaseLowColorBrush}"  Height="60" VerticalAlignment="Top">

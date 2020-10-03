@@ -58,5 +58,10 @@ namespace RGBSyncPlus.UI
         }
 
         public DevicesViewModel DevicesViewModel=> DevicesUserControl.DataContext as DevicesViewModel;
+
+        private void ShowSettings(object sender, RoutedEventArgs e)
+        {
+            vm.CurrentTab = "settings";
+        }
     }
 }

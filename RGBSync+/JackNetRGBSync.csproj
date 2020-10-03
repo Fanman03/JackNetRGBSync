@@ -182,6 +182,9 @@
       <DependentUpon>Devices.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Tabs\DevicesViewModel.cs" />
+    <Compile Include="UI\Tabs\SettingsUI.xaml.cs">
+      <DependentUpon>SettingsUI.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Tabs\Store.xaml.cs">
       <DependentUpon>Store.xaml</DependentUpon>
     </Compile>
@@ -307,6 +310,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Tabs\Devices.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Tabs\SettingsUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

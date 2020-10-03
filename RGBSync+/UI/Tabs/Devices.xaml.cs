@@ -45,6 +45,11 @@ namespace RGBSyncPlus.UI.Tabs
             vm.DevicesCondenseView = !vm.DevicesCondenseView;
         }
 
+        private void ToggleShowSources(object sender, RoutedEventArgs e)
+        {
+            vm.ShowSources = !vm.ShowSources;
+        }
+
         private void SubInfo(object sender, RoutedEventArgs e)
         {
             vm.SubViewMode = "Info";
@@ -350,7 +355,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         }
 
-       
 
+     
     }
 }

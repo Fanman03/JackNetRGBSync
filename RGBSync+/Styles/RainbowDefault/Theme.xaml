@@ -28,7 +28,7 @@
 
     <!-- Window -->
     <SolidColorBrush x:Key="BrushWindowBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorBlackTransparent}" />
-    <SolidColorBrush x:Key="BrushWindowBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlack}" />
+    <SolidColorBrush x:Key="BrushWindowBackground" presentationOptions:Freeze="True" Color="#de000000" />
 
     <!-- Box -->
     <SolidColorBrush x:Key="BrushBoxBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackTransparent}" />
@@ -98,4 +98,13 @@
     <sys:Double x:Key="FontSizeDefault">14</sys:Double>
     <sys:Double x:Key="FontSizeTooltip">14</sys:Double>
     <sys:Double x:Key="FontSizeNavigation">22</sys:Double>
+
+    <Style TargetType="Button" x:Key="SmallSquareIcon"><!--BasedOn="{StaticResource ButtonRevealStyle}" >-->
+        <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Margin" Value="8,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="8"/>
+    </Style>
 </ResourceDictionary>
