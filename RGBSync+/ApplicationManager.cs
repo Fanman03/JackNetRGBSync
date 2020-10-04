@@ -353,6 +353,7 @@ namespace RGBSyncPlus
                 Directory.CreateDirectory(SLSCONFIGS_DIRECTORY);
             }
 
+            loadingSplash.Activate();
             SLSManager = new SLSManager(SLSCONFIGS_DIRECTORY);
 
             var config = new NLog.Config.LoggingConfiguration();
@@ -800,6 +801,7 @@ namespace RGBSyncPlus
             List<Exception> log = new List<Exception>();
             foreach (var pluginFolder in pluginFolders)
             {
+                loadingSplash.Activate();
                 ct++;
                 loadingSplash.ProgressBar.Value = ct;
                 loadingSplash.ProgressBar.Refresh();

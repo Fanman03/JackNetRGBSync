@@ -7,6 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <StackPanel>
 <TextBlock Margin="10" FontSize="36" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="RGB Sync Studio"/>
             <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="Original RGBSync Development"/>
@@ -20,5 +24,8 @@
 <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="James Johnston"/>
 
         </StackPanel>
+        <Grid Grid.Column="1">
+            <Image Source="/RGBSync+;component/Resources/DefaultBanner.png"></Image>
+        </Grid>
     </Grid>
 </UserControl>
