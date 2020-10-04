@@ -606,11 +606,13 @@ namespace RGBSyncPlus.UI
                     {
                         configDevice.SourceName = selected?.Name;
                         configDevice.SourceProviderName = selected?.ProviderName;
+                        configDevice.SourceConnectedTo = selected?.ConnectedTo;
                     }
                     else
                     {
                         configDevice.SourceName = null;
                         configDevice.SourceProviderName = null;
+                        configDevice.SourceConnectedTo = null;
 
                         foreach (var controlDeviceLeD in parentDevice.ControlDevice.LEDs)
                         {

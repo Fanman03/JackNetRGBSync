@@ -225,6 +225,15 @@ namespace RGBSyncPlus.Model
                 get => providerName;
                 set => SetProperty(ref providerName, value);
             }
+
+            private string connectedTo;
+
+            public string ConnectedTo
+            {
+                get => connectedTo;
+                set => SetProperty(ref connectedTo, value);
+            }
+
             private bool enabled;
 
             public bool Enabled
@@ -270,6 +279,14 @@ namespace RGBSyncPlus.Model
                 set => SetProperty(ref providerName, value);
             }
 
+            private string connectedTo;
+
+            public string ConnectedTo
+            {
+                get => connectedTo;
+                set => SetProperty(ref connectedTo, value);
+            }
+
 
 
 
@@ -288,7 +305,13 @@ namespace RGBSyncPlus.Model
                 set => SetProperty(ref sourceProviderName, value);
             }
 
+            private string sourceConnectedTo;
 
+            public string SourceConnectedTo
+            {
+                get => sourceConnectedTo;
+                set => SetProperty(ref sourceConnectedTo, value);
+            }
 
 
 
@@ -311,6 +334,21 @@ namespace RGBSyncPlus.Model
                 set => SetProperty(ref name, value);
             }
 
+            private string connectedTo;
+
+            public string ConnectedTo
+            {
+                get => connectedTo;
+                set => SetProperty(ref connectedTo, value);
+            }
+
+            private string title;
+
+            public string Title
+            {
+                get => title;
+                set => SetProperty(ref title, value);
+            }
 
             private string providerName;
             public string ProviderName

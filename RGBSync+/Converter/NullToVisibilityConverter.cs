@@ -17,4 +17,69 @@ namespace RGBSyncPlus.Converter
 
         #endregion
     }
+
+
+    [ValueConversion(typeof(object), typeof(Visibility))]
+    public class NonEmptyStringToVisibilityConverter : IValueConverter
+    {
+        #region Methods
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            bool trig = value == null || string.IsNullOrWhiteSpace(value.ToString());
+
+            if (trig)
+            {
+                if (parameter != null && (parameter.ToString() == "hidden"))
+                {
+                    return Visibility.Hidden;
+                }
+                else
+                {
+                    return Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                return Visibility.Visible;
+            }
+        }
+
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotSupportedException();
+
+        #endregion
+    }
+
+    [ValueConversion(typeof(object), typeof(Visibility))]
+    public class EmptyStringToVisibilityConverter : IValueConverter
+    {
+        #region Methods
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            bool trig = value == null || string.IsNullOrWhiteSpace(value.ToString());
+
+            if (!trig)
+            {
+                if (parameter != null && (parameter.ToString() == "hidden"))
+                {
+                    return Visibility.Hidden;
+                }
+                else
+                {
+                    return Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                return Visibility.Visible;
+            }
+        }
+
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotSupportedException();
+
+        #endregion
+    }
 }

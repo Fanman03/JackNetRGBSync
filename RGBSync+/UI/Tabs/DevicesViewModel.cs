@@ -154,7 +154,7 @@ namespace RGBSyncPlus.UI.Tabs
             SourceDevices = new ObservableCollection<DeviceMappingModels.SourceModel>();
             foreach (var source in sources)
             {
-                var enabled = current != null && source.Driver.Name() == current.SourceProviderName && source.Name == current.SourceName;
+                var enabled = current != null && source.Driver.Name() == current.SourceProviderName && source.Name == current.SourceName && source.ConnectedTo == current.SourceConnectedTo;
                 SourceDevices.Add(new DeviceMappingModels.SourceModel
                 {
                     ProviderName = source.Driver.Name(),
@@ -291,7 +291,9 @@ namespace RGBSyncPlus.UI.Tabs
                     ProviderName = device.Driver.Name(),
                     SupportsPull = props.SupportsPull,
                     SupportsPush = props.SupportsPush,
-                    DriverProps = props
+                    DriverProps = props,
+                    Title = string.IsNullOrWhiteSpace(device.TitleOverride) ? device.Driver.Name() : device.TitleOverride,
+                    ConnectedTo = device.ConnectedTo
                 });
             }
 

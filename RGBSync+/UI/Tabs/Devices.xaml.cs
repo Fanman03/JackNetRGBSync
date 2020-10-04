@@ -269,6 +269,7 @@ namespace RGBSyncPlus.UI.Tabs
                         {
                             Name = parentDevice.Name,
                             ProviderName = parentDevice.ProviderName,
+                            ConnectedTo = parentDevice.ConnectedTo
                         };
 
                         profile.DeviceProfileSettings.Add(configDevice);
@@ -279,11 +280,13 @@ namespace RGBSyncPlus.UI.Tabs
                     {
                         configDevice.SourceName = selected?.Name;
                         configDevice.SourceProviderName = selected?.ProviderName;
+                        configDevice.SourceConnectedTo = selected?.ConnectedTo;
                     }
                     else
                     {
                         configDevice.SourceName = null;
                         configDevice.SourceProviderName = null;
+                        configDevice.SourceConnectedTo = null;
 
                         foreach (var controlDeviceLeD in parentDevice.ControlDevice.LEDs)
                         {

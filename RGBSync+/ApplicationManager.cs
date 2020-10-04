@@ -588,7 +588,9 @@ namespace RGBSyncPlus
             {
                 ControlDevice cd = SLSDevices.FirstOrDefault(x =>
                     x.Name == currentProfileDeviceProfileSetting.SourceName &&
-                    x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName);
+                    x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName &&
+                    x.ConnectedTo == currentProfileDeviceProfileSetting.SourceConnectedTo);
+
                 if (cd != null)
                 {
                     if (!devicesToPull.Contains(cd))
@@ -611,18 +613,22 @@ namespace RGBSyncPlus
             {
                 ControlDevice cd = SLSDevices.FirstOrDefault(x =>
                     x.Name == currentProfileDeviceProfileSetting.SourceName &&
-                    x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName);
+                    x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName &&
+                    x.ConnectedTo == currentProfileDeviceProfileSetting.SourceConnectedTo);
 
                 ControlDevice dest = SLSDevices.FirstOrDefault(x =>
                     x.Name == currentProfileDeviceProfileSetting.Name &&
-                    x.Driver.Name() == currentProfileDeviceProfileSetting.ProviderName);
+                    x.Driver.Name() == currentProfileDeviceProfileSetting.ProviderName &&
+                    x.ConnectedTo == currentProfileDeviceProfileSetting.ConnectedTo);
 
                 if (cd != null && dest != null)
                 {
                     string key = currentProfileDeviceProfileSetting.SourceName +
                                  currentProfileDeviceProfileSetting.SourceProviderName +
+                                 currentProfileDeviceProfileSetting.SourceConnectedTo +
                                  currentProfileDeviceProfileSetting.Name +
-                                 currentProfileDeviceProfileSetting.ProviderName;
+                                 currentProfileDeviceProfileSetting.ProviderName+
+                                 currentProfileDeviceProfileSetting.ConnectedTo;
 
                     if (!isMapping.ContainsKey(key) || isMapping[key] == false)
                     {
