@@ -256,12 +256,10 @@ namespace RGBSyncPlus.UI.Tabs
                     var profile = ApplicationManager.Instance.CurrentProfile;
                     if (profile.DeviceProfileSettings == null)
                     {
-                        profile.DeviceProfileSettings =
-                            new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();
+                        profile.DeviceProfileSettings = new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();
                     }
 
-                    var configDevice = profile.DeviceProfileSettings.FirstOrDefault(x =>
-                        x.Name == parentDevice.Name && x.ProviderName == parentDevice.ProviderName);
+                    var configDevice = profile.DeviceProfileSettings.FirstOrDefault(x => x.Name == parentDevice.Name && x.ProviderName == parentDevice.ProviderName && x.ConnectedTo == parentDevice.ConnectedTo);
 
                     if (configDevice == null)
                     {

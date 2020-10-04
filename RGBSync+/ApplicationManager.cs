@@ -346,6 +346,8 @@ namespace RGBSyncPlus
 
             loadingSplash.LoadingText.Text = "Initializing";
 
+            Task.Delay(TimeSpan.FromSeconds(1)).Wait();
+
             if (!Directory.Exists(SLSCONFIGS_DIRECTORY))
             {
                 Directory.CreateDirectory(SLSCONFIGS_DIRECTORY);

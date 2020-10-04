@@ -27,15 +27,9 @@
                 </LinearGradientBrush>
             </ProgressBar.Foreground>
         </ProgressBar>
-        <Image Margin="0,-30,0,5" Source="/RGBSync+;component/placeholderLogo.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Top" StretchDirection="UpOnly" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
+        <StackPanel Orientation="Horizontal" Margin="0,-60,0,0">
+        <Image Width="128" Height="128" Source="/RGBSync+;component/placeholderLogo.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBlock FontSize="40" FontFamily="Segoe UI Light" Foreground="White" VerticalAlignment="Center" Margin="20">RGB Sync Studio</TextBlock>
+        </StackPanel>
     </Grid>
 </Window>

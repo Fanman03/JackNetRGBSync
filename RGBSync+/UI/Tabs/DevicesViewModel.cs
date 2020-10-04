@@ -162,6 +162,7 @@ namespace RGBSyncPlus.UI.Tabs
                     Name = source.Name,
                     Enabled = enabled,
                     Image = ToBitmapImage(source.ProductImage),
+                    ConnectedTo = source.ConnectedTo,
                 }); ;
             }
 
