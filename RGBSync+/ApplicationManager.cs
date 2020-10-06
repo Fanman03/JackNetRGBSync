@@ -815,7 +815,7 @@ namespace RGBSyncPlus
                     Debug.WriteLine("Checking " + file);
                     string filename = file.Split('\\').Last();
                     string justPath = file.Substring(0, file.Length - filename.Length);
-                    if (filename.ToLower().StartsWith("driver") || filename.ToLower().StartsWith("source"))
+                    if (filename.ToLower().StartsWith("driver") || filename.ToLower().StartsWith("source") || filename.ToLower().StartsWith("gameintegration"))
                     {
                         try
                         {

@@ -254,7 +254,7 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 {
                     var profile = ApplicationManager.Instance.CurrentProfile;
-                    if (profile.DeviceProfileSettings == null)
+                    if (profile?.DeviceProfileSettings == null)
                     {
                         profile.DeviceProfileSettings = new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();
                     }
