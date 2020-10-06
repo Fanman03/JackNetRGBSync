@@ -1,0 +1,30 @@
+﻿<Window x:Class="RGBSyncPlus.UI.CrashWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RGBSyncPlus.UI"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        mc:Ignorable="d"
+        Title="CrashWindow" Height="450" Width="800"
+        fw:AcrylicWindow.Enabled="True" Background="#80009AC7">
+    <Grid>
+        <StackPanel Margin="20">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"><TextBlock FontFamily="Segoe UI" FontSize="100" Foreground="White" Margin="20,0,40,0">:(</TextBlock>
+                <StackPanel>
+                    <TextBlock FontFamily="Segoe UI Light" FontWeight="Light" FontSize="36" Foreground="White"  VerticalAlignment="Center">RGB Sync Studio has borken</TextBlock>
+                    <TextBlock FontFamily="Segoe UI Light" FontWeight="Light" FontSize="20" Foreground="White"  VerticalAlignment="Center">An error occured and couldn't be handled.</TextBlock>
+
+                </StackPanel>
+
+            </StackPanel>
+            <TextBlock FontFamily="Segoe UI Light" FontWeight="Light" FontSize="24" Foreground="White" x:Name="errorName">error name</TextBlock>
+            <TextBlock FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Foreground="White" x:Name="message">message</TextBlock>
+            <TextBlock FontFamily="Segoe UI Light" FontWeight="Light" FontSize="12" Foreground="White" x:Name="stackTrace" TextWrapping="WrapWithOverflow">stacktrace</TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20,10">
+            <Button Width="80" Height="30" BorderThickness="0" Background="#cecece" Margin="10">Close</Button>
+            <Button Width="80" Height="30" BorderThickness="0" Background="#cecece" Margin="10">Send Report</Button>
+        </StackPanel>
+    </Grid>
+</Window>

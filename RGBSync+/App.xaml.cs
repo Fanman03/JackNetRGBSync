@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Resources;
+using System.Windows.Threading;
 using Hardcodet.Wpf.TaskbarNotification;
 using Newtonsoft.Json;
 using RGBSyncPlus.Configuration;
@@ -30,11 +31,24 @@ namespace RGBSyncPlus
         #endregion
 
         #region Methods
+        void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            // Process unhandled exception
+            var crashWindow = new CrashWindow();
+            crashWindow.errorName.Text = e.Exception.GetType().ToString();
+            crashWindow.message.Text = e.Exception.Message;
+
+            crashWindow.stackTrace.Text = e.Exception.StackTrace;
+            crashWindow.Show();
+            // Prevent default unhandled exception processing
+            e.Handled = true;
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
+            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
             try
             {
                 ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(int.MaxValue));

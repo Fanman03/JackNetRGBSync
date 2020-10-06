@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +18,9 @@ namespace RGBSyncPlus.UI
                 new TabItem("","",""),
                 new TabItem("","Devices","devices"),
                 new TabItem("", "Profiles","profiles"),
-                new TabItem("","Store","store"),
-                new TabItem("","About","about")
+                new TabItem("","Drivers","store"),
+                new TabItem("","About","about"),
+                new TabItem("","Crash","crashme")
             };
         }
 
@@ -67,7 +69,14 @@ namespace RGBSyncPlus.UI
         public string CurrentTab
         {
             get => currentTab;
-            set => SetProperty(ref currentTab, value);
+            set
+            {
+                SetProperty(ref currentTab, value);
+                if (value == "crashme") ;
+                int i = 11;
+                i = i - 11;
+                Debug.WriteLine(11 / i);
+            }
         }
 
         public ObservableCollection<TabItem> TabItems { get; set; } = new ObservableCollection<TabItem>();
