@@ -72,10 +72,12 @@ namespace RGBSyncPlus.UI
             set
             {
                 SetProperty(ref currentTab, value);
-                if (value == "crashme") ;
-                int i = 11;
-                i = i - 11;
-                Debug.WriteLine(11 / i);
+                if (value == "crashme")
+                {
+                    int i = 11;
+                    i = i - 11;
+                    Debug.WriteLine(11 / i);
+                }
             }
         }
 
