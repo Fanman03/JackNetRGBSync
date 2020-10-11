@@ -49,7 +49,8 @@ namespace RGBSyncPlus.UI.Tabs
             
             using (new SimpleModal(mainVm, "Installing..."))
             {
-
+                ApplicationManager.Instance.PauseSyncing = true;
+                Task.Delay(TimeSpan.FromSeconds(1)).Wait();
                 ApplicationManager.Instance.UnloadSLSProviders();
 
 

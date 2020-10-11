@@ -188,6 +188,11 @@
       <DependentUpon>Devices.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Tabs\DevicesViewModel.cs" />
+    <Compile Include="UI\Tabs\ModalModel.cs" />
+    <Compile Include="UI\Tabs\ProfilesTab.xaml.cs">
+      <DependentUpon>ProfilesTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Tabs\ProfileTabViewModel.cs" />
     <Compile Include="UI\Tabs\SettingsUI.xaml.cs">
       <DependentUpon>SettingsUI.xaml</DependentUpon>
     </Compile>
@@ -328,6 +333,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Tabs\ProfilesTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Tabs\SettingsUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -431,7 +440,7 @@
       <Version>0.26.0</Version>
     </PackageReference>
     <PackageReference Include="SimpleLed">
-      <Version>1.0.14</Version>
+      <Version>1.0.17</Version>
     </PackageReference>
     <PackageReference Include="Swashbuckle.Core">
       <Version>5.6.0</Version>

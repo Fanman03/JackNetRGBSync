@@ -77,6 +77,11 @@
             <Tabs:About HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>
 
+
+        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=profiles, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="ProfilesUserControl">
+            <Tabs:ProfilesTab HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </UserControl>
+
         <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="SettingsUserControl">
             <Tabs:SettingsUI HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>

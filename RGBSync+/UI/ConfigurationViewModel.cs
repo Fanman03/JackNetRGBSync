@@ -45,7 +45,6 @@ namespace RGBSyncPlus.UI
             get => showManageProfiles;
             set => SetProperty(ref showManageProfiles, value);
         }
-        private bool isDesign = DesignerProperties.GetIsInDesignMode(new DependencyObject());
 
         private int selectedProfileIndex = 0;
 
@@ -66,6 +65,8 @@ namespace RGBSyncPlus.UI
                 }
             }
         }
+        private bool isDesign = DesignerProperties.GetIsInDesignMode(new DependencyObject());
+
 
         private ObservableCollection<string> profileTriggerTypeNames = new ObservableCollection<string>
         {

@@ -104,6 +104,11 @@ namespace RGBSyncPlus
             //};
         }
 
+        internal void ShowModal(ModalModel modalModel)
+        {
+            throw new NotImplementedException();
+        }
+
         public DiscordRpcClient client;
 
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -159,8 +164,27 @@ namespace RGBSyncPlus
             CurrentProfile.IsProfileStale = false;
         }
 
+
+        public void SaveNGProfile(DeviceMappingModels.NGProfile profile)
+        {
+            string json = JsonConvert.SerializeObject(profile);
+            string path = profilePathMapping[profile.Name];
+            TimeSettingsLastSave = DateTime.Now;
+            File.WriteAllText(path, json);
+            CurrentProfile.IsProfileStale = false;
+        }
+
+        public void SaveNGProfile(DeviceMappingModels.NGProfile profile, string path)
+        {
+            string json = JsonConvert.SerializeObject(profile);
+            TimeSettingsLastSave = DateTime.Now;
+            File.WriteAllText(path, json);
+            CurrentProfile.IsProfileStale = false;
+        }
+
         public void HotLoadNGSettings()
         {
+            profilePathMapping.Clear();
             if (!Directory.Exists(NGPROFILES_DIRECTORY))
             {
                 Directory.CreateDirectory(NGPROFILES_DIRECTORY);
@@ -272,7 +296,9 @@ namespace RGBSyncPlus
             DeviceMappingModels.NGProfile newProfile = new DeviceMappingModels.NGProfile();
             newProfile.Name = name;
 
-            string filename = Guid.NewGuid().ToString() + ".rsprofile";
+            Guid idGuid = Guid.NewGuid();
+            newProfile.Id = idGuid;
+            string filename = idGuid.ToString() + ".rsprofile";
             string fullPath = NGPROFILES_DIRECTORY + "\\" + filename;
             string json = JsonConvert.SerializeObject(newProfile);
             File.WriteAllText(fullPath, json);
@@ -311,7 +337,15 @@ namespace RGBSyncPlus
         {
             if (profilePathMapping.ContainsKey(profileName))
             {
-                CurrentProfile = GetProfileFromPath(profilePathMapping[profileName]);
+                var map = profilePathMapping[profileName];
+                CurrentProfile = GetProfileFromPath(map);
+
+                if (CurrentProfile.Id == Guid.Empty)
+                {
+                    string gid = map.Split('\\').Last().Split('.').First();
+                    CurrentProfile.Id = Guid.Parse(gid);
+                }
+
                 NGSettings.CurrentProfile = profileName;
 
                 if (ConfigurationWindow != null)
@@ -570,103 +604,139 @@ namespace RGBSyncPlus
             //    }
             //}
         }
+        public class PushListItem
+        {
+            public ISimpleLed Driver { get; set; }
+            public ControlDevice Device { get; set; }
+            public string Key { get; set; }
 
+        }
         private void SLSUpdate(object state)
         {
-
-
-            if (PauseSyncing)
+            try
             {
-                return;
-            }
 
-            if (CurrentProfile == null || CurrentProfile.DeviceProfileSettings == null)
-            {
-                return;
-            }
-
-            List<ControlDevice> devicesToPull = new List<ControlDevice>();
-
-            foreach (var currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
-            {
-                ControlDevice cd = SLSDevices.FirstOrDefault(x =>
-                    x.Name == currentProfileDeviceProfileSetting.SourceName &&
-                    x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName &&
-                    x.ConnectedTo == currentProfileDeviceProfileSetting.SourceConnectedTo);
-
-                if (cd != null)
+                if (PauseSyncing)
                 {
-                    if (!devicesToPull.Contains(cd))
+                    return;
+                }
+
+                if (CurrentProfile == null || CurrentProfile.DeviceProfileSettings == null)
+                {
+                    return;
+                }
+
+                List<ControlDevice> devicesToPull = new List<ControlDevice>();
+
+                foreach (var currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
+                {
+                    ControlDevice cd = SLSDevices.FirstOrDefault(x =>
+                        x.Name == currentProfileDeviceProfileSetting.SourceName &&
+                        x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName &&
+                        x.ConnectedTo == currentProfileDeviceProfileSetting.SourceConnectedTo);
+
+                    if (cd != null)
                     {
-                        devicesToPull.Add(cd);
+                        if (!devicesToPull.Contains(cd))
+                        {
+                            devicesToPull.Add(cd);
+                        }
                     }
                 }
-            }
 
-            foreach (var controlDevice in devicesToPull)
-            {
-                if (controlDevice.Driver.GetProperties().SupportsPull)
+                foreach (var controlDevice in devicesToPull)
                 {
-                    controlDevice.Pull();
-                }
-            }
-
-
-            foreach (var currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
-            {
-                ControlDevice cd = SLSDevices.FirstOrDefault(x =>
-                    x.Name == currentProfileDeviceProfileSetting.SourceName &&
-                    x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName &&
-                    x.ConnectedTo == currentProfileDeviceProfileSetting.SourceConnectedTo);
-
-                ControlDevice dest = SLSDevices.FirstOrDefault(x =>
-                    x.Name == currentProfileDeviceProfileSetting.Name &&
-                    x.Driver.Name() == currentProfileDeviceProfileSetting.ProviderName &&
-                    x.ConnectedTo == currentProfileDeviceProfileSetting.ConnectedTo);
-
-                if (cd != null && dest != null)
-                {
-                    string key = currentProfileDeviceProfileSetting.SourceName +
-                                 currentProfileDeviceProfileSetting.SourceProviderName +
-                                 currentProfileDeviceProfileSetting.SourceConnectedTo +
-                                 currentProfileDeviceProfileSetting.Name +
-                                 currentProfileDeviceProfileSetting.ProviderName+
-                                 currentProfileDeviceProfileSetting.ConnectedTo;
-
-                    if (!isMapping.ContainsKey(key) || isMapping[key] == false)
+                    if (controlDevice.Driver.GetProperties().SupportsPull)
                     {
-                        if (!isMapping.ContainsKey(key))
-                        {
-                            isMapping.Add(key, true);
-                        }
+                        controlDevice.Pull();
+                    }
+                }
 
-                        try
-                        {
-                            dest.MapLEDs(cd);
-                        }
-                        catch
-                        {
-                        }
+                List<PushListItem> pushMe = new List<PushListItem>();
+                foreach (var currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
+                {
+                    ControlDevice cd = SLSDevices.FirstOrDefault(x =>
+                        x.Name == currentProfileDeviceProfileSetting.SourceName &&
+                        x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName &&
+                        x.ConnectedTo == currentProfileDeviceProfileSetting.SourceConnectedTo);
 
-                        isMapping[key] = true;
-                        Task.Run(() =>
+                    ControlDevice dest = SLSDevices.FirstOrDefault(x =>
+                        x.Name == currentProfileDeviceProfileSetting.Name &&
+                        x.Driver.Name() == currentProfileDeviceProfileSetting.ProviderName &&
+                        x.ConnectedTo == currentProfileDeviceProfileSetting.ConnectedTo);
+
+                    if (cd != null && dest != null)
+                    {
+                        string key = currentProfileDeviceProfileSetting.SourceName +
+                                     currentProfileDeviceProfileSetting.SourceProviderName +
+                                     currentProfileDeviceProfileSetting.SourceConnectedTo +
+                                     currentProfileDeviceProfileSetting.Name +
+                                     currentProfileDeviceProfileSetting.ProviderName +
+                                     currentProfileDeviceProfileSetting.ConnectedTo;
+
+                        if (!isMapping.ContainsKey(key) || isMapping[key] == false)
                         {
+                            if (!isMapping.ContainsKey(key))
+                            {
+                                isMapping.Add(key, true);
+                            }
+
                             try
                             {
-                                if (dest.Driver.GetProperties().SupportsPush)
+                                dest.MapLEDs(cd);
+                                pushMe.Add(new PushListItem
                                 {
-                                    dest.Push();
-                                }
+                                    Device = dest,
+                                    Driver = dest.Driver,
+                                    Key = key
+                                });
                             }
                             catch
                             {
                             }
 
-                            isMapping[key] = false;
+                            isMapping[key] = true;
+                        }
 
-                        });
+
                     }
+
                 }
+
+                foreach (IGrouping<ISimpleLed, PushListItem> gp in pushMe.GroupBy(x => x.Driver))
+                {
+                    Task.Run(async () =>
+                   {
+                       foreach (PushListItem t in gp)
+                       {
+                           try
+                           {
+                               gp.Key.Push(t.Device);
+                           }
+                           catch { }
+                       }
+                       foreach (PushListItem t in gp)
+                       {
+                           try
+                           {
+                               isMapping[t.Key] = false;
+                           }
+                           catch { }
+                       }
+                   }
+                   );
+                }
+            }
+            catch (Exception ex)
+            {
+                // Process unhandled exception
+                var crashWindow = new CrashWindow();
+                crashWindow.errorName.Text = ex.GetType().ToString();
+                crashWindow.message.Text = ex.Message;
+
+                crashWindow.stackTrace.Text = ex.StackTrace;
+                crashWindow.Show();
+
             }
         }
 
@@ -721,7 +791,7 @@ namespace RGBSyncPlus
                     {
                         Assembly.Load(assemblyName);
                     }
-                    
+
                 }
                 catch (Exception e)
                 {
@@ -840,7 +910,7 @@ namespace RGBSyncPlus
                                         SLSManager.Drivers.Add(slsDriver);
                                         driversAdded.Add(slsDriver.GetProperties().Id);
                                         Debug.WriteLine("all loaded: " + slsDriver.Name());
-                                        slsDriver.Configure(new DriverDetails( ) { HomeFolder = justPath });
+                                        slsDriver.Configure(new DriverDetails() { HomeFolder = justPath });
                                         Debug.WriteLine("Have Initialized: " + slsDriver.Name());
                                     }
                                 }
@@ -1120,5 +1190,29 @@ namespace RGBSyncPlus
         }
 
         #endregion
+
+        public void DeleteProfile(string dcName)
+        {
+            string path = profilePathMapping[dcName];
+            TimeSettingsLastSave = DateTime.Now;
+            File.Delete(path);
+            HotLoadNGSettings();
+        }
+
+        public void RenameProfile(string currentProfileOriginalName, string currentProfileName)
+        {
+            if (profilePathMapping.ContainsKey(currentProfileOriginalName))
+            {
+                var map = profilePathMapping[currentProfileOriginalName];
+                var profile = GetProfileFromPath(map);
+
+                profile.Name = currentProfileName;
+
+                SaveNGProfile(profile, map);
+                HotLoadNGSettings();
+            }
+
+
+        }
     }
 }

@@ -123,6 +123,8 @@ namespace RGBSyncPlus.Model
                     IsProfileStale = true;
                 }
             }
+
+            public Guid Id { get; set; }
         }
 
         public class NGDeviceSettings : AbstractBindable
