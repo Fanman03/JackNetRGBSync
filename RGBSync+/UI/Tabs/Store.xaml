@@ -122,9 +122,9 @@
                 -->
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4,4,8,4"  VerticalAlignment="Center">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Label  VerticalContentAlignment="Center" VerticalAlignment="Center" Content="{x:Static p:Resources.Store_FilterLabel}" Foreground="{DynamicResource SystemBaseHighColorBrush}"></Label>
-                    <TextBox Text="{Binding PluginSearch}" Width="100" Background="{DynamicResource SystemAltMediumLowColorBrush}" Foreground="{DynamicResource SystemBaseHighColorBrush}" TextChanged="TextBox_TextChanged" x:Name="PluginSearchBox" Style="{StaticResource TextBoxRevealStyle}"></TextBox>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" ToolTip="{x:Static p:Resources.Store_FilterLabel}" >
+                    <Label  VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" Content="&#xE721;" FontSize="20" Foreground="{DynamicResource SystemBaseHighColorBrush}" ></Label>
+                    <TextBox Text="{Binding PluginSearch}" Width="175" Background="{DynamicResource SystemAltMediumLowColorBrush}" Foreground="{DynamicResource SystemBaseHighColorBrush}" TextChanged="TextBox_TextChanged" x:Name="PluginSearchBox" Style="{StaticResource TextBoxRevealStyle}"></TextBox>
                     </StackPanel>
             </StackPanel>
 

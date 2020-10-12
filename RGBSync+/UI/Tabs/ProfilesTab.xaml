@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RGBSyncPlus.UI.Tabs" xmlns:Converter="clr-namespace:RGBSyncPlus.Converter"
+             xmlns:fluentWpf="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -23,7 +24,7 @@
         <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <Converter:DeviceTypeToImageConverter x:Key="DeviceTypeToImageConverter"/>
         <DataTemplate x:Key="ManageProfilesTemplateItem">
-            <Grid VerticalAlignment="Top" Margin="10">
+            <Grid VerticalAlignment="Top" Margin="10" fluentWpf:PointerTracker.Enabled="True">
                 <Grid Height="60"  VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="60"/>
@@ -38,7 +39,7 @@
                     
                     -->
                     <Rectangle Fill="#80d0d0d0" Grid.ColumnSpan="3"></Rectangle>
-<Rectangle Fill="#ff20a020" Grid.ColumnSpan="3" Visibility="{Binding Name, ConverterParameter=test, Converter={StaticResource StringMatchToVisibilityConverter}}"></Rectangle>
+                    <Rectangle Fill="#ff20a020" Grid.ColumnSpan="3" Visibility="{Binding Name, ConverterParameter=test, Converter={StaticResource StringMatchToVisibilityConverter}}"></Rectangle>
 
                     <Button Background="#c0ff0000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Remove Profile" Click="DeleteProfile" />
                     
@@ -86,19 +87,19 @@
 
     <Grid>
         <ListBox ItemsSource="{Binding ProfileItems}" Margin="0,0,0,0" ItemTemplate="{DynamicResource ManageProfilesTemplateItem}" Background="{x:Null}"></ListBox>
-        <Button Width="96" Height="96" Content="" FontFamily="Segoe MDL2 Assets" FontSize="64" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="40,20" Foreground="{DynamicResource SystemBaseHighColorBrush}" Background="{x:Null}" BorderBrush="{x:Null}" Click="AddNewProfile"/>
+        <Button Width="96" Height="96" Content="" FontFamily="Segoe MDL2 Assets" FontSize="64" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="40,20"  Style="{StaticResource FloatingCircularButton}" Background="{x:Null}" BorderBrush="{x:Null}" Click="AddNewProfile"/>
 
         <Grid Background="#80000000" Visibility="{Binding ShowTriggers, Converter={StaticResource BoolToVisibilityConverter}}" d:IsHidden="True">
         <Grid Background="White" Margin="100,50"></Grid>
         </Grid>
 
-        <Grid Background="#80000000" Visibility="{Binding ShowEditProfile, Converter={StaticResource BoolToVisibilityConverter}}" d:IsHidden="True">
+        <Grid Background="#80000000" Visibility="{Binding ShowEditProfile, Converter={StaticResource BoolToVisibilityConverter}}" d:IsHidden="True" fluentWpf:PointerTracker.Enabled="True">
             <Grid Background="White" Margin="150,50" VerticalAlignment="Center" >
                 <StackPanel>
-                    <Button Foreground="Red" Background="{x:Null}" BorderThickness="0" HorizontalAlignment="Right" FontFamily="Segoe MDL2 Assets" FontSize="18" Margin="10" Click="ToggleShowProfile"></Button>
+                    <Button Foreground="Red" Background="{x:Null}" BorderThickness="0" Style="{StaticResource TransparentHoverButton}" HorizontalAlignment="Right" FontFamily="Segoe MDL2 Assets" FontSize="18" Margin="10" Click="ToggleShowProfile"></Button>
                     <TextBox Margin="20" Style="{StaticResource TextBoxRevealStyle}" Foreground="Black" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="36" Text="{Binding CurrentProfile.Name}" VerticalAlignment="Top"></TextBox>
-                    <Button Width="150" Height="30" Margin="20" HorizontalAlignment="Right" Background="Green" BorderThickness="0" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Click="CreateProfile" Visibility="{Binding IsCreateButton, Converter={StaticResource BoolToVisibilityConverter}}">Create</Button>
-                    <Button Width="150" Height="30" Margin="20" HorizontalAlignment="Right" Background="Green" BorderThickness="0" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Click="CloseShowProfile" Visibility="{Binding IsCreateButton, Converter={StaticResource InvertedBoolToVisibilityConverter}}">Close</Button>
+                    <Button Width="150" Height="30" Margin="20" HorizontalAlignment="Right" Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}" Style="{StaticResource ButtonRevealStyle }" BorderThickness="0" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Click="CreateProfile" Visibility="{Binding IsCreateButton, Converter={StaticResource BoolToVisibilityConverter}}">Create</Button>
+                    <Button Width="150" Height="30" Margin="20" HorizontalAlignment="Right" Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}" Style="{StaticResource ButtonRevealStyle }" BorderThickness="0" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Click="CloseShowProfile" Visibility="{Binding IsCreateButton, Converter={StaticResource InvertedBoolToVisibilityConverter}}">Close</Button>
                     
                 </StackPanel>
             </Grid>
