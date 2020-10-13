@@ -109,7 +109,7 @@
                         </Grid>
 
                         <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisConverter}}">
-                            <Border BorderThickness="4" BorderBrush="{StaticResource Tc-Blue}"/>
+                            <Border BorderThickness="4" BorderBrush="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -255,7 +255,7 @@
         </Grid.RowDefinitions>
         <Grid Margin="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="48"/>
+                <RowDefinition Height="56"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 

@@ -61,6 +61,24 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Crash_SubTitleText {
+            get {
+                return ResourceManager.GetString("Crash.SubTitleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RGB Sync Studio has crashed..
+        /// </summary>
+        public static string Crash_TitleText {
+            get {
+                return ResourceManager.GetString("Crash.TitleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy to Clipboard.
         /// </summary>
         public static string Dialog_CopyCommand {
@@ -331,7 +349,7 @@ namespace RGBSyncPlus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Filter:.
+        ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string Store_FilterLabel {
             get {
