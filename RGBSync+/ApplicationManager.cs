@@ -466,22 +466,6 @@ namespace RGBSyncPlus
 
             UpdateTrigger.Start();
 
-
-            try
-            {
-                foreach (SyncGroup syncGroup in Settings.SyncGroups)
-                    RegisterSyncGroup(syncGroup);
-            }
-            catch
-            {
-                SyncGroup newSyncGroup = new SyncGroup();
-                newSyncGroup.Name = "Default Group";
-
-                Settings.SyncGroups = new List<SyncGroup>();
-                Settings.SyncGroups.Add(newSyncGroup);
-
-            }
-
             slsTimer = new Timer(SLSUpdate, null, 0, (int)tmr2);
             configTimer = new Timer(ConfigUpdate, null, 0, (int)5000);
 
@@ -1016,51 +1000,7 @@ namespace RGBSyncPlus
 
         }
 
-        public void AddSyncGroup(SyncGroup syncGroup)
-        {
-            Settings.SyncGroups.Add(syncGroup);
-            RegisterSyncGroup(syncGroup);
-        }
-
-        public void RegisterSyncGroup(SyncGroup syncGroup)
-        {
-            try
-            {
-                syncGroup.LedGroup = new ListLedGroup(syncGroup.Leds.GetLeds()) { Brush = new SyncBrush(syncGroup) };
-                syncGroup.LedsChangedEventHandler = (sender, args) => UpdateLedGroup(syncGroup.LedGroup, args);
-                syncGroup.Leds.CollectionChanged += syncGroup.LedsChangedEventHandler;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("Error registering group: " + syncGroup.Name);
-                Logger.Error(ex);
-            }
-
-        }
-
-        public void RemoveSyncGroup(SyncGroup syncGroup)
-        {
-            Settings.SyncGroups.Remove(syncGroup);
-            syncGroup.Leds.CollectionChanged -= syncGroup.LedsChangedEventHandler;
-            syncGroup.LedGroup.Detach();
-            syncGroup.LedGroup = null;
-        }
-        private void UpdateLedGroup(ListLedGroup group, NotifyCollectionChangedEventArgs args)
-        {
-            if (args.Action == NotifyCollectionChangedAction.Reset)
-            {
-                List<Led> leds = group.GetLeds().ToList();
-                group.RemoveLeds(leds);
-            }
-            else
-            {
-                if (args.NewItems != null)
-                    group.AddLeds(args.NewItems.Cast<SyncLed>().GetLeds());
-
-                if (args.OldItems != null)
-                    group.RemoveLeds(args.OldItems.Cast<SyncLed>().GetLeds());
-            }
-        }
+   
         private void HideConfiguration()
         {
             if (AppSettings.EnableDiscordRPC == true)

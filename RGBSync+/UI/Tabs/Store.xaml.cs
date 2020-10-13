@@ -176,9 +176,9 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 if (btn.DataContext is PositionalAssignment.PluginDetailsViewModel tvm)
                 {
-                    var existingPlugin =
-                        ApplicationManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == tvm.PluginId);
+                    ISimpleLed existingPlugin = ApplicationManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == tvm.PluginId);
 
+                    ISimpleLedWithConfig testDrv = existingPlugin as ISimpleLedWithConfig;
 
                     if (existingPlugin is ISimpleLedWithConfig drv)
                     {
@@ -215,6 +215,16 @@ namespace RGBSyncPlus.UI.Tabs
         private void ToggleUpdates(object sender, RoutedEventArgs e)
         {
             vm.ShowUpdates = !vm.ShowUpdates;
+        }
+
+        private void PluginSearchBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            PluginSearchBox.Width = 350;
+        }
+
+        private void PluginSearchBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            PluginSearchBox.Width = 100;
         }
     }
 }

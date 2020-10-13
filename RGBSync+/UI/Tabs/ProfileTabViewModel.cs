@@ -16,7 +16,11 @@ namespace RGBSyncPlus.UI.Tabs
         public string ActiveProfile
         {
             get => activeProfile;
-            set => SetProperty(ref activeProfile, value);
+            set
+            {
+                SetProperty(ref activeProfile, value); 
+                RefreshProfiles(false);
+            }
         }
 
         private ProfileItemViewModel currentProfile;
@@ -29,11 +33,46 @@ namespace RGBSyncPlus.UI.Tabs
 
         public class ProfileItemViewModel : BaseViewModel
         {
+            private bool isActiveProfile = false;
+            public bool IsActiveProfile
+            {
+                get => isActiveProfile;
+                set => SetProperty(ref isActiveProfile, value);
+            }
+
             private string name;
             public string Name
             {
                 get => name;
                 set => SetProperty(ref name, value);
+            }
+
+            public ObservableCollection<string> HoursList
+            {
+                get
+                {
+                    ObservableCollection<string> result = new ObservableCollection<string>();
+                    for (int i = 0; i < 24; i++)
+                    {
+                        result.Add(i.ToString("00"));
+                    }
+
+                    return result;
+                }
+            }
+
+            public ObservableCollection<string> MinutesList
+            {
+                get
+                {
+                    ObservableCollection<string> result = new ObservableCollection<string>();
+                    for (int i = 0; i < 60; i++)
+                    {
+                        result.Add(i.ToString("00"));
+                    }
+
+                    return result;
+                }
             }
 
             private ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry> triggers;
@@ -133,7 +172,7 @@ namespace RGBSyncPlus.UI.Tabs
             OnPropertyChanged(nameof(ProfileTriggerTypeNames));
         }
 
-        public void SetUpProfileModels()
+        public void SetUpProfileModels(bool setActive = true)
         {
             ProfileItems.Clear();
             foreach (string profileName in ProfileNames)
@@ -142,11 +181,15 @@ namespace RGBSyncPlus.UI.Tabs
                 {
                     OriginalName = profileName,
                     Name = profileName,
-                    Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Where(x => x.ProfileName == profileName))
+                    Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Where(x => x.ProfileName == profileName)),
+                    IsActiveProfile = ActiveProfile == profileName
                 });
             }
 
-            ActiveProfile = ApplicationManager.Instance.NGSettings.CurrentProfile;
+            if (setActive)
+            {
+                ActiveProfile = ApplicationManager.Instance.NGSettings.CurrentProfile;
+            }
         }
 
         public void SubmitModalTextBox(string text)
@@ -217,10 +260,10 @@ namespace RGBSyncPlus.UI.Tabs
             set => SetProperty(ref isCreateButton, value);
         }
 
-        private void RefreshProfiles()
+        private void RefreshProfiles(bool setActive = true)
         {
             ProfileNames = ApplicationManager.Instance.NGSettings.ProfileNames;
-            SetUpProfileModels();
+            SetUpProfileModels(setActive);
             ShowEditProfile = false;
             OnPropertyChanged("ProfileNames");
             OnPropertyChanged("ProfileItems");

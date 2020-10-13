@@ -8,7 +8,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
 
-        <Style TargetType="Button" x:Key="SmallSquareIcon">
+        <Converter:InvertedStringMatchToVisibilityConverter x:Key="InvertedStringMatchToVisibilityConverter"/>
+
+        <Style TargetType="{x:Type Button}" x:Key="SmallSquareIcon">
             <!--BasedOn="{StaticResource ButtonRevealStyle}" >-->
             <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
             <Setter Property="FontSize" Value="24"/>
@@ -30,56 +32,127 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="200"/>
                     </Grid.ColumnDefinitions>
-<!--
+                    <!--
                     Name
                     Delete Button
                     button to view/edit triggers
                     overview of devices in profile
                     
                     -->
-                    <Rectangle Fill="#80d0d0d0" Grid.ColumnSpan="3"></Rectangle>
-<Rectangle Fill="#ff20a020" Grid.ColumnSpan="3" Visibility="{Binding Name, ConverterParameter=test, Converter={StaticResource StringMatchToVisibilityConverter}}"></Rectangle>
+                    <Rectangle Fill="#80d0d0d0" Grid.ColumnSpan="3"/>
+                    <Rectangle Fill="#ff20a020" Grid.ColumnSpan="3" Visibility="{Binding IsActiveProfile, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-                    <Button Background="#c0ff0000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Remove Profile" Click="DeleteProfile" />
-                    
-                    <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20"></TextBlock>
-                    <TextBlock Text="{Binding DataContext.ActiveProfile, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}"></TextBlock>
+                    <Button Background="#c0ff0000" Content="&#xE74D;" Style="{StaticResource SmallSquareIcon}" ToolTip="Remove Profile" Click="DeleteProfile" />
+
+                    <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20"/>
+
                     <StackPanel Orientation="Horizontal"  Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,20,0">
-                        <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Switch to this profile" Click="SetProfile"/>
-                        <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Edit Profile" Click="EditProfile"/>
-                        <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Triggers" Click="ToggleShowTriggers"/>
-                        
+                        <Button Background="#80000000" Content="&#xE13C;" Style="{StaticResource SmallSquareIcon}" ToolTip="Switch to this profile" Click="SetProfile"/>
+                        <Button Background="#80000000" Content="&#xE104;" Style="{StaticResource SmallSquareIcon}" ToolTip="Edit Profile" Click="EditProfile"/>
+                        <Button Background="#80000000" Content="&#xE726;" Style="{StaticResource SmallSquareIcon}" ToolTip="Triggers" Click="ToggleShowTriggers"/>
+
                     </StackPanel>
                 </Grid>
-                
+
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="MageProfilesTriggerItemTemplate">
             <Grid Height="40">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="2*"></ColumnDefinition>
-                    <ColumnDefinition Width="7*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="7*"/>
                 </Grid.ColumnDefinitions>
-                <Button FontFamily="Segoe MDL2 Assets" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#c0ff0000" BorderThickness="0" FontSize="22" Padding="6,4" Foreground="White" Width="32" Height="32" Margin="0" Click="DeleteProfile"></Button>
+                <Button FontFamily="Segoe MDL2 Assets" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#c0ff0000" BorderThickness="0" FontSize="22" Padding="6,4" Foreground="White" Width="32" Height="32" Margin="0" Click="DeleteProfile" Content="&#xE74D;"/>
                 <!--<TextBlock Grid.Column="1" Text="{Binding TriggerType}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20"></TextBlock>-->
-                <ComboBox Grid.Column="1" SelectedItem="{Binding TriggerType}" ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}, AncestorLevel=1}, Path=ProfileTriggerTypeNames}">
-                </ComboBox>
+                <ComboBox Grid.Column="1" SelectedItem="{Binding TriggerType}" ItemsSource="{Binding ProfileTriggerTypeNames, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Window}}}"/>
                 <Grid Grid.Column="2">
                     <StackPanel Orientation="Horizontal" Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource StringMatchToVisibilityConverter}}" >
-                        <TextBox Text="{Binding Hour}"></TextBox>
-                        <TextBox Text="{Binding Minute}"></TextBox>
+                        <TextBox Text="{Binding Hour}"/>
+                        <TextBox Text="{Binding Minute}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource StringMatchToVisibilityConverter}}" >
-                        <TextBox Text="{Binding ProcessName}"></TextBox>
-                        <Label>Trigger when not found</Label>
-                        <CheckBox IsChecked="{Binding TriggerWhenNotFound}" ></CheckBox>
-
+                        <TextBox Text="{Binding ProcessName}"/>
+                        <Label Content="Trigger when not found"/>
+                        <CheckBox IsChecked="{Binding TriggerWhenNotFound}" />
+                        <Button >
+                            <Grid>
+                                <TextBlock FontSize="36" FontFamily="Segoe MDL2 Assets"></TextBlock>
+                                <TextBlock FontSize="36" FontFamily="Segoe MDL2 Assets"></TextBlock>
+                            </Grid>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Grid>
         </DataTemplate>
-        </UserControl.Resources>
+        <DataTemplate x:Key="TriggerTemplate">
+            <Grid HorizontalAlignment="Stretch" Background="#80000000" Margin="10" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="0">
+                    <Button Background="#c0ff0000" Content="&#xE74D;" Style="{StaticResource SmallSquareIcon}" ToolTip="Remove Profile" Click="DeleteProfile" />
+                    <TextBox Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding Name}" VerticalAlignment="Top" BorderBrush="{x:Null}" Background="{x:Null}"/>
+                </StackPanel>
+                <StackPanel  Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
+                    <Button Background="#80ffffff" Content="&#xE121;" Tag ="Time Based" Click="SetTrigger" Style="{StaticResource SmallSquareIcon}" ToolTip="Time Trigger"  Margin="40,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource InvertedStringMatchToVisibilityConverter}}" />
+                    <Button Background="#8000ff00" Content="&#xE121;"  Style="{StaticResource SmallSquareIcon}" ToolTip="Time Trigger" Margin="40,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource StringMatchToVisibilityConverter}}" />
+                    <Button Background="#80ffffff" Content="&#xE737;" Tag="Running Process" Click="SetTrigger" Style="{StaticResource SmallSquareIcon}" ToolTip="App Trigger"  Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource InvertedStringMatchToVisibilityConverter}}" />
+                    <Button Background="#8000ff00" Content="&#xE737;" Style="{StaticResource SmallSquareIcon}" ToolTip="App Trigger"  Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource StringMatchToVisibilityConverter}}" />
+                    <Button Background="#80ffffff" Content="&#xF8B2;" Tag ="Discord Trigger" Click="SetTrigger" Style="{StaticResource SmallSquareIcon}" ToolTip="Discord Trigger"  Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Discord Trigger, Converter={StaticResource InvertedStringMatchToVisibilityConverter}}" />
+                    <Button Background="#8000ff00" Content="&#xF8B2;" Style="{StaticResource SmallSquareIcon}" ToolTip="Discord Trigger" Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Discord Trigger, Converter={StaticResource StringMatchToVisibilityConverter}}" />
+                    <Button Background="#80ffffff" Content="&#xED3C;" Style="{StaticResource SmallSquareIcon}" ToolTip="Momentary Trigger"  Margin="40,0,0,0" />
+
+                </StackPanel>
+
+                <Grid Grid.Row="1" >
+                    <!--Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource StringMatchToVisibilityConverter}}" -->
+                    <Grid Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource StringMatchToVisibilityConverter}}">
+                        <!--Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource StringMatchToVisibilityConverter}}" -->
+                        <StackPanel>
+
+                            <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="Time Based Trigger"  VerticalAlignment="Bottom"/>
+                            <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="Time at which to trigger:"  VerticalAlignment="Bottom"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox  Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding Hour}" VerticalAlignment="Bottom" Background="#40404040" Width="50"/>
+                                <TextBox  Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding Minute}" VerticalAlignment="Bottom" Background="#40404040" Width="50"/>
+
+                                <!--<ComboBox Margin="10" ItemsSource="{Binding DataContext.HoursList, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" Background="{x:Null}" BorderThickness="2" BorderBrush="White"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14"></ComboBox>
+                                <ComboBox Margin="10" ItemsSource="{Binding DataContext.MinutesList, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" Background="{x:Null}" BorderThickness="2" BorderBrush="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14"></ComboBox>
+                                <ComboBox Margin="10" ItemsSource="{Binding HoursList, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" Background="{x:Null}" BorderThickness="2" BorderBrush="White"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14"></ComboBox>
+                                <ComboBox Margin="10" ItemsSource="{Binding MinutesList, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" Background="{x:Null}" BorderThickness="2" BorderBrush="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14"></ComboBox>-->
+
+                            </StackPanel>
+
+
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <StackPanel  Grid.Row="1" Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource StringMatchToVisibilityConverter}}" >
+
+                    <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="Running Process Trigger"  VerticalAlignment="Bottom"/>
+                    <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="Name of process to watch for:"  VerticalAlignment="Bottom"/>
+                    <TextBox  Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding ProcessName}" VerticalAlignment="Bottom" Background="#40404040" />
+
+                    <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="Trigger on absence"  VerticalAlignment="Bottom"/>
+
+
+                    <Button BorderThickness="0" Background="{x:Null}" HorizontalAlignment="Left" Click="ToggleTriggerWhenNotFound">
+                        <Grid Margin="10,0">
+                            <TextBlock Foreground="White" FontSize="42" FontFamily="Segoe MDL2 Assets" Visibility="{Binding TriggerWhenNotFound, Converter={StaticResource InvertedBoolToVisibilityConverter}}"></TextBlock>
+                            <TextBlock Foreground="White" FontSize="42" FontFamily="Segoe MDL2 Assets" Visibility="{Binding TriggerWhenNotFound, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                        </Grid>
+                    </Button>
+
+                </StackPanel>
+
+
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
     <UserControl.DataContext>
         <local:ProfileTabViewModel/>
     </UserControl.DataContext>
@@ -88,8 +161,14 @@
         <ListBox ItemsSource="{Binding ProfileItems}" Margin="0,0,0,0" ItemTemplate="{DynamicResource ManageProfilesTemplateItem}" Background="{x:Null}"></ListBox>
         <Button Width="96" Height="96" Content="" FontFamily="Segoe MDL2 Assets" FontSize="64" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="40,20" Foreground="{DynamicResource SystemBaseHighColorBrush}" Background="{x:Null}" BorderBrush="{x:Null}" Click="AddNewProfile"/>
 
-        <Grid Background="#80000000" Visibility="{Binding ShowTriggers, Converter={StaticResource BoolToVisibilityConverter}}" d:IsHidden="True">
-        <Grid Background="White" Margin="100,50"></Grid>
+        <Grid Background="#f0000010" Visibility="{Binding ShowTriggers, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid Margin="100,50" >
+                <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"></Grid>
+                <Button Width="96" Height="96" Content="" FontFamily="Segoe MDL2 Assets" FontSize="64" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0" Foreground="#c0ffffff" Background="{x:Null}" BorderBrush="{x:Null}" Click="AddNewProfile"/>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="CloseTriggerList" Foreground="{DynamicResource Tc-Red}" Content="&#xE711;" FontSize="24" Margin="0,8,8,0"/>
+                <ListView ItemsSource="{Binding CurrentProfile.Triggers}" ItemTemplate="{DynamicResource TriggerTemplate}"  Margin="10,30,10,10" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single">
+                </ListView>
+            </Grid>
         </Grid>
 
         <Grid Background="#80000000" Visibility="{Binding ShowEditProfile, Converter={StaticResource BoolToVisibilityConverter}}" d:IsHidden="True">
@@ -99,7 +178,7 @@
                     <TextBox Margin="20" Style="{StaticResource TextBoxRevealStyle}" Foreground="Black" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="36" Text="{Binding CurrentProfile.Name}" VerticalAlignment="Top"></TextBox>
                     <Button Width="150" Height="30" Margin="20" HorizontalAlignment="Right" Background="Green" BorderThickness="0" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Click="CreateProfile" Visibility="{Binding IsCreateButton, Converter={StaticResource BoolToVisibilityConverter}}">Create</Button>
                     <Button Width="150" Height="30" Margin="20" HorizontalAlignment="Right" Background="Green" BorderThickness="0" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Click="CloseShowProfile" Visibility="{Binding IsCreateButton, Converter={StaticResource InvertedBoolToVisibilityConverter}}">Close</Button>
-                    
+
                 </StackPanel>
             </Grid>
         </Grid>

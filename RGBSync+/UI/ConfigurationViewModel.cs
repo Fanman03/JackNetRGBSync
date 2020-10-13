@@ -560,45 +560,7 @@ namespace RGBSyncPlus.UI
             }
         }
 
-        private ObservableCollection<SyncGroup> _syncGroups;
-        public ObservableCollection<SyncGroup> SyncGroups
-        {
-            get => _syncGroups;
-            set => SetProperty(ref _syncGroups, value);
-        }
-
-        private SyncGroup _selectedSyncGroup;
-        public SyncGroup SelectedSyncGroup
-        {
-            get => _selectedSyncGroup;
-            set
-            {
-                if (SetProperty(ref _selectedSyncGroup, value))
-                    UpdateLedLists();
-            }
-        }
-
-        private ListCollectionView _availableSyncLeds;
-        public ListCollectionView AvailableSyncLeds
-        {
-            get => _availableSyncLeds;
-            set => SetProperty(ref _availableSyncLeds, value);
-        }
-
-        private ListCollectionView _availableLeds;
-        public ListCollectionView AvailableLeds
-        {
-            get => _availableLeds;
-            set => SetProperty(ref _availableLeds, value);
-        }
-
-        private ListCollectionView _synchronizedLeds;
-        public ListCollectionView SynchronizedLeds
-        {
-            get => _synchronizedLeds;
-            set => SetProperty(ref _synchronizedLeds, value);
-        }
-
+        
         private double maxSubViewHeight;
         public double MaxSubViewHeight
         {
@@ -687,10 +649,10 @@ namespace RGBSyncPlus.UI
         public ActionCommand AttribCommand => _attribs ?? (_attribs = new ActionCommand(Attribs));
 
         private ActionCommand _addSyncGroupCommand;
-        public ActionCommand AddSyncGroupCommand => _addSyncGroupCommand ?? (_addSyncGroupCommand = new ActionCommand(AddSyncGroup));
+        
 
         private ActionCommand<SyncGroup> _removeSyncGroupCommand;
-        public ActionCommand<SyncGroup> RemoveSyncGroupCommand => _removeSyncGroupCommand ?? (_removeSyncGroupCommand = new ActionCommand<SyncGroup>(RemoveSyncGroup));
+        
 
         #endregion
 
@@ -699,10 +661,6 @@ namespace RGBSyncPlus.UI
         public ConfigurationViewModel()
         {
 
-            SyncGroups = new ObservableCollection<SyncGroup>(ApplicationManager.Instance.Settings.SyncGroups);
-
-            AvailableSyncLeds = GetGroupedLedList(GetSyncLeds());
-            OnPropertyChanged(nameof(AvailableSyncLeds));
             DeviceMappingViewModel = new ObservableCollection<DeviceMappingModels.DeviceMappingViewModel>();
 
 
@@ -1055,102 +1013,10 @@ namespace RGBSyncPlus.UI
             return collectionView;
         }
 
-        private void UpdateLedLists()
-        {
-            try
-            {
-                List<ControlDevice> slsDevices = ApplicationManager.Instance.SLSDevices;
-                foreach (var controlDevice in slsDevices.Where(p => p.Driver.GetProperties().SupportsPush && p.LEDs != null))
-                {
-                    DeviceGroup dg = new DeviceGroup
-                    {
-                        Name = controlDevice.Name,
-                        ControlDevice = controlDevice,
-                        SyncBack = LedMappingSyncBack
-                    };
-
-                    dg.DeviceLeds = new ObservableCollection<DeviceLED>(controlDevice.LEDs.Select(x => new DeviceLED(x, SelectedSyncGroup.Leds.Any(y => y.SLSLEDUID == controlDevice.GetLedUID(x)))
-                    {
-                        ParentalRollUp = dg.RollUpCheckBoxes
-                    }));
-
-                    Devices.Add(dg);
-                }
-
-                List<IRGBDevice> devices = RGBSurface.Instance.Leds.Select(x => x.Device).Distinct().ToList();
-                // Devices = new ObservableCollection<DeviceGroup>();
-                foreach (var d in devices)
-                {
-
-                    var dg = new DeviceGroup
-                    {
-                        Name = d.GetDeviceName(),
-                        RGBDevice = d,
-                        SyncBack = LedMappingSyncBack
-                    };
-
-                    dg.DeviceLeds = new ObservableCollection<DeviceLED>(RGBSurface.Instance.Leds
-                        .Where(x => x.Device == d)
-                        .Select(y => new DeviceLED(y, SelectedSyncGroup.Leds.Any(x => x.LedId == y.Id))
-                        {
-                            ParentalRollUp = dg.RollUpCheckBoxes
-                        }).ToList());
-
-                    Devices.Add(dg);
-                }
-
-                SynchronizedLeds = GetGroupedLedList(SelectedSyncGroup.Leds);
-
-                OnPropertyChanged(nameof(SynchronizedLeds));
-
-                AvailableLeds = GetGroupedLedList(RGBSurface.Instance.Leds.Where(led => !SelectedSyncGroup.Leds.Any(sc => (sc.LedId == led.Id) && (sc.Device == led.Device.GetDeviceName()))));
-                OnPropertyChanged(nameof(AvailableLeds));
-                OnPropertyChanged(nameof(Devices));
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("Error updating LedLists." + ex);
-            }
-        }
-
-        public void LedMappingSyncBack()
-        {
-            List<SyncLed> leds = new List<SyncLed>();
-            List<ControlDevice.LedUnit> slsleds = new List<ControlDevice.LedUnit>();
-            foreach (DeviceGroup deviceGroup in Devices)
-            {
-                if (deviceGroup.DeviceLeds.Where(x => x.IsSelected).Select(y => y.Led).All(p => p != null))
-                {
-                    leds.AddRange(deviceGroup.DeviceLeds.Where(x => x.IsSelected).Select(y => y.Led).Select(p => new SyncLed(p)));
-                }
-            }
-
-            foreach (DeviceGroup deviceGroup in Devices)
-            {
-                if (deviceGroup.DeviceLeds.Where(x => x.IsSelected).Select(y => y.SLSLed).All(p => p != null))
-                {
-                    leds.AddRange(deviceGroup.DeviceLeds.Where(x => x.IsSelected).Select(y => new SyncLed(deviceGroup.ControlDevice, y.SLSLed)));
-                }
-            }
-
-            SelectedSyncGroup.Leds = new ObservableCollection<SyncLed>(leds);
-
-            SynchronizedLeds = GetGroupedLedList(SelectedSyncGroup.Leds);
-            OnPropertyChanged(nameof(SynchronizedLeds));
-
-            ApplicationManager.Instance.RemoveSyncGroup(SelectedSyncGroup);
-            ApplicationManager.Instance.AddSyncGroup(SelectedSyncGroup);
-
-        }
-
         private void OpenHomepage() => Process.Start("https://www.rgbsync.com");
-
         private void OpenExcludeTool() => Process.Start("ExcludeHelper.exe");
-
         private void Discord() => Process.Start("https://www.rgbsync.com/discord");
-
         private void Attribs() => Process.Start("https://www.rgbsync.com?attribution");
-
         private void checkUpdate()
         {
             try
@@ -1450,30 +1316,6 @@ namespace RGBSyncPlus.UI
             else
             {
             }
-        }
-
-        private void AddSyncGroup()
-        {
-            SyncGroup syncGroup = new SyncGroup();
-            SyncGroups.Add(syncGroup);
-            ApplicationManager.Instance.AddSyncGroup(syncGroup);
-        }
-
-        private void RemoveSyncGroup(SyncGroup syncGroup)
-        {
-            if (syncGroup == null) return;
-            DeleteLayerDialog dld = new DeleteLayerDialog(syncGroup.DisplayName);
-            if ((bool)dld.ShowDialog())
-            {
-                SyncGroups.Remove(syncGroup);
-                ApplicationManager.Instance.RemoveSyncGroup(syncGroup);
-            }
-            else
-            {
-                return;
-            }
-
-
         }
 
         public static string Base64Encode(string plainText)

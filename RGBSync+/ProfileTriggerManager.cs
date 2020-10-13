@@ -9,7 +9,7 @@ using SimpleLed;
 
 namespace RGBSyncPlus
 {
-    public  class ProfileTriggerManager : BaseViewModel
+    public class ProfileTriggerManager : BaseViewModel
     {
         private ObservableCollection<ProfileTriggerEntry> profileTriggers = new ObservableCollection<ProfileTriggerEntry>();
 
@@ -19,7 +19,7 @@ namespace RGBSyncPlus
             set => SetProperty(ref profileTriggers, value);
         }
 
-        private List<Guid> blockedTriggers =new List<Guid>();
+        private List<Guid> blockedTriggers = new List<Guid>();
 
         public ProfileTriggerManager()
         {
@@ -29,7 +29,8 @@ namespace RGBSyncPlus
                 ProfileName = "Default",
                 TriggerType = ProfileTriggerTypes.RunningProccess,
                 ProcessName = "Calculator",
-                TriggerWhenNotFound = false
+                TriggerWhenNotFound = false,
+                Name = "Calc.exe opened"
             });
 
             ProfileTriggers.Add(new ProfileTriggerEntry
@@ -37,8 +38,10 @@ namespace RGBSyncPlus
                 Id = Guid.NewGuid(),
                 ProfileName = "Default",
                 TriggerType = ProfileTriggerTypes.TimeBased,
-                Hour=0,
-                Minute = 31
+                Hour = 0,
+                Minute = 31,
+                Name = "31 mins past midnight"
+
             });
         }
 
@@ -52,8 +55,8 @@ namespace RGBSyncPlus
                 switch (profileTriggerEntry.TriggerType)
                 {
                     case ProfileTriggerTypes.RunningProccess:
-                    {
-                        bool foundProcess = processlist.Any(x => x.ProcessName == profileTriggerEntry.ProcessName);
+                        {
+                            bool foundProcess = processlist.Any(x => x.ProcessName == profileTriggerEntry.ProcessName);
 
                             doit = foundProcess;
                             if (profileTriggerEntry.TriggerWhenNotFound)
@@ -61,17 +64,17 @@ namespace RGBSyncPlus
                                 doit = !doit;
                             }
 
-                           
 
-                        break;
-                    }
+
+                            break;
+                        }
 
                     case ProfileTriggerTypes.TimeBased:
-                    {
-                        doit = (DateTime.Now.Minute == profileTriggerEntry.Minute &&
-                                DateTime.Now.Hour == profileTriggerEntry.Hour);
-                        break;
-                    }
+                        {
+                            doit = (DateTime.Now.Minute == profileTriggerEntry.Minute &&
+                                    DateTime.Now.Hour == profileTriggerEntry.Hour);
+                            break;
+                        }
                 }
 
                 if (doit && blockedTriggers.All(x => x != profileTriggerEntry.Id))
@@ -97,8 +100,14 @@ namespace RGBSyncPlus
                 set => SetProperty(ref id, value);
             }
 
-            private string profileName;
+            private string name;
+            public string Name
+            {
+                get => name;
+                set => SetProperty(ref name, value);
+            }
 
+            private string profileName;
             public string ProfileName
             {
                 get => profileName;
@@ -133,7 +142,7 @@ namespace RGBSyncPlus
 
             //TimeBased
 
-            private int hour;
+            private int hour = 0;
 
             public int Hour
             {
@@ -141,7 +150,7 @@ namespace RGBSyncPlus
                 set => SetProperty(ref hour, value);
             }
 
-            private int minute;
+            private int minute = 0;
 
             public int Minute
             {
@@ -154,6 +163,7 @@ namespace RGBSyncPlus
         {
             public const string RunningProccess = "Running Process";
             public const string TimeBased = "Time Based";
+            public const string DiscordTrigger = "Discord Trigger";
 
         }
     }

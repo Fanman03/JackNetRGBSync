@@ -64,12 +64,7 @@ namespace RGBSyncPlus.UI
                         }
                     }
                 };
-                vm.SyncGroups = new ObservableCollection<SyncGroup>(JsonConvert.DeserializeObject<List<SyncGroup>>("\"SyncGroups\":[{\"DisplayName\":\"Jeff\",\"Name\":\"Jeff\",\"SyncLed\":null,\"Leds\":[{\"Device\":\"MSI GraphicsCard (GraphicsCard)\",\"LedId\":7340033}]}]"));
-                vm.SelectedSyncGroup = vm.SyncGroups.First();
-                vm.AvailableLeds = new ListCollectionView(vm.SelectedSyncGroup.Leds);
-                vm.AvailableSyncLeds = new ListCollectionView(vm.SelectedSyncGroup.Leds);
-
-
+  
                 //return;
             }
 

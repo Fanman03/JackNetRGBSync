@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,11 +29,6 @@ namespace RGBSyncPlus.UI.Tabs
             InitializeComponent();
         }
 
-        private void Button_Click_5(object sender, RoutedEventArgs e)
-        {
-            ConfigurationViewModel vm = (ConfigurationViewModel)this.DataContext;
-            vm.ZoomLevel++;
-        }
 
         private void DeleteProfile(object sender, RoutedEventArgs e)
         {
@@ -43,13 +39,16 @@ namespace RGBSyncPlus.UI.Tabs
 
         private void ToggleShowTriggers(object sender, RoutedEventArgs e)
         {
+            Button button = sender as Button;
+            ProfileTabViewModel.ProfileItemViewModel dc = button.DataContext as ProfileTabViewModel.ProfileItemViewModel;
             vm.ShowTriggers = !vm.ShowTriggers;
+            vm.CurrentProfile = dc;
         }
 
         private void AddNewProfile(object sender, RoutedEventArgs e)
         {
             vm.CreateNewProfileUI();
-            }
+        }
 
         private void CreateProfile(object sender, RoutedEventArgs e)
         {
@@ -80,6 +79,32 @@ namespace RGBSyncPlus.UI.Tabs
             Button button = sender as Button;
             ProfileTabViewModel.ProfileItemViewModel dc = button.DataContext as ProfileTabViewModel.ProfileItemViewModel;
             vm.SwitchToProfile(dc);
+        }
+
+        private void SetTrigger(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            ProfileTriggerManager.ProfileTriggerEntry dc = button.DataContext as ProfileTriggerManager.ProfileTriggerEntry;
+            dc.TriggerType = (string)button.Tag;
+            Debug.WriteLine(dc);
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void CloseTriggerList(object sender, RoutedEventArgs e)
+        {
+            vm.ShowTriggers = false;
+        }
+
+        private void ToggleTriggerWhenNotFound(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            ProfileTriggerManager.ProfileTriggerEntry dc = button.DataContext as ProfileTriggerManager.ProfileTriggerEntry;
+            dc.TriggerWhenNotFound = !dc.TriggerWhenNotFound;
         }
     }
 }
