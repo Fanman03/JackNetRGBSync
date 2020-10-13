@@ -160,8 +160,6 @@ namespace RGBSyncPlus.UI.Tabs
             ConfigHere.Children.Clear();
             if (cd != null)
             {
-                var tempTest = (ISimpleLedWithConfig) cd.Driver;
-
                 if (cd.Driver is ISimpleLedWithConfig drv)
                 {
                     var cfgUI = drv.GetCustomConfig(cd);

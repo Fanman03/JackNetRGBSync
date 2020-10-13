@@ -347,21 +347,26 @@ namespace RGBSyncPlus
                 }
 
                 NGSettings.CurrentProfile = profileName;
-
-                if (ConfigurationWindow != null)
-                {
-                    ConfigurationWindow.Dispatcher.Invoke(() =>
-                    {
-                        if (ConfigurationWindow?.DataContext != null)
-                        {
-
-                            //   DevicesViewModel vm = (DevicesViewModel)ConfigurationWindow.DevicesUserControl.DataContext;
-                            //   vm.EnsureCorrectProfileIndex();
-
-                        }
-                    });
-                }
             }
+        }
+
+        public DeviceMappingModels.NGProfile GetProfileFromName(string profileName)
+        {
+            if (profilePathMapping.ContainsKey(profileName))
+            {
+                var map = profilePathMapping[profileName];
+                var result= GetProfileFromPath(map);
+
+                if (result.Id == Guid.Empty)
+                {
+                    string gid = map.Split('\\').Last().Split('.').First();
+                    result.Id = Guid.Parse(gid);
+                }
+
+                return result;
+            }
+
+            return null;
         }
 
         public DeviceMappingModels.NGProfile GetProfileFromPath(string path)

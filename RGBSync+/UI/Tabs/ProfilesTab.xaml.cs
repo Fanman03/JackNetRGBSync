@@ -43,6 +43,9 @@ namespace RGBSyncPlus.UI.Tabs
             ProfileTabViewModel.ProfileItemViewModel dc = button.DataContext as ProfileTabViewModel.ProfileItemViewModel;
             vm.ShowTriggers = !vm.ShowTriggers;
             vm.CurrentProfile = dc;
+
+            var tempProfile = ApplicationManager.Instance.GetProfileFromName(dc.Name);
+            vm.CurrentProfile.ProfileId = tempProfile.Id;
         }
 
         private void AddNewProfile(object sender, RoutedEventArgs e)
@@ -105,6 +108,19 @@ namespace RGBSyncPlus.UI.Tabs
             Button button = sender as Button;
             ProfileTriggerManager.ProfileTriggerEntry dc = button.DataContext as ProfileTriggerManager.ProfileTriggerEntry;
             dc.TriggerWhenNotFound = !dc.TriggerWhenNotFound;
+        }
+
+        private void AddNewTrigger(object sender, RoutedEventArgs e)
+        {
+            vm.CreateNewTrigger();
+        }
+
+        private void ToggleExpanded(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            ProfileTriggerManager.ProfileTriggerEntry dc = button.DataContext as ProfileTriggerManager.ProfileTriggerEntry;
+
+            dc.Expanded = !dc.Expanded;
         }
     }
 }

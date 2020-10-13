@@ -33,6 +33,14 @@ namespace RGBSyncPlus.UI.Tabs
 
         public class ProfileItemViewModel : BaseViewModel
         {
+            private Guid profileId;
+
+            public Guid ProfileId
+            {
+                get => profileId;
+                set => SetProperty(ref profileId, value);
+            }
+
             private bool isActiveProfile = false;
             public bool IsActiveProfile
             {
@@ -177,12 +185,15 @@ namespace RGBSyncPlus.UI.Tabs
             ProfileItems.Clear();
             foreach (string profileName in ProfileNames)
             {
+
+
                 ProfileItems.Add(new ProfileItemViewModel
                 {
                     OriginalName = profileName,
                     Name = profileName,
                     Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Where(x => x.ProfileName == profileName)),
-                    IsActiveProfile = ActiveProfile == profileName
+                    IsActiveProfile = ActiveProfile == profileName,
+                
                 });
             }
 
@@ -229,6 +240,7 @@ namespace RGBSyncPlus.UI.Tabs
             CurrentProfile = new ProfileItemViewModel{};
 
             CurrentProfile.Name = "Untitled";
+            CurrentProfile.ProfileId = Guid.NewGuid();
             IsCreateButton = true;
 
         }
@@ -279,6 +291,25 @@ namespace RGBSyncPlus.UI.Tabs
         {
             ApplicationManager.Instance.LoadProfileFromName(dc.Name);
             RefreshProfiles();
+        }
+
+        public void CreateNewTrigger()
+        {
+            ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Add(new ProfileTriggerManager.ProfileTriggerEntry
+            {
+                Name = "No name",
+                TriggerType = ProfileTriggerManager.ProfileTriggerTypes.RunningProccess,
+                ProfileName = CurrentProfile.OriginalName,
+                ProfileId = CurrentProfile.ProfileId
+            });
+
+            CurrentProfile.Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(
+                ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Where(x =>
+                    x.ProfileName == CurrentProfile.OriginalName));
+
+            OnPropertyChanged("ProfileNames");
+            OnPropertyChanged("ProfileItems");
+            OnPropertyChanged("CurrentProfile");
         }
     }
 }

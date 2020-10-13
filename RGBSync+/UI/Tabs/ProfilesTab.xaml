@@ -41,7 +41,7 @@
                     
                     -->
                     <Rectangle Fill="#80d0d0d0" Grid.ColumnSpan="3"/>
-                    <Rectangle Fill="#ff20a020" Grid.ColumnSpan="3" Visibility="{Binding IsActiveProfile, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <Rectangle Fill="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.75" Grid.ColumnSpan="3" Visibility="{Binding IsActiveProfile, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
                     <Button Background="#c0ff0000" Content="&#xE74D;" Style="{StaticResource SmallSquareIcon}" ToolTip="Remove Profile" Click="DeleteProfile" />
 
@@ -105,10 +105,12 @@
                     <Button Background="#80ffffff" Content="&#xF8B2;" Tag ="Discord Trigger" Click="SetTrigger" Style="{StaticResource SmallSquareIcon}" ToolTip="Discord Trigger"  Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Discord Trigger, Converter={StaticResource InvertedStringMatchToVisibilityConverter}}" />
                     <Button Background="#8000ff00" Content="&#xF8B2;" Style="{StaticResource SmallSquareIcon}" ToolTip="Discord Trigger" Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Discord Trigger, Converter={StaticResource StringMatchToVisibilityConverter}}" />
                     <Button Background="#80ffffff" Content="&#xED3C;" Style="{StaticResource SmallSquareIcon}" ToolTip="Momentary Trigger"  Margin="40,0,0,0" />
+                    <Button Background="{x:Null}" BorderThickness="0" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Expand"  Margin="40,0,0,0"  Visibility="{Binding Expanded, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="ToggleExpanded"/>
+                    <Button Background="{x:Null}" BorderThickness="0" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Collapse"  Margin="40,0,0,0" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}"  Click="ToggleExpanded" />
 
                 </StackPanel>
 
-                <Grid Grid.Row="1" >
+                <Grid Grid.Row="1"  Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}">
                     <!--Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource StringMatchToVisibilityConverter}}" -->
                     <Grid Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource StringMatchToVisibilityConverter}}">
                         <!--Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource StringMatchToVisibilityConverter}}" -->
@@ -130,9 +132,9 @@
 
                         </StackPanel>
                     </Grid>
-                </Grid>
+                
 
-                <StackPanel  Grid.Row="1" Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource StringMatchToVisibilityConverter}}" >
+                <StackPanel Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource StringMatchToVisibilityConverter}}" >
 
                     <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="Running Process Trigger"  VerticalAlignment="Bottom"/>
                     <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="Name of process to watch for:"  VerticalAlignment="Bottom"/>
@@ -143,13 +145,20 @@
 
                     <Button BorderThickness="0" Background="{x:Null}" HorizontalAlignment="Left" Click="ToggleTriggerWhenNotFound">
                         <Grid Margin="10,0">
-                            <TextBlock Foreground="White" FontSize="42" FontFamily="Segoe MDL2 Assets" Visibility="{Binding TriggerWhenNotFound, Converter={StaticResource InvertedBoolToVisibilityConverter}}"></TextBlock>
-                            <TextBlock Foreground="White" FontSize="42" FontFamily="Segoe MDL2 Assets" Visibility="{Binding TriggerWhenNotFound, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                            <StackPanel Orientation="Horizontal"  Visibility="{Binding TriggerWhenNotFound, Converter={StaticResource InvertedBoolToVisibilityConverter}}" VerticalAlignment="Center">
+                                <TextBlock Foreground="White" FontSize="42" FontFamily="Segoe MDL2 Assets"></TextBlock>
+                                <TextBlock Margin="10,0,0,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="Off"  Foreground="White"  VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal"  Visibility="{Binding TriggerWhenNotFound, Converter={StaticResource BoolToVisibilityConverter}}"  VerticalAlignment="Center">
+                                <TextBlock Foreground="White" FontSize="42" FontFamily="Segoe MDL2 Assets"></TextBlock>
+                                <TextBlock Margin="10,0,0,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="On"  Foreground="White"  VerticalAlignment="Center"/>
+                            </StackPanel>
                         </Grid>
                     </Button>
 
                 </StackPanel>
-
+                </Grid>
 
             </Grid>
         </DataTemplate>
@@ -162,13 +171,19 @@
         <ListBox ItemsSource="{Binding ProfileItems}" Margin="0,0,0,0" ItemTemplate="{DynamicResource ManageProfilesTemplateItem}" Background="{x:Null}"></ListBox>
         <Button Width="96" Height="96" Content="" FontFamily="Segoe MDL2 Assets" FontSize="64" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="40,20"  Style="{StaticResource FloatingCircularButton}" Background="{x:Null}" BorderBrush="{x:Null}" Click="AddNewProfile"/>
 
-        <Grid Background="#f0000010" Visibility="{Binding ShowTriggers, Converter={StaticResource BoolToVisibilityConverter}}">
+        <Grid Visibility="{Binding ShowTriggers, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"/>
+            <Grid Background="#d0000000" />
             <Grid Margin="100,50" >
                 <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"></Grid>
-                <Button Width="96" Height="96" Content="" FontFamily="Segoe MDL2 Assets" FontSize="64" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0" Foreground="#c0ffffff" Background="{x:Null}" BorderBrush="{x:Null}" Click="AddNewProfile"/>
+                <StackPanel Orientation="Horizontal" Margin="20,5,0,0">
+                    <TextBlock FontFamily="Segoe UI Light" FontSize="28" Text="Triggers for " Foreground="White"></TextBlock>
+                    <TextBlock FontFamily="Segoe UI Light" FontSize="28" Text="{Binding CurrentProfile.Name}" Foreground="White"></TextBlock>
+                </StackPanel>
+                
                 <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="CloseTriggerList" Foreground="{DynamicResource Tc-Red}" Content="&#xE711;" FontSize="24" Margin="0,8,8,0"/>
-                <ListView ItemsSource="{Binding CurrentProfile.Triggers}" ItemTemplate="{DynamicResource TriggerTemplate}"  Margin="10,30,10,10" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single">
-                </ListView>
+                <ListView ItemsSource="{Binding CurrentProfile.Triggers}" ItemTemplate="{DynamicResource TriggerTemplate}"  Margin="10,40,10,10" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single"/>
+                <Button Width="96" Height="96" Content="" FontFamily="Segoe MDL2 Assets" FontSize="64" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0" Foreground="#c0ffffff" Background="{x:Null}" BorderBrush="{x:Null}" Click="AddNewTrigger"/>
             </Grid>
         </Grid>
 

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using SimpleLed;
 
 namespace RGBSyncPlus
@@ -43,6 +45,14 @@ namespace RGBSyncPlus
                 Name = "31 mins past midnight"
 
             });
+
+
+            ProfileTriggers.CollectionChanged += ProfileTriggers_CollectionChanged;
+        }
+
+        private void ProfileTriggers_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Debug.WriteLine("Profile Triggers Changed");
         }
 
         public void CheckTriggers()
@@ -92,6 +102,14 @@ namespace RGBSyncPlus
 
         public class ProfileTriggerEntry : BaseViewModel
         {
+            private bool expanded = false;
+
+            [JsonIgnore]
+            public bool Expanded
+            {
+                get => expanded;
+                set => SetProperty(ref expanded, value);
+            }
             private Guid id;
 
             public Guid Id
@@ -112,6 +130,14 @@ namespace RGBSyncPlus
             {
                 get => profileName;
                 set => SetProperty(ref profileName, value);
+            }
+
+            private Guid profileId;
+
+            public Guid ProfileId
+            {
+                get => profileId;
+                set => SetProperty(ref profileId, value);
             }
 
             private string triggerType;
