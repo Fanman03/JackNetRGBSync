@@ -56,6 +56,7 @@ namespace RGBSyncPlus.Model
                 {
                     SetProperty(ref profileNames, value);
                     AreSettingsStale = true;
+                    ProfileChange?.Invoke(this, new EventArgs());
                 }
             }
 

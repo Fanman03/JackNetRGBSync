@@ -14,15 +14,6 @@ C:\Projects\RGBSyncOrigin\JackNetRGBSync\StartupHelper\obj\Debug\StartupHelper.p
 C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\bin\StartupHelper.exe.config
 C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\bin\StartupHelper.exe
 C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\bin\StartupHelper.pdb
-C:\Projects\JackNet\StartupHelper\obj\Debug\StartupHelper.csprojAssemblyReference.cache
-C:\Projects\JackNet\StartupHelper\obj\Debug\StartupHelper.csproj.CoreCompileInputs.cache
-C:\Projects\JackNet\StartupHelper\obj\Debug\StartupHelper.exe
-C:\Projects\JackNet\StartupHelper\obj\Debug\StartupHelper.pdb
-C:\Projects\JackNet\bin\StartupHelper.exe.config
-C:\Projects\JackNet\bin\StartupHelper.exe
-C:\Projects\JackNet\bin\StartupHelper.pdb
-C:\Projects\JackNet\StartupHelper\obj\Debug\StartupHelper.csproj.Fody.CopyLocal.cache
-C:\Projects\JackNet\StartupHelper\obj\Debug\StartupHelper.csproj.CopyComplete
 C:\Users\jacklrpendleton\Source\Repos\RGBSync-v2\bin\StartupHelper.exe.config
 C:\Users\jacklrpendleton\Source\Repos\RGBSync-v2\bin\StartupHelper.exe
 C:\Users\jacklrpendleton\Source\Repos\RGBSync-v2\bin\StartupHelper.pdb

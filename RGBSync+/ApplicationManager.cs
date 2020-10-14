@@ -321,7 +321,8 @@ namespace RGBSyncPlus
             //setup API
             //todo make this be able to be toggled:
             Debug.WriteLine("Setting up API");
-            var apiconfig = new HttpSelfHostConfiguration("http://localhost:9022");
+            var apiconfig = new HttpSelfHostConfiguration("http://localhost:59022");
+            
 
             apiconfig.Routes.MapHttpRoute("API Default", "api/{controller}/{id}", new { id = RouteParameter.Optional });
 
@@ -573,7 +574,7 @@ namespace RGBSyncPlus
         private void ConfigUpdate(object state)
         {
             CheckSettingStale();
-            foreach (ISimpleLed slsManagerDriver in SLSManager.Drivers.Where(x => x is ISimpleLedWithConfig))
+            foreach (ISimpleLed slsManagerDriver in SLSManager.Drivers.ToList().Where(x => x is ISimpleLedWithConfig).ToList())
             {
                 ISimpleLedWithConfig cfgable = slsManagerDriver as ISimpleLedWithConfig;
                 if (cfgable.GetIsDirty())

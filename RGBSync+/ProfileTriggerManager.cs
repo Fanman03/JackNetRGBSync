@@ -42,7 +42,7 @@ namespace RGBSyncPlus
 
                 if (ProfileTriggers == null)
                 {
-                    ProfileTriggers=new ObservableCollection<ProfileTriggerEntry>();
+                    ProfileTriggers = new ObservableCollection<ProfileTriggerEntry>();
                 }
             }
 
@@ -82,34 +82,35 @@ namespace RGBSyncPlus
             CheckDirty();
 
             Process[] processlist = Process.GetProcesses();
-            if (ProfileTriggers!=null){
+            if (ProfileTriggers != null)
+            {
                 foreach (ProfileTriggerEntry profileTriggerEntry in ProfileTriggers)
                 {
                     bool doit = false;
                     switch (profileTriggerEntry?.TriggerType)
                     {
                         case ProfileTriggerTypes.RunningProccess:
-                        {
-                            bool foundProcess = processlist.Any(x =>
-                                x.ProcessName.ToLower() == profileTriggerEntry?.ProcessName?.ToLower());
-
-                            doit = foundProcess;
-                            if (profileTriggerEntry.TriggerWhenNotFound)
                             {
-                                doit = !doit;
+                                bool foundProcess = processlist.Any(x =>
+                                    x.ProcessName.ToLower() == profileTriggerEntry?.ProcessName?.ToLower());
+
+                                doit = foundProcess;
+                                if (profileTriggerEntry.TriggerWhenNotFound)
+                                {
+                                    doit = !doit;
+                                }
+
+
+
+                                break;
                             }
 
-
-
-                            break;
-                        }
-
                         case ProfileTriggerTypes.TimeBased:
-                        {
-                            doit = (DateTime.Now.Minute == profileTriggerEntry.Minute &&
-                                    DateTime.Now.Hour == profileTriggerEntry.Hour);
-                            break;
-                        }
+                            {
+                                doit = (DateTime.Now.Minute == profileTriggerEntry.Minute &&
+                                        DateTime.Now.Hour == profileTriggerEntry.Hour);
+                                break;
+                            }
                     }
 
                     if (doit && blockedTriggers.All(x => x != profileTriggerEntry.Id))
@@ -143,7 +144,7 @@ namespace RGBSyncPlus
                 get => expanded;
                 set
                 {
-                    
+
                     SetProperty(ref expanded, value);
                     Dirty();
                 }
@@ -155,7 +156,7 @@ namespace RGBSyncPlus
                 get => id;
                 set
                 {
-                    
+
                     SetProperty(ref id, value);
                     Dirty();
                 }
@@ -167,7 +168,7 @@ namespace RGBSyncPlus
                 get => name;
                 set
                 {
-                    
+
                     SetProperty(ref name, value);
                     Dirty();
                 }
@@ -205,7 +206,7 @@ namespace RGBSyncPlus
                 get => triggerType;
                 set
                 {
-                    
+
                     SetProperty(ref triggerType, value);
 
                     Dirty();
@@ -276,6 +277,11 @@ namespace RGBSyncPlus
             public const string DiscordTrigger = "Discord Trigger";
             public const string APITrigger = "API Trigger";
 
+        }
+
+        public void APIValueSet(string key, string value)
+        {
+            throw new NotImplementedException();
         }
     }
 }

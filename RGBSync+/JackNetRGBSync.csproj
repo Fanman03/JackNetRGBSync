@@ -104,6 +104,7 @@
     <Compile Include="API\AppControlController.cs" />
     <Compile Include="API\DevicesController.cs" />
     <Compile Include="API\ProfilesController.cs" />
+    <Compile Include="API\TriggerController.cs" />
     <Compile Include="ApplicationManager.cs" />
     <Compile Include="Attached\SliderValue.cs" />
     <Compile Include="Attached\SliderValueAdorner.cs" />
