@@ -82,15 +82,16 @@ namespace RGBSyncPlus
             CheckDirty();
 
             Process[] processlist = Process.GetProcesses();
-
-            foreach (ProfileTriggerEntry profileTriggerEntry in ProfileTriggers)
-            {
-                bool doit = false;
-                switch (profileTriggerEntry.TriggerType)
+            if (ProfileTriggers!=null){
+                foreach (ProfileTriggerEntry profileTriggerEntry in ProfileTriggers)
                 {
-                    case ProfileTriggerTypes.RunningProccess:
+                    bool doit = false;
+                    switch (profileTriggerEntry?.TriggerType)
+                    {
+                        case ProfileTriggerTypes.RunningProccess:
                         {
-                            bool foundProcess = processlist.Any(x => x.ProcessName.ToLower() == profileTriggerEntry.ProcessName.ToLower());
+                            bool foundProcess = processlist.Any(x =>
+                                x.ProcessName.ToLower() == profileTriggerEntry?.ProcessName?.ToLower());
 
                             doit = foundProcess;
                             if (profileTriggerEntry.TriggerWhenNotFound)
@@ -103,23 +104,24 @@ namespace RGBSyncPlus
                             break;
                         }
 
-                    case ProfileTriggerTypes.TimeBased:
+                        case ProfileTriggerTypes.TimeBased:
                         {
                             doit = (DateTime.Now.Minute == profileTriggerEntry.Minute &&
                                     DateTime.Now.Hour == profileTriggerEntry.Hour);
                             break;
                         }
-                }
+                    }
 
-                if (doit && blockedTriggers.All(x => x != profileTriggerEntry.Id))
-                {
-                    ApplicationManager.Instance.LoadProfileFromName(profileTriggerEntry.ProfileName);
-                    blockedTriggers.Add(profileTriggerEntry.Id);
-                }
+                    if (doit && blockedTriggers.All(x => x != profileTriggerEntry.Id))
+                    {
+                        ApplicationManager.Instance.LoadProfileFromName(profileTriggerEntry.ProfileName);
+                        blockedTriggers.Add(profileTriggerEntry.Id);
+                    }
 
-                if (!doit && blockedTriggers.Any(x => x == profileTriggerEntry.Id))
-                {
-                    blockedTriggers.Remove(profileTriggerEntry.Id);
+                    if (!doit && blockedTriggers.Any(x => x == profileTriggerEntry.Id))
+                    {
+                        blockedTriggers.Remove(profileTriggerEntry.Id);
+                    }
                 }
             }
         }
