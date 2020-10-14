@@ -39,6 +39,11 @@ namespace RGBSyncPlus
                 catch
                 {
                 }
+
+                if (ProfileTriggers == null)
+                {
+                    ProfileTriggers=new ObservableCollection<ProfileTriggerEntry>();
+                }
             }
 
             ProfileTriggers.CollectionChanged += ProfileTriggers_CollectionChanged;
