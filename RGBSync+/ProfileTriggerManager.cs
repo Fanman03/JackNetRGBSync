@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,38 +27,55 @@ namespace RGBSyncPlus
 
         public ProfileTriggerManager()
         {
-            ProfileTriggers.Add(new ProfileTriggerEntry
+            if (File.Exists("NGProfileTriggers.json"))
             {
-                Id = Guid.NewGuid(),
-                ProfileName = "Default",
-                TriggerType = ProfileTriggerTypes.RunningProccess,
-                ProcessName = "Calculator",
-                TriggerWhenNotFound = false,
-                Name = "Calc.exe opened"
-            });
-
-            ProfileTriggers.Add(new ProfileTriggerEntry
-            {
-                Id = Guid.NewGuid(),
-                ProfileName = "Default",
-                TriggerType = ProfileTriggerTypes.TimeBased,
-                Hour = 0,
-                Minute = 31,
-                Name = "31 mins past midnight"
-
-            });
-
+                try
+                {
+                    string json = File.ReadAllText("NGProfileTriggers.json");
+                    List<ProfileTriggerEntry> temp = JsonConvert.DeserializeObject<List<ProfileTriggerEntry>>(json);
+                    ProfileTriggers = new ObservableCollection<ProfileTriggerEntry>(temp);
+                    ApplicationManager.Instance.ProfileTriggerManager.IsDirty = false;
+                }
+                catch
+                {
+                }
+            }
 
             ProfileTriggers.CollectionChanged += ProfileTriggers_CollectionChanged;
         }
 
+
+
+        [JsonIgnore] public bool IsDirty = false;
+
         private void ProfileTriggers_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            Debug.WriteLine("Profile Triggers Changed");
+            IsDirty = true;
+        }
+
+        private void CheckDirty()
+        {
+            if (IsDirty)
+            {
+                Debug.WriteLine("Writing profile Triggers");
+                string json = JsonConvert.SerializeObject(ProfileTriggers.ToList());
+                try
+                {
+                    File.WriteAllText("NGProfileTriggers.json", json);
+                }
+                catch
+                {
+                }
+
+                IsDirty = false;
+                ApplicationManager.Instance.ProfileTriggerManager.IsDirty = false;
+            }
         }
 
         public void CheckTriggers()
         {
+            CheckDirty();
+
             Process[] processlist = Process.GetProcesses();
 
             foreach (ProfileTriggerEntry profileTriggerEntry in ProfileTriggers)
@@ -66,7 +85,7 @@ namespace RGBSyncPlus
                 {
                     case ProfileTriggerTypes.RunningProccess:
                         {
-                            bool foundProcess = processlist.Any(x => x.ProcessName == profileTriggerEntry.ProcessName);
+                            bool foundProcess = processlist.Any(x => x.ProcessName.ToLower() == profileTriggerEntry.ProcessName.ToLower());
 
                             doit = foundProcess;
                             if (profileTriggerEntry.TriggerWhenNotFound)
@@ -99,37 +118,64 @@ namespace RGBSyncPlus
                 }
             }
         }
-
         public class ProfileTriggerEntry : BaseViewModel
         {
+            private void Dirty()
+            {
+                if (ApplicationManager.Instance?.ProfileTriggerManager != null)
+                {
+                    ApplicationManager.Instance.ProfileTriggerManager.IsDirty = true;
+                }
+            }
+
             private bool expanded = false;
 
             [JsonIgnore]
             public bool Expanded
             {
                 get => expanded;
-                set => SetProperty(ref expanded, value);
+                set
+                {
+                    
+                    SetProperty(ref expanded, value);
+                    Dirty();
+                }
             }
             private Guid id;
 
             public Guid Id
             {
                 get => id;
-                set => SetProperty(ref id, value);
+                set
+                {
+                    
+                    SetProperty(ref id, value);
+                    Dirty();
+                }
             }
 
             private string name;
             public string Name
             {
                 get => name;
-                set => SetProperty(ref name, value);
+                set
+                {
+                    
+                    SetProperty(ref name, value);
+                    Dirty();
+                }
             }
 
             private string profileName;
             public string ProfileName
             {
                 get => profileName;
-                set => SetProperty(ref profileName, value);
+                set
+                {
+                    SetProperty(ref profileName, value);
+
+                    Dirty();
+                }
             }
 
             private Guid profileId;
@@ -137,7 +183,12 @@ namespace RGBSyncPlus
             public Guid ProfileId
             {
                 get => profileId;
-                set => SetProperty(ref profileId, value);
+                set
+                {
+                    SetProperty(ref profileId, value);
+
+                    Dirty();
+                }
             }
 
             private string triggerType;
@@ -145,7 +196,13 @@ namespace RGBSyncPlus
             public string TriggerType
             {
                 get => triggerType;
-                set => SetProperty(ref triggerType, value);
+                set
+                {
+                    
+                    SetProperty(ref triggerType, value);
+
+                    Dirty();
+                }
             }
 
             //RunningProccess
@@ -155,7 +212,12 @@ namespace RGBSyncPlus
             public string ProcessName
             {
                 get => processName;
-                set => SetProperty(ref processName, value);
+                set
+                {
+                    SetProperty(ref processName, value);
+
+                    Dirty();
+                }
             }
 
             private bool triggerWhenNotFound;
@@ -163,7 +225,12 @@ namespace RGBSyncPlus
             public bool TriggerWhenNotFound
             {
                 get => triggerWhenNotFound;
-                set => SetProperty(ref triggerWhenNotFound, value);
+                set
+                {
+                    SetProperty(ref triggerWhenNotFound, value);
+
+                    Dirty();
+                }
             }
 
             //TimeBased
@@ -173,7 +240,12 @@ namespace RGBSyncPlus
             public int Hour
             {
                 get => hour;
-                set => SetProperty(ref hour, value);
+                set
+                {
+                    SetProperty(ref hour, value);
+
+                    Dirty();
+                }
             }
 
             private int minute = 0;
@@ -181,7 +253,12 @@ namespace RGBSyncPlus
             public int Minute
             {
                 get => minute;
-                set => SetProperty(ref minute, value);
+                set
+                {
+                    SetProperty(ref minute, value);
+
+                    Dirty();
+                }
             }
         }
 
@@ -190,6 +267,7 @@ namespace RGBSyncPlus
             public const string RunningProccess = "Running Process";
             public const string TimeBased = "Time Based";
             public const string DiscordTrigger = "Discord Trigger";
+            public const string APITrigger = "API Trigger";
 
         }
     }

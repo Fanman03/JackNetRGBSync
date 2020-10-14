@@ -12,7 +12,7 @@ namespace RGBSyncPlus.Converter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Debug.WriteLine(value?.ToString() + " vs " + parameter?.ToString());
+            
             if (value?.ToString() == parameter?.ToString())
             {
                 return Visibility.Visible;
@@ -34,7 +34,7 @@ namespace RGBSyncPlus.Converter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Debug.WriteLine(value?.ToString() + " vs " + parameter?.ToString());
+            
             if (value?.ToString() != parameter?.ToString())
             {
                 return Visibility.Visible;

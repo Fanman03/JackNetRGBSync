@@ -5,21 +5,6 @@
                                     xmlns:controls="clr-namespace:RGBSyncPlus.Controls"
                                     xmlns:converter="clr-namespace:RGBSyncPlus.Converter">
 
-    <styles:CachedResourceDictionary.MergedDictionaries>
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Dark/BlurredDecorationWindow.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Dark/ImageButton.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Dark/Form.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Dark/GroupBox.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Dark/ToolTip.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Dark/ComboBox.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Dark/Button.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Dark/ListBox.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Dark/Slider.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Dark/TextBox.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Dark/ColorSelector.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/Dark/GradientEditor.xaml" />
-    </styles:CachedResourceDictionary.MergedDictionaries>
-
     <converter:EqualsToBoolConverter x:Key="EqualsToBoolConverter" />
     <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />

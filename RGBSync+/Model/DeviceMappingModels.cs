@@ -42,6 +42,9 @@ namespace RGBSyncPlus.Model
 
         public class NGSettings : BaseViewModel
         {
+            public delegate void ProfileChangeEventHandler(object sender, EventArgs e);
+            public event ProfileChangeEventHandler ProfileChange;
+
             [JsonIgnore]
             public bool AreSettingsStale { get; set; }
             private ObservableCollection<string> profileNames;
@@ -63,8 +66,11 @@ namespace RGBSyncPlus.Model
                 get => currentProfile;
                 set
                 {
-                    SetProperty(ref currentProfile, value); 
-                    AreSettingsStale = true;
+                    if (SetProperty(ref currentProfile, value))
+                    {
+                        AreSettingsStale = true;
+                        ProfileChange?.Invoke(this, new EventArgs());
+                    }
                 }
             }
 

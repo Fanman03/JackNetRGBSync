@@ -178,20 +178,23 @@ namespace RGBSyncPlus.UI.Tabs
             EnsureCorrectProfileIndex();
 
             OnPropertyChanged(nameof(ProfileTriggerTypeNames));
+
+            ApplicationManager.Instance.NGSettings.ProfileChange+= delegate(object sender, EventArgs args) { CheckCurrentProfile(); };
         }
 
         public void SetUpProfileModels(bool setActive = true)
         {
+            var triggers = ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers;
             ProfileItems.Clear();
             foreach (string profileName in ProfileNames)
             {
-
+                var relevantTriggers = triggers.Where(x => x.ProfileName?.ToLower() == profileName.ToLower());
 
                 ProfileItems.Add(new ProfileItemViewModel
                 {
                     OriginalName = profileName,
                     Name = profileName,
-                    Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Where(x => x.ProfileName == profileName)),
+                    Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(relevantTriggers),
                     IsActiveProfile = ActiveProfile == profileName,
                 
                 });
@@ -200,6 +203,20 @@ namespace RGBSyncPlus.UI.Tabs
             if (setActive)
             {
                 ActiveProfile = ApplicationManager.Instance.NGSettings.CurrentProfile;
+            }
+        }
+
+        public void CheckCurrentProfile()
+        {
+            if (ActiveProfile != ApplicationManager.Instance.NGSettings.CurrentProfile)
+            {
+                ActiveProfile = ApplicationManager.Instance.NGSettings.CurrentProfile;
+            }
+
+
+            foreach (ProfileItemViewModel profileItemViewModel in ProfileItems)
+            {
+                profileItemViewModel.IsActiveProfile = ActiveProfile == profileItemViewModel.Name;
             }
         }
 
