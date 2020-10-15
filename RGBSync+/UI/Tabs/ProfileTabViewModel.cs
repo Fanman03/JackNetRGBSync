@@ -184,7 +184,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void SetUpProfileModels(bool setActive = true)
         {
-            if (ProfileItems != null)
+            if (ProfileNames!= null)
             {
                 var triggers = ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers;
                 ProfileItems.Clear();
@@ -196,8 +196,7 @@ namespace RGBSyncPlus.UI.Tabs
                     {
                         OriginalName = profileName,
                         Name = profileName,
-                        Triggers =
-                            new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(relevantTriggers),
+                        Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(relevantTriggers),
                         IsActiveProfile = ActiveProfile == profileName,
 
                     });
@@ -249,8 +248,11 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void EnsureCorrectProfileIndex()
         {
-            SelectedProfileIndex = profileNames.IndexOf(ApplicationManager.Instance.CurrentProfile.Name);
-            SelectedProfileItem = ApplicationManager.Instance.CurrentProfile.Name;
+            if (profileItems != null && ApplicationManager.Instance?.CurrentProfile != null)
+            {
+                SelectedProfileIndex = profileNames.IndexOf(ApplicationManager.Instance.CurrentProfile.Name);
+                SelectedProfileItem = ApplicationManager.Instance.CurrentProfile.Name;
+            }
         }
 
         private Action<string> modalSubmitAction;
@@ -323,6 +325,22 @@ namespace RGBSyncPlus.UI.Tabs
                 ProfileName = CurrentProfile.OriginalName,
                 ProfileId = CurrentProfile.ProfileId
             });
+
+            CurrentProfile.Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(
+                ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Where(x =>
+                    x.ProfileName == CurrentProfile.OriginalName));
+
+            OnPropertyChanged("ProfileNames");
+            OnPropertyChanged("ProfileItems");
+            OnPropertyChanged("CurrentProfile");
+        }
+
+        public void DeleteTrigger(ProfileTriggerManager.ProfileTriggerEntry entry)
+        {
+            var killMe = ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.First(x => x.Id == entry.Id);
+            ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Remove(killMe);
+
+            RefreshProfiles();
 
             CurrentProfile.Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(
                 ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Where(x =>

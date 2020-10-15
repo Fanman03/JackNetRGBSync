@@ -45,6 +45,11 @@ namespace RGBSyncPlus.Model
             public delegate void ProfileChangeEventHandler(object sender, EventArgs e);
             public event ProfileChangeEventHandler ProfileChange;
 
+            public void TriggerProfileChange()
+            {
+                ProfileChange?.Invoke(this, new EventArgs());
+            }
+
             [JsonIgnore]
             public bool AreSettingsStale { get; set; }
             private ObservableCollection<string> profileNames;
@@ -67,6 +72,13 @@ namespace RGBSyncPlus.Model
                 get => currentProfile;
                 set
                 {
+                    if (currentProfile == null)
+                    {
+                        AreSettingsStale = true;
+                        ProfileChange?.Invoke(this, new EventArgs());
+                        SetProperty(ref currentProfile, value);
+                    }
+
                     if (SetProperty(ref currentProfile, value))
                     {
                         AreSettingsStale = true;

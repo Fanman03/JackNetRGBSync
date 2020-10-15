@@ -361,7 +361,7 @@
                         </Button>
 
                         <Button FontFamily="Segoe MDL2 Assets" Padding="8" Background="{DynamicResource SystemBaseLowColorBrush}" BorderThickness="0"  Margin="8,0" Click="Config" 
-                                Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SingledDeviceSelected, ConverterParameter=Alignment, Converter={StaticResource BoolToVisConverter}}"
+                                Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.ShowConfigTab, ConverterParameter=Alignment, Converter={StaticResource BoolToVisConverter}}"
                                 Style="{StaticResource ButtonRevealStyle}"
                                 >
                             <Grid Margin="0" >

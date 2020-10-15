@@ -142,6 +142,7 @@ namespace RGBSyncPlus
             {
                 NGSettings = new DeviceMappingModels.NGSettings();
                 SaveNGSettings();
+                HotLoadNGSettings();
             }
         }
 
@@ -157,8 +158,23 @@ namespace RGBSyncPlus
 
         public void SaveCurrentNGProfile()
         {
+            if (CurrentProfile.Id == Guid.Empty)
+            {
+                CurrentProfile.Id = Guid.NewGuid();
+            }
+            var id = CurrentProfile.Id;
+            
             string json = JsonConvert.SerializeObject(CurrentProfile);
-            string path = profilePathMapping[CurrentProfile.Name];
+            string path;
+            if (profilePathMapping.ContainsKey(CurrentProfile.Name))
+            {
+                path = profilePathMapping[CurrentProfile.Name];
+            }
+            else
+            {
+                path = NGPROFILES_DIRECTORY+ id + ".rsprofile";
+            }
+
             TimeSettingsLastSave = DateTime.Now;
             File.WriteAllText(path, json);
             CurrentProfile.IsProfileStale = false;
@@ -243,6 +259,7 @@ namespace RGBSyncPlus
                 }
             }
 
+            
         }
 
         public bool SettingsRequiresSave()

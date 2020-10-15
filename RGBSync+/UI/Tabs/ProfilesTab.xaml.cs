@@ -34,6 +34,7 @@ namespace RGBSyncPlus.UI.Tabs
         {
             Button button = sender as Button;
             ProfileTabViewModel.ProfileItemViewModel dc = button.DataContext as ProfileTabViewModel.ProfileItemViewModel;
+            
             vm.DeleteProfile(dc);
         }
 
@@ -121,6 +122,15 @@ namespace RGBSyncPlus.UI.Tabs
             ProfileTriggerManager.ProfileTriggerEntry dc = button.DataContext as ProfileTriggerManager.ProfileTriggerEntry;
 
             dc.Expanded = !dc.Expanded;
+        }
+
+        private void DeleteTrigger(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            ProfileTriggerManager.ProfileTriggerEntry entry =
+                button.DataContext as ProfileTriggerManager.ProfileTriggerEntry;
+
+            vm.DeleteTrigger(entry);
         }
     }
 }

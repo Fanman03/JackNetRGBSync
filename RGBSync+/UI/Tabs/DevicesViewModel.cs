@@ -25,7 +25,9 @@ namespace RGBSyncPlus.UI.Tabs
 
 
         private ObservableCollection<DeviceMappingModels.Device> slsDevices;
-        public ObservableCollection<DeviceMappingModels.Device> SLSDevices { get => slsDevices;
+        public ObservableCollection<DeviceMappingModels.Device> SLSDevices
+        {
+            get => slsDevices;
             set
             {
                 SetProperty(ref slsDevices, value);
@@ -62,13 +64,37 @@ namespace RGBSyncPlus.UI.Tabs
                 SingledDeviceSelected = value == 1;
                 MultipleDeviceSelected = value > 1;
 
+                ShowConfigTab = true;
                 if (MultipleDeviceSelected && (SubViewMode == "Config" || SubViewMode == "Alignment"))
                 {
                     SubViewMode = "Info";
+                    ShowConfigTab = false;
                 }
+                else
+                {
+                    if (SubViewMode == "Config")
+                    {
+                        SubViewMode = "Info";
+                    }
+
+                }
+
+                if (!(SLSDevices.First(x => x.Selected).ControlDevice.Driver is ISimpleLedWithConfig))
+                {
+                    ShowConfigTab = false;
+                }
+
             }
         }
-        
+
+        private bool showConfigTab;
+
+        public bool ShowConfigTab
+        {
+            get => showConfigTab;
+            set => SetProperty(ref showConfigTab, value);
+        }
+
         private string syncToSearch = "";
 
         public string SyncToSearch
