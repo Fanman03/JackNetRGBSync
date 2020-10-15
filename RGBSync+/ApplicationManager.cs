@@ -172,7 +172,8 @@ namespace RGBSyncPlus
             }
             else
             {
-                path = NGPROFILES_DIRECTORY+ id + ".rsprofile";
+                path = NGPROFILES_DIRECTORY+"\\"+ id + ".rsprofile";
+                profilePathMapping.Add(CurrentProfile.Name,path);
             }
 
             TimeSettingsLastSave = DateTime.Now;
