@@ -15,5 +15,6 @@ namespace Launcher
         }
 
         public static LauncherPrefs LauncherPrefs;
+        public static UpgradingWindow UpgradingWindow { get; set; }
     }
 }
