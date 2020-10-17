@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -30,6 +31,12 @@ namespace RGBSyncPlus.UI.Tabs
         public Store()
         {
             InitializeComponent();
+            ApplicationManager.Instance.SLSManager.RescanRequired+= SLSManagerOnRescanRequired;
+        }
+
+        private void SLSManagerOnRescanRequired(object sender, EventArgs e)
+        {
+            ReloadAllPlugins(sender, new RoutedEventArgs());
         }
 
         private StoreViewModel vm => (StoreViewModel) DataContext;
@@ -44,10 +51,21 @@ namespace RGBSyncPlus.UI.Tabs
             vm.ShowPreRelease = !vm.ShowPreRelease;
         }
 
-        private void InstallPlugin(object sender, RoutedEventArgs e)
+        private void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            double bytesIn = double.Parse(e.BytesReceived.ToString());
+            double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
+            double percentage = bytesIn / totalBytes * 100;
+
+            installingModal?.UpdateModalPercentage(mainVm, (int) percentage);
+        }
+
+        private SimpleModal installingModal;
+
+        private async void InstallPlugin(object sender, RoutedEventArgs e)
         {
             
-            using (new SimpleModal(mainVm, "Installing..."))
+            using (installingModal = new SimpleModal(mainVm, "Installing..."))
             {
                 ApplicationManager.Instance.PauseSyncing = true;
                 Task.Delay(TimeSpan.FromSeconds(1)).Wait();
@@ -66,7 +84,23 @@ namespace RGBSyncPlus.UI.Tabs
 
                     WebClient webClient = new WebClient();
                     string destPath = Path.GetTempPath() + bdc.PluginDetails.Id + ".7z";
-                    webClient.DownloadFile(url, destPath);
+
+                    TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+
+                    WebClient wc = new WebClient();
+                    wc.DownloadProgressChanged +=
+                        new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
+                    wc.DownloadFileCompleted += new AsyncCompletedEventHandler(
+                        (object senderx, AsyncCompletedEventArgs ex) =>
+                        {
+                            tcs.SetResult(true);
+                        });
+
+
+                    //        wc.DownloadFile(url, destPath);
+                    wc.DownloadFileAsync(new Uri(url), destPath);
+
+                    await tcs.Task;
 
                     string pluginPath = ApplicationManager.SLSPROVIDER_DIRECTORY + "\\" + bdc.PluginId;
                     if (Directory.Exists(pluginPath))
@@ -110,7 +144,7 @@ namespace RGBSyncPlus.UI.Tabs
                 }
 
                 ApplicationManager.Instance.LoadSLSProviders();
-                vm.LoadStoreAndPlugins();
+                vm.ReloadStoreAndPlugins();
             }
 
         }
@@ -129,6 +163,7 @@ namespace RGBSyncPlus.UI.Tabs
 
                 ApplicationManager.Instance.LoadSLSProviders();
                 vm.LoadStoreAndPlugins();
+                ApplicationManager.Instance.Rescan(this,new EventArgs());
             }
 
         }

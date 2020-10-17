@@ -306,7 +306,8 @@ namespace RGBSyncPlus.UI.Tabs
         public void SetUpDeviceMapViewModel()
         {
             SLSDevices = new ObservableCollection<DeviceMappingModels.Device>();
-            foreach (ControlDevice device in ApplicationManager.Instance.SLSDevices)
+            var devices = ApplicationManager.Instance.SLSDevices;
+            foreach (ControlDevice device in devices)
             {
                 var props = device.Driver.GetProperties();
 
@@ -323,6 +324,8 @@ namespace RGBSyncPlus.UI.Tabs
                     ConnectedTo = device.ConnectedTo
                 });
             }
+
+            this.OnPropertyChanged("SLSDevicesFiltered");
 
         }
 

@@ -11,7 +11,7 @@ namespace RGBSyncPlus.UI
     {
         private MainWindowViewModel viewmodel;
         private bool actuallyDispose = true;
-        public SimpleModal(MainWindowViewModel vm, string text)
+        public SimpleModal(MainWindowViewModel vm, string text, bool showPercentage = false)
         {
             if (vm != null)
             {
@@ -24,6 +24,8 @@ namespace RGBSyncPlus.UI
                 {
                     viewmodel = vm;
                     vm.ShowModal = true;
+                    vm.ModalShowPercentage = showPercentage;
+                    vm.ModalPercentage = 100;
                     vm.ModalText = text;
                     if (ApplicationManager.Instance?.ConfigurationWindow?.ContainingGrid != null)
                     {
@@ -34,6 +36,14 @@ namespace RGBSyncPlus.UI
 
                     Task.Delay(200).Wait();
                 }
+            }
+        }
+
+        public void UpdateModalPercentage(MainWindowViewModel vm, int perc)
+        {
+            if (vm != null)
+            {
+                vm.ModalPercentage = 100 - perc;
             }
         }
         public void Dispose()

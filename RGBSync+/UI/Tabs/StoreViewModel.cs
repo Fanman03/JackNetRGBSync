@@ -175,6 +175,18 @@ namespace RGBSyncPlus.UI.Tabs
             }
         }
 
+        public void ReloadStoreAndPlugins()
+        {
+            ApplicationManager.Instance.UnloadSLSProviders();
+
+
+            ApplicationManager.Instance.LoadSLSProviders();
+
+            LoadStoreAndPlugins();
+
+            ApplicationManager.Instance.Rescan(this,new EventArgs());
+        }
+
         public void LoadStoreAndPlugins()
         {
             using (new SimpleModal(mainVm, "Refreshing store...."))
@@ -288,6 +300,8 @@ namespace RGBSyncPlus.UI.Tabs
                 FilterPlugins();
 
             }
+
+            OnPropertyChanged("FilteredPlugins");
         }
 
         public void FilterPlugins()

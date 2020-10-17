@@ -82,6 +82,16 @@ namespace RGBSyncPlus.UI
         }
 
         public ObservableCollection<TabItem> TabItems { get; set; } = new ObservableCollection<TabItem>();
+        private int modalPercentage = 0;
+        public int ModalPercentage { get=>modalPercentage; set=>SetProperty(ref modalPercentage,value); }
+
+        private bool modalShowPercentage;
+
+        public bool ModalShowPercentage
+        {
+            get => modalShowPercentage;
+            set => SetProperty(ref modalShowPercentage, value);
+        }
 
         public class TabItem
         {

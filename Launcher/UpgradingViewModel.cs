@@ -15,7 +15,7 @@ namespace Launcher
             set => Set(ref message,value);
         }
 
-        private int percentage = 0;
+        private int percentage = 100;
         public int Percentage
         {
             get => percentage;

@@ -177,7 +177,7 @@ namespace Launcher
             double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
             double percentage = bytesIn / totalBytes * 100;
             
-            vm.Percentage = (int)percentage;
+            vm.Percentage = 100-(int)percentage;
         }
 
         private UpgradingViewModel vm => UpgradingWindow.vm;

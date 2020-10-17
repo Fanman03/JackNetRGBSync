@@ -5,27 +5,80 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RGBSyncPlus.UI.Tabs"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="3000" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <StackPanel>
-<TextBlock Margin="10" FontSize="36" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="RGB Sync Studio"/>
-            <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="Original RGBSync Development"/>
-            <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="Jack Pendleton"/>
+        <ScrollViewer>
+            <StackPanel>
+                <TextBlock Margin="10" FontSize="36" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="RGB Sync Studio"/>
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="Original RGBSync Development"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="Jack Pendleton"/>
 
-<TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="RGBSync Studio Development"/>
-<TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="James Johnston"/>
-<TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="Jack Pendleton"/>
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="RGBSync Studio Development"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="James Johnston"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="Jack Pendleton"/>
 
-            <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="SimpleLED Development"/>
-<TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="James Johnston"/>
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="SimpleLED Development"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="James Johnston"/>
 
-        </StackPanel>
+                <Grid Background="#40000000" Grid.ColumnSpan="2">
+                    <StackPanel>
+                        <TextBlock Margin="10,0,5,10" FontSize="14" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="JackNet RGB Sync is a work of free and open-source software. The program is free so that it can be available to all. However, donations are still appreciated and help pay for things like web-hosting." TextWrapping="WrapWithOverflow"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Margin="5" FontFamily="Segoe UI" Padding="5" Foreground="White" Width="140" Click="DonatePatreon">
+                                <Button.Background>
+                                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                        <GradientStop Color="#ffff424d" Offset="0"/>
+                                        <GradientStop Color="#FFff6260" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Button.Background> DONATE VIA PATREON
+                            </Button>
+
+
+
+                            <Button Margin="5" FontFamily="Segoe UI" Padding="5" Foreground="White" Width="140" Click="DonatePayPal">
+                                <Button.Background>
+                                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                        <GradientStop Color="#FF69ADFF" Offset="0"/>
+                                        <GradientStop Color="#FF0053B8" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Button.Background> DONATE PAYPAL
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="A special thank you to all patrons, translators, and contributors who helped make this software possible. Your contributions are greatly appreciated." TextWrapping="WrapWithOverflow"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" TextWrapping="WrapWithOverflow">
+                    Translators: <LineBreak/>
+                    <LineBreak/>
+                    Teun - Dutch<LineBreak/>
+                    Grifka - French<LineBreak/>
+                    Crashniels - German<LineBreak/>
+                    Sicily94 - Italian<LineBreak/>
+                    DrMeteor - Portugese<LineBreak/>
+                    Ksusha Volkova - Russian<LineBreak/>
+                    Ed3n18 - Spanish<LineBreak/>
+                    <LineBreak/>
+                    Patrons:<LineBreak/>
+                    <LineBreak/>
+                    Guy<LineBreak/>
+                    Phatsam<LineBreak/>
+                    FzR dontdie x<LineBreak/>
+                    alvinkh<LineBreak/>
+                    chs2fer<LineBreak/>
+                    Avkhymovych<LineBreak/>
+                    Contributors:<LineBreak/>
+                    <LineBreak/>
+                    Fanman03 - Lead Developer<LineBreak/>
+                    James Johnston - Developer<LineBreak/>
+                    James Johnston - RGB Control libraries<LineBreak/>
+                </TextBlock>
+            </StackPanel>
+        </ScrollViewer>
         <Grid Grid.Column="1">
-            <Image Source="/RGBSync+;component/Resources/DefaultBanner.png"></Image>
+            <!--<Image Source="/RGBSync+;component/Resources/DefaultBanner.png"></Image>-->
         </Grid>
     </Grid>
 </UserControl>

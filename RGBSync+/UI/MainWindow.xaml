@@ -85,10 +85,34 @@
         <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="SettingsUserControl">
             <Tabs:SettingsUI HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>
-        <Grid Grid.Column="1" Background="#c0000000" Visibility="{Binding ShowModal, Converter={StaticResource BoolToVisibilityConverter}}" d:IsHidden="True">
-            <Grid Width="500" Background="White" VerticalAlignment="Center">
+        <Grid Grid.Column="1" Background="#c0000000" Visibility="{Binding ShowModal, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid Width="500" Background="{x:Null}" VerticalAlignment="Center">
+                <Grid Background="#c0000000" />
+                <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"/>
+                
                 <StackPanel Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock  FontFamily="Segoe UI Light" FontSize="36" FontWeight="Bold" Margin="10,0" Text="{Binding ModalText}" TextWrapping="WrapWithOverflow"/>
+                    <TextBlock  FontFamily="Segoe UI Light" FontSize="36" FontWeight="Bold" Margin="0,0" Text="{Binding ModalText}" TextWrapping="WrapWithOverflow" Foreground="White"/>
+                    <ProgressBar x:Name="ProgressBar" Width="350" Height="10" Foreground="Black" BorderBrush="#40000000" Margin="0,20,0,0" Value="{Binding ModalPercentage}" RenderTransformOrigin="0.5,0.5">
+                        <ProgressBar.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="180"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </ProgressBar.RenderTransform>
+                        <ProgressBar.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop x:Name="PbStop1" Color="#ff0000" Offset="0"/>
+                                <GradientStop Color="#FFFF00" Offset="0.2"/>
+                                <GradientStop Color="#00ff00" Offset="0.4"/>
+                                <GradientStop Color="#00ffff" Offset="0.5"/>
+                                <GradientStop Color="#0000ff" Offset="0.6"/>
+                                <GradientStop Color="#FF00FF" Offset="0.8"/>
+                                <GradientStop Color="#ff0000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </ProgressBar.Background>
+                    </ProgressBar>
                     <StackPanel Orientation="Horizontal" Visibility="{Binding ShowModalTextBox, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,20,0,0" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <TextBox FontFamily="Segoe UI Light" FontSize="24" Width="330" x:Name="ModalTextBox" BorderThickness="0" Background="#e0e0e0" Foreground="Black"/>
                         <Button  FontFamily="Segoe UI Light" FontSize="24" Click="SubmitModalText" Background="{StaticResource Tc-Blue}" BorderThickness="0" Content="Submit"/>
