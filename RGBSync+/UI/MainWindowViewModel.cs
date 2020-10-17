@@ -20,7 +20,7 @@ namespace RGBSyncPlus.UI
                 new TabItem("", "Profiles","profiles"),
                 new TabItem("","Drivers","store"),
                 new TabItem("","About","about"),
-                new TabItem("","Crash","crashme")
+                new TabItem("","Crash","crashme")
             };
         }
 
