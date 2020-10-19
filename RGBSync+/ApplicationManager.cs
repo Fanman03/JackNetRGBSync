@@ -1,34 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Threading;
 using RGB.NET.Core;
-using RGB.NET.Groups;
-using RGBSyncPlus.Brushes;
 using RGBSyncPlus.Configuration;
 using RGBSyncPlus.Helper;
 using RGBSyncPlus.Model;
 using RGBSyncPlus.UI;
 using DiscordRPC;
-using DiscordRPC.Message;
 using System.Globalization;
 using Newtonsoft.Json;
-using System.Net;
 using NLog;
 using System.Diagnostics;
 using System.Security.Principal;
-using System.ComponentModel;
-using System.Windows.Data;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Threading;
 using RGBSyncPlus.UI.Tabs;
 using SimpleLed;
@@ -918,6 +910,8 @@ namespace RGBSyncPlus
                                         SLSManager.Drivers.Add(slsDriver);
                                         driversAdded.Add(slsDriver.GetProperties().Id);
                                         Debug.WriteLine("all loaded: " + slsDriver.Name());
+                                        slsDriver.DeviceAdded += SlsDriver_DeviceAdded;
+                                        slsDriver.DeviceRemoved += SlsDriver_DeviceRemoved;
                                         slsDriver.Configure(new DriverDetails() { HomeFolder = justPath });
                                         Debug.WriteLine("Have Initialized: " + slsDriver.Name());
                                     }
@@ -951,6 +945,16 @@ namespace RGBSyncPlus
             UpdateSLSDevices();
         }
 
+        private void SlsDriver_DeviceRemoved(object sender, Events.DeviceChangeEventArgs e)
+        {
+            SLSDevices.Remove(e.ControlDevice);
+        }
+
+        private void SlsDriver_DeviceAdded(object sender, Events.DeviceChangeEventArgs e)
+        {
+            SLSDevices.Add(e.ControlDevice);
+        }
+
         public void Rescan(object sender, EventArgs args)
         {
             StoreViewModel vm = null;
@@ -975,7 +979,7 @@ namespace RGBSyncPlus
             }
         }
 
-        public List<ControlDevice> SLSDevices = new List<ControlDevice>();
+        public ObservableCollection<ControlDevice> SLSDevices = new ObservableCollection<ControlDevice>();
 
         public void UpdateSLSDevices()
         {
@@ -997,7 +1001,7 @@ namespace RGBSyncPlus
 
 
             loadingSplash.LoadingText.Text = "Getting devices";
-            SLSDevices = SLSManager.GetDevices();
+            //SLSDevices = SLSManager.GetDevices();
             loadingSplash.ProgressBar.Value = 0;
             loadingSplash.ProgressBar.Maximum = SLSManager.Drivers.Count;
 
@@ -1010,10 +1014,10 @@ namespace RGBSyncPlus
                 try
                 {
                     loadingSplash.LoadingText.Text = "Getting devices from " + simpleLedDriver.Name();
-                    var devices = simpleLedDriver.GetDevices();
-                    if (devices != null)
+                    //var devices = simpleLedDriver.GetDevices();
+                    //if (devices != null)
                     {
-                        controlDevices.AddRange(devices);
+                      //  controlDevices.AddRange(devices);
                     }
                 }
                 catch (Exception e)

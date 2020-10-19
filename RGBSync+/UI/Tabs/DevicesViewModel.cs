@@ -18,8 +18,14 @@ namespace RGBSyncPlus.UI.Tabs
     {
         public DevicesViewModel()
         {
+            ApplicationManager.Instance.SLSDevices.CollectionChanged += (sender, args) =>
+            {
+                SetUpDeviceMapViewModel();
+            };
+
             this.ZoomLevel = 4;
             SetUpDeviceMapViewModel();
+
         }
 
 
