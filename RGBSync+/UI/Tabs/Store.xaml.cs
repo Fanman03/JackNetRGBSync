@@ -36,7 +36,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         private void SLSManagerOnRescanRequired(object sender, EventArgs e)
         {
-            ReloadAllPlugins(sender, new RoutedEventArgs());
+          //  ReloadAllPlugins(sender, new RoutedEventArgs());
         }
 
         private StoreViewModel vm => (StoreViewModel) DataContext;
@@ -80,27 +80,30 @@ namespace RGBSyncPlus.UI.Tabs
                     //    newest = bdc.Versions.Where(x=>x.PluginDetails.DriverProperties.IsPublicRelease).OrderByDescending(x => x.PluginDetails.Version).First();
                     //}
 
-                    string url = $"https://github.com/SimpleLed/Store/blob/master/{newest.Id}.7z?raw=true";
+                    SimpleLedApiClient apiClient=new SimpleLedApiClient();
+                    var drver = await apiClient.GetProduct(newest.PluginId, new ReleaseNumber(bdc.Version));
 
-                    WebClient webClient = new WebClient();
-                    string destPath = Path.GetTempPath() + bdc.PluginDetails.Id + ".7z";
+                    //string url = $"https://github.com/SimpleLed/Store/blob/master/{newest.Id}.7z?raw=true";
 
-                    TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+                    //WebClient webClient = new WebClient();
+                    //string destPath = Path.GetTempPath() + bdc.PluginDetails.Id + ".7z";
 
-                    WebClient wc = new WebClient();
-                    wc.DownloadProgressChanged +=
-                        new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
-                    wc.DownloadFileCompleted += new AsyncCompletedEventHandler(
-                        (object senderx, AsyncCompletedEventArgs ex) =>
-                        {
-                            tcs.SetResult(true);
-                        });
+                    //TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+
+                    //WebClient wc = new WebClient();
+                    //wc.DownloadProgressChanged +=
+                    //    new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
+                    //wc.DownloadFileCompleted += new AsyncCompletedEventHandler(
+                    //    (object senderx, AsyncCompletedEventArgs ex) =>
+                    //    {
+                    //        tcs.SetResult(true);
+                    //    });
 
 
-                    //        wc.DownloadFile(url, destPath);
-                    wc.DownloadFileAsync(new Uri(url), destPath);
+                    ////        wc.DownloadFile(url, destPath);
+                    //wc.DownloadFileAsync(new Uri(url), destPath);
 
-                    await tcs.Task;
+                    //await tcs.Task;
 
                     string pluginPath = ApplicationManager.SLSPROVIDER_DIRECTORY + "\\" + bdc.PluginId;
                     if (Directory.Exists(pluginPath))
@@ -122,7 +125,7 @@ namespace RGBSyncPlus.UI.Tabs
                     {
                     }
 
-                    using (Stream stream = File.OpenRead(destPath))
+                    using (Stream stream = new MemoryStream(drver))
                     {
                         var thingy = SharpCompress.Archives.ArchiveFactory.Open(stream);
 
@@ -141,10 +144,12 @@ namespace RGBSyncPlus.UI.Tabs
                         }
 
                     }
+
+                    ApplicationManager.Instance.LoadPlungFolder(pluginPath);
                 }
 
-                ApplicationManager.Instance.LoadSLSProviders();
-                vm.ReloadStoreAndPlugins();
+                
+                //vm.ReloadStoreAndPlugins();
             }
 
         }

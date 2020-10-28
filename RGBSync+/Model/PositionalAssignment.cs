@@ -34,7 +34,21 @@ namespace RGBSyncPlus.Model
             public string Author { get; set; }
             public string Repo { get; set; }
 
-            
+            public PluginDetails()
+            {
+
+            }
+
+            public PluginDetails(DriverProperties dp)
+            {
+                Name = dp.Name;
+                Id = dp.Id.ToString();
+                PluginId = dp.ProductId;
+                DriverProperties = dp;
+                Version = dp.CurrentVersion;
+                Author = dp.Author;
+                Repo = dp.GitHubLink;
+            }
         }
 
         public class PluginDetailsViewModel : BaseViewModel
@@ -168,9 +182,9 @@ namespace RGBSyncPlus.Model
             {
             }
 
-            public PluginDetailsViewModel(PluginDetails inp, bool dontChild=false)
+            public PluginDetailsViewModel(PluginDetails inp, bool dontChild = false)
             {
-                string versionAsString = inp.Version!=null ? inp.Version.ToString() : "0.0.0.0";
+                string versionAsString = inp.Version != null ? inp.Version.ToString() : "0.0.0.0";
 
                 Name = inp.Name;
                 Author = inp.Author;
@@ -186,6 +200,25 @@ namespace RGBSyncPlus.Model
 
                 Releases = 1;
             }
+
+            //public PluginDetailsViewModel(DriverProperties inp, bool dontChild = false)
+            //{
+            //    string versionAsString = inp.CurrentVersion != null ? inp.CurrentVersion.ToString() : "0.0.0.0";
+
+            //    Name = inp.Name;
+            //    Author = inp.Author;
+            //    Version = versionAsString;
+            //    Blurb = inp.Blurb;
+            //    PluginDetails = inp;
+            //    PluginId = inp.ProductId;
+            //    Id = inp.Id.ToString();
+            //    if (!dontChild)
+            //    {
+            //        Versions.Add(new PluginDetailsViewModel(inp, true));
+            //    }
+
+            //    Releases = 1;
+            //}
         }
     }
 }

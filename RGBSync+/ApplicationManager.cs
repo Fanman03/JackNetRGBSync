@@ -868,81 +868,80 @@ namespace RGBSyncPlus
             loadingSplash.ProgressBar.Maximum = pluginFolders.Length;
 
             int ct = 0;
-            List<Exception> log = new List<Exception>();
             foreach (var pluginFolder in pluginFolders)
             {
                 loadingSplash.Activate();
                 ct++;
+                
                 loadingSplash.ProgressBar.Value = ct;
                 loadingSplash.ProgressBar.Refresh();
-
-                var files = Directory.GetFiles(pluginFolder, "*.dll");
-
-                loadingSplash.ProgressBar.Value = ct;
-                List<Guid> driversAdded = new List<Guid>();
-                foreach (string file in files)
-                {
-                    Debug.WriteLine("Checking " + file);
-                    string filename = file.Split('\\').Last();
-                    string justPath = file.Substring(0, file.Length - filename.Length);
-                    if (filename.ToLower().StartsWith("driver") || filename.ToLower().StartsWith("source") || filename.ToLower().StartsWith("gameintegration"))
-                    {
-                        try
-                        {
-                            loadingSplash.LoadingText.Text = "Loading " + file.Split('\\').Last().Split('.').First();
-                            Logger.Debug("Loading provider " + file);
-
-                            var slsDriver = LoadDll(justPath, filename);
-
-                            if (slsDriver != null)
-                            {
-                                try
-                                {
-                                    if (!driversAdded.Contains(slsDriver.GetProperties().Id))
-                                    {
-                                        //slsDriver.Configure(null);
-                                        Debug.WriteLine("We got one! " + "Loading " + slsDriver.Name());
-                                        loadingSplash.LoadingText.Text = "Loading " + slsDriver.Name();
-                                        loadingSplash.UpdateLayout();
-                                        loadingSplash.Refresh();
-                                        loadingSplash.LoadingText.Refresh();
-                                        Task.Delay(33).Wait();
-                                        SLSManager.Drivers.Add(slsDriver);
-                                        driversAdded.Add(slsDriver.GetProperties().Id);
-                                        Debug.WriteLine("all loaded: " + slsDriver.Name());
-                                        slsDriver.DeviceAdded += SlsDriver_DeviceAdded;
-                                        slsDriver.DeviceRemoved += SlsDriver_DeviceRemoved;
-                                        slsDriver.Configure(new DriverDetails() { HomeFolder = justPath });
-                                        Debug.WriteLine("Have Initialized: " + slsDriver.Name());
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    Debug.WriteLine(ex.Message);
-                                    log.Add(ex);
-
-
-                                }
-                            }
-
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.WriteLine(e.Message);
-                            log.Add(e);
-                        }
-                    }
-                }
+                LoadPlungFolder(pluginFolder);
 
 
             }
 
             SLSManager.RescanRequired += Rescan;
 
-            //SLSManager.Init();
-            Debug.WriteLine(log);
             loadingSplash.LoadingText.Text = "Updating SLS devices";
             UpdateSLSDevices();
+        }
+
+        public void LoadPlungFolder(string pluginFolder)
+        {
+
+            var files = Directory.GetFiles(pluginFolder, "*.dll");
+
+            
+            List<Guid> driversAdded = new List<Guid>();
+            foreach (string file in files)
+            {
+                Debug.WriteLine("Checking " + file);
+                string filename = file.Split('\\').Last();
+                string justPath = file.Substring(0, file.Length - filename.Length);
+                if (filename.ToLower().StartsWith("driver") || filename.ToLower().StartsWith("source") || filename.ToLower().StartsWith("gameintegration"))
+                {
+                    try
+                    {
+                        loadingSplash.LoadingText.Text = "Loading " + file.Split('\\').Last().Split('.').First();
+                        Logger.Debug("Loading provider " + file);
+
+                        var slsDriver = LoadDll(justPath, filename);
+
+                        if (slsDriver != null)
+                        {
+                            try
+                            {
+                                if (!driversAdded.Contains(slsDriver.GetProperties().Id))
+                                {
+                                    //slsDriver.Configure(null);
+                                    Debug.WriteLine("We got one! " + "Loading " + slsDriver.Name());
+                                    loadingSplash.LoadingText.Text = "Loading " + slsDriver.Name();
+                                    loadingSplash.UpdateLayout();
+                                    loadingSplash.Refresh();
+                                    loadingSplash.LoadingText.Refresh();
+                                    Task.Delay(33).Wait();
+                                    SLSManager.Drivers.Add(slsDriver);
+                                    driversAdded.Add(slsDriver.GetProperties().Id);
+                                    Debug.WriteLine("all loaded: " + slsDriver.Name());
+                                    slsDriver.DeviceAdded += SlsDriver_DeviceAdded;
+                                    slsDriver.DeviceRemoved += SlsDriver_DeviceRemoved;
+                                    slsDriver.Configure(new DriverDetails() { HomeFolder = justPath });
+                                    Debug.WriteLine("Have Initialized: " + slsDriver.Name());
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine(ex.Message);
+                            }
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+                }
+            }
         }
 
         private void SlsDriver_DeviceRemoved(object sender, Events.DeviceChangeEventArgs e)
@@ -1179,8 +1178,6 @@ namespace RGBSyncPlus
                 SaveNGProfile(profile, map);
                 HotLoadNGSettings();
             }
-
-
         }
     }
 }

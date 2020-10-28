@@ -187,6 +187,17 @@ namespace RGBSyncPlus.UI.Tabs
             ApplicationManager.Instance.Rescan(this,new EventArgs());
         }
 
+        public List<DriverProperties> GetStoreDrivers()
+        {
+            var task = Task.Run(async () =>
+            {
+                SimpleLedApiClient apiClient = new SimpleLedApiClient();
+                List<DriverProperties> storePlugins = await apiClient.GetProducts();
+                return storePlugins;
+            });
+
+            return task.Result;
+        }
         public void LoadStoreAndPlugins()
         {
             using (new SimpleModal(mainVm, "Refreshing store...."))
@@ -226,82 +237,114 @@ namespace RGBSyncPlus.UI.Tabs
 
                 //SetUpDeviceMapViewModel();
 
-                List<PositionalAssignment.PluginDetails> pp = storeHandler.DownloadStoreManifest();
-
-                var ppu = pp.GroupBy(x => x.PluginId);
-
                 
+                List<DriverProperties> storePlugins = GetStoreDrivers();
 
-                foreach (IGrouping<Guid, PositionalAssignment.PluginDetails> pluginDetailses in ppu)
+                var storePluginsByProduct = storePlugins.GroupBy(x => x.ProductId);
+
+                foreach (IGrouping<Guid, DriverProperties> driverPropertieses in storePluginsByProduct)
                 {
-                    var insertThis = pluginDetailses.First();
 
-                    PositionalAssignment.PluginDetailsViewModel installedThingy = Plugins.FirstOrDefault(p => p.PluginId == insertThis.PluginId);
-                    if (installedThingy!=null)
+                    var insertThis = driverPropertieses.First();
+
+                    PositionalAssignment.PluginDetailsViewModel installedThingy = Plugins.FirstOrDefault(p => p.PluginId == insertThis.ProductId);
+                    if (installedThingy != null)
                     {
                         Plugins.Remove(installedThingy);
                     }
 
-                    var tmp = new PositionalAssignment.PluginDetailsViewModel(insertThis);
-                    tmp.Versions = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(pluginDetailses
-                        .Select(x => new PositionalAssignment.PluginDetailsViewModel(x, true)).ToList());
+                    var tmp = new PositionalAssignment.PluginDetailsViewModel(new PositionalAssignment.PluginDetails(insertThis));
+                    tmp.Versions = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(driverPropertieses.Select(x => new PositionalAssignment.PluginDetailsViewModel(new PositionalAssignment.PluginDetails(x), true)).ToList());
 
-                    try
-                    {
-                        if (!Directory.Exists("icons"))
-                        {
-                            try
-                            {
-                                Directory.CreateDirectory("icons");
-                            }
-                            catch
-                            {
-                            }
-                        }
-
-                        if (File.Exists("icons\\" + tmp.PluginDetails.PluginId + ".png"))
-                        {
-                            using (Bitmap bm = new Bitmap("icons\\" + tmp.PluginDetails.PluginId + ".png"))
-                            {
-                                tmp.Image = ToBitmapImage(bm);
-                            }
-                        }
-                        else
-                        {
-
-                            string imageUrl = "https://github.com/SimpleLed/Store/raw/master/Icons/" +
-                                              tmp.PluginDetails.PluginId + ".png";
-                            Debug.WriteLine("Trying to fetch: " + imageUrl);
-                            var webClient = new WebClient();
-                            using (Stream stream = webClient.OpenRead(imageUrl))
-                            {
-                                // make a new bmp using the stream
-                                using (Bitmap bitmap = new Bitmap(stream))
-                                {
-                                    //flush and close the stream
-                                    stream.Flush();
-                                    stream.Close();
-                                    // write the bmp out to disk
-                                    tmp.Image = ToBitmapImage(bitmap);
-                                    bitmap.Save("icons\\" + tmp.PluginDetails.PluginId + ".png");
-                                }
-                            }
-                        }
-                    }
-                    catch
-                    {
-                    }
+                    tmp.Image = GetIcon(tmp.PluginId);
 
                     Plugins.Add(tmp);
                     StoreOnly.Add(tmp);
 
                 }
 
+                //List<PositionalAssignment.PluginDetails> pp = storeHandler.DownloadStoreManifest();
+
+                //var ppu = pp.GroupBy(x => x.PluginId);
+
+                
+
+                //foreach (IGrouping<Guid, PositionalAssignment.PluginDetails> pluginDetailses in ppu)
+                //{
+                //    var insertThis = pluginDetailses.First();
+
+                //    PositionalAssignment.PluginDetailsViewModel installedThingy = Plugins.FirstOrDefault(p => p.PluginId == insertThis.PluginId);
+                //    if (installedThingy!=null)
+                //    {
+                //        Plugins.Remove(installedThingy);
+                //    }
+
+                //    var tmp = new PositionalAssignment.PluginDetailsViewModel(insertThis);
+                //    tmp.Versions = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(pluginDetailses
+                //        .Select(x => new PositionalAssignment.PluginDetailsViewModel(x, true)).ToList());
+
+                //    tmp.Image = GetIcon(tmp.PluginId);
+
+                //    Plugins.Add(tmp);
+                //    StoreOnly.Add(tmp);
+
+                //}
+
                 FilterPlugins();
 
             }
 
             OnPropertyChanged("FilteredPlugins");
+        }
+
+        private BitmapImage GetIcon(Guid id)
+        {
+            try
+            {
+                if (!Directory.Exists("icons"))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory("icons");
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                if (File.Exists("icons\\" + id + ".png"))
+                {
+                    using (Bitmap bm = new Bitmap("icons\\" + id + ".png"))
+                    {
+                        return ToBitmapImage(bm);
+                    }
+                }
+                else
+                {
+
+                    string imageUrl = "https://github.com/SimpleLed/Store/raw/master/Icons/" + id + ".png";
+                    Debug.WriteLine("Trying to fetch: " + imageUrl);
+                    var webClient = new WebClient();
+                    using (Stream stream = webClient.OpenRead(imageUrl))
+                    {
+                        // make a new bmp using the stream
+                        using (Bitmap bitmap = new Bitmap(stream))
+                        {
+                            //flush and close the stream
+                            stream.Flush();
+                            stream.Close();
+                            // write the bmp out to disk
+                            var image = ToBitmapImage(bitmap);
+                            bitmap.Save("icons\\" + id + ".png");
+                            return image;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public void FilterPlugins()
