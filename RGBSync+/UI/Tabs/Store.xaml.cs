@@ -129,10 +129,15 @@ namespace RGBSyncPlus.UI.Tabs
                     {
                         var thingy = SharpCompress.Archives.ArchiveFactory.Open(stream);
 
+                        float mx = thingy.Entries.Count();
+                        int ct = 0;
                         foreach (var archiveEntry in thingy.Entries)
                         {
 
                             archiveEntry.WriteToDirectory(pluginPath);
+                            ct++;
+
+                            installingModal?.UpdateModalPercentage(mainVm, (int) (ct/mx)*100);
                         }
 
                         try
