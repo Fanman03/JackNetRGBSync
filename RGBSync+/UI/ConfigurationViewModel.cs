@@ -396,7 +396,7 @@ namespace RGBSyncPlus.UI
 
                     dg.DeviceLeds = new ObservableCollection<DeviceLED>(RGBSurface.Instance.Leds
                         .Where(x => x.Device == d)
-                        .Select(y => new DeviceLED(y, SelectedSyncGroup.Leds.Any(x => x.LedId == y.Id))
+                        .Select(y => new DeviceLED(y, SelectedSyncGroup.Leds.Any(x => (x.LedId == y.Id) && (x.Device == y.Device.GetDeviceName())))
                         {
                             ParentalRollUp = dg.RollUpCheckBoxes
                         }).ToList());
