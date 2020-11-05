@@ -38,7 +38,7 @@ namespace RGBSyncPlus.UI
                 string response = client.DownloadString("https://rgbsync.com/api/validateKey.php?token=zQlszc7d1l9t8cv734nmte8ui4o3s8d15pcz&key=" + keyBox.Text);
                 if(response == "valid")
                 {
-                    ApplicationManager.Instance.AppSettings.ApiKey = keyBox.Text;
+                    //ApplicationManager.Instance.AppSettings.ApiKey = keyBox.Text;
                     App.SaveSettings();
                     this.Close();
                 } else

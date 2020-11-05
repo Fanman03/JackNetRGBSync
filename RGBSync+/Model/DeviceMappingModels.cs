@@ -42,6 +42,20 @@ namespace RGBSyncPlus.Model
 
         public class NGSettings : BaseViewModel
         {
+
+            private double updateRate = 30.0;
+
+            public double UpdateRate
+            {
+                get => updateRate;
+                set
+                {
+                    SetProperty(ref updateRate, value);
+                    AreSettingsStale = true;
+                    //ProfileChange?.Invoke(this, new EventArgs());
+                }
+            }
+
             public delegate void ProfileChangeEventHandler(object sender, EventArgs e);
             public event ProfileChangeEventHandler ProfileChange;
 
@@ -112,7 +126,40 @@ namespace RGBSyncPlus.Model
                 }
             }
 
+            private string lang;
 
+            public string Lang
+            {
+                get => lang;
+                set
+                {
+                    SetProperty(ref lang, value);
+                    AreSettingsStale = true;
+                }
+            }
+
+            private bool minimizeToTray;
+            private bool enableDiscordRPC;
+
+            public bool EnableDiscordRPC
+            {
+                get => enableDiscordRPC;
+                set
+                {
+                    SetProperty(ref enableDiscordRPC, value);
+                    AreSettingsStale = true;
+                }
+            }
+
+            public bool MinimizeToTray
+            {
+                get => minimizeToTray;
+                set
+                {
+                    SetProperty(ref minimizeToTray, value);
+                    AreSettingsStale = true;
+                }
+            }
         }
 
         public class NGProfile : BaseViewModel

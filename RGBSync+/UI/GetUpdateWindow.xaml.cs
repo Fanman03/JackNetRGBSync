@@ -32,26 +32,26 @@ namespace RGBSyncPlus.UI
 
         public void YesClicked(object sender, RoutedEventArgs e)
         {
-            Logger.Info("Beginning update process...");
-            ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            string link = ApplicationManager.Instance.AppSettings.updateURL;
-            WebClient wc = new WebClient();
-            string filename = Directory.GetCurrentDirectory() + "\\~TEMP_setup.exe";
-            Logger.Info("Downloading new installer...");
-            try
-            {
-                wc.DownloadFile(link, filename);
-                Logger.Info("Done!");
-                Logger.Info("Staring installer...");
-                Process.Start(filename);
-                Close();
-                Logger.Info("Closing app so update can complete.");
-                ApplicationManager.Instance.Exit();
-            } catch(Exception ex)
-            {
-                Logger.Error("Error downloading installer. " + ex);
-            }
+            //Logger.Info("Beginning update process...");
+            //ServicePointManager.Expect100Continue = true;
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ////string link = ApplicationManager.Instance.AppSettings.updateURL;
+            //WebClient wc = new WebClient();
+            //string filename = Directory.GetCurrentDirectory() + "\\~TEMP_setup.exe";
+            //Logger.Info("Downloading new installer...");
+            //try
+            //{
+            //    wc.DownloadFile(link, filename);
+            //    Logger.Info("Done!");
+            //    Logger.Info("Staring installer...");
+            //    Process.Start(filename);
+            //    Close();
+            //    Logger.Info("Closing app so update can complete.");
+            //    ApplicationManager.Instance.Exit();
+            //} catch(Exception ex)
+            //{
+            //    Logger.Error("Error downloading installer. " + ex);
+            //}
         }
         public void NoClicked(object sender, RoutedEventArgs e)
         {

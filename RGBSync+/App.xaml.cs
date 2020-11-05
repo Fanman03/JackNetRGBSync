@@ -87,8 +87,8 @@ namespace RGBSyncPlus
                 }
 
 
-                ApplicationManager.Instance.Settings = settings;
-                ApplicationManager.Instance.AppSettings = appsettings;
+                //ApplicationManager.Instance.Settings = settings;
+                //ApplicationManager.Instance.AppSettings = appsettings;
                 ApplicationManager.Instance.Initialize();
                 if (!appsettings.MinimizeToTray) //HACK Fanman03 05.12.2019: Workaround to create the window
                 {
@@ -111,14 +111,14 @@ namespace RGBSyncPlus
         {
             base.OnExit(e);
 
-            File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
-            File.WriteAllText(PATH_APPSETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.AppSettings, new ColorSerializer()));
+            //File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
+            //File.WriteAllText(PATH_APPSETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.AppSettings, new ColorSerializer()));
         }
 
         public static void SaveSettings()
         {
-            File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
-            File.WriteAllText(PATH_APPSETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.AppSettings, new ColorSerializer()));
+            //File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
+            //File.WriteAllText(PATH_APPSETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.AppSettings, new ColorSerializer()));
         }
 
         #endregion

@@ -45,11 +45,11 @@ namespace RGBSyncPlus.UI
             Debug.WriteLine("starting config View");
             if (isDesign)
             {
-                ApplicationManager.Instance.AppSettings = new Configuration.AppSettings
-                {
-                    EnableClient = false,
+                //ApplicationManager.Instance.AppSettings = new Configuration.AppSettings
+                //{
+                //    EnableClient = false,
 
-                };
+                //};
 
                 Debug.WriteLine("mocking data");
                 var vm = ((this.DataContext) as ConfigurationViewModel);
@@ -98,7 +98,7 @@ namespace RGBSyncPlus.UI
             ApplyButton.Visibility = Visibility.Hidden;
             if (ConfigurationViewModel.PremiumStatus == "Visible")
             {
-                customItem.Visibility = Visibility.Visible;
+                //customItem.Visibility = Visibility.Visible;
             }
             DoNotRestart = true;
             //if (ApplicationManager.Instance.AppSettings.BackgroundImg == "custom")
@@ -131,7 +131,7 @@ namespace RGBSyncPlus.UI
             //}
             //else
             //{
-                darkItem.IsSelected = true;
+               // darkItem.IsSelected = true;
             //    BitmapImage bimage = new BitmapImage();
             //    bimage.BeginInit();
             //    //bimage.UriSource = new Uri("pack://application:,,,/Resources/base.png", UriKind.RelativeOrAbsolute);
@@ -140,39 +140,41 @@ namespace RGBSyncPlus.UI
             //    this.BackgroundImage = bimage;
             //}
 
-            if (ApplicationManager.Instance.AppSettings.Lang == "en")
+
+            //todo wtf is this bollocks
+            if (ApplicationManager.Instance.NGSettings.Lang == "en")
             {
                 englishItem.IsSelected = true;
             }
-            else if (ApplicationManager.Instance.AppSettings.Lang == "es")
+            else if (ApplicationManager.Instance.NGSettings.Lang == "es")
             {
                 spanishItem.IsSelected = true;
             }
-            else if (ApplicationManager.Instance.AppSettings.Lang == "de")
+            else if (ApplicationManager.Instance.NGSettings.Lang == "de")
             {
                 germanItem.IsSelected = true;
             }
-            else if (ApplicationManager.Instance.AppSettings.Lang == "fr")
+            else if (ApplicationManager.Instance.NGSettings.Lang == "fr")
             {
                 frenchItem.IsSelected = true;
             }
-            else if (ApplicationManager.Instance.AppSettings.Lang == "ru")
+            else if (ApplicationManager.Instance.NGSettings.Lang == "ru")
             {
                 russianItem.IsSelected = true;
             }
-            else if (ApplicationManager.Instance.AppSettings.Lang == "nl")
+            else if (ApplicationManager.Instance.NGSettings.Lang == "nl")
             {
                 dutchItem.IsSelected = true;
             }
-            else if (ApplicationManager.Instance.AppSettings.Lang == "pt")
+            else if (ApplicationManager.Instance.NGSettings.Lang == "pt")
             {
                 portugeseItem.IsSelected = true;
             }
-            else if (ApplicationManager.Instance.AppSettings.Lang == "it")
+            else if (ApplicationManager.Instance.NGSettings.Lang == "it")
             {
                 italianItem.IsSelected = true;
             }
-            else if (ApplicationManager.Instance.AppSettings.Lang == "te")
+            else if (ApplicationManager.Instance.NGSettings.Lang == "te")
             {
                 testItem.Visibility = System.Windows.Visibility.Visible;
                 testItem.IsSelected = true;
@@ -194,81 +196,81 @@ namespace RGBSyncPlus.UI
 
         private void EnglishSelected(object sender, System.Windows.RoutedEventArgs e)
         {
-            ApplicationManager.Instance.AppSettings.Lang = "en";
+            ApplicationManager.Instance.NGSettings.Lang = "en";
         }
         private void SpanishSelected(object sender, System.Windows.RoutedEventArgs e)
         {
-            ApplicationManager.Instance.AppSettings.Lang = "es";
+            ApplicationManager.Instance.NGSettings.Lang = "es";
         }
         private void GermanSelected(object sender, System.Windows.RoutedEventArgs e)
         {
-            ApplicationManager.Instance.AppSettings.Lang = "de";
+            ApplicationManager.Instance.NGSettings.Lang = "de";
         }
         private void FrenchSelected(object sender, System.Windows.RoutedEventArgs e)
         {
-            ApplicationManager.Instance.AppSettings.Lang = "fr";
+            ApplicationManager.Instance.NGSettings.Lang = "fr";
         }
         private void RussianSelected(object sender, System.Windows.RoutedEventArgs e)
         {
-            ApplicationManager.Instance.AppSettings.Lang = "ru";
+            ApplicationManager.Instance.NGSettings.Lang = "ru";
         }
         private void DutchSelected(object sender, System.Windows.RoutedEventArgs e)
         {
-            ApplicationManager.Instance.AppSettings.Lang = "nl";
+            ApplicationManager.Instance.NGSettings.Lang = "nl";
         }
         private void PortugeseSelected(object sender, System.Windows.RoutedEventArgs e)
         {
-            ApplicationManager.Instance.AppSettings.Lang = "pt";
+            ApplicationManager.Instance.NGSettings.Lang = "pt";
         }
         private void ItalianSelected(object sender, System.Windows.RoutedEventArgs e)
         {
-            ApplicationManager.Instance.AppSettings.Lang = "it";
+            ApplicationManager.Instance.NGSettings.Lang = "it";
         }
         private void TestSelected(object sender, System.Windows.RoutedEventArgs e)
         {
-            ApplicationManager.Instance.AppSettings.Lang = "te";
+            ApplicationManager.Instance.NGSettings.Lang = "te";
         }
 
-        private void rgbSelected(object sender, System.Windows.RoutedEventArgs e)
-        {
-            ApplicationManager.Instance.AppSettings.BackgroundImg = "rgb";
-            if (ThemeBox.IsVisible)
-            {
-                ApplyButton.Visibility = Visibility.Visible;
-            }
+        //private void rgbSelected(object sender, System.Windows.RoutedEventArgs e)
+        //{
+        //    ApplicationManager.Instance.AppSettings.BackgroundImg = "rgb";
+        //    if (ThemeBox.IsVisible)
+        //    {
+        //        ApplyButton.Visibility = Visibility.Visible;
+        //    }
 
-        }
+        //}
 
-        private void darkSelected(object sender, System.Windows.RoutedEventArgs e)
-        {
-            ApplicationManager.Instance.AppSettings.BackgroundImg = "dark";
-            if (ThemeBox.IsVisible)
-            {
-                ApplyButton.Visibility = Visibility.Visible;
-            }
+        //private void darkSelected(object sender, System.Windows.RoutedEventArgs e)
+        //{
+        //    ApplicationManager.Instance.AppSettings.BackgroundImg = "dark";
+        //    if (ThemeBox.IsVisible)
+        //    {
+        //        ApplyButton.Visibility = Visibility.Visible;
+        //    }
 
-        }
+        //}
 
 
-        public void PromptForFile(object sender, System.Windows.RoutedEventArgs e)
-        {
-            if (UI.ConfigurationViewModel.PremiumStatus == "Visible")
-            {
-                ApplicationManager.Instance.AppSettings.BackgroundImg = "custom";
-                Process.Start("BackgroundUploadHelper.exe");
-            }
-            else
-            {
-                if (ApplicationManager.Instance.AppSettings.BackgroundImg == "rgb")
-                {
-                    rgbItem.IsSelected = true;
-                }
-                else
-                {
-                    darkItem.IsSelected = true;
-                }
-            }
-        }
+        //public void PromptForFile(object sender, System.Windows.RoutedEventArgs e)
+        //{
+        //    if (UI.ConfigurationViewModel.PremiumStatus == "Visible")
+        //    {
+        //        ApplicationManager.Instance.AppSettings.BackgroundImg = "custom";
+        //        Process.Start("BackgroundUploadHelper.exe");
+        //    }
+        //    else
+        //    {
+        //        if (ApplicationManager.Instance.AppSettings.BackgroundImg == "rgb")
+        //        {
+        //            rgbItem.IsSelected = true;
+        //        }
+        //        else
+        //        {
+        //            darkItem.IsSelected = true;
+        //        }
+        //    }
+        //}
 
         private void Lang_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
@@ -300,13 +302,13 @@ namespace RGBSyncPlus.UI
 
                 PremiumMessageBox pMsgBox = new PremiumMessageBox();
                 pMsgBox.Show();
-                if (ApplicationManager.Instance.AppSettings.BackgroundImg == "rgb")
+                //if (ApplicationManager.Instance.AppSettings.BackgroundImg == "rgb")
+                //{
+                //    rgbItem.IsSelected = true;
+                //}
+                //else
                 {
-                    rgbItem.IsSelected = true;
-                }
-                else
-                {
-                    darkItem.IsSelected = true;
+                    //darkItem.IsSelected = true;
                 }
             }
             else
@@ -314,10 +316,10 @@ namespace RGBSyncPlus.UI
                 customRestart = true;
             }
 
-            if (ThemeBox.IsVisible)
-            {
-                ApplyButton.Visibility = Visibility.Visible;
-            }
+            //if (ThemeBox.IsVisible)
+            //{
+            //    ApplyButton.Visibility = Visibility.Visible;
+            //}
 
         }
 
@@ -328,17 +330,17 @@ namespace RGBSyncPlus.UI
 
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
         {
-            if (customRestart == true)
-            {
-                ApplicationManager.Instance.AppSettings.BackgroundImg = "custom";
-                Process.Start("BackgroundUploadHelper.exe");
-                App.SaveSettings();
-                ApplicationManager.Instance.Exit();
-            }
-            else
-            {
-                RestartViaHelper();
-            }
+            //if (customRestart == true)
+            //{
+            //    ApplicationManager.Instance.AppSettings.BackgroundImg = "custom";
+            //    Process.Start("BackgroundUploadHelper.exe");
+            //    App.SaveSettings();
+            //    ApplicationManager.Instance.Exit();
+            //}
+            //else
+            //{
+            //    RestartViaHelper();
+            //}
         }
 
         private void ManagePlugin(object sender, RoutedEventArgs e)

@@ -49,7 +49,7 @@ namespace RGBSyncPlus
 
         public Settings Settings { get; set; } = new Settings();
 
-        public AppSettings AppSettings { get; set; } = new AppSettings();
+      //  public AppSettings AppSettings { get; set; } = new AppSettings();
         public TimerUpdateTrigger UpdateTrigger { get; private set; } = new TimerUpdateTrigger();
 
         #endregion
@@ -191,13 +191,18 @@ namespace RGBSyncPlus
             CurrentProfile.IsProfileStale = false;
         }
 
+        public static bool isHotLoading = false;
         public void HotLoadNGSettings()
         {
+            if (isHotLoading) return;
+
+            isHotLoading = true;
             profilePathMapping.Clear();
             if (!Directory.Exists(NGPROFILES_DIRECTORY))
             {
                 Directory.CreateDirectory(NGPROFILES_DIRECTORY);
                 GenerateNewProfile("Default");
+                isHotLoading = false;
                 return;
             }
 
@@ -229,6 +234,22 @@ namespace RGBSyncPlus
                 LoadProfileFromName(NGSettings.CurrentProfile);
             }
 
+            if (UpdateTrigger != null)
+            {
+                UpdateTrigger.Stop();
+                UpdateTrigger.Dispose();
+            }
+
+            var tmr = 1.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
+            var tmr2 = 1000.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
+            UpdateTrigger = new TimerUpdateTrigger { UpdateFrequency = tmr };
+
+          //  loadingSplash.LoadingText.Text = "Registering Update Trigger";
+
+            UpdateTrigger.Start();
+
+            slsTimer = new Timer(SLSUpdate, null, 0, (int)tmr2);
+
             server?.CloseAsync().Wait();
 
             if (NGSettings.ApiEnabled)
@@ -252,7 +273,7 @@ namespace RGBSyncPlus
                 }
             }
 
-            
+            isHotLoading = false;
         }
 
         public bool SettingsRequiresSave()
@@ -281,7 +302,10 @@ namespace RGBSyncPlus
             {
                 if (SettingsRequiresSave())
                 {
+                    HotLoadNGSettings();
+
                     SaveNGSettings();
+
                 }
 
                 if (ProfilesRequiresSave())
@@ -419,32 +443,32 @@ namespace RGBSyncPlus
 
             Logger.Debug("============ JackNet RGB Sync is Starting ============");
 
-            if (AppSettings.RunAsAdmin == true && !Debugger.IsAttached)
-            {
-                Logger.Debug("App should be run as administrator.");
-                Logger.Debug("Checking to see if app is running as administrator...");
-                var identity = WindowsIdentity.GetCurrent();
-                var principal = new WindowsPrincipal(identity);
-                bool isRunningAsAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
-                if (isRunningAsAdmin == false)
-                {
-                    Logger.Debug("App is not running as administrator, restarting...");
-                    ExecuteAsAdmin("RGBSync+.exe");
-                    Exit();
-                }
-                else
-                {
-                    Logger.Debug("App is running as administrator, proceding with startup.");
-                }
-            }
+            //if (AppSettings.RunAsAdmin == true && !Debugger.IsAttached)
+            //{
+            //    Logger.Debug("App should be run as administrator.");
+            //    Logger.Debug("Checking to see if app is running as administrator...");
+            //    var identity = WindowsIdentity.GetCurrent();
+            //    var principal = new WindowsPrincipal(identity);
+            //    bool isRunningAsAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            //    if (isRunningAsAdmin == false)
+            //    {
+            //        Logger.Debug("App is not running as administrator, restarting...");
+            //        ExecuteAsAdmin("RGBSync+.exe");
+            //        Exit();
+            //    }
+            //    else
+            //    {
+            //        Logger.Debug("App is running as administrator, proceding with startup.");
+            //    }
+            //}
 
             CultureInfo ci = CultureInfo.InstalledUICulture;
-            if (AppSettings.Lang == null)
+            if (NGSettings.Lang == null)
             {
                 Logger.Debug("Language is not set, inferring language from system culture. Lang=" + ci.TwoLetterISOLanguageName);
-                AppSettings.Lang = ci.TwoLetterISOLanguageName;
+                NGSettings.Lang = ci.TwoLetterISOLanguageName;
             }
-            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(AppSettings.Lang);
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(NGSettings.Lang);
 
             loadingSplash.LoadingText.Text = "Starting Discord";
             client = new DiscordRpcClient("581567509959016456");
@@ -465,7 +489,7 @@ namespace RGBSyncPlus
                 }
             }
 
-            int delay = AppSettings.StartDelay * 1000;
+           // int delay = AppSettings.StartDelay * 1000;
 
             LoadSLSProviders();
             //LoadDeviceProviders();
@@ -474,15 +498,6 @@ namespace RGBSyncPlus
             loadingSplash.LoadingText.Text = "Mapping from config";
             SetUpMappedDevicesFromConfig();
 
-            var tmr = 1.0 / MathHelper.Clamp(AppSettings.UpdateRate, 1, 100);
-            var tmr2 = 1000.0 / MathHelper.Clamp(AppSettings.UpdateRate, 1, 100);
-            UpdateTrigger = new TimerUpdateTrigger { UpdateFrequency = tmr };
-
-            loadingSplash.LoadingText.Text = "Registering Update Trigger";
-
-            UpdateTrigger.Start();
-
-            slsTimer = new Timer(SLSUpdate, null, 0, (int)tmr2);
             configTimer = new Timer(ConfigUpdate, null, 0, (int)5000);
 
             loadingSplash.LoadingText.Text = "Loading Settings";
@@ -1030,14 +1045,14 @@ namespace RGBSyncPlus
    
         private void HideConfiguration()
         {
-            if (AppSettings.EnableDiscordRPC == true)
+            if (NGSettings.EnableDiscordRPC == true)
             {
                 if (client.IsDisposed == false)
                 {
                     client.Dispose();
                 }
             }
-            if (AppSettings.MinimizeToTray)
+            if (NGSettings.MinimizeToTray)
             {
                 if (ConfigurationWindow.IsVisible)
                     ConfigurationWindow.Hide();
@@ -1048,7 +1063,7 @@ namespace RGBSyncPlus
 
         public void OpenConfiguration()
         {
-            if (AppSettings.EnableDiscordRPC == true)
+            if (NGSettings.EnableDiscordRPC == true)
             {
                 Logger.Info("Discord RPC enabled.");
                 if (client.IsDisposed == true)
@@ -1127,7 +1142,7 @@ namespace RGBSyncPlus
         {
             Logger.Debug("App is restarting.");
             System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-            if (AppSettings.EnableDiscordRPC == true)
+            if (NGSettings.EnableDiscordRPC == true)
             {
                 if (client.IsDisposed == false)
                 {

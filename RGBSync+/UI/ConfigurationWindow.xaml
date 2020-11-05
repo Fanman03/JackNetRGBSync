@@ -705,9 +705,9 @@
 
                             <Grid>
                                 <Grid.Resources>
-                                    <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="{x:Type Label}" />
+                                    <!--<Style BasedOn="{StaticResource StyleLabelForm}" TargetType="{x:Type Label}" />
                                     <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="{x:Type TextBlock}" />
-                                    <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="{x:Type ListBox}" />
+                                    <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="{x:Type ListBox}" />-->
                                 </Grid.Resources>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="97*"/>
@@ -733,11 +733,11 @@
                                     <Label controls:Form.IsLabel="True" 
                                        Content="{x:Static p:Resources.Settings_ThemeLabel}"  Margin="0,0,-75,0" />
                                     <StackPanel Orientation="Horizontal" >
-                                        <ComboBox x:Name="ThemeBox" Margin="75,0,-75,0" >
+                                        <!--<ComboBox x:Name="ThemeBox" Margin="75,0,-75,0" >
                                             <ComboBoxItem Selected="rgbSelected" x:Name="rgbItem" Content="RGB"/>
                                             <ComboBoxItem Selected="darkSelected" x:Name="darkItem" Content="Dark"/>
                                             <ComboBoxItem Visibility="Collapsed" Selected="customSelected" x:Name="customItem" Content="Custom"/>
-                                        </ComboBox>
+                                        </ComboBox>-->
                                         <Button Margin="100,1,-100,0" Click="ApplyButton_Click" Content="{x:Static p:Resources.Settings_ThemeApplyBtnText}" x:Name="ApplyButton"  Visibility="Visible"/>
                                     </StackPanel>
 
