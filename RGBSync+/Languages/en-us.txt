@@ -1,0 +1,54 @@
+EN-US	
+English (American)	
+English (American)	
+Crash.TitleText	RGB Sync Studio has crashed.
+Dialog.CopyCommand	Copy to Clipboard
+Dialog.No	No
+Dialog.NoPremiumTitle	NoPremiumTitle
+Dialog.NoUpdateText	You are currently using the latest version of the app.
+Dialog.NoUpdateTitle	No Update Available
+Dialog.OKCommand	OK
+Dialog.UpdateText	An update to RGB Sync is available. Would you like to update?
+Dialog.UpdateTitle	Update Available
+Dialog.Yes	Yes
+Settings.AdminLabel	Run as Admin:
+Settings.AdminText	AdminText
+Settings.DelayLabel	Startup Delay:
+Settings.DelayToolTip	DelayToolTip
+Settings.DelayUnit	Seconds
+Settings.DevicesLabel	Devices:
+Settings.DiscordLabel	Discord:
+Settings.DiscordText	DiscordText
+Settings.DiscordToolTip	DiscordToolTip
+Settings.LanguageLabel	Language:
+Settings.MinimizationLabel	Enable Minimization:
+Settings.MinimizationText	MinimizationText
+Settings.PollingRateLabel	Polling Rate:
+Settings.PollingRateToolTip	PollingRateTooltip
+Settings.PollingRateUnit	PollingRateUnit
+Settings.ThemeApplyBtnText	Settings.ThemeApplyBtnText
+Settings.ThemeLabel	Theme:
+Settings.UpdateBtnText	Check for Update
+Settings.UpdateLabel	Updates:
+Settings.VersionLabel	Version:
+Store.ExperimentalBtnText	Experimental
+Store.FilterLabel	Search
+Store.Plugin.DisableBtnLabel	Disable
+Store.Plugin.InstallBtnLabel	Installed 
+Store.Plugin.InstalledBtnLabel	Installed 
+Store.Plugin.UninstallBtnLabel	Uninstall
+Store.Plugin.VersionsBtnLabel	Versions
+Store.RefreshBtnText	Refresh Store
+Store.RestartAllBtnText	Restart All
+TrayMenu.ExitAppItem	Exit App
+TrayMenu.OpenUIItem	Open App
+TrayMenu.RestartAppItem	Restart App
+TrayMenu.TechSupportItem	Tech Support
+UI.AboutTabHeader	About
+UI.AppName	RGB Sync
+UI.DeviceTabHeader	Devices
+UI.ProfileTabHeader	Profile
+UI.SettingsTabHeader	Settings
+UI.StoreTabHeader	Devices
+About.OrigDev	RGB Sync Original Development
+About.20dev	RGBSync Studio Development

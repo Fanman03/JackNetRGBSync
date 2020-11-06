@@ -119,6 +119,7 @@
     <Compile Include="Configuration\ProgVersion.cs" />
     <Compile Include="Converter\DeviceTypeToImageConverter.cs" />
     <Compile Include="Converter\IndeterminateBoolToOpacityConverter.cs" />
+    <Compile Include="Converter\LocConverter.cs" />
     <Compile Include="Converter\NullToVisibilityConverter.cs" />
     <Compile Include="Converter\ScrollOffsetToOpacityMaskConverter.cs" />
     <Compile Include="Converter\ScrollOffsetToVisibilityConverter.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Helper\RGBNetExtension.cs" />
     <Compile Include="Helper\ExceptionExtension.cs" />
     <Compile Include="Helper\MathHelper.cs" />
+    <Compile Include="Languages\LanguageModel.cs" />
     <Compile Include="Model\AbstractBindableExtended.cs" />
     <Compile Include="Model\DeviceGroup.cs" />
     <Compile Include="Model\DeviceMappingModels.cs" />
@@ -134,10 +136,6 @@
     <Compile Include="Model\SyncGroup.cs" />
     <Compile Include="Model\SyncLed.cs" />
     <Compile Include="ProfileTriggerManager.cs" />
-    <Compile Include="UI\ConfigurationViewModel.cs" />
-    <Compile Include="UI\ConfigurationWindow.xaml.cs">
-      <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\BlurredDecorationWindow.cs" />
     <Compile Include="Controls\ColorSelector.cs" />
     <Compile Include="Controls\Form.cs" />
@@ -167,6 +165,7 @@
     <Compile Include="UI\GetUpdateWindow.xaml.cs">
       <DependentUpon>GetUpdateWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\LanguageAwareViewModel.cs" />
     <Compile Include="UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -223,10 +222,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\RainbowDefault\ListBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\ConfigurationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -383,7 +378,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.ru.resx" />
-    <EmbeddedResource Include="Properties\Resources.te.resx" />
+    <EmbeddedResource Include="Properties\Resources.te.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -616,6 +613,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Intro_Background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Languages\en-us.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Languages\test.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

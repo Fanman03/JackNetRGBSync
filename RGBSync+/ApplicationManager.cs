@@ -22,6 +22,7 @@ using System.Web.Http;
 using System.Web.Http.SelfHost;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using RGBSyncPlus.Languages;
 using RGBSyncPlus.UI.Tabs;
 using SimpleLed;
 
@@ -34,7 +35,6 @@ namespace RGBSyncPlus
         #region Constants
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
 
-        private const string DEVICEPROVIDER_DIRECTORY = "DeviceProvider";
         public const string SLSPROVIDER_DIRECTORY = "SLSProvider";
         private const string NGPROFILES_DIRECTORY = "NGProfiles";
         private const string SLSCONFIGS_DIRECTORY = "SLSConfigs";
@@ -462,6 +462,7 @@ namespace RGBSyncPlus
             //    }
             //}
 
+            var langs = LanguageManager.Languages;
             CultureInfo ci = CultureInfo.InstalledUICulture;
             if (NGSettings.Lang == null)
             {

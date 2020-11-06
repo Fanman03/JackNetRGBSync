@@ -10,7 +10,6 @@
     <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
     <Style TargetType="{x:Type controls:BlurredDecorationWindow}" BasedOn="{StaticResource StyleBlurredDecorationWindow}" />
-    <Style TargetType="{x:Type ui:ConfigurationWindow}" BasedOn="{StaticResource StyleBlurredDecorationWindow}" />
     <Style TargetType="{x:Type controls:ImageButton}" BasedOn="{StaticResource StyleImageButton}" />
     <Style TargetType="{x:Type controls:Form}" BasedOn="{StaticResource StyleForm}" />
     <Style TargetType="GroupBox" BasedOn="{StaticResource StyleGroupBoxBox}" />
