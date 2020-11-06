@@ -24,7 +24,7 @@
                 <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="James Johnston"/>
                 <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="Jack Pendleton"/>
 
-                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="SimpleLED Development"/>
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="{Binding ConverterParameter=About.simpleleddev, Converter={StaticResource LocConverter}}"/>
                 <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="James Johnston"/>
 
                 <Grid Background="#40000000" Grid.ColumnSpan="2">

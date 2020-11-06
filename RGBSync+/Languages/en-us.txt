@@ -52,3 +52,4 @@ UI.SettingsTabHeader	Settings
 UI.StoreTabHeader	Devices
 About.OrigDev	RGB Sync Original Development
 About.20dev	RGBSync Studio Development
+About.simpleleddev	SimpleLED Project Coordinator
