@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RGBSyncPlus.Languages;
 using SimpleLed;
 
 namespace RGBSyncPlus.UI
@@ -22,6 +23,11 @@ namespace RGBSyncPlus.UI
                 new TabItem("","About","about"),
                 new TabItem("","Crash","crashme")
             };
+
+            foreach (TabItem tabItem in TabItems.Where(x=>x != null && !string.IsNullOrWhiteSpace(x.Key)))
+            {
+                tabItem.Name = LanguageManager.GetValue("Main." + tabItem.Key);
+            }
         }
 
         private bool hamburgerExtended;

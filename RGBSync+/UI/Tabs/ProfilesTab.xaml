@@ -9,6 +9,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
 
+        <Converter:LocConverter x:Key="LocConverter"/>
+
         <Converter:InvertedStringMatchToVisibilityConverter x:Key="InvertedStringMatchToVisibilityConverter"/>
 
         <Style TargetType="{x:Type Button}" x:Key="SmallSquareIcon">
@@ -78,8 +80,8 @@
                         <CheckBox IsChecked="{Binding TriggerWhenNotFound}" />
                         <Button >
                             <Grid>
-                                <TextBlock FontSize="36" FontFamily="Segoe MDL2 Assets"></TextBlock>
-                                <TextBlock FontSize="36" FontFamily="Segoe MDL2 Assets"></TextBlock>
+                                <TextBlock FontSize="36" FontFamily="Segoe MDL2 Assets"><Run Text="&#xF19E;"/></TextBlock>
+                                <TextBlock FontSize="36" FontFamily="Segoe MDL2 Assets"><Run Text="&#xF19F;"/></TextBlock>
                             </Grid>
                         </Button>
                     </StackPanel>
@@ -89,8 +91,8 @@
         <DataTemplate x:Key="TriggerTemplate">
             <Grid HorizontalAlignment="Stretch" Background="#80000000" Margin="10" VerticalAlignment="Center">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="60"></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="0">
@@ -105,8 +107,8 @@
                     <Button Background="#80ffffff" Content="&#xF8B2;" Tag ="Discord Trigger" Click="SetTrigger" Style="{StaticResource SmallSquareIcon}" ToolTip="Discord Trigger"  Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Discord Trigger, Converter={StaticResource InvertedStringMatchToVisibilityConverter}}" />
                     <Button Background="#8000ff00" Content="&#xF8B2;" Style="{StaticResource SmallSquareIcon}" ToolTip="Discord Trigger" Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Discord Trigger, Converter={StaticResource StringMatchToVisibilityConverter}}" />
                     <Button Background="#80ffffff" Content="&#xED3C;" Style="{StaticResource SmallSquareIcon}" ToolTip="Momentary Trigger"  Margin="40,0,0,0" />
-                    <Button Background="{x:Null}" BorderThickness="0" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Expand"  Margin="40,0,0,0"  Visibility="{Binding Expanded, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="ToggleExpanded"/>
-                    <Button Background="{x:Null}" BorderThickness="0" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Collapse"  Margin="40,0,0,0" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}"  Click="ToggleExpanded" />
+                    <Button Background="{x:Null}" BorderThickness="0" Content="&#xE011;" Style="{StaticResource SmallSquareIcon}" ToolTip="Expand"  Margin="40,0,0,0"  Visibility="{Binding Expanded, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="ToggleExpanded"/>
+                    <Button Background="{x:Null}" BorderThickness="0" Content="&#xE010;" Style="{StaticResource SmallSquareIcon}" ToolTip="Collapse"  Margin="40,0,0,0" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}"  Click="ToggleExpanded" />
 
                 </StackPanel>
 
@@ -116,8 +118,8 @@
                         <!--Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource StringMatchToVisibilityConverter}}" -->
                         <StackPanel>
 
-                            <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="Time Based Trigger"  VerticalAlignment="Bottom"/>
-                            <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="Time at which to trigger:"  VerticalAlignment="Bottom"/>
+                            <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding ConverterParameter=Profile.TimeBaseTrigger, Converter={StaticResource LocConverter}, Mode=OneWay}"  VerticalAlignment="Bottom"/>
+                            <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding ConverterParameter=Profile.TimeToTrigger, Converter={StaticResource LocConverter}, Mode=OneWay}"  VerticalAlignment="Bottom"/>
                             <StackPanel Orientation="Horizontal">
                                 <TextBox  Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding Hour}" VerticalAlignment="Bottom" Background="#40404040" Width="50"/>
                                 <TextBox  Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding Minute}" VerticalAlignment="Bottom" Background="#40404040" Width="50"/>
@@ -132,32 +134,32 @@
 
                         </StackPanel>
                     </Grid>
-                
-
-                <StackPanel Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource StringMatchToVisibilityConverter}}" >
-
-                    <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="Running Process Trigger"  VerticalAlignment="Bottom"/>
-                    <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="Name of process to watch for:"  VerticalAlignment="Bottom"/>
-                    <TextBox  Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding ProcessName}" VerticalAlignment="Bottom" Background="#40404040" />
-
-                    <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="Trigger on absence"  VerticalAlignment="Bottom"/>
 
 
-                    <Button BorderThickness="0" Background="{x:Null}" HorizontalAlignment="Left" Click="ToggleTriggerWhenNotFound">
-                        <Grid Margin="10,0">
-                            <StackPanel Orientation="Horizontal"  Visibility="{Binding TriggerWhenNotFound, Converter={StaticResource InvertedBoolToVisibilityConverter}}" VerticalAlignment="Center">
-                                <TextBlock Foreground="White" FontSize="42" FontFamily="Segoe MDL2 Assets"></TextBlock>
-                                <TextBlock Margin="10,0,0,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="Off"  Foreground="White"  VerticalAlignment="Center"/>
-                            </StackPanel>
+                    <StackPanel Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource StringMatchToVisibilityConverter}}" >
 
-                            <StackPanel Orientation="Horizontal"  Visibility="{Binding TriggerWhenNotFound, Converter={StaticResource BoolToVisibilityConverter}}"  VerticalAlignment="Center">
-                                <TextBlock Foreground="White" FontSize="42" FontFamily="Segoe MDL2 Assets"></TextBlock>
-                                <TextBlock Margin="10,0,0,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="On"  Foreground="White"  VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Grid>
-                    </Button>
+                        <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding ConverterParameter=Profile.ProcessTrigger, Converter={StaticResource LocConverter}, Mode=OneWay}"  VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding ConverterParameter=Profile.ProcessName, Converter={StaticResource LocConverter}, Mode=OneWay}"  VerticalAlignment="Bottom"/>
+                        <TextBox  Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding ProcessName}" VerticalAlignment="Bottom" Background="#40404040" />
 
-                </StackPanel>
+                        <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding ConverterParameter=Profile.ProcessInvert, Converter={StaticResource LocConverter}, Mode=OneWay}"  VerticalAlignment="Bottom"/>
+
+
+                        <Button BorderThickness="0" Background="{x:Null}" HorizontalAlignment="Left" Click="ToggleTriggerWhenNotFound">
+                            <Grid Margin="10,0">
+                                <StackPanel Orientation="Horizontal"  Visibility="{Binding TriggerWhenNotFound, Converter={StaticResource InvertedBoolToVisibilityConverter}}" VerticalAlignment="Center">
+                                    <TextBlock Foreground="White" FontSize="42" FontFamily="Segoe MDL2 Assets"><Run Text="&#xF19E;"/></TextBlock>
+                                    <TextBlock Margin="10,0,0,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding ConverterParameter=Generic.Off, Converter={StaticResource LocConverter}, Mode=OneWay}"  Foreground="White"  VerticalAlignment="Center"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"  Visibility="{Binding TriggerWhenNotFound, Converter={StaticResource BoolToVisibilityConverter}}"  VerticalAlignment="Center">
+                                    <TextBlock Foreground="White" FontSize="42" FontFamily="Segoe MDL2 Assets"><Run Text="&#xF19F;"/></TextBlock>
+                                    <TextBlock Margin="10,0,0,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding ConverterParameter=Generic.On, Converter={StaticResource LocConverter}, Mode=OneWay}"  Foreground="White"  VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </Button>
+
+                    </StackPanel>
                 </Grid>
 
             </Grid>
@@ -177,7 +179,7 @@
             <Grid Margin="100,50" >
                 <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"></Grid>
                 <StackPanel Orientation="Horizontal" Margin="20,5,0,0">
-                    <TextBlock FontFamily="Segoe UI Light" FontSize="28" Text="Triggers for " Foreground="White"></TextBlock>
+                    <TextBlock FontFamily="Segoe UI Light" FontSize="28" Text="{Binding ConverterParameter=Profile.TriggerDesc, Converter={StaticResource LocConverter}, Mode=OneWay}" Foreground="White"></TextBlock>
                     <TextBlock FontFamily="Segoe UI Light" FontSize="28" Text="{Binding CurrentProfile.Name}" Foreground="White"></TextBlock>
                 </StackPanel>
                 

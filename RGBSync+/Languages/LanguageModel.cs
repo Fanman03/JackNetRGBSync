@@ -34,7 +34,16 @@ namespace RGBSyncPlus.Languages
             this.Items = new List<LanguageItem>();
             foreach (string s in lines.Skip(3))
             {
-                var parts = s.Split('\t');
+                var parts = s.Replace("  ", "\t").Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (parts.Length == 1 && parts[0].Contains(" "))
+                {
+                    parts = new string[2];
+
+                    parts[0] = s.Substring(0, s.IndexOf(" ")).Trim();
+                    parts[1] = s.Substring(s.IndexOf(" ")).Trim();
+                }
+
                 if (parts.Length > 1)
                 {
                     this.Items.Add(new LanguageItem
@@ -42,6 +51,10 @@ namespace RGBSyncPlus.Languages
                         Key = parts[0],
                         Value = parts[1]
                     });
+                }
+                else
+                {
+                    Debug.WriteLine(parts);
                 }
             }
         }
@@ -62,8 +75,9 @@ namespace RGBSyncPlus.Languages
                     {
                         Languages.Add(new LanguageModel(file));
                     }
-                    catch
+                    catch(Exception e)
                     {
+                        Debug.WriteLine(e.Message);
                     }
                 }
             }
@@ -77,13 +91,24 @@ namespace RGBSyncPlus.Languages
             string dbg = "";
             try
             {
-                string lang = "EN-US";
+                string lang = string.Empty;// "EN-US";
 
                 if (ApplicationManager.Instance != null)
                 {
                     if (ApplicationManager.Instance.NGSettings?.Lang != null)
                     {
                         lang = ApplicationManager.Instance.NGSettings.Lang;
+                    }
+                }
+
+                if (string.IsNullOrWhiteSpace(lang))
+                {
+                    lang = System.Globalization.CultureInfo.CurrentCulture.Name;
+
+                    if (ApplicationManager.Instance?.NGSettings != null)
+                    {
+                    
+                        ApplicationManager.Instance.NGSettings.Lang = lang;
                     }
                 }
 
@@ -102,9 +127,20 @@ namespace RGBSyncPlus.Languages
                     //return fn;
 
                     dbg = dbg + "\r\nloading " + fn;
-                    l = new LanguageModel(fn);
-                    Languages.Add(l);
-                    dbg = dbg + "\r\nLoaded";
+
+
+                    if (File.Exists(fn))
+                    {
+
+                        l = new LanguageModel(fn);
+                        Languages.Add(l);
+                        dbg = dbg + "\r\nLoaded";
+                    }
+                }
+
+                if (l == null)
+                {
+                    return "[" + lang + ":" + key + "]";
                 }
 
                 Debug.WriteLine("Looking for " + key + " in " + l?.Code);

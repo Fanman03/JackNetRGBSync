@@ -1,4 +1,4 @@
-EN-US	
+EN-US
 English (American)	
 English (American)	
 Crash.TitleText	RGB Sync Studio has crashed.
@@ -53,3 +53,34 @@ UI.StoreTabHeader	Devices
 About.OrigDev	RGB Sync Original Development
 About.20dev	RGBSync Studio Development
 About.simpleleddev	SimpleLED Project Coordinator
+About.Donations	JackNet RGB Sync is a work of free and open-source software. The program is free so that it can be available to all. However, donations are still appreciated and help pay for things like web-hosting.
+Donate.Patreon	DONATE VIA PATREON
+Donate.PayPal	DONATE VIA PAYPAL
+About.Thanks	A special thank you to all patrons, translators, and contributors who helped make this software possible. Your contributions are greatly appreciated.
+Devices.Info    Info
+Devices.SyncTo  Sync To
+Devices.InfoDriver  Driver:
+Devices.InfoName    Name:
+Devices.InfoAuthor  Author:
+Devices.InfoDriverVersion   Driver Version:
+Devices.Multiple    Multiple devices
+Devices.Selected    selected
+Devices.Config  Config
+Devices.Alignment   Alignment
+Devices.NoConfig    This device has no configuration.
+Profile.TimeBasedTrigger    Time Based Trigger
+Profile.TimeToTrigger   Time at which to trigger:
+Profile.ProcessTrigger  Running Process Trigger
+Profile.ProcessName Name of process to watch for:
+Profile.ProcessInvert   Trigger on absence
+Profile.TriggerDesc Triggers for 
+Generic.Off Off
+Generic.On  On
+Generic.Yes Yes
+Generic.No  No
+Main.Devices    devices
+Main.Profiles   profiles
+Main.Store  store
+Main.About  about
+Main.Crash  craaash
+

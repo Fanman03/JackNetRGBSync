@@ -1,0 +1,81 @@
+ES-ES
+Español
+Spanish
+Crash.TitleText	RGB Sync Studio ha dejado de funcionar.
+Dialog.CopyCommand	Copiar a Portapapeles
+Dialog.No	No
+Dialog.NoPremiumTitle	NoPremium
+Dialog.NoUpdateText	Estás usando la última versión de la app.
+Dialog.NoUpdateTitle	No hay actualizaciones disponibles
+Dialog.OKCommand	Vale
+Dialog.UpdateText	Hay una actualizacion nueva. Quieres actualizar?
+Dialog.UpdateTitle	Actualización Disponible
+Dialog.Yes	Sí
+Settings.AdminLabel	Ejecutar como administrador:
+Settings.AdminText	TextoDeAdmin
+Settings.DelayLabel	Inicio Atrasado:
+Settings.DelayToolTip	ConsejoInicioAtrasado
+Settings.DelayUnit	Segundos
+Settings.DevicesLabel	Dispositivos:
+Settings.DiscordLabel	Discord:
+Settings.DiscordText	TextoDeDiscord
+Settings.DiscordToolTip	ConsejoDeDiscord
+Settings.LanguageLabel	Idioma:
+Settings.MinimizationLabel	Habilitar Minimización:
+Settings.MinimizationText	TextoDeMinimización
+Settings.PollingRateLabel	Frecuencia de Actualización:
+Settings.PollingRateToolTip	ConsejoFrecuenciaDeActualización
+Settings.PollingRateUnit	UnidadFrecuenciaDeActualización
+Settings.ThemeApplyBtnText	Settings.ThemeApplyBtnText
+Settings.ThemeLabel	Tema:
+Settings.UpdateBtnText	Buscar Actualizaciones
+Settings.UpdateLabel	Actualizaciones:
+Settings.VersionLabel	Versión:
+Store.ExperimentalBtnText	Experimental
+Store.FilterLabel	Buscar
+Store.Plugin.DisableBtnLabel	Deshabilitar
+Store.Plugin.InstallBtnLabel	Instalado 
+Store.Plugin.InstalledBtnLabel	Instalado 
+Store.Plugin.UninstallBtnLabel	Desinstalar
+Store.Plugin.VersionsBtnLabel	Versiones
+Store.RefreshBtnText	Actualizar Tienda
+Store.RestartAllBtnText	Reiniciar Todo
+TrayMenu.ExitAppItem	Salir
+TrayMenu.OpenUIItem	Abrir
+TrayMenu.RestartAppItem	Reiniciar
+TrayMenu.TechSupportItem	Soporte Técnico
+UI.AboutTabHeader	Acerca de
+UI.AppName	RGB Sync
+UI.DeviceTabHeader	Dispositivos
+UI.ProfileTabHeader	Perfiles
+UI.SettingsTabHeader	Ajustes
+UI.StoreTabHeader	Dispositivos
+About.OrigDev	RGB Sync Desarrollo Original
+About.20dev	RGBSync Desarrollo de Estudio
+About.simpleleddev	Coordinador de Proyecto de SimpleLED
+About.Donations	JackNet RGB Sync es gratis y de código abierto. El programa es gratis para que todos puedan utilizarlo. Las donaciones son bienvenidas y ayudan como ejemplo, al hospedaje de los servidores.
+Donate.Patreon	DONAR VÍA PATREEON
+Donate.PayPal	DONAR VÍA PAYPAL
+About.Thanks	Gracias a todos los Patrons, tradcutores y contribuidores a hacer este programa posible. Vuestras contribuciones son agradecidas.
+Devices.Info    Información
+Devices.SyncTo  Syncronizar a
+Devices.InfoDriver  Controlador:
+Devices.InfoName    Nombre:
+Devices.InfoAuthor  Autor:
+Devices.InfoDriverVersion   Version de Controlador:
+Devices.Multiple    Varios Dispositivos
+Devices.Selected    Seleccionado
+Devices.Config  Configuración
+Devices.Alignment   Alineamiento
+Devices.NoConfig    Este dispositivo no tiene configuración.
+Profile.TimeBasedTrigger    Acción Basada en Tiempo
+Profile.TimeToTrigger   Hora de la Acción:
+Profile.ProcessTrigger  Acción Basada en Proceso
+Profile.ProcessName Nombre del proceso:
+Profile.ProcessInvert   Acción Basada en Ausencia
+Profile.TriggerDesc Acciones por 
+Generic.Off Apagado
+Generic.On  Encendido
+Generic.Yes Sí
+Generic.No  No
+
