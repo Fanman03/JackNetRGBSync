@@ -42,7 +42,7 @@ namespace RGBSyncPlus.Model
 
         public class NGSettings : BaseViewModel
         {
-
+            
             private double updateRate = 30.0;
 
             public double UpdateRate
@@ -135,6 +135,7 @@ namespace RGBSyncPlus.Model
                 {
                     SetProperty(ref lang, value);
                     AreSettingsStale = true;
+                    ApplicationManager.Instance.FireLanguageChangedEvent();
                 }
             }
 

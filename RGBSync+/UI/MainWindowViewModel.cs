@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -10,11 +11,11 @@ using SimpleLed;
 
 namespace RGBSyncPlus.UI
 {
-    public class MainWindowViewModel : BaseViewModel
+    public class MainWindowViewModel : LanguageAwareBaseViewModel
     {
         public MainWindowViewModel()
         {
-            TabItems=new ObservableCollection<TabItem>
+            TabItems = new ObservableCollection<TabItem>
             {
                 new TabItem("","",""),
                 new TabItem("","Devices","devices"),
@@ -24,10 +25,31 @@ namespace RGBSyncPlus.UI
                 new TabItem("","Crash","crashme")
             };
 
-            foreach (TabItem tabItem in TabItems.Where(x=>x != null && !string.IsNullOrWhiteSpace(x.Key)))
+            foreach (TabItem tabItem in TabItems.Where(x => x != null && !string.IsNullOrWhiteSpace(x.Key)))
             {
                 tabItem.Name = LanguageManager.GetValue("Main." + tabItem.Key);
             }
+            OnPropertyChanged(nameof(TabItems));
+
+            ApplicationManager.Instance.LanguageChangedEvent += delegate (object sender, EventArgs args)
+            {
+                var ti= new ObservableCollection<TabItem>
+                {
+                    new TabItem("","",""),
+                    new TabItem("","Devices","devices"),
+                    new TabItem("", "Profiles","profiles"),
+                    new TabItem("","Drivers","store"),
+                    new TabItem("","About","about"),
+                    new TabItem("","Crash","crashme")
+                };
+
+                foreach (TabItem tabItem in ti.Where(x => x != null && !string.IsNullOrWhiteSpace(x.Key)))
+                {
+                    tabItem.Name = LanguageManager.GetValue("Main." + tabItem.Key, Language);
+                }
+
+                TabItems = ti;
+            };
         }
 
         private bool hamburgerExtended;
@@ -87,9 +109,16 @@ namespace RGBSyncPlus.UI
             }
         }
 
-        public ObservableCollection<TabItem> TabItems { get; set; } = new ObservableCollection<TabItem>();
+        private ObservableCollection<TabItem> tabItems = new ObservableCollection<TabItem>();
+
+        public ObservableCollection<TabItem> TabItems
+        {
+            get => tabItems;
+            set => SetProperty(ref tabItems, value);
+        }
+
         private int modalPercentage = 0;
-        public int ModalPercentage { get=>modalPercentage; set=>SetProperty(ref modalPercentage,value); }
+        public int ModalPercentage { get => modalPercentage; set => SetProperty(ref modalPercentage, value); }
 
         private bool modalShowPercentage;
 

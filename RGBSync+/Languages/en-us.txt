@@ -83,4 +83,9 @@ Main.Profiles   profiles
 Main.Store  store
 Main.About  about
 Main.Crash  craaash
+Settings.ApiServer  API Server
+Settings.ApiServerHelp  Enable this to enable RGB Sync Studio REST API Server
+Settings.RefreshFreq    Refresh Frequency
+Settings.RefreshFreqHelp    Adjust the number of timers per second RGB is updated
+Settings.Language   Language
 

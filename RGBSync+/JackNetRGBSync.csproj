@@ -165,6 +165,7 @@
     <Compile Include="UI\GetUpdateWindow.xaml.cs">
       <DependentUpon>GetUpdateWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\LanguageAwareBaseViewModel.cs" />
     <Compile Include="UI\LanguageAwareViewModel.cs" />
     <Compile Include="UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -184,6 +185,7 @@
     <Compile Include="UI\Tabs\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Tabs\AboutViewModel.cs" />
     <Compile Include="UI\Tabs\Devices.xaml.cs">
       <DependentUpon>Devices.xaml</DependentUpon>
     </Compile>

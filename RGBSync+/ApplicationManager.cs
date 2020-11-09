@@ -71,6 +71,12 @@ namespace RGBSyncPlus
         private ActionCommand _exitCommand;
         public ActionCommand ExitCommand => _exitCommand ?? (_exitCommand = new ActionCommand(Exit));
 
+        public void FireLanguageChangedEvent()
+        {
+            LanguageChangedEvent?.Invoke(this, new EventArgs());
+        }
+
+        public event EventHandler LanguageChangedEvent;
 
         #endregion
 

@@ -9,11 +9,12 @@ using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using RGBSyncPlus.UI;
 using SimpleLed;
 
 namespace RGBSyncPlus
 {
-    public class ProfileTriggerManager : BaseViewModel
+    public class ProfileTriggerManager : LanguageAwareBaseViewModel
     {
         private ObservableCollection<ProfileTriggerEntry> profileTriggers = new ObservableCollection<ProfileTriggerEntry>();
 

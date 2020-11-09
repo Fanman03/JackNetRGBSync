@@ -10,6 +10,9 @@
     <UserControl.Resources>
         <Converter:LocConverter x:Key="LocConverter"/>
     </UserControl.Resources>
+    <UserControl.DataContext>
+        <local:AboutViewModel/>
+    </UserControl.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -17,21 +20,21 @@
         <ScrollViewer>
             <StackPanel>
                 <TextBlock Margin="10" FontSize="36" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="RGB Sync Studio"/>
-                <TextBlock x:Name="textBlock" Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="{Binding ConverterParameter=About.OrigDev, Converter={StaticResource LocConverter}}"/>
+                <TextBlock x:Name="textBlock" Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="{Binding Language, ConverterParameter=About.OrigDev, Converter={StaticResource LocConverter}}"/>
                 <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="Jack Pendleton"/>
 
-                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="{Binding ConverterParameter=About.20dev, Converter={StaticResource LocConverter}}"/>
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="{Binding Source=Language, ConverterParameter=About.20dev, Converter={StaticResource LocConverter}}"/>
                 <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="James Johnston"/>
                 <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="Jack Pendleton"/>
 
-                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="{Binding ConverterParameter=About.simpleleddev, Converter={StaticResource LocConverter}}"/>
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="{Binding ConverterParameter=About.simpleleddev, Converter={StaticResource LocConverter}, Source=Language}"/>
                 <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="James Johnston"/>
 
                 <Grid Background="#40000000" Grid.ColumnSpan="2">
                     <StackPanel>
-                        <TextBlock Margin="10,0,5,10" FontSize="14" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="{Binding ConverterParameter=About.Donations, Converter={StaticResource LocConverter}}" TextWrapping="WrapWithOverflow"/>
+                        <TextBlock Margin="10,0,5,10" FontSize="14" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="{Binding ConverterParameter=About.Donations, Converter={StaticResource LocConverter}, Source=Language}" TextWrapping="WrapWithOverflow"/>
                         <StackPanel Orientation="Horizontal">
-                            <Button Margin="5" FontFamily="Segoe UI" Padding="5" Foreground="White" Width="140" Click="DonatePatreon" Content="{Binding ConverterParameter=Donate.Patreon, Converter={StaticResource LocConverter}}">
+                            <Button Margin="5" FontFamily="Segoe UI" Padding="5" Foreground="White" Width="140" Click="DonatePatreon" Content="{Binding ConverterParameter=Donate.Patreon, Converter={StaticResource LocConverter}, Source=Language}">
                                 <Button.Background>
                                     <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
                                         <GradientStop Color="#ffff424d" Offset="0"/>
@@ -42,7 +45,7 @@
 
 
 
-                            <Button Margin="5" FontFamily="Segoe UI" Padding="5" Foreground="White" Width="140" Click="DonatePayPal" Content="{Binding ConverterParameter=Donate.PayPal, Converter={StaticResource LocConverter}}">
+                            <Button Margin="5" FontFamily="Segoe UI" Padding="5" Foreground="White" Width="140" Click="DonatePayPal" Content="{Binding ConverterParameter=Donate.PayPal, Converter={StaticResource LocConverter}, Source=Language}">
                                 <Button.Background>
                                     <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
                                         <GradientStop Color="#FF69ADFF" Offset="0"/>
@@ -53,7 +56,7 @@
                         </StackPanel>
                     </StackPanel>
                 </Grid>
-                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="{Binding ConverterParameter=About.Thanks, Converter={StaticResource LocConverter}}" TextWrapping="WrapWithOverflow"/>
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="{Binding ConverterParameter=About.Thanks, Converter={StaticResource LocConverter}, Source=Language}" TextWrapping="WrapWithOverflow"/>
                 <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" TextWrapping="WrapWithOverflow"><Run Text="Translators:"/><LineBreak/><LineBreak/><Run Text="Teun - Dutch"/><LineBreak/><Run Text="Grifka - French"/><LineBreak/><Run Text="Crashniels - German"/><LineBreak/><Run Text="Sicily94 - Italian"/><LineBreak/><Run Text="DrMeteor - Portugese"/><LineBreak/><Run Text="Ksusha Volkova - Russian"/><LineBreak/><Run Text="Ed3n18 - Spanish"/><LineBreak/><LineBreak/><Run Text="Patrons:"/><LineBreak/><LineBreak/><Run Text="Guy"/><LineBreak/><Run Text="Phatsam"/><LineBreak/><Run Text="FzR dontdie x"/><LineBreak/><Run Text="alvinkh"/><LineBreak/><Run Text="chs2fer"/><LineBreak/><Run Text="Avkhymovych"/><LineBreak/><Run Text="Contributors:"/><LineBreak/><LineBreak/><Run Text="Fanman03 - Lead Developer"/><LineBreak/><Run Text="James Johnston - Developer"/><LineBreak/><Run Text="James Johnston - RGB Control libraries"/><LineBreak/></TextBlock>
             </StackPanel>
         </ScrollViewer>

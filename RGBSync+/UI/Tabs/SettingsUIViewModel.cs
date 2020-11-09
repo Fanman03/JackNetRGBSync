@@ -11,13 +11,15 @@ using SimpleLed;
 
 namespace RGBSyncPlus.UI.Tabs
 {
-    public class SettingsUIViewModel : BaseViewModel
+    public class SettingsUIViewModel : LanguageAwareBaseViewModel
     {
+        
         public DeviceMappingModels.NGSettings NGSettings { get; set; }
 
         public SettingsUIViewModel()
         {
             NGSettings = ApplicationManager.Instance.NGSettings;
+            CurrentLanguage = Languages.FirstOrDefault(x => x.Code == ApplicationManager.Instance.NGSettings.Lang);
         }
 
         public ObservableCollection<LanguageOption> Languages { get; set; } =
@@ -33,8 +35,11 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 currentLanguage = value;
-                NGSettings.Lang = value.Code;
-                
+                if (value != null)
+                {
+                    NGSettings.Lang = value.Code;
+                }
+
             }
         }
         public class LanguageOption

@@ -14,6 +14,11 @@ namespace RGBSyncPlus.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (!string.IsNullOrWhiteSpace((string) value))
+            {
+                return LanguageManager.GetValue((string)parameter?.ToString(), (string)value?.ToString());
+            }
+
             return LanguageManager.GetValue((string)parameter?.ToString());
         }
 

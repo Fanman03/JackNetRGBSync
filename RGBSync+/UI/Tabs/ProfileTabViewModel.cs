@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RGBSyncPlus.UI.Tabs
 {
-    public class ProfileTabViewModel : BaseViewModel
+    public class ProfileTabViewModel : LanguageAwareBaseViewModel
     {
         private string activeProfile;
 

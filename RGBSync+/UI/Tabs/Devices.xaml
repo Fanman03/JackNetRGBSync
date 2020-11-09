@@ -336,8 +336,8 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Height="36" Margin="0" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.MultipleDeviceSelected, Converter={StaticResource BoolToVisConverter}}">
-                        <TextBlock FontSize="24" Text="{Binding ConverterParameter=Devices.Multiple, Converter={StaticResource LocConverter}}" FontWeight="Bold" Foreground="Black" Margin="12,0,0,0" />
-                        <TextBlock FontSize="24" Text="{Binding ConverterParameter=Devices.Selected, Converter={StaticResource LocConverter}}" FontWeight="Light" Margin="12,0,0,0" Foreground="Black"/>
+                        <TextBlock FontSize="24" Text="{Binding ConverterParameter=Devices.Multiple, Converter={StaticResource LocConverter}, Source=Language}" FontWeight="Bold" Foreground="Black" Margin="12,0,0,0" />
+                        <TextBlock FontSize="24" Text="{Binding ConverterParameter=Devices.Selected, Converter={StaticResource LocConverter}, Source=Language}" FontWeight="Light" Margin="12,0,0,0" Foreground="Black"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="8,0,8,8" VerticalAlignment="Bottom"  >
@@ -346,7 +346,7 @@
                                 <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisConverter}}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0" Margin="8,4,0,0"><Run Text="&#xE7C3;"/></TextBlock>
-                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"><Run Text="{Binding ConverterParameter=Devices.Info, Converter={StaticResource LocConverter}, Mode=OneWay}"/></TextBlock>
+                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"><Run Text="{Binding ConverterParameter=Devices.Info, Converter={StaticResource LocConverter}, Source=Language, Mode=OneWay}"/></TextBlock>
                                 </StackPanel>
                             </Grid>
                         </Button>
@@ -356,7 +356,7 @@
                                 <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisConverter}}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0"  Margin="8,4,0,0"><Run Text="&#xE8CB;"/></TextBlock>
-                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"><Run Text="{Binding ConverterParameter=Devices.SyncTo, Converter={StaticResource LocConverter}, Mode=OneWay}"/></TextBlock>
+                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"><Run Text="{Binding ConverterParameter=Devices.SyncTo, Converter={StaticResource LocConverter}, Source=Language, Mode=OneWay}"/></TextBlock>
                                 </StackPanel>
                             </Grid>
                         </Button>
@@ -369,7 +369,7 @@
                                 <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SubViewMode, ConverterParameter=Config, Converter={StaticResource StringMatchToVisConverter}}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0"  Margin="8,4,0,0" ><Run Text="&#xE713;"/></TextBlock>
-                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"  Text="{Binding ConverterParameter=Devices.Config, Converter={StaticResource LocConverter}}"/>
+                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"  Text="{Binding ConverterParameter=Devices.Config, Converter={StaticResource LocConverter}, Source=Language}"/>
                                 </StackPanel>
                             </Grid>
                         </Button>
@@ -380,7 +380,7 @@
                                 <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisConverter}}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0" Margin="8,4,0,0" ><Run Text="&#xE8EE;"/></TextBlock>
-                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"  Text="{Binding ConverterParameter=Devices.Config, Converter={StaticResource LocConverter}}"/>
+                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"  Text="{Binding ConverterParameter=Devices.Config, Converter={StaticResource LocConverter}, Source=Language}"/>
                                 </StackPanel>
                             </Grid>
                         </Button>
@@ -394,16 +394,16 @@
 
                         <StackPanel Margin="10" Orientation="Horizontal">
                             <StackPanel>
-                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Bold" Text="{Binding ConverterParameter=Devices.InfoDriver, Converter={StaticResource LocConverter}}"/>
+                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Bold" Text="{Binding ConverterParameter=Devices.InfoDriver, Converter={StaticResource LocConverter}, Source=Language}"/>
                                 <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Light" Text="{Binding ProviderName}"/>
-                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Bold" Margin="0,8"  Text="{Binding ConverterParameter=Devices.InfoName, Converter={StaticResource LocConverter}}"/>
+                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Bold" Margin="0,8"  Text="{Binding ConverterParameter=Devices.InfoName, Converter={StaticResource LocConverter}, Source=Language}"/>
                                 <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Light" Text="{Binding Name}"/>
-                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Bold" Margin="0,8"  Text="{Binding ConverterParameter=Devices.InfoAuthor, Converter={StaticResource LocConverter}}"/>
+                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Bold" Margin="0,8"  Text="{Binding ConverterParameter=Devices.InfoAuthor, Converter={StaticResource LocConverter}, Source=Language}"/>
                                 <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Light" Text="{Binding DriverProps.Author}"/>
 
                             </StackPanel>
                             <StackPanel Margin="40,0">
-                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Bold" Text="{Binding ConverterParameter=Devices.InfoDriverVersion, Converter={StaticResource LocConverter}}"/>
+                                <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Bold" Text="{Binding ConverterParameter=Devices.InfoDriverVersion, Converter={StaticResource LocConverter}, Source=Language}"/>
                                 <TextBlock Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="18" FontWeight="Light" Text="{Binding DriverProps.CurrentVersion}"/>
                             </StackPanel>
                         </StackPanel>
@@ -443,7 +443,7 @@
                     </Grid>
 
                     <Grid x:Name="ConfigHere" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Config, Converter={StaticResource StringMatchToVisConverter}}">
-                        <TextBlock Margin="10,35,0,0" Text="{Binding ConverterParameter=Devices.NoConfig, Converter={StaticResource LocConverter}}"/>
+                        <TextBlock Margin="10,35,0,0" Text="{Binding ConverterParameter=Devices.NoConfig, Converter={StaticResource LocConverter}, Source=Language}"/>
                     </Grid>
 
                 </Grid>

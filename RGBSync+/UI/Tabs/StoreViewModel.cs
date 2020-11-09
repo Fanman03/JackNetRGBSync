@@ -15,7 +15,7 @@ using SimpleLed;
 
 namespace RGBSyncPlus.UI.Tabs
 {
-    public class StoreViewModel : BaseViewModel
+    public class StoreViewModel : LanguageAwareBaseViewModel
     {
         public StoreViewModel()
         {

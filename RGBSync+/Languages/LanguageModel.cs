@@ -86,6 +86,51 @@ namespace RGBSyncPlus.Languages
             }
         }
 
+        public static string GetValue(string key, string lang)
+        {
+            try
+            {
+                var l = Languages.FirstOrDefault(x => x.Code.ToUpper() == lang.ToUpper());
+                if (l == null)
+                {
+                    l = Languages.FirstOrDefault(x => x.Code.ToUpper().StartsWith(lang.ToUpper().Split('-').First()));
+                }
+
+                //if (l == null)
+                //{
+                //    string fn = "C:\\Projects\\JackNet\\bin\\Languages\\" + lang + ".txt";
+
+                //    if (File.Exists(fn))
+                //    {
+
+                //        l = new LanguageModel(fn);
+                //        Languages.Add(l);
+                //        dbg = dbg + "\r\nLoaded";
+                //    }
+                //}
+
+                if (l == null)
+                {
+                    return "[" + lang + ":" + key + "]";
+                }
+
+                Debug.WriteLine("Looking for " + key + " in " + l?.Code);
+                var r = l.Items.FirstOrDefault(x => x.Key.ToLower() == key.ToLower())?.Value;
+                if (string.IsNullOrWhiteSpace(r))
+                {
+                    r = "[" + lang + ":" + key + "]";
+                    Debug.WriteLine("couldnt find " + r);
+                }
+
+                return r;
+            }
+            catch
+            {
+            }
+
+            return lang + ":::" + key;
+        }
+
         public static string GetValue(string key)
         {
             string dbg = "";
