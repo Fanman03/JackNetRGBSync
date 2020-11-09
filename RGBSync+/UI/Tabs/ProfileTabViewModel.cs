@@ -184,28 +184,35 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void SetUpProfileModels(bool setActive = true)
         {
-            if (ProfileNames!= null)
+            try
             {
-                var triggers = ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers;
-                ProfileItems.Clear();
-                foreach (string profileName in ProfileNames)
+                if (ProfileNames != null)
                 {
-                    var relevantTriggers = triggers.Where(x => x.ProfileName?.ToLower() == profileName.ToLower());
-
-                    ProfileItems.Add(new ProfileItemViewModel
+                    var triggers = ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers;
+                    ProfileItems.Clear();
+                    foreach (string profileName in ProfileNames)
                     {
-                        OriginalName = profileName,
-                        Name = profileName,
-                        Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(relevantTriggers),
-                        IsActiveProfile = ActiveProfile == profileName,
+                        var relevantTriggers = triggers.Where(x => x.ProfileName?.ToLower() == profileName.ToLower());
 
-                    });
-                }
+                        ProfileItems.Add(new ProfileItemViewModel
+                        {
+                            OriginalName = profileName,
+                            Name = profileName,
+                            Triggers =
+                                new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(relevantTriggers),
+                            IsActiveProfile = ActiveProfile == profileName,
 
-                if (setActive)
-                {
-                    ActiveProfile = ApplicationManager.Instance.NGSettings.CurrentProfile;
+                        });
+                    }
+
+                    if (setActive)
+                    {
+                        ActiveProfile = ApplicationManager.Instance.NGSettings.CurrentProfile;
+                    }
                 }
+            }
+            catch
+            {
             }
         }
 
@@ -250,8 +257,11 @@ namespace RGBSyncPlus.UI.Tabs
         {
             if (profileItems != null && ApplicationManager.Instance?.CurrentProfile != null)
             {
-                SelectedProfileIndex = profileNames.IndexOf(ApplicationManager.Instance.CurrentProfile.Name);
-                SelectedProfileItem = ApplicationManager.Instance.CurrentProfile.Name;
+                if (profileNames != null)
+                {
+                    SelectedProfileIndex = profileNames.IndexOf(ApplicationManager.Instance.CurrentProfile.Name);
+                    SelectedProfileItem = ApplicationManager.Instance.CurrentProfile.Name;
+                }
             }
         }
 
