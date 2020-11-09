@@ -220,14 +220,32 @@ namespace RGBSyncPlus
             }
 
             NGSettings.ProfileNames = new ObservableCollection<string>();
+
             foreach (var profile in profiles)
             {
                 string profileName = GetProfileFromPath(profile)?.Name;
                 if (!string.IsNullOrWhiteSpace(profileName))
                 {
-                    profilePathMapping.Add(profileName, profile);
-                    NGSettings.ProfileNames.Add(profileName);
+                    try
+                    {
+
+                        profilePathMapping.Add(profileName, profile);
+
+                        if (NGSettings.ProfileNames == null)
+                        {
+                            NGSettings.ProfileNames = new ObservableCollection<string>();
+                        }
+                        NGSettings.ProfileNames.Add(profileName);
+                    }
+                    catch
+                    {
+                    }
                 }
+            }
+
+            if (NGSettings.ProfileNames == null)
+            {
+                NGSettings.ProfileNames = new ObservableCollection<string>();
             }
 
             if (NGSettings.ProfileNames.Contains(NGSettings.CurrentProfile))
