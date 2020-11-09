@@ -26,9 +26,14 @@ namespace RGBSyncPlus.UI.Tabs
             this.ZoomLevel = 4;
             SetUpDeviceMapViewModel();
 
+            ApplicationManager.Instance.LanguageChangedEvent += Instance_LanguageChangedEvent;
         }
 
-
+        private void Instance_LanguageChangedEvent(object sender, EventArgs e)
+        {
+            this.OnPropertyChanged("SLSDevicesFiltered");
+            this.OnPropertyChanged("SLSDevices");
+        }
 
         private ObservableCollection<DeviceMappingModels.Device> slsDevices;
         public ObservableCollection<DeviceMappingModels.Device> SLSDevices

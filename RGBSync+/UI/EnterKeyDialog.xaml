@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Title="Please enter cloud access key." Height="220" Width="405" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Topmost="True">
-    <Grid Background="#525252" Margin="0,0,0,0">
+    <!--<Grid Background="#525252" Margin="0,0,0,0">
         <Button Content="{x:Static p:Resources.Dialog_OKCommand}" HorizontalAlignment="Left" Margin="304,145,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" />
         <TextBox x:Name="keyBox" Margin="10,111,200,47" FontSize="14" Width="Auto"/>
         <Button Content="Submit" HorizontalAlignment="Left" Margin="10,145,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1" RenderTransformOrigin="0.541,1.233" />
@@ -16,5 +16,5 @@
         A Premium subscription is required to use this feature. <LineBreak/>
         If you have Premium, please enter your access code below.</TextBlock>
         <Image Margin="10,10,293,86" Source="error.png" Stretch="Fill"/>
-    </Grid>
+    </Grid>-->
 </Window>

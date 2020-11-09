@@ -45,7 +45,7 @@
 
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="10,0,0,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Older version" VerticalAlignment="Center" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
-                        <TextBlock Margin="4,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{x:Static p:Resources.Store_Plugin_InstallBtnLabel}" VerticalAlignment="Center" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
+                        <TextBlock Margin="4,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Language, ConverterParameter=Store.Plugin.InstallBtnLabel, Converter={StaticResource LocConverter}}" VerticalAlignment="Center" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
                     </StackPanel>
                     <TextBlock Margin="10,0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Blurb}" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
                 </StackPanel>
@@ -57,8 +57,8 @@
                     <Button Background="#c0000000" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="Configure" Click="ConfigurePlugin"/>
                     <Button Background="{StaticResource Tc-Green}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Install" Visibility="{Binding Installed, Converter={StaticResource InvertedBoolToVisConverter}}" Click="InstallPlugin" />
                     <Button Background="{StaticResource Tc-Blue}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Install" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}" Click="InstallPlugin" />
-                    <Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{x:Static p:Resources.Store_Plugin_DisableBtnLabel}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DisablePlugin" />
-                    <Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{x:Static p:Resources.Store_Plugin_UninstallBtnLabel}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DeletePlugin" />
+                    <Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Plugin.DisableBtnLabel, Converter={StaticResource LocConverter}}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DisablePlugin" />
+                    <Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Plugin.UninstallBtnLabel, Converter={StaticResource LocConverter}}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DeletePlugin" />
                     
                 </StackPanel>
             </Grid>
@@ -122,7 +122,7 @@
                 -->
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4,4,8,4"  VerticalAlignment="Center">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" ToolTip="{x:Static p:Resources.Store_FilterLabel}" >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" ToolTip="{Binding Language, ConverterParameter=Store.FilterLabel, Converter={StaticResource LocConverter}}" >
                     <Label  VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" Content="&#xE721;" FontSize="20" Foreground="{DynamicResource SystemBaseHighColorBrush}" ></Label>
                     <TextBox Text="{Binding PluginSearch}" Width="175" Background="{DynamicResource SystemAltMediumLowColorBrush}" Foreground="{DynamicResource SystemBaseHighColorBrush}" TextChanged="TextBox_TextChanged" x:Name="PluginSearchBox" Style="{StaticResource TextBoxRevealStyle}" GotKeyboardFocus="PluginSearchBox_GotKeyboardFocus" LostKeyboardFocus="PluginSearchBox_LostKeyboardFocus"></TextBox>
                     </StackPanel>

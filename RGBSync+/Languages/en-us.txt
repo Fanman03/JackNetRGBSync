@@ -83,9 +83,28 @@ Main.Profiles   profiles
 Main.Store  store
 Main.About  about
 Main.Crash  craaash
+Main.Settings   Settings
 Settings.ApiServer  API Server
 Settings.ApiServerHelp  Enable this to enable RGB Sync Studio REST API Server
 Settings.RefreshFreq    Refresh Frequency
 Settings.RefreshFreqHelp    Adjust the number of timers per second RGB is updated
 Settings.Language   Language
+Fan Fan
+LEDStrip    LED Strip
+GPU GPU
+MotherBoard MotherBoard
+Keyboard    Keyboard
+Keypad  Keypad
+Mouse   Mouse
+MousePad    Mouse Pad
+Headset Headset
+HeadsetStand    Headset Stand
+PSU PSU
+Cooler  Cooler
+Memory  Memory
+Speaker Speaker
+Other   Other
+AIO AIO
+WaterBlock  Water Block
+Effect  Effect
 

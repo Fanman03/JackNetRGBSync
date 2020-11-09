@@ -83,3 +83,27 @@ Main.Profiles	型材
 Main.Store	商店
 Main.About	关于
 Main.Crash	craaash
+Main.Settings	设置
+Settings.ApiServer	API服务器
+Settings.ApiServerHelp	启用此支持RGB同步工作室REST API服务器
+Settings.RefreshFreq	刷新频率
+Settings.RefreshFreqHelp	调整定时器的数目每秒RGB被更新
+Settings.Language	语言
+Fan	风扇
+LEDStrip	灯带
+GPU	GPU
+MotherBoard	母板
+Keyboard	键盘
+Keypad	键盘
+Mouse	老鼠
+MousePad	鼠标垫
+Headset	耳机
+HeadsetStand	耳机支架
+PSU	PSU
+Cooler	散热器
+Memory	记忆
+Speaker	扬声器
+Other	其他
+AIO	AIO
+WaterBlock	水冷头
+Effect	影响

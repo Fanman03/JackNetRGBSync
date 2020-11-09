@@ -7,12 +7,12 @@
         xmlns:local="clr-namespace:RGBSyncPlus.UI"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="{x:Static p:Resources.Dialog_UpdateTitle}" Height="185" Width="405" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Topmost="True">
+        Title="" Height="185" Width="405" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Topmost="True">
     <Grid Background="#525252">
-        <Button Click="YesClicked" Content="{x:Static p:Resources.Dialog_Yes}" HorizontalAlignment="Left" Margin="227,117,0,0" VerticalAlignment="Top" Width="75"/>
+        <!--<Button Click="YesClicked" Content="{x:Static p:Resources.Dialog_Yes}" HorizontalAlignment="Left" Margin="227,117,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="{x:Static p:Resources.Dialog_No}" HorizontalAlignment="Left" Margin="307,117,0,0" VerticalAlignment="Top" Width="75" Click="NoClicked"/>
         <TextBlock Text="{x:Static p:Resources.Dialog_UpdateText}" TextWrapping="WrapWithOverflow" FontSize="18" Foreground="White"  HorizontalAlignment="Left" Margin="115,26,0,0" VerticalAlignment="Top" Width="259">
-        </TextBlock>
+        </TextBlock>-->
         <Image Margin="10,10,293,51" Source="info.png" Stretch="Fill"/>
     </Grid>
 </Window>

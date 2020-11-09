@@ -15,14 +15,15 @@
         MinWidth="640"
         fw:AcrylicWindow.Enabled="True" Icon="/RGBSync+;component/ProgramIcon.ico">
     <Window.Resources>
+        <Converter:LocConverter x:Key="LocConverter"/>
         <Converter:StringMatchToVisibilityConverter x:Key="StringMatchToVisibilityConverter"/>
         <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <DataTemplate x:Key="TabItemTemplate">
             <Grid fw:PointerTracker.Enabled="True">
                 <Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="SetTab" Style="{DynamicResource ButtonRevealStyle}">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,8,0">
-                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" Text="{Binding Icon}" VerticalAlignment="Center" Margin="0,0"/>
-                    <TextBlock Margin="20,0" 
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,8,0">
+                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" Text="{Binding Icon}" VerticalAlignment="Center" Margin="0,0"/>
+                        <TextBlock Margin="20,0" 
                                FontSize="24" 
                                FontWeight="Light" 
                                FontFamily="Segoe UI Light" 
@@ -31,8 +32,8 @@
                                Width="100"
                                Text="{Binding Name}" 
                                Visibility="{Binding DataContext.HamburgerExtended, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Window}}}"/>
-                </StackPanel>
-            </Button>
+                    </StackPanel>
+                </Button>
             </Grid>
         </DataTemplate>
     </Window.Resources>
@@ -58,7 +59,7 @@
                                FontFamily="Segoe UI Light" 
                                Foreground="White" 
                                VerticalAlignment="Center" 
-                               Text="Settings" 
+                               Text="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" 
                                Width="100"
                                Visibility="{Binding DataContext.HamburgerExtended, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Window}}}"/>
                 </StackPanel>

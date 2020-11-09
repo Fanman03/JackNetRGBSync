@@ -22,7 +22,7 @@ namespace RGBSyncPlus.UI
         public DeleteLayerDialog(string groupName)
         {
             InitializeComponent();
-            GroupName.Text = " " + groupName + " ";
+//            GroupName.Text = " " + groupName + " ";
         }
 
         private void YesBtnClick(object sender, RoutedEventArgs e)
