@@ -39,9 +39,9 @@
     <SolidColorBrush x:Key="BrushBoxBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackSuperTransparent}" />
 
     <!-- ToolTip -->
-    <SolidColorBrush x:Key="BrushTooltipForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />
+    <!--<SolidColorBrush x:Key="BrushTooltipForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />
     <SolidColorBrush x:Key="BrushTooltipBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlack}" />
-    <SolidColorBrush x:Key="BrushTooltipBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackTransparent}" />
+    <SolidColorBrush x:Key="BrushTooltipBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackTransparent}" />-->
 
     <!-- ComboBox -->
     <SolidColorBrush x:Key="BrushComboBoxForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />

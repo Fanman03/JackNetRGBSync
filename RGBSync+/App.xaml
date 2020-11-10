@@ -4,7 +4,9 @@
              xmlns:p = "clr-namespace:RGBSyncPlus.Properties"
              xmlns:tb="http://www.hardcodet.net/taskbar"
              xmlns:styles="clr-namespace:RGBSyncPlus.Styles"
-             xmlns:rgbSyncPlus="clr-namespace:RGBSyncPlus" xmlns:Converter="clr-namespace:RGBSyncPlus.Converter" x:Class="RGBSyncPlus.App"
+             xmlns:rgbSyncPlus="clr-namespace:RGBSyncPlus" xmlns:Converter="clr-namespace:RGBSyncPlus.Converter"
+             xmlns:fluentWpf="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+             x:Class="RGBSyncPlus.App"
              >
     <Application.Resources>
         <ResourceDictionary>
@@ -17,38 +19,54 @@
 
             <tb:TaskbarIcon x:Key="TaskbarIcon"
                             IconSource="Resources/ProgramIcon.ico"
-                            ToolTip="RGB Sync"
-                            MenuActivation="LeftOrRightClick">
-                <tb:TaskbarIcon.ContextMenu >
-                    <ContextMenu>
-                        <MenuItem Header="RGB Sync v2.0" IsEnabled="False">
-                            <MenuItem.Icon>
-                                <Image Source="/RGBSync+;component/Resources/ProgramIcon.ico" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <Separator />
-                        <MenuItem Header="{Binding ConverterParameter=TrayMenu.OpenUIItem, Converter={StaticResource LocConverter}, Mode=OneWay}" Command="{Binding OpenConfigurationCommand, Source={x:Static rgbSyncPlus:ApplicationManager.Instance}}" >
-                            <MenuItem.Icon>
-                                <Image Source="/RGBSync+;component/Resources/settings.png" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="{Binding ConverterParameter=TrayMenu.TechSupportItem, Converter={StaticResource LocConverter}, Mode=OneWay}" Command="{Binding TechSupportCommand, Source={x:Static rgbSyncPlus:ApplicationManager.Instance}}" >
-                            <MenuItem.Icon>
-                                <Image Source="/RGBSync+;component/Resources/support.png" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="{Binding ConverterParameter=TrayMenu.RestartAppItem, Converter={StaticResource LocConverter}, Mode=OneWay}" Command="{Binding RestartAppCommand, Source={x:Static rgbSyncPlus:ApplicationManager.Instance}}" >
-                            <MenuItem.Icon>
-                                <Image Source="/RGBSync+;component/Resources/reload.png" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="{Binding ConverterParameter=TrayMenu.ExitAppItem, Converter={StaticResource LocConverter}, Mode=OneWay}" Command="{Binding ExitCommand, Source={x:Static rgbSyncPlus:ApplicationManager.Instance}}" >
-                            <MenuItem.Icon>
-                                <Image Source="/RGBSync+;component/Resources/exit.png" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                    </ContextMenu>
-                </tb:TaskbarIcon.ContextMenu>
+                            ToolTipText ="RGB Sync Studio"
+                            PopupActivation="LeftOrRightClick">
+                <tb:TaskbarIcon.TrayPopup >
+                    <Grid Background="{StaticResource SystemAltHighColorBrush}" fluentWpf:PointerTracker.Enabled="True">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button Style="{StaticResource ButtonRevealStyle}" Grid.Row="0" HorizontalContentAlignment="Left">
+                            <DockPanel Margin="2,0" LastChildFill="True">
+                                <Image Margin="2" DockPanel.Dock="Left" Width="22" Source="/RGBSync+;component/Resources/hires.ico" />
+                                <TextBlock Margin="2" DockPanel.Dock="Right" Background="Transparent" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="RGB Sync Studio" />
+                            </DockPanel>
+                        </Button>
+                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Row="1" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=OpenConfigurationCommand}">
+                            <DockPanel Margin="2,0" LastChildFill="True">
+                                <TextBlock DockPanel.Dock="Left" Margin="4" FontSize="18" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
+                                <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Open UI"/>
+                            </DockPanel>
+                        </Button>
+                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Row="2" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=TechSupportCommand}">
+                            <DockPanel Margin="2,0" LastChildFill="True">
+                                <TextBlock DockPanel.Dock="Left" Margin="4" FontSize="18" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
+                                <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Tech Support"/>
+                            </DockPanel>
+                        </Button>
+                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Row="3" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=RestartAppCommand}">
+                            <DockPanel Margin="2,0" LastChildFill="True">
+                                <TextBlock DockPanel.Dock="Left" Margin="6" FontSize="16" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
+                                <TextBlock DockPanel.Dock="Right" Background="Transparent" FontFamily="Segoe UI Light" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Restart App"/>
+                            </DockPanel>
+                        </Button>
+                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Row="4" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=ExitCommand}">
+                            <DockPanel Margin="2,0" LastChildFill="True">
+                                <TextBlock DockPanel.Dock="Left" Margin="6" FontSize="16" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
+                                <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Exit App"/>
+                            </DockPanel>
+                        </Button>
+                    </Grid>
+                </tb:TaskbarIcon.TrayPopup>
+                <tb:TaskbarIcon.TrayToolTip>
+                    <Grid Background="{StaticResource SystemAltHighColorBrush}">
+                        <TextBlock Margin="6,2"  FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="RGB Sync Studio" />
+                    </Grid>
+                </tb:TaskbarIcon.TrayToolTip>
             </tb:TaskbarIcon>
         </ResourceDictionary>
     </Application.Resources>

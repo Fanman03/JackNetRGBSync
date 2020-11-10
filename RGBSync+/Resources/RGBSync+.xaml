@@ -30,7 +30,6 @@
     <Style TargetType="{x:Type controls:ImageButton}" BasedOn="{StaticResource StyleImageButton}" />
     <Style TargetType="{x:Type controls:Form}" BasedOn="{StaticResource StyleForm}" />
     <Style TargetType="GroupBox" BasedOn="{StaticResource StyleGroupBoxBox}" />
-    <Style TargetType="ToolTip" BasedOn="{StaticResource StyleToolTip}" />
     <Style TargetType="ComboBox" BasedOn="{StaticResource StyleComboBox}" />
     <!-- <Style TargetType="Button" BasedOn="{StaticResource StyleButton}" /> -->
     <Style TargetType="ListBox" BasedOn="{StaticResource StyleListBox}" />
