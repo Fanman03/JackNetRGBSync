@@ -78,11 +78,11 @@ Generic.Off Off
 Generic.On  On
 Generic.Yes Yes
 Generic.No  No
-Main.Devices    devices
-Main.Profiles   profiles
-Main.Store  store
-Main.About  about
-Main.Crash  craaash
+Main.Devices    Devices
+Main.Profiles	Profiles
+Main.Store  Store
+Main.About  About
+Main.Crash  Crash
 Main.Settings   Settings
 Settings.ApiServer  API Server
 Settings.ApiServerHelp  Enable this to enable RGB Sync Studio REST API Server
