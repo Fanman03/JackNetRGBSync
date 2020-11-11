@@ -24,6 +24,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using RGBSyncPlus.Languages;
 using RGBSyncPlus.UI.Tabs;
+using SharedCode;
 using SimpleLed;
 
 using Swashbuckle.Application;
@@ -48,6 +49,8 @@ namespace RGBSyncPlus
         public MainWindow ConfigurationWindow;
 
         public Settings Settings { get; set; } = new Settings();
+
+        private LauncherPrefs LauncherPrefs { get; set; } = new LauncherPrefs();
 
       //  public AppSettings AppSettings { get; set; } = new AppSettings();
         public TimerUpdateTrigger UpdateTrigger { get; private set; } = new TimerUpdateTrigger();
@@ -295,6 +298,11 @@ namespace RGBSyncPlus
 
                     }
                 }
+            }
+
+            if (File.Exists("launcherPrefs.json"))
+            {
+               LauncherPrefs = JsonConvert.DeserializeObject<LauncherPrefs>(File.ReadAllText("launcherPrefs.json"));
             }
 
             isHotLoading = false;

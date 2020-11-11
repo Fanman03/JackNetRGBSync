@@ -598,5 +598,11 @@
   <ItemGroup>
     <Resource Include="Languages\test.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Launcher\Launcher.csproj">
+      <Project>{400FEC06-C6E7-4A09-80A6-B9A4E750D41A}</Project>
+      <Name>Launcher</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
