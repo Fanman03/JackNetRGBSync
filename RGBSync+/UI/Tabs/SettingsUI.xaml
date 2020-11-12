@@ -29,6 +29,9 @@
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         
@@ -47,9 +50,21 @@
         <ComboBox Grid.Column="1" Grid.Row="2" Margin="10,0" Width="200" ItemsSource="{Binding Languages}" ItemTemplate="{DynamicResource LanguageSelector}" SelectedItem="{Binding CurrentLanguage}" />
         <Label Grid.Column="2" Grid.Row="2" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="White" VerticalAlignment="Center" Content="{Binding Language}"/>
 
-            <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="White" Content="{Binding Language, ConverterParameter=Settings.StartAsAdmin, Converter={StaticResource LocConverter}}"/>
-            <CheckBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="10,0" Foreground="White" BorderBrush="White" VerticalContentAlignment="Center" IsChecked="{Binding NGSettings.}"/>
-            <Label Grid.Column="2" Grid.Row="3" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="White" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.ApiServerHelp, Converter={StaticResource LocConverter}}"/>
+        <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="White" Content="{Binding Language, ConverterParameter=Settings.StartAsAdmin, Converter={StaticResource LocConverter}}"/>
+            <CheckBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="10,0" Foreground="White" BorderBrush="White" VerticalContentAlignment="Center" IsChecked="{Binding StartAsAdmin}"/>
+            <Label Grid.Column="2" Grid.Row="3" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="White" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.StartAsAdminHelp, Converter={StaticResource LocConverter}}"/>
+
+            <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="White" Content="{Binding Language, ConverterParameter=Settings.ReleaseType, Converter={StaticResource LocConverter}}"/>
+            <ComboBox Grid.Column="1" Grid.Row="4" Margin="10,0" Width="200" ItemsSource="{Binding ReleaseTypes}"  SelectedItem="{Binding ReleaseType}" />
+        <Label Grid.Column="2" Grid.Row="4" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="White" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.ReleaseTypeHelp, Converter={StaticResource LocConverter}}"/>
+
+            <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="White" Content="{Binding Language, ConverterParameter=Settings.MinimizeToTray, Converter={StaticResource LocConverter}}"/>
+            <CheckBox Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Margin="10,0" Foreground="White" BorderBrush="White" VerticalContentAlignment="Center" IsChecked="{Binding MinimizeToTray}"/>
+        <Label Grid.Column="2" Grid.Row="5" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="White" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.MinimizeToTrayHelp, Converter={StaticResource LocConverter}}"/>
+
+            <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="White" Content="{Binding Language, ConverterParameter=Settings.MinimizeOnStart, Converter={StaticResource LocConverter}}"/>
+            <CheckBox Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" Margin="10,0" Foreground="White" BorderBrush="White" VerticalContentAlignment="Center" IsChecked="{Binding MinimizeOnStart}"/>
+        <Label Grid.Column="2" Grid.Row="6" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="White" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.MinimizeOnStartHelp, Converter={StaticResource LocConverter}}"/>
 
     </Grid>
 </UserControl>

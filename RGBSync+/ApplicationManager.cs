@@ -50,7 +50,7 @@ namespace RGBSyncPlus
 
         public Settings Settings { get; set; } = new Settings();
 
-        private LauncherPrefs LauncherPrefs { get; set; } = new LauncherPrefs();
+        public LauncherPrefs LauncherPrefs { get; set; } = new LauncherPrefs();
 
       //  public AppSettings AppSettings { get; set; } = new AppSettings();
         public TimerUpdateTrigger UpdateTrigger { get; private set; } = new TimerUpdateTrigger();
@@ -303,6 +303,10 @@ namespace RGBSyncPlus
             if (File.Exists("launcherPrefs.json"))
             {
                LauncherPrefs = JsonConvert.DeserializeObject<LauncherPrefs>(File.ReadAllText("launcherPrefs.json"));
+            }
+            else
+            {
+                LauncherPrefs = new LauncherPrefs();
             }
 
             isHotLoading = false;
