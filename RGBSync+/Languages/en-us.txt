@@ -48,6 +48,9 @@ Store.Plugin.UninstallBtnLabel	Uninstall
 Store.Plugin.VersionsBtnLabel	Versions
 Store.RefreshBtnText	Refresh Store
 Store.RestartAllBtnText	Restart All
+Store.ShowStore Show Store
+Store.Experimental  Toggle Experimental
+Store.Updates   Toggle Updates
 TrayMenu.ExitAppItem	Exit App
 TrayMenu.OpenUIItem	Open App
 TrayMenu.RestartAppItem	Restart App
@@ -80,15 +83,15 @@ Devices.ZoomOut Zoom Out
 Devices.ZoomIn  Zoom In
 Devices.Condensed   Condensed View
 Devices.IconView    Icon View
-Devices.ShowSources Show Sources
+Devices.ShowSources     Show Sources
 Profile.TimeBasedTrigger    Time Based Trigger
 Profile.TimeToTrigger   Time at which to trigger:
 Profile.ProcessTrigger  Running Process Trigger
-Profile.ProcessName Name of process to watch for:
+Profile.ProcessName     Name of process to watch for:
 Profile.ProcessInvert   Trigger on absence
-Profile.TriggerDesc Triggers for 
+Profile.TriggerDesc     Triggers for 
 Profile.SelectProfile   Switch to this profile
-Profile.EditProfile Edit Profile
+Profile.EditProfile     Edit Profile
 Profile.Triggers    Triggers
 Profile.RemoveProfile   Remove Profile
 Generic.Off Off

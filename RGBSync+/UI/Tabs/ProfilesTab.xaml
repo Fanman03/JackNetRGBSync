@@ -50,9 +50,9 @@
                     <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20"/>
 
                     <StackPanel Orientation="Horizontal"  Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,20,0">
-                        <Button Background="#80000000" Content="&#xE13C;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Profile.SelectProfile, Converter={StaticResource LocConverter}}" Click="SetProfile"/>
-                        <Button Background="#80000000" Content="&#xE104;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Profile.EditProfile, Converter={StaticResource LocConverter}}" Click="EditProfile"/>
-                        <Button Background="#80000000" Content="&#xE726;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Profile.Triggers, Converter={StaticResource LocConverter}}" Click="ToggleShowTriggers"/>
+                        <Button Background="#80000000" Content="&#xE13C;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.SelectProfile, Converter={StaticResource LocConverter}}" Click="SetProfile"/>
+                        <Button Background="#80000000" Content="&#xE104;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.EditProfile, Converter={StaticResource LocConverter}}" Click="EditProfile"/>
+                        <Button Background="#80000000" Content="&#xE726;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.Triggers, Converter={StaticResource LocConverter}}" Click="ToggleShowTriggers"/>
 
                     </StackPanel>
                 </Grid>
@@ -96,16 +96,16 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="0">
-                    <Button Background="#c0ff0000" Content="&#xE74D;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Profile.RemoveProfile, Converter={StaticResource LocConverter}}" Click="DeleteTrigger" />
+                    <Button Background="#c0ff0000" Content="&#xE74D;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.RemoveProfile, Converter={StaticResource LocConverter}}" Click="DeleteTrigger" />
                     <TextBox Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding Name}" VerticalAlignment="Top" BorderBrush="{x:Null}" Background="{x:Null}"/>
                 </StackPanel>
                 <StackPanel  Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
-                    <Button Background="#80ffffff" Content="&#xE121;" Tag ="Time Based" Click="SetTrigger" Style="{StaticResource SmallSquareIcon}" ToolTip="Time Trigger"  Margin="40,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource InvertedStringMatchToVisibilityConverter}}" />
-                    <Button Background="#8000ff00" Content="&#xE121;"  Style="{StaticResource SmallSquareIcon}" ToolTip="Time Trigger" Margin="40,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource StringMatchToVisibilityConverter}}" />
-                    <Button Background="#80ffffff" Content="&#xE737;" Tag="Running Process" Click="SetTrigger" Style="{StaticResource SmallSquareIcon}" ToolTip="App Trigger"  Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource InvertedStringMatchToVisibilityConverter}}" />
-                    <Button Background="#8000ff00" Content="&#xE737;" Style="{StaticResource SmallSquareIcon}" ToolTip="App Trigger"  Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource StringMatchToVisibilityConverter}}" />
-                    <Button Background="#80ffffff" Content="&#xF8B2;" Tag ="Discord Trigger" Click="SetTrigger" Style="{StaticResource SmallSquareIcon}" ToolTip="Discord Trigger"  Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Discord Trigger, Converter={StaticResource InvertedStringMatchToVisibilityConverter}}" />
-                    <Button Background="#8000ff00" Content="&#xF8B2;" Style="{StaticResource SmallSquareIcon}" ToolTip="Discord Trigger" Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Discord Trigger, Converter={StaticResource StringMatchToVisibilityConverter}}" />
+                    <Button Background="#80ffffff" Content="&#xE121;" Tag ="Time Based" Click="SetTrigger" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.TimeBasedTrigger, Converter={StaticResource LocConverter}}"  Margin="40,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource InvertedStringMatchToVisibilityConverter}}" />
+                    <Button Background="#8000ff00" Content="&#xE121;"  Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.TimeBasedTrigger, Converter={StaticResource LocConverter}}" Margin="40,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource StringMatchToVisibilityConverter}}" />
+                    <Button Background="#80ffffff" Content="&#xE737;" Tag="Running Process" Click="SetTrigger" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.ProcessTrigger, Converter={StaticResource LocConverter}}"  Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource InvertedStringMatchToVisibilityConverter}}" />
+                    <Button Background="#8000ff00" Content="&#xE737;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.ProcessTrigger, Converter={StaticResource LocConverter}}"  Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource StringMatchToVisibilityConverter}}" />
+                    <!--<Button Background="#80ffffff" Content="&#xF8B2;" Tag ="Discord Trigger" Click="SetTrigger" Style="{StaticResource SmallSquareIcon}" ToolTip="Discord Trigger"  Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Discord Trigger, Converter={StaticResource InvertedStringMatchToVisibilityConverter}}" />
+                    <Button Background="#8000ff00" Content="&#xF8B2;" Style="{StaticResource SmallSquareIcon}" ToolTip="Discord Trigger" Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Discord Trigger, Converter={StaticResource StringMatchToVisibilityConverter}}" />-->
                     <Button Background="#80ffffff" Content="&#xED3C;" Style="{StaticResource SmallSquareIcon}" ToolTip="Momentary Trigger"  Margin="40,0,0,0" />
                     <Button Background="{x:Null}" BorderThickness="0" Content="&#xE011;" Style="{StaticResource SmallSquareIcon}" ToolTip="Expand"  Margin="40,0,0,0"  Visibility="{Binding Expanded, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="ToggleExpanded"/>
                     <Button Background="{x:Null}" BorderThickness="0" Content="&#xE010;" Style="{StaticResource SmallSquareIcon}" ToolTip="Collapse"  Margin="40,0,0,0" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}"  Click="ToggleExpanded" />
@@ -118,8 +118,8 @@
                         <!--Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource StringMatchToVisibilityConverter}}" -->
                         <StackPanel>
 
-                            <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding ConverterParameter=Profile.TimeBaseTrigger, Converter={StaticResource LocConverter}, Source=Language, Mode=OneWay}"  VerticalAlignment="Bottom"/>
-                            <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding ConverterParameter=Profile.TimeToTrigger, Converter={StaticResource LocConverter}, Source=Language, Mode=OneWay}"  VerticalAlignment="Bottom"/>
+                            <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.TimeBasedTrigger, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom"/>
+                            <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.TimeToTrigger, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom"/>
                             <StackPanel Orientation="Horizontal">
                                 <TextBox  Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding Hour}" VerticalAlignment="Bottom" Background="#40404040" Width="50"/>
                                 <TextBox  Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding Minute}" VerticalAlignment="Bottom" Background="#40404040" Width="50"/>
@@ -138,23 +138,23 @@
 
                     <StackPanel Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource StringMatchToVisibilityConverter}}" >
 
-                        <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding ConverterParameter=Profile.ProcessTrigger, Converter={StaticResource LocConverter}, Source=Language, Mode=OneWay}"  VerticalAlignment="Bottom"/>
-                        <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding ConverterParameter=Profile.ProcessName, Converter={StaticResource LocConverter}, Source=Language, Mode=OneWay}"  VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.ProcessTrigger, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.ProcessName, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom"/>
                         <TextBox  Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding ProcessName}" VerticalAlignment="Bottom" Background="#40404040" />
 
-                        <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding ConverterParameter=Profile.ProcessInvert, Converter={StaticResource LocConverter}, Source=Language, Mode=OneWay}"  VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.ProcessInvert, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom"/>
 
 
                         <Button BorderThickness="0" Background="{x:Null}" HorizontalAlignment="Left" Click="ToggleTriggerWhenNotFound">
                             <Grid Margin="10,0">
                                 <StackPanel Orientation="Horizontal"  Visibility="{Binding TriggerWhenNotFound, Converter={StaticResource InvertedBoolToVisibilityConverter}}" VerticalAlignment="Center">
                                     <TextBlock Foreground="White" FontSize="42" FontFamily="Segoe MDL2 Assets"><Run Text="&#xF19E;"/></TextBlock>
-                                    <TextBlock Margin="10,0,0,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding ConverterParameter=Generic.Off, Converter={StaticResource LocConverter}, Source=Language, Mode=OneWay}"  Foreground="White"  VerticalAlignment="Center"/>
+                                    <TextBlock Margin="10,0,0,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Generic.Off, Converter={StaticResource LocConverter}}"  Foreground="White"  VerticalAlignment="Center"/>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal"  Visibility="{Binding TriggerWhenNotFound, Converter={StaticResource BoolToVisibilityConverter}}"  VerticalAlignment="Center">
                                     <TextBlock Foreground="White" FontSize="42" FontFamily="Segoe MDL2 Assets"><Run Text="&#xF19F;"/></TextBlock>
-                                    <TextBlock Margin="10,0,0,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding ConverterParameter=Generic.On, Converter={StaticResource LocConverter}, Source=Language, Mode=OneWay}"  Foreground="White"  VerticalAlignment="Center"/>
+                                    <TextBlock Margin="10,0,0,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Generic.On, Converter={StaticResource LocConverter}}"  Foreground="White"  VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
                         </Button>
@@ -178,8 +178,9 @@
             <Grid Background="#d0000000" />
             <Grid Margin="100,50" >
                 <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"></Grid>
-                <StackPanel Orientation="Horizontal" Margin="20,5,0,0">
-                    <TextBlock FontFamily="Segoe UI Light" FontSize="28" Text="{Binding ConverterParameter=Profile.TriggerDesc, Converter={StaticResource LocConverter}, Source=Language, Mode=OneWay}" Foreground="White"></TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
+                    <TextBlock FontFamily="Segoe UI Light" FontSize="28" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.TriggerDesc, Converter={StaticResource LocConverter}}" Foreground="White"></TextBlock>
+                    <TextBlock FontFamily="Segoe UI Light" FontSize="28" Text=" " Foreground="White"></TextBlock>
                     <TextBlock FontFamily="Segoe UI Light" FontSize="28" Text="{Binding CurrentProfile.Name}" Foreground="White"></TextBlock>
                 </StackPanel>
                 

@@ -81,45 +81,13 @@
         <Grid Grid.Row="0" Background="{DynamicResource SystemBaseLowColorBrush}" Margin="0" Grid.ColumnSpan="2" fw:PointerTracker.Enabled="True">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
 
-                <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Show Store" Click="ToggleStore" Visibility="{Binding ShowStore, Converter={StaticResource InvertedBoolToVisConverter}}"/>
-                <Button Background="{StaticResource Tc-Green}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Show Store" Click="ToggleStore" Visibility="{Binding ShowStore, Converter={StaticResource BoolToVisConverter}}"/>
-                <Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Toggle Experimental" Click="ToggleExperimental" Visibility="{Binding ShowPreRelease, Converter={StaticResource BoolToVisConverter}}"/>
-                <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Toggle Experimental" Click="ToggleExperimental" Visibility="{Binding ShowPreRelease, Converter={StaticResource InvertedBoolToVisConverter}}"/>
-                <Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Toggle Updates" Click="ToggleUpdates" Visibility="{Binding ShowUpdates, Converter={StaticResource BoolToVisConverter}}"/>
-                <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Toggle Updates" Click="ToggleUpdates" Visibility="{Binding ShowUpdates, Converter={StaticResource InvertedBoolToVisConverter}}"/>
+                <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.ShowStore, Converter={StaticResource LocConverter}}" Click="ToggleStore" Visibility="{Binding ShowStore, Converter={StaticResource InvertedBoolToVisConverter}}"/>
+                <Button Background="{StaticResource Tc-Green}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.ShowStore, Converter={StaticResource LocConverter}, Mode=OneWay}" Click="ToggleStore" Visibility="{Binding ShowStore, Converter={StaticResource BoolToVisConverter}}"/>
+                <Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Experimental, Converter={StaticResource LocConverter}, Mode=OneWay}" Click="ToggleExperimental" Visibility="{Binding ShowPreRelease, Converter={StaticResource BoolToVisConverter}}"/>
+                <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Experimental, Converter={StaticResource LocConverter}, Mode=OneWay}" Click="ToggleExperimental" Visibility="{Binding ShowPreRelease, Converter={StaticResource InvertedBoolToVisConverter}}"/>
+                <Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Updates, Converter={StaticResource LocConverter}, Mode=OneWay}" Click="ToggleUpdates" Visibility="{Binding ShowUpdates, Converter={StaticResource BoolToVisConverter}}"/>
+                <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Updates, Converter={StaticResource LocConverter}, Mode=OneWay}" Click="ToggleUpdates" Visibility="{Binding ShowUpdates, Converter={StaticResource InvertedBoolToVisConverter}}"/>
                 
-                
-                <!--    <Button Background="#c0000000" BorderThickness="0" Margin="8,0" Click="ToggleExperimental" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Style="{StaticResource ButtonRevealStyle}">
-                    <Grid Margin="0">
-                        <Rectangle Fill="{StaticResource Tc-Red}" Margin="0" Visibility="{Binding ShowPreRelease, Converter={StaticResource BoolToVisConverter}}"></Rectangle>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
-                            <TextBlock FontFamily="Segoe UI Symbol" FontSize="24" Foreground="White" VerticalAlignment="Center" ></TextBlock>
-                            <TextBlock VerticalAlignment="Center" Margin="8,0" Text="{x:Static p:Resources.Store_ExperimentalBtnText}"></TextBlock>
-                        </StackPanel>
-                    </Grid>
-                </Button>-->
-<!--
-                <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="ReloadAllPlugins" Background="{x:Static fw:AccentColors.ImmersiveSystemAccentBrush}" Style="{StaticResource ButtonAccentRevealStyle}">
-                    <Grid Margin="0">
-
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
-                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="White" VerticalAlignment="Center" ></TextBlock>
-                            <TextBlock VerticalAlignment="Center" Margin="8,0" Text="{x:Static p:Resources.Store_RestartAllBtnText}"></TextBlock>
-                        </StackPanel>
-                    </Grid>
-                </Button>
--->
-<!--
-                <Button BorderThickness="2" Margin="8,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0" Click="RefreshStore" Background="{x:Static fw:AccentColors.ImmersiveSystemAccentBrush}" Style="{StaticResource ButtonAccentRevealStyle}">
-                    <Grid Margin="0">
-
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8">
-                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="White" VerticalAlignment="Center" ></TextBlock>
-                            <TextBlock VerticalAlignment="Center" Margin="8,0" Text="{x:Static p:Resources.Store_RefreshBtnText}"></TextBlock>
-                        </StackPanel>
-                    </Grid>
-                </Button>
-                -->
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4,4,8,4"  VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" ToolTip="{Binding Language, ConverterParameter=Store.FilterLabel, Converter={StaticResource LocConverter}}" >
@@ -133,10 +101,6 @@
 
         <ListView ItemsSource="{Binding FilteredPlugins}" ItemTemplate="{DynamicResource PluginItemTemplate}" Grid.Row="1" Margin="0,0,0,0" Grid.ColumnSpan="2" IsSynchronizedWithCurrentItem="True"></ListView>
 
-
-        <!--
-        If acrylic brush worked, id use this. but it doesnt and im angry :(
-        <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="{fw:AcrylicBrush grid}" Visibility="{Binding ShowConfig, Converter={StaticResource BoolToVisConverter}}"/>-->
         <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="#d0000000" Visibility="{Binding ShowConfig, Converter={StaticResource BoolToVisConverter}}" d:IsHidden="True"/>
 
         <Grid Grid.Column="0" Visibility="{Binding ShowConfig, Converter={StaticResource BoolToVisConverter}}" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2" d:IsHidden="True">
@@ -151,13 +115,6 @@
                 <RowDefinition Height="6*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
             </Grid.RowDefinitions>
-
-            <!--<Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3"
-                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                   Fill="{fluentWpf:AcrylicBrush grid}"
-                   Stroke="Black"/>-->
-
-
 
             <Grid Background="{DynamicResource SystemBaseHighColorBrush}" Grid.Column="1" Grid.Row="1" Opacity="0.9"></Grid>
             <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1">
