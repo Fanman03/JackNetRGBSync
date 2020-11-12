@@ -31,6 +31,14 @@ Settings.ThemeLabel	Theme:
 Settings.UpdateBtnText	Check for Update
 Settings.UpdateLabel	Updates:
 Settings.VersionLabel	Version:
+Settings.StartAsAdmin    Start As Admin
+Settings.StartAsAdminHelp    Can increase compatability
+Settings.ReleaseType Release Type
+Settings.ReleaseTypeHelp Which release do you want? Release is stable, Beta less so, CI is unstable
+Settings.MinimizeToTray  Minimize To Tray
+Settings.MinimizeToTrayHelp  Should the app minimize to toolbar or the system tray?
+Settings.MinimizeOnStart Minimize On Start
+Settings.MinimizeOnStartHelp Should the app show its window on start, or instantly minimize?
 Store.ExperimentalBtnText	Experimental
 Store.FilterLabel	Search
 Store.Plugin.DisableBtnLabel	Disable
