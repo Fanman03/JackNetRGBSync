@@ -18,11 +18,11 @@ namespace RGBSyncPlus.UI
             TabItems = new ObservableCollection<TabItem>
             {
                 new TabItem("","",""),
-                new TabItem("","Devices","devices"),
-                new TabItem("", "Profiles","profiles"),
-                new TabItem("","Drivers","store"),
+                new TabItem("","Devices","devices"),
+                new TabItem("", "Profiles","profiles"),
+                new TabItem("","Store","store"),
                 new TabItem("","About","about"),
-                new TabItem("","Crash","crashme")
+                new TabItem("","Crash","crashme")
             };
 
             foreach (TabItem tabItem in TabItems.Where(x => x != null && !string.IsNullOrWhiteSpace(x.Key)))
@@ -36,11 +36,11 @@ namespace RGBSyncPlus.UI
                 var ti= new ObservableCollection<TabItem>
                 {
                     new TabItem("","",""),
-                    new TabItem("","Devices","devices"),
-                    new TabItem("", "Profiles","profiles"),
-                    new TabItem("","Drivers","store"),
+                    new TabItem("","Devices","devices"),
+                    new TabItem("", "Profiles","profiles"),
+                    new TabItem("","Store","store"),
                     new TabItem("","About","about"),
-                    new TabItem("","Crash","crashme")
+                    new TabItem("","Crash","crashme")
                 };
 
                 foreach (TabItem tabItem in ti.Where(x => x != null && !string.IsNullOrWhiteSpace(x.Key)))

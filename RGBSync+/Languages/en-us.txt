@@ -100,9 +100,9 @@ Generic.Yes Yes
 Generic.No  No
 Main.Devices    Devices
 Main.Profiles	Profiles
-Main.Store  Store
+Main.Store  Drivers
 Main.About  About
-Main.Crash  Crash
+Main.CrashMe  Crash
 Main.Settings   Settings
 Settings.ApiServer  API Server
 Settings.ApiServerHelp  Enable this to enable RGB Sync Studio REST API Server

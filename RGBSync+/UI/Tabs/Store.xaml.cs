@@ -242,6 +242,7 @@ namespace RGBSyncPlus.UI.Tabs
                         cfgUI.Foreground = new SolidColorBrush(Colors.Black); //Make theme aware
 
                         vm.ShowConfig = true;
+                        double i = 1 / 20d;
                     }
                 }
             }
