@@ -6,12 +6,12 @@
              xmlns:styles="clr-namespace:RGBSyncPlus.Styles"
              xmlns:rgbSyncPlus="clr-namespace:RGBSyncPlus" xmlns:Converter="clr-namespace:RGBSyncPlus.Converter"
              xmlns:fluentWpf="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
-             x:Class="RGBSyncPlus.App"
-             >
+             x:Class="RGBSyncPlus.App">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <styles:CachedResourceDictionary Source="/RGBSync+;component/Resources/RGBSync+.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/RGBSync+;component/Styles/SliderStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
@@ -30,16 +30,10 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Button Style="{StaticResource ButtonRevealStyle}" Grid.Row="0" HorizontalContentAlignment="Left">
+                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Row="1" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=OpenConfigurationCommand}">
                             <DockPanel Margin="2,0" LastChildFill="True">
                                 <Image Margin="2" DockPanel.Dock="Left" Width="22" Source="/RGBSync+;component/Resources/hires.ico" />
                                 <TextBlock Margin="2" DockPanel.Dock="Right" Background="Transparent" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="RGB Sync Studio" />
-                            </DockPanel>
-                        </Button>
-                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Row="1" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=OpenConfigurationCommand}">
-                            <DockPanel Margin="2,0" LastChildFill="True">
-                                <TextBlock DockPanel.Dock="Left" Margin="4" FontSize="18" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
-                                <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Open UI"/>
                             </DockPanel>
                         </Button>
                         <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Row="2" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=TechSupportCommand}">
@@ -51,7 +45,7 @@
                         <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Row="3" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=RestartAppCommand}">
                             <DockPanel Margin="2,0" LastChildFill="True">
                                 <TextBlock DockPanel.Dock="Left" Margin="6" FontSize="16" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
-                                <TextBlock DockPanel.Dock="Right" Background="Transparent" FontFamily="Segoe UI Light" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Restart App"/>
+                                <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Restart App"/>
                             </DockPanel>
                         </Button>
                         <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Row="4" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=ExitCommand}">

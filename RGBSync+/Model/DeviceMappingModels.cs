@@ -43,9 +43,9 @@ namespace RGBSyncPlus.Model
         public class NGSettings : BaseViewModel
         {
             
-            private double updateRate = 30.0;
+            private int updateRate = 30;
 
-            public double UpdateRate
+            public int UpdateRate
             {
                 get => updateRate;
                 set
