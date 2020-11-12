@@ -76,6 +76,11 @@ Devices.Selected    selected
 Devices.Config  Config
 Devices.Alignment   Alignment
 Devices.NoConfig    This device has no configuration.
+Devices.ZoomOut Zoom Out
+Devices.ZoomIn  Zoom In
+Devices.Condensed   Condensed View
+Devices.IconView    Icon View
+Devices.ShowSources Show Sources
 Profile.TimeBasedTrigger    Time Based Trigger
 Profile.TimeToTrigger   Time at which to trigger:
 Profile.ProcessTrigger  Running Process Trigger

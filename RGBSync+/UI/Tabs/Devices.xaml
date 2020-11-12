@@ -267,14 +267,14 @@
                     <Button FontFamily="Segoe MDL2 Assets" Padding="4" Background="{DynamicResource SystemBaseLowColorBrush}" Style="{StaticResource ButtonRevealStyle}" FontSize="20" Foreground="{DynamicResource SystemBaseHighColorBrush}" Width="32" Height="32" Margin="8" Click="ZoomIn" Content="&#xE8A3;"/>
                     <Button FontFamily="Segoe MDL2 Assets" Padding="4" Background="{DynamicResource SystemBaseLowColorBrush}" Style="{StaticResource ButtonRevealStyle}" FontSize="20" Foreground="{DynamicResource SystemBaseHighColorBrush}" Width="32" Height="32" Margin="8" Click="ToggleDevicesView" Content="&#xE71D;"/>
 -->
-                    <Button Background="#80000000" Content="&#xE71F;" Style="{StaticResource SmallSquareIcon}" ToolTip="Zoom Out" Click="ZoomOut"/>
-                    <Button Background="#80000000" Content="&#xE8A3;" Style="{StaticResource SmallSquareIcon}" ToolTip="Zoom In"  Click="ZoomIn"/>
+                    <Button Background="#80000000" Content="&#xE71F;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Devices.ZoomOut, Converter={StaticResource LocConverter}}" Click="ZoomOut"/>
+                    <Button Background="#80000000" Content="&#xE8A3;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Devices.ZoomIn, Converter={StaticResource LocConverter}}"  Click="ZoomIn"/>
 
-                    <Button Background="#80000000" Content="&#xE71D;" Style="{StaticResource SmallSquareIcon}" ToolTip="Condensed View" Click="ToggleDevicesView" Visibility="{Binding DevicesCondenseView, Converter={StaticResource InvertedBoolToVisConverter}}"/>
-                    <Button Background="{StaticResource Tc-Green}" Content="&#xE71D;" Style="{StaticResource SmallSquareIcon}" ToolTip="Icon View" Click="ToggleDevicesView" Visibility="{Binding DevicesCondenseView, Converter={StaticResource BoolToVisConverter}}"/>
+                    <Button Background="#80000000" Content="&#xE71D;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Devices.Condensed, Converter={StaticResource LocConverter}}" Click="ToggleDevicesView" Visibility="{Binding DevicesCondenseView, Converter={StaticResource InvertedBoolToVisConverter}}"/>
+                    <Button Background="{StaticResource Tc-Green}" Content="&#xE71D;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Devices.IconView, Converter={StaticResource LocConverter}}" Click="ToggleDevicesView" Visibility="{Binding DevicesCondenseView, Converter={StaticResource BoolToVisConverter}}"/>
 
-                    <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Show sources" Click="ToggleShowSources" Visibility="{Binding ShowSources, Converter={StaticResource InvertedBoolToVisConverter}}"/>
-                    <Button Background="{StaticResource Tc-Green}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Show sources" Click="ToggleShowSources" Visibility="{Binding ShowSources, Converter={StaticResource BoolToVisConverter}}"/>
+                    <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Devices.ShowSources, Converter={StaticResource LocConverter}}" Click="ToggleShowSources" Visibility="{Binding ShowSources, Converter={StaticResource InvertedBoolToVisConverter}}"/>
+                    <Button Background="{StaticResource Tc-Green}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Devices.ShowSources, Converter={StaticResource LocConverter}}" Click="ToggleShowSources" Visibility="{Binding ShowSources, Converter={StaticResource BoolToVisConverter}}"/>
                 </StackPanel>
                 
             </Grid>
@@ -370,7 +370,7 @@
                                 <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SubViewMode, ConverterParameter=Config, Converter={StaticResource StringMatchToVisConverter}}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0"  Margin="8,4,0,0" ><Run Text="&#xE713;"/></TextBlock>
-                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"  Text="{Binding ConverterParameter=Devices.Config, Converter={StaticResource LocConverter}, Source=Language}"/>
+                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"  Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Devices.Config, Converter={StaticResource LocConverter}, Mode=OneWay}"/>
                                 </StackPanel>
                             </Grid>
                         </Button>
