@@ -22,7 +22,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RepeatButton">
-                    <Border SnapsToDevicePixels="True" Background="#FF00A2ff"  BorderThickness="1" BorderBrush="{x:Static fw:AccentColors.ImmersiveSystemAccentBrush}" Height="3"/>
+                    <Border SnapsToDevicePixels="True" Background="{DynamicResource SystemBaseHighColorBrush}" BorderThickness="1" BorderBrush="{x:Static fw:AccentColors.ImmersiveSystemAccentBrush}" Height="3"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
