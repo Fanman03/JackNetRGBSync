@@ -87,6 +87,10 @@ Profile.ProcessTrigger  Running Process Trigger
 Profile.ProcessName Name of process to watch for:
 Profile.ProcessInvert   Trigger on absence
 Profile.TriggerDesc Triggers for 
+Profile.SelectProfile   Switch to this profile
+Profile.EditProfile Edit Profile
+Profile.Triggers    Triggers
+Profile.RemoveProfile   Remove Profile
 Generic.Off Off
 Generic.On  On
 Generic.Yes Yes

@@ -381,7 +381,7 @@
                                 <Grid Background="#e0000000" Margin="-8" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisConverter}}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe MDL2 Assets" Padding="0" Margin="8,4,0,0" ><Run Text="&#xE8EE;"/></TextBlock>
-                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"  Text="{Binding ConverterParameter=Devices.Config, Converter={StaticResource LocConverter}, Source=Language}"/>
+                                    <TextBlock FontSize="24" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Margin="8,0,8,0"  Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Devices.Config, Converter={StaticResource LocConverter}, Mode=OneWay}"/>
                                 </StackPanel>
                             </Grid>
                         </Button>

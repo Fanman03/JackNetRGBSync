@@ -50,9 +50,9 @@
                     <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20"/>
 
                     <StackPanel Orientation="Horizontal"  Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,20,0">
-                        <Button Background="#80000000" Content="&#xE13C;" Style="{StaticResource SmallSquareIcon}" ToolTip="Switch to this profile" Click="SetProfile"/>
-                        <Button Background="#80000000" Content="&#xE104;" Style="{StaticResource SmallSquareIcon}" ToolTip="Edit Profile" Click="EditProfile"/>
-                        <Button Background="#80000000" Content="&#xE726;" Style="{StaticResource SmallSquareIcon}" ToolTip="Triggers" Click="ToggleShowTriggers"/>
+                        <Button Background="#80000000" Content="&#xE13C;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Profile.SelectProfile, Converter={StaticResource LocConverter}}" Click="SetProfile"/>
+                        <Button Background="#80000000" Content="&#xE104;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Profile.EditProfile, Converter={StaticResource LocConverter}}" Click="EditProfile"/>
+                        <Button Background="#80000000" Content="&#xE726;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Profile.Triggers, Converter={StaticResource LocConverter}}" Click="ToggleShowTriggers"/>
 
                     </StackPanel>
                 </Grid>
@@ -96,7 +96,7 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="0">
-                    <Button Background="#c0ff0000" Content="&#xE74D;" Style="{StaticResource SmallSquareIcon}" ToolTip="Remove Profile" Click="DeleteTrigger" />
+                    <Button Background="#c0ff0000" Content="&#xE74D;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Profile.RemoveProfile, Converter={StaticResource LocConverter}}" Click="DeleteTrigger" />
                     <TextBox Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding Name}" VerticalAlignment="Top" BorderBrush="{x:Null}" Background="{x:Null}"/>
                 </StackPanel>
                 <StackPanel  Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
