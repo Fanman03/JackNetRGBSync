@@ -28,8 +28,8 @@ namespace RGBSyncPlus.Languages
             List<string> lines = contents.Split('\r').Select(x => x.Trim()).ToList();
 
             this.Code = lines[0];
-            this.EnglishName = lines[1];
-            this.NativeName = lines[2];
+            this.EnglishName = lines[2];
+            this.NativeName = lines[1];
 
             this.Items = new List<LanguageItem>();
             foreach (string s in lines.Skip(3))
