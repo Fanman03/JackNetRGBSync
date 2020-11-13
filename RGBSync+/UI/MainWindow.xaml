@@ -19,7 +19,22 @@
         <Converter:StringMatchToVisibilityConverter x:Key="StringMatchToVisibilityConverter"/>
         <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <DataTemplate x:Key="TabItemTemplate">
-            <Grid fw:PointerTracker.Enabled="True">
+            <Grid fw:PointerTracker.Enabled="True" Margin="0,0,0,0">
+                <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.2" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" ></Rectangle>
+                <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" >
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Red" Offset="0"/>
+                            <GradientStop Color="Red" Offset="1"/>
+                            <GradientStop Color="Yellow" Offset="0.207"/>
+                            <GradientStop Color="#FF2EFF00" Offset="0.348"/>
+                            <GradientStop Color="#FF00DDA1" Offset="0.464"/>
+                            <GradientStop Color="#FF008AFF" Offset="0.569"/>
+                            <GradientStop Color="#FF002EFF" Offset="0.671"/>
+                            <GradientStop Color="#FF7E25FF" Offset="0.843"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
                 <Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="SetTab" Style="{DynamicResource ButtonRevealStyle}">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,8,0">
                         <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" Text="{Binding Icon}" VerticalAlignment="Center" Margin="0,0"/>
@@ -36,6 +51,9 @@
                 </Button>
             </Grid>
         </DataTemplate>
+        <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
+            <VirtualizingStackPanel IsItemsHost="True" Margin="0"/>
+        </ItemsPanelTemplate>
     </Window.Resources>
     <Window.DataContext>
         <local:MainWindowViewModel/>
@@ -48,7 +66,7 @@
 
         <Grid Grid.Column="0" Width="auto" Background="{x:Null}" fw:PointerTracker.Enabled="True">
             <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"/>
-            <ListView ItemsSource="{Binding TabItems, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" ItemTemplate="{DynamicResource TabItemTemplate}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" Padding="0" Margin="0" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+            <ListView ItemsSource="{Binding TabItems, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" ItemTemplate="{DynamicResource TabItemTemplate}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" Padding="0" Margin="0,0" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsPanel="{DynamicResource ItemsPanelTemplate1}"/>
 
             <Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="ShowSettings" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="0,0" Style="{DynamicResource ButtonRevealStyle}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8,0,8,0">
@@ -90,7 +108,7 @@
             <Grid Width="500" Background="{x:Null}" VerticalAlignment="Center">
                 <Grid Background="#c0000000" />
                 <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"/>
-                
+
                 <StackPanel Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock  FontFamily="Segoe UI Light" FontSize="36" FontWeight="Bold" Margin="0,0" Text="{Binding ModalText}" TextWrapping="WrapWithOverflow" Foreground="White"/>
                     <ProgressBar x:Name="ProgressBar" Width="350" Height="10" Foreground="Black" BorderBrush="#40000000" Margin="0,20,0,0" Value="{Binding ModalPercentage}" RenderTransformOrigin="0.5,0.5">

@@ -356,7 +356,9 @@ namespace RGBSyncPlus.UI.Tabs
 
         }
 
-
-     
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            ZoomIn(this,new RoutedEventArgs());
+        }
     }
 }

@@ -36,7 +36,7 @@ namespace RGBSyncPlus.UI
                 var ti= new ObservableCollection<TabItem>
                 {
                     new TabItem("","",""),
-                    new TabItem("","Devices","devices"),
+                    new TabItem("","Devices","devices",true),
                     new TabItem("", "Profiles","profiles"),
                     new TabItem("","Store","store"),
                     new TabItem("","About","about"),
@@ -50,6 +50,8 @@ namespace RGBSyncPlus.UI
 
                 TabItems = ti;
             };
+
+            CurrentTab = "devices";
         }
 
         private bool hamburgerExtended;
@@ -106,6 +108,13 @@ namespace RGBSyncPlus.UI
                     i = i - 11;
                     Debug.WriteLine(11 / i);
                 }
+
+                foreach (TabItem tabItem in TabItems)
+                {
+                    tabItem.IsCurrent = tabItem.Key.ToLower() == value.ToLower();
+                }
+
+              //  OnPropertyChanged("TabItems");
             }
         }
 
@@ -128,17 +137,26 @@ namespace RGBSyncPlus.UI
             set => SetProperty(ref modalShowPercentage, value);
         }
 
-        public class TabItem
+        public class TabItem : LanguageAwareBaseViewModel
         {
-            public string Name { get; set; }
-            public string Key { get; set; }
-            public string Icon { get; set; }
+            private string name;
+            public string Name { get=>name; set=>SetProperty(ref name,value); }
 
-            public TabItem(string icon, string name, string key)
+            private string key;
+            public string Key { get=>key; set=>SetProperty(ref key,value); }
+
+            private string icon;
+            public string Icon { get=>icon; set=>SetProperty(ref icon,value); }
+
+            private bool isCurrent;
+            public bool IsCurrent { get=>isCurrent; set=>SetProperty(ref isCurrent, value); }
+
+            public TabItem(string icon, string name, string key, bool current = false)
             {
                 Icon = icon;
                 Name = name;
                 Key = key;
+                IsCurrent = current;
 
             }
         }

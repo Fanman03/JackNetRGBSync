@@ -9,7 +9,7 @@
              xmlns:p="clr-namespace:RGBSyncPlus.Properties"
              x:Class="RGBSyncPlus.UI.Tabs.Devices"
              mc:Ignorable="d" 
-             d:DesignHeight="768" d:DesignWidth="1280">
+             d:DesignHeight="768" d:DesignWidth="1280" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <Converter:ValueLocConverter x:Key="ValueLocConverter"/>
         <Converter:LocConverter x:Key="LocConverter"/>
@@ -202,7 +202,16 @@
                         </LinearGradientBrush>
                     </Rectangle.Fill>
                 </Rectangle>
-                <Grid Width="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" Background="{DynamicResource SystemBaseMediumLowColorBrush}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Visibility="{Binding DataContext.ShowFullThumb, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}"  >
+                <Grid Width="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Visibility="{Binding DataContext.ShowFullThumb, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}"  >
+                    <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#fF000000" Offset="0.75"/>
+                                <GradientStop Color="#00000000" Offset="0"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Fill="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="0.5"></Rectangle>
                     <StackPanel Orientation="Horizontal">
                         <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="24" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6"/>
                         <TextBlock Text="{Binding ControlDevice.DeviceType, Converter={StaticResource ValueLocConverter}}" FontSize="18" VerticalAlignment="Center" Margin="8,0,0,0"/>
@@ -223,15 +232,9 @@
                         <TextBlock Text="{Binding Title}" Margin="6" FontSize="20" FontWeight="Bold" MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right" Foreground="{DynamicResource SystemAltHighColorBrush}"/>
                     </Grid>
 
-                    <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}">
-                        <Grid.Background>
-                            <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                <GradientStop Color="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccent}" Offset="0.0125"/>
-                                <GradientStop Color="#CC000000" Offset="0.025"/>
-                                <GradientStop Color="#CC000000" Offset="0.837"/>
-                                <GradientStop Color="#10000000" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Grid.Background>
+                    <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" Background="#d0000000" >
+                        <Grid Width="2" HorizontalAlignment="Left" Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"></Grid>
+
 
                         <StackPanel>
                             <TextBlock Text="{Binding Name}" Margin="6" FontSize="14" MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right"/>
@@ -276,36 +279,36 @@
                     <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Devices.ShowSources, Converter={StaticResource LocConverter}}" Click="ToggleShowSources" Visibility="{Binding ShowSources, Converter={StaticResource InvertedBoolToVisConverter}}"/>
                     <Button Background="{StaticResource Tc-Green}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Devices.ShowSources, Converter={StaticResource LocConverter}}" Click="ToggleShowSources" Visibility="{Binding ShowSources, Converter={StaticResource BoolToVisConverter}}"/>
                 </StackPanel>
-                
+
             </Grid>
 
             <Grid Margin="0,0,0,0" Grid.Row="1" HorizontalAlignment="Stretch">
                 <ListView MinHeight="400" ItemsSource="{Binding SLSDevicesFiltered}" ItemTemplate="{DynamicResource DeviceControlTemplate}" SelectionChanged="DevicesListSelectionChanged" x:Name="DeviceConfigList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource InvertedBoolToVisConverter}}" Background="#ff0000"  >
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
                                            ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}"
                                            MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
                                            ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}"
                                            />
-                            </ItemsPanelTemplate>
+                        </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
 
-                    </ListView>
+                </ListView>
 
                 <ListView ItemsSource="{Binding SLSDevicesFiltered}" ItemTemplate="{DynamicResource DeviceControlCondensedTemplate}" SelectionChanged="DevicesListCondensedSelectionChanged" x:Name="DeviceConfigCondensedList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource BoolToVisConverter}}" >
 
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="2"/>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2"/>
 
-                                <!--Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"-->
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
+                            <!--Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"-->
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
 
-                    </ListView>
+                </ListView>
 
-                </Grid>
+            </Grid>
         </Grid>
         <Grid Grid.Row="1" x:Name="ConfigPanel"  Margin="0"  MaxHeight="{Binding MaxSubViewHeight}" Height="{Binding MaxSubViewHeight}" fluentWpf:PointerTracker.Enabled="True">
 
@@ -321,7 +324,7 @@
                                 </Image.Effect>
                             </Image>
                             -->
-          
+
 
 
                 <Grid Grid.Row="0" Background="{DynamicResource SystemBaseLowColorBrush}"  Height="60" VerticalAlignment="Top">
@@ -388,7 +391,7 @@
 
                     </StackPanel>
                 </Grid>
-     
+
                 <Grid Grid.Row="1" x:Name="SubContents">
                     <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisConverter}}">
 
@@ -435,7 +438,7 @@
                                 <Button FontSize="24" Content="" Height="60" Width="60" Margin="8" Click="Button_Click" FontFamily="Segoe MDL2 Assets" Padding="16" Style="{StaticResource ButtonRevealStyle}"></Button>
                                 <Button FontSize="24" Content="" Height="60" Width="60" Margin="8" Click="Button_Click_2"  FontFamily="Segoe MDL2 Assets" Padding="16" Style="{StaticResource ButtonRevealStyle}"></Button>
                                 <Button FontSize="24" Content="" Height="60" Width="60"  Margin="8" Click="Button_Click_3" FontFamily="Segoe MDL2 Assets" Padding="16" Style="{StaticResource ButtonRevealStyle}"></Button>
-                                
+
 
                                 <Image Source="/RGBSync+;component/UI/alignment_template.png" Width="172"/>
                             </StackPanel>
