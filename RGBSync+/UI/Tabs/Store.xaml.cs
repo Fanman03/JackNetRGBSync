@@ -275,7 +275,12 @@ namespace RGBSyncPlus.UI.Tabs
 
         private async void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.RoutedEvent.Name == "SelectionChanged")
+            if (e.AddedItems == null || e.AddedItems.Count == 0)
+            {
+                return;
+            }
+
+                if (e.RoutedEvent.Name == "SelectionChanged")
             {
                 var parent = e.Source as ComboBox;
                 var parentDC = parent.DataContext as PositionalAssignment.PluginDetailsViewModel;
@@ -286,13 +291,14 @@ namespace RGBSyncPlus.UI.Tabs
                     Task.Delay(TimeSpan.FromSeconds(1)).Wait();
                     ApplicationManager.Instance.UnloadSLSProviders();
 
-                    var bdc = e.AddedItems[0] as PositionalAssignment.PluginVersionDetails;
+                    
                     
 
-                    
+                    if (e.AddedItems!=null && e.AddedItems.Count>0)
                     {
+                        var bdc = e.AddedItems[0] as PositionalAssignment.PluginVersionDetails;
                         //var newest = bdc.Versions.First(x => x.Version == bdc.Version);
-                    
+
                         SimpleLedApiClient apiClient = new SimpleLedApiClient();
                         var drver = await apiClient.GetProduct(parentDC.PluginId, bdc.ReleaseNumber);
 
@@ -343,6 +349,7 @@ namespace RGBSyncPlus.UI.Tabs
                         }
 
                         ApplicationManager.Instance.LoadPlungFolder(pluginPath);
+                        vm.LoadStoreAndPlugins();
                     }
 
 

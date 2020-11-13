@@ -268,15 +268,15 @@ namespace RGBSyncPlus.UI.Tabs
 
                     if (tmp.InstalledVersionModel == null)
                     {
-                        var xx = new PositionalAssignment.PluginVersionDetails
-                        {
-                            ReleaseNumber = new ReleaseNumber(0,0,0,-1),
+                        //var xx = new PositionalAssignment.PluginVersionDetails
+                        //{
+                        //    ReleaseNumber = new ReleaseNumber(0,0,0,-1),
                             
-                        };
+                        //};
 
-                        tmp.VersionsAvailable.Add(xx);
+                        //tmp.VersionsAvailable.Add(xx);
 
-                        tmp.InstalledVersionModel = xx;
+                        //tmp.InstalledVersionModel = xx;
 
                     }
 
