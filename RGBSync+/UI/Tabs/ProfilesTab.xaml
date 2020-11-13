@@ -45,7 +45,7 @@
                     <Rectangle Fill="#80d0d0d0" Grid.ColumnSpan="3"/>
                     <Rectangle Fill="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.75" Grid.ColumnSpan="3" Visibility="{Binding IsActiveProfile, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-                    <Button Background="#c0ff0000" Content="&#xE74D;" Style="{StaticResource SmallSquareIcon}" ToolTip="Remove Profile" Click="DeleteProfile" />
+                    <Button Background="#c0ff0000" Content="&#xE74D;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.RemoveProfile, Converter={StaticResource LocConverter}}" Click="DeleteProfile" />
 
                     <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20"/>
 
@@ -106,9 +106,9 @@
                     <Button Background="#8000ff00" Content="&#xE737;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.ProcessTrigger, Converter={StaticResource LocConverter}}"  Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource StringMatchToVisibilityConverter}}" />
                     <!--<Button Background="#80ffffff" Content="&#xF8B2;" Tag ="Discord Trigger" Click="SetTrigger" Style="{StaticResource SmallSquareIcon}" ToolTip="Discord Trigger"  Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Discord Trigger, Converter={StaticResource InvertedStringMatchToVisibilityConverter}}" />
                     <Button Background="#8000ff00" Content="&#xF8B2;" Style="{StaticResource SmallSquareIcon}" ToolTip="Discord Trigger" Margin="10,0,0,0" Visibility="{Binding TriggerType, ConverterParameter=Discord Trigger, Converter={StaticResource StringMatchToVisibilityConverter}}" />-->
-                    <Button Background="#80ffffff" Content="&#xED3C;" Style="{StaticResource SmallSquareIcon}" ToolTip="Momentary Trigger"  Margin="40,0,0,0" />
-                    <Button Background="{x:Null}" BorderThickness="0" Content="&#xE011;" Style="{StaticResource SmallSquareIcon}" ToolTip="Expand"  Margin="40,0,0,0"  Visibility="{Binding Expanded, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="ToggleExpanded"/>
-                    <Button Background="{x:Null}" BorderThickness="0" Content="&#xE010;" Style="{StaticResource SmallSquareIcon}" ToolTip="Collapse"  Margin="40,0,0,0" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}"  Click="ToggleExpanded" />
+                    <Button Background="#80ffffff" Content="&#xED3C;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.MomentaryTrigger, Converter={StaticResource LocConverter}}"  Margin="40,0,0,0" />
+                    <Button Background="{x:Null}" BorderThickness="0" Content="&#xE011;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.Expand, Converter={StaticResource LocConverter}}"  Margin="40,0,0,0"  Visibility="{Binding Expanded, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Click="ToggleExpanded"/>
+                    <Button Background="{x:Null}" BorderThickness="0" Content="&#xE010;" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.Collapse, Converter={StaticResource LocConverter}}"  Margin="40,0,0,0" Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibilityConverter}}"  Click="ToggleExpanded" />
 
                 </StackPanel>
 

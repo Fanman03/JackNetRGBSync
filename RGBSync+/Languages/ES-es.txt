@@ -50,8 +50,8 @@ UI.DeviceTabHeader	Dispositivos
 UI.ProfileTabHeader	Perfiles
 UI.SettingsTabHeader	Ajustes
 UI.StoreTabHeader	Dispositivos
-About.OrigDev	RGB Sync Desarrollo Original
-About.20dev	RGBSync Desarrollo de Estudio
+About.OrigDev	Desarrollo Original de RGB Sync
+About.20dev     Desarrollo de Estudio de RGBSync
 About.simpleleddev	Coordinador de Proyecto de SimpleLED
 About.Donations	JackNet RGB Sync es gratis y de código abierto. El programa es gratis para que todos puedan utilizarlo. Las donaciones son bienvenidas y ayudan como ejemplo, al hospedaje de los servidores.
 Donate.Patreon	DONAR VÍA PATREEON
@@ -117,3 +117,16 @@ Settings.MinimizeOnStart Minimizar al iniciar
 Settings.MinimizeOnStartHelp La app debe mostrarse al inciar, o minimizarse instantáneamente
 Settings.Experimental Drivers Experimentales
 Settings.ExperimentalHelp Muestra los drivers experimentales en la tienda
+Store.NotStoreButton Instalado
+Store.ShowStore Tienda
+Store.StoreButton Tienda
+Store.UpdatesButton Actualizaciones
+Store.Updates Actualizaciones
+Devices.ZoomOut Alejar
+Devices.ZoomIn Acercar
+Devices.Condensed Compacto
+Devices.ShowSources Mostrar efectos
+Profile.Triggers Acciones
+Profile.EditProfile Editar Perfil
+Profile.SelectProfile Selccionar Perfil
+Profile.RemoveProfile Eliminar Perfil

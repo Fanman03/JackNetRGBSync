@@ -59,9 +59,9 @@
 
                 <StackPanel Orientation="Horizontal" Grid.Column="3" HorizontalAlignment="Right" fw:PointerTracker.Enabled="True">
 
-                    <Button Background="#c0000000" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="Details"  Visibility="{Binding IsHovered, Converter={StaticResource BoolToVisConverter}}"/>
+                    <Button Background="#c0000000" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Details, Converter={StaticResource LocConverter}}"  Visibility="{Binding IsHovered, Converter={StaticResource BoolToVisConverter}}"/>
                     <Grid Margin="0"  Visibility="{Binding IsHovered, Converter={StaticResource BoolToVisConverter}}">
-                    <Button Background="#c0000000" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="Configure" Click="ConfigurePlugin" />
+                        <Button Background="#c0000000" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Configure, Converter={StaticResource LocConverter}}" Click="ConfigurePlugin" />
                     </Grid>
                     <!--<Button Background="{StaticResource Tc-Green}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Install" Visibility="{Binding Installed, Converter={StaticResource InvertedBoolToVisConverter}}" Click="InstallPlugin" />-->
                     <!--<Button Background="{StaticResource Tc-Blue}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Install" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}" Click="InstallPlugin" />-->
