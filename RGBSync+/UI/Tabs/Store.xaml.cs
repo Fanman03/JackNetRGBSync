@@ -272,5 +272,85 @@ namespace RGBSyncPlus.UI.Tabs
         {
             PluginSearchBox.Width = 100;
         }
+
+        private async void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.RoutedEvent.Name == "SelectionChanged")
+            {
+                var parent = e.Source as ComboBox;
+                var parentDC = parent.DataContext as PositionalAssignment.PluginDetailsViewModel;
+
+                using (installingModal = new SimpleModal(mainVm, "Installing..."))
+                {
+                    ApplicationManager.Instance.PauseSyncing = true;
+                    Task.Delay(TimeSpan.FromSeconds(1)).Wait();
+                    ApplicationManager.Instance.UnloadSLSProviders();
+
+                    var bdc = e.AddedItems[0] as PositionalAssignment.PluginVersionDetails;
+                    
+
+                    
+                    {
+                        //var newest = bdc.Versions.First(x => x.Version == bdc.Version);
+                    
+                        SimpleLedApiClient apiClient = new SimpleLedApiClient();
+                        var drver = await apiClient.GetProduct(parentDC.PluginId, bdc.ReleaseNumber);
+
+
+                        string pluginPath = ApplicationManager.SLSPROVIDER_DIRECTORY + "\\" + parentDC.PluginId;
+                        if (Directory.Exists(pluginPath))
+                        {
+                            try
+                            {
+                                Directory.Delete(pluginPath, true);
+                            }
+                            catch
+                            {
+                            }
+                        }
+
+                        try
+                        {
+                            Directory.CreateDirectory(pluginPath);
+                        }
+                        catch
+                        {
+                        }
+
+                        using (Stream stream = new MemoryStream(drver))
+                        {
+                            var thingy = SharpCompress.Archives.ArchiveFactory.Open(stream);
+
+                            float mx = thingy.Entries.Count();
+                            int ct = 0;
+                            foreach (var archiveEntry in thingy.Entries)
+                            {
+
+                                archiveEntry.WriteToDirectory(pluginPath);
+                                ct++;
+
+                                installingModal?.UpdateModalPercentage(mainVm, (int)(ct / mx) * 100);
+                            }
+
+                            try
+                            {
+                                File.Delete(pluginPath + "\\SimpleLed.dll");
+                            }
+                            catch
+                            {
+                            }
+
+                        }
+
+                        ApplicationManager.Instance.LoadPlungFolder(pluginPath);
+                    }
+
+
+                    //vm.ReloadStoreAndPlugins();
+                }
+
+            }
+          //  throw new NotImplementedException();
+        }
     }
 }

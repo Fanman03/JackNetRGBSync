@@ -67,7 +67,7 @@
                     <!--<Button Background="{StaticResource Tc-Blue}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Install" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}" Click="InstallPlugin" />-->
                     <!--<Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Plugin.DisableBtnLabel, Converter={StaticResource LocConverter}}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DisablePlugin" />-->
                     <!--<Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Plugin.UninstallBtnLabel, Converter={StaticResource LocConverter}}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DeletePlugin" />-->
-                    <ComboBox ItemsSource="{Binding VersionsAvailable}" VerticalAlignment="Center" ItemTemplate="{DynamicResource DataTemplate1}" Width="165" SelectedItem="{Binding InstalledVersionModel}" Margin="0,0,10,0"></ComboBox>
+                    <ComboBox ItemsSource="{Binding VersionsAvailable}" VerticalAlignment="Center" ItemTemplate="{DynamicResource DataTemplate1}" Width="165" SelectedItem="{Binding InstalledVersionModel}" Margin="0,0,10,0" SelectionChanged="Selector_OnSelectionChanged"></ComboBox>
                 </StackPanel>
             </Grid>
         </DataTemplate>
