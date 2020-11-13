@@ -57,7 +57,6 @@
                     </StackPanel>
                 </Grid>
                 <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="{Binding Language, ConverterParameter=About.Thanks, Converter={StaticResource LocConverter}}" TextWrapping="WrapWithOverflow"/>
-                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{DynamicResource SystemBaseHighColorBrush}" TextWrapping="WrapWithOverflow"><Run Text="Translators:"/><LineBreak/><LineBreak/><Run Text="Teun - Dutch"/><LineBreak/><Run Text="Grifka - French"/><LineBreak/><Run Text="Crashniels - German"/><LineBreak/><Run Text="Sicily94 - Italian"/><LineBreak/><Run Text="DrMeteor - Portugese"/><LineBreak/><Run Text="Ksusha Volkova - Russian"/><LineBreak/><Run Text="Ed3n18 - Spanish"/><LineBreak/><LineBreak/><Run Text="All Patrons and Donators"/></TextBlock>
             </StackPanel>
         </ScrollViewer>
         <Grid Grid.Column="1">

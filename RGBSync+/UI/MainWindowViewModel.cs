@@ -40,7 +40,7 @@ namespace RGBSyncPlus.UI
                     new TabItem("", "Profiles","profiles"),
                     new TabItem("","Store","store"),
                     new TabItem("","About","about"),
-                    new TabItem("","Crash","crashme")
+                    //new TabItem("","Crash","crashme")
                 };
 
                 foreach (TabItem tabItem in ti.Where(x => x != null && !string.IsNullOrWhiteSpace(x.Key)))
