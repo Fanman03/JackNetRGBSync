@@ -65,10 +65,9 @@ namespace Launcher
 
                 int maxReleaseNumber = usableUrls.Values.Max();
 
-                if (Core.LauncherPrefs.ReleaseInstalled != maxReleaseNumber ||
-                    Core.LauncherPrefs.ReleaseTypeInstalled != releaseType)
+                if (Core.LauncherPrefs.ReleaseInstalled != maxReleaseNumber || Core.LauncherPrefs.ReleaseTypeInstalled != releaseType)
                 {
-
+                    File.Delete("RGBSync+.exe");
 
                     vm.Message = "Installing " + releaseType + " release " + maxReleaseNumber;
 
@@ -140,9 +139,7 @@ namespace Launcher
 
             if (!dir.Exists)
             {
-                throw new DirectoryNotFoundException(
-                    "Source directory does not exist or could not be found: "
-                    + sourceDirName);
+                throw new DirectoryNotFoundException("Source directory does not exist or could not be found: " + sourceDirName);
             }
 
             DirectoryInfo[] dirs = dir.GetDirectories();
@@ -157,6 +154,7 @@ namespace Launcher
             foreach (FileInfo file in files)
             {
                 string temppath = Path.Combine(destDirName, file.Name);
+                Debug.WriteLine("Copying to "+temppath);
                 file.CopyTo(temppath, true);
             }
 

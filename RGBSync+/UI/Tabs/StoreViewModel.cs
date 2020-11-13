@@ -143,6 +143,18 @@ namespace RGBSyncPlus.UI.Tabs
             }
         }
 
+        private bool showInstalled;
+
+        public bool ShowInstalled
+        {
+            get => showInstalled;
+            set
+            {
+                SetProperty(ref showInstalled, value);
+                OnPropertyChanged("FilteredPlugins");
+            }
+        }
+
 
         public static BitmapImage ToBitmapImage(Bitmap bitmap)
         {

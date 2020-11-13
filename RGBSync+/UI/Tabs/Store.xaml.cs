@@ -255,12 +255,23 @@ namespace RGBSyncPlus.UI.Tabs
 
         private void ToggleStore(object sender, RoutedEventArgs e)
         {
-            vm.ShowStore = !vm.ShowStore;
+            vm.ShowUpdates = false;
+            vm.ShowStore = true;
+            vm.ShowInstalled = false;
         }
 
         private void ToggleUpdates(object sender, RoutedEventArgs e)
         {
-            vm.ShowUpdates = !vm.ShowUpdates;
+            vm.ShowUpdates = true;
+            vm.ShowStore = false;
+            vm.ShowInstalled = false;
+        }
+
+        private void ToggleInstalled(object sender, RoutedEventArgs e)
+        {
+            vm.ShowUpdates = false;
+            vm.ShowStore = false;
+            vm.ShowInstalled = true;
         }
 
         private void PluginSearchBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)

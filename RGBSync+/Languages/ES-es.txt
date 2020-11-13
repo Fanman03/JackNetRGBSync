@@ -58,7 +58,7 @@ Donate.Patreon	DONAR VÍA PATREEON
 Donate.PayPal	DONAR VÍA PAYPAL
 About.Thanks	Gracias a todos los Patrons, tradcutores y contribuidores a hacer este programa posible. Vuestras contribuciones son agradecidas.
 Devices.Info    Información
-Devices.SyncTo  Syncronizar a
+Devices.SyncTo  Sincronizar a
 Devices.InfoDriver  Controlador:
 Devices.InfoName    Nombre:
 Devices.InfoAuthor  Autor:
@@ -78,4 +78,42 @@ Generic.Off Apagado
 Generic.On  Encendido
 Generic.Yes Sí
 Generic.No  No
-
+Main.Devices    Dispositivos
+Main.Profiles   Perfiles
+Main.Store  Tienda
+Main.About  Acerca de
+Main.Crash  Fallo!
+Main.Settings   Ajustes
+Settings.ApiServer  Servidor API
+Settings.ApiServerHelp  Activar servidor RGB Sync Studio REST API
+Settings.RefreshFreq    Frequencia de Actualización
+Settings.RefreshFreqHelp    Ajusta la velocidad a la que se actualiza el RGB
+Settings.Language   Idioma
+Fan Ventilador
+LEDStrip    Tira LED
+GPU GPU
+MotherBoard Placa Base
+Keyboard    Teclado
+Keypad  Teclado Numérico
+Mouse   Ratón
+MousePad    Alfombrilla
+Headset Auriculares
+HeadsetStand    Soporte de Auriculares
+PSU PSU
+Cooler  Disipador
+Memory  Memoria
+Speaker Altavoz
+Other   Otro
+AIO AIO
+WaterBlock   Bloque de Agua
+Effect  Efecto
+Settings.StartAsAdmin Ejecutar como administrador
+Settings.StartAsAdminHelp Puede ayudar con la compatibilidad
+Settings.ReleaseType Tipo de cliente
+Settings.ReleaseTypeHelp ¿Qué tipo de versión quieres? Release es estable, Beta no tanto y Cl es inestable
+Settings.MinimizeToTray Minimización
+Settings.MinimizeToTrayHelp La app debe minimizar a la barra de tareas o al área de notificaciones
+Settings.MinimizeOnStart Minimizar al iniciar
+Settings.MinimizeOnStartHelp La app debe mostrarse al inciar, o minimizarse instantáneamente
+Settings.Experimental Drivers Experimentales
+Settings.ExperimentalHelp Muestra los drivers experimentales en la tienda
