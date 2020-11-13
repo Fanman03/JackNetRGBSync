@@ -51,8 +51,41 @@ namespace RGBSyncPlus.Model
             }
         }
 
+        public class PluginVersionDetails : BaseViewModel
+        {
+            private bool isExperimental;
+
+            public bool IsExperimental
+            {
+                get => isExperimental;
+                set => SetProperty(ref isExperimental, value);
+            }
+
+            private ReleaseNumber releaseNumber;
+            public ReleaseNumber ReleaseNumber
+            {
+                get => releaseNumber;
+                set => SetProperty(ref releaseNumber, value);
+            }
+
+            private bool isInstalled;
+            public bool IsInstalled
+            {
+                get => isInstalled;
+                set => SetProperty(ref isInstalled, value);
+            }
+        }
+
         public class PluginDetailsViewModel : BaseViewModel
         {
+            private ObservableCollection<PluginVersionDetails> versionsAvailable = new ObservableCollection<PluginVersionDetails>();
+
+            public ObservableCollection<PluginVersionDetails> VersionsAvailable
+            {
+                get => versionsAvailable;
+                set => SetProperty(ref versionsAvailable, value);
+            }
+
             private BitmapImage image;
 
             public BitmapImage Image
@@ -176,6 +209,12 @@ namespace RGBSyncPlus.Model
             {
                 get => isHovered;
                 set => SetProperty(ref isHovered, value);
+            }
+
+            private PluginVersionDetails installedVersionModel;
+            public PluginVersionDetails InstalledVersionModel { 
+                get=>installedVersionModel; 
+                set=>SetProperty(ref installedVersionModel,value);
             }
 
             public PluginDetailsViewModel()

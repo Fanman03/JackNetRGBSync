@@ -19,20 +19,20 @@
         </Grid.ColumnDefinitions>
         <ScrollViewer>
             <StackPanel>
-                <TextBlock Margin="10" FontSize="36" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="RGB Sync Studio"/>
-                <TextBlock x:Name="textBlock" Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="{Binding Language, ConverterParameter=About.OrigDev, Converter={StaticResource LocConverter}}"/>
-                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="Jack Pendleton"/>
+                <TextBlock Margin="10" FontSize="36" FontFamily="Segoe UI Light" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="RGB Sync Studio"/>
+                <TextBlock x:Name="textBlock" Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="{Binding Language, ConverterParameter=About.OrigDev, Converter={StaticResource LocConverter}}"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Jack Pendleton"/>
 
-                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="{Binding Language, ConverterParameter=About.20dev, Converter={StaticResource LocConverter}}"/>
-                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="James Johnston"/>
-                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="Jack Pendleton"/>
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="{Binding Language, ConverterParameter=About.20dev, Converter={StaticResource LocConverter}}"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="James Johnston"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Jack Pendleton"/>
 
-                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="{Binding Language, ConverterParameter=About.simpleleddev, Converter={StaticResource LocConverter}}"/>
-                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="James Johnston"/>
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="{Binding Language, ConverterParameter=About.simpleleddev, Converter={StaticResource LocConverter}}"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="James Johnston"/>
 
                 <Grid Background="#40000000" Grid.ColumnSpan="2">
                     <StackPanel>
-                        <TextBlock Margin="10,0,5,10" FontSize="14" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" Text="{Binding Language, ConverterParameter=About.Donations, Converter={StaticResource LocConverter}}" TextWrapping="WrapWithOverflow"/>
+                        <TextBlock Margin="10,0,5,10" FontSize="14" FontFamily="Segoe UI Light" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="{Binding Language, ConverterParameter=About.Donations, Converter={StaticResource LocConverter}}" TextWrapping="WrapWithOverflow"/>
                         <StackPanel Orientation="Horizontal">
                             <Button Margin="5" FontFamily="Segoe UI" Padding="5" Foreground="White" Width="140" Click="DonatePatreon" Content="{Binding Language, ConverterParameter=Donate.Patreon, Converter={StaticResource LocConverter}}">
                                 <Button.Background>
@@ -56,8 +56,8 @@
                         </StackPanel>
                     </StackPanel>
                 </Grid>
-                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{StaticResource BrushForeground}" Text="{Binding Language, ConverterParameter=About.Thanks, Converter={StaticResource LocConverter}}" TextWrapping="WrapWithOverflow"/>
-                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{StaticResource BrushForeground}" TextWrapping="WrapWithOverflow"><Run Text="Translators:"/><LineBreak/><LineBreak/><Run Text="Teun - Dutch"/><LineBreak/><Run Text="Grifka - French"/><LineBreak/><Run Text="Crashniels - German"/><LineBreak/><Run Text="Sicily94 - Italian"/><LineBreak/><Run Text="DrMeteor - Portugese"/><LineBreak/><Run Text="Ksusha Volkova - Russian"/><LineBreak/><Run Text="Ed3n18 - Spanish"/><LineBreak/><LineBreak/><Run Text="All Patrons and Donators"/></TextBlock>
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="{Binding Language, ConverterParameter=About.Thanks, Converter={StaticResource LocConverter}}" TextWrapping="WrapWithOverflow"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{DynamicResource SystemBaseHighColorBrush}" TextWrapping="WrapWithOverflow"><Run Text="Translators:"/><LineBreak/><LineBreak/><Run Text="Teun - Dutch"/><LineBreak/><Run Text="Grifka - French"/><LineBreak/><Run Text="Crashniels - German"/><LineBreak/><Run Text="Sicily94 - Italian"/><LineBreak/><Run Text="DrMeteor - Portugese"/><LineBreak/><Run Text="Ksusha Volkova - Russian"/><LineBreak/><Run Text="Ed3n18 - Spanish"/><LineBreak/><LineBreak/><Run Text="All Patrons and Donators"/></TextBlock>
             </StackPanel>
         </ScrollViewer>
         <Grid Grid.Column="1">

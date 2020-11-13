@@ -113,6 +113,18 @@ namespace RGBSyncPlus.Model
                 }
             }
 
+            private bool experimental;
+
+            public bool Experimental
+            {
+                get => experimental;
+                set
+                {
+                    SetProperty(ref experimental, value);
+                    AreSettingsStale = true;
+                }
+            }
+
             private ObservableCollection<NGDeviceSettings> deviceSettings;
 
             public ObservableCollection<NGDeviceSettings> DeviceSettings

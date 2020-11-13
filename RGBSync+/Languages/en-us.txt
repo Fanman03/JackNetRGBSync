@@ -41,6 +41,7 @@ Settings.MinimizeOnStart Minimize On Start
 Settings.MinimizeOnStartHelp Should the app show its window on start, or instantly minimize?
 Store.ExperimentalBtnText	Experimental
 Store.FilterLabel	Search
+Store.Plugin.UpdateAvail	Update Available
 Store.Plugin.DisableBtnLabel	Disable
 Store.Plugin.InstallBtnLabel	Installed 
 Store.Plugin.InstalledBtnLabel	Installed 
@@ -51,6 +52,10 @@ Store.RestartAllBtnText	Restart All
 Store.ShowStore Show Store
 Store.Experimental  Toggle Experimental
 Store.Updates   Toggle Updates
+Store.StoreButton   Store
+Store.NotStoreButton   Installed
+Store.ExperimentalButton    Experimental
+Store.UpdatesButton Updates
 TrayMenu.ExitAppItem	Exit App
 TrayMenu.OpenUIItem	Open App
 TrayMenu.RestartAppItem	Restart App
@@ -109,6 +114,8 @@ Settings.ApiServerHelp  Enable this to enable RGB Sync Studio REST API Server
 Settings.RefreshFreq    Refresh Frequency
 Settings.RefreshFreqHelp    Adjust the number of timers per second RGB is updated
 Settings.Language   Language
+Settings.Experimental   Experimental Drivers
+Settings.ExperimentalHelp   Show experimental drivers in the store
 Fan Fan
 LEDStrip    LED Strip
 GPU GPU

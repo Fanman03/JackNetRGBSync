@@ -19,6 +19,7 @@ namespace RGBSyncPlus.UI.Tabs
     {
         public StoreViewModel()
         {
+            ShowPreRelease = ApplicationManager.Instance.NGSettings.Experimental;
             storeHandler = new StoreHandler();
 
             LoadStoreAndPlugins();
@@ -112,13 +113,11 @@ namespace RGBSyncPlus.UI.Tabs
                 {
                     if (ShowStore)
                     {
-                        return new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(Plugins.Where(x =>
-                            !x.Installed));
+                        return new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(Plugins);
                     }
                     else
                     {
-                        return new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(Plugins.Where(x =>
-                            x.Installed));
+                        return new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(Plugins.Where(x => x.Installed));
                     }
                 }
             }
@@ -255,8 +254,31 @@ namespace RGBSyncPlus.UI.Tabs
 
                     var tmp = new PositionalAssignment.PluginDetailsViewModel(new PositionalAssignment.PluginDetails(insertThis));
                     tmp.Versions = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(driverPropertieses.Select(x => new PositionalAssignment.PluginDetailsViewModel(new PositionalAssignment.PluginDetails(x), true)).ToList());
+                    tmp.VersionsAvailable = new ObservableCollection<PositionalAssignment.PluginVersionDetails>(driverPropertieses.OrderByDescending(x=>x.CurrentVersion).Select(x=>new PositionalAssignment.PluginVersionDetails
+                    {
+                        ReleaseNumber = x.CurrentVersion,
+                        IsExperimental = !x.IsPublicRelease,
+                        IsInstalled = installedThingy!=null && x.CurrentVersion.ToString() == installedThingy.Version
+                    }));
 
                     tmp.Image = GetIcon(tmp.PluginId);
+
+                    tmp.InstalledVersionModel = null;
+                    tmp.InstalledVersionModel = tmp.VersionsAvailable.FirstOrDefault(x => x.IsInstalled);
+
+                    if (tmp.InstalledVersionModel == null)
+                    {
+                        var xx = new PositionalAssignment.PluginVersionDetails
+                        {
+                            ReleaseNumber = new ReleaseNumber(0,0,0,-1),
+                            
+                        };
+
+                        tmp.VersionsAvailable.Add(xx);
+
+                        tmp.InstalledVersionModel = xx;
+
+                    }
 
                     Plugins.Add(tmp);
                     StoreOnly.Add(tmp);
@@ -349,7 +371,12 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void FilterPlugins()
         {
-            foreach (var pluginDetailsViewModel in Plugins)
+            if (Plugins == null) return;
+
+            var groupedPlugins = Plugins.GroupBy(x => x.PluginId);
+
+
+            foreach (PositionalAssignment.PluginDetailsViewModel pluginDetailsViewModel in Plugins)
             {
                 ReleaseNumber highestApplicable;
 
@@ -433,7 +460,7 @@ namespace RGBSyncPlus.UI.Tabs
                     pluginDetailsViewModel.InstalledButOutdated = pluginDetailsViewModel.Installed && highestApplicable > installedVersion.GetProperties().CurrentVersion;
 
                     pluginDetailsViewModel.Visible =
-                        (ShowPreRelease || !pluginDetailsViewModel.PreRelease) &&
+                        (ShowPreRelease || !pluginDetailsViewModel.PreRelease || (!ShowStore && !ShowUpdates)) &&
                         (string.IsNullOrWhiteSpace(PluginSearch) ||
                          pluginDetailsViewModel.Name.ToLower().Contains(PluginSearch.ToLower())
                          ||
@@ -442,10 +469,31 @@ namespace RGBSyncPlus.UI.Tabs
                          (pluginDetailsViewModel.Blurb != null &&
                           pluginDetailsViewModel.Blurb.ToLower().Contains(PluginSearch.ToLower()))
                         );
+
+                    //pluginDetailsViewModel.VersionsAvailable.Clear();
+                    //foreach (var detailsViewModel in pluginDetailsViewModel.Versions.OrderByDescending(x => new ReleaseNumber(x.Version)))
+                    //{
+                    //    var it = (new PositionalAssignment.PluginVersionDetails
+                    //    {
+                    //        ReleaseNumber = new ReleaseNumber(detailsViewModel.Version),
+                    //        IsExperimental = !detailsViewModel.PluginDetails.DriverProperties.IsPublicRelease,
+                    //        IsInstalled = pluginDetailsViewModel.Version == detailsViewModel.Version
+                    //    });
+
+                    //    pluginDetailsViewModel.VersionsAvailable.Add(it);
+
+                    //    if (detailsViewModel.Version == pluginDetailsViewModel.Version)
+                    //    {
+                    //        pluginDetailsViewModel.InstalledVersionModel = it;
+                    //    }
+                    //}
                 }
 
-
+               
             }
+
+            OnPropertyChanged("Plugins");
+            OnPropertyChanged("FilteredPlugins");
         }
 
         private StoreHandler storeHandler;

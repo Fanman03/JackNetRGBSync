@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -47,8 +48,12 @@ namespace RGBSyncPlus
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            if (!Debugger.IsAttached)
+            {
+                this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+            }
 
-            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+
             try
             {
                 ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(int.MaxValue));
