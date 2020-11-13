@@ -13,6 +13,7 @@
         <Converter:LocConverter x:Key="LocConverter"/>
         <DataTemplate x:Key="LanguageSelector">
             <StackPanel Orientation="Horizontal">
+                <TextBlock FontFamily="Segoe UI Emoji" Text="{Binding Emoji}" FontSize="24"></TextBlock>
                 <TextBlock Text="{Binding Name}"/>
             </StackPanel>
         </DataTemplate>

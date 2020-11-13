@@ -98,7 +98,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         public ObservableCollection<LanguageOption> Languages { get; set; } =
             new ObservableCollection<LanguageOption>(
-                LanguageManager.Languages.Select(x => new LanguageOption { Name = x.NativeName, Code = x.Code }));
+                LanguageManager.Languages.Select(x => new LanguageOption { Name = x.NativeName, Code = x.Code , Emoji = x.Emoji}));
 
 
         private LanguageOption currentLanguage;
@@ -118,6 +118,7 @@ namespace RGBSyncPlus.UI.Tabs
         }
         public class LanguageOption
         {
+            public string Emoji { get; set; }
             public string Name { get; set; }
             public string Code { get; set; }
         }

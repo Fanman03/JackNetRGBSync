@@ -14,6 +14,7 @@ namespace RGBSyncPlus.Languages
         public string Code { get; set; }
         public string EnglishName { get; set; }
         public string NativeName { get; set; }
+        public string Emoji { get; set; }
         public List<LanguageItem> Items { get; set; }
 
         public class LanguageItem
@@ -30,6 +31,7 @@ namespace RGBSyncPlus.Languages
             this.Code = lines[0];
             this.EnglishName = lines[2];
             this.NativeName = lines[1];
+            //this.Emoji = lines[3];
 
             this.Items = new List<LanguageItem>();
             foreach (string s in lines.Skip(3))
