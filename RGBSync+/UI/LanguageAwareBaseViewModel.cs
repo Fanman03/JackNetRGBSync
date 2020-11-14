@@ -4,8 +4,6 @@ namespace RGBSyncPlus.UI
 {
     public class LanguageAwareBaseViewModel : BaseViewModel
     {
-        private readonly bool hasSetEvent;
-
         public LanguageAwareBaseViewModel()
         {
             try

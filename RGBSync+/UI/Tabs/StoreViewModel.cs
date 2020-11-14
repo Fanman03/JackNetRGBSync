@@ -16,12 +16,26 @@ namespace RGBSyncPlus.UI.Tabs
 {
     public class StoreViewModel : LanguageAwareBaseViewModel
     {
+        private StoreHandler storeHandler;
         public StoreViewModel()
         {
+
+        }
+
+        public void Init()
+        {
             ShowPreRelease = ApplicationManager.Instance.NGSettings.Experimental;
+
             storeHandler = new StoreHandler();
 
-            LoadStoreAndPlugins();
+            if (!Debugger.IsAttached)
+            {
+                LoadStoreAndPlugins();
+
+                ShowInstalled = true;
+                ShowStore = false;
+                ShowUpdates = false;
+            }
         }
 
         private MainWindowViewModel mainVm
@@ -104,6 +118,11 @@ namespace RGBSyncPlus.UI.Tabs
         {
             get
             {
+                if (Plugins == null)
+                {
+                    return null;
+                }
+
                 if (ShowUpdates)
                 {
                     return new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(Plugins.Where(x => x.InstalledButOutdated));
@@ -507,6 +526,6 @@ namespace RGBSyncPlus.UI.Tabs
             OnPropertyChanged("FilteredPlugins");
         }
 
-        private readonly StoreHandler storeHandler;
+        
     }
 }

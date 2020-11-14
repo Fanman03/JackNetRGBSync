@@ -42,27 +42,21 @@ namespace Launcher
 
         private async Task StartCheck()
         {
-            //Process[] processlist = Process.GetProcesses();
-
-            //if (processlist.Any(x => x.ProcessName == "RGBSync+"))
-            //{
-            //    var proc = processlist.First(x => x.ProcessName == "RGBSync+");
-            //    proc.Kill();
-            //    proc.Dispose();
-            //    proc = null;
-
-            //}
-           
 
             Process[] processlist = Process.GetProcesses();
 
             if (processlist.Any(x => x.ProcessName == "RGBSync+"))
             {
-                var proc = processlist.First(x => x.ProcessName == "RGBSync+");
-                proc.Kill();
-                proc.Dispose();
-                proc = null;
-
+                try
+                {
+                    var proc = processlist.First(x => x.ProcessName == "RGBSync+");
+                    proc.Kill();
+                    proc.Dispose();
+                    proc = null;
+                }
+                catch
+                {
+                }
             }
 
             if (File.Exists("launcherPrefs.json"))

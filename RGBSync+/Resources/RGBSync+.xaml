@@ -26,16 +26,16 @@
     <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
-    <Style TargetType="{x:Type controls:BlurredDecorationWindow}" BasedOn="{StaticResource StyleBlurredDecorationWindow}" />
+    <!--<Style TargetType="{x:Type controls:BlurredDecorationWindow}" BasedOn="{StaticResource StyleBlurredDecorationWindow}" />
     <Style TargetType="{x:Type controls:ImageButton}" BasedOn="{StaticResource StyleImageButton}" />
     <Style TargetType="{x:Type controls:Form}" BasedOn="{StaticResource StyleForm}" />
-    <Style TargetType="GroupBox" BasedOn="{StaticResource StyleGroupBoxBox}" />
+    <Style TargetType="GroupBox" BasedOn="{StaticResource StyleGroupBoxBox}" />-->
     <!--<Style TargetType="ComboBox" BasedOn="{StaticResource StyleComboBox}" />-->
     <!-- <Style TargetType="Button" BasedOn="{StaticResource StyleButton}" /> -->
-    <Style TargetType="ListBox" BasedOn="{StaticResource StyleListBox}" />
+    <!--<Style TargetType="ListBox" BasedOn="{StaticResource StyleListBox}" />
     <Style TargetType="ListView" BasedOn="{StaticResource StyleListView}" />
     <Style TargetType="Slider" BasedOn="{StaticResource StyleSlider}" />
-    <Style TargetType="TextBox" BasedOn="{StaticResource StyleTextBox}" />
+    <Style TargetType="TextBox" BasedOn="{StaticResource StyleTextBox}" />-->
     <!--<Style TargetType="CheckBox" BasedOn="{StaticResource StyleCheckBox}" />-->
     <Style TargetType="{x:Type ContextMenu}">
       <Setter Property = "FontSize" Value="14"/>  

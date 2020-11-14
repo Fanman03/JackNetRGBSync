@@ -488,20 +488,7 @@ namespace RGBSyncPlus.Model
             }
 
             public Action<object> SyncBack;
-            private readonly bool suspendRollUp = false;
-
-            private ControlDevice sourceDevice;
-
-            public ControlDevice SourceDevice
-            {
-                get => sourceDevice;
-                set
-                {
-                    SetProperty(ref sourceDevice, value);
-                    ProviderName = value.Driver.Name();
-                }
-            }
-
+            
             public string ProviderName { get; set; }
             private bool enabled;
 

@@ -13,9 +13,9 @@
         
         <!-- ReSharper disable Xaml.RedundantStyledValue -  -->
         <Setter Property="attached:SliderValue.IsShown" Value="True" />
-        <Setter Property="attached:SliderValue.Background" Value="{StaticResource BrushTooltipBackground}" />
+        <!--<Setter Property="attached:SliderValue.Background" Value="{StaticResource BrushTooltipBackground}" />
         <Setter Property="attached:SliderValue.BorderBrush" Value="{StaticResource BrushTooltipBorder}" />
-        <Setter Property="attached:SliderValue.Foreground" Value="{StaticResource BrushTooltipForeground}" />
+        <Setter Property="attached:SliderValue.Foreground" Value="{StaticResource BrushTooltipForeground}" />-->
         <Setter Property="attached:SliderValue.FontSize" Value="{StaticResource FontSizeTooltip}" />
         <Setter Property="attached:SliderValue.Font" Value="pack://application:,,,/Resources/#Cinzel" />
         <!-- ReSharper restore Xaml.RedundantStyledValue -->

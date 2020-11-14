@@ -3,6 +3,7 @@ using RGBSyncPlus.Model;
 using SharpCompress.Archives;
 using SimpleLed;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -23,6 +24,11 @@ namespace RGBSyncPlus.UI.Tabs
         {
             InitializeComponent();
             ApplicationManager.Instance.SLSManager.RescanRequired += SLSManagerOnRescanRequired;
+
+            if (!DesignerProperties.GetIsInDesignMode(this))
+            {
+                (this.DataContext as StoreViewModel)?.Init();
+            }
         }
 
         private void SLSManagerOnRescanRequired(object sender, EventArgs e)

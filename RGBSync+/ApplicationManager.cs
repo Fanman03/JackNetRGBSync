@@ -1025,28 +1025,7 @@ namespace RGBSyncPlus
             //SLSDevices = SLSManager.GetDevices();
             loadingSplash.ProgressBar.Value = 0;
             loadingSplash.ProgressBar.Maximum = SLSManager.Drivers.Count;
-
-            int ct = 0;
-            List<ControlDevice> controlDevices = new List<ControlDevice>();
-            foreach (ISimpleLed simpleLedDriver in SLSManager.Drivers)
-            {
-                ct++;
-                loadingSplash.ProgressBar.Value = ct;
-                try
-                {
-                    loadingSplash.LoadingText.Text = "Getting devices from " + simpleLedDriver.Name();
-                    //var devices = simpleLedDriver.GetDevices();
-                    //if (devices != null)
-                    {
-                        //  controlDevices.AddRange(devices);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                }
-            }
-
+            
         }
 
 
@@ -1125,14 +1104,6 @@ namespace RGBSyncPlus
             Application.Current.Shutdown();
         }
 
-        public void ExecuteAsAdmin(string fileName)
-        {
-            Process proc = new Process();
-            proc.StartInfo.FileName = fileName;
-            proc.StartInfo.UseShellExecute = true;
-            proc.StartInfo.Verb = "runas";
-            proc.Start();
-        }
 
         private void TechSupport() => System.Diagnostics.Process.Start("https://rgbsync.com/discord");
 
