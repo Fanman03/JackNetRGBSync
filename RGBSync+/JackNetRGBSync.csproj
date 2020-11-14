@@ -390,9 +390,6 @@
     <PackageReference Include="HidSharp">
       <Version>2.1.0</Version>
     </PackageReference>
-    <PackageReference Include="ilmerge">
-      <Version>3.0.29</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.AspNet.WebApi.SelfHost">
       <Version>5.2.7</Version>
     </PackageReference>
@@ -401,9 +398,6 @@
     </PackageReference>
     <PackageReference Include="NLog">
       <Version>4.7.0</Version>
-    </PackageReference>
-    <PackageReference Include="RGB.NET.Groups">
-      <Version>0.1.32</Version>
     </PackageReference>
     <PackageReference Include="SharpCompress">
       <Version>0.26.0</Version>
@@ -600,6 +594,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FluentWPF\FluentWPF.csproj">
+      <Project>{23a9ed3d-5354-4707-91e3-5a57104779bf}</Project>
+      <Name>FluentWPF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Launcher\Launcher.csproj">
       <Project>{400FEC06-C6E7-4A09-80A6-B9A4E750D41A}</Project>
       <Name>Launcher</Name>
