@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "..\Launcher\Lau
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedCode", "..\SharedCode\SharedCode.shproj", "{285A3E6C-652A-4CA2-9B27-3A4DC4E1177B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentWPF", "..\..\FluentWPF\FluentWPF\FluentWPF.csproj", "{1CE281BF-51D8-4668-9BF8-C13C41F04B42}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\SharedCode\SharedCode.projitems*{285a3e6c-652a-4ca2-9b27-3a4dc4e1177b}*SharedItemsImports = 13
@@ -37,6 +39,14 @@ Global
 		{400FEC06-C6E7-4A09-80A6-B9A4E750D41A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{400FEC06-C6E7-4A09-80A6-B9A4E750D41A}.Release|x64.ActiveCfg = Release|Any CPU
 		{400FEC06-C6E7-4A09-80A6-B9A4E750D41A}.Release|x64.Build.0 = Release|Any CPU
+		{1CE281BF-51D8-4668-9BF8-C13C41F04B42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CE281BF-51D8-4668-9BF8-C13C41F04B42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CE281BF-51D8-4668-9BF8-C13C41F04B42}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1CE281BF-51D8-4668-9BF8-C13C41F04B42}.Debug|x64.Build.0 = Debug|Any CPU
+		{1CE281BF-51D8-4668-9BF8-C13C41F04B42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CE281BF-51D8-4668-9BF8-C13C41F04B42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CE281BF-51D8-4668-9BF8-C13C41F04B42}.Release|x64.ActiveCfg = Release|Any CPU
+		{1CE281BF-51D8-4668-9BF8-C13C41F04B42}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
