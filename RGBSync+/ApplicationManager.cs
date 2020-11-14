@@ -1,7 +1,7 @@
 ﻿using DiscordRPC;
 using Newtonsoft.Json;
 using NLog;
-using RGB.NET.Core;
+
 using RGBSyncPlus.Configuration;
 using RGBSyncPlus.Helper;
 using RGBSyncPlus.Languages;
@@ -51,7 +51,9 @@ namespace RGBSyncPlus
         public LauncherPrefs LauncherPrefs { get; set; } = new LauncherPrefs();
 
         //  public AppSettings AppSettings { get; set; } = new AppSettings();
-        public TimerUpdateTrigger UpdateTrigger { get; private set; } = new TimerUpdateTrigger();
+        //public TimerUpdateTrigger UpdateTrigger { get; private set; } = new TimerUpdateTrigger();
+
+        public DispatcherTimer UpdateTrigger { get; private set; } = new DispatcherTimer();
 
         #endregion
 
@@ -262,12 +264,11 @@ namespace RGBSyncPlus
             if (UpdateTrigger != null)
             {
                 UpdateTrigger.Stop();
-                UpdateTrigger.Dispose();
             }
 
             double tmr = 1.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
             double tmr2 = 1000.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
-            UpdateTrigger = new TimerUpdateTrigger { UpdateFrequency = tmr };
+            UpdateTrigger = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(tmr)};
 
             //  loadingSplash.LoadingText.Text = "Registering Update Trigger";
 

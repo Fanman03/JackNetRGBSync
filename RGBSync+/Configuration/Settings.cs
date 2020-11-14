@@ -17,11 +17,7 @@ namespace RGBSyncPlus.Configuration
 
         public string Name { get; set; } = "Default";
 
-        public List<SyncGroup> SyncGroups
-        {
-            get; set;
-        }
-
+        
         private List<DeviceMappingModels.DeviceMapping> deviceMappingProxy;
 
         public List<DeviceMappingModels.DeviceMapping> DeviceMappingProxy

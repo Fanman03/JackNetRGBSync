@@ -1,4 +1,4 @@
-﻿using RGB.NET.Core;
+﻿
 using System.Diagnostics;
 
 namespace RGBSyncPlus.Configuration
@@ -30,7 +30,7 @@ namespace RGBSyncPlus.Configuration
         }
         public bool EnableDiscordRPC { get; set; } = true;
         public bool RunAsAdmin { get; set; } = false;
-        public RGBDeviceType DeviceTypes { get; set; } = RGBDeviceType.All;
+        //public RGBDeviceType DeviceTypes { get; set; } = RGBDeviceType.All;
         public bool EnableClient { get; set; } = false;
         public bool EnableServer { get; set; } = false;
         public string BackgroundImg { get; set; } = "default";

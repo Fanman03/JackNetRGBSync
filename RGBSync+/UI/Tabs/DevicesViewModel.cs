@@ -56,7 +56,7 @@ namespace RGBSyncPlus.UI.Tabs
         private ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> deviceMappingViewModel;
         public ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> DeviceMappingViewModel { get => deviceMappingViewModel; set => SetProperty(ref deviceMappingViewModel, value); }
 
-        public ObservableCollection<DeviceGroup> Devices { get; set; } = new ObservableCollection<DeviceGroup>();
+        
         private int devicesSelectedCount = 0;
         public int DevicesSelectedCount
         {

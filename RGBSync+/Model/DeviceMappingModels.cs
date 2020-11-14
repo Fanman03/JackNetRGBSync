@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using RGB.NET.Core;
+
 using SimpleLed;
 using System;
 using System.Collections.Generic;
@@ -200,7 +200,7 @@ namespace RGBSyncPlus.Model
             public Guid Id { get; set; }
         }
 
-        public class NGDeviceSettings : AbstractBindable
+        public class NGDeviceSettings : BaseViewModel
         {
             [JsonIgnore] public bool AreDeviceSettingsStale;
 
@@ -277,7 +277,7 @@ namespace RGBSyncPlus.Model
             }
         }
 
-        public class SourceModel : AbstractBindable
+        public class SourceModel : BaseViewModel
         {
             private bool isHidden;
 
@@ -331,7 +331,7 @@ namespace RGBSyncPlus.Model
             public ControlDevice Device { get; set; }
         }
 
-        public class NGDeviceProfileSettings : AbstractBindable
+        public class NGDeviceProfileSettings : BaseViewModel
         {
             [JsonIgnore]
             public ControlDevice Device { get; set; }
@@ -392,7 +392,7 @@ namespace RGBSyncPlus.Model
 
         }
 
-        public class Device : AbstractBindable
+        public class Device : BaseViewModel
         {
             private bool selected;
 
@@ -474,7 +474,7 @@ namespace RGBSyncPlus.Model
             }
         }
 
-        public class DeviceMappingViewModel : AbstractBindable
+        public class DeviceMappingViewModel : BaseViewModel
         {
             public DeviceMappingViewModel()
             {
@@ -529,7 +529,7 @@ namespace RGBSyncPlus.Model
             public Guid Id { get; set; }
         }
 
-        public class DeviceMappingItemViewModel : AbstractBindable
+        public class DeviceMappingItemViewModel : BaseViewModel
         {
             public Action<object> SyncBack;
             public ControlDevice DestinationDevice { get; set; }

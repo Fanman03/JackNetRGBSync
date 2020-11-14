@@ -1,9 +1,9 @@
-﻿using RGB.NET.Core;
+﻿//using RGB.NET.Core;
 
-namespace RGBSyncPlus.Model
-{
-    public class AbstractBindableExtended : AbstractBindable
-    {
+//namespace RGBSyncPlus.Model
+//{
+//    public class AbstractBindableExtended : AbstractBindable
+//    {
 
-    }
-}
+//    }
+//}
