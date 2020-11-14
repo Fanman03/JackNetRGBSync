@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFrameworks>net45;netcoreapp3.0</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>SourceChord.FluentWPF</RootNamespace>
+    
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyTrademarkAttribute>false</GenerateAssemblyTrademarkAttribute>
+    <GenerateAssemblyCultureAttribute>false</GenerateAssemblyCultureAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute> -->
+
+    <PackageProjectUrl>https://github.com/sourcechord/FluentWPF</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/sourcechord/FluentWPF/master/logo.png</PackageIconUrl>
+    <PackageTags>WPF XAML Fluent Design Theme Library</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Version>0.8.0</Version>
+    <Description>Fluent Design System for WPF</Description>
+    <Copyright>Copyright ©  2017</Copyright>
+    <Company>SourceChord</Company>
+    <AssemblyVersion>0.8.0.6</AssemblyVersion>
+    <FileVersion>0.8.0.6</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Assets\Images\noise.png" />
+    <None Remove="Assets\Images\noiseBlack.png" />
+    <None Remove="Assets\Images\noiseWhite.png" />
+    <None Remove="Styles\Brushes.xaml" />
+    <None Remove="Styles\Button.xaml" />
+    <None Remove="Styles\Colors.Dark.xaml" />
+    <None Remove="Styles\Colors.Light.xaml" />
+    <None Remove="Styles\Colors.xaml" />
+    <None Remove="Styles\Controls.xaml" />
+    <None Remove="Styles\ListBox.xaml" />
+    <None Remove="Styles\Menu.xaml" />
+    <None Remove="Styles\ScrollBar.xaml" />
+    <None Remove="Styles\TextBox.xaml" />
+    <None Remove="Styles\Window.xaml" />
+    <None Remove="Themes\Generic.xaml" />
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Images\noise.png" />
+    <Resource Include="Assets\Images\noiseBlack.png" />
+    <Resource Include="Assets\Images\noiseWhite.png" />
+  </ItemGroup>
+
+</Project>

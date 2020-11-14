@@ -600,10 +600,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FluentWPF\FluentWPF\FluentWPF.csproj">
-      <Project>{1ce281bf-51d8-4668-9bf8-c13c41f04b42}</Project>
-      <Name>FluentWPF</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Launcher\Launcher.csproj">
       <Project>{400FEC06-C6E7-4A09-80A6-B9A4E750D41A}</Project>
       <Name>Launcher</Name>
