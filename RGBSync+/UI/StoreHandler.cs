@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RGBSyncPlus.Model;
+using System.Collections.Generic;
 
 namespace RGBSyncPlus.UI
 {
@@ -15,7 +11,7 @@ namespace RGBSyncPlus.UI
         public List<PositionalAssignment.PluginDetails> DownloadStoreManifest()
         {
             string contents;
-            using (var wc = new System.Net.WebClient())
+            using (System.Net.WebClient wc = new System.Net.WebClient())
             {
                 contents = wc.DownloadString("https://raw.githubusercontent.com/SimpleLed/Store/master/manifest.json");
                 return (JsonConvert.DeserializeObject<List<PositionalAssignment.PluginDetails>>(contents));

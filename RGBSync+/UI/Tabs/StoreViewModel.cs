@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RGBSyncPlus.Model;
+using SimpleLed;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -7,11 +9,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using RGBSyncPlus.Model;
-using SimpleLed;
 
 namespace RGBSyncPlus.UI.Tabs
 {
@@ -29,10 +28,10 @@ namespace RGBSyncPlus.UI.Tabs
         {
             get
             {
-                var cfgWindow = ApplicationManager.Instance.ConfigurationWindow;
+                MainWindow cfgWindow = ApplicationManager.Instance.ConfigurationWindow;
                 if (cfgWindow != null)
                 {
-                    var cfgVm = cfgWindow.DataContext;
+                    object cfgVm = cfgWindow.DataContext;
                     return cfgVm as MainWindowViewModel;
                 }
 
@@ -95,12 +94,12 @@ namespace RGBSyncPlus.UI.Tabs
             get => plugins;
             set
             {
-                SetProperty(ref plugins, value); 
+                SetProperty(ref plugins, value);
                 OnPropertyChanged("FilteredPlugins");
             }
         }
 
-        private ObservableCollection<PositionalAssignment.PluginDetailsViewModel> filteredPlugins;
+        private readonly ObservableCollection<PositionalAssignment.PluginDetailsViewModel> filteredPlugins;
         public ObservableCollection<PositionalAssignment.PluginDetailsViewModel> FilteredPlugins
         {
             get
@@ -165,12 +164,12 @@ namespace RGBSyncPlus.UI.Tabs
 
             try
             {
-                using (var memory = new MemoryStream())
+                using (MemoryStream memory = new MemoryStream())
                 {
                     bitmap.Save(memory, ImageFormat.Png);
                     memory.Position = 0;
 
-                    var bitmapImage = new BitmapImage();
+                    BitmapImage bitmapImage = new BitmapImage();
                     bitmapImage.BeginInit();
                     bitmapImage.StreamSource = memory;
                     bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
@@ -195,12 +194,12 @@ namespace RGBSyncPlus.UI.Tabs
 
             LoadStoreAndPlugins();
 
-            ApplicationManager.Instance.Rescan(this,new EventArgs());
+            ApplicationManager.Instance.Rescan(this, new EventArgs());
         }
 
         public List<DriverProperties> GetStoreDrivers()
         {
-            var task = Task.Run(async () =>
+            Task<List<DriverProperties>> task = Task.Run(async () =>
             {
                 SimpleLedApiClient apiClient = new SimpleLedApiClient();
                 List<DriverProperties> storePlugins = await apiClient.GetProducts();
@@ -222,25 +221,25 @@ namespace RGBSyncPlus.UI.Tabs
 
                     PositionalAssignment.PluginDetailsViewModel pvm = new PositionalAssignment.PluginDetailsViewModel
                     {
-                       Author = pid.Author,
-                       Blurb = pid.Blurb,
-                       Id = pid.Id.ToString(),
-                       Installed = true,
-                       Name = slsManagerDriver.Name(),
-                       PluginId = pid.Id,
-                       Version = pid.CurrentVersion.ToString(),
-                       Visible = true,
-                       PluginDetails = new PositionalAssignment.PluginDetails
-                       {
-                           Version = pid.CurrentVersion,
-                           Id = pid.Id.ToString(),
-                           PluginId = pid.Id,
-                           DriverProperties = pid,
-                           Author = pid.Author,
-                           Name = slsManagerDriver.Name(),
-                           Repo = pid.GitHubLink
-                       }
-                       
+                        Author = pid.Author,
+                        Blurb = pid.Blurb,
+                        Id = pid.Id.ToString(),
+                        Installed = true,
+                        Name = slsManagerDriver.Name(),
+                        PluginId = pid.Id,
+                        Version = pid.CurrentVersion.ToString(),
+                        Visible = true,
+                        PluginDetails = new PositionalAssignment.PluginDetails
+                        {
+                            Version = pid.CurrentVersion,
+                            Id = pid.Id.ToString(),
+                            PluginId = pid.Id,
+                            DriverProperties = pid,
+                            Author = pid.Author,
+                            Name = slsManagerDriver.Name(),
+                            Repo = pid.GitHubLink
+                        }
+
                     };
 
                     Plugins.Add(pvm);
@@ -248,15 +247,15 @@ namespace RGBSyncPlus.UI.Tabs
 
                 //SetUpDeviceMapViewModel();
 
-                
+
                 List<DriverProperties> storePlugins = GetStoreDrivers();
 
-                var storePluginsByProduct = storePlugins.GroupBy(x => x.ProductId);
+                IEnumerable<IGrouping<Guid, DriverProperties>> storePluginsByProduct = storePlugins.GroupBy(x => x.ProductId);
 
                 foreach (IGrouping<Guid, DriverProperties> driverPropertieses in storePluginsByProduct)
                 {
 
-                    var insertThis = driverPropertieses.First();
+                    DriverProperties insertThis = driverPropertieses.First();
 
                     PositionalAssignment.PluginDetailsViewModel installedThingy = Plugins.FirstOrDefault(p => p.PluginId == insertThis.ProductId);
                     if (installedThingy != null)
@@ -264,13 +263,13 @@ namespace RGBSyncPlus.UI.Tabs
                         Plugins.Remove(installedThingy);
                     }
 
-                    var tmp = new PositionalAssignment.PluginDetailsViewModel(new PositionalAssignment.PluginDetails(insertThis));
+                    PositionalAssignment.PluginDetailsViewModel tmp = new PositionalAssignment.PluginDetailsViewModel(new PositionalAssignment.PluginDetails(insertThis));
                     tmp.Versions = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(driverPropertieses.Select(x => new PositionalAssignment.PluginDetailsViewModel(new PositionalAssignment.PluginDetails(x), true)).ToList());
-                    tmp.VersionsAvailable = new ObservableCollection<PositionalAssignment.PluginVersionDetails>(driverPropertieses.OrderByDescending(x=>x.CurrentVersion).Select(x=>new PositionalAssignment.PluginVersionDetails
+                    tmp.VersionsAvailable = new ObservableCollection<PositionalAssignment.PluginVersionDetails>(driverPropertieses.OrderByDescending(x => x.CurrentVersion).Select(x => new PositionalAssignment.PluginVersionDetails
                     {
                         ReleaseNumber = x.CurrentVersion,
                         IsExperimental = !x.IsPublicRelease,
-                        IsInstalled = installedThingy!=null && x.CurrentVersion.ToString() == installedThingy.Version
+                        IsInstalled = installedThingy != null && x.CurrentVersion.ToString() == installedThingy.Version
                     }));
 
                     tmp.Image = GetIcon(tmp.PluginId);
@@ -283,7 +282,7 @@ namespace RGBSyncPlus.UI.Tabs
                         //var xx = new PositionalAssignment.PluginVersionDetails
                         //{
                         //    ReleaseNumber = new ReleaseNumber(0,0,0,-1),
-                            
+
                         //};
 
                         //tmp.VersionsAvailable.Add(xx);
@@ -301,7 +300,7 @@ namespace RGBSyncPlus.UI.Tabs
 
                 //var ppu = pp.GroupBy(x => x.PluginId);
 
-                
+
 
                 //foreach (IGrouping<Guid, PositionalAssignment.PluginDetails> pluginDetailses in ppu)
                 //{
@@ -358,7 +357,7 @@ namespace RGBSyncPlus.UI.Tabs
 
                     string imageUrl = "https://github.com/SimpleLed/Store/raw/master/Icons/" + id + ".png";
                     Debug.WriteLine("Trying to fetch: " + imageUrl);
-                    var webClient = new WebClient();
+                    WebClient webClient = new WebClient();
                     using (Stream stream = webClient.OpenRead(imageUrl))
                     {
                         // make a new bmp using the stream
@@ -368,7 +367,7 @@ namespace RGBSyncPlus.UI.Tabs
                             stream.Flush();
                             stream.Close();
                             // write the bmp out to disk
-                            var image = ToBitmapImage(bitmap);
+                            BitmapImage image = ToBitmapImage(bitmap);
                             bitmap.Save("icons\\" + id + ".png");
                             return image;
                         }
@@ -385,7 +384,7 @@ namespace RGBSyncPlus.UI.Tabs
         {
             if (Plugins == null) return;
 
-            var groupedPlugins = Plugins.GroupBy(x => x.PluginId);
+            IEnumerable<IGrouping<Guid, PositionalAssignment.PluginDetailsViewModel>> groupedPlugins = Plugins.GroupBy(x => x.PluginId);
 
 
             foreach (PositionalAssignment.PluginDetailsViewModel pluginDetailsViewModel in Plugins)
@@ -411,7 +410,7 @@ namespace RGBSyncPlus.UI.Tabs
                     pluginDetailsViewModel.Installed = false;
                 }
 
-                foreach (var detailsViewModel in pluginDetailsViewModel.Versions)
+                foreach (PositionalAssignment.PluginDetailsViewModel detailsViewModel in pluginDetailsViewModel.Versions)
                 {
                     if (detailsViewModel.PluginDetails.DriverProperties.CurrentVersion != null &&
                         detailsViewModel.PluginDetails.DriverProperties.CurrentVersion > newestPublicFound &&
@@ -501,13 +500,13 @@ namespace RGBSyncPlus.UI.Tabs
                     //}
                 }
 
-               
+
             }
 
             OnPropertyChanged("Plugins");
             OnPropertyChanged("FilteredPlugins");
         }
 
-        private StoreHandler storeHandler;
+        private readonly StoreHandler storeHandler;
     }
 }

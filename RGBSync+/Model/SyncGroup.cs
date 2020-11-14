@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RGB.NET.Core;
 using RGB.NET.Groups;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace RGBSyncPlus.Model
 {

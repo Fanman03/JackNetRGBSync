@@ -1,16 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using RGBSyncPlus.UI;
+using SimpleLed;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.RightsManagement;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using RGBSyncPlus.UI;
-using SimpleLed;
 
 namespace RGBSyncPlus
 {
@@ -24,7 +20,7 @@ namespace RGBSyncPlus
             set => SetProperty(ref profileTriggers, value);
         }
 
-        private List<Guid> blockedTriggers = new List<Guid>();
+        private readonly List<Guid> blockedTriggers = new List<Guid>();
 
         public ProfileTriggerManager()
         {

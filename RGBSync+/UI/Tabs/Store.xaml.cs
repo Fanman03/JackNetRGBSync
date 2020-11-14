@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using RGBSyncPlus.Helper;
+﻿using RGBSyncPlus.Helper;
 using RGBSyncPlus.Model;
 using SharpCompress.Archives;
 using SimpleLed;
-using Path = System.IO.Path;
+using System;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace RGBSyncPlus.UI.Tabs
 {
@@ -31,15 +22,15 @@ namespace RGBSyncPlus.UI.Tabs
         public Store()
         {
             InitializeComponent();
-            ApplicationManager.Instance.SLSManager.RescanRequired+= SLSManagerOnRescanRequired;
+            ApplicationManager.Instance.SLSManager.RescanRequired += SLSManagerOnRescanRequired;
         }
 
         private void SLSManagerOnRescanRequired(object sender, EventArgs e)
         {
-          //  ReloadAllPlugins(sender, new RoutedEventArgs());
+            //  ReloadAllPlugins(sender, new RoutedEventArgs());
         }
 
-        private StoreViewModel vm => (StoreViewModel) DataContext;
+        private StoreViewModel vm => (StoreViewModel)DataContext;
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -57,14 +48,14 @@ namespace RGBSyncPlus.UI.Tabs
             double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
             double percentage = bytesIn / totalBytes * 100;
 
-            installingModal?.UpdateModalPercentage(mainVm, (int) percentage);
+            installingModal?.UpdateModalPercentage(mainVm, (int)percentage);
         }
 
         private SimpleModal installingModal;
 
         private async void InstallPlugin(object sender, RoutedEventArgs e)
         {
-            
+
             using (installingModal = new SimpleModal(mainVm, "Installing..."))
             {
                 ApplicationManager.Instance.PauseSyncing = true;
@@ -74,14 +65,14 @@ namespace RGBSyncPlus.UI.Tabs
 
                 if (((Button)sender).DataContext is PositionalAssignment.PluginDetailsViewModel bdc)
                 {
-                    var newest = bdc.Versions.First(x => x.Version == bdc.Version);
+                    PositionalAssignment.PluginDetailsViewModel newest = bdc.Versions.First(x => x.Version == bdc.Version);
                     //if (!vm.ShowPreRelease)
                     //{
                     //    newest = bdc.Versions.Where(x=>x.PluginDetails.DriverProperties.IsPublicRelease).OrderByDescending(x => x.PluginDetails.Version).First();
                     //}
 
-                    SimpleLedApiClient apiClient=new SimpleLedApiClient();
-                    var drver = await apiClient.GetProduct(newest.PluginId, new ReleaseNumber(bdc.Version));
+                    SimpleLedApiClient apiClient = new SimpleLedApiClient();
+                    byte[] drver = await apiClient.GetProduct(newest.PluginId, new ReleaseNumber(bdc.Version));
 
                     //string url = $"https://github.com/SimpleLed/Store/blob/master/{newest.Id}.7z?raw=true";
 
@@ -127,17 +118,17 @@ namespace RGBSyncPlus.UI.Tabs
 
                     using (Stream stream = new MemoryStream(drver))
                     {
-                        var thingy = SharpCompress.Archives.ArchiveFactory.Open(stream);
+                        IArchive thingy = SharpCompress.Archives.ArchiveFactory.Open(stream);
 
                         float mx = thingy.Entries.Count();
                         int ct = 0;
-                        foreach (var archiveEntry in thingy.Entries)
+                        foreach (IArchiveEntry archiveEntry in thingy.Entries)
                         {
 
                             archiveEntry.WriteToDirectory(pluginPath);
                             ct++;
 
-                            installingModal?.UpdateModalPercentage(mainVm, (int) (ct/mx)*100);
+                            installingModal?.UpdateModalPercentage(mainVm, (int)(ct / mx) * 100);
                         }
 
                         try
@@ -153,14 +144,14 @@ namespace RGBSyncPlus.UI.Tabs
                     ApplicationManager.Instance.LoadPlungFolder(pluginPath);
                 }
 
-                
+
                 //vm.ReloadStoreAndPlugins();
             }
 
         }
 
         private MainWindowViewModel mainVm =>
-            (MainWindowViewModel) ApplicationManager.Instance.ConfigurationWindow.DataContext;
+            (MainWindowViewModel)ApplicationManager.Instance.ConfigurationWindow.DataContext;
 
         private void ReloadAllPlugins(object sender, RoutedEventArgs e)
         {
@@ -173,7 +164,7 @@ namespace RGBSyncPlus.UI.Tabs
 
                 ApplicationManager.Instance.LoadSLSProviders();
                 vm.LoadStoreAndPlugins();
-                ApplicationManager.Instance.Rescan(this,new EventArgs());
+                ApplicationManager.Instance.Rescan(this, new EventArgs());
             }
 
         }
@@ -227,7 +218,7 @@ namespace RGBSyncPlus.UI.Tabs
 
                     if (existingPlugin is ISimpleLedWithConfig drv)
                     {
-                        var cfgUI = drv.GetCustomConfig(null);
+                        UserControl cfgUI = drv.GetCustomConfig(null);
                         ConfigHere.Children.Clear();
                         ConfigHere.Children.Add(cfgUI);
 
@@ -291,10 +282,10 @@ namespace RGBSyncPlus.UI.Tabs
                 return;
             }
 
-                if (e.RoutedEvent.Name == "SelectionChanged")
+            if (e.RoutedEvent.Name == "SelectionChanged")
             {
-                var parent = e.Source as ComboBox;
-                var parentDC = parent.DataContext as PositionalAssignment.PluginDetailsViewModel;
+                ComboBox parent = e.Source as ComboBox;
+                PositionalAssignment.PluginDetailsViewModel parentDC = parent.DataContext as PositionalAssignment.PluginDetailsViewModel;
 
                 using (installingModal = new SimpleModal(mainVm, "Installing..."))
                 {
@@ -302,16 +293,16 @@ namespace RGBSyncPlus.UI.Tabs
                     Task.Delay(TimeSpan.FromSeconds(1)).Wait();
                     ApplicationManager.Instance.UnloadSLSProviders();
 
-                    
-                    
 
-                    if (e.AddedItems!=null && e.AddedItems.Count>0)
+
+
+                    if (e.AddedItems != null && e.AddedItems.Count > 0)
                     {
-                        var bdc = e.AddedItems[0] as PositionalAssignment.PluginVersionDetails;
+                        PositionalAssignment.PluginVersionDetails bdc = e.AddedItems[0] as PositionalAssignment.PluginVersionDetails;
                         //var newest = bdc.Versions.First(x => x.Version == bdc.Version);
 
                         SimpleLedApiClient apiClient = new SimpleLedApiClient();
-                        var drver = await apiClient.GetProduct(parentDC.PluginId, bdc.ReleaseNumber);
+                        byte[] drver = await apiClient.GetProduct(parentDC.PluginId, bdc.ReleaseNumber);
 
 
                         string pluginPath = ApplicationManager.SLSPROVIDER_DIRECTORY + "\\" + parentDC.PluginId;
@@ -336,11 +327,11 @@ namespace RGBSyncPlus.UI.Tabs
 
                         using (Stream stream = new MemoryStream(drver))
                         {
-                            var thingy = SharpCompress.Archives.ArchiveFactory.Open(stream);
+                            IArchive thingy = SharpCompress.Archives.ArchiveFactory.Open(stream);
 
                             float mx = thingy.Entries.Count();
                             int ct = 0;
-                            foreach (var archiveEntry in thingy.Entries)
+                            foreach (IArchiveEntry archiveEntry in thingy.Entries)
                             {
 
                                 archiveEntry.WriteToDirectory(pluginPath);
@@ -368,7 +359,7 @@ namespace RGBSyncPlus.UI.Tabs
                 }
 
             }
-          //  throw new NotImplementedException();
+            //  throw new NotImplementedException();
         }
     }
 }

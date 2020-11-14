@@ -1,17 +1,15 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Resources;
-using System.Windows.Threading;
-using Hardcodet.Wpf.TaskbarNotification;
+﻿using Hardcodet.Wpf.TaskbarNotification;
 using Newtonsoft.Json;
 using RGBSyncPlus.Configuration;
 using RGBSyncPlus.Configuration.Legacy;
 using RGBSyncPlus.Helper;
 using RGBSyncPlus.UI;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace RGBSyncPlus
 {
@@ -35,7 +33,7 @@ namespace RGBSyncPlus
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             // Process unhandled exception
-            var crashWindow = new CrashWindow();
+            CrashWindow crashWindow = new CrashWindow();
             crashWindow.errorName.Text = e.Exception.GetType().ToString();
             crashWindow.message.Text = e.Exception.Message;
 
@@ -52,6 +50,7 @@ namespace RGBSyncPlus
             {
                 this.DispatcherUnhandledException += App_DispatcherUnhandledException;
             }
+
 
 
             try

@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RGBSyncPlus.UI.Tabs;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using RGBSyncPlus.UI.Tabs;
 
 namespace RGBSyncPlus.UI
 {
@@ -24,6 +13,8 @@ namespace RGBSyncPlus.UI
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Title = "RGB Sync Studio " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
         }
 
         private void SubmitModalText(object sender, RoutedEventArgs e)
@@ -57,7 +48,7 @@ namespace RGBSyncPlus.UI
             }
         }
 
-        public DevicesViewModel DevicesViewModel=> DevicesUserControl.DataContext as DevicesViewModel;
+        public DevicesViewModel DevicesViewModel => DevicesUserControl.DataContext as DevicesViewModel;
 
         private void ShowSettings(object sender, RoutedEventArgs e)
         {

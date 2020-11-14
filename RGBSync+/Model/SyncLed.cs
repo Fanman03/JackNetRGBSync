@@ -1,7 +1,7 @@
-﻿using SimpleLed;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RGB.NET.Core;
 using RGBSyncPlus.Helper;
+using SimpleLed;
 
 namespace RGBSyncPlus.Model
 {
@@ -32,7 +32,7 @@ namespace RGBSyncPlus.Model
                     return SLSLedUnit.Data.LEDNumber;
                 }
 
-                return (int) LedId;
+                return (int)LedId;
             }
         }
 

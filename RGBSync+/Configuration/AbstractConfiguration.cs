@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RGB.NET.Core;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using RGB.NET.Core;
 
 namespace RGBSyncPlus.Configuration
 {

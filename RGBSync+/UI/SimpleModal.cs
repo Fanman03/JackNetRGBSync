@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using RGBSyncPlus.Helper;
+using System;
 using System.Threading.Tasks;
-using RGBSyncPlus.Helper;
 
 namespace RGBSyncPlus.UI
 {
     public class SimpleModal : IDisposable
     {
-        private MainWindowViewModel viewmodel;
-        private bool actuallyDispose = true;
+        private readonly MainWindowViewModel viewmodel;
+        private readonly bool actuallyDispose = true;
         public SimpleModal(MainWindowViewModel vm, string text, bool showPercentage = false)
         {
             if (vm != null)

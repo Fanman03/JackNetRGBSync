@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RGBSyncPlus.Model;
+using SimpleLed;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -6,11 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using RGBSyncPlus.Model;
-using SimpleLed;
 
 namespace RGBSyncPlus.UI.Tabs
 {
@@ -145,7 +143,7 @@ namespace RGBSyncPlus.UI.Tabs
         public void FilterSourceDevices()
         {
 
-            var visibleDevices = SourceDevices.Where(sourceDevice => ((string.IsNullOrWhiteSpace(SyncToSearch) ||
+            IEnumerable<DeviceMappingModels.SourceModel> visibleDevices = SourceDevices.Where(sourceDevice => ((string.IsNullOrWhiteSpace(SyncToSearch) ||
                                                                        (sourceDevice.Name.ToLower() ==
                                                                         SyncToSearch.ToLower() ||
                                                                         sourceDevice.ProviderName.ToLower() ==
@@ -155,7 +153,7 @@ namespace RGBSyncPlus.UI.Tabs
                 ));
 
             Debug.WriteLine(visibleDevices.Count());
-            foreach (var sourceDevice in SourceDevices)
+            foreach (DeviceMappingModels.SourceModel sourceDevice in SourceDevices)
             {
                 sourceDevice.IsHidden = !
                     (sourceDevice.Enabled || (string.IsNullOrWhiteSpace(SyncToSearch) ||
@@ -177,7 +175,7 @@ namespace RGBSyncPlus.UI.Tabs
         {
             if (controlDevice == null) return;
 
-            var sources = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
+            IEnumerable<ControlDevice> sources = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
 
             ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ApplicationManager.Instance.CurrentProfile?.DeviceProfileSettings;
             DeviceMappingModels.NGDeviceProfileSettings current = null;
@@ -189,9 +187,9 @@ namespace RGBSyncPlus.UI.Tabs
             }
 
             SourceDevices = new ObservableCollection<DeviceMappingModels.SourceModel>();
-            foreach (var source in sources)
+            foreach (ControlDevice source in sources)
             {
-                var enabled = current != null && source.Driver.Name() == current.SourceProviderName && source.Name == current.SourceName && source.ConnectedTo == current.SourceConnectedTo;
+                bool enabled = current != null && source.Driver.Name() == current.SourceProviderName && source.Name == current.SourceName && source.ConnectedTo == current.SourceConnectedTo;
                 SourceDevices.Add(new DeviceMappingModels.SourceModel
                 {
                     ProviderName = source.Driver.Name(),
@@ -216,12 +214,12 @@ namespace RGBSyncPlus.UI.Tabs
 
             try
             {
-                using (var memory = new MemoryStream())
+                using (MemoryStream memory = new MemoryStream())
                 {
                     bitmap.Save(memory, ImageFormat.Png);
                     memory.Position = 0;
 
-                    var bitmapImage = new BitmapImage();
+                    BitmapImage bitmapImage = new BitmapImage();
                     bitmapImage.BeginInit();
                     bitmapImage.StreamSource = memory;
                     bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
@@ -317,10 +315,10 @@ namespace RGBSyncPlus.UI.Tabs
         public void SetUpDeviceMapViewModel()
         {
             SLSDevices = new ObservableCollection<DeviceMappingModels.Device>();
-            var devices = ApplicationManager.Instance.SLSDevices;
+            ObservableCollection<ControlDevice> devices = ApplicationManager.Instance.SLSDevices;
             foreach (ControlDevice device in devices)
             {
-                var props = device.Driver.GetProperties();
+                DriverProperties props = device.Driver.GetProperties();
 
                 SLSDevices.Add(new DeviceMappingModels.Device
                 {

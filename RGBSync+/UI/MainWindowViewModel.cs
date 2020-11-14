@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RGBSyncPlus.Languages;
+using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RGBSyncPlus.Languages;
-using SimpleLed;
 
 namespace RGBSyncPlus.UI
 {
@@ -22,7 +17,7 @@ namespace RGBSyncPlus.UI
                 new TabItem("", "Profiles","profiles"),
                 new TabItem("","Store","store"),
                 new TabItem("","About","about"),
-                new TabItem("","Crash","crashme")
+               // new TabItem("","Crash","crashme")
             };
 
             foreach (TabItem tabItem in TabItems.Where(x => x != null && !string.IsNullOrWhiteSpace(x.Key)))
@@ -33,7 +28,7 @@ namespace RGBSyncPlus.UI
 
             ApplicationManager.Instance.LanguageChangedEvent += delegate (object sender, EventArgs args)
             {
-                var ti= new ObservableCollection<TabItem>
+                ObservableCollection<TabItem> ti = new ObservableCollection<TabItem>
                 {
                     new TabItem("","",""),
                     new TabItem("","Devices","devices",true),
@@ -114,7 +109,7 @@ namespace RGBSyncPlus.UI
                     tabItem.IsCurrent = tabItem.Key.ToLower() == value.ToLower();
                 }
 
-              //  OnPropertyChanged("TabItems");
+                //  OnPropertyChanged("TabItems");
             }
         }
 
@@ -140,16 +135,16 @@ namespace RGBSyncPlus.UI
         public class TabItem : LanguageAwareBaseViewModel
         {
             private string name;
-            public string Name { get=>name; set=>SetProperty(ref name,value); }
+            public string Name { get => name; set => SetProperty(ref name, value); }
 
             private string key;
-            public string Key { get=>key; set=>SetProperty(ref key,value); }
+            public string Key { get => key; set => SetProperty(ref key, value); }
 
             private string icon;
-            public string Icon { get=>icon; set=>SetProperty(ref icon,value); }
+            public string Icon { get => icon; set => SetProperty(ref icon, value); }
 
             private bool isCurrent;
-            public bool IsCurrent { get=>isCurrent; set=>SetProperty(ref isCurrent, value); }
+            public bool IsCurrent { get => isCurrent; set => SetProperty(ref isCurrent, value); }
 
             public TabItem(string icon, string name, string key, bool current = false)
             {

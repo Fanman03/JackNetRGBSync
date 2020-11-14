@@ -1,11 +1,8 @@
 ﻿using RGB.NET.Core;
+using SimpleLed;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SimpleLed;
 
 namespace RGBSyncPlus.Model
 {
@@ -13,7 +10,7 @@ namespace RGBSyncPlus.Model
     {
         //ohgod so hacky :(
         public Action SyncBack;
-        private bool suspendRollUp=false;
+        private bool suspendRollUp = false;
         private IRGBDevice rgbDevice;
         public IRGBDevice RGBDevice
         {
@@ -42,7 +39,7 @@ namespace RGBSyncPlus.Model
         }
 
 
-        private bool allSelected;
+        private readonly bool allSelected;
 
         public bool AllSelected
         {
@@ -50,7 +47,7 @@ namespace RGBSyncPlus.Model
             set
             {
                 suspendRollUp = true;
-                foreach (var deviceLed in DeviceLeds)
+                foreach (DeviceLED deviceLed in DeviceLeds)
                 {
                     deviceLed.IsSelected = value;
                 }
@@ -100,7 +97,7 @@ namespace RGBSyncPlus.Model
             Led = led;
             IsSelected = isSynced;
         }
-        
+
         private Led led;
         public Led Led
         {

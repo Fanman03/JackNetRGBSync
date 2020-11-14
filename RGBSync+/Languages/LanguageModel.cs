@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace RGBSyncPlus.Languages
 {
@@ -36,7 +33,7 @@ namespace RGBSyncPlus.Languages
             this.Items = new List<LanguageItem>();
             foreach (string s in lines.Skip(3))
             {
-                var parts = s.Replace("  ", "\t").Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] parts = s.Replace("  ", "\t").Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
                 if (parts.Length == 1 && parts[0].Contains(" "))
                 {
@@ -69,7 +66,7 @@ namespace RGBSyncPlus.Languages
         {
             try
             {
-                var files = Directory.EnumerateFiles("Languages");
+                IEnumerable<string> files = Directory.EnumerateFiles("Languages");
 
                 foreach (string file in files)
                 {
@@ -77,7 +74,7 @@ namespace RGBSyncPlus.Languages
                     {
                         Languages.Add(new LanguageModel(file));
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Debug.WriteLine(e.Message);
                     }
@@ -92,7 +89,7 @@ namespace RGBSyncPlus.Languages
         {
             try
             {
-                var l = Languages.FirstOrDefault(x => x.Code.ToUpper() == lang.ToUpper());
+                LanguageModel l = Languages.FirstOrDefault(x => x.Code.ToUpper() == lang.ToUpper());
                 if (l == null)
                 {
                     l = Languages.FirstOrDefault(x => x.Code.ToUpper().StartsWith(lang.ToUpper().Split('-').First()));
@@ -117,7 +114,7 @@ namespace RGBSyncPlus.Languages
                 }
 
                 Debug.WriteLine("Looking for " + key + " in " + l?.Code);
-                var r = l.Items.FirstOrDefault(x => x.Key.ToLower() == key.ToLower())?.Value;
+                string r = l.Items.FirstOrDefault(x => x.Key.ToLower() == key.ToLower())?.Value;
                 if (string.IsNullOrWhiteSpace(r))
                 {
                     r = "[" + lang + ":" + key + "]";
@@ -154,12 +151,12 @@ namespace RGBSyncPlus.Languages
 
                     if (ApplicationManager.Instance?.NGSettings != null)
                     {
-                    
+
                         ApplicationManager.Instance.NGSettings.Lang = lang;
                     }
                 }
 
-                var l = Languages.FirstOrDefault(x => x.Code.ToUpper() == lang.ToUpper());
+                LanguageModel l = Languages.FirstOrDefault(x => x.Code.ToUpper() == lang.ToUpper());
                 if (l == null)
                 {
                     l = Languages.FirstOrDefault(x => x.Code.ToUpper().StartsWith(lang.ToUpper().Split('-').First()));
@@ -169,7 +166,7 @@ namespace RGBSyncPlus.Languages
                 {
                     dbg = dbg + " lang null, loading...";
                     //Have to hardcode path for design time :(
-                    string fn = "C:\\Projects\\JackNet\\bin\\Languages\\" + lang+".txt";
+                    string fn = "C:\\Projects\\JackNet\\bin\\Languages\\" + lang + ".txt";
 
                     //return fn;
 
@@ -191,7 +188,7 @@ namespace RGBSyncPlus.Languages
                 }
 
                 Debug.WriteLine("Looking for " + key + " in " + l?.Code);
-                var r = l.Items.FirstOrDefault(x => x.Key.ToLower() == key.ToLower())?.Value;
+                string r = l.Items.FirstOrDefault(x => x.Key.ToLower() == key.ToLower())?.Value;
                 if (string.IsNullOrWhiteSpace(r))
                 {
                     r = "[" + lang + ":" + key + "]";

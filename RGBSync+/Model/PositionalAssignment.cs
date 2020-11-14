@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using SimpleLed;
+using System;
+using System.Collections.ObjectModel;
+using System.Windows.Media.Imaging;
 
 namespace RGBSyncPlus.Model
 {
@@ -201,7 +197,7 @@ namespace RGBSyncPlus.Model
 
 
             public ObservableCollection<PluginDetailsViewModel> Versions { get; set; } = new ObservableCollection<PluginDetailsViewModel>();
-            
+
             private bool isHovered;
 
             [JsonIgnore]
@@ -212,9 +208,10 @@ namespace RGBSyncPlus.Model
             }
 
             private PluginVersionDetails installedVersionModel;
-            public PluginVersionDetails InstalledVersionModel { 
-                get=>installedVersionModel; 
-                set=>SetProperty(ref installedVersionModel,value);
+            public PluginVersionDetails InstalledVersionModel
+            {
+                get => installedVersionModel;
+                set => SetProperty(ref installedVersionModel, value);
             }
 
             public PluginDetailsViewModel()

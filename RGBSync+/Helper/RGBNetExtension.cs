@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 using RGBSyncPlus.Model;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RGBSyncPlus.Helper
 {

@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
-using RGB.NET.Core;
+﻿using RGB.NET.Core;
 using RGBSyncPlus.Helper;
 using RGBSyncPlus.Model;
+using System.ComponentModel;
 
 namespace RGBSyncPlus.Brushes
 {
@@ -37,7 +37,7 @@ namespace RGBSyncPlus.Brushes
 
         protected override Color GetColorAtPoint(Rectangle rectangle, BrushRenderTarget renderTarget)
         {
-            if(_syncLed == null)
+            if (_syncLed == null)
                 _syncLed = _syncGroup.SyncLed?.GetLed();
 
             if (renderTarget.Led == _syncLed)

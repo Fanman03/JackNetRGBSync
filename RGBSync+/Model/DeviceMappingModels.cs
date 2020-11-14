@@ -1,16 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using RGB.NET.Core;
+using SimpleLed;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Media.Imaging;
-using SimpleLed;
-using Newtonsoft.Json;
-using RGB.NET.Core;
 
 namespace RGBSyncPlus.Model
 {
@@ -42,7 +36,7 @@ namespace RGBSyncPlus.Model
 
         public class NGSettings : BaseViewModel
         {
-            
+
             private int updateRate = 30;
 
             public int UpdateRate
@@ -494,7 +488,7 @@ namespace RGBSyncPlus.Model
             }
 
             public Action<object> SyncBack;
-            private bool suspendRollUp = false;
+            private readonly bool suspendRollUp = false;
 
             private ControlDevice sourceDevice;
 

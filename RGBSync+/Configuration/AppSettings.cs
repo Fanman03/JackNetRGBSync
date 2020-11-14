@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RGB.NET.Core;
 using System.Diagnostics;
-using RGB.NET.Core;
-using RGBSyncPlus.Model;
 
 namespace RGBSyncPlus.Configuration
 {
@@ -15,7 +12,7 @@ namespace RGBSyncPlus.Configuration
         #endregion
 
         #region Properties & Fields
- public string Lang { get; set; } = "en";
+        public string Lang { get; set; } = "en";
         public int Version { get; set; } = 0;
         public double UpdateRate { get; set; } = 30.0;
         public bool RunOnStartup { get; set; } = false;
@@ -28,8 +25,8 @@ namespace RGBSyncPlus.Configuration
             {
                 if (Debugger.IsAttached) return false;
                 return minimizeToTray;
-            } 
-            set=>minimizeToTray=value;
+            }
+            set => minimizeToTray = value;
         }
         public bool EnableDiscordRPC { get; set; } = true;
         public bool RunAsAdmin { get; set; } = false;

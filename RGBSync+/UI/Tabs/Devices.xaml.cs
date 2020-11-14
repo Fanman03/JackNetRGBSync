@@ -1,21 +1,14 @@
-﻿using System;
+﻿using RGBSyncPlus.Model;
+using SimpleLed;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using RGBSyncPlus.Model;
-using SimpleLed;
 
 namespace RGBSyncPlus.UI.Tabs
 {
@@ -111,9 +104,9 @@ namespace RGBSyncPlus.UI.Tabs
             try
             {
                 bool zeroDevicesPreSelected = vm.SLSDevices.All(x => x.Selected == false);
-                foreach (var item in DeviceConfigList.Items)
+                foreach (object item in DeviceConfigList.Items)
                 {
-                    var cItem = (DeviceMappingModels.Device)item;
+                    DeviceMappingModels.Device cItem = (DeviceMappingModels.Device)item;
 
                     cItem.Selected = false;
                     if (DeviceConfigList.SelectedItems.Contains(item))
@@ -162,7 +155,7 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 if (cd.Driver is ISimpleLedWithConfig drv)
                 {
-                    var cfgUI = drv.GetCustomConfig(cd);
+                    UserControl cfgUI = drv.GetCustomConfig(cd);
                     ConfigHere.Children.Add(cfgUI);
 
                     ConfigHere.HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -183,7 +176,7 @@ namespace RGBSyncPlus.UI.Tabs
         {
             Button senderButton = (Button)sender;
 
-            var derp = senderButton.DataContext;
+            object derp = senderButton.DataContext;
             Debug.WriteLine(derp);
         }
 
@@ -207,9 +200,9 @@ namespace RGBSyncPlus.UI.Tabs
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var items = (System.Windows.Controls.ListView)sender;
-            
-            var selected = (DeviceMappingModels.SourceModel)items.SelectedItem;
+            ListView items = (System.Windows.Controls.ListView)sender;
+
+            DeviceMappingModels.SourceModel selected = (DeviceMappingModels.SourceModel)items.SelectedItem;
             if (selected == null)
             {
                 return;
@@ -247,19 +240,19 @@ namespace RGBSyncPlus.UI.Tabs
 
             }
 
-            var vm = this.DataContext as DevicesViewModel;
-            var selectedParents = vm.SLSDevices.Where(x => x.Selected == true);
+            DevicesViewModel vm = this.DataContext as DevicesViewModel;
+            IEnumerable<DeviceMappingModels.Device> selectedParents = vm.SLSDevices.Where(x => x.Selected == true);
 
-            foreach (var parentDevice in selectedParents)
+            foreach (DeviceMappingModels.Device parentDevice in selectedParents)
             {
                 {
-                    var profile = ApplicationManager.Instance.CurrentProfile;
+                    DeviceMappingModels.NGProfile profile = ApplicationManager.Instance.CurrentProfile;
                     if (profile?.DeviceProfileSettings == null)
                     {
                         profile.DeviceProfileSettings = new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();
                     }
 
-                    var configDevice = profile.DeviceProfileSettings.FirstOrDefault(x => x.Name == parentDevice.Name && x.ProviderName == parentDevice.ProviderName && x.ConnectedTo == parentDevice.ConnectedTo);
+                    DeviceMappingModels.NGDeviceProfileSettings configDevice = profile.DeviceProfileSettings.FirstOrDefault(x => x.Name == parentDevice.Name && x.ProviderName == parentDevice.ProviderName && x.ConnectedTo == parentDevice.ConnectedTo);
 
                     if (configDevice == null)
                     {
@@ -286,7 +279,7 @@ namespace RGBSyncPlus.UI.Tabs
                         configDevice.SourceProviderName = null;
                         configDevice.SourceConnectedTo = null;
 
-                        foreach (var controlDeviceLeD in parentDevice.ControlDevice.LEDs)
+                        foreach (ControlDevice.LedUnit controlDeviceLeD in parentDevice.ControlDevice.LEDs)
                         {
                             controlDeviceLeD.Color = new LEDColor(0, 0, 0);
                         }
@@ -303,9 +296,9 @@ namespace RGBSyncPlus.UI.Tabs
 
             if (selected == null)
             {
-                foreach (var parentDevice in selectedParents)
+                foreach (DeviceMappingModels.Device parentDevice in selectedParents)
                 {
-                    foreach (var controlDeviceLeD in parentDevice.ControlDevice.LEDs)
+                    foreach (ControlDevice.LedUnit controlDeviceLeD in parentDevice.ControlDevice.LEDs)
                     {
                         controlDeviceLeD.Color = new LEDColor(0, 0, 0);
                     }
@@ -321,12 +314,12 @@ namespace RGBSyncPlus.UI.Tabs
 
         private void DevicesListCondensedSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var vm = this.DataContext as DevicesViewModel;
+            DevicesViewModel vm = this.DataContext as DevicesViewModel;
             bool zeroDevicesPreSelected = vm.SLSDevices.All(x => x.Selected == false);
 
-            foreach (var item in DeviceConfigCondensedList.Items)
+            foreach (object item in DeviceConfigCondensedList.Items)
             {
-                var cItem = (DeviceMappingModels.Device)item;
+                DeviceMappingModels.Device cItem = (DeviceMappingModels.Device)item;
 
                 cItem.Selected = false;
                 if (DeviceConfigCondensedList.SelectedItems.Contains(item))
@@ -358,7 +351,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            ZoomIn(this,new RoutedEventArgs());
+            ZoomIn(this, new RoutedEventArgs());
         }
     }
 }

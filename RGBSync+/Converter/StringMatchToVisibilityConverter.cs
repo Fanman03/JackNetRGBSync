@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
@@ -12,7 +11,7 @@ namespace RGBSyncPlus.Converter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            
+
             if (value?.ToString() == parameter?.ToString())
             {
                 return Visibility.Visible;
@@ -34,7 +33,7 @@ namespace RGBSyncPlus.Converter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            
+
             if (value?.ToString() != parameter?.ToString())
             {
                 return Visibility.Visible;

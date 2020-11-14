@@ -1,10 +1,9 @@
-﻿using System.Windows;
+﻿using RGB.NET.Core;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using RGB.NET;
-using RGB.NET.Core;
 using Color = RGB.NET.Core.Color;
 using Point = System.Windows.Point;
 using Rectangle = System.Windows.Shapes.Rectangle;

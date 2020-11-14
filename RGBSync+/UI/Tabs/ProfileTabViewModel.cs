@@ -3,9 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace RGBSyncPlus.UI.Tabs
 {
@@ -18,7 +15,7 @@ namespace RGBSyncPlus.UI.Tabs
             get => activeProfile;
             set
             {
-                SetProperty(ref activeProfile, value); 
+                SetProperty(ref activeProfile, value);
                 RefreshProfiles(false);
             }
         }
@@ -166,7 +163,9 @@ namespace RGBSyncPlus.UI.Tabs
         }
 
         private bool showTriggers;
-        public bool ShowTriggers { get=>showTriggers;
+        public bool ShowTriggers
+        {
+            get => showTriggers;
             set => SetProperty(ref showTriggers, value);
         }
 
@@ -179,7 +178,7 @@ namespace RGBSyncPlus.UI.Tabs
 
             OnPropertyChanged(nameof(ProfileTriggerTypeNames));
 
-            ApplicationManager.Instance.NGSettings.ProfileChange+= delegate(object sender, EventArgs args) { CheckCurrentProfile(); };
+            ApplicationManager.Instance.NGSettings.ProfileChange += delegate (object sender, EventArgs args) { CheckCurrentProfile(); };
         }
 
         public void SetUpProfileModels(bool setActive = true)
@@ -188,11 +187,11 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 if (ProfileNames != null)
                 {
-                    var triggers = ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers;
+                    ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry> triggers = ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers;
                     ProfileItems.Clear();
                     foreach (string profileName in ProfileNames)
                     {
-                        var relevantTriggers = triggers.Where(x => x.ProfileName?.ToLower() == profileName.ToLower());
+                        IEnumerable<ProfileTriggerManager.ProfileTriggerEntry> relevantTriggers = triggers.Where(x => x.ProfileName?.ToLower() == profileName.ToLower());
 
                         ProfileItems.Add(new ProfileItemViewModel
                         {
@@ -265,12 +264,12 @@ namespace RGBSyncPlus.UI.Tabs
             }
         }
 
-        private Action<string> modalSubmitAction;
+        private readonly Action<string> modalSubmitAction;
 
         public void CreateNewProfileUI()
         {
             ShowEditProfile = true;
-            CurrentProfile = new ProfileItemViewModel{};
+            CurrentProfile = new ProfileItemViewModel { };
 
             CurrentProfile.Name = "Untitled";
             CurrentProfile.ProfileId = Guid.NewGuid();
@@ -347,7 +346,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void DeleteTrigger(ProfileTriggerManager.ProfileTriggerEntry entry)
         {
-            var killMe = ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.First(x => x.Id == entry.Id);
+            ProfileTriggerManager.ProfileTriggerEntry killMe = ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.First(x => x.Id == entry.Id);
             ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Remove(killMe);
 
             RefreshProfiles();

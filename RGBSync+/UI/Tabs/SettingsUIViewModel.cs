@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RGBSyncPlus.Languages;
 using RGBSyncPlus.Model;
 using SharedCode;
-using SimpleLed;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 
 namespace RGBSyncPlus.UI.Tabs
 {
@@ -20,7 +13,7 @@ namespace RGBSyncPlus.UI.Tabs
         private void SaveLauncherSettings()
         {
             string json = JsonConvert.SerializeObject(ApplicationManager.Instance.LauncherPrefs);
-            File.WriteAllText("launcherPrefs.json",json);
+            File.WriteAllText("launcherPrefs.json", json);
         }
 
         private bool startAsAdmin;
@@ -98,7 +91,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         public ObservableCollection<LanguageOption> Languages { get; set; } =
             new ObservableCollection<LanguageOption>(
-                LanguageManager.Languages.Select(x => new LanguageOption { Name = x.NativeName, Code = x.Code , Emoji = x.Emoji}));
+                LanguageManager.Languages.Select(x => new LanguageOption { Name = x.NativeName, Code = x.Code, Emoji = x.Emoji }));
 
 
         private LanguageOption currentLanguage;

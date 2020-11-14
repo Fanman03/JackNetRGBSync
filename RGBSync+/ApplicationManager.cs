@@ -1,33 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Windows;
-using System.Threading;
+﻿using DiscordRPC;
+using Newtonsoft.Json;
+using NLog;
 using RGB.NET.Core;
 using RGBSyncPlus.Configuration;
 using RGBSyncPlus.Helper;
+using RGBSyncPlus.Languages;
 using RGBSyncPlus.Model;
 using RGBSyncPlus.UI;
-using DiscordRPC;
-using System.Globalization;
-using Newtonsoft.Json;
-using NLog;
-using System.Diagnostics;
-using System.Security.Principal;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.SelfHost;
-using System.Windows.Controls;
-using System.Windows.Threading;
-using RGBSyncPlus.Languages;
 using RGBSyncPlus.UI.Tabs;
 using SharedCode;
 using SimpleLed;
-
 using Swashbuckle.Application;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.SelfHost;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace RGBSyncPlus
 {
@@ -52,7 +50,7 @@ namespace RGBSyncPlus
 
         public LauncherPrefs LauncherPrefs { get; set; } = new LauncherPrefs();
 
-      //  public AppSettings AppSettings { get; set; } = new AppSettings();
+        //  public AppSettings AppSettings { get; set; } = new AppSettings();
         public TimerUpdateTrigger UpdateTrigger { get; private set; } = new TimerUpdateTrigger();
 
         #endregion
@@ -118,7 +116,7 @@ namespace RGBSyncPlus
 
         #region Methods
 
-        private Dictionary<string, string> profilePathMapping = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> profilePathMapping = new Dictionary<string, string>();
         public void LoadNGSettings()
         {
             if (File.Exists("NGSettings.json"))
@@ -163,8 +161,8 @@ namespace RGBSyncPlus
             {
                 CurrentProfile.Id = Guid.NewGuid();
             }
-            var id = CurrentProfile.Id;
-            
+            Guid id = CurrentProfile.Id;
+
             string json = JsonConvert.SerializeObject(CurrentProfile);
             string path;
             if (profilePathMapping.ContainsKey(CurrentProfile.Name))
@@ -173,8 +171,8 @@ namespace RGBSyncPlus
             }
             else
             {
-                path = NGPROFILES_DIRECTORY+"\\"+ id + ".rsprofile";
-                profilePathMapping.Add(CurrentProfile.Name,path);
+                path = NGPROFILES_DIRECTORY + "\\" + id + ".rsprofile";
+                profilePathMapping.Add(CurrentProfile.Name, path);
             }
 
             TimeSettingsLastSave = DateTime.Now;
@@ -215,7 +213,7 @@ namespace RGBSyncPlus
                 return;
             }
 
-            var profiles = Directory.GetFiles(NGPROFILES_DIRECTORY, "*.rsprofile");
+            string[] profiles = Directory.GetFiles(NGPROFILES_DIRECTORY, "*.rsprofile");
 
             if (profiles == null || profiles.Length == 0)
             {
@@ -224,7 +222,7 @@ namespace RGBSyncPlus
 
             NGSettings.ProfileNames = new ObservableCollection<string>();
 
-            foreach (var profile in profiles)
+            foreach (string profile in profiles)
             {
                 string profileName = GetProfileFromPath(profile)?.Name;
                 if (!string.IsNullOrWhiteSpace(profileName))
@@ -267,11 +265,11 @@ namespace RGBSyncPlus
                 UpdateTrigger.Dispose();
             }
 
-            var tmr = 1.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
-            var tmr2 = 1000.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
+            double tmr = 1.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
+            double tmr2 = 1000.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
             UpdateTrigger = new TimerUpdateTrigger { UpdateFrequency = tmr };
 
-          //  loadingSplash.LoadingText.Text = "Registering Update Trigger";
+            //  loadingSplash.LoadingText.Text = "Registering Update Trigger";
 
             UpdateTrigger.Start();
 
@@ -286,7 +284,7 @@ namespace RGBSyncPlus
 
             if (NGSettings.DeviceSettings != null)
             {
-                foreach (var ngSettingsDeviceSetting in NGSettings.DeviceSettings)
+                foreach (DeviceMappingModels.NGDeviceSettings ngSettingsDeviceSetting in NGSettings.DeviceSettings)
                 {
                     ControlDevice cd = GetControlDeviceFromName(ngSettingsDeviceSetting.ProviderName,
                         ngSettingsDeviceSetting.Name);
@@ -302,7 +300,7 @@ namespace RGBSyncPlus
 
             if (File.Exists("launcherPrefs.json"))
             {
-               LauncherPrefs = JsonConvert.DeserializeObject<LauncherPrefs>(File.ReadAllText("launcherPrefs.json"));
+                LauncherPrefs = JsonConvert.DeserializeObject<LauncherPrefs>(File.ReadAllText("launcherPrefs.json"));
             }
             else
             {
@@ -391,8 +389,8 @@ namespace RGBSyncPlus
             //setup API
             //todo make this be able to be toggled:
             Debug.WriteLine("Setting up API");
-            var apiconfig = new HttpSelfHostConfiguration("http://localhost:59022");
-            
+            HttpSelfHostConfiguration apiconfig = new HttpSelfHostConfiguration("http://localhost:59022");
+
 
             apiconfig.Routes.MapHttpRoute("API Default", "api/{controller}/{id}", new { id = RouteParameter.Optional });
 
@@ -408,7 +406,7 @@ namespace RGBSyncPlus
         {
             if (profilePathMapping.ContainsKey(profileName))
             {
-                var map = profilePathMapping[profileName];
+                string map = profilePathMapping[profileName];
                 CurrentProfile = GetProfileFromPath(map);
 
                 if (CurrentProfile.Id == Guid.Empty)
@@ -425,8 +423,8 @@ namespace RGBSyncPlus
         {
             if (profilePathMapping.ContainsKey(profileName))
             {
-                var map = profilePathMapping[profileName];
-                var result= GetProfileFromPath(map);
+                string map = profilePathMapping[profileName];
+                DeviceMappingModels.NGProfile result = GetProfileFromPath(map);
 
                 if (result.Id == Guid.Empty)
                 {
@@ -466,10 +464,10 @@ namespace RGBSyncPlus
             loadingSplash.Activate();
             SLSManager = new SLSManager(SLSCONFIGS_DIRECTORY);
 
-            var config = new NLog.Config.LoggingConfiguration();
+            NLog.Config.LoggingConfiguration config = new NLog.Config.LoggingConfiguration();
 
             // Targets where to log to: File and Console
-            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = "rgbsync.log" };
+            NLog.Targets.FileTarget logfile = new NLog.Targets.FileTarget("logfile") { FileName = "rgbsync.log" };
 
             // Rules for mapping loggers to targets            
             config.AddRule(LogLevel.Debug, LogLevel.Fatal, logfile);
@@ -498,7 +496,7 @@ namespace RGBSyncPlus
             //    }
             //}
 
-            var langs = LanguageManager.Languages;
+            List<LanguageModel> langs = LanguageManager.Languages;
             CultureInfo ci = CultureInfo.InstalledUICulture;
             if (NGSettings.Lang == null)
             {
@@ -526,7 +524,7 @@ namespace RGBSyncPlus
                 }
             }
 
-           // int delay = AppSettings.StartDelay * 1000;
+            // int delay = AppSettings.StartDelay * 1000;
 
             LoadSLSProviders();
             //LoadDeviceProviders();
@@ -570,9 +568,9 @@ namespace RGBSyncPlus
             MappedDevices = new List<DeviceMappingModels.DeviceMap>();
             if (Settings.DeviceMappingProxy != null)
             {
-                foreach (var deviceMapping in Settings.DeviceMappingProxy)
+                foreach (DeviceMappingModels.DeviceMapping deviceMapping in Settings.DeviceMappingProxy)
                 {
-                    var src = SLSDevices.FirstOrDefault(x =>
+                    ControlDevice src = SLSDevices.FirstOrDefault(x =>
                         x.Name == deviceMapping.SourceDevice.DeviceName &&
                         x.Driver.Name() == deviceMapping.SourceDevice.DriverName);
                     if (src != null)
@@ -583,7 +581,7 @@ namespace RGBSyncPlus
                             Dest = new List<ControlDevice>()
                         };
 
-                        foreach (var deviceMappingDestinationDevice in deviceMapping.DestinationDevices)
+                        foreach (DeviceMappingModels.DeviceProxy deviceMappingDestinationDevice in deviceMapping.DestinationDevices)
                         {
                             ControlDevice tmp = SLSDevices.FirstOrDefault(x =>
                                 x.Name == deviceMappingDestinationDevice.DeviceName &&
@@ -608,7 +606,7 @@ namespace RGBSyncPlus
 
         public ControlDevice DeviceBeingAligned;
 
-        private ControlDevice virtualAlignmentDevice = new ControlDevice
+        private readonly ControlDevice virtualAlignmentDevice = new ControlDevice
         {
             LEDs = new ControlDevice.LedUnit[64]
             {
@@ -680,7 +678,7 @@ namespace RGBSyncPlus
 
                 List<ControlDevice> devicesToPull = new List<ControlDevice>();
 
-                foreach (var currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
+                foreach (DeviceMappingModels.NGDeviceProfileSettings currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
                 {
                     ControlDevice cd = SLSDevices.FirstOrDefault(x =>
                         x.Name == currentProfileDeviceProfileSetting.SourceName &&
@@ -696,7 +694,7 @@ namespace RGBSyncPlus
                     }
                 }
 
-                foreach (var controlDevice in devicesToPull)
+                foreach (ControlDevice controlDevice in devicesToPull)
                 {
                     if (controlDevice.Driver.GetProperties().SupportsPull)
                     {
@@ -705,7 +703,7 @@ namespace RGBSyncPlus
                 }
 
                 List<PushListItem> pushMe = new List<PushListItem>();
-                foreach (var currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
+                foreach (DeviceMappingModels.NGDeviceProfileSettings currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
                 {
                     ControlDevice cd = SLSDevices.FirstOrDefault(x =>
                         x.Name == currentProfileDeviceProfileSetting.SourceName &&
@@ -782,7 +780,7 @@ namespace RGBSyncPlus
             catch (Exception ex)
             {
                 // Process unhandled exception
-                var crashWindow = new CrashWindow();
+                CrashWindow crashWindow = new CrashWindow();
                 crashWindow.errorName.Text = ex.GetType().ToString();
                 crashWindow.message.Text = ex.Message;
 
@@ -828,7 +826,7 @@ namespace RGBSyncPlus
         public void LoadChildAssemblies(Assembly assembly, string basePath)
         {
 
-            var names = assembly.GetReferencedAssemblies();
+            AssemblyName[] names = assembly.GetReferencedAssemblies();
 
             foreach (AssemblyName assemblyName in names)
             {
@@ -836,7 +834,7 @@ namespace RGBSyncPlus
                 {
                     if (File.Exists(basePath + "\\" + assemblyName.Name + ".dll"))
                     {
-                        var temp = Assembly.Load(File.ReadAllBytes(basePath + "\\" + assemblyName.Name + ".dll"));
+                        Assembly temp = Assembly.Load(File.ReadAllBytes(basePath + "\\" + assemblyName.Name + ".dll"));
                         LoadChildAssemblies(temp, basePath);
                     }
                     else
@@ -861,8 +859,8 @@ namespace RGBSyncPlus
 
             Assembly assembly = Assembly.Load(File.ReadAllBytes(basePath + "\\" + dllFileName));
             //Assembly assembly = Assembly.LoadFrom(file);
-            var typeroo = assembly.GetTypes();
-            var pat2 = typeroo.Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass).ToList();
+            Type[] typeroo = assembly.GetTypes();
+            List<Type> pat2 = typeroo.Where(t => !t.IsAbstract && !t.IsInterface && t.IsClass).ToList();
 
             List<Type> pat3 = pat2.Where(t => typeof(ISimpleLed).IsAssignableFrom(t)).ToList();
 
@@ -915,16 +913,16 @@ namespace RGBSyncPlus
                         SLSPROVIDER_DIRECTORY);
 
             if (!Directory.Exists(deviceProvierDir)) return;
-            var pluginFolders = Directory.GetDirectories(deviceProvierDir);
+            string[] pluginFolders = Directory.GetDirectories(deviceProvierDir);
             loadingSplash.LoadingText.Text = "Loading SLS plugins";
             loadingSplash.ProgressBar.Maximum = pluginFolders.Length;
 
             int ct = 0;
-            foreach (var pluginFolder in pluginFolders)
+            foreach (string pluginFolder in pluginFolders)
             {
                 loadingSplash.Activate();
                 ct++;
-                
+
                 loadingSplash.ProgressBar.Value = ct;
                 loadingSplash.ProgressBar.Refresh();
                 LoadPlungFolder(pluginFolder);
@@ -941,9 +939,9 @@ namespace RGBSyncPlus
         public void LoadPlungFolder(string pluginFolder)
         {
 
-            var files = Directory.GetFiles(pluginFolder, "*.dll");
+            string[] files = Directory.GetFiles(pluginFolder, "*.dll");
 
-            
+
             List<Guid> driversAdded = new List<Guid>();
             foreach (string file in files)
             {
@@ -957,7 +955,7 @@ namespace RGBSyncPlus
                         loadingSplash.LoadingText.Text = "Loading " + file.Split('\\').Last().Split('.').First();
                         Logger.Debug("Loading provider " + file);
 
-                        var slsDriver = LoadDll(justPath, filename);
+                        ISimpleLed slsDriver = LoadDll(justPath, filename);
 
                         if (slsDriver != null)
                         {
@@ -1035,7 +1033,7 @@ namespace RGBSyncPlus
         public void UpdateSLSDevices()
         {
             loadingSplash.LoadingText.Text = "Loading Configs";
-            foreach (var drv in SLSManager.Drivers)
+            foreach (ISimpleLed drv in SLSManager.Drivers)
             {
                 if (drv is ISimpleLedWithConfig cfgdrv)
                 {
@@ -1058,7 +1056,7 @@ namespace RGBSyncPlus
 
             int ct = 0;
             List<ControlDevice> controlDevices = new List<ControlDevice>();
-            foreach (var simpleLedDriver in SLSManager.Drivers)
+            foreach (ISimpleLed simpleLedDriver in SLSManager.Drivers)
             {
                 ct++;
                 loadingSplash.ProgressBar.Value = ct;
@@ -1068,7 +1066,7 @@ namespace RGBSyncPlus
                     //var devices = simpleLedDriver.GetDevices();
                     //if (devices != null)
                     {
-                      //  controlDevices.AddRange(devices);
+                        //  controlDevices.AddRange(devices);
                     }
                 }
                 catch (Exception e)
@@ -1079,7 +1077,7 @@ namespace RGBSyncPlus
 
         }
 
-   
+
         private void HideConfiguration()
         {
             if (NGSettings.EnableDiscordRPC == true)
@@ -1222,8 +1220,8 @@ namespace RGBSyncPlus
         {
             if (profilePathMapping.ContainsKey(currentProfileOriginalName))
             {
-                var map = profilePathMapping[currentProfileOriginalName];
-                var profile = GetProfileFromPath(map);
+                string map = profilePathMapping[currentProfileOriginalName];
+                DeviceMappingModels.NGProfile profile = GetProfileFromPath(map);
 
                 profile.Name = currentProfileName;
 

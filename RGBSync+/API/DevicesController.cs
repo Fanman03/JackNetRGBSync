@@ -1,10 +1,6 @@
-﻿using System;
+﻿using SimpleLed;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
-using SimpleLed;
 
 namespace RGBSyncPlus.API
 {

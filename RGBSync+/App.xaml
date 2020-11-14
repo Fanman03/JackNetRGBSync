@@ -58,7 +58,7 @@
                 </tb:TaskbarIcon.TrayPopup>
                 <tb:TaskbarIcon.TrayToolTip>
                     <Grid Background="{StaticResource SystemAltHighColorBrush}">
-                        <TextBlock Margin="6,2"  FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="RGB Sync Studio" />
+                        <TextBlock Margin="6,2"  FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" />
                     </Grid>
                 </tb:TaskbarIcon.TrayToolTip>
             </tb:TaskbarIcon>

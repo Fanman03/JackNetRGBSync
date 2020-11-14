@@ -1,14 +1,9 @@
 ﻿using RGB.NET.Core;
-using RGBSyncPlus.Model;
+using SimpleLed;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-using SimpleLed;
 
 namespace RGBSyncPlus.Converter
 {
@@ -71,7 +66,7 @@ namespace RGBSyncPlus.Converter
                 }
             }
 
-            var type = (RGBDeviceType)value;
+            RGBDeviceType type = (RGBDeviceType)value;
             switch (type)
             {
                 case RGBDeviceType.Keyboard:

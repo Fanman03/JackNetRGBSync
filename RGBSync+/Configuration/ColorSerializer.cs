@@ -1,7 +1,7 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RGB.NET.Core;
+using System;
 
 namespace RGBSyncPlus.Configuration
 {

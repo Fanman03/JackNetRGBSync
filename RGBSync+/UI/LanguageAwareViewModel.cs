@@ -9,6 +9,6 @@
 //{
 //    public class LanguageAwareViewModel : BaseViewModel
 //    {
-        
+
 //    }
 //}

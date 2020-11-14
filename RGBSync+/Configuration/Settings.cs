@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using Newtonsoft.Json;
-using RGB.NET.Core;
-using RGBSyncPlus.Model;
+﻿using RGBSyncPlus.Model;
+using System.Collections.Generic;
 
 namespace RGBSyncPlus.Configuration
 {
@@ -22,7 +19,7 @@ namespace RGBSyncPlus.Configuration
 
         public List<SyncGroup> SyncGroups
         {
-            get;set;
+            get; set;
         }
 
         private List<DeviceMappingModels.DeviceMapping> deviceMappingProxy;

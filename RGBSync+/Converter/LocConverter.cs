@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RGBSyncPlus.Languages;
+using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
-using RGBSyncPlus.Languages;
 
 namespace RGBSyncPlus.Converter
 {
@@ -16,9 +12,9 @@ namespace RGBSyncPlus.Converter
         {
             try
             {
-                if (!string.IsNullOrWhiteSpace((string) value))
+                if (!string.IsNullOrWhiteSpace((string)value))
                 {
-                    return LanguageManager.GetValue((string) parameter?.ToString(), (string) value?.ToString());
+                    return LanguageManager.GetValue((string)parameter?.ToString(), (string)value?.ToString());
                 }
             }
             catch
@@ -39,7 +35,7 @@ namespace RGBSyncPlus.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return LanguageManager.GetValue((string)value?.ToString().Replace(" ",""));
+            return LanguageManager.GetValue((string)value?.ToString().Replace(" ", ""));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
