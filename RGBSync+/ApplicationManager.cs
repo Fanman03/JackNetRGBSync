@@ -151,10 +151,16 @@ namespace RGBSyncPlus
 
         public void SaveNGSettings()
         {
-            string json = JsonConvert.SerializeObject(NGSettings);
-            File.WriteAllText("NGSettings.json", json);
-            TimeSettingsLastSave = DateTime.Now;
-            NGSettings.AreSettingsStale = false;
+            try
+            {
+                string json = JsonConvert.SerializeObject(NGSettings);
+                File.WriteAllText("NGSettings.json", json);
+                TimeSettingsLastSave = DateTime.Now;
+                NGSettings.AreSettingsStale = false;
+            }
+            catch
+            {
+            }
         }
 
         public void SaveCurrentNGProfile()
@@ -478,25 +484,6 @@ namespace RGBSyncPlus
 
             Logger.Debug("============ JackNet RGB Sync is Starting ============");
 
-            //if (AppSettings.RunAsAdmin == true && !Debugger.IsAttached)
-            //{
-            //    Logger.Debug("App should be run as administrator.");
-            //    Logger.Debug("Checking to see if app is running as administrator...");
-            //    var identity = WindowsIdentity.GetCurrent();
-            //    var principal = new WindowsPrincipal(identity);
-            //    bool isRunningAsAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
-            //    if (isRunningAsAdmin == false)
-            //    {
-            //        Logger.Debug("App is not running as administrator, restarting...");
-            //        ExecuteAsAdmin("RGBSync+.exe");
-            //        Exit();
-            //    }
-            //    else
-            //    {
-            //        Logger.Debug("App is running as administrator, proceding with startup.");
-            //    }
-            //}
-
             List<LanguageModel> langs = LanguageManager.Languages;
             CultureInfo ci = CultureInfo.InstalledUICulture;
             if (NGSettings.Lang == null)
@@ -525,11 +512,7 @@ namespace RGBSyncPlus
                 }
             }
 
-            // int delay = AppSettings.StartDelay * 1000;
-
             LoadSLSProviders();
-            //LoadDeviceProviders();
-            //surface.AlignDevices();
 
             loadingSplash.LoadingText.Text = "Mapping from config";
             SetUpMappedDevicesFromConfig();
@@ -547,6 +530,8 @@ namespace RGBSyncPlus
                 loadingSplash.Close();
                 closeTimer.Stop();
             };
+
+            OpenConfiguration();
 
             closeTimer.Start();
 

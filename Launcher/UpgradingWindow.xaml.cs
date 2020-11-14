@@ -34,6 +34,7 @@ namespace Launcher
 
         private async void AcrylicWindow_Loaded(object sender, RoutedEventArgs e)
         {
+
             await StartCheck();
         }
 
@@ -41,18 +42,32 @@ namespace Launcher
 
         private async Task StartCheck()
         {
+            //Process[] processlist = Process.GetProcesses();
+
+            //if (processlist.Any(x => x.ProcessName == "RGBSync+"))
+            //{
+            //    var proc = processlist.First(x => x.ProcessName == "RGBSync+");
+            //    proc.Kill();
+            //    proc.Dispose();
+            //    proc = null;
+
+            //}
+           
+
             Process[] processlist = Process.GetProcesses();
 
             if (processlist.Any(x => x.ProcessName == "RGBSync+"))
             {
                 var proc = processlist.First(x => x.ProcessName == "RGBSync+");
                 proc.Kill();
+                proc.Dispose();
+                proc = null;
+
             }
 
             if (File.Exists("launcherPrefs.json"))
             {
-                Core.LauncherPrefs =
-                    JsonConvert.DeserializeObject<LauncherPrefs>(File.ReadAllText("launcherPrefs.json"));
+                Core.LauncherPrefs = JsonConvert.DeserializeObject<LauncherPrefs>(File.ReadAllText("launcherPrefs.json"));
             }
 
             UpdateCheck check = new UpdateCheck();
@@ -61,8 +76,6 @@ namespace Launcher
             {
                 await Task.Delay(100);
             }
-
-            //if (!Debugger.IsAttached)
 
             Process p = new Process();
             p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;

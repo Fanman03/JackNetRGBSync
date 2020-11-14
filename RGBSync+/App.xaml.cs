@@ -62,7 +62,7 @@ namespace RGBSyncPlus
 
                 ApplicationManager.Instance.Initialize();
                 
-                ApplicationManager.Instance.OpenConfigurationCommand.Execute(null);
+                //ApplicationManager.Instance.OpenConfigurationCommand.Execute(null);
             }
             catch (Exception ex)
             {

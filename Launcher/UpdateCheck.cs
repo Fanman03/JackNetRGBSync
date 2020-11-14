@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SharedCode;
@@ -29,7 +30,7 @@ namespace Launcher
             UpgradingWindow.vm.Message = "Checking For Updatification";
             await Task.Delay(1000);
             string url = "";
-            try
+          //  try
             {
                 switch (releaseType)
                 {
@@ -54,33 +55,67 @@ namespace Launcher
                 }
 
                 MatchCollection urls = Regex.Matches(html, @"\'/rgbsync(.*?)\'");
-                Dictionary<string, int> usableUrls = new Dictionary<string, int>();
-                foreach (Match match in urls)
-                {
-                    usableUrls.Add((url + (match.Value.Substring(2, (match.Value).Length - 3).Split('/').Last())),
-                        int.Parse(match.Value.Split('_').Last().Split('.').First()));
-                }
+                Dictionary<string, int> usableUrls = urls.Cast<Match>().ToDictionary(match => (url + (match.Value.Substring(2, (match.Value).Length - 3).Split('/').Last())), match => int.Parse(match.Value.Split('_').Last().Split('.').First()));
 
                 Debug.WriteLine(usableUrls);
 
                 int maxReleaseNumber = usableUrls.Values.Max();
 
-                if (Core.LauncherPrefs.ReleaseInstalled != maxReleaseNumber || Core.LauncherPrefs.ReleaseTypeInstalled != releaseType)
+                if (Core.LauncherPrefs.ReleaseInstalled != maxReleaseNumber || Core.LauncherPrefs.ReleaseTypeInstalled != releaseType )
                 {
-                    File.Delete("RGBSync+.exe");
+                    
+                    try
+                    {
+                        if (File.Exists("RGBSync+.exe"))
+                        {
+                            if (!Directory.Exists(".old"))
+                            {
+                                DirectoryInfo dir = Directory.CreateDirectory("old");
+                                
+                                dir.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+                            }
+
+                            File.Move("RGBSync+.exe", ".old\\oldrss_"+Guid.NewGuid()+".exe");
+                            File.Delete("oldrss.exe");
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+
+                    if (Directory.Exists(".old"))
+                    {
+                        Thread.Sleep(1000);
+                        foreach (var f in Directory.GetFiles(".old\\"))
+                        {
+                            try
+                            {
+                                File.Delete(f);
+                            }
+                            catch
+                            {
+                            }
+                        }
+                    }
+
+                    if (Directory.Exists(".old"))
+                    {
+                        Thread.Sleep(1000);
+
+                        if (Directory.GetFiles(".old\\").Length == 0)
+                        {
+                            Directory.Delete(".old", true);
+                        }
+                    }
 
                     vm.Message = "Installing " + releaseType + " release " + maxReleaseNumber;
-
-                    //string fullPath = "installs\\" + releaseType + "\\" + maxReleaseNumber;
-                    //Directory.CreateDirectory(fullPath);
 
                     string zipPath = releaseType + "_" + maxReleaseNumber + ".zip";
 
                     WebClient wc = new WebClient();
-                    wc.DownloadProgressChanged +=
-                        new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
-                    wc.DownloadFileCompleted += new AsyncCompletedEventHandler(
-                        (object sender, AsyncCompletedEventArgs e) =>
+                    wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
+                    wc.DownloadFileCompleted += new AsyncCompletedEventHandler((object sender, AsyncCompletedEventArgs e) =>
                         {
                             if (Directory.Exists("temp"))
                             {
@@ -116,6 +151,19 @@ namespace Launcher
 
                             string json = JsonConvert.SerializeObject(Core.LauncherPrefs);
                             File.WriteAllText("LauncherPrefs.json", json);
+
+
+                            if (Directory.Exists(".old"))
+                            {
+                                Thread.Sleep(1000);
+
+                                if (Directory.GetFiles(".old\\").Length == 0)
+                                {
+                                    Directory.Delete(".old", true);
+                                }
+                            }
+
+                            
                         });
 
                     wc.DownloadFileAsync(new Uri(usableUrls.First(x => x.Value == maxReleaseNumber).Key), zipPath);
@@ -125,10 +173,10 @@ namespace Launcher
                     Complete = true;
                 }
             }
-            catch
-            {
-                Complete = true;
-            }
+            //catch (Exception e)
+            //{
+            //    Complete = true;
+            //}
 
         }
 
@@ -155,7 +203,13 @@ namespace Launcher
             {
                 string temppath = Path.Combine(destDirName, file.Name);
                 Debug.WriteLine("Copying to "+temppath);
-                file.CopyTo(temppath, true);
+                try
+                {
+                    file.CopyTo(temppath, true);
+                }
+                catch
+                {
+                }
             }
 
             // If copying subdirectories, copy them and their contents to new location.
