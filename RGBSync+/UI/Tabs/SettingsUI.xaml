@@ -6,9 +6,10 @@
              xmlns:local="clr-namespace:RGBSyncPlus.UI.Tabs"
              xmlns:Converter="clr-namespace:RGBSyncPlus.Converter"
              xmlns:controls="clr-namespace:RGBSyncPlus.Controls"
+             xmlns:fluentWpf="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
              x:Class="RGBSyncPlus.UI.Tabs.SettingsUI"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="750" d:DesignWidth="800">
     <UserControl.Resources>
         <Converter:LocConverter x:Key="LocConverter"/>
         <DataTemplate x:Key="LanguageSelector">
@@ -27,84 +28,8 @@
             </Setter>
         </Style>
         <SolidColorBrush x:Key="OptionMark.Static.Background" Color="#FFFFFFFF"/>
-        <SolidColorBrush x:Key="OptionMark.Static.Border" Color="#FF707070"/>
-        <Style x:Key="OptionMarkFocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="14,0,0,0" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <SolidColorBrush x:Key="OptionMark.MouseOver.Background" Color="#FFF3F9FF"/>
-        <SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="#FF5593FF"/>
-        <SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="#FF212121"/>
-        <SolidColorBrush x:Key="OptionMark.Disabled.Background" Color="#FFE6E6E6"/>
-        <SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="#FFBCBCBC"/>
-        <SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="#FF707070"/>
-        <SolidColorBrush x:Key="OptionMark.Pressed.Background" Color="#FFD9ECFF"/>
-        <SolidColorBrush x:Key="OptionMark.Pressed.Border" Color="#FF3C77DD"/>
-        <SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="#FF212121"/>
-        <SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="#FF212121"/>
-        <Style x:Key="CheckBoxStyle1" TargetType="{x:Type CheckBox}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type CheckBox}">
-                        <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True" Width="44" Height="20">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Border x:Name="checkBoxBorder" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                <Grid x:Name="markGrid">
-                                    <Path x:Name="optionMark" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Fill="{StaticResource OptionMark.Static.Glyph}" Margin="1" Opacity="0" Stretch="None"/>
-                                    <Rectangle x:Name="indeterminateMark" Fill="{StaticResource OptionMark.Static.Glyph}" Margin="2" Opacity="0"/>
-                                </Grid>
-                            </Border>
-                            <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="HasContent" Value="true">
-                                <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
-                                <Setter Property="Padding" Value="4,-1,0,0"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Border}"/>
-                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
-                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Border}"/>
-                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
-                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Border}"/>
-                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
-                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="true">
-                                <Setter Property="Opacity" TargetName="optionMark" Value="1"/>
-                                <Setter Property="Opacity" TargetName="indeterminateMark" Value="0"/>
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="{x:Null}">
-                                <Setter Property="Opacity" TargetName="optionMark" Value="0"/>
-                                <Setter Property="Opacity" TargetName="indeterminateMark" Value="1"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+
+      
     </UserControl.Resources>
     <UserControl.DataContext>
         <local:SettingsUIViewModel/>
@@ -128,7 +53,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.ApiServer, Converter={StaticResource LocConverter}}"/>
-        <CheckBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding NGSettings.ApiEnabled}"/>
+        <CheckBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding NGSettings.ApiEnabled}"  Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
         <Label Grid.Column="2" Grid.Row="0" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.ApiServerHelp, Converter={StaticResource LocConverter}}"/>
 
 
@@ -146,7 +71,7 @@
         <Label Grid.Column="2" Grid.Row="2" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language}"/>
 
         <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.StartAsAdmin, Converter={StaticResource LocConverter}}"/>
-        <CheckBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding StartAsAdmin}"/>
+        <CheckBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding StartAsAdmin}"  Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
         <Label Grid.Column="2" Grid.Row="3" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.StartAsAdminHelp, Converter={StaticResource LocConverter}}"/>
 
         <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.ReleaseType, Converter={StaticResource LocConverter}}"/>
@@ -154,21 +79,17 @@
         <Label Grid.Column="2" Grid.Row="4" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.ReleaseTypeHelp, Converter={StaticResource LocConverter}}"/>
 
         <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.MinimizeToTray, Converter={StaticResource LocConverter}}"/>
-        <CheckBox Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding MinimizeToTray}"/>
+        <CheckBox Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding MinimizeToTray}"  Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
         <Label Grid.Column="2" Grid.Row="5" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.MinimizeToTrayHelp, Converter={StaticResource LocConverter}}"/>
 
         <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.MinimizeOnStart, Converter={StaticResource LocConverter}}"/>
-        <CheckBox Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding MinimizeOnStart}"/>
+        <CheckBox Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding MinimizeOnStart}"  Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
         <Label Grid.Column="2" Grid.Row="6" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.MinimizeOnStartHelp, Converter={StaticResource LocConverter}}"/>
 
 
         <Label Grid.Column="0" Grid.Row="7" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.Experimental, Converter={StaticResource LocConverter}}"/>
-        <CheckBox Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding NGSettings.Experimental}" Style="{DynamicResource CheckBoxStyle1}"/>
+        <CheckBox Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding NGSettings.Experimental}"  Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
         <Label Grid.Column="2" Grid.Row="7" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.ExperimentalHelp, Converter={StaticResource LocConverter}}"/>
 
-        <StackPanel Grid.Row="8">
-            <CheckBox IsChecked="true" Style="{DynamicResource CheckBoxStyle1}"></CheckBox>
-            <CheckBox IsChecked="false" Style="{DynamicResource CheckBoxStyle1}"></CheckBox>
-        </StackPanel>
     </Grid>
 </UserControl>

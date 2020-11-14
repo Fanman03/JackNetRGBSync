@@ -73,4 +73,54 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style TargetType="CheckBox">
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel x:Name="swatches">
+                            <Border x:Name="optionMark" CornerRadius="10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                    Margin="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Width="44" Height="20">
+                                <Border Background="{TemplateBinding BorderBrush}" Width="10" Height="10" CornerRadius="5" HorizontalAlignment="Right" Margin="5,0"></Border>
+                            </Border>
+
+                            <Border x:Name="noOptionMark" CornerRadius="10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{x:Null}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Width="44" Height="20">
+                                <Border Background="{TemplateBinding BorderBrush}" Width="10" Height="10" CornerRadius="5" HorizontalAlignment="Left" Margin="4,0"></Border>
+                            </Border>
+                        </StackPanel>
+                        <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasContent" Value="true">
+                            <Setter Property="Padding" Value="4,-1,0,0"/>
+                        </Trigger>
+<Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" TargetName="swatches" Value="0.8"></Setter>
+</Trigger>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Visibility" TargetName="optionMark" Value="Visible"></Setter>
+                            <Setter Property="Visibility" TargetName="noOptionMark" Value="Collapsed"></Setter>
+                            <Setter Property="Opacity" TargetName="optionMark" Value="1"/>
+                            <Setter Property="Opacity" TargetName="noOptionMark" Value="0"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter Property="Visibility" TargetName="optionMark" Value="Collapsed"></Setter>
+                            <Setter Property="Visibility" TargetName="noOptionMark" Value="Visible"></Setter>
+                            <Setter Property="Opacity" TargetName="optionMark" Value="0"/>
+                            <Setter Property="Opacity" TargetName="noOptionMark" Value="1"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
