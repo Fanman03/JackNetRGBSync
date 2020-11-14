@@ -491,26 +491,12 @@ namespace RGBSyncPlus
                 Logger.Debug("Language is not set, inferring language from system culture. Lang=" + ci.TwoLetterISOLanguageName);
                 NGSettings.Lang = ci.TwoLetterISOLanguageName;
             }
+            
             System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(NGSettings.Lang);
 
             loadingSplash.LoadingText.Text = "Starting Discord";
             client = new DiscordRpcClient("581567509959016456");
             client.Initialize();
-
-            string tempSetup = Directory.GetCurrentDirectory() + "\\~TEMP_setup.exe";
-            if (File.Exists(tempSetup))
-            {
-                Logger.Debug("Found old installer, removing...");
-                try
-                {
-                    File.Delete(tempSetup);
-                    Logger.Debug("Old installer successfully removed.");
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error("Error deleting file: " + ex.ToString());
-                }
-            }
 
             LoadSLSProviders();
 
@@ -523,15 +509,15 @@ namespace RGBSyncPlus
             LoadNGSettings();
             loadingSplash.LoadingText.Text = "All done";
 
+            OpenConfiguration();
+
             DispatcherTimer closeTimer = new DispatcherTimer();
-            closeTimer.Interval = TimeSpan.FromSeconds(2);
+            closeTimer.Interval = TimeSpan.FromSeconds(1);
             closeTimer.Tick += (sender, args) =>
             {
                 loadingSplash.Close();
                 closeTimer.Stop();
             };
-
-            OpenConfiguration();
 
             closeTimer.Start();
 
@@ -1082,81 +1068,47 @@ namespace RGBSyncPlus
                 ConfigurationWindow.WindowState = WindowState.Minimized;
         }
 
+        private void ConnectDiscord()
+        {
+            Logger.Info("Discord RPC enabled.");
+            if (client.IsDisposed == true)
+            {
+                Logger.Info("Discord RPC client disposed, initializing new one.");
+                client = new DiscordRpcClient("581567509959016456");
+                client.Initialize();
+            }
+            Logger.Info("Setting Discord presensce.");
+            client.SetPresence(new RichPresence()
+            {
+                State = "Profile: " + Settings.Name,
+                Details = "Syncing lighting effects",
+                Assets = new Assets()
+                {
+                    LargeImageKey = "large_image",
+                    LargeImageText = "RGB Sync",
+                    SmallImageKey = "small_image",
+                    SmallImageText = "by Fanman03"
+                }
+            });
+        }
+
         public void OpenConfiguration()
         {
             if (NGSettings.EnableDiscordRPC == true)
             {
-                Logger.Info("Discord RPC enabled.");
-                if (client.IsDisposed == true)
-                {
-                    Logger.Info("Discord RPC client disposed, initializing new one.");
-                    client = new DiscordRpcClient("581567509959016456");
-                    client.Initialize();
-                }
-                Logger.Info("Setting Discord presensce.");
-                client.SetPresence(new RichPresence()
-                {
-                    State = "Profile: " + Settings.Name,
-                    Details = "Syncing lighting effects",
-                    Assets = new Assets()
-                    {
-                        LargeImageKey = "large_image",
-                        LargeImageText = "RGB Sync",
-                        SmallImageKey = "small_image",
-                        SmallImageText = "by Fanman03"
-                    }
-                });
+                ConnectDiscord();
             }
+
             if (ConfigurationWindow == null) ConfigurationWindow = new MainWindow();
             if (!ConfigurationWindow.IsVisible)
+            {
                 ConfigurationWindow.Show();
+            }
 
             if (ConfigurationWindow.WindowState == WindowState.Minimized)
+            {
                 ConfigurationWindow.WindowState = WindowState.Normal;
-
-            //TODO make better update check system
-            /*            try
-                        {
-                            using (WebClient w = new WebClient())
-                            {
-                                Logger.Info("Checking for update...");
-                                var json = w.DownloadString(ApplicationManager.Instance.AppSettings.versionURL);
-                                ProgVersion versionFromApi = JsonConvert.DeserializeObject<ProgVersion>(json);
-                                int versionMajor = Version.Major;
-                                int versionMinor = Version.Minor;
-                                int versionBuild = Version.Build;
-
-                                if (versionFromApi.major > versionMajor)
-                                {
-                                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
-                                    getUpdateWindow.Show();
-                                    Logger.Info("Update available. (major)");
-                                }
-                                else if (versionFromApi.minor > versionMinor)
-                                {
-                                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
-                                    getUpdateWindow.Show();
-                                    Logger.Info("Update available. (minor)");
-                                }
-                                else if (versionFromApi.build > versionBuild)
-                                {
-                                    GetUpdateWindow getUpdateWindow = new GetUpdateWindow();
-                                    Logger.Info("Update available. (build)");
-                                    getUpdateWindow.Show();
-                                }
-                                else
-                                {
-                                    Logger.Info("No update available.");
-                                }
-
-                            }
-
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Error("Unable to check for updates. Download failed with exception: " + ex);
-                        }*/
-
+            }
         }
 
         public void RestartApp()

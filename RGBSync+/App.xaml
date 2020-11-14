@@ -6,7 +6,8 @@
              xmlns:styles="clr-namespace:RGBSyncPlus.Styles"
              xmlns:rgbSyncPlus="clr-namespace:RGBSyncPlus" xmlns:Converter="clr-namespace:RGBSyncPlus.Converter"
              xmlns:fluentWpf="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
-             x:Class="RGBSyncPlus.App">
+             x:Class="RGBSyncPlus.App"
+             Exit="App_OnExit">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

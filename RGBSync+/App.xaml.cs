@@ -51,7 +51,7 @@ namespace RGBSyncPlus
                 this.DispatcherUnhandledException += App_DispatcherUnhandledException;
             }
 
-
+            ApplicationManager.Instance.Initialize();
 
             try
             {
@@ -60,8 +60,6 @@ namespace RGBSyncPlus
                 _taskbarIcon = (TaskbarIcon)FindResource("TaskbarIcon");
                 _taskbarIcon.DoubleClickCommand = ApplicationManager.Instance.OpenConfigurationCommand;
 
-                ApplicationManager.Instance.Initialize();
-                
                 //ApplicationManager.Instance.OpenConfigurationCommand.Execute(null);
             }
             catch (Exception ex)
@@ -90,5 +88,10 @@ namespace RGBSyncPlus
         }
 
         #endregion
+
+        private void App_OnExit(object sender, ExitEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
