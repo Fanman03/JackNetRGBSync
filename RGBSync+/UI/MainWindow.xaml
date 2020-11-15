@@ -15,6 +15,25 @@
         MinWidth="640"
         fw:AcrylicWindow.Enabled="True" Icon="/RGBSync+;component/ProgramIcon.ico">
     <Window.Resources>
+        <Style TargetType="ListViewItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Border Name="_Border"
+                                Padding="2"
+                                SnapsToDevicePixels="true">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="_Border" Property="Background" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="Transparent"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Converter:LocConverter x:Key="LocConverter"/>
         <Converter:StringMatchToVisibilityConverter x:Key="StringMatchToVisibilityConverter"/>
         <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -65,11 +84,11 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Width="auto" Background="{x:Null}" fw:PointerTracker.Enabled="True">
+        <Grid Grid.Column="0" Width="auto" Background="{x:Null}" fw:PointerTracker.Enabled="True" >
             <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"/>
-            <ListView ItemsSource="{Binding TabItems, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" ItemTemplate="{DynamicResource TabItemTemplate}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" Padding="-2" Margin="0,0" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsPanel="{DynamicResource ItemsPanelTemplate1}"/>
+            <ListView ItemsSource="{Binding TabItems, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" ItemTemplate="{DynamicResource TabItemTemplate}"  Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" Padding="-2" Margin="0,0" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsPanel="{DynamicResource ItemsPanelTemplate1}"/>
 
-            <Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="ShowSettings" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="0,0" Style="{DynamicResource ButtonRevealStyle}">
+                <Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="ShowSettings" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="0,0" Style="{DynamicResource ButtonRevealStyle}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8,0,8,0">
                     <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE713;" ToolTip="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" VerticalAlignment="Center" Margin="0,0" FontSize="24" />
                     <TextBlock Margin="20,0" 

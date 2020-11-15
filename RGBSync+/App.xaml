@@ -17,7 +17,6 @@
                 <ResourceDictionary Source="pack://application:,,,/RGBSync+;component/Styles/SliderStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
-                
             </ResourceDictionary.MergedDictionaries>
 
             <Converter:LocConverter x:Key="LocConverter"/>
