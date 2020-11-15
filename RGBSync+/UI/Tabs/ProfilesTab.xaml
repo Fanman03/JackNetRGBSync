@@ -118,8 +118,8 @@
                         <!--Visibility="{Binding TriggerType, ConverterParameter=Time Based, Converter={StaticResource StringMatchToVisibilityConverter}}" -->
                         <StackPanel>
 
-                            <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.TimeBasedTrigger, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom"/>
-                            <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.TimeToTrigger, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom"/>
+                            <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.TimeBasedTrigger, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
+                            <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.TimeToTrigger, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
                             <StackPanel Orientation="Horizontal">
                                 <TextBox  Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding Hour}" VerticalAlignment="Bottom" Background="#40404040" Width="50"/>
                                 <TextBox  Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding Minute}" VerticalAlignment="Bottom" Background="#40404040" Width="50"/>
@@ -138,18 +138,21 @@
 
                     <StackPanel Visibility="{Binding TriggerType, ConverterParameter=Running Process, Converter={StaticResource StringMatchToVisibilityConverter}}" >
 
-                        <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.ProcessTrigger, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom"/>
-                        <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.ProcessName, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="10,0,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.ProcessTrigger, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom"  Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
+                        <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.ProcessName, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom"  Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
                         <TextBox  Margin="10" Style="{StaticResource TextBoxRevealStyle}" Foreground="White" FontFamily="Segoe UI Light" FontWeight="Light" FontSize="18" Text="{Binding ProcessName}" VerticalAlignment="Bottom" Background="#40404040" />
 
-                        <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.ProcessInvert, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="10,20,20,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Profile.ProcessInvert, Converter={StaticResource LocConverter}}"  VerticalAlignment="Bottom"  Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
 
+                        <CheckBox IsChecked="{Binding TriggerWhenNotFound}" Margin="10">
+                            <TextBlock Margin="10,0,0,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Generic.Off, Converter={StaticResource LocConverter}}"  Foreground="White"  VerticalAlignment="Center" />
+                        </CheckBox>
 
-                        <Button BorderThickness="0" Background="{x:Null}" HorizontalAlignment="Left" Click="ToggleTriggerWhenNotFound">
+                        <!--<Button BorderThickness="0" Background="{x:Null}" HorizontalAlignment="Left" Click="ToggleTriggerWhenNotFound">
                             <Grid Margin="10,0">
                                 <StackPanel Orientation="Horizontal"  Visibility="{Binding TriggerWhenNotFound, Converter={StaticResource InvertedBoolToVisibilityConverter}}" VerticalAlignment="Center">
                                     <TextBlock Foreground="White" FontSize="42" FontFamily="Segoe MDL2 Assets"><Run Text="&#xF19E;"/></TextBlock>
-                                    <TextBlock Margin="10,0,0,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Generic.Off, Converter={StaticResource LocConverter}}"  Foreground="White"  VerticalAlignment="Center"/>
+                                    <TextBlock Margin="10,0,0,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Generic.Off, Converter={StaticResource LocConverter}}"  Foreground="White"  VerticalAlignment="Center" />
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal"  Visibility="{Binding TriggerWhenNotFound, Converter={StaticResource BoolToVisibilityConverter}}"  VerticalAlignment="Center">
@@ -157,7 +160,7 @@
                                     <TextBlock Margin="10,0,0,0"  FontFamily="Segoe UI Light" FontWeight="Light" FontSize="14" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Generic.On, Converter={StaticResource LocConverter}}"  Foreground="White"  VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
-                        </Button>
+                        </Button>-->
 
                     </StackPanel>
                 </Grid>
