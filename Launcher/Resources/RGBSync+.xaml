@@ -2,7 +2,8 @@
                                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                                     
                                     xmlns:styles="clr-namespace:Launcher.Styles"
-                                    xmlns:styles1="clr-namespace:Launcher.Styles">
+                                    xmlns:styles1="clr-namespace:Launcher.Styles"
+                                    >
 
         <styles1:CachedResourceDictionary.MergedDictionaries>
             <styles1:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/BlurredDecorationWindow.xaml" />
@@ -22,10 +23,6 @@
         </styles1:CachedResourceDictionary.MergedDictionaries>
 
 
-        <!--<Style TargetType="{x:Type controls:BlurredDecorationWindow}" BasedOn="{StaticResource StyleBlurredDecorationWindow}" />
-        
-        <Style TargetType="{x:Type controls:ImageButton}" BasedOn="{StaticResource StyleImageButton}" />
-        <Style TargetType="{x:Type controls:Form}" BasedOn="{StaticResource StyleForm}" />-->
         <Style TargetType="GroupBox" BasedOn="{StaticResource StyleGroupBoxBox}" />
         <Style TargetType="ToolTip" BasedOn="{StaticResource StyleToolTip}" />
         <Style TargetType="ComboBox" BasedOn="{StaticResource StyleComboBox}" />
@@ -34,7 +31,7 @@
         <Style TargetType="ListView" BasedOn="{StaticResource StyleListView}" />
         <Style TargetType="Slider" BasedOn="{StaticResource StyleSlider}" />
         <Style TargetType="TextBox" BasedOn="{StaticResource StyleTextBox}" />
-        <Style TargetType="CheckBox" BasedOn="{StaticResource StyleCheckBox}" />
+        
         <Style TargetType="{x:Type ContextMenu}">
             <Setter Property = "FontSize" Value="14"/>
         </Style>

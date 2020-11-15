@@ -59,7 +59,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         public bool MinimizeOnStart
         {
-            get => minimizeToTray;
+            get => minimizeOnStart;
             set
             {
                 SetProperty(ref minimizeOnStart, value);
@@ -72,6 +72,11 @@ namespace RGBSyncPlus.UI.Tabs
         public DeviceMappingModels.NGSettings NGSettings { get; set; }
 
         public SettingsUIViewModel()
+        {
+          
+        }
+
+        public void Init()
         {
             NGSettings = ApplicationManager.Instance.NGSettings;
             CurrentLanguage = Languages.FirstOrDefault(x => x.Code == ApplicationManager.Instance.NGSettings.Lang);
@@ -87,6 +92,12 @@ namespace RGBSyncPlus.UI.Tabs
             MinimizeToTray = ApplicationManager.Instance.LauncherPrefs.MinimizeToTray;
 
             ReleaseType = ApplicationManager.Instance.LauncherPrefs.ReleaseBranch;
+
+            OnPropertyChanged("ReleaseTypes");
+            OnPropertyChanged("StartAsAdmin");
+            OnPropertyChanged("MinimizeOnStart");
+            OnPropertyChanged("ReleaseType");
+            OnPropertyChanged("MinimizeToTray");
         }
 
         public ObservableCollection<LanguageOption> Languages { get; set; } =

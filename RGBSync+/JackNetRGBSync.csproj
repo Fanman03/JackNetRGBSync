@@ -136,10 +136,6 @@
     <Compile Include="Model\SyncGroup.cs" />
     <Compile Include="Model\SyncLed.cs" />
     <Compile Include="ProfileTriggerManager.cs" />
-    <Compile Include="Controls\BlurredDecorationWindow.cs" />
-    <Compile Include="Controls\ColorSelector.cs" />
-    <Compile Include="Controls\Form.cs" />
-    <Compile Include="Controls\ImageButton.cs" />
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\EqualsToBoolConverter.cs" />
     <Compile Include="Styles\CachedResourceDictionary.cs" />
@@ -211,10 +207,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\RainbowDefault\BlurredDecorationWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
-    </Page>
     <Page Include="Styles\RainbowDefault\Button.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
@@ -244,10 +236,6 @@
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Styles\RainbowDefault\GroupBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
-    </Page>
-    <Page Include="Styles\RainbowDefault\ImageButton.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
@@ -416,7 +404,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\background.png" />
     <Resource Include="Resources\close.png" />
     <Resource Include="Resources\minimize.png" />
   </ItemGroup>
@@ -487,9 +474,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\error.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\base.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\UploadToCloud.png" />
@@ -603,6 +587,8 @@
       <Name>Launcher</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controls\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

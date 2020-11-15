@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.ComponentModel;
+using System.Windows.Controls;
 
 namespace RGBSyncPlus.UI.Tabs
 {
@@ -10,6 +11,10 @@ namespace RGBSyncPlus.UI.Tabs
         public SettingsUI()
         {
             InitializeComponent();
+            if (!DesignerProperties.GetIsInDesignMode(this))
+            {
+                (this.DataContext as SettingsUIViewModel)?.Init();
+            }
         }
     }
 }

@@ -92,20 +92,5 @@
         </Setter>
     </Style>
 
-    <Style x:Key="StyleListView" 
-           BasedOn="{StaticResource StyleFrameworkElement}"
-           TargetType="ListView">
-        <Setter Property="Foreground" Value="{StaticResource BrushButtonForeground}" />
-        <Setter Property="FontSize" Value="{StaticResource FontSizeDefault}" />
-        <Setter Property="FontFamily" Value="pack://application:,,,/Resources/#Cinzel" />
-        <Setter Property="Background" Value="{StaticResource BrushButtonBackground}" />
-        <Setter Property="BorderBrush" Value="{StaticResource BrushButtonBorder}" />
-        <Setter Property="BorderThickness" Value="2" />
-        <Setter Property="Padding" Value="4,2" />
-
-        <Setter Property="ItemContainerStyle" Value="{StaticResource StyleListViewItemContainer}" />
-        <Setter Property="Template" Value="{StaticResource ListViewTemplate}" />
-    </Style>
-
 </styles:CachedResourceDictionary>
     
