@@ -67,7 +67,7 @@
 
 
         <Label Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.Language, Converter={StaticResource LocConverter}}"/>
-        <ComboBox Style="{StaticResource ComboBoxRevealStyle}" Grid.Column="1" Grid.Row="2" Margin="10,0" Width="200" Height="30" ItemsSource="{Binding Languages}" ItemTemplate="{DynamicResource LanguageSelector}" SelectedItem="{Binding CurrentLanguage}" />
+        <ComboBox   Grid.Column="1" Grid.Row="2" Margin="10,0" Width="200" Height="30" ItemsSource="{Binding Languages}" ItemTemplate="{DynamicResource LanguageSelector}" SelectedItem="{Binding CurrentLanguage}" />
         <Label Grid.Column="2" Grid.Row="2" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language}"/>
 
         <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.StartAsAdmin, Converter={StaticResource LocConverter}}"/>
@@ -75,7 +75,7 @@
         <Label Grid.Column="2" Grid.Row="3" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.StartAsAdminHelp, Converter={StaticResource LocConverter}}"/>
 
         <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.ReleaseType, Converter={StaticResource LocConverter}}"/>
-        <ComboBox Style="{StaticResource ComboBoxRevealStyle}" Grid.Column="1" Grid.Row="4" Margin="10,0" Width="200" Height="30" ItemsSource="{Binding ReleaseTypes}"  SelectedItem="{Binding ReleaseType}" />
+        <ComboBox  Grid.Column="1" Grid.Row="4" Margin="10,0" Width="200" Height="30" ItemsSource="{Binding ReleaseTypes}"  SelectedItem="{Binding ReleaseType}" />
         <Label Grid.Column="2" Grid.Row="4" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.ReleaseTypeHelp, Converter={StaticResource LocConverter}}"/>
 
         <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.MinimizeToTray, Converter={StaticResource LocConverter}}"/>

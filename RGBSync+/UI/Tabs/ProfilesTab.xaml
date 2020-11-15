@@ -170,7 +170,7 @@
     </UserControl.DataContext>
 
     <Grid>
-        <ListBox ItemsSource="{Binding ProfileItems}" Margin="0,0,0,0" ItemTemplate="{DynamicResource ManageProfilesTemplateItem}" Background="{x:Null}"></ListBox>
+        <ListBox ItemsSource="{Binding ProfileItems}" Margin="0,0,0,0" ItemTemplate="{DynamicResource ManageProfilesTemplateItem}" Background="{x:Null}" HorizontalContentAlignment="Stretch"></ListBox>
         <Button Width="96" Height="96" Content="" FontFamily="Segoe MDL2 Assets" FontSize="64" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="40,20"  Style="{StaticResource FloatingCircularButton}" Background="{x:Null}" BorderBrush="{x:Null}" Click="AddNewProfile" Visibility="{Binding ShowTriggers, Converter={StaticResource InvertedBoolToVisibilityConverter}}"/>
 
         <Grid Visibility="{Binding ShowTriggers, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -185,7 +185,7 @@
                 </StackPanel>
                 
                 <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="CloseTriggerList" Foreground="{DynamicResource Tc-Red}" Content="&#xE711;" FontSize="24" Margin="0,8,8,0"/>
-                <ListView ItemsSource="{Binding CurrentProfile.Triggers}" ItemTemplate="{DynamicResource TriggerTemplate}"  Margin="10,40,10,10" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single"/>
+                <ListView ItemsSource="{Binding CurrentProfile.Triggers}" ItemTemplate="{DynamicResource TriggerTemplate}"  Margin="10,40,10,10" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" Background="{x:Null}" BorderThickness="0"/>
                 <Button Width="96" Height="96" Content="" FontFamily="Segoe MDL2 Assets" FontSize="64" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0" Foreground="#c0ffffff" Background="{x:Null}" BorderBrush="{x:Null}" Click="AddNewTrigger"/>
             </Grid>
         </Grid>

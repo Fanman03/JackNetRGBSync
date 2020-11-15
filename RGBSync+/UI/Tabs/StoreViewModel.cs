@@ -28,14 +28,12 @@ namespace RGBSyncPlus.UI.Tabs
 
             storeHandler = new StoreHandler();
 
-            if (!Debugger.IsAttached)
-            {
-                LoadStoreAndPlugins();
+            LoadStoreAndPlugins();
 
-                ShowInstalled = true;
-                ShowStore = false;
-                ShowUpdates = false;
-            }
+            ShowInstalled = true;
+            ShowStore = false;
+            ShowUpdates = false;
+
         }
 
         private MainWindowViewModel mainVm
@@ -526,6 +524,6 @@ namespace RGBSyncPlus.UI.Tabs
             OnPropertyChanged("FilteredPlugins");
         }
 
-        
+
     }
 }

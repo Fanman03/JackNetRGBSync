@@ -8,7 +8,7 @@
              xmlns:converter="clr-namespace:RGBSyncPlus.Converter"
              xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="1080" d:DesignWidth="1920">
     <UserControl.Resources>
 
 
@@ -19,13 +19,12 @@
         <converter:DeviceTypeToImageConverter x:Key="DeviceTypeToImageConverter"/>
 
         <DataTemplate x:Key="PluginItemTemplate">
-            <Grid Height="100" Margin="8" Background="#c0000000"  MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" fw:PointerTracker.Enabled="True">
+            <Grid Height="100" Margin="8" Background="#c0000000"  MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" fw:PointerTracker.Enabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="260"/>
                     <ColumnDefinition Width="6*"/>
                     <ColumnDefinition MinWidth="300"/>
-
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0" Grid.ColumnSpan="4" Visibility="{Binding InstalledButOutdated, Converter={StaticResource InvertedBoolToVisConverter}}">
@@ -42,9 +41,9 @@
                     <TextBlock Margin="10,0" FontSize="24" FontFamily="Segoe UI" Foreground="White" FontWeight="Bold" Text="{Binding Name}"  VerticalAlignment="Center" ></TextBlock>
                     <TextBlock Margin="10,0" FontSize="24" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Author}"  VerticalAlignment="Center"></TextBlock>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0">
-                        <TextBlock Text="" FontSize="24" FontFamily="Segoe MDL2 Assets"  VerticalAlignment="Center" Margin="5" Visibility="{Binding InstalledVersionModel.IsExperimental, Converter={StaticResource BoolToVisConverter}}" ToolTip="{Binding Language, ConverterParameter=Store.ExperimentalButton, Converter={StaticResource LocConverter}}"></TextBlock>
-                        <TextBlock Text="" FontSize="24" FontFamily="Segoe MDL2 Assets"  VerticalAlignment="Center" Margin="5" Visibility="{Binding InstalledVersionModel.IsInstalled, Converter={StaticResource BoolToVisConverter}}" ToolTip="{Binding Language, ConverterParameter=Store.NotStoreButton, Converter={StaticResource LocConverter}}"></TextBlock>
-                        <TextBlock Text="" FontSize="24" FontFamily="Segoe MDL2 Assets"  VerticalAlignment="Center" Margin="5" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}" ToolTip="{Binding Language, ConverterParameter=Store.UpdateAvail, Converter={StaticResource LocConverter}}"></TextBlock>
+                        <TextBlock Foreground="#c0c0c0"  Text="" FontSize="24" FontFamily="Segoe MDL2 Assets"  VerticalAlignment="Center" Margin="5" Visibility="{Binding InstalledVersionModel.IsExperimental, Converter={StaticResource BoolToVisConverter}}" ToolTip="{Binding Language, ConverterParameter=Store.ExperimentalButton, Converter={StaticResource LocConverter}}"></TextBlock>
+                        <TextBlock Foreground="#c0c0c0" Text="" FontSize="24" FontFamily="Segoe MDL2 Assets"  VerticalAlignment="Center" Margin="5" Visibility="{Binding InstalledVersionModel.IsInstalled, Converter={StaticResource BoolToVisConverter}}" ToolTip="{Binding Language, ConverterParameter=Store.NotStoreButton, Converter={StaticResource LocConverter}}"></TextBlock>
+                        <TextBlock Foreground="#c0c0c0" Text="" FontSize="24" FontFamily="Segoe MDL2 Assets"  VerticalAlignment="Center" Margin="5" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}" ToolTip="{Binding Language, ConverterParameter=Store.UpdateAvail, Converter={StaticResource LocConverter}}"></TextBlock>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Grid.Column="2">
@@ -67,7 +66,7 @@
                     <!--<Button Background="{StaticResource Tc-Blue}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Install" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}" Click="InstallPlugin" />-->
                     <!--<Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Plugin.DisableBtnLabel, Converter={StaticResource LocConverter}}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DisablePlugin" />-->
                     <!--<Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Plugin.UninstallBtnLabel, Converter={StaticResource LocConverter}}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DeletePlugin" />-->
-                    <ComboBox ItemsSource="{Binding VersionsAvailable}" VerticalAlignment="Center" ItemTemplate="{DynamicResource DataTemplate1}" Width="165" SelectedItem="{Binding InstalledVersionModel}" Margin="0,0,10,0" SelectionChanged="Selector_OnSelectionChanged"></ComboBox>
+                    <ComboBox ItemsSource="{Binding VersionsAvailable}" VerticalAlignment="Center" ItemTemplate="{DynamicResource DataTemplate1}" Width="195" SelectedItem="{Binding InstalledVersionModel}" Margin="0,0,10,0" SelectionChanged="Selector_OnSelectionChanged"></ComboBox>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -135,39 +134,39 @@
 
         <Grid Grid.Row="0" Background="{DynamicResource SystemBaseLowColorBrush}" Margin="0" Grid.ColumnSpan="2" fw:PointerTracker.Enabled="True">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <Button Background="#80000000" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.ShowStore, Converter={StaticResource LocConverter}}"  Click="ToggleInstalled" Visibility="{Binding ShowInstalled, Converter={StaticResource InvertedBoolToVisConverter}}">
-                    <StackPanel Orientation="Horizontal">
+                <Button Background="#80000000" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.ShowStore, Converter={StaticResource LocConverter}}"  Click="ToggleInstalled" Visibility="{Binding ShowInstalled, Converter={StaticResource InvertedBoolToVisConverter}}" Width="120" HorizontalContentAlignment="Left">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <TextBlock></TextBlock>
                         <TextBlock FontFamily="Segoe UI Light" VerticalAlignment="Center" FontSize="18" Margin="4,0,0,0" Text="{Binding Language, ConverterParameter=Store.NotStoreButton, Converter={StaticResource LocConverter}}"></TextBlock>
                     </StackPanel>
                 </Button>
-                <Button Background="{StaticResource Tc-Cyan}" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.ShowStore, Converter={StaticResource LocConverter}, Mode=OneWay}"   Visibility="{Binding ShowInstalled, Converter={StaticResource BoolToVisConverter}}">
-                    <StackPanel Orientation="Horizontal">
+                <Button Background="{StaticResource Tc-Cyan}" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.ShowStore, Converter={StaticResource LocConverter}, Mode=OneWay}"   Visibility="{Binding ShowInstalled, Converter={StaticResource BoolToVisConverter}}"  Width="120" HorizontalContentAlignment="Left">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <TextBlock></TextBlock>
                         <TextBlock FontFamily="Segoe UI Light" VerticalAlignment="Center" FontSize="18" Margin="4,0,0,0" Text="{Binding Language, ConverterParameter=Store.NotStoreButton, Converter={StaticResource LocConverter}}"></TextBlock>
                     </StackPanel>
                 </Button>
-                <Button Background="#80000000" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.ShowStore, Converter={StaticResource LocConverter}}" Click="ToggleStore" Visibility="{Binding ShowStore, Converter={StaticResource InvertedBoolToVisConverter}}">
-                    <StackPanel Orientation="Horizontal">
+                <Button Background="#80000000" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.ShowStore, Converter={StaticResource LocConverter}}" Click="ToggleStore" Visibility="{Binding ShowStore, Converter={StaticResource InvertedBoolToVisConverter}}"  Width="120" HorizontalContentAlignment="Left">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <TextBlock></TextBlock>
                         <TextBlock FontFamily="Segoe UI Light" VerticalAlignment="Center" FontSize="18" Margin="4,0,0,0" Text="{Binding Language, ConverterParameter=Store.StoreButton, Converter={StaticResource LocConverter}}"></TextBlock>
                     </StackPanel>
                 </Button>
-                <Button Background="{StaticResource Tc-Green}" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.ShowStore, Converter={StaticResource LocConverter}, Mode=OneWay}" Visibility="{Binding ShowStore, Converter={StaticResource BoolToVisConverter}}">
-                    <StackPanel Orientation="Horizontal">
+                <Button Background="{StaticResource Tc-Green}" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.ShowStore, Converter={StaticResource LocConverter}, Mode=OneWay}" Visibility="{Binding ShowStore, Converter={StaticResource BoolToVisConverter}}"  Width="120" HorizontalContentAlignment="Left">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <TextBlock></TextBlock>
                         <TextBlock FontFamily="Segoe UI Light" VerticalAlignment="Center" FontSize="18" Margin="4,0,0,0" Text="{Binding Language, ConverterParameter=Store.StoreButton, Converter={StaticResource LocConverter}}"></TextBlock>
                     </StackPanel>
                 </Button>
 
-                <Button Background="{StaticResource Tc-Red}" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Updates, Converter={StaticResource LocConverter}, Mode=OneWay}"  Visibility="{Binding ShowUpdates, Converter={StaticResource BoolToVisConverter}}">
-                    <StackPanel Orientation="Horizontal">
+                <Button Background="{StaticResource Tc-Red}" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Updates, Converter={StaticResource LocConverter}, Mode=OneWay}"  Visibility="{Binding ShowUpdates, Converter={StaticResource BoolToVisConverter}}"  Width="120" HorizontalContentAlignment="Left">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <TextBlock></TextBlock>
                         <TextBlock FontFamily="Segoe UI Light" VerticalAlignment="Center" FontSize="18" Margin="4,0,0,0" Text="{Binding Language, ConverterParameter=Store.UpdatesButton, Converter={StaticResource LocConverter}}"></TextBlock>
                     </StackPanel>
                 </Button>
-                <Button Background="#80000000" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Updates, Converter={StaticResource LocConverter}, Mode=OneWay}" Click="ToggleUpdates" Visibility="{Binding ShowUpdates, Converter={StaticResource InvertedBoolToVisConverter}}">
-                    <StackPanel Orientation="Horizontal">
+                <Button Background="#80000000" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Updates, Converter={StaticResource LocConverter}, Mode=OneWay}" Click="ToggleUpdates" Visibility="{Binding ShowUpdates, Converter={StaticResource InvertedBoolToVisConverter}}"  Width="120" HorizontalContentAlignment="Left">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <TextBlock></TextBlock>
                         <TextBlock FontFamily="Segoe UI Light" VerticalAlignment="Center" FontSize="18" Margin="4,0,0,0" Text="{Binding Language, ConverterParameter=Store.UpdatesButton, Converter={StaticResource LocConverter}}"></TextBlock>
                     </StackPanel>
@@ -184,7 +183,7 @@
 
         </Grid>
 
-        <ListView ItemsSource="{Binding FilteredPlugins}" ItemTemplate="{DynamicResource PluginItemTemplate}" Grid.Row="1" Margin="0,0,0,0" Grid.ColumnSpan="2" IsSynchronizedWithCurrentItem="True"></ListView>
+        <ListView Grid.Column="0" ItemsSource="{Binding FilteredPlugins}" ItemTemplate="{DynamicResource PluginItemTemplate}" Grid.Row="1" Margin="0,0,0,0" Grid.ColumnSpan="2" IsSynchronizedWithCurrentItem="True" Background="{x:Null}" HorizontalContentAlignment="Stretch" ></ListView>
 
         <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="#d0000000" Visibility="{Binding ShowConfig, Converter={StaticResource BoolToVisConverter}}" d:IsHidden="True"/>
 

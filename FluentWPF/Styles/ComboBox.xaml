@@ -142,7 +142,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ComboBoxRevealStyle" TargetType="{x:Type ComboBox}">
+    <Style TargetType="ComboBox">
         <Setter Property="Padding" Value="12,5,0,7" />
         <Setter Property="MinWidth" Value="64" />
         <Setter Property="Foreground" Value="{DynamicResource SystemBaseHighColorBrush}" />

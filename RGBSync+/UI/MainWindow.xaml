@@ -19,7 +19,7 @@
         <Converter:StringMatchToVisibilityConverter x:Key="StringMatchToVisibilityConverter"/>
         <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <DataTemplate x:Key="TabItemTemplate">
-            <Grid fw:PointerTracker.Enabled="True" Margin="0,0,0,0">
+            <Grid fw:PointerTracker.Enabled="True" Margin="-6,0,-4,0">
                 <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.2" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" ></Rectangle>
                 <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" >
                     <Rectangle.Fill>
@@ -67,7 +67,7 @@
 
         <Grid Grid.Column="0" Width="auto" Background="{x:Null}" fw:PointerTracker.Enabled="True">
             <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"/>
-            <ListView ItemsSource="{Binding TabItems, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" ItemTemplate="{DynamicResource TabItemTemplate}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" Padding="0" Margin="0,0" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsPanel="{DynamicResource ItemsPanelTemplate1}"/>
+            <ListView ItemsSource="{Binding TabItems, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" ItemTemplate="{DynamicResource TabItemTemplate}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" Padding="-2" Margin="0,0" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsPanel="{DynamicResource ItemsPanelTemplate1}"/>
 
             <Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="ShowSettings" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="0,0" Style="{DynamicResource ButtonRevealStyle}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8,0,8,0">

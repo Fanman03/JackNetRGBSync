@@ -3,6 +3,8 @@ using RGBSyncPlus.Model;
 using SharpCompress.Archives;
 using SimpleLed;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -28,6 +30,15 @@ namespace RGBSyncPlus.UI.Tabs
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
                 (this.DataContext as StoreViewModel)?.Init();
+            }
+            else
+            {
+                vm.Plugins = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(new List<PositionalAssignment.PluginDetailsViewModel>
+                {
+                    new PositionalAssignment.PluginDetailsViewModel{Author = "Author", Blurb = "Blurb", Id = "xxx", Installed = true}
+                });
+
+                vm.ShowInstalled = true;
             }
         }
 
