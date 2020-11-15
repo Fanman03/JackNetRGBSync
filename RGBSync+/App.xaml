@@ -21,6 +21,46 @@
 
             <Converter:LocConverter x:Key="LocConverter"/>
 
+            <Style TargetType="ListView">
+                <Setter Property="BorderThickness" Value="0"></Setter>
+                <Setter Property="Padding" Value="0,0,0,20"></Setter>
+                <Setter Property="Background" Value="Transparent"></Setter>
+            </Style>
+            <Style TargetType="ListViewItem">
+                <Setter Property="Opacity" Value="0.8"></Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+
+                        <ControlTemplate TargetType="ListViewItem">
+                            <Border x:Name="TheBorder" Margin="0" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Opacity="1.0">
+                                <Border.Effect>
+                                    <DropShadowEffect x:Name="TheDropShadow"
+                                                      ShadowDepth="0"
+                                                      Color="Black"
+                                                      Opacity="0.95"
+                                                      BlurRadius="20"/>
+                                </Border.Effect>
+
+                                <ContentPresenter  />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+
+                                    <Setter Property="Foreground" Value="Transparent"/>
+
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Setter Property="Background" Value="#80808080"></Setter>
+                                </Trigger>
+
+
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <tb:TaskbarIcon x:Key="TaskbarIcon"
                             IconSource="Resources/ProgramIcon.ico"
                             ToolTipText ="RGB Sync Studio"
@@ -207,6 +247,11 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
+
+           
+
+            
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

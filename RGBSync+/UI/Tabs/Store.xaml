@@ -66,7 +66,7 @@
                     <!--<Button Background="{StaticResource Tc-Blue}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Install" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}" Click="InstallPlugin" />-->
                     <!--<Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Plugin.DisableBtnLabel, Converter={StaticResource LocConverter}}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DisablePlugin" />-->
                     <!--<Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Plugin.UninstallBtnLabel, Converter={StaticResource LocConverter}}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DeletePlugin" />-->
-                    <ComboBox ItemsSource="{Binding VersionsAvailable}" VerticalAlignment="Center" ItemTemplate="{DynamicResource DataTemplate1}" Width="150" SelectedItem="{Binding InstalledVersionModel}" Margin="0,0,10,0" SelectionChanged="Selector_OnSelectionChanged"></ComboBox>
+                    <ComboBox ItemsSource="{Binding VersionsAvailable}" VerticalAlignment="Center" ItemTemplate="{DynamicResource DataTemplate1}" Width="180" SelectedItem="{Binding InstalledVersionModel}" Margin="0,0,10,0" SelectionChanged="Selector_OnSelectionChanged"></ComboBox>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -80,26 +80,12 @@
             <Setter Property="Padding" Value="8"/>
         </Style>
         <DataTemplate x:Key="DataTemplate1">
-            <!--<Grid Margin="0" Width="150">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="32"></ColumnDefinition>
-                    <ColumnDefinition Width="32"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                
-                <TextBlock Grid.Column="0" Text="" FontSize="24" FontFamily="Segoe MDL2 Assets"  VerticalAlignment="Center" Margin="0" Visibility="{Binding IsExperimental, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
-                <TextBlock Grid.Column="1" Text="" FontSize="24" FontFamily="Segoe MDL2 Assets"  VerticalAlignment="Center" Margin="0" Visibility="{Binding IsInstalled, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
-
-                <TextBlock Grid.Column="2" Text="{Binding ReleaseNumber}" FontFamily="Segoe UI Light" FontSize="18" VerticalAlignment="Center"></TextBlock>
-                
-
-
-            </Grid>-->
+          
             <DockPanel LastChildFill="True">
                 <TextBlock DockPanel.Dock="Left" Text="" FontSize="20" FontFamily="Segoe MDL2 Assets"  VerticalAlignment="Center" Margin="0,0,8,0" Visibility="{Binding IsExperimental, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
                 <TextBlock DockPanel.Dock="Left" Text="" FontSize="20" FontFamily="Segoe MDL2 Assets"  VerticalAlignment="Center" Margin="0,0,8,0" Visibility="{Binding IsInstalled, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
 
-                <TextBlock DockPanel.Dock="Right" Text="{Binding ReleaseNumber}" FontFamily="Segoe UI Light" FontSize="18" VerticalAlignment="Center"></TextBlock>
+                <TextBlock DockPanel.Dock="Right" Text="{Binding ReleaseNumber}" FontFamily="Segoe UI Light" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,30,0"></TextBlock>
             </DockPanel>
         </DataTemplate>
         <Style x:Key="FocusVisual">
@@ -189,7 +175,7 @@
 
         </Grid>
 
-        <ListView Grid.Column="0" ItemsSource="{Binding FilteredPlugins}" ItemTemplate="{DynamicResource PluginItemTemplate}" Grid.Row="1" Margin="0,0,0,0" Grid.ColumnSpan="2" IsSynchronizedWithCurrentItem="True" Background="{x:Null}" HorizontalContentAlignment="Stretch" ></ListView>
+        <ListView Grid.Column="0" ItemsSource="{Binding FilteredPlugins}" ItemTemplate="{DynamicResource PluginItemTemplate}" Grid.Row="1" Margin="0,0,0,10" Grid.ColumnSpan="2" IsSynchronizedWithCurrentItem="True" Background="{x:Null}" HorizontalContentAlignment="Stretch" ></ListView>
 
         <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="#d0000000" Visibility="{Binding ShowConfig, Converter={StaticResource BoolToVisConverter}}" d:IsHidden="True"/>
 

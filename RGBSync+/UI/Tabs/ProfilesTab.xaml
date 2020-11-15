@@ -170,7 +170,7 @@
     </UserControl.DataContext>
 
     <Grid>
-        <ListBox ItemsSource="{Binding ProfileItems}" Margin="0,0,0,0" ItemTemplate="{DynamicResource ManageProfilesTemplateItem}" Background="{x:Null}" HorizontalContentAlignment="Stretch"></ListBox>
+        <ListView ItemsSource="{Binding ProfileItems}" Margin="0,0,0,0" ItemTemplate="{DynamicResource ManageProfilesTemplateItem}" Background="{x:Null}" HorizontalContentAlignment="Stretch"></ListView>
         <Button Width="96" Height="96" Content="" FontFamily="Segoe MDL2 Assets" FontSize="64" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="40,20"  Style="{StaticResource FloatingCircularButton}" Background="{x:Null}" BorderBrush="{x:Null}" Click="AddNewProfile" Visibility="{Binding ShowTriggers, Converter={StaticResource InvertedBoolToVisibilityConverter}}"/>
 
         <Grid Visibility="{Binding ShowTriggers, Converter={StaticResource BoolToVisibilityConverter}}">
