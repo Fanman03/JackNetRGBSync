@@ -20,7 +20,7 @@
         <Converter:StringMatchToVisibilityConverter x:Key="StringMatchToVisibilityConverter"/>
         <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <DataTemplate x:Key="TabItemTemplate">
-            <Grid fw:PointerTracker.Enabled="True" Margin="-2,0,0,0" HorizontalAlignment="Stretch" MouseDown="Grid_MouseDown">
+            <Grid fw:PointerTracker.Enabled="True" Margin="0,0,0,0" HorizontalAlignment="Stretch" MouseDown="Grid_MouseDown">
                 <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.2" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" ></Rectangle>
                 <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" Fill="White" />
                 
@@ -29,8 +29,19 @@
                             <ColumnDefinition Width="44"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                    
-                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" ToolTip="{Binding Name}" Text="{Binding Icon}" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="White"/>
+                        <Grid.Style>
+                            <Style TargetType="{x:Type Grid}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="False">
+                                        <Setter Property="Background" Value="Transparent"></Setter>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#80000000"></Setter>
+                                </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" ToolTip="{Binding Name}" Text="{Binding Icon}" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="White"/>
                         <TextBlock
                             Grid.Column="1"
                             Margin="10,0" 
@@ -42,6 +53,20 @@
                                Text="{Binding Name}" 
                                HorizontalAlignment="Left"
                                Visibility="{Binding DataContext.HamburgerExtended, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Window}}}"/>
+
+                    <TextBlock
+                            Grid.Column="1"
+Foreground="Transparent"
+                            Margin="10,0" 
+                            FontSize="24" 
+                            FontWeight="Light" 
+                            FontFamily="Segoe UI Light" 
+                            VerticalAlignment="Center" 
+                    
+                            HorizontalAlignment="Left"
+                            Text="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" 
+                            Visibility="{Binding DataContext.HamburgerExtended, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Window}}}"
+                            ></TextBlock>
                     </Grid>
             </Grid>
         </DataTemplate>
@@ -85,14 +110,25 @@
                     <ColumnDefinition Width="34"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-
+                    <Grid.Style>
+                        <Style TargetType="{x:Type Grid}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="False">
+                                    <Setter Property="Background" Value="Transparent"></Setter>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#80000000"></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
                     <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.2" Margin="0,0" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" Grid.ColumnSpan="2"></Rectangle>
                     <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" Fill="White" Grid.ColumnSpan="2" />
 
                     <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" ToolTip="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" Text="&#xE713;" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="White"/>
                 <TextBlock
                     Grid.Column="1"
-                    Margin="20,0" 
+                    Margin="10,0" 
                     FontSize="24" 
                     FontWeight="Light" 
                     FontFamily="Segoe UI Light" 
