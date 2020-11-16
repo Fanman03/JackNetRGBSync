@@ -21,7 +21,7 @@
         <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <DataTemplate x:Key="TabItemTemplate">
             <Grid fw:PointerTracker.Enabled="True" Margin="0,0,0,0" HorizontalAlignment="Stretch" MouseDown="Grid_MouseDown">
-                <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.2" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" ></Rectangle>
+                <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.5" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" ></Rectangle>
                 <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" Fill="White" />
                 
                     <Grid HorizontalAlignment="Stretch" Margin="0,4" Height="40" VerticalAlignment="Center">
@@ -36,7 +36,7 @@
                                         <Setter Property="Background" Value="Transparent"></Setter>
                                     </Trigger>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#80000000"></Setter>
+                                    <Setter Property="Background" Value="#20000000"></Setter>
                                 </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -117,12 +117,12 @@ Foreground="Transparent"
                                     <Setter Property="Background" Value="Transparent"></Setter>
                                 </Trigger>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#80000000"></Setter>
+                                    <Setter Property="Background" Value="#40000000"></Setter>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </Grid.Style>
-                    <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.2" Margin="0,0" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" Grid.ColumnSpan="2"></Rectangle>
+                    <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.5" Margin="0,0" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" Grid.ColumnSpan="2"></Rectangle>
                     <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" Fill="White" Grid.ColumnSpan="2" />
 
                     <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" ToolTip="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" Text="&#xE713;" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="White"/>
