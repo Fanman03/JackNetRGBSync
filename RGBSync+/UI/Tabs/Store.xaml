@@ -19,12 +19,12 @@
         <converter:DeviceTypeToImageConverter x:Key="DeviceTypeToImageConverter"/>
 
         <DataTemplate x:Key="PluginItemTemplate">
-            <Grid Height="100" Margin="8" Background="#c0000000"  MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" fw:PointerTracker.Enabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid Height="100" Margin="8,8,8,0" Background="#c0000000"  MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" fw:PointerTracker.Enabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="250"/>
-                    <ColumnDefinition MinWidth="300"/>
-                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="242"/>
+                    <ColumnDefinition MinWidth="180"/>
+                    <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0" Grid.ColumnSpan="4" Visibility="{Binding InstalledButOutdated, Converter={StaticResource InvertedBoolToVisConverter}}">
@@ -34,7 +34,7 @@
 
                 <Grid Grid.Column="0" Background="Black" Margin="10">
                     <Image Source="{Binding Image}" Width="80" Height="80"></Image>
-                   
+
                 </Grid>
 
                 <StackPanel Orientation="Vertical" Grid.Column="1">
@@ -52,22 +52,33 @@
                         <TextBlock Margin="10,0,0,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Older version" VerticalAlignment="Center" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
                         <TextBlock Margin="4,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Language, ConverterParameter=Store.Plugin.InstallBtnLabel, Converter={StaticResource LocConverter}}" VerticalAlignment="Center" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
                     </StackPanel>
-                    <TextBlock Margin="10,0" FontSize="16" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Blurb}" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                    <Viewbox StretchDirection="Both" Stretch="Uniform" HorizontalAlignment="Left">
+                        <TextBlock 
+                        Margin="10,0" 
+                        HorizontalAlignment="Center" 
+                        FontSize="16" 
+                        FontFamily="Segoe UI Light" 
+                        Foreground="White" 
+                        FontWeight="Light" 
+                        Text="{Binding Blurb}" 
+                        VerticalAlignment="Center" 
+                        
+                        TextWrapping="WrapWithOverflow"/>
+                    </Viewbox>
                 </StackPanel>
 
+                <StackPanel Grid.Column="3" HorizontalAlignment="Right">
+                    <ComboBox ItemsSource="{Binding VersionsAvailable}" VerticalAlignment="Center" ItemTemplate="{DynamicResource DataTemplate1}" Width="180" SelectedItem="{Binding InstalledVersionModel}" Margin="5" SelectionChanged="Selector_OnSelectionChanged"></ComboBox>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" fw:PointerTracker.Enabled="True">
 
-                <StackPanel Orientation="Horizontal" Grid.Column="3" HorizontalAlignment="Right" fw:PointerTracker.Enabled="True">
+                        <Button Background="#c0000000" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Details, Converter={StaticResource LocConverter}}"  Visibility="{Binding IsHovered, Converter={StaticResource BoolToVisConverter}}"/>
+                        <Grid Margin="0"  Visibility="{Binding IsHovered, Converter={StaticResource BoolToVisConverter}}">
+                            <Button Background="#c0000000" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Configure, Converter={StaticResource LocConverter}}" Click="ConfigurePlugin" />
+                        </Grid>
 
-                    <Button Background="#c0000000" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Details, Converter={StaticResource LocConverter}}"  Visibility="{Binding IsHovered, Converter={StaticResource BoolToVisConverter}}"/>
-                    <Grid Margin="0"  Visibility="{Binding IsHovered, Converter={StaticResource BoolToVisConverter}}">
-                        <Button Background="#c0000000" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Content="" Style="{DynamicResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Configure, Converter={StaticResource LocConverter}}" Click="ConfigurePlugin" />
-                    </Grid>
-                    <!--<Button Background="{StaticResource Tc-Green}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Install" Visibility="{Binding Installed, Converter={StaticResource InvertedBoolToVisConverter}}" Click="InstallPlugin" />-->
-                    <!--<Button Background="{StaticResource Tc-Blue}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="Install" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}" Click="InstallPlugin" />-->
-                    <!--<Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Plugin.DisableBtnLabel, Converter={StaticResource LocConverter}}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DisablePlugin" />-->
-                    <!--<Button Background="{StaticResource Tc-Red}" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Store.Plugin.UninstallBtnLabel, Converter={StaticResource LocConverter}}" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}" Click="DeletePlugin" />-->
-                    <ComboBox ItemsSource="{Binding VersionsAvailable}" VerticalAlignment="Center" ItemTemplate="{DynamicResource DataTemplate1}" Width="180" SelectedItem="{Binding InstalledVersionModel}" Margin="0,0,10,0" SelectionChanged="Selector_OnSelectionChanged"></ComboBox>
+                    </StackPanel>
                 </StackPanel>
+
             </Grid>
         </DataTemplate>
         <Style TargetType="Button" x:Key="SmallSquareIcon" BasedOn="{StaticResource ButtonRevealStyle}">
@@ -80,7 +91,7 @@
             <Setter Property="Padding" Value="8"/>
         </Style>
         <DataTemplate x:Key="DataTemplate1">
-          
+
             <DockPanel LastChildFill="True">
                 <TextBlock DockPanel.Dock="Left" Text="" FontSize="20" FontFamily="Segoe MDL2 Assets"  VerticalAlignment="Center" Margin="0,0,8,0" Visibility="{Binding IsExperimental, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
                 <TextBlock DockPanel.Dock="Left" Text="" FontSize="20" FontFamily="Segoe MDL2 Assets"  VerticalAlignment="Center" Margin="0,0,8,0" Visibility="{Binding IsInstalled, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
@@ -108,7 +119,7 @@
         <SolidColorBrush x:Key="ComboBoxItem.ItemsviewFocus.Border" Color="#FF26A0DA"/>
         <SolidColorBrush x:Key="ComboBoxItem.ItemsviewHoverFocus.Background" Color="#5426A0DA"/>
         <SolidColorBrush x:Key="ComboBoxItem.ItemsviewHoverFocus.Border" Color="#FF26A0DA"/>
-    
+
     </UserControl.Resources>
 
     <UserControl.DataContext>
