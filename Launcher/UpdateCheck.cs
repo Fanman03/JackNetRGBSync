@@ -27,7 +27,7 @@ namespace Launcher
             UpgradingWindow.UpdateLayout();
             UpgradingWindow.UpdateDefaultStyle();
             
-            UpgradingWindow.vm.Message = "Checking For Updatification";
+            UpgradingWindow.vm.Message = "Checking For Update...";
             await Task.Delay(1000);
             string url = "";
           //  try
@@ -228,7 +228,9 @@ namespace Launcher
             double bytesIn = double.Parse(e.BytesReceived.ToString());
             double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
             double percentage = bytesIn / totalBytes * 100;
-            
+
+            vm.Message = "Downloaded " + (e.BytesReceived / 1000000).ToString() + " MB of " + (e.TotalBytesToReceive / 1000000).ToString() + " MB.";
+
             vm.Percentage = 100-(int)percentage;
         }
 

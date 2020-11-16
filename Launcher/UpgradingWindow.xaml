@@ -23,7 +23,7 @@
         </LinearGradientBrush>
     </Window.Resources>
     <Grid>
-        <TextBlock Cursor="Wait" x:Name="LoadingText" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" Margin="0,0,0,-150" Text="{Binding Message}">Loading...</TextBlock>
+        <TextBlock Cursor="Wait" x:Name="LoadingText" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" Margin="0,0,0,-150" Text="{Binding Message}"></TextBlock>
         <ProgressBar x:Name="ProgressBar" Width="350" Height="10" Foreground="Black" BorderBrush="{x:Null}" Margin="0,0,0,-200" Value="{Binding Percentage}" RenderTransformOrigin="0.5,0.5">
             <ProgressBar.RenderTransform>
                 <TransformGroup>
