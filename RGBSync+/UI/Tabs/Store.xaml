@@ -22,9 +22,9 @@
             <Grid Height="100" Margin="8" Background="#c0000000"  MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" fw:PointerTracker.Enabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="260"/>
-                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="250"/>
                     <ColumnDefinition MinWidth="300"/>
+                    <ColumnDefinition Width="300"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0" Grid.ColumnSpan="4" Visibility="{Binding InstalledButOutdated, Converter={StaticResource InvertedBoolToVisConverter}}">
