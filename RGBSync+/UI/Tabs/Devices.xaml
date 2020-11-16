@@ -220,7 +220,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,8,0">
                         <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Visibility="{Binding SupportsPull, Converter={StaticResource BoolToVisConverter}}" VerticalAlignment="Center"></TextBlock>
                         <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisConverter}}" VerticalAlignment="Center"></TextBlock>
-                        
+
                     </StackPanel>
                 </Grid>
                 <StackPanel MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" Visibility="{Binding DataContext.ShowFullThumb, Converter={StaticResource InvertedBoolToVisConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" >
@@ -318,21 +318,8 @@
                     <RowDefinition Height="56"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <!--
-                            <Image  Grid.Row="0"  Grid.RowSpan="2" Source="{Binding Image}" Stretch="UniformToFill" VerticalAlignment="Center" Margin="0">
-                                <Image.Effect>
-                                    <BlurEffect Radius="8"></BlurEffect>
-                                </Image.Effect>
-                            </Image>
-                            -->
-
-
 
                 <Grid Grid.Row="0" Background="{DynamicResource SystemBaseLowColorBrush}"  Height="60" VerticalAlignment="Top">
-                    <!--<StackPanel Orientation="Horizontal"  Height="36" Margin="0" VerticalAlignment="Top">
-                                        <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="25" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4,6"/>
-                                        <TextBlock Text="{Binding ControlDevice.DeviceType}" FontSize="18" VerticalAlignment="Center" Foreground="Black"></TextBlock>
-                                    </StackPanel>-->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Height="36" Margin="0" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingledDeviceSelected, Converter={StaticResource BoolToVisConverter}}">
                         <TextBlock FontSize="24" Text="{Binding ProviderName}" Margin="12,0,0,0" FontWeight="Bold" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
 

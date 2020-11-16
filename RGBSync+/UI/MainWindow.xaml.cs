@@ -54,5 +54,25 @@ namespace RGBSyncPlus.UI
         {
             vm.CurrentTab = "settings";
         }
+
+        private void Grid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if ((sender as Grid).DataContext is MainWindowViewModel.TabItem lvm)
+            {
+                if (string.IsNullOrWhiteSpace(lvm.Key))
+                {
+                    vm.HamburgerExtended = !vm.HamburgerExtended;
+                }
+                else
+                {
+                    vm.CurrentTab = lvm.Key;
+                }
+            }
+        }
+
+        private void Grid_MouseDown_1(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            vm.CurrentTab = "settings";
+        }
     }
 }

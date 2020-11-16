@@ -38,10 +38,17 @@ namespace Launcher
             await StartCheck();
         }
 
-
+        public static string BaseFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)+"\\RGBSyncStudio";
 
         private async Task StartCheck()
         {
+
+            if (!Directory.Exists(BaseFolder))
+            {
+                Directory.CreateDirectory(BaseFolder);
+
+              //  Installer.AddShortcut();
+            }
 
             Process[] processlist = Process.GetProcesses();
 
@@ -59,13 +66,13 @@ namespace Launcher
                 }
             }
 
-            if (File.Exists("launcherPrefs.json"))
+            if (File.Exists(BaseFolder + "\\launcherPrefs.json"))
             {
-                Core.LauncherPrefs = JsonConvert.DeserializeObject<LauncherPrefs>(File.ReadAllText("launcherPrefs.json"));
+                Core.LauncherPrefs = JsonConvert.DeserializeObject<LauncherPrefs>(File.ReadAllText(BaseFolder + "\\launcherPrefs.json"));
             }
 
             UpdateCheck check = new UpdateCheck();
-            await check.Execute(Core.LauncherPrefs.ReleaseBranch, this);
+            await check.Execute(Core.LauncherPrefs.ReleaseBranch, this, BaseFolder);
             while (!check.Complete)
             {
                 await Task.Delay(100);
@@ -73,7 +80,8 @@ namespace Launcher
 
             Process p = new Process();
             p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            p.StartInfo.FileName = "RGBSync+.exe";
+            p.StartInfo.FileName = BaseFolder + "\\RGBSync+.exe";
+            p.StartInfo.WorkingDirectory = BaseFolder;
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
             p.StartInfo.RedirectStandardError = true;

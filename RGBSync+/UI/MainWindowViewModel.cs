@@ -14,7 +14,7 @@ namespace RGBSyncPlus.UI
             {
                 new TabItem("","",""),
                 new TabItem("","Devices","devices"),
-                new TabItem("", "Profiles","profiles"),
+                new TabItem("", "Profilessssssssssssssss","profiles"),
                 new TabItem("","Store","store"),
                 new TabItem("","About","about"),
                // new TabItem("","Crash","crashme")
@@ -32,7 +32,7 @@ namespace RGBSyncPlus.UI
                 {
                     new TabItem("","",""),
                     new TabItem("","Devices","devices",true),
-                    new TabItem("", "Profiles","profiles"),
+                    new TabItem("", "Profilessssssssssss","profiles"),
                     new TabItem("","Store","store"),
                     new TabItem("","About","about"),
                     //new TabItem("","Crash","crashme")

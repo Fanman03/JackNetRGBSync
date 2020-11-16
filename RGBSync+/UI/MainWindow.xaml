@@ -20,37 +20,29 @@
         <Converter:StringMatchToVisibilityConverter x:Key="StringMatchToVisibilityConverter"/>
         <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <DataTemplate x:Key="TabItemTemplate">
-            <Grid fw:PointerTracker.Enabled="True" Margin="-2,0,0,0">
+            <Grid fw:PointerTracker.Enabled="True" Margin="-2,0,0,0" HorizontalAlignment="Stretch" MouseDown="Grid_MouseDown">
                 <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.2" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" ></Rectangle>
-                <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" >
-                    <Rectangle.Fill>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <!--<GradientStop Color="Red" Offset="0"/>
-                            <GradientStop Color="Red" Offset="1"/>
-                            <GradientStop Color="Yellow" Offset="0.207"/>
-                            <GradientStop Color="#FF2EFF00" Offset="0.348"/>
-                            <GradientStop Color="#FF00DDA1" Offset="0.464"/>
-                            <GradientStop Color="#FF008AFF" Offset="0.569"/>
-                            <GradientStop Color="#FF002EFF" Offset="0.671"/>
-                            <GradientStop Color="#FF7E25FF" Offset="0.843"/>-->
-                            <GradientStop Color="White"></GradientStop>
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                <Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="SetTab" Style="{DynamicResource ButtonRevealStyle}">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,8,0">
-                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" ToolTip="{Binding Name}" Text="{Binding Icon}" VerticalAlignment="Center" Margin="0,0"/>
-                        <TextBlock Margin="20,0" 
+                <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" Fill="White" />
+                
+                    <Grid HorizontalAlignment="Stretch" Margin="0,4" Height="40" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="44"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                    
+                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" ToolTip="{Binding Name}" Text="{Binding Icon}" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="White"/>
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="10,0" 
                                FontSize="24" 
                                FontWeight="Light" 
                                FontFamily="Segoe UI Light" 
                                Foreground="White" 
                                VerticalAlignment="Center" 
-                               Width="100"
                                Text="{Binding Name}" 
+                               HorizontalAlignment="Left"
                                Visibility="{Binding DataContext.HamburgerExtended, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Window}}}"/>
-                    </StackPanel>
-                </Button>
+                    </Grid>
             </Grid>
         </DataTemplate>
         <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
@@ -68,23 +60,50 @@
 
         <Grid Grid.Column="0" Width="auto" Background="{x:Null}" fw:PointerTracker.Enabled="True" >
             <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"/>
-            <ListView ItemsSource="{Binding TabItems, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" ItemTemplate="{DynamicResource TabItemTemplate}"  Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" Padding="0" Margin="0,0" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsPanel="{DynamicResource ItemsPanelTemplate1}"/>
+            <ListView ItemsSource="{Binding TabItems, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" ItemTemplate="{DynamicResource TabItemTemplate}"  Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" Padding="0" Margin="0,0" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
 
-                <Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="ShowSettings" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="0,0" Style="{DynamicResource ButtonRevealStyle}">
+                <!--<Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="ShowSettings" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="0,0" Style="{DynamicResource ButtonRevealStyle}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8,0,8,0">
                     <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE713;" ToolTip="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" VerticalAlignment="Center" Margin="0,0" FontSize="24" />
-                    <TextBlock Margin="20,0" 
+                    <TextBlock Margin="20,0,0,0" 
                                FontSize="24" 
                                FontWeight="Light" 
                                FontFamily="Segoe UI Light" 
                                Foreground="White" 
                                VerticalAlignment="Center" 
                                Text="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" 
-                               Width="100"
                                Visibility="{Binding DataContext.HamburgerExtended, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Window}}}"/>
                 </StackPanel>
-            </Button>
+            </Button>-->
 
+            <Grid>
+
+
+                <Grid HorizontalAlignment="Stretch" Margin="0,4"  VerticalAlignment="Bottom" MouseDown="Grid_MouseDown_1" Height="40">
+
+                    <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="34"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                    <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.2" Margin="0,0" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" Grid.ColumnSpan="2"></Rectangle>
+                    <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" Fill="White" Grid.ColumnSpan="2" />
+
+                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" ToolTip="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" Text="&#xE713;" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="White"/>
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="20,0" 
+                    FontSize="24" 
+                    FontWeight="Light" 
+                    FontFamily="Segoe UI Light" 
+                    Foreground="White" 
+                    VerticalAlignment="Center" 
+                    
+                    HorizontalAlignment="Left"
+                    Text="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" 
+                    Visibility="{Binding DataContext.HamburgerExtended, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Window}}}"/>
+            </Grid>
+</Grid>
         </Grid>
         <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=devices, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="DevicesUserControl">
             <Tabs:Devices HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

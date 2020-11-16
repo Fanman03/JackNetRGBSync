@@ -20,7 +20,7 @@ namespace Launcher
     {
         public bool Complete = false;
         public UpgradingWindow UpgradingWindow;
-        public async Task Execute(LauncherPrefs.ReleaseType releaseType, UpgradingWindow upgrading)
+        public async Task Execute(LauncherPrefs.ReleaseType releaseType, UpgradingWindow upgrading, string destFolder)
         {
             UpgradingWindow = upgrading;
             UpgradingWindow.Show();
@@ -66,16 +66,16 @@ namespace Launcher
                     
                     try
                     {
-                        if (File.Exists("RGBSync+.exe"))
+                        if (File.Exists(destFolder+"\\RGBSync+.exe"))
                         {
-                            if (!Directory.Exists(".old"))
+                            if (!Directory.Exists(destFolder+"\\.old"))
                             {
-                                DirectoryInfo dir = Directory.CreateDirectory("old");
+                                DirectoryInfo dir = Directory.CreateDirectory(destFolder+"\\old");
                                 
                                 dir.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
                             }
 
-                            File.Move("RGBSync+.exe", ".old\\oldrss_"+Guid.NewGuid()+".exe");
+                            File.Move("RGBSync+.exe", destFolder+"\\.old\\oldrss_" +Guid.NewGuid()+".exe");
                             File.Delete("oldrss.exe");
                         }
                     }
@@ -87,7 +87,7 @@ namespace Launcher
                     if (Directory.Exists(".old"))
                     {
                         Thread.Sleep(1000);
-                        foreach (var f in Directory.GetFiles(".old\\"))
+                        foreach (var f in Directory.GetFiles(destFolder+"\\.old\\"))
                         {
                             try
                             {
@@ -99,40 +99,40 @@ namespace Launcher
                         }
                     }
 
-                    if (Directory.Exists(".old"))
+                    if (Directory.Exists(destFolder+"\\.old"))
                     {
                         Thread.Sleep(1000);
 
-                        if (Directory.GetFiles(".old\\").Length == 0)
+                        if (Directory.GetFiles(destFolder+"\\.old\\").Length == 0)
                         {
-                            Directory.Delete(".old", true);
+                            Directory.Delete(destFolder+"\\.old", true);
                         }
                     }
 
                     vm.Message = "Installing " + releaseType + " release " + maxReleaseNumber;
 
-                    string zipPath = releaseType + "_" + maxReleaseNumber + ".zip";
+                    string zipPath = destFolder+"\\"+releaseType + "_" + maxReleaseNumber + ".zip";
 
                     WebClient wc = new WebClient();
                     wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
                     wc.DownloadFileCompleted += new AsyncCompletedEventHandler((object sender, AsyncCompletedEventArgs e) =>
                         {
-                            if (Directory.Exists("temp"))
+                            if (Directory.Exists(destFolder+"\\temp"))
                             {
-                                Directory.Delete("temp", true);
+                                Directory.Delete(destFolder+"\\temp", true);
                             }
 
-                            Directory.CreateDirectory("temp");
+                            Directory.CreateDirectory(destFolder+"\\temp");
 
                             vm.Message = "Extracting...";
-                            ZipFile.ExtractToDirectory(zipPath, "temp");
+                            ZipFile.ExtractToDirectory(zipPath, destFolder+"\\temp");
 
-                            DirectoryCopy("temp", "", true);
+                            DirectoryCopy(destFolder+"\\temp", destFolder, true);
 
                             File.Delete(zipPath);
                             try
                             {
-                                Directory.Delete("temp", true);
+                                Directory.Delete(destFolder+"\\temp", true);
                             }
                             catch
                             {
@@ -150,16 +150,16 @@ namespace Launcher
                             Core.LauncherPrefs.ReleaseTypeInstalled = releaseType;
 
                             string json = JsonConvert.SerializeObject(Core.LauncherPrefs);
-                            File.WriteAllText("LauncherPrefs.json", json);
+                            File.WriteAllText(destFolder+"\\LauncherPrefs.json", json);
 
 
-                            if (Directory.Exists(".old"))
+                            if (Directory.Exists(destFolder+"\\.old"))
                             {
                                 Thread.Sleep(1000);
 
-                                if (Directory.GetFiles(".old\\").Length == 0)
+                                if (Directory.GetFiles(destFolder+"\\.old\\").Length == 0)
                                 {
-                                    Directory.Delete(".old", true);
+                                    Directory.Delete(destFolder+"\\.old", true);
                                 }
                             }
 
