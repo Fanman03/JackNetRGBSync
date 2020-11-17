@@ -35,5 +35,4 @@
 
 
     <SolidColorBrush x:Key="SystemControlWindowBrush" Color="{DynamicResource SystemAltHighColor}" />
-    <!--<StaticResource x:Key="SystemControlWindowBrush" ResourceKey="SystemAltHighColorBrush" />-->
 </ResourceDictionary>

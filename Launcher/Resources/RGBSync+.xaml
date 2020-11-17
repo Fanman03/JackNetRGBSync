@@ -5,14 +5,14 @@
                                     xmlns:styles1="clr-namespace:Launcher.Styles"
                                     >
 
-        <styles1:CachedResourceDictionary.MergedDictionaries>
+        <!--<styles1:CachedResourceDictionary.MergedDictionaries>
             <styles1:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/BlurredDecorationWindow.xaml" />
             <styles1:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ImageButton.xaml" />
             <styles1:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Form.xaml" />
             <styles1:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/GroupBox.xaml" />
             <styles1:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ToolTip.xaml" />
             <styles1:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ComboBox.xaml" />
-            <!-- <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Button.xaml" /> -->
+            --><!-- <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Button.xaml" /> --><!--
             <styles1:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ListBox.xaml" />
             <styles1:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ListView.xaml" />
             <styles1:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Slider.xaml" />
@@ -20,12 +20,15 @@
             <styles1:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ColorSelector.xaml" />
             <styles1:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/GradientEditor.xaml" />
             <styles1:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/CheckBox.xaml" />
-        </styles1:CachedResourceDictionary.MergedDictionaries>
+        </styles1:CachedResourceDictionary.MergedDictionaries>-->
 
 
         <Style TargetType="GroupBox" BasedOn="{StaticResource StyleGroupBoxBox}" />
         <Style TargetType="ToolTip" BasedOn="{StaticResource StyleToolTip}" />
-        <Style TargetType="ComboBox" BasedOn="{StaticResource StyleComboBox}" />
+        <Style TargetType="ComboBox" BasedOn="{StaticResource StyleComboBox}" >
+        <Setter Property="FontFamily" Value="Segoe UI"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+    </Style>
         <!-- <Style TargetType="Button" BasedOn="{StaticResource StyleButton}" /> -->
         <Style TargetType="ListBox" BasedOn="{StaticResource StyleListBox}" />
         <Style TargetType="ListView" BasedOn="{StaticResource StyleListView}" />

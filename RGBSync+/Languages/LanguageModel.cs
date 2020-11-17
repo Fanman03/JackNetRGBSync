@@ -132,6 +132,11 @@ namespace RGBSyncPlus.Languages
 
         public static string GetValue(string key)
         {
+            if (key == null)
+            {
+                return null;
+            }
+
             string dbg = "";
             try
             {

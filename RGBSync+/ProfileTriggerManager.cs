@@ -31,7 +31,10 @@ namespace RGBSyncPlus
                     string json = File.ReadAllText("NGProfileTriggers.json");
                     List<ProfileTriggerEntry> temp = JsonConvert.DeserializeObject<List<ProfileTriggerEntry>>(json);
                     ProfileTriggers = new ObservableCollection<ProfileTriggerEntry>(temp);
-                    ApplicationManager.Instance.ProfileTriggerManager.IsDirty = false;
+                    if (ApplicationManager.Instance?.ProfileTriggerManager != null)
+                    {
+                        ApplicationManager.Instance.ProfileTriggerManager.IsDirty = false;
+                    }
                 }
                 catch
                 {

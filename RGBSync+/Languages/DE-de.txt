@@ -1,0 +1,142 @@
+DE-de
+Deutsch
+Deutsch
+Crash.TitleText	RGB Sync Studio ist abgestürzt.
+Dialog.CopyCommand	in die Zwischenablage kopieren
+Dialog.No	Nein
+Dialog.NoPremiumTitle	NoPremiumTitle
+Dialog.NoUpdateText	Du hast bereits die neueste Version installiert.
+Dialog.NoUpdateTitle	Keine neue Aktualisierung verfügbar.
+Dialog.OKCommand	OK
+Dialog.UpdateText	Es existiert eine Aktualisierung für RBG Sync Studio. Möchtest du Aktualisieren?
+Dialog.UpdateTitle	Aktualisierung Verfügbar
+Dialog.Yes	Ja
+Settings.AdminLabel	Als Administrator ausführen:
+Settings.AdminText	AdminText
+Settings.DelayLabel	Startverzögerung:
+Settings.DelayToolTip	DelayToolTip
+Settings.DelayUnit	Sekunden
+Settings.DevicesLabel	Produkte:
+Settings.DiscordLabel	Discord:
+Settings.DiscordText	DiscordText
+Settings.DiscordToolTip	DiscordToolTip
+Settings.LanguageLabel	Sprache:
+Settings.MinimizationLabel	Minimierung anschalten:
+Settings.MinimizationText	MinimizationText
+Settings.PollingRateLabel	Abfragerate:
+Settings.PollingRateToolTip	PollingRateTooltip
+Settings.PollingRateUnit	PollingRateUnit
+Settings.ThemeApplyBtnText	Settings.ThemeApplyBtnText
+Settings.ThemeLabel	Schema:
+Settings.UpdateBtnText	Nach Update suchen
+Settings.UpdateLabel	neue Versionen:
+Settings.VersionLabel	Version:
+Settings.StartAsAdmin    Als Administrator ausführen
+Settings.StartAsAdminHelp    Kann Kompatibilität erhöhen
+Settings.ReleaseType Versions-typ
+Settings.ReleaseTypeHelp Welche Version möchtest du? Release ist stabil, Beta hat nicht ganz so stabil und CI ist instabil
+Settings.MinimizeToTray  zu Symbolleiste minimieren
+Settings.MinimizeToTrayHelp  soll sie App zur Taskbar oder in die Symbolleiste minimiert werden? 
+Settings.MinimizeOnStart Minimiert starten
+Settings.MinimizeOnStartHelp Soll die App als Fenster oder minimiert starten?
+Store.ExperimentalBtnText	Experimentell
+Store.FilterLabel	Suche
+Store.Plugin.UpdateAvail	Aktualisierung verfügbar
+Store.Plugin.DisableBtnLabel	Deaktivieren
+Store.Plugin.InstallBtnLabel	Installieren
+Store.Plugin.InstalledBtnLabel	Installiert
+Store.Plugin.UninstallBtnLabel	Deinstallieren
+Store.Plugin.VersionsBtnLabel	Versionen
+Store.RefreshBtnText	Plugin-Store Aktualisieren
+Store.RestartAllBtnText	Alle neustarten
+Store.ShowStore Plugin-Store neustarten
+Store.Experimental  Experimentell anzeigen
+Store.Updates   Updates anschalten
+Store.StoreButton   Plugin-Store
+Store.NotStoreButton   Installiert
+Store.ExperimentalButton    Experimentell
+Store.UpdatesButton Aktualisierungen
+Store.Configure Konfigurieren
+Store.Details   Details
+TrayMenu.ExitAppItem	App schließen
+TrayMenu.OpenUIItem	App öffnen
+TrayMenu.RestartAppItem	App neustarten
+TrayMenu.TechSupportItem	Technischer Support
+UI.AboutTabHeader	Info
+UI.AppName	RGB Sync
+UI.DeviceTabHeader	Produkte
+UI.ProfileTabHeader	Profil
+UI.SettingsTabHeader	Einstellungen
+UI.StoreTabHeader	Treiber
+About.OrigDev	RGB Sync Ursprüngliche Entwicklung
+About.20dev	RGBSync Studio Entwicklumg
+About.simpleleddev	SimpleLED Projekt-Koordinator
+About.Donations	JackNet RGB Sync ist eine freie und Open-Source Software. Das Programm ist kostenlos, damit es für alle zugänglich ist. Spenden sind jedoch immer gerne gesehen, sie helfen uns bei der Entwicklung und dingen wie Web-Hosting.
+Donate.Patreon	MIT PATREON SPENDEN
+Donate.PayPal	MIT PAYPAL SPENDEN
+About.Thanks	Ein ganz besonderes Dankeschön an alle Unterstützer, Übersetzer und Spender die diese Software möglich machen. Eure Beiträge sind sehr Willkommen.
+Devices.Info    Info
+Devices.SyncTo  Synchronisieren zu
+Devices.InfoDriver  Treiber:
+Devices.InfoName    Name:
+Devices.InfoAuthor  Author:
+Devices.InfoDriverVersion   Treiber Version:
+Devices.Multiple    Mehrere Geräte
+Devices.Selected    ausgewählt
+Devices.Config  Konfiguration
+Devices.Alignment   Ausrichtung
+Devices.NoConfig    Dieses Produkt hat keine Konfiguration.
+Devices.ZoomOut Heraus-zoomen
+Devices.ZoomIn  Herein-zoomen
+Devices.Condensed   Verkürzte Ansicht
+Devices.IconView    Symbol Ansicht
+Devices.ShowSources     Quellen anzeigen
+Profile.TimeBasedTrigger    Zeitabhängiger Trigger
+Profile.TimeToTrigger   Zeit wann der Trigger ausgelöst werden soll:
+Profile.ProcessTrigger  Auslöser für laufenden Prozess
+Profile.ProcessName     Name des zu überwachenden Prozesses:
+Profile.ProcessInvert   Bei Abwesenheit auslösen
+Profile.TriggerDesc     Auslöser für
+Profile.SelectProfile   Zu diesem Profil wechseln
+Profile.EditProfile     Profil editieren
+Profile.Triggers    Auslöser
+Profile.RemoveProfile   Profil entfernen
+Profile.MomentaryTrigger momentaner Auslöser
+Profile.Expand  Erweitern
+Profile.Collapse    zuklappen
+Generic.Off Aus
+Generic.On  An
+Generic.Yes Ja
+Generic.No  Nein
+Main.Devices    Produkte
+Main.Profiles	Profile
+Main.Store  Treiber
+Main.About  Info
+Main.CrashMe  Absturz
+Main.Settings   Einstellungen
+Settings.ApiServer  API Server
+Settings.ApiServerHelp  Aktivieren Sie dies, um RGB Sync Studio REST API Server zu aktivieren
+Settings.RefreshFreq    Aktualisierungsfrequenz
+Settings.RefreshFreqHelp    Stellen sie ein wie oft pro Sekunde die LEDs aktualisiert werden
+Settings.Language   Sprache
+Settings.Experimental   Experimentelle Treiber
+Settings.ExperimentalHelp   Experimentelle Treiber im Store anzeigen
+Fan Lüfter
+LEDStrip    LED Streifen
+GPU GPU
+MotherBoard MotherBoard
+Keyboard    Tastatur
+Keypad  Nummern-block
+Mouse   Maus
+MousePad    Mauspad
+Headset Headset
+HeadsetStand    Headset Stand
+PSU Netzteil
+Cooler  Kühler
+Memory  Arbeitsspeicher
+Speaker Lautsprecher
+Other   Anderes
+AIO All-in-One
+WaterBlock  Wasserblock
+Effect  Effekt
+

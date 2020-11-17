@@ -294,20 +294,6 @@ namespace RGBSyncPlus.UI.Tabs
                     tmp.InstalledVersionModel = null;
                     tmp.InstalledVersionModel = tmp.VersionsAvailable.FirstOrDefault(x => x.IsInstalled);
 
-                    if (tmp.InstalledVersionModel == null)
-                    {
-                        //var xx = new PositionalAssignment.PluginVersionDetails
-                        //{
-                        //    ReleaseNumber = new ReleaseNumber(0,0,0,-1),
-
-                        //};
-
-                        //tmp.VersionsAvailable.Add(xx);
-
-                        //tmp.InstalledVersionModel = xx;
-
-                    }
-
                     Plugins.Add(tmp);
                     StoreOnly.Add(tmp);
 
@@ -525,5 +511,10 @@ namespace RGBSyncPlus.UI.Tabs
         }
 
 
+        public void RefreshPlungs()
+        {
+            OnPropertyChanged("FilteredPlugins");
+            OnPropertyChanged("Plugins");
+        }
     }
 }

@@ -87,6 +87,14 @@ namespace RGBSyncPlus
 
         private ApplicationManager()
         {
+            if (!Directory.Exists(NGPROFILES_DIRECTORY))
+            {
+                Directory.CreateDirectory(NGPROFILES_DIRECTORY);
+                GenerateNewProfile("Default",false);
+                isHotLoading = false;
+                return;
+            }
+
             //AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
             //{
             //    string dllName = args.Name.Split(',').First() + ".dll";
@@ -274,7 +282,7 @@ namespace RGBSyncPlus
 
             double tmr = 1.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
             double tmr2 = 1000.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
-            UpdateTrigger = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(tmr)};
+            UpdateTrigger = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(tmr) };
 
             //  loadingSplash.LoadingText.Text = "Registering Update Trigger";
 
@@ -356,9 +364,9 @@ namespace RGBSyncPlus
             }
         }
 
-        public void GenerateNewProfile(string name)
+        public void GenerateNewProfile(string name, bool hotLoad = true)
         {
-            if (NGSettings.ProfileNames != null && NGSettings.ProfileNames.Any(x => x.ToLower() == name.ToLower()))
+            if (NGSettings?.ProfileNames != null && NGSettings.ProfileNames.Any(x => x.ToLower() == name.ToLower()))
             {
                 throw new ArgumentException("Profile name already exists");
             }
@@ -382,7 +390,7 @@ namespace RGBSyncPlus
             NGSettings.CurrentProfile = name;
             CurrentProfile = newProfile;
             profilePathMapping.Clear();
-            HotLoadNGSettings();
+            if (hotLoad) HotLoadNGSettings();
 
         }
 
@@ -463,6 +471,12 @@ namespace RGBSyncPlus
 
             Task.Delay(TimeSpan.FromSeconds(1)).Wait();
 
+            profilePathMapping.Clear();
+            
+
+
+
+
             if (!Directory.Exists(SLSCONFIGS_DIRECTORY))
             {
                 Directory.CreateDirectory(SLSCONFIGS_DIRECTORY);
@@ -491,7 +505,7 @@ namespace RGBSyncPlus
                 Logger.Debug("Language is not set, inferring language from system culture. Lang=" + ci.TwoLetterISOLanguageName);
                 NGSettings.Lang = ci.TwoLetterISOLanguageName;
             }
-            
+
             System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(NGSettings.Lang);
 
             loadingSplash.LoadingText.Text = "Starting Discord";
@@ -793,6 +807,7 @@ namespace RGBSyncPlus
             GC.Collect(); // collects all unused memory
             GC.WaitForPendingFinalizers(); // wait until GC has finished its work
             GC.Collect();
+            Thread.Sleep(1000);
         }
 
         public void LoadChildAssemblies(Assembly assembly, string basePath)
@@ -1025,7 +1040,7 @@ namespace RGBSyncPlus
             //SLSDevices = SLSManager.GetDevices();
             loadingSplash.ProgressBar.Value = 0;
             loadingSplash.ProgressBar.Maximum = SLSManager.Drivers.Count;
-            
+
         }
 
 

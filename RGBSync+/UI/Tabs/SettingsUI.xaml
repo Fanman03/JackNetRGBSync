@@ -14,7 +14,6 @@
         <Converter:LocConverter x:Key="LocConverter"/>
         <DataTemplate x:Key="LanguageSelector">
             <StackPanel Orientation="Horizontal">
-                <TextBlock FontFamily="Segoe UI Emoji" Text="{Binding Emoji}" FontSize="24"></TextBlock>
                 <TextBlock Text="{Binding Name}"/>
             </StackPanel>
         </DataTemplate>
@@ -55,27 +54,24 @@
         <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.ApiServer, Converter={StaticResource LocConverter}}"/>
         <CheckBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding NGSettings.ApiEnabled}"  Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
         <Label Grid.Column="2" Grid.Row="0" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.ApiServerHelp, Converter={StaticResource LocConverter}}"/>
-
-
-
+        
         <Label Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.RefreshFreq, Converter={StaticResource LocConverter}}"/>
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
             <Slider VerticalAlignment="Center"  Margin="10,0,5,0" Maximum="120" Width="200" Value="{Binding NGSettings.UpdateRate}" />
             <Label FontSize="14" Foreground="{DynamicResource SystemBaseHighColorBrush}" Margin="0,9" Content="{Binding NGSettings.UpdateRate}"></Label>
         </StackPanel>
         <Label Grid.Column="2" Grid.Row="1" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.RefreshFreqHelp, Converter={StaticResource LocConverter}}"/>
-
-
+        
         <Label Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.Language, Converter={StaticResource LocConverter}}"/>
-        <ComboBox   Grid.Column="1" Grid.Row="2" Margin="10,0" Width="200" Height="30" ItemsSource="{Binding Languages}" ItemTemplate="{DynamicResource LanguageSelector}" SelectedItem="{Binding CurrentLanguage}" />
+        <ComboBox Grid.Column="1" Grid.Row="2" Margin="10,0" Width="200" Height="30" ItemsSource="{Binding Languages}" ItemTemplate="{DynamicResource LanguageSelector}" SelectedItem="{Binding CurrentLanguage}"  FontFamily="Segoe UI Light" FontSize="14" />
         <Label Grid.Column="2" Grid.Row="2" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language}"/>
-
+        
         <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.StartAsAdmin, Converter={StaticResource LocConverter}}"/>
         <CheckBox Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding StartAsAdmin}"  Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
         <Label Grid.Column="2" Grid.Row="3" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.StartAsAdminHelp, Converter={StaticResource LocConverter}}"/>
 
         <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.ReleaseType, Converter={StaticResource LocConverter}}"/>
-        <ComboBox  Grid.Column="1" Grid.Row="4" Margin="10,0" Width="200" Height="30" ItemsSource="{Binding ReleaseTypes}"  SelectedItem="{Binding ReleaseType}" />
+        <ComboBox  Grid.Column="1" Grid.Row="4" Margin="10,0" Width="200" Height="30" ItemsSource="{Binding ReleaseTypes}"  SelectedItem="{Binding ReleaseType}"  FontFamily="Segoe UI Light" FontSize="14" />
         <Label Grid.Column="2" Grid.Row="4" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.ReleaseTypeHelp, Converter={StaticResource LocConverter}}"/>
 
         <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.MinimizeToTray, Converter={StaticResource LocConverter}}"/>

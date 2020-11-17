@@ -6,9 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -198,7 +200,27 @@ namespace RGBSyncPlus.UI.Tabs
 
         private void DeletePlugin(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (sender is Button btn)
+            {
+                if (btn.DataContext is PositionalAssignment.PluginDetailsViewModel tvm)
+                {
+                    var vmplugin = vm.Plugins.First(x => x.PluginId == tvm.PluginId);
+
+                    ISimpleLed existingPlugin = ApplicationManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == tvm.PluginId);
+
+                   existingPlugin.Dispose();
+
+                   Thread.Sleep(1000);
+
+                   ApplicationManager.Instance.SLSManager.Drivers.Remove(existingPlugin);
+
+                   Directory.Delete("SLSProvider\\"+tvm.PluginId, true);
+
+                   vm.Plugins.Remove(vmplugin);
+
+                   vm.RefreshPlungs();
+                }
+            }
         }
 
         private void Grid_MouseEnter(object sender, MouseEventArgs e)

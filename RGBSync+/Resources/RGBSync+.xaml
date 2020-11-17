@@ -2,23 +2,23 @@
                                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                                     xmlns:ui="clr-namespace:RGBSyncPlus.UI"
                                     xmlns:styles="clr-namespace:RGBSyncPlus.Styles"
-                                    xmlns:controls="clr-namespace:RGBSyncPlus.Controls"
+                                    
                                     xmlns:converter="clr-namespace:RGBSyncPlus.Converter">
 
     <styles:CachedResourceDictionary.MergedDictionaries>
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/BlurredDecorationWindow.xaml" />
+        <!--<styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/BlurredDecorationWindow.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ImageButton.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Form.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/GroupBox.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ToolTip.xaml" />
-        <!--<styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ComboBox.xaml" />-->
-        <!-- <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Button.xaml" /> -->
+        --><!--<styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ComboBox.xaml" />-->
+        <!-- <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Button.xaml" /> --><!--
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ListBox.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ListView.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/Slider.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/TextBox.xaml" />
         <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/ColorSelector.xaml" />
-        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/GradientEditor.xaml" />
+        <styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/GradientEditor.xaml" />-->
         <!--<styles:CachedResourceDictionary Source="/RGBSync+;component/Styles/RainbowDefault/CheckBox.xaml" />-->
     </styles:CachedResourceDictionary.MergedDictionaries>
 
