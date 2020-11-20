@@ -103,7 +103,17 @@ namespace RGBSyncPlus.UI.Tabs
         {
             try
             {
+                DeviceMappingModels.NGProfile profile = ApplicationManager.Instance.CurrentProfile;
+                if (profile?.DeviceProfileSettings == null)
+                {
+                    profile.DeviceProfileSettings = new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();
+                }
+
+
                 bool zeroDevicesPreSelected = vm.SLSDevices.All(x => x.Selected == false);
+
+              
+
                 foreach (object item in DeviceConfigList.Items)
                 {
                     DeviceMappingModels.Device cItem = (DeviceMappingModels.Device)item;
@@ -113,6 +123,34 @@ namespace RGBSyncPlus.UI.Tabs
                     {
                         cItem.Selected = true;
                     }
+
+
+                    //if (DeviceConfigList.Items.Count == 1)
+                    //{
+                    //    if (vm.SourceDevices == null && cItem.ControlDevice != null)
+                    //    {
+                    //        vm.SetupSourceDevices(cItem.ControlDevice);
+                    //    }
+
+                    //    if (vm.SourceDevices != null)
+                    //    {
+
+                    //var thingy = profile.DeviceProfileSettings.Where(x =>
+                    //        x.Name == cItem.Name && x.ProviderName == cItem.Name &&
+                    //        x.ConnectedTo == cItem.ConnectedTo)
+                    //    .ToList();
+
+
+                    //        foreach (DeviceMappingModels.SourceModel sd in vm.SourceDevices)
+                    //        {
+                    //            bool selected = (thingy.Any(x =>
+                    //                x.SourceName == sd.Name && x.SourceConnectedTo == sd.ConnectedTo &&
+                    //                x.SourceProviderName == sd.ProviderName));
+
+                    //            sd.Enabled = selected;
+                    //        }
+                    //    }
+                    //}
                 }
 
                 ConfigPanel.DataContext = DeviceConfigList.SelectedItem;
@@ -141,6 +179,8 @@ namespace RGBSyncPlus.UI.Tabs
 
                     UpdateDeviceConfigUi(cd);
                 }
+
+                vm.RefreshDevicesUI();
             }
             catch
             {
@@ -309,6 +349,8 @@ namespace RGBSyncPlus.UI.Tabs
                     }
                 }
             }
+
+            vm.SetupSourceDevices();
         }
 
 
@@ -344,6 +386,7 @@ namespace RGBSyncPlus.UI.Tabs
             ControlDevice cd = dvc.ControlDevice;
 
             vm.DevicesSelectedCount = vm.SLSDevices.Count(x => x.Selected);
+            
 
             UpdateDeviceConfigUi(cd);
 

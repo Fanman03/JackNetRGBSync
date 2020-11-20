@@ -277,6 +277,40 @@ namespace RGBSyncPlus.Model
             }
         }
 
+        public class SourceControllingModel : BaseViewModel
+        {
+            private string name;
+            public string Name
+            {
+                get => name;
+                set => SetProperty(ref name, value);
+            }
+
+
+            private string providerName;
+            public string ProviderName
+            {
+                get => providerName;
+                set => SetProperty(ref providerName, value);
+            }
+
+            private string connectedTo;
+
+            public string ConnectedTo
+            {
+                get => connectedTo;
+                set => SetProperty(ref connectedTo, value);
+            }
+
+            private bool isCurrent;
+
+            public bool IsCurrent
+            {
+                get => isCurrent;
+                set => SetProperty(ref isCurrent, value);
+            }
+        }
+
         public class SourceModel : BaseViewModel
         {
             private bool isHidden;
@@ -307,6 +341,24 @@ namespace RGBSyncPlus.Model
             {
                 get => connectedTo;
                 set => SetProperty(ref connectedTo, value);
+            }
+
+            private string controlling;
+
+            [JsonIgnore]
+            public string Controlling
+            {
+                get => controlling;
+                set => SetProperty(ref controlling, value);
+            }
+
+            private ObservableCollection<SourceControllingModel> controllingModels;
+
+            [JsonIgnore]
+            public ObservableCollection<SourceControllingModel> ControllingModels
+            {
+                get => controllingModels;
+                set => SetProperty(ref controllingModels, value);
             }
 
             private bool enabled;

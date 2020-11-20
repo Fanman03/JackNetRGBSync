@@ -11,6 +11,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1280" Loaded="UserControl_Loaded">
     <UserControl.Resources>
+        <Converter:SubtractorConverter x:Key="SubtractorConverter"/>
+        <Converter:PercentageConverter x:Key="PercentageConverter"/>
         <Converter:ValueLocConverter x:Key="ValueLocConverter"/>
         <Converter:LocConverter x:Key="LocConverter"/>
         <Converter:NonEmptyStringToVisibilityConverter x:Key="NonEmptyStringToVisibilityConverter"/>
@@ -39,7 +41,7 @@
         </DataTemplate>
         <DataTemplate x:Key="DeviceMapperSourceItemTemplate" >
 
-            <Grid Margin="5,0,5,0"  HorizontalAlignment="Stretch" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisConverter}}" >
+            <Grid Margin="5,0,5,0"  HorizontalAlignment="Stretch" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisConverter}}"  >
                 <Grid.ColumnDefinitions>
 
                     <ColumnDefinition/>
@@ -52,7 +54,7 @@
                 </Grid>
 
                 <Grid Grid.Column="0" MouseLeftButtonUp="ClickSource">
-                    <Grid ClipToBounds="True" Height="40" >
+                    <Grid ClipToBounds="True" Height="62" >
                         <Border Opacity="0.5">
                             <Border.Background>
                                 <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill"/>
@@ -82,10 +84,10 @@
 
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Grid Width="48" Height="32" Background="#F2000000" MaxWidth="64" Margin="8,0,0,0" >
+                                <Grid Width="72" Height="48" Background="#F2000000" MaxWidth="64" Margin="8,0,0,0" >
 
-                                    <Image Source="{Binding Image}" Width="48" Height="32"/>
-                                    <Rectangle Width="48" Height="32">
+                                    <Image Source="{Binding Image}" Width="72" Height="48"/>
+                                    <Rectangle Width="72" Height="48">
                                         <Rectangle.Fill>
                                             <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
                                                 <GradientStop Color="{DynamicResource SystemListLowColor}" Offset="0.724"/>
@@ -98,13 +100,27 @@
                                     <Border BorderBrush="White" BorderThickness="1"/>
                                 </Grid>
 
-                                <Image ToolTip="{Binding Device.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"  Margin="8"/>
+                                <Image ToolTip="{Binding Device.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"  Margin="8,0"/>
+                                <StackPanel Margin="0">
 
-                                <TextBlock TextTrimming="CharacterEllipsis" Margin="8" Text="{Binding ProviderName}" FontSize="20" FontFamily="Segoe UI" FontWeight="Bold" Foreground="White" TextAlignment="Center" />
+                                    <StackPanel Orientation="Horizontal">
 
-                                <TextBlock TextTrimming="CharacterEllipsis" Margin="8" Text="{Binding Name}" FontSize="20" FontFamily="Segoe UI" FontWeight="Light" Foreground="White"  TextAlignment="Center"/>
+                                        <TextBlock TextTrimming="CharacterEllipsis" Margin="8,0" Text="{Binding ProviderName}" FontSize="20" FontFamily="Segoe UI" FontWeight="Bold" Foreground="White" TextAlignment="Center" />
 
+                                        <TextBlock TextTrimming="CharacterEllipsis" Margin="8,0" Text="{Binding Name}" FontSize="20" FontFamily="Segoe UI" FontWeight="Light" Foreground="White"  TextAlignment="Center"/>
+                                    </StackPanel>
 
+                                    <!--<TextBlock FontSize="14" Foreground="White" FontFamily="Segoe UI" FontWeight ="Bold"  Margin="8,0" Text="{Binding Controlling}" ></TextBlock>-->
+                                    <ListView x:Name="listView" ItemsSource="{Binding ControllingModels}" ItemTemplate="{DynamicResource controllingTemplate}" Background="{x:Null}" 
+                                              Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=140, Converter={StaticResource SubtractorConverter}, Mode=OneWay}" HorizontalAlignment="Left">
+                                        <ListView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,0"  MaxWidth="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}, ConverterParameter=15, Converter={StaticResource SubtractorConverter}, Mode=OneWay}"/>
+                                            </ItemsPanelTemplate>
+                                        </ListView.ItemsPanel>
+                                    </ListView>
+
+                                </StackPanel>
                             </StackPanel>
 
 
@@ -211,15 +227,15 @@
                             </LinearGradientBrush>
                         </Rectangle.Fill>
                     </Rectangle>
-                    <Rectangle Fill="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="0.5"></Rectangle>
+                    <Rectangle Fill="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="0.5"/>
                     <StackPanel Orientation="Horizontal">
                         <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="24" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6"/>
                         <TextBlock Text="{Binding ControlDevice.DeviceType, Converter={StaticResource ValueLocConverter}}" FontSize="18" VerticalAlignment="Center" Margin="8,0,0,0"  Foreground="{DynamicResource SystemBaseHighColorBrush}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,8,0">
-                        <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Visibility="{Binding SupportsPull, Converter={StaticResource BoolToVisConverter}}" VerticalAlignment="Center"></TextBlock>
-                        <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisConverter}}" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="&#xE118;" FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Visibility="{Binding SupportsPull, Converter={StaticResource BoolToVisConverter}}" VerticalAlignment="Center"/>
+                        <TextBlock Text="&#xE11C;" FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Visibility="{Binding SupportsPush, Converter={StaticResource BoolToVisConverter}}" VerticalAlignment="Center"/>
 
                     </StackPanel>
                 </Grid>
@@ -234,7 +250,7 @@
                     </Grid>
 
                     <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" Background="#d0000000" >
-                        <Grid Width="2" HorizontalAlignment="Left" Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"></Grid>
+                        <Grid Width="2" HorizontalAlignment="Left" Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
 
 
                         <StackPanel>
@@ -247,6 +263,12 @@
                 <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Selected, Converter={StaticResource BoolToVisConverter}}" >
                     <Border BorderThickness="4" BorderBrush="{x:Static SystemParameters.WindowGlassBrush}"/>
                 </Grid>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="controllingTemplate">
+            <Grid Margin="0">
+                <TextBlock FontSize="14" Foreground="#d0ffffff" FontFamily="Segoe UI Light" FontWeight ="Light"  Margin="8,0" Text="{Binding Name}" Visibility="{Binding IsCurrent, Converter={StaticResource InvertedBoolToVisConverter}}"/>
+                <TextBlock FontSize="14" Foreground="White" FontFamily="Segoe UI" FontWeight ="Bold"  Margin="8,0" Text="{Binding Name}" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisConverter}}"/>
             </Grid>
         </DataTemplate>
 
@@ -408,10 +430,11 @@
                                           BorderBrush="Transparent" 
                                           SelectionMode="Single" 
                                           HorizontalContentAlignment="Stretch" 
+                                          
                                            >
                             <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="2"/>
+                                <ItemsPanelTemplate >
+                                    <UniformGrid Columns="2" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}, ConverterParameter=0.99, Converter={StaticResource PercentageConverter}, Mode=OneWay}"/>
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
                         </ListView>

@@ -116,7 +116,7 @@ namespace RGBSyncPlus.UI.Tabs
             }
         }
 
-        private string subViewMode = "Info";
+        private string subViewMode = "SyncTo";
 
         public string SubViewMode
         {
@@ -189,6 +189,52 @@ namespace RGBSyncPlus.UI.Tabs
             SourceDevices = new ObservableCollection<DeviceMappingModels.SourceModel>();
             foreach (ControlDevice source in sources)
             {
+                var things = temp.Where(x =>
+                    x.SourceName == source.Name && x.SourceProviderName == source.Driver.Name() &&
+                    x.SourceConnectedTo == source.ConnectedTo);
+
+
+                bool enabled = current != null && source.Driver.Name() == current.SourceProviderName && source.Name == current.SourceName && source.ConnectedTo == current.SourceConnectedTo;
+                
+                SourceDevices.Add(new DeviceMappingModels.SourceModel
+                {
+                    ProviderName = source.Driver.Name(),
+                    Device = source,
+                    Name = source.Name,
+                    Enabled = enabled,
+                    Image = ToBitmapImage(source.ProductImage),
+                    ConnectedTo = source.ConnectedTo,
+                    Controlling = string.Join(", ", things.Select(x => x.Name)),
+                    ControllingModels =  new ObservableCollection<DeviceMappingModels.SourceControllingModel>(things.Select(x=>new DeviceMappingModels.SourceControllingModel
+                    {
+                        ProviderName = x.ProviderName,
+                        ConnectedTo = x.ConnectedTo,
+                        Name = x.Name,
+                        IsCurrent = SLSDevicesFiltered.Any(y=>y.Selected && y.Name == x.Name && y.ProviderName == x.ProviderName && x.ConnectedTo == y.ConnectedTo)
+                    }).ToList())
+                });
+            }
+            
+            
+        }
+
+        public void SetupSourceDevices()
+        {
+         
+
+            IEnumerable<ControlDevice> sources = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
+
+            ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ApplicationManager.Instance.CurrentProfile?.DeviceProfileSettings;
+            DeviceMappingModels.NGDeviceProfileSettings current = null;
+
+            SourceDevices = new ObservableCollection<DeviceMappingModels.SourceModel>();
+            foreach (ControlDevice source in sources)
+            {
+                var things = temp.Where(x =>
+                    x.SourceName == source.Name && x.SourceProviderName == source.Driver.Name() &&
+                    x.SourceConnectedTo == source.ConnectedTo);
+
+
                 bool enabled = current != null && source.Driver.Name() == current.SourceProviderName && source.Name == current.SourceName && source.ConnectedTo == current.SourceConnectedTo;
                 SourceDevices.Add(new DeviceMappingModels.SourceModel
                 {
@@ -198,7 +244,15 @@ namespace RGBSyncPlus.UI.Tabs
                     Enabled = enabled,
                     Image = ToBitmapImage(source.ProductImage),
                     ConnectedTo = source.ConnectedTo,
-                }); ;
+                    Controlling = string.Join(", ", things.Select(x => x.Name)),
+                    ControllingModels = new ObservableCollection<DeviceMappingModels.SourceControllingModel>(things.Select(x => new DeviceMappingModels.SourceControllingModel
+                    {
+                        ProviderName = x.ProviderName,
+                        ConnectedTo = x.ConnectedTo,
+                        Name = x.Name,
+                        IsCurrent = SLSDevicesFiltered.Any(y => y.Selected && y.Name == x.Name && y.ProviderName == x.ProviderName && x.ConnectedTo == y.ConnectedTo)
+                    }).ToList())
+                });
             }
 
         }
@@ -338,5 +392,9 @@ namespace RGBSyncPlus.UI.Tabs
 
         }
 
+        public void RefreshDevicesUI()
+        {
+            OnPropertyChanged("SLSDevices");
+        }
     }
 }

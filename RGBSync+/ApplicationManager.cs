@@ -962,7 +962,14 @@ namespace RGBSyncPlus
                                     Debug.WriteLine("all loaded: " + slsDriver.Name());
                                     slsDriver.DeviceAdded += SlsDriver_DeviceAdded;
                                     slsDriver.DeviceRemoved += SlsDriver_DeviceRemoved;
-                                    slsDriver.Configure(new DriverDetails() { HomeFolder = justPath });
+                                    try
+                                    {
+                                        slsDriver.Configure(new DriverDetails() {HomeFolder = justPath});
+                                    }
+                                    catch
+                                    {
+                                    }
+
                                     Debug.WriteLine("Have Initialized: " + slsDriver.Name());
                                 }
                             }
