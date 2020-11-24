@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,10 @@ namespace RGBSyncPlus.UI.Tabs
     /// </summary>
     public partial class NewsView : UserControl
     {
+        public void OpenUrl(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            Process.Start(e.Parameter.ToString());
+        }
         public NewsView()
         {
             InitializeComponent();
