@@ -161,6 +161,10 @@ Foreground="Transparent"
         <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="SettingsUserControl">
             <Tabs:SettingsUI HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>
+
+        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=news, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="NewsUserControl">
+            <Tabs:NewsView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </UserControl>
         <Grid Grid.Column="1" Background="#c0000000" Visibility="{Binding ShowModal, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid Width="500" Background="{x:Null}" VerticalAlignment="Center">
                 <Grid Background="#c0000000" />

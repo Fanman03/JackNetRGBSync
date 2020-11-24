@@ -129,6 +129,7 @@
     <Compile Include="Helper\RGBNetExtension.cs" />
     <Compile Include="Helper\ExceptionExtension.cs" />
     <Compile Include="Helper\MathHelper.cs" />
+    <Compile Include="INewsSource.cs" />
     <Compile Include="Languages\LanguageModel.cs" />
     <Compile Include="Model\AbstractBindableExtended.cs" />
     <Compile Include="Model\DeviceGroup.cs" />
@@ -188,6 +189,10 @@
     </Compile>
     <Compile Include="UI\Tabs\DevicesViewModel.cs" />
     <Compile Include="UI\Tabs\ModalModel.cs" />
+    <Compile Include="UI\Tabs\NewsView.xaml.cs">
+      <DependentUpon>NewsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Tabs\NewsViewModel.cs" />
     <Compile Include="UI\Tabs\ProfilesTab.xaml.cs">
       <DependentUpon>ProfilesTab.xaml</DependentUpon>
     </Compile>
@@ -257,6 +262,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Tabs\Devices.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Tabs\NewsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
