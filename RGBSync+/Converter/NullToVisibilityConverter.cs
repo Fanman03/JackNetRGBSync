@@ -18,6 +18,19 @@ namespace RGBSyncPlus.Converter
         #endregion
     }
 
+    [ValueConversion(typeof(object), typeof(Visibility))]
+    public class NotNullToVisibilityConverter : IValueConverter
+    {
+        #region Methods
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            => (value != null) == (string.Equals(parameter?.ToString(), "true", StringComparison.OrdinalIgnoreCase)) ? Visibility.Visible : Visibility.Hidden;
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotSupportedException();
+
+        #endregion
+    }
+
 
     [ValueConversion(typeof(object), typeof(Visibility))]
     public class NonEmptyStringToVisibilityConverter : IValueConverter

@@ -19,6 +19,14 @@ namespace RGBSyncPlus.UI.Tabs
             set => SetProperty(ref newsItems, value);
         }
 
+        private NewsItemViewModel selectedNewsItem;
+
+        public NewsItemViewModel SelectedNewsItem
+        {
+            get => selectedNewsItem;
+            set => SetProperty(ref selectedNewsItem, value);
+        }
+
         public NewsViewModel()
         {
             NewsItems = new ObservableCollection<NewsItemViewModel>(NewsManager.GetStories().Select(x =>
@@ -31,6 +39,8 @@ namespace RGBSyncPlus.UI.Tabs
                     Images = x.Images != null ? new ObservableCollection<string>(x.Images) : null,
                     Videos = x.Videos !=null ? new ObservableCollection<string>(x.Videos) : null
                 }));
+
+            SelectedNewsItem = NewsItems.Last();
         }
 
         public class NewsItemViewModel : BaseViewModel

@@ -534,13 +534,10 @@
       <Project>{23a9ed3d-5354-4707-91e3-5a57104779bf}</Project>
       <Name>FluentWPF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Launcher\Launcher.csproj">
-      <Project>{400FEC06-C6E7-4A09-80A6-B9A4E750D41A}</Project>
-      <Name>Launcher</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\" />
   </ItemGroup>
+  <Import Project="..\SharedCode\SharedCode.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
