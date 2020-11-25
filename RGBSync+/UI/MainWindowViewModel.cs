@@ -55,11 +55,12 @@ namespace RGBSyncPlus.UI
             {
                 this.BackGround = ApplicationManager.Instance.NGSettings.Background;
                 this.BackgroundOpacity = ApplicationManager.Instance.NGSettings.BackgroundOpacity;
+                this.DimBackgroundOpacity = ApplicationManager.Instance.NGSettings.DimBackgroundOpacity;
             };
 
             this.BackGround = ApplicationManager.Instance.NGSettings.Background;
             this.BackgroundOpacity = ApplicationManager.Instance.NGSettings.BackgroundOpacity;
-
+            this.DimBackgroundOpacity = ApplicationManager.Instance.NGSettings.DimBackgroundOpacity;
         }
 
         public DeviceMappingModels.NGSettings NGSettings => ApplicationManager.Instance.NGSettings;
@@ -70,6 +71,14 @@ namespace RGBSyncPlus.UI
         {
             get => backgroundOpacity;
             set => SetProperty(ref backgroundOpacity, value);
+        }
+
+        private float dimbackgroundOpacity;
+
+        public float DimBackgroundOpacity
+        {
+            get => dimbackgroundOpacity;
+            set => SetProperty(ref dimbackgroundOpacity, value);
         }
 
         private bool hamburgerExtended;

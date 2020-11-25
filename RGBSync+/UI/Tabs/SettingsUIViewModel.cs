@@ -130,6 +130,19 @@ namespace RGBSyncPlus.UI.Tabs
             }
         }
 
+
+        private float dimbgopacity;
+
+        public float DimBackgroundOpacity
+        {
+            get => dimbgopacity;
+            set
+            {
+                SetProperty(ref dimbgopacity, (float)Math.Floor(value));
+                ApplicationManager.Instance.NGSettings.DimBackgroundOpacity = (float)Math.Floor(value) / 100f;
+            }
+        }
+
         public ObservableCollection<LanguageOption> Languages { get; set; } =
             new ObservableCollection<LanguageOption>(
                 LanguageManager.Languages.Select(x => new LanguageOption { Name = x.NativeName, Code = x.Code, Emoji = x.Emoji }));

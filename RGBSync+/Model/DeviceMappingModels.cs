@@ -49,6 +49,8 @@ namespace RGBSyncPlus.Model
                 {
                     SetProperty(ref background, value);
                     BGChangedEvent?.Invoke(this, new EventArgs());
+                    AreSettingsStale = true;
+                    ProfileChange?.Invoke(this, new EventArgs());
                 }
             }
 
@@ -62,6 +64,22 @@ namespace RGBSyncPlus.Model
                 {
                     SetProperty(ref bgopacity, value);
                     BGChangedEvent?.Invoke(this, new EventArgs());
+                    AreSettingsStale = true;
+                    ProfileChange?.Invoke(this, new EventArgs());
+                }
+            }
+
+            private float dimopacity;
+
+            public float DimBackgroundOpacity
+            {
+                get => dimopacity;
+                set
+                {
+                    SetProperty(ref dimopacity, value);
+                    BGChangedEvent?.Invoke(this, new EventArgs());
+                    AreSettingsStale = true;
+                    ProfileChange?.Invoke(this, new EventArgs());
                 }
             }
 

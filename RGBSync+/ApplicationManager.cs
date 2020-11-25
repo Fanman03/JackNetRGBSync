@@ -40,7 +40,11 @@ namespace RGBSyncPlus
         #endregion
 
         #region Properties & Fields
-        public DeviceMappingModels.NGSettings NGSettings = new DeviceMappingModels.NGSettings();
+        public DeviceMappingModels.NGSettings NGSettings = new DeviceMappingModels.NGSettings
+        {
+            BackgroundOpacity = 0.5f
+        };
+
         public bool PauseSyncing { get; set; } = false;
         public static ApplicationManager Instance { get; } = new ApplicationManager();
 
