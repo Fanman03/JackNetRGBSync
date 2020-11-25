@@ -45,6 +45,8 @@ Settings.BackgroundOpacity  Background Opacity
 Settings.BackgroundOpacityHelp Adjusts the transparency of the background image
 Settings.DimBackgroundOpacity   Background Dimmer
 Settings.DimBackgroundOpacityHelp   Adjusts the Darkening effect on background
+Settings.BackgroundBlur Background Blur
+Settings.BackgroundBlurHelp Amount to blur the chosen background image
 Store.ExperimentalBtnText	Experimental
 Store.FilterLabel	Search
 Store.Plugin.UpdateAvail	Update Available

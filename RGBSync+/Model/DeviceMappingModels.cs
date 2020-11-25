@@ -83,6 +83,20 @@ namespace RGBSyncPlus.Model
                 }
             }
 
+            private float backgroundBlur;
+
+            public float BackgroundBlur
+            {
+                get => backgroundBlur;
+                set
+                {
+                    SetProperty(ref backgroundBlur, value);
+                    BGChangedEvent?.Invoke(this, new EventArgs());
+                    AreSettingsStale = true;
+                    ProfileChange?.Invoke(this, new EventArgs());
+                }
+            }
+
 
             public event EventHandler BGChangedEvent;
 

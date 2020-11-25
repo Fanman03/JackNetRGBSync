@@ -56,11 +56,13 @@ namespace RGBSyncPlus.UI
                 this.BackGround = ApplicationManager.Instance.NGSettings.Background;
                 this.BackgroundOpacity = ApplicationManager.Instance.NGSettings.BackgroundOpacity;
                 this.DimBackgroundOpacity = ApplicationManager.Instance.NGSettings.DimBackgroundOpacity;
+                this.BackgroundBlur = ApplicationManager.Instance.NGSettings.BackgroundBlur;
             };
 
             this.BackGround = ApplicationManager.Instance.NGSettings.Background;
             this.BackgroundOpacity = ApplicationManager.Instance.NGSettings.BackgroundOpacity;
             this.DimBackgroundOpacity = ApplicationManager.Instance.NGSettings.DimBackgroundOpacity;
+            this.BackgroundBlur = ApplicationManager.Instance.NGSettings.BackgroundBlur;
         }
 
         public DeviceMappingModels.NGSettings NGSettings => ApplicationManager.Instance.NGSettings;
@@ -71,6 +73,15 @@ namespace RGBSyncPlus.UI
         {
             get => backgroundOpacity;
             set => SetProperty(ref backgroundOpacity, value);
+        }
+
+
+        private float backgroundBlur;
+
+        public float BackgroundBlur
+        {
+            get => backgroundBlur;
+            set => SetProperty(ref backgroundBlur, value);
         }
 
         private float dimbackgroundOpacity;

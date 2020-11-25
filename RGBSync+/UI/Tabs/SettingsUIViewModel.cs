@@ -6,6 +6,7 @@ using SharedCode;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Threading;
 
 namespace RGBSyncPlus.UI.Tabs
 {
@@ -102,6 +103,8 @@ namespace RGBSyncPlus.UI.Tabs
 
             Background = ApplicationManager.Instance.NGSettings.Background;
             BackgroundOpacity = ApplicationManager.Instance.NGSettings.BackgroundOpacity*100;
+            DimBackgroundOpacity = ApplicationManager.Instance.NGSettings.DimBackgroundOpacity * 100;
+            BackgroundBlur = ApplicationManager.Instance.NGSettings.BackgroundBlur * 10;
         }
 
 
@@ -142,6 +145,43 @@ namespace RGBSyncPlus.UI.Tabs
                 ApplicationManager.Instance.NGSettings.DimBackgroundOpacity = (float)Math.Floor(value) / 100f;
             }
         }
+
+        private float backgroundBlur;
+
+        public float BackgroundBlur
+        {
+            get => backgroundBlur;
+            set
+            {
+                SetProperty(ref backgroundBlur, (float)Math.Floor(value));
+                ApplicationManager.Instance.NGSettings.BackgroundBlur = (float)Math.Floor(value) / 10f;
+                //if (blurTimer != null)
+                //{
+                //    blurTimer.Stop();
+                //    blurTimer = null;
+                //}
+
+                //blurTimer = new DispatcherTimer()
+                //{
+                //    Interval = TimeSpan.FromSeconds(3),
+                //};
+
+                //blurTimer.Tick += (sender, args) =>
+                //{
+                //    blurTimer.Stop();
+                //    ApplicationManager.Instance.NGSettings.BackgroundBlur = (float)Math.Floor(value) / 20f;
+                //};
+                
+                //blurTimer.Start();
+            }
+        }
+
+        private void BlurTimer_Tick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private DispatcherTimer blurTimer;
 
         public ObservableCollection<LanguageOption> Languages { get; set; } =
             new ObservableCollection<LanguageOption>(
