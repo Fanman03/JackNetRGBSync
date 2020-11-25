@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using RGBSyncPlus.Model;
 
 namespace RGBSyncPlus.UI
 {
@@ -49,6 +50,26 @@ namespace RGBSyncPlus.UI
             };
 
             CurrentTab = "devices";
+
+            ApplicationManager.Instance.NGSettings.BGChangedEvent += (sender, args) =>
+            {
+                this.BackGround = ApplicationManager.Instance.NGSettings.Background;
+                this.BackgroundOpacity = ApplicationManager.Instance.NGSettings.BackgroundOpacity;
+            };
+
+            this.BackGround = ApplicationManager.Instance.NGSettings.Background;
+            this.BackgroundOpacity = ApplicationManager.Instance.NGSettings.BackgroundOpacity;
+
+        }
+
+        public DeviceMappingModels.NGSettings NGSettings => ApplicationManager.Instance.NGSettings;
+
+        private float backgroundOpacity;
+
+        public float BackgroundOpacity
+        {
+            get => backgroundOpacity;
+            set => SetProperty(ref backgroundOpacity, value);
         }
 
         private bool hamburgerExtended;
@@ -73,6 +94,14 @@ namespace RGBSyncPlus.UI
         {
             get => modalText;
             set => SetProperty(ref modalText, value);
+        }
+
+        private string background;
+
+        public string BackGround
+        {
+            get => background;
+            set => SetProperty(ref background, value);
         }
 
         private bool showModalTextBox = false;

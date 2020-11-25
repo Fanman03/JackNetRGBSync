@@ -80,7 +80,7 @@ namespace RGBSyncPlus
         }
 
         public event EventHandler LanguageChangedEvent;
-
+        
         #endregion
 
         #region Constructors

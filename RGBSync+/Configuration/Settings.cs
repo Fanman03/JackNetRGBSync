@@ -1,4 +1,5 @@
-﻿using RGBSyncPlus.Model;
+﻿using System;
+using RGBSyncPlus.Model;
 using System.Collections.Generic;
 
 namespace RGBSyncPlus.Configuration
@@ -25,6 +26,8 @@ namespace RGBSyncPlus.Configuration
             get => deviceMappingProxy;
             set { deviceMappingProxy = value; }
         }
+
+       
 
         #endregion
     }

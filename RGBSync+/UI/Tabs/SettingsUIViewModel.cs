@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using RGBSyncPlus.Languages;
 using RGBSyncPlus.Model;
 using SharedCode;
@@ -98,6 +99,35 @@ namespace RGBSyncPlus.UI.Tabs
             OnPropertyChanged("MinimizeOnStart");
             OnPropertyChanged("ReleaseType");
             OnPropertyChanged("MinimizeToTray");
+
+            Background = ApplicationManager.Instance.NGSettings.Background;
+            BackgroundOpacity = ApplicationManager.Instance.NGSettings.BackgroundOpacity*100;
+        }
+
+
+        private string background = "";
+
+        public string Background
+        {
+            get => background;
+            set
+            {
+                SetProperty(ref background, value);
+                ApplicationManager.Instance.NGSettings.Background = value;
+            }
+        }
+
+
+        private float bgopacity;
+
+        public float BackgroundOpacity
+        {
+            get => bgopacity;
+            set
+            {
+                SetProperty(ref bgopacity, (float)Math.Floor(value));
+                ApplicationManager.Instance.NGSettings.BackgroundOpacity = (float)Math.Floor(value) / 100f;
+            }
         }
 
         public ObservableCollection<LanguageOption> Languages { get; set; } =

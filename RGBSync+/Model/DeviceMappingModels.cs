@@ -4,6 +4,7 @@ using SimpleLed;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Windows.Media.Imaging;
 
 namespace RGBSyncPlus.Model
@@ -34,8 +35,38 @@ namespace RGBSyncPlus.Model
             }
         }
 
+      
+
         public class NGSettings : BaseViewModel
         {
+
+            private string background = "C:\\Users\\james\\Pictures\\4K-Abstract-Desktop-Wallpaper-For-PC.jpg";
+
+            public string Background
+            {
+                get => background;
+                set
+                {
+                    SetProperty(ref background, value);
+                    BGChangedEvent?.Invoke(this, new EventArgs());
+                }
+            }
+
+
+            private float bgopacity;
+
+            public float BackgroundOpacity
+            {
+                get => bgopacity;
+                set
+                {
+                    SetProperty(ref bgopacity, value);
+                    BGChangedEvent?.Invoke(this, new EventArgs());
+                }
+            }
+
+
+            public event EventHandler BGChangedEvent;
 
             private int updateRate = 30;
 
