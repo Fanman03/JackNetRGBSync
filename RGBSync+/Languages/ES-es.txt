@@ -86,12 +86,21 @@ Main.Profiles Perfiles
 Main.Store Tienda
 Main.About Acerca de
 Main.Crash  Fallo!
+Main.news Novedades
 Main.Settings   Ajustes
 Settings.ApiServer  Servidor API
 Settings.ApiServerHelp  Activar servidor RGB Sync Studio REST API
 Settings.RefreshFreq    Frequencia de Actualización
 Settings.RefreshFreqHelp    Ajusta la velocidad a la que se actualiza el RGB
 Settings.Language   Idioma
+Settings.BackgroundPath Imagen de Fondo
+Settings.BackgroundHelp Ruta de la Imagen
+Settings.BackgroundOpacity Opacidad del Fondo
+Settings.BackgroundOpacityHelp Ajusta la transparencia del Fondo
+Settings.DimBackgroundOpacity Intensidad del Fondo
+Settings.DimBackgroundOpacityHelp Ajusta el efecto Oscuro sobre el fondo
+Settings.BackgroundBlur Difuminado del Fondo
+Settings.BackgroundBlurHelp Ajustar la Cantidad del Difuminado sobre el Fondo
 Fan Ventilador
 LEDStrip    Tira LED
 GPU GPU
