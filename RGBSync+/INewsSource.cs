@@ -29,21 +29,28 @@ namespace RGBSyncPlus
     {
         public List<NewsStory> GetLatestStories()
         {
-            string address = "https://rgbsync.com/api/news/getPosts.php?limit=5";
-            WebClient client = new WebClient();
-            string reply = client.DownloadString(address);
-            List<RGBSyncNewsStory> stories = JsonConvert.DeserializeObject<List<RGBSyncNewsStory>>(reply);
-            return stories.Select(x => new NewsStory
+            try
             {
-Author=x.author,
-Body = x.content,
-Date = DateTimeOffset.FromUnixTimeSeconds(x.date).DateTime,
-Ident = x.guid,
-Images = !string.IsNullOrWhiteSpace(x.image_url) ? new List<string> { x.image_url } : null,
-Title = x.title,
-Url = x.url,
-Videos = !string.IsNullOrWhiteSpace(x.video_url) ? new List<string>{x.video_url} : null,
-            }).ToList();
+                string address = "https://rgbsync.com/api/news/getPosts.php?limit=5";
+                WebClient client = new WebClient();
+                string reply = client.DownloadString(address);
+                List<RGBSyncNewsStory> stories = JsonConvert.DeserializeObject<List<RGBSyncNewsStory>>(reply);
+                return stories.Select(x => new NewsStory
+                {
+                    Author = x.author,
+                    Body = x.content,
+                    Date = DateTimeOffset.FromUnixTimeSeconds(x.date).DateTime,
+                    Ident = x.guid,
+                    Images = !string.IsNullOrWhiteSpace(x.image_url) ? new List<string> {x.image_url} : null,
+                    Title = x.title,
+                    Url = x.url,
+                    Videos = !string.IsNullOrWhiteSpace(x.video_url) ? new List<string> {x.video_url} : null,
+                }).ToList();
+            }
+            catch
+            {
+                return new List<NewsStory>();
+            }
         }
 
 

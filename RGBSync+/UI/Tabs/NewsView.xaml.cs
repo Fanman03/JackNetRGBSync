@@ -21,6 +21,7 @@ namespace RGBSyncPlus.UI.Tabs
     /// </summary>
     public partial class NewsView : UserControl
     {
+        NewsViewModel vm => this.DataContext as NewsViewModel;
         public void OpenUrl(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
             Process.Start(e.Parameter.ToString());
@@ -28,6 +29,16 @@ namespace RGBSyncPlus.UI.Tabs
         public NewsView()
         {
             InitializeComponent();
+        }
+
+        private void CloseModal(object sender, RoutedEventArgs e)
+        {
+            vm.SelectedNewsItem = null;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            vm.SelectedNewsItem = ((Button)sender).DataContext as NewsViewModel.NewsItemViewModel;
         }
     }
 }

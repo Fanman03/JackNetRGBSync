@@ -40,7 +40,7 @@ namespace RGBSyncPlus.UI.Tabs
                     Videos = x.Videos !=null ? new ObservableCollection<string>(x.Videos) : null
                 }));
 
-            SelectedNewsItem = NewsItems.Last();
+           // SelectedNewsItem = NewsItems.Last();
         }
 
         public class NewsItemViewModel : BaseViewModel
