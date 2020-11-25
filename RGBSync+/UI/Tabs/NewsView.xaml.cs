@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace RGBSyncPlus.UI.Tabs
 {
@@ -24,7 +25,15 @@ namespace RGBSyncPlus.UI.Tabs
         NewsViewModel vm => this.DataContext as NewsViewModel;
         public void OpenUrl(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
-            Process.Start(e.Parameter.ToString());
+            string browserPath = GetBrowserPath();
+            if (browserPath == string.Empty)
+                browserPath = "iexplore";
+            Process process = new Process();
+            process.StartInfo = new ProcessStartInfo(browserPath);
+            process.StartInfo.Arguments = "\"" + e.Parameter.ToString() + "\"";
+            process.Start();
+
+            
         }
         public NewsView()
         {
@@ -39,6 +48,33 @@ namespace RGBSyncPlus.UI.Tabs
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             vm.SelectedNewsItem = ((Button)sender).DataContext as NewsViewModel.NewsItemViewModel;
+        }
+
+        private static string GetBrowserPath()
+        {
+            string browserName = "iexplore.exe";
+            using (RegistryKey userChoiceKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\Shell\Associations\UrlAssociations\http\UserChoice"))
+            {
+                if (userChoiceKey != null)
+                {
+                    object progIdValue = userChoiceKey.GetValue("Progid");
+                    if (progIdValue != null)
+                    {
+                        if (progIdValue.ToString().ToLower().Contains("chrome"))
+                            browserName = "chrome.exe";
+                        else if (progIdValue.ToString().ToLower().Contains("firefox"))
+                            browserName = "firefox.exe";
+                        else if (progIdValue.ToString().ToLower().Contains("safari"))
+                            browserName = "safari.exe";
+                        else if (progIdValue.ToString().ToLower().Contains("opera"))
+                            browserName = "opera.exe";
+                        else if (progIdValue.ToString().ToLower().Contains("edge"))
+                            browserName = "msedge.exe";
+                    }
+                }
+            }
+
+            return browserName;
         }
     }
 }
