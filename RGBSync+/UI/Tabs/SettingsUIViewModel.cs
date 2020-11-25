@@ -104,7 +104,7 @@ namespace RGBSyncPlus.UI.Tabs
             Background = ApplicationManager.Instance.NGSettings.Background;
             BackgroundOpacity = ApplicationManager.Instance.NGSettings.BackgroundOpacity*100;
             DimBackgroundOpacity = ApplicationManager.Instance.NGSettings.DimBackgroundOpacity * 100;
-            BackgroundBlur = ApplicationManager.Instance.NGSettings.BackgroundBlur * 10;
+            BackgroundBlur = ApplicationManager.Instance.NGSettings.BackgroundBlur * 5;
         }
 
 
@@ -154,7 +154,7 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref backgroundBlur, (float)Math.Floor(value));
-                ApplicationManager.Instance.NGSettings.BackgroundBlur = (float)Math.Floor(value) / 10f;
+                ApplicationManager.Instance.NGSettings.BackgroundBlur = (float)Math.Floor(value) / 5f;
                 //if (blurTimer != null)
                 //{
                 //    blurTimer.Stop();
