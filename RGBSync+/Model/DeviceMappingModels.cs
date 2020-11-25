@@ -40,7 +40,7 @@ namespace RGBSyncPlus.Model
         public class NGSettings : BaseViewModel
         {
 
-            private string background = "C:\\Users\\james\\Pictures\\4K-Abstract-Desktop-Wallpaper-For-PC.jpg";
+            private string background;
 
             public string Background
             {
