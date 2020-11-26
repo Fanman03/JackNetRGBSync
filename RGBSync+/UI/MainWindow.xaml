@@ -16,6 +16,8 @@
         fw:AcrylicWindow.Enabled="True" Icon="/RGBSync+;component/ProgramIcon.ico">
     <Window.Resources>
 
+        <Converter:InvertedBoolToVisibilityConverter x:Key="InvertedBoolToVisibilityConverter"/>
+
         <Converter:BackgroundGradientConverter x:Key="BackgroundGradientConverter"/>
 
         <Converter:MarginConverter x:Key="MarginConverter"/>
@@ -28,8 +30,23 @@
         <DataTemplate x:Key="TabItemTemplate">
             <Grid fw:PointerTracker.Enabled="True" Margin="0,0,0,0" HorizontalAlignment="Stretch" MouseDown="Grid_MouseDown">
                 <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.5" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" />
-                
-                <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" Fill="White" />
+                <Grid Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=DataContext.RainbowTabBars, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Fill="White" />
+                    <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=DataContext.RainbowTabBars, Converter={StaticResource BoolToVisibilityConverter}}">
+
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#ff0000" Offset="0"/>
+                                <GradientStop Color="#FFFF00" Offset="0.2"/>
+                                <GradientStop Color="#00ff00" Offset="0.4"/>
+                                <GradientStop Color="#00ffff" Offset="0.5"/>
+                                <GradientStop Color="#0000ff" Offset="0.6"/>
+                                <GradientStop Color="#FF00FF" Offset="0.8"/>
+                                <GradientStop Color="#ff0000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Grid>
 
                 <Grid HorizontalAlignment="Stretch" Margin="0,4" Height="40" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
@@ -219,7 +236,24 @@ Foreground="Transparent"
                         </Style>
                     </Grid.Style>
                     <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.5" Margin="0,0" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" Grid.ColumnSpan="2"></Rectangle>
-                    <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" Fill="White" Grid.ColumnSpan="2" />
+                    <!--<Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" Fill="White" Grid.ColumnSpan="2" />-->
+
+                    <Grid Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" Grid.ColumnSpan="2">
+                        <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding RainbowTabBars, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Fill="White" />
+                        <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding RainbowTabBars, Converter={StaticResource BoolToVisibilityConverter}}"  >
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop x:Name="PbStop1" Color="#ff0000" Offset="0"/>
+                                    <GradientStop Color="#FFFF00" Offset="0.2"/>
+                                    <GradientStop Color="#00ff00" Offset="0.4"/>
+                                    <GradientStop Color="#00ffff" Offset="0.5"/>
+                                    <GradientStop Color="#0000ff" Offset="0.6"/>
+                                    <GradientStop Color="#FF00FF" Offset="0.8"/>
+                                    <GradientStop Color="#ff0000" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Grid>
 
                     <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" ToolTip="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" Text="&#xE713;" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="White"/>
                 <TextBlock
@@ -282,7 +316,7 @@ Foreground="Transparent"
                         </ProgressBar.RenderTransform>
                         <ProgressBar.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop x:Name="PbStop1" Color="#ff0000" Offset="0"/>
+                                <GradientStop Color="#ff0000" Offset="0"/>
                                 <GradientStop Color="#FFFF00" Offset="0.2"/>
                                 <GradientStop Color="#00ff00" Offset="0.4"/>
                                 <GradientStop Color="#00ffff" Offset="0.5"/>

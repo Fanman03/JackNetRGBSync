@@ -251,6 +251,19 @@ namespace RGBSyncPlus.Model
                     AreSettingsStale = true;
                 }
             }
+
+            private bool rainbowTabBars;
+
+            public bool RainbowTabBars
+            {
+                get => rainbowTabBars;
+                set
+                {
+                    SetProperty(ref rainbowTabBars, value);
+                    AreSettingsStale = true;
+                    BGChangedEvent?.Invoke(this, new EventArgs());
+                }
+            }
         }
 
         public class NGProfile : BaseViewModel

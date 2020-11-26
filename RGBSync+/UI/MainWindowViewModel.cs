@@ -62,6 +62,7 @@ namespace RGBSyncPlus.UI
                 this.DimBackgroundOpacity = ApplicationManager.Instance.NGSettings.DimBackgroundOpacity;
                 this.BackgroundBlur = ApplicationManager.Instance.NGSettings.BackgroundBlur;
                 this.ControllableBG = ApplicationManager.Instance.NGSettings.ControllableBG;
+                this.RainbowTabBars = ApplicationManager.Instance.NGSettings.RainbowTabBars;
             };
 
             this.BackGround = ApplicationManager.Instance.NGSettings.Background;
@@ -69,6 +70,7 @@ namespace RGBSyncPlus.UI
             this.DimBackgroundOpacity = ApplicationManager.Instance.NGSettings.DimBackgroundOpacity;
             this.BackgroundBlur = ApplicationManager.Instance.NGSettings.BackgroundBlur;
             this.ControllableBG = ApplicationManager.Instance.NGSettings.ControllableBG;
+            this.RainbowTabBars = ApplicationManager.Instance.NGSettings.RainbowTabBars;
 
             DispatcherTimer update = new DispatcherTimer()
             {
@@ -179,6 +181,17 @@ namespace RGBSyncPlus.UI
             get => controllableBG;
             set => SetProperty(ref controllableBG, value);
         }
+
+
+        private bool rainbowTabBars;
+
+        public bool RainbowTabBars
+        {
+            get => rainbowTabBars;
+            set => SetProperty(ref rainbowTabBars, value);
+        }
+
+
 
         private float backgroundOpacity;
 

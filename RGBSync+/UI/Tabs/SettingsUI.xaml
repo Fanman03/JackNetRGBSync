@@ -53,21 +53,22 @@
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.ApiServer, Converter={StaticResource LocConverter}}"/>
         <CheckBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding NGSettings.ApiEnabled}"  Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
         <Label Grid.Column="2" Grid.Row="0" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.ApiServerHelp, Converter={StaticResource LocConverter}}"/>
-        
+
         <Label Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.RefreshFreq, Converter={StaticResource LocConverter}}"/>
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
             <Slider VerticalAlignment="Center"  Margin="10,0,5,0" Maximum="120" Width="200" Value="{Binding NGSettings.UpdateRate}" />
             <Label FontSize="14" Foreground="{DynamicResource SystemBaseHighColorBrush}" Margin="0,9" Content="{Binding NGSettings.UpdateRate}"></Label>
         </StackPanel>
         <Label Grid.Column="2" Grid.Row="1" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.RefreshFreqHelp, Converter={StaticResource LocConverter}}"/>
-        
-        <Label Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.Language, Converter={StaticResource LocConverter}}"/>
+
+<Label Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.Language, Converter={StaticResource LocConverter}}"/>
         <ComboBox Grid.Column="1" Grid.Row="2" Margin="-40,0,0,0" Width="200" Height="30" ItemsSource="{Binding Languages}" ItemTemplate="{DynamicResource LanguageSelector}" SelectedItem="{Binding CurrentLanguage}"  FontFamily="Segoe UI Light" FontSize="14" />
         <Label Grid.Column="2" Grid.Row="2" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language}"/>
         
@@ -86,7 +87,6 @@
         <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.MinimizeOnStart, Converter={StaticResource LocConverter}}"/>
         <CheckBox Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding MinimizeOnStart}"  Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
         <Label Grid.Column="2" Grid.Row="6" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.MinimizeOnStartHelp, Converter={StaticResource LocConverter}}"/>
-
 
         <Label Grid.Column="0" Grid.Row="7" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.Experimental, Converter={StaticResource LocConverter}}"/>
         <CheckBox Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding NGSettings.Experimental}"  Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
@@ -124,6 +124,9 @@
         <CheckBox Grid.Column="1" Grid.Row="12" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding ControllableBG}"  Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
         <Label Grid.Column="2" Grid.Row="12" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.SyncableBGHelp, Converter={StaticResource LocConverter}}"/>
 
+        <Label Grid.Column="0" Grid.Row="13" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="24" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.RainbowTab, Converter={StaticResource LocConverter}}"/>
+        <CheckBox Grid.Column="1" Grid.Row="13" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding RainbowTabBars}"  Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
+        <Label Grid.Column="2" Grid.Row="13" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.RainbowTabHelp, Converter={StaticResource LocConverter}}"/>
 
     </Grid>
 </UserControl>

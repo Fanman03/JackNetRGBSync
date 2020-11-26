@@ -146,6 +146,18 @@ namespace RGBSyncPlus.UI.Tabs
             }
         }
 
+        private bool rainbowTab;
+
+        public bool RainbowTabBars
+        {
+            get => rainbowTab;
+            set
+            {
+                SetProperty(ref rainbowTab, value);
+                ApplicationManager.Instance.NGSettings.RainbowTabBars = value;
+            }
+        }
+
         private float dimbgopacity;
 
         public float DimBackgroundOpacity

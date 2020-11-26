@@ -49,6 +49,8 @@ Settings.BackgroundBlur Background Blur
 Settings.BackgroundBlurHelp Amount to blur the chosen background image
 Settings.SyncableBG Syncable Background
 Settings.SyncableBGHelp Enable a device controlling background colors.
+Settings.RainbowTab Rainbow Tab Markers
+Settings.RainbowTabHelp Should the tab markers in the left panel be all the colors.
 Store.ExperimentalBtnText	Experimental
 Store.FilterLabel	Search
 Store.Plugin.UpdateAvail	Update Available
