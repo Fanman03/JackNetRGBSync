@@ -11,6 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using Newtonsoft.Json;
 using SharedCode;
 
@@ -30,20 +31,25 @@ namespace Launcher
             UpgradingWindow.vm.Message = "Checking For Update...";
             await Task.Delay(1000);
             string url = "";
-          //  try
+            string regexPattern = "";
+
+            //  try
             {
                 switch (releaseType)
                 {
                     case LauncherPrefs.ReleaseType.CI:
                         url = "http://cdn.ezmuze.co.uk/rgbsync/";
+                        regexPattern = @"\'/rgbsync(.*?)\'";
                         break;
 
                     case LauncherPrefs.ReleaseType.Beta:
-                        url = "";
+                        url = "http://cdn.rgbsync.com/prerelease/";
+                        regexPattern = "(.*?)";
                         break;
 
                     case LauncherPrefs.ReleaseType.Release:
-                        url = "";
+                        url = "http://cdn.rgbsync.com/release/";
+                        regexPattern = "(.*?)";
                         break;
 
                 }
@@ -54,7 +60,9 @@ namespace Launcher
                     html = client.GetStringAsync(url).Result;
                 }
 
-                MatchCollection urls = Regex.Matches(html, @"\'/rgbsync(.*?)\'");
+                MatchCollection urls = Regex.Matches(html, regexPattern);
+
+                MessageBox.Show(urls[0].ToString());
                 Dictionary<string, int> usableUrls = urls.Cast<Match>().ToDictionary(match => (url + (match.Value.Substring(2, (match.Value).Length - 3).Split('/').Last())), match => int.Parse(match.Value.Split('_').Last().Split('.').First()));
 
                 Debug.WriteLine(usableUrls);
