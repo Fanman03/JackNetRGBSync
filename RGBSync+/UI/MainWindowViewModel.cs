@@ -81,9 +81,13 @@ namespace RGBSyncPlus.UI
                 {
                     var rbd = ApplicationManager.Instance.RssBackgroundDevice;
                     SCTop = GetBrush(rbd.Leds[0]);
-                    SCRight = GetBrush(rbd.Leds[1]);
-                    SCBottom = GetBrush(rbd.Leds[2]);
-                    SCLeft = GetBrush(rbd.Leds[3]);
+                    SCTopRight = GetBrush(rbd.Leds[1]);
+                    SCRight = GetBrush(rbd.Leds[2]);
+                    SCBottomRight = GetBrush(rbd.Leds[3]);
+                    SCBottom = GetBrush(rbd.Leds[4]);
+                    SCBottomLeft = GetBrush(rbd.Leds[5]);
+                    SCLeft = GetBrush(rbd.Leds[6]);
+                    SCTopLeft = GetBrush(rbd.Leds[7]);
                 }
             };
 
@@ -128,6 +132,45 @@ namespace RGBSyncPlus.UI
             get => scbottom;
             set => SetProperty(ref scbottom, value);
         }
+
+
+
+        private RadialGradientBrush sctopleft = new RadialGradientBrush(Colors.Red, Colors.Transparent);
+        public RadialGradientBrush SCTopLeft
+        {
+            get => sctopleft;
+            set => SetProperty(ref sctopleft, value);
+        }
+
+
+        private RadialGradientBrush sctopright = new RadialGradientBrush(Colors.Red, Colors.Transparent);
+        public RadialGradientBrush SCTopRight
+        {
+            get => sctopright;
+            set => SetProperty(ref sctopright, value);
+        }
+
+
+
+
+
+        private RadialGradientBrush scbottomleft = new RadialGradientBrush(Colors.Red, Colors.Transparent);
+        public RadialGradientBrush SCBottomLeft
+        {
+            get => scbottomleft;
+            set => SetProperty(ref scbottomleft, value);
+        }
+
+
+        private RadialGradientBrush scbottomright = new RadialGradientBrush(Colors.Red, Colors.Transparent);
+        public RadialGradientBrush SCBottomRight
+        {
+            get => scbottomright;
+            set => SetProperty(ref scbottomright, value);
+        }
+
+
+
 
         private bool controllableBG;
 

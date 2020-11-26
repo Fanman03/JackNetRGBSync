@@ -17,19 +17,27 @@ namespace RGBSyncPlus
                 Driver = this,
                 ConnectedTo = "RGB Sync Studio",
                 DeviceType = DeviceTypes.Other,
-                LEDs = new ControlDevice.LedUnit[4]
+                LEDs = new ControlDevice.LedUnit[8]
                 {
                     new ControlDevice.LedUnit {LEDName = "Top", Data = new ControlDevice.LEDData {LEDNumber = 0}, Color = new LEDColor(0, 0, 0)},
-                    new ControlDevice.LedUnit {LEDName = "Right", Data = new ControlDevice.LEDData {LEDNumber = 1}, Color = new LEDColor(0, 0, 0)},
-                    new ControlDevice.LedUnit {LEDName = "Bottom", Data = new ControlDevice.LEDData {LEDNumber = 2}, Color = new LEDColor(0, 0, 0)},
-                    new ControlDevice.LedUnit {LEDName = "Left", Data = new ControlDevice.LEDData {LEDNumber = 3}, Color = new LEDColor(0, 0, 0)}
+                    new ControlDevice.LedUnit {LEDName = "TopRight", Data = new ControlDevice.LEDData {LEDNumber = 1}, Color = new LEDColor(0, 0, 0)},
+                    new ControlDevice.LedUnit {LEDName = "Right", Data = new ControlDevice.LEDData {LEDNumber = 2}, Color = new LEDColor(0, 0, 0)},
+                    new ControlDevice.LedUnit {LEDName = "BottomRight", Data = new ControlDevice.LEDData {LEDNumber = 3}, Color = new LEDColor(0, 0, 0)},
+                    new ControlDevice.LedUnit {LEDName = "Bottom", Data = new ControlDevice.LEDData {LEDNumber = 4}, Color = new LEDColor(0, 0, 0)},
+                    new ControlDevice.LedUnit {LEDName = "BottomLeft", Data = new ControlDevice.LEDData {LEDNumber = 5}, Color = new LEDColor(0, 0, 0)},
+                    new ControlDevice.LedUnit {LEDName = "Left", Data = new ControlDevice.LEDData {LEDNumber = 6}, Color = new LEDColor(0, 0, 0)},
+                    new ControlDevice.LedUnit {LEDName = "TopLeft", Data = new ControlDevice.LEDData {LEDNumber = 7}, Color = new LEDColor(0, 0, 0)}
                 }
             };
         }
 
         public event EventHandler ColourChange;
-        public LEDColor[] Leds = new LEDColor[4]
+        public LEDColor[] Leds = new LEDColor[8]
         {
+            new LEDColor(0,0,0),
+            new LEDColor(0,0,0),
+            new LEDColor(0,0,0),
+            new LEDColor(0,0,0),
             new LEDColor(0,0,0),
             new LEDColor(0,0,0),
             new LEDColor(0,0,0),
@@ -56,6 +64,10 @@ namespace RGBSyncPlus
                 Leds[1] = new LEDColor(0, 0, 0);
                 Leds[2] = new LEDColor(0, 0, 0);
                 Leds[3] = new LEDColor(0, 0, 0);
+                Leds[4] = new LEDColor(0, 0, 0);
+                Leds[5] = new LEDColor(0, 0, 0);
+                Leds[6] = new LEDColor(0, 0, 0);
+                Leds[7] = new LEDColor(0, 0, 0);
 
                 DeviceRemoved?.Invoke(this, new Events.DeviceChangeEventArgs(dvs));
             }
@@ -73,7 +85,7 @@ namespace RGBSyncPlus
         public void Push(ControlDevice controlDevice)
         {
             bool anyChanges = false;
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i <8; i++)
             {
                 if (Leds[i].Red != controlDevice.LEDs[i].Color.Red ||
                     Leds[i].Green != controlDevice.LEDs[i].Color.Green ||
@@ -85,7 +97,7 @@ namespace RGBSyncPlus
 
             if (anyChanges)
             {
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 8; i++)
                 {
                     Leds[i].Red = controlDevice.LEDs[i].Color.Red;
                     Leds[i].Green = controlDevice.LEDs[i].Color.Green;

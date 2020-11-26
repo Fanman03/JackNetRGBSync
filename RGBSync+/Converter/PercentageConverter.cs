@@ -99,10 +99,16 @@ namespace RGBSyncPlus.Converter
 
             switch (param.ToLower())
             {
-                case "left": return new Thickness(v,0,0,0);
+                case "left": return new Thickness(v, 0, 0, 0);
                 case "top": return new Thickness(0, v, 0, 0);
                 case "right": return new Thickness(0, 0, v, 0);
                 case "bottom": return new Thickness(0, 0, 0, v);
+
+                case "topleft": return new Thickness(v, v, 0, 0);
+                case "topright": return new Thickness(0, v, v, 0);
+                case "bottomleft": return new Thickness(v, 0, 0, v);
+                case "bottomright": return new Thickness(0, 0, v, v);
+
             }
 
             return null;

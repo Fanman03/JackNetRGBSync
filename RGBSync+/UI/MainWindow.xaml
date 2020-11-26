@@ -96,44 +96,87 @@ Foreground="Transparent"
         </Image>
         <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Fill="Black" Opacity="{Binding DimBackgroundOpacity}"></Rectangle>
 
-        <Grid  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.5" Visibility="{Binding ControllableBG, Converter={StaticResource BoolToVisibilityConverter}}">
+        <Grid  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.5" >
             <!--Left-->
             <Ellipse 
                 HorizontalAlignment="Left"
+                VerticalAlignment="Center"
                 Fill="{Binding SCLeft}"
                 Height="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
                 Width="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" 
-                Margin="{Binding ActualWidth, ConverterParameter=-left|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-            />
+                Margin="{Binding ActualWidth, ConverterParameter=-left|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
 
 
             <!--Right-->
             <Ellipse 
                 HorizontalAlignment="Right"
-                
+                VerticalAlignment="Center"
                 Height="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
                 Width="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" 
-                Margin="{Binding ActualWidth, ConverterParameter=-right|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                Fill="{Binding SCRight}"
-                />
-
+                Margin="{Binding ActualHeight, ConverterParameter=-right|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                Fill="{Binding SCRight}"/>
 
             <!--Top-->
             <Ellipse 
                 VerticalAlignment="Top"
+                HorizontalAlignment="Center"
                 Height="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
                 Width="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" 
                 Margin="{Binding ActualWidth, ConverterParameter=-top|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                Fill="{Binding SCTop}"
-                />
+                Fill="{Binding SCTop}"/>
 
             <!--Bottom-->
             <Ellipse 
                 VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
                 Height="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
                 Width="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" 
                 Margin="{Binding ActualWidth, ConverterParameter=-bottom|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Fill="{Binding SCBottom}"/>
+
+
+
+
+
+            <!--TopLeft-->
+            <Ellipse 
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Fill="{Binding SCTopLeft}"
+                Height="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+                Width="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" 
+                Margin="{Binding ActualWidth, ConverterParameter=-topleft|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
+
+
+            <!--TopRight-->
+            <Ellipse 
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Height="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+                Width="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" 
+                Margin="{Binding ActualHeight, ConverterParameter=-topright|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                Fill="{Binding SCTopRight}"/>
+
+            <!--BottomLeft-->
+            <Ellipse 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Left"
+                Height="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+                Width="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" 
+                Margin="{Binding ActualWidth, ConverterParameter=-bottomleft|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                Fill="{Binding SCBottomLeft}"/>
+
+            <!--BottomRight-->
+            <Ellipse 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Height="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+                Width="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" 
+                Margin="{Binding ActualWidth, ConverterParameter=-bottomright|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                Fill="{Binding SCBottomRight}"/>
+
+
+
 
         </Grid>
         <Grid Grid.Column="0" Width="auto" Background="{x:Null}" fw:PointerTracker.Enabled="True" >

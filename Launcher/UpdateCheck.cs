@@ -33,6 +33,8 @@ namespace Launcher
             string url = "";
             string regexPattern = "";
 
+            releaseType = LauncherPrefs.ReleaseType.Beta;
+
             //  try
             {
                 switch (releaseType)
@@ -43,13 +45,13 @@ namespace Launcher
                         break;
 
                     case LauncherPrefs.ReleaseType.Beta:
-                        url = "http://cdn.rgbsync.com/prerelease/";
-                        regexPattern = "(.*?)";
+                        url = "https://cdn.rgbsync.com/prerelease/";
+                        regexPattern = @"\'/prerelease(.*?)\'";
                         break;
 
                     case LauncherPrefs.ReleaseType.Release:
-                        url = "http://cdn.rgbsync.com/release/";
-                        regexPattern = "(.*?)";
+                        url = "https://cdn.rgbsync.com/release/";
+                        regexPattern = @"\'/release(.*?)\'";
                         break;
 
                 }
@@ -62,7 +64,7 @@ namespace Launcher
 
                 MatchCollection urls = Regex.Matches(html, regexPattern);
 
-                MessageBox.Show(urls[0].ToString());
+               // MessageBox.Show(urls[0].ToString());
                 Dictionary<string, int> usableUrls = urls.Cast<Match>().ToDictionary(match => (url + (match.Value.Substring(2, (match.Value).Length - 3).Split('/').Last())), match => int.Parse(match.Value.Split('_').Last().Split('.').First()));
 
                 Debug.WriteLine(usableUrls);
