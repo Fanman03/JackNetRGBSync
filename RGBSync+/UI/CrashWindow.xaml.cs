@@ -16,5 +16,12 @@ namespace RGBSyncPlus.UI
         {
             this.Close();
         }
+
+        private void Send_Report(object sender, RoutedEventArgs e)
+        {
+            string text = ApplicationManager.Logger.Log;
+
+            
+        }
     }
 }

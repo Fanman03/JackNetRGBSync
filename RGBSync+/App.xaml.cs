@@ -33,12 +33,14 @@ namespace RGBSyncPlus
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             // Process unhandled exception
-            CrashWindow crashWindow = new CrashWindow();
-            crashWindow.errorName.Text = e.Exception.GetType().ToString();
-            crashWindow.message.Text = e.Exception.Message;
+            //CrashWindow crashWindow = new CrashWindow();
+            //crashWindow.errorName.Text = e.Exception.GetType().ToString();
+            //crashWindow.message.Text = e.Exception.Message;
 
-            crashWindow.stackTrace.Text = e.Exception.StackTrace;
-            crashWindow.Show();
+            //crashWindow.stackTrace.Text = e.Exception.StackTrace;
+            //crashWindow.Show();
+            ApplicationManager.Logger.CrashWindow(e.Exception);
+
             // Prevent default unhandled exception processing
             e.Handled = true;
         }

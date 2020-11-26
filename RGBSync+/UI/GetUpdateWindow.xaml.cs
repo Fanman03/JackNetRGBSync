@@ -9,7 +9,7 @@ namespace RGBSyncPlus.UI
 
     public partial class GetUpdateWindow : Window
     {
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        //private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public GetUpdateWindow()
         {
             InitializeComponent();
@@ -40,7 +40,7 @@ namespace RGBSyncPlus.UI
         }
         public void NoClicked(object sender, RoutedEventArgs e)
         {
-            Logger.Info("Update refused by user.");
+            //Logger.Info("Update refused by user.");
             this.Close();
         }
 

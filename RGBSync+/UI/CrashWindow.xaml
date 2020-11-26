@@ -25,7 +25,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20,10">
             <Button Width="80" Height="30" BorderThickness="0" Style="{StaticResource ButtonRevealStyle}" Margin="10" Click="Close_OnClick">Close</Button>
-            <Button Width="80" Height="30" BorderThickness="0" Style="{StaticResource ButtonRevealStyle}" Margin="10">Send Report</Button>
+            <Button Width="80" Height="30" BorderThickness="0" Style="{StaticResource ButtonRevealStyle}" Margin="10" Click="Send_Report">Send Report</Button>
         </StackPanel>
     </Grid>
 </Window>

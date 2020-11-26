@@ -96,7 +96,7 @@ Foreground="Transparent"
         </Image>
         <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Fill="Black" Opacity="{Binding DimBackgroundOpacity}"></Rectangle>
 
-        <Grid  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.5" >
+        <Grid  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.5" Visibility="{Binding ControllableBG, Converter={StaticResource BoolToVisibilityConverter}}" >
             <!--Left-->
             <Ellipse 
                 HorizontalAlignment="Left"

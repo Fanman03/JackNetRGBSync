@@ -1,6 +1,5 @@
 ﻿using DiscordRPC;
 using Newtonsoft.Json;
-using NLog;
 
 using RGBSyncPlus.Configuration;
 using RGBSyncPlus.Helper;
@@ -126,7 +125,7 @@ namespace RGBSyncPlus
 
         public DiscordRpcClient client;
 
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        public static readonly SimpleLogger Logger = new SimpleLogger();
         public SLSManager SLSManager;
         #endregion
 
@@ -491,16 +490,16 @@ namespace RGBSyncPlus
             loadingSplash.Activate();
             SLSManager = new SLSManager(SLSCONFIGS_DIRECTORY);
 
-            NLog.Config.LoggingConfiguration config = new NLog.Config.LoggingConfiguration();
+            //NLog.Config.LoggingConfiguration config = new NLog.Config.LoggingConfiguration();
 
             // Targets where to log to: File and Console
-            NLog.Targets.FileTarget logfile = new NLog.Targets.FileTarget("logfile") { FileName = "rgbsync.log" };
+            //NLog.Targets.FileTarget logfile = new NLog.Targets.FileTarget("logfile") { FileName = "rgbsync.log" };
 
             // Rules for mapping loggers to targets            
-            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logfile);
+            //config.AddRule(LogLevel.Debug, LogLevel.Fatal, logfile);
 
             // Apply config           
-            LogManager.Configuration = config;
+            //LogManager.Configuration = config;
 
             Logger.Debug("============ JackNet RGB Sync is Starting ============");
 
@@ -772,12 +771,7 @@ namespace RGBSyncPlus
             catch (Exception ex)
             {
                 // Process unhandled exception
-                CrashWindow crashWindow = new CrashWindow();
-                crashWindow.errorName.Text = ex.GetType().ToString();
-                crashWindow.message.Text = ex.Message;
-
-                crashWindow.stackTrace.Text = ex.StackTrace;
-                crashWindow.Show();
+                ApplicationManager.Logger.CrashWindow(ex);
 
             }
         }
