@@ -3,7 +3,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Threading;
 using RGBSyncPlus.Model;
+using SimpleLed;
 
 namespace RGBSyncPlus.UI
 {
@@ -57,15 +61,81 @@ namespace RGBSyncPlus.UI
                 this.BackgroundOpacity = ApplicationManager.Instance.NGSettings.BackgroundOpacity;
                 this.DimBackgroundOpacity = ApplicationManager.Instance.NGSettings.DimBackgroundOpacity;
                 this.BackgroundBlur = ApplicationManager.Instance.NGSettings.BackgroundBlur;
+                this.ControllableBG = ApplicationManager.Instance.NGSettings.ControllableBG;
             };
 
             this.BackGround = ApplicationManager.Instance.NGSettings.Background;
             this.BackgroundOpacity = ApplicationManager.Instance.NGSettings.BackgroundOpacity;
             this.DimBackgroundOpacity = ApplicationManager.Instance.NGSettings.DimBackgroundOpacity;
             this.BackgroundBlur = ApplicationManager.Instance.NGSettings.BackgroundBlur;
+            this.ControllableBG = ApplicationManager.Instance.NGSettings.ControllableBG;
+
+            DispatcherTimer update = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromMilliseconds(16)
+            };
+
+            update.Tick += (sender, args) =>
+            {
+                if (ControllableBG)
+                {
+                    var rbd = ApplicationManager.Instance.RssBackgroundDevice;
+                    SCTop = GetBrush(rbd.Leds[0]);
+                    SCRight = GetBrush(rbd.Leds[1]);
+                    SCBottom = GetBrush(rbd.Leds[2]);
+                    SCLeft = GetBrush(rbd.Leds[3]);
+                }
+            };
+
+            update.Start();
         }
 
-        public DeviceMappingModels.NGSettings NGSettings => ApplicationManager.Instance.NGSettings;
+        RadialGradientBrush GetBrush(LEDColor clr)
+        {
+            return new RadialGradientBrush(new Color()
+            {
+                R = (byte)clr.Red,
+                G = (byte)clr.Green,
+                B = (byte)clr.Blue,
+                A = 255
+            }, Colors.Transparent);
+        }
+
+        private RadialGradientBrush scleft = new RadialGradientBrush(Colors.Red, Colors.Transparent);
+        public RadialGradientBrush SCLeft
+        {
+            get => scleft;
+            set => SetProperty(ref scleft, value);
+        }
+
+        private RadialGradientBrush sctop = new RadialGradientBrush(Colors.Red, Colors.Transparent);
+        public RadialGradientBrush SCTop
+        {
+            get => sctop;
+            set => SetProperty(ref sctop, value);
+        }
+
+        private RadialGradientBrush scright = new RadialGradientBrush(Colors.Red, Colors.Transparent);
+        public RadialGradientBrush SCRight
+        {
+            get => scright;
+            set => SetProperty(ref scright, value);
+        }
+
+        private RadialGradientBrush scbottom = new RadialGradientBrush(Colors.Red, Colors.Transparent);
+        public RadialGradientBrush SCBottom
+        {
+            get => scbottom;
+            set => SetProperty(ref scbottom, value);
+        }
+
+        private bool controllableBG;
+
+        public bool ControllableBG
+        {
+            get => controllableBG;
+            set => SetProperty(ref controllableBG, value);
+        }
 
         private float backgroundOpacity;
 
@@ -182,6 +252,7 @@ namespace RGBSyncPlus.UI
             get => modalShowPercentage;
             set => SetProperty(ref modalShowPercentage, value);
         }
+
 
         public class TabItem : LanguageAwareBaseViewModel
         {

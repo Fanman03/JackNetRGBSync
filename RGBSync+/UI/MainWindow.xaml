@@ -15,34 +15,41 @@
         MinWidth="640"
         fw:AcrylicWindow.Enabled="True" Icon="/RGBSync+;component/ProgramIcon.ico">
     <Window.Resources>
-        
+
+        <Converter:BackgroundGradientConverter x:Key="BackgroundGradientConverter"/>
+
+        <Converter:MarginConverter x:Key="MarginConverter"/>
+
+        <Converter:PercentageConverter x:Key="PercentageConverter"/>
+
         <Converter:LocConverter x:Key="LocConverter"/>
         <Converter:StringMatchToVisibilityConverter x:Key="StringMatchToVisibilityConverter"/>
         <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <DataTemplate x:Key="TabItemTemplate">
             <Grid fw:PointerTracker.Enabled="True" Margin="0,0,0,0" HorizontalAlignment="Stretch" MouseDown="Grid_MouseDown">
-                <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.5" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" ></Rectangle>
-                <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" Fill="White" />
+                <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.5" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" />
                 
-                    <Grid HorizontalAlignment="Stretch" Margin="0,4" Height="40" VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="44"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Grid.Style>
-                            <Style TargetType="{x:Type Grid}">
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="False">
-                                        <Setter Property="Background" Value="Transparent"></Setter>
-                                    </Trigger>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#20000000"></Setter>
+                <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibilityConverter}}" Fill="White" />
+
+                <Grid HorizontalAlignment="Stretch" Margin="0,4" Height="40" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.Style>
+                        <Style TargetType="{x:Type Grid}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="False">
+                                    <Setter Property="Background" Value="Transparent"/>
                                 </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#20000000"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
                     <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" ToolTip="{Binding Name}" Text="{Binding Icon}" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="White"/>
-                        <TextBlock
+                    <TextBlock
                             Grid.Column="1"
                             Margin="10,0" 
                                FontSize="24" 
@@ -66,8 +73,8 @@ Foreground="Transparent"
                             HorizontalAlignment="Left"
                             Text="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" 
                             Visibility="{Binding DataContext.HamburgerExtended, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Window}}}"
-                            ></TextBlock>
-                    </Grid>
+                            />
+                </Grid>
             </Grid>
         </DataTemplate>
         <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
@@ -77,7 +84,7 @@ Foreground="Transparent"
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
-    <Grid Background="{x:Null}" x:Name="ContainingGrid">
+    <Grid Background="{x:Null}" x:Name="ContainingGrid" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition />
@@ -89,6 +96,46 @@ Foreground="Transparent"
         </Image>
         <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Fill="Black" Opacity="{Binding DimBackgroundOpacity}"></Rectangle>
 
+        <Grid  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.5" Visibility="{Binding ControllableBG, Converter={StaticResource BoolToVisibilityConverter}}">
+            <!--Left-->
+            <Ellipse 
+                HorizontalAlignment="Left"
+                Fill="{Binding SCLeft}"
+                Height="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+                Width="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" 
+                Margin="{Binding ActualWidth, ConverterParameter=-left|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+            />
+
+
+            <!--Right-->
+            <Ellipse 
+                HorizontalAlignment="Right"
+                
+                Height="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+                Width="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" 
+                Margin="{Binding ActualWidth, ConverterParameter=-right|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                Fill="{Binding SCRight}"
+                />
+
+
+            <!--Top-->
+            <Ellipse 
+                VerticalAlignment="Top"
+                Height="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+                Width="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" 
+                Margin="{Binding ActualWidth, ConverterParameter=-top|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                Fill="{Binding SCTop}"
+                />
+
+            <!--Bottom-->
+            <Ellipse 
+                VerticalAlignment="Bottom"
+                Height="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
+                Width="{Binding ActualWidth, ConverterParameter=0.75, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}" 
+                Margin="{Binding ActualWidth, ConverterParameter=-bottom|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                Fill="{Binding SCBottom}"/>
+
+        </Grid>
         <Grid Grid.Column="0" Width="auto" Background="{x:Null}" fw:PointerTracker.Enabled="True" >
             <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"/>
             <ListView ItemsSource="{Binding TabItems, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" ItemTemplate="{DynamicResource TabItemTemplate}"  Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" Padding="0" Margin="0,0" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
@@ -147,7 +194,9 @@ Foreground="Transparent"
             </Grid>
 </Grid>
         </Grid>
-        
+
+      
+
         <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=devices, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="DevicesUserControl">
             <Tabs:Devices HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>
@@ -209,5 +258,11 @@ Foreground="Transparent"
                 <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="CloseModal" Visibility="{Binding ShowModalCloseButton, Converter={StaticResource BoolToVisibilityConverter}}" Foreground="Red" Content="&#xE711;"/>
             </Grid>
         </Grid>
+
+
+
+
+
+
     </Grid>
 </Window>

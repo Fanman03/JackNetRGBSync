@@ -170,6 +170,27 @@ namespace RGBSyncPlus.Model
                 }
             }
 
+            private bool controllableBG;
+
+            public bool ControllableBG
+            {
+                get => controllableBG;
+                set
+                {
+                    SetProperty(ref controllableBG, value);
+                    AreSettingsStale = true;
+                    if (value)
+                    {
+                        ApplicationManager.Instance.RssBackgroundDevice.Enable();
+                    }
+                    else
+                    {
+                        ApplicationManager.Instance.RssBackgroundDevice.Disable();
+                    }
+                    BGChangedEvent?.Invoke(this, new EventArgs());
+                }
+            }
+
             private bool experimental;
 
             public bool Experimental

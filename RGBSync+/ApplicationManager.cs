@@ -45,6 +45,8 @@ namespace RGBSyncPlus
             BackgroundOpacity = 0.5f
         };
 
+        public RSSBackgroundDevice RssBackgroundDevice = new RSSBackgroundDevice();
+
         public bool PauseSyncing { get; set; } = false;
         public static ApplicationManager Instance { get; } = new ApplicationManager();
 
@@ -920,6 +922,10 @@ namespace RGBSyncPlus
 
 
             }
+
+            SLSManager.Drivers.Add(RssBackgroundDevice);
+               RssBackgroundDevice.DeviceAdded += SlsDriver_DeviceAdded;
+               RssBackgroundDevice.DeviceRemoved += SlsDriver_DeviceRemoved;
 
             SLSManager.RescanRequired += Rescan;
 

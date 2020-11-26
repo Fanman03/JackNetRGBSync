@@ -117,6 +117,7 @@
     <Compile Include="Configuration\AppSettings.cs" />
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Configuration\ProgVersion.cs" />
+    <Compile Include="Converter\BackgroundGradientConverter.cs" />
     <Compile Include="Converter\DeviceTypeToImageConverter.cs" />
     <Compile Include="Converter\IndeterminateBoolToOpacityConverter.cs" />
     <Compile Include="Converter\LocConverter.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="ProfileTriggerManager.cs" />
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\EqualsToBoolConverter.cs" />
+    <Compile Include="RSSBackgroundDevice.cs" />
     <Compile Include="Styles\CachedResourceDictionary.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
