@@ -178,13 +178,19 @@ namespace RGBSyncPlus.UI.Tabs
                     vm.DevicesSelectedCount = vm.SLSDevices.Count(x => x.Selected);
 
                     UpdateDeviceConfigUi(cd);
-                }
 
+                    ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ApplicationManager.Instance.CurrentProfile?.DeviceProfileSettings;
+                    var thingy = temp.Where(x => x.Name == cd.Name && x.ConnectedTo == cd.ConnectedTo && x.ProviderName == cd.Driver.Name()).ToList();
+
+                }
+                  
                 vm.RefreshDevicesUI();
             }
             catch
             {
             }
+
+            vm.SinkThing();
         }
 
 
@@ -268,7 +274,7 @@ namespace RGBSyncPlus.UI.Tabs
                 bool shouldEnable = selectedItems.Contains(item);
                 //castItem == selected;
 
-                if (castItem.Enabled && shouldEnable)
+                if (castItem.Enabled)
                 {
                     castItem.Enabled = false;
                 }
@@ -307,17 +313,20 @@ namespace RGBSyncPlus.UI.Tabs
                     }
 
 
-                    if (selected != null)
+                    if (selected != null && selected.Name.Trim()!="None")
                     {
                         configDevice.SourceName = selected?.Name;
                         configDevice.SourceProviderName = selected?.ProviderName;
                         configDevice.SourceConnectedTo = selected?.ConnectedTo;
+
+                        parentDevice.SunkTo = configDevice.SourceName;
                     }
                     else
                     {
                         configDevice.SourceName = null;
                         configDevice.SourceProviderName = null;
                         configDevice.SourceConnectedTo = null;
+                        parentDevice.SunkTo = "";
 
                         foreach (ControlDevice.LedUnit controlDeviceLeD in parentDevice.ControlDevice.LEDs)
                         {
@@ -351,6 +360,7 @@ namespace RGBSyncPlus.UI.Tabs
             }
 
             vm.SetupSourceDevices();
+            vm.SinkThing();
         }
 
 

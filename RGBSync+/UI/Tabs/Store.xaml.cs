@@ -85,35 +85,9 @@ namespace RGBSyncPlus.UI.Tabs
                 if (((Button)sender).DataContext is PositionalAssignment.PluginDetailsViewModel bdc)
                 {
                     PositionalAssignment.PluginDetailsViewModel newest = bdc.Versions.First(x => x.Version == bdc.Version);
-                    //if (!vm.ShowPreRelease)
-                    //{
-                    //    newest = bdc.Versions.Where(x=>x.PluginDetails.DriverProperties.IsPublicRelease).OrderByDescending(x => x.PluginDetails.Version).First();
-                    //}
 
                     SimpleLedApiClient apiClient = new SimpleLedApiClient();
                     byte[] drver = await apiClient.GetProduct(newest.PluginId, new ReleaseNumber(bdc.Version));
-
-                    //string url = $"https://github.com/SimpleLed/Store/blob/master/{newest.Id}.7z?raw=true";
-
-                    //WebClient webClient = new WebClient();
-                    //string destPath = Path.GetTempPath() + bdc.PluginDetails.Id + ".7z";
-
-                    //TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
-
-                    //WebClient wc = new WebClient();
-                    //wc.DownloadProgressChanged +=
-                    //    new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
-                    //wc.DownloadFileCompleted += new AsyncCompletedEventHandler(
-                    //    (object senderx, AsyncCompletedEventArgs ex) =>
-                    //    {
-                    //        tcs.SetResult(true);
-                    //    });
-
-
-                    ////        wc.DownloadFile(url, destPath);
-                    //wc.DownloadFileAsync(new Uri(url), destPath);
-
-                    //await tcs.Task;
 
                     string pluginPath = ApplicationManager.SLSPROVIDER_DIRECTORY + "\\" + bdc.PluginId;
                     if (Directory.Exists(pluginPath))
@@ -162,9 +136,6 @@ namespace RGBSyncPlus.UI.Tabs
 
                     ApplicationManager.Instance.LoadPlungFolder(pluginPath);
                 }
-
-
-                //vm.ReloadStoreAndPlugins();
             }
 
         }

@@ -14,7 +14,7 @@
         <Converter:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter"/>
         <Converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <DataTemplate x:Key="NewsItemTemplate">
-            <Grid  MaxWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}" MaxHeight="200">
+            <Grid  MaxWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}, ConverterParameter=0.95, Converter={StaticResource PercentageConverter}}" MaxHeight="200" Margin="0,0,0,0">
                 <Grid Margin="20">
                     <Rectangle Fill="#808080" Opacity="0.7"/>
                     <Button Background="{x:Null}" Click="Button_Click" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
@@ -46,7 +46,7 @@
         <local:NewsViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <ListView ItemsSource="{Binding NewsItems}" ItemTemplate="{DynamicResource NewsItemTemplate}" Visibility="{Binding SelectedNewsItem, Converter={StaticResource NotNullToVisibilityConverter}}" />
+        <ListView ItemsSource="{Binding NewsItems}" ItemTemplate="{DynamicResource NewsItemTemplate}" Visibility="{Binding SelectedNewsItem, Converter={StaticResource NotNullToVisibilityConverter}}" Margin="0,0,0,0"/>
         <ScrollViewer Visibility="{Binding SelectedNewsItem, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=false}" x:Name="scrollyboy" CanContentScroll="False"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
             
                 <StackPanel Margin="20"  VerticalAlignment="Top">

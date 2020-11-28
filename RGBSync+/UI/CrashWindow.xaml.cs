@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Windows;
 
 namespace RGBSyncPlus.UI
 {
@@ -17,11 +19,22 @@ namespace RGBSyncPlus.UI
             this.Close();
         }
 
-        private void Send_Report(object sender, RoutedEventArgs e)
+        private async void Send_Report(object sender, RoutedEventArgs e)
         {
             string text = ApplicationManager.Logger.Log;
 
-            
+            HttpClient client = new HttpClient();
+            var values = new Dictionary<string, string>
+            {
+                { "data", text }
+            };
+
+            var content = new FormUrlEncodedContent(values);
+
+            var response = await client.PostAsync("https://api.rgbsync.com/crashlogs/newReport/", content);
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            this.Close();
         }
     }
 }

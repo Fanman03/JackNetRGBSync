@@ -31,7 +31,7 @@ namespace RGBSyncPlus
         {
             try
             {
-                string address = "https://rgbsync.com/api/news/getPosts.php?limit=5";
+                string address = "https://api.rgbsync.com/news/getPosts/?limit=5";
                 WebClient client = new WebClient();
                 string reply = client.DownloadString(address);
                 List<RGBSyncNewsStory> stories = JsonConvert.DeserializeObject<List<RGBSyncNewsStory>>(reply);

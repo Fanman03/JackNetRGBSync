@@ -187,15 +187,28 @@ namespace RGBSyncPlus.UI.Tabs
             }
 
             SourceDevices = new ObservableCollection<DeviceMappingModels.SourceModel>();
+
+            SourceDevices.Add(new DeviceMappingModels.SourceModel
+            {
+                ProviderName = "",
+                Device = null,
+                Name = "None",
+                Enabled = false,
+
+                ConnectedTo = "",
+                Controlling = "",
+            });
+
+
             foreach (ControlDevice source in sources)
             {
-                var things = temp.Where(x =>
+                IEnumerable<DeviceMappingModels.NGDeviceProfileSettings> things = temp.Where(x =>
                     x.SourceName == source.Name && x.SourceProviderName == source.Driver.Name() &&
                     x.SourceConnectedTo == source.ConnectedTo);
 
-
+                current = things.FirstOrDefault(x=>x.SourceName==source.Driver.Name() && x.Name==source.Name && x.ConnectedTo == source.ConnectedTo);
                 bool enabled = current != null && source.Driver.Name() == current.SourceProviderName && source.Name == current.SourceName && source.ConnectedTo == current.SourceConnectedTo;
-                
+              //  enabled = things.Any();
                 SourceDevices.Add(new DeviceMappingModels.SourceModel
                 {
                     ProviderName = source.Driver.Name(),
@@ -228,9 +241,22 @@ namespace RGBSyncPlus.UI.Tabs
             DeviceMappingModels.NGDeviceProfileSettings current = null;
 
             SourceDevices = new ObservableCollection<DeviceMappingModels.SourceModel>();
+
+            SourceDevices.Add(new DeviceMappingModels.SourceModel
+            {
+                ProviderName = "",
+                Device = null,
+                Name = "None",
+                Enabled = false,
+                
+                ConnectedTo = "",
+                Controlling = "",
+            });
+
+
             foreach (ControlDevice source in sources)
             {
-                var things = temp.Where(x =>
+                IEnumerable<DeviceMappingModels.NGDeviceProfileSettings> things = temp.Where(x =>
                     x.SourceName == source.Name && x.SourceProviderName == source.Driver.Name() &&
                     x.SourceConnectedTo == source.ConnectedTo);
 
@@ -255,6 +281,7 @@ namespace RGBSyncPlus.UI.Tabs
                 });
             }
 
+            SinkThing();
         }
 
 
@@ -366,28 +393,67 @@ namespace RGBSyncPlus.UI.Tabs
             }
         }
 
+        public void SinkThing()
+        {
+            if (SourceDevices != null)
+            {
+                ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp =
+                    ApplicationManager.Instance.CurrentProfile?.DeviceProfileSettings;
+                var selected = SLSDevices.Where(x => x.Selected);
+                var s2 = temp.Where(x => selected.Any(y =>
+                    y.ConnectedTo == x.ConnectedTo && y.Name == x.Name && y.ProviderName == x.ProviderName)).ToList();
+                foreach (DeviceMappingModels.SourceModel sourceDevice in SourceDevices)
+                {
+                    sourceDevice.IsControllingSomething = s2.Any(x =>
+                        x.SourceName == sourceDevice.Name &&
+                        x.SourceProviderName == sourceDevice.ProviderName &&
+                        x.SourceConnectedTo == sourceDevice.ConnectedTo);
+                }
+
+                OnPropertyChanged("SourceDevices");
+            }
+        }
+
         public void SetUpDeviceMapViewModel()
         {
+            ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ApplicationManager.Instance.CurrentProfile?.DeviceProfileSettings;
+
             SLSDevices = new ObservableCollection<DeviceMappingModels.Device>();
             ObservableCollection<ControlDevice> devices = ApplicationManager.Instance.SLSDevices;
             foreach (ControlDevice device in devices)
             {
-                DriverProperties props = device.Driver.GetProperties();
-
-                SLSDevices.Add(new DeviceMappingModels.Device
+                try
                 {
-                    ControlDevice = device,
-                    Image = ToBitmapImage(device.ProductImage),
-                    Name = device.Name,
-                    ProviderName = device.Driver.Name(),
-                    SupportsPull = props.SupportsPull,
-                    SupportsPush = props.SupportsPush,
-                    DriverProps = props,
-                    Title = string.IsNullOrWhiteSpace(device.TitleOverride) ? device.Driver.Name() : device.TitleOverride,
-                    ConnectedTo = device.ConnectedTo
-                });
+                    DeviceMappingModels.NGDeviceProfileSettings thingy = temp.FirstOrDefault(x =>
+                        x.Name == device.Name && x.ConnectedTo == device.ConnectedTo &&
+                        x.ProviderName == device.Driver.Name());
+
+                    DriverProperties props = device.Driver.GetProperties();
+
+                    SLSDevices.Add(new DeviceMappingModels.Device
+                    {
+                        SunkTo = thingy?.SourceName ?? "",
+                        ControlDevice = device,
+                        Image = ToBitmapImage(device.ProductImage),
+                        Name = device.Name,
+                        ProviderName = device.Driver.Name(),
+                        SupportsPull = props.SupportsPull,
+                        SupportsPush = props.SupportsPush,
+                        DriverProps = props,
+                        Title = string.IsNullOrWhiteSpace(device.TitleOverride)
+                            ? device.Driver.Name()
+                            : device.TitleOverride,
+                        ConnectedTo = device.ConnectedTo,
+
+                    });
+                }
+                catch (Exception e)
+                {
+                    ApplicationManager.Logger.CrashWindow(e);
+                }
             }
 
+            SinkThing();
             this.OnPropertyChanged("SLSDevicesFiltered");
 
         }

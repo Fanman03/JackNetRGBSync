@@ -127,7 +127,6 @@
     <Compile Include="Converter\ScrollOffsetToVisibilityConverter.cs" />
     <Compile Include="Converter\StringMatchToVisibilityConverter.cs" />
     <Compile Include="Helper\ActionCommand.cs" />
-    <Compile Include="Helper\RGBNetExtension.cs" />
     <Compile Include="Helper\ExceptionExtension.cs" />
     <Compile Include="Helper\MathHelper.cs" />
     <Compile Include="INewsSource.cs" />

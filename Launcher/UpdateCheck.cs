@@ -32,9 +32,7 @@ namespace Launcher
             await Task.Delay(1000);
             string url = "";
             string regexPattern = "";
-
-            releaseType = LauncherPrefs.ReleaseType.Beta;
-
+            
             //  try
             {
                 switch (releaseType)
@@ -124,57 +122,57 @@ namespace Launcher
                     string zipPath = destFolder+"\\"+releaseType + "_" + maxReleaseNumber + ".zip";
 
                     WebClient wc = new WebClient();
-                    wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
-                    wc.DownloadFileCompleted += new AsyncCompletedEventHandler((object sender, AsyncCompletedEventArgs e) =>
+                    wc.DownloadProgressChanged += client_DownloadProgressChanged;
+                    wc.DownloadFileCompleted += (sender, e) =>
+                    {
+                        if (Directory.Exists(destFolder+"\\temp"))
                         {
-                            if (Directory.Exists(destFolder+"\\temp"))
+                            Directory.Delete(destFolder+"\\temp", true);
+                        }
+
+                        Directory.CreateDirectory(destFolder+"\\temp");
+
+                        vm.Message = "Extracting...";
+                        ZipFile.ExtractToDirectory(zipPath, destFolder+"\\temp");
+
+                        DirectoryCopy(destFolder+"\\temp", destFolder, true);
+
+                        File.Delete(zipPath);
+                        try
+                        {
+                            Directory.Delete(destFolder+"\\temp", true);
+                        }
+                        catch
+                        {
+                        }
+
+                        UpgradingWindow.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            UpgradingWindow.Hide();
+                            UpgradingWindow.Close();
+                        }));
+
+                        Complete = true;
+
+                        Core.LauncherPrefs.ReleaseInstalled = maxReleaseNumber;
+                        Core.LauncherPrefs.ReleaseTypeInstalled = releaseType;
+
+                        string json = JsonConvert.SerializeObject(Core.LauncherPrefs);
+                        File.WriteAllText(destFolder+"\\LauncherPrefs.json", json);
+
+
+                        if (Directory.Exists(destFolder+"\\.old"))
+                        {
+                            Thread.Sleep(1000);
+
+                            if (Directory.GetFiles(destFolder+"\\.old\\").Length == 0)
                             {
-                                Directory.Delete(destFolder+"\\temp", true);
+                                Directory.Delete(destFolder+"\\.old", true);
                             }
-
-                            Directory.CreateDirectory(destFolder+"\\temp");
-
-                            vm.Message = "Extracting...";
-                            ZipFile.ExtractToDirectory(zipPath, destFolder+"\\temp");
-
-                            DirectoryCopy(destFolder+"\\temp", destFolder, true);
-
-                            File.Delete(zipPath);
-                            try
-                            {
-                                Directory.Delete(destFolder+"\\temp", true);
-                            }
-                            catch
-                            {
-                            }
-
-                            UpgradingWindow.Dispatcher.BeginInvoke(new Action(() =>
-                            {
-                                UpgradingWindow.Hide();
-                                UpgradingWindow.Close();
-                            }));
-
-                            Complete = true;
-
-                            Core.LauncherPrefs.ReleaseInstalled = maxReleaseNumber;
-                            Core.LauncherPrefs.ReleaseTypeInstalled = releaseType;
-
-                            string json = JsonConvert.SerializeObject(Core.LauncherPrefs);
-                            File.WriteAllText(destFolder+"\\LauncherPrefs.json", json);
-
-
-                            if (Directory.Exists(destFolder+"\\.old"))
-                            {
-                                Thread.Sleep(1000);
-
-                                if (Directory.GetFiles(destFolder+"\\.old\\").Length == 0)
-                                {
-                                    Directory.Delete(destFolder+"\\.old", true);
-                                }
-                            }
+                        }
 
                             
-                        });
+                    };
 
                     wc.DownloadFileAsync(new Uri(usableUrls.First(x => x.Value == maxReleaseNumber).Key), zipPath);
                 }

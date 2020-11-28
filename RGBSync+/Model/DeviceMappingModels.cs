@@ -410,6 +410,15 @@ namespace RGBSyncPlus.Model
 
         public class SourceModel : BaseViewModel
         {
+            private bool isControllingSomething;
+
+            public bool IsControllingSomething
+            {
+                get => isControllingSomething;
+                set => SetProperty(ref isControllingSomething, value);
+            }
+
+
             private bool isHidden;
 
             public bool IsHidden
@@ -620,6 +629,14 @@ namespace RGBSyncPlus.Model
             {
                 get => driverProps;
                 set => SetProperty(ref driverProps, value);
+            }
+
+            private string sunkTo;
+
+            public string SunkTo
+            {
+                get => sunkTo;
+                set => SetProperty(ref sunkTo, value);
             }
         }
 
