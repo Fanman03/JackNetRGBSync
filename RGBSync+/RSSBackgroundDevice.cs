@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using SimpleLed;
@@ -9,14 +12,17 @@ namespace RGBSyncPlus
 {
     public class RSSBackgroundDevice : ISimpleLed
     {
+        public static Assembly assembly = Assembly.GetExecutingAssembly();
+        public static Stream imageStream = assembly.GetManifestResourceStream("RGBSyncPlus.UI.hires.png");
         public RSSBackgroundDevice()
-        {
+        {       
             dvs = new ControlDevice
             {
                 Name = "Background",
                 Driver = this,
                 ConnectedTo = "RGB Sync Studio",
                 DeviceType = DeviceTypes.Other,
+                ProductImage = new Bitmap(imageStream),
                 LEDs = new ControlDevice.LedUnit[8]
                 {
                     new ControlDevice.LedUnit {LEDName = "Top", Data = new ControlDevice.LEDData {LEDNumber = 0}, Color = new LEDColor(0, 0, 0)},
@@ -122,7 +128,7 @@ namespace RGBSyncPlus
                 SupportsPull = false,
                 Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                 Author = "mad ninja",
-                Blurb = "Control the background of your RSS window",
+                Blurb = "Control the background of your RSS window.",
                 CurrentVersion = new ReleaseNumber(1, 0, 0, 0),
                 IsPublicRelease = true
             };
@@ -140,7 +146,7 @@ namespace RGBSyncPlus
 
         public string Name()
         {
-            return "RSS Background";
+            return "App Background";
         }
 
         public void InterestedUSBChange(int VID, int PID, bool connected)

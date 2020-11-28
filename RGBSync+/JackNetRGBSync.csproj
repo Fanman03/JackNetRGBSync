@@ -530,6 +530,7 @@
     <Content Include="Languages\zh-CN_Auto.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="UI\hires.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FluentWPF\FluentWPF.csproj">
