@@ -48,7 +48,7 @@ namespace RGBSyncPlus
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            if (!Debugger.IsAttached)
+         //   if (!Debugger.IsAttached)
             {
                 this.DispatcherUnhandledException += App_DispatcherUnhandledException;
             }
