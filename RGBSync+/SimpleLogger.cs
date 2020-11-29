@@ -18,7 +18,7 @@ namespace RGBSyncPlus
         public string Log = "";
         public void Debug(object log)
         {
-            Log = Log + "DEBUG: "+DateTime.Now+" : "+log + "\r\n";
+            Log = Log + "DEBUG: " + DateTime.Now + " : " + log + "\r\n";
         }
 
         public void Info(object log)
@@ -35,19 +35,22 @@ namespace RGBSyncPlus
             crashWindow.stackTrace.Text = ex.StackTrace;
             crashWindow.Show();
 
+
+            Log = Log + "Crash: " + DateTime.Now + " : " + ex.GetType() + "\r\n";
+            Log = Log + "Crash: " + DateTime.Now + " : " + ex.Message + "\r\n";
+            Log = Log + "Crash: " + DateTime.Now + " : " + ex.StackTrace + "\r\n";
+
             string guid = crashWindow.SendReport();
             string url = "https://api.rgbsync.com/crashlogs/viewReport/?guid=" + guid;
             crashWindow.ErrorReportUrl = url;
+
+
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(20);
 
             crashWindow.qrcode.Source = BitmapToImageSource(qrCodeImage);
-
-            Log = Log + "Crash: " + DateTime.Now + " : " + ex.GetType() + "\r\n";
-            Log = Log + "Crash: " + DateTime.Now + " : " + ex.Message + "\r\n";
-            Log = Log + "Crash: " + DateTime.Now + " : " + ex.StackTrace + "\r\n";
         }
 
         BitmapImage BitmapToImageSource(Bitmap bitmap)
