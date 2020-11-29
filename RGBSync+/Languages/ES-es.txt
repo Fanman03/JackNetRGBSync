@@ -11,6 +11,10 @@ Dialog.OKCommand	Vale
 Dialog.UpdateText	Hay una actualizacion nueva. Quieres actualizar?
 Dialog.UpdateTitle	Actualización Disponible
 Dialog.Yes	Sí
+Settings.AppSettings Ajustes de Aplicación
+Settings.LaunchBehaviour Ajustes de Inicio
+Settings.AppStyling Apariencia
+Settings.MinimizeBehaviour Ajustes Minimización
 Settings.AdminLabel	Ejecutar como administrador:
 Settings.AdminText	TextoDeAdmin
 Settings.DelayLabel	Inicio Atrasado:
@@ -31,6 +35,33 @@ Settings.ThemeLabel	Tema:
 Settings.UpdateBtnText	Buscar Actualizaciones
 Settings.UpdateLabel	Actualizaciones:
 Settings.VersionLabel	Versión:
+Settings.ApiServer  Servidor API
+Settings.ApiServerHelp  Activar servidor RGB Sync Studio REST API
+Settings.RefreshFreq    Frequencia de Actualización
+Settings.RefreshFreqHelp    Ajusta la velocidad a la que se actualiza el RGB
+Settings.Language   Idioma
+Settings.BackgroundPath Imagen de Fondo
+Settings.BackgroundHelp Ruta de la Imagen
+Settings.BackgroundOpacity Opacidad del Fondo
+Settings.BackgroundOpacityHelp Ajusta la transparencia del Fondo
+Settings.DimBackgroundOpacity Intensidad del Fondo
+Settings.DimBackgroundOpacityHelp Ajusta el efecto Oscuro sobre el fondo
+Settings.BackgroundBlur Difuminado del Fondo
+Settings.BackgroundBlurHelp Ajustar la Cantidad del Difuminado sobre el Fondo
+Settings.SyncableBG Fondo Sincronizable
+Settings.SyncableBGHelp Activa el Fondo RGB Sincronizable
+Settings.RainbowTab Marcadores de Pestaña Arcoíris
+Settings.RainbowTabHelp Activa los marcadores arcoirís para las pestañas
+Settings.StartAsAdmin Ejecutar como administrador
+Settings.StartAsAdminHelp Puede ayudar con la compatibilidad
+Settings.ReleaseType Tipo de cliente
+Settings.ReleaseTypeHelp ¿Qué tipo de versión quieres? Release es estable, Beta no tanto y Cl es inestable
+Settings.MinimizeToTray Minimización
+Settings.MinimizeToTrayHelp ¿La app debe minimizar a la barra de tareas o al área de notificaciones?
+Settings.MinimizeOnStart Minimizar al iniciar
+Settings.MinimizeOnStartHelp ¿La app debe mostrarse al inciar, o minimizarse instantáneamente?
+Settings.Experimental Drivers Experimentales
+Settings.ExperimentalHelp Muestra los drivers experimentales en la tienda
 Store.ExperimentalBtnText	Experimental
 Store.FilterLabel	Buscar
 Store.Plugin.DisableBtnLabel	Deshabilitar
@@ -40,6 +71,11 @@ Store.Plugin.UninstallBtnLabel	Desinstalar
 Store.Plugin.VersionsBtnLabel	Versiones
 Store.RefreshBtnText	Actualizar Tienda
 Store.RestartAllBtnText	Reiniciar Todo
+Store.NotStoreButton Instalado
+Store.ShowStore Tienda
+Store.StoreButton Tienda
+Store.UpdatesButton Actualizaciones
+Store.Updates Actualizaciones
 TrayMenu.ExitAppItem	Salir
 TrayMenu.OpenUIItem	Abrir
 TrayMenu.RestartAppItem	Reiniciar
@@ -68,6 +104,14 @@ Devices.Selected    Seleccionado
 Devices.Config  Configuración
 Devices.Alignment   Alineamiento
 Devices.NoConfig    Este dispositivo no tiene configuración.
+Devices.ZoomOut Alejar
+Devices.ZoomIn Acercar
+Devices.Condensed Compacto
+Devices.ShowSources Mostrar efectos
+Profile.Triggers Acciones
+Profile.EditProfile Editar Perfil
+Profile.SelectProfile Selccionar Perfil
+Profile.RemoveProfile Eliminar Perfil
 Profile.TimeBasedTrigger    Acción Basada en Tiempo
 Profile.TimeToTrigger   Hora de la Acción:
 Profile.ProcessTrigger  Acción Basada en Proceso
@@ -87,20 +131,8 @@ Main.Store Tienda
 Main.About Acerca de
 Main.Crash  Fallo!
 Main.news Novedades
+Main.crashme Crasheame
 Main.Settings   Ajustes
-Settings.ApiServer  Servidor API
-Settings.ApiServerHelp  Activar servidor RGB Sync Studio REST API
-Settings.RefreshFreq    Frequencia de Actualización
-Settings.RefreshFreqHelp    Ajusta la velocidad a la que se actualiza el RGB
-Settings.Language   Idioma
-Settings.BackgroundPath Imagen de Fondo
-Settings.BackgroundHelp Ruta de la Imagen
-Settings.BackgroundOpacity Opacidad del Fondo
-Settings.BackgroundOpacityHelp Ajusta la transparencia del Fondo
-Settings.DimBackgroundOpacity Intensidad del Fondo
-Settings.DimBackgroundOpacityHelp Ajusta el efecto Oscuro sobre el fondo
-Settings.BackgroundBlur Difuminado del Fondo
-Settings.BackgroundBlurHelp Ajustar la Cantidad del Difuminado sobre el Fondo
 Fan Ventilador
 LEDStrip    Tira LED
 GPU GPU
@@ -119,26 +151,3 @@ Other   Otro
 AIO AIO
 WaterBlock   Bloque de Agua
 Effect  Efecto
-Settings.StartAsAdmin Ejecutar como administrador
-Settings.StartAsAdminHelp Puede ayudar con la compatibilidad
-Settings.ReleaseType Tipo de cliente
-Settings.ReleaseTypeHelp ¿Qué tipo de versión quieres? Release es estable, Beta no tanto y Cl es inestable
-Settings.MinimizeToTray Minimización
-Settings.MinimizeToTrayHelp ¿La app debe minimizar a la barra de tareas o al área de notificaciones?
-Settings.MinimizeOnStart Minimizar al iniciar
-Settings.MinimizeOnStartHelp ¿La app debe mostrarse al inciar, o minimizarse instantáneamente?
-Settings.Experimental Drivers Experimentales
-Settings.ExperimentalHelp Muestra los drivers experimentales en la tienda
-Store.NotStoreButton Instalado
-Store.ShowStore Tienda
-Store.StoreButton Tienda
-Store.UpdatesButton Actualizaciones
-Store.Updates Actualizaciones
-Devices.ZoomOut Alejar
-Devices.ZoomIn Acercar
-Devices.Condensed Compacto
-Devices.ShowSources Mostrar efectos
-Profile.Triggers Acciones
-Profile.EditProfile Editar Perfil
-Profile.SelectProfile Selccionar Perfil
-Profile.RemoveProfile Eliminar Perfil
