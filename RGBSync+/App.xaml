@@ -15,6 +15,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <styles:CachedResourceDictionary Source="/RGBSync+;component/Resources/RGBSync+.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/RGBSync+;component/Styles/SliderStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/RGBSync+;component/Styles/Scrollbar.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
