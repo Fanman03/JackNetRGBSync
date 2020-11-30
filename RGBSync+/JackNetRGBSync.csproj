@@ -127,6 +127,7 @@
     <Compile Include="Converter\ScrollOffsetToVisibilityConverter.cs" />
     <Compile Include="Converter\StringMatchToVisibilityConverter.cs" />
     <Compile Include="Helper\ActionCommand.cs" />
+    <Compile Include="Helper\BrowserHelper.cs" />
     <Compile Include="Helper\ExceptionExtension.cs" />
     <Compile Include="Helper\MathHelper.cs" />
     <Compile Include="INewsSource.cs" />
@@ -334,6 +335,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="QRCoder">
+      <Version>1.4.1</Version>
     </PackageReference>
     <PackageReference Include="SharpCompress">
       <Version>0.26.0</Version>
