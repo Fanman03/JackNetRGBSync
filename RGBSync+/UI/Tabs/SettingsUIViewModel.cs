@@ -54,6 +54,7 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref minimizeToTray, value);
+                ApplicationManager.Instance.NGSettings.MinimizeToTray = value;
                 ApplicationManager.Instance.LauncherPrefs.MinimizeToTray = value;
                 SaveLauncherSettings();
             }
