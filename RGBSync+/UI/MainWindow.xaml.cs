@@ -22,7 +22,7 @@ namespace RGBSyncPlus.UI
 
             this.Title = "RGB Sync Studio " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
 
-            this.SourceInitialized += new EventHandler(OnSourceInitialized);
+            this.SourceInitialized += new EventHandler(OnSourceInitialized); //this makes minimize to tray work
 
 
             ApplicationManager.Instance.RssBackgroundDevice.ColourChange += (sender, args) =>
@@ -83,6 +83,8 @@ namespace RGBSyncPlus.UI
         //private RadialGradientBrush right = new RadialGradientBrush(Colors.Red, Colors.Transparent);
         //private RadialGradientBrush bottom = new RadialGradientBrush(Colors.Red, Colors.Transparent);
 
+
+        //This is a semi-hacky way to create custom minimize actions
         private void OnSourceInitialized(object sender, EventArgs e)
         {
             HwndSource source = (HwndSource)PresentationSource.FromVisual(this);
@@ -114,6 +116,7 @@ namespace RGBSyncPlus.UI
 
             return IntPtr.Zero;
         }
+        //end minimization stuff
 
         private void SubmitModalText(object sender, RoutedEventArgs e)
         {

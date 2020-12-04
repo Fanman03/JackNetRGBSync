@@ -7,6 +7,8 @@
              xmlns:Converter="clr-namespace:RGBSyncPlus.Converter"
              
              xmlns:fluentWpf="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+             xmlns:colorPickerWpf="clr-namespace:ColorPickerWPF;assembly=ColorPickerWPF"
+             xmlns:controls="clr-namespace:ColorPickerWPF.Controls;assembly=ColorPickerWPF"
              x:Class="RGBSyncPlus.UI.Tabs.SettingsUI"
              mc:Ignorable="d" 
              d:DesignHeight="1750" d:DesignWidth="800">
@@ -140,9 +142,14 @@
             <Label Grid.Column="2" Grid.Row="13" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.RainbowTabHelp, Converter={StaticResource LocConverter}}"/>
                 </StackPanel>
             <CheckBox Grid.Column="1" Grid.Row="13" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding RainbowTabBars}"  Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
-            
 
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Label Grid.Column="0" Grid.Row="13" HorizontalAlignment="Left" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.AccentColor, Converter={StaticResource LocConverter}}"/>
+                <Label HorizontalAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="-"/>
+                <Label Grid.Column="2" Grid.Row="13" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.AccentColorHelp, Converter={StaticResource LocConverter}}"/>
+            </StackPanel>
 
+            <controls:CompactPickerControl Margin="10,0,0,0" Color="White"></controls:CompactPickerControl>
 
             <Grid Margin="0,15"></Grid>
             <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="20" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.MinimizeBehaviour, Converter={StaticResource LocConverter}}"/>
@@ -162,6 +169,9 @@
             </StackPanel>
             <CheckBox Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource SystemBaseHighColorBrush}" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" VerticalContentAlignment="Center" IsChecked="{Binding MinimizeOnStart}"  Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
             
+
+
+
         </StackPanel>
        
     </ScrollViewer>
