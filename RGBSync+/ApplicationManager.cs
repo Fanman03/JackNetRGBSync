@@ -30,6 +30,21 @@ namespace RGBSyncPlus
 {
     public class ApplicationManager
     {
+        public SimpleLed.LoginSystem SimpleLedAuth = new LoginSystem();
+        public bool SimpleLedAuthenticated = false;
+        public void SimpleLedLogIn(Action onLoginAction)
+        {
+            Process.Start(ApplicationManager.Instance.SimpleLedAuth.Login(() =>
+            {
+                NGSettings.SimpleLedUserId = SimpleLedAuth.UserId.Value;
+                NGSettings.SimpleLedUserName = SimpleLedAuth.UserName;
+                NGSettings.SimpleLedAuthToken = SimpleLedAuth.AccessToken;
+                SimpleLedAuthenticated = true;
+                onLoginAction?.Invoke();
+
+            }));
+        }
+
         #region Constants
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
 
@@ -316,6 +331,19 @@ namespace RGBSyncPlus
 
                     }
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(NGSettings.SimpleLedAuthToken))
+            {
+                SimpleLedAuth.AccessToken = NGSettings.SimpleLedAuthToken;
+                SimpleLedAuth.UserName = NGSettings.SimpleLedUserName;
+                SimpleLedAuth.UserId = NGSettings.SimpleLedUserId;
+
+                SimpleLedAuth.Authenticate(() =>
+                {
+                    Debug.WriteLine("Authenticated");
+                    SimpleLedAuthenticated = true;
+                });
             }
 
             if (File.Exists("launcherPrefs.json"))

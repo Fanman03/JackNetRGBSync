@@ -57,7 +57,10 @@ Settings.MinimizeBehaviour  Minimize Behaviour
 Settings.AppStyling App Styling
 Settings.AccentColor Accent Color
 Settings.AccentColorHelp Override the app accent color.
-
+Settings.SimpleLedAuth  SimpleLED Authentication
+Settings.SimpleLedAuthHelp  Connect to the SimpleLED authentication servers to unlock functionality
+Settings.SimpleLedLogin Log In
+Settings.SimpleLedLogout Log Out
 Store.ExperimentalBtnText	Experimental
 Store.FilterLabel	Search
 Store.Plugin.UpdateAvail	Update Available

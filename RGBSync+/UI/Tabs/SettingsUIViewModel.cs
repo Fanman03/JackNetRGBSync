@@ -72,6 +72,18 @@ namespace RGBSyncPlus.UI.Tabs
             }
         }
 
+        private string simpleLedUserName;
+
+        public string SimpleLedUserName
+        {
+            get => simpleLedUserName;
+            set
+            {
+                SetProperty(ref simpleLedUserName, value);
+
+            }
+        }
+
         public ObservableCollection<LauncherPrefs.ReleaseType> ReleaseTypes { get; set; }
         public DeviceMappingModels.NGSettings NGSettings { get; set; }
 
@@ -96,6 +108,7 @@ namespace RGBSyncPlus.UI.Tabs
             MinimizeToTray = ApplicationManager.Instance.LauncherPrefs.MinimizeToTray;
 
             ReleaseType = ApplicationManager.Instance.LauncherPrefs.ReleaseBranch;
+            SimpleLedUserName = ApplicationManager.Instance.NGSettings.SimpleLedUserName;
 
             OnPropertyChanged("ReleaseTypes");
             OnPropertyChanged("StartAsAdmin");

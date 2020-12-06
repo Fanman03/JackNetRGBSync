@@ -40,6 +40,46 @@ namespace RGBSyncPlus.Model
 
         public class NGSettings : BaseViewModel
         {
+            private string simpleLedUserName;
+
+            public string SimpleLedUserName
+            {
+                get => simpleLedUserName;
+                set
+                {
+                    SetProperty(ref simpleLedUserName, value);
+                    AreSettingsStale = true;
+                    ProfileChange?.Invoke(this, new EventArgs());
+                }
+            }
+
+
+            private string simpleLedAuthToken;
+
+            public string SimpleLedAuthToken
+            {
+                get => simpleLedAuthToken;
+                set
+                {
+                    SetProperty(ref simpleLedAuthToken, value);
+                    AreSettingsStale = true;
+                    ProfileChange?.Invoke(this, new EventArgs());
+                }
+            }
+
+            private Guid simpleLedUserId;
+
+            public Guid SimpleLedUserId
+            {
+                get => simpleLedUserId;
+                set
+                {
+                    SetProperty(ref simpleLedUserId, value);
+                    AreSettingsStale = true;
+                    ProfileChange?.Invoke(this, new EventArgs());
+                }
+            }
+
 
             private string background;
 
