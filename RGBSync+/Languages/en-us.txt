@@ -106,6 +106,7 @@ Devices.InfoDriverVersion   Driver Version:
 Devices.Multiple    Multiple devices
 Devices.Selected    selected
 Devices.Config  Config
+Devices.Customize   Customize
 Devices.Alignment   Alignment
 Devices.NoConfig    This device has no configuration.
 Devices.ZoomOut Zoom Out

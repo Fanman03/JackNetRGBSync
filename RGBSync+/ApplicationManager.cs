@@ -338,12 +338,25 @@ namespace RGBSyncPlus
                 SimpleLedAuth.AccessToken = NGSettings.SimpleLedAuthToken;
                 SimpleLedAuth.UserName = NGSettings.SimpleLedUserName;
                 SimpleLedAuth.UserId = NGSettings.SimpleLedUserId;
-
-                SimpleLedAuth.Authenticate(() =>
+                try
                 {
-                    Debug.WriteLine("Authenticated");
-                    SimpleLedAuthenticated = true;
-                });
+                    SimpleLedAuth.Authenticate(() =>
+                    {
+                        Debug.WriteLine("Authenticated");
+                        SimpleLedAuthenticated = true;
+                    });
+                }
+                catch
+                {
+                    SimpleLedAuth.AccessToken ="";
+                    SimpleLedAuth.UserName = "";
+                    SimpleLedAuth.UserId = Guid.Empty;
+                    SimpleLedAuthenticated = false;
+
+                    NGSettings.SimpleLedAuthToken = "";
+                    NGSettings.SimpleLedUserId=Guid.Empty;
+                    NGSettings.SimpleLedUserName = "";
+                }
             }
 
             if (File.Exists("launcherPrefs.json"))
