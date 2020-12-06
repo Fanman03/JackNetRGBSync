@@ -179,15 +179,30 @@ namespace RGBSyncPlus.UI.Tabs
 
                     ISimpleLed existingPlugin = ApplicationManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == tvm.PluginId);
 
-                   existingPlugin.Dispose();
+                    try
+                    {
+                        existingPlugin?.Dispose();
+                    }
+                    catch
+                    {
+                    }
 
-                   Thread.Sleep(1000);
+                    Thread.Sleep(1000);
 
-                   ApplicationManager.Instance.SLSManager.Drivers.Remove(existingPlugin);
+                    if (ApplicationManager.Instance.SLSManager.Drivers.Contains(existingPlugin))
+                    {
+                        ApplicationManager.Instance.SLSManager.Drivers.Remove(existingPlugin);
+                    }
 
-                   Directory.Delete("SLSProvider\\"+tvm.PluginId, true);
+                    try
+                    {
+                        Directory.Delete("SLSProvider\\" + tvm.PluginId, true);
+                    }
+                    catch
+                    {
+                    }
 
-                   vm.Plugins.Remove(vmplugin);
+                    vm.Plugins.Remove(vmplugin);
 
                    vm.RefreshPlungs();
                 }
