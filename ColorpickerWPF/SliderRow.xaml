@@ -28,7 +28,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RepeatButton">
-                        <Border SnapsToDevicePixels="True" Background="#FF00A2ff"  BorderThickness="1" BorderBrush="{x:Static fw:AccentColors.ImmersiveSystemAccentBrush}" Height="3"/>
+                        <Border SnapsToDevicePixels="True" Background="#FF00A2ff"  BorderThickness="1" BorderBrush="{DynamicResource SystemBaseHighColorBrush}" Height="3"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -40,7 +40,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Thumb">
-                        <Border Height="24" Width="8" CornerRadius="4" Background="{x:Static fw:AccentColors.ImmersiveSystemAccentBrush}"></Border>
+                        <Border Height="24" Width="8" CornerRadius="4" Background="{DynamicResource SystemBaseHighColorBrush}"></Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:colorPickerWpf="clr-namespace:ColorPickerWPF"
-             xmlns:fluentWpf="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+             
              x:Class="ColorPickerWPF.ColorPickerControl"
              mc:Ignorable="d" d:DesignWidth="560" d:DesignHeight="380" MinHeight="380">
-    <Grid fluentWpf:PointerTracker.Enabled="True">
+    <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="326"  />
             <ColumnDefinition Width="*" />

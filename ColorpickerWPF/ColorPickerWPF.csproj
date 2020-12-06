@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentWPF, Version=0.8.0.6, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\Users\jacklrpendleton\source\repos\RGBProfileGenerator\packages\FluentWPF.0.8.0\lib\net45\FluentWPF.dll</HintPath>
+      <HintPath>..\FluentWPF\bin\Debug\net45\FluentWPF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
