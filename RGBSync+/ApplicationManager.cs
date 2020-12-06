@@ -813,9 +813,22 @@ namespace RGBSyncPlus
                 try
                 {
                     x.Dispose();
+                 
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Debug.WriteLine(ex.Message);
+                }
+
+
+                try
+                {
+                 
+                    x = null;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
                 }
             });
 
@@ -955,6 +968,62 @@ namespace RGBSyncPlus
             UpdateSLSDevices();
         }
 
+        public void LoadPlung(string file)
+        {
+            string filename = file.Split('\\').Last();
+            string justPath = file.Substring(0, file.Length - filename.Length);
+            if (filename.ToLower().StartsWith("driver") || filename.ToLower().StartsWith("source") || filename.ToLower().StartsWith("gameintegration"))
+            {
+                try
+                {
+                    loadingSplash.LoadingText.Text = "Loading " + file.Split('\\').Last().Split('.').First();
+                    Logger.Debug("Loading provider " + file);
+
+                    ISimpleLed slsDriver = LoadDll(justPath, filename);
+
+                    if (slsDriver != null)
+                    {
+                        try
+                        {
+                            if (SLSManager.Drivers.All(p => p.GetProperties().Id != slsDriver.GetProperties().Id))
+                            {
+                                //slsDriver.Configure(null);
+                                Debug.WriteLine("We got one! " + "Loading " + slsDriver.Name());
+                                loadingSplash.LoadingText.Text = "Loading " + slsDriver.Name();
+                                loadingSplash.UpdateLayout();
+                                loadingSplash.Refresh();
+                                loadingSplash.LoadingText.Refresh();
+                                Task.Delay(33).Wait();
+                                SLSManager.Drivers.Add(slsDriver);
+                               // driversAdded.Add(slsDriver.GetProperties().Id);
+                                Debug.WriteLine("all loaded: " + slsDriver.Name());
+                                slsDriver.DeviceAdded += SlsDriver_DeviceAdded;
+                                slsDriver.DeviceRemoved += SlsDriver_DeviceRemoved;
+                                try
+                                {
+                                    slsDriver.Configure(new DriverDetails() { HomeFolder = justPath });
+                                }
+                                catch
+                                {
+                                }
+
+                                Debug.WriteLine("Have Initialized: " + slsDriver.Name());
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.Message);
+                        }
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
+            }
+        }
+
         public void LoadPlungFolder(string pluginFolder)
         {
 
@@ -965,58 +1034,7 @@ namespace RGBSyncPlus
             foreach (string file in files)
             {
                 Debug.WriteLine("Checking " + file);
-                string filename = file.Split('\\').Last();
-                string justPath = file.Substring(0, file.Length - filename.Length);
-                if (filename.ToLower().StartsWith("driver") || filename.ToLower().StartsWith("source") || filename.ToLower().StartsWith("gameintegration"))
-                {
-                    try
-                    {
-                        loadingSplash.LoadingText.Text = "Loading " + file.Split('\\').Last().Split('.').First();
-                        Logger.Debug("Loading provider " + file);
-
-                        ISimpleLed slsDriver = LoadDll(justPath, filename);
-
-                        if (slsDriver != null)
-                        {
-                            try
-                            {
-                                if (!driversAdded.Contains(slsDriver.GetProperties().Id))
-                                {
-                                    //slsDriver.Configure(null);
-                                    Debug.WriteLine("We got one! " + "Loading " + slsDriver.Name());
-                                    loadingSplash.LoadingText.Text = "Loading " + slsDriver.Name();
-                                    loadingSplash.UpdateLayout();
-                                    loadingSplash.Refresh();
-                                    loadingSplash.LoadingText.Refresh();
-                                    Task.Delay(33).Wait();
-                                    SLSManager.Drivers.Add(slsDriver);
-                                    driversAdded.Add(slsDriver.GetProperties().Id);
-                                    Debug.WriteLine("all loaded: " + slsDriver.Name());
-                                    slsDriver.DeviceAdded += SlsDriver_DeviceAdded;
-                                    slsDriver.DeviceRemoved += SlsDriver_DeviceRemoved;
-                                    try
-                                    {
-                                        slsDriver.Configure(new DriverDetails() {HomeFolder = justPath});
-                                    }
-                                    catch
-                                    {
-                                    }
-
-                                    Debug.WriteLine("Have Initialized: " + slsDriver.Name());
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                Debug.WriteLine(ex.Message);
-                            }
-                        }
-
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine(e.Message);
-                    }
-                }
+                LoadPlung(file);
             }
         }
 

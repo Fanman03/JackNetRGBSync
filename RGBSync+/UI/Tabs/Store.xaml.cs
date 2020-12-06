@@ -179,6 +179,27 @@ namespace RGBSyncPlus.UI.Tabs
 
                     ISimpleLed existingPlugin = ApplicationManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == tvm.PluginId);
 
+                    if (existingPlugin != null)
+                    {
+                        var removeList = ApplicationManager.Instance.SLSDevices.Where(x =>
+                            x.Driver.GetProperties().Id == existingPlugin.GetProperties().Id).ToList();
+
+                        while (ApplicationManager.Instance.SLSDevices.Any(x => x.Driver.GetProperties().Id == existingPlugin.GetProperties().Id) && removeList.Any())
+                        {
+                            try
+                            {
+                                var pp = removeList.First();
+                                ApplicationManager.Instance.SLSDevices.Remove(pp);
+                                removeList.Remove(pp);
+                            }
+                            catch
+                            {
+                            }
+
+                        }
+                    }
+
+
                     try
                     {
                         existingPlugin?.Dispose();
@@ -316,7 +337,7 @@ namespace RGBSyncPlus.UI.Tabs
                 {
                     ApplicationManager.Instance.PauseSyncing = true;
                     Task.Delay(TimeSpan.FromSeconds(1)).Wait();
-                    ApplicationManager.Instance.UnloadSLSProviders();
+                    //ApplicationManager.Instance.UnloadSLSProviders();
 
 
 
@@ -356,6 +377,7 @@ namespace RGBSyncPlus.UI.Tabs
 
                             float mx = thingy.Entries.Count();
                             int ct = 0;
+                            List<string> pluginPaths = new List<string>();
                             foreach (IArchiveEntry archiveEntry in thingy.Entries)
                             {
 
@@ -381,6 +403,7 @@ namespace RGBSyncPlus.UI.Tabs
 
 
                     //vm.ReloadStoreAndPlugins();
+                    ApplicationManager.Instance.Rescan(this, new EventArgs());
                 }
 
             }
