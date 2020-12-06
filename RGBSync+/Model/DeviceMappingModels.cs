@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace RGBSyncPlus.Model
@@ -48,6 +49,20 @@ namespace RGBSyncPlus.Model
                 set
                 {
                     SetProperty(ref background, value);
+                    BGChangedEvent?.Invoke(this, new EventArgs());
+                    AreSettingsStale = true;
+                    ProfileChange?.Invoke(this, new EventArgs());
+                }
+            }
+
+            private Color accentColor;
+
+            public Color AccentColor
+            {
+                get => accentColor;
+                set
+                {
+                    SetProperty(ref accentColor, value);
                     BGChangedEvent?.Invoke(this, new EventArgs());
                     AreSettingsStale = true;
                     ProfileChange?.Invoke(this, new EventArgs());

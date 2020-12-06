@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="ColorPickerWPF.Controls.CompactPickerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ColorPickerWPF.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,0,0,0">
+        <StackPanel Orientation="Horizontal">
+            <TextBox x:Name="ColorBox" Margin="0,0,0,0" Style="{StaticResource TextBoxRevealStyle}" Width="100" TextChanged="ColorBox_OnChanged" Loaded="ColorBox_OnLoaded" ></TextBox>
+            <Button x:Name="ColorIcon" Width="35" Style="{StaticResource ButtonRevealStyle}" FontSize="16" FontFamily="Segoe MDL2 Assets" Content="&#xE104;" Click="EditBtn_OnClick"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

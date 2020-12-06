@@ -6,6 +6,7 @@ using SharedCode;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace RGBSyncPlus.UI.Tabs
@@ -54,6 +55,7 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref minimizeToTray, value);
+                ApplicationManager.Instance.NGSettings.MinimizeToTray = value;
                 ApplicationManager.Instance.LauncherPrefs.MinimizeToTray = value;
                 SaveLauncherSettings();
             }
@@ -155,6 +157,18 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 SetProperty(ref rainbowTab, value);
                 ApplicationManager.Instance.NGSettings.RainbowTabBars = value;
+            }
+        }
+
+        private Color accentColor;
+
+        public Color AccentColor
+        {
+            get => accentColor;
+            set
+            {
+                SetProperty(ref accentColor, value);
+                ApplicationManager.Instance.NGSettings.AccentColor = value;
             }
         }
 

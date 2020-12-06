@@ -67,8 +67,6 @@ namespace RGBSyncPlus
             catch (Exception ex)
             {
                 File.WriteAllText("error.log", $"[{DateTime.Now:G}] Exception!\r\n\r\nMessage:\r\n{ex.GetFullMessage()}\r\n\r\nStackTrace:\r\n{ex.StackTrace}\r\n\r\n");
-                GenericErrorDialog dialog = new GenericErrorDialog("An error occured while starting RGB Sync.\r\nMore information can be found in the error.log file in the application directory.", "Can't start JackNet RGB Sync.", $"[{DateTime.Now:G}] Exception!\r\n\r\nMessage:\r\n{ex.GetFullMessage()}\r\n\r\nStackTrace:\r\n{ex.StackTrace}\r\n\r\n");
-                dialog.Show();
 
                 try { ApplicationManager.Instance.ExitCommand.Execute(null); }
                 catch { Environment.Exit(0); }

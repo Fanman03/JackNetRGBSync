@@ -3,6 +3,7 @@ using System.Linq;
 using RGBSyncPlus.UI.Tabs;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -20,6 +21,9 @@ namespace RGBSyncPlus.UI
             InitializeComponent();
 
             this.Title = "RGB Sync Studio " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
+
+            this.SourceInitialized += new EventHandler(OnSourceInitialized); //this makes minimize to tray work
+
 
             ApplicationManager.Instance.RssBackgroundDevice.ColourChange += (sender, args) =>
             {
@@ -78,6 +82,41 @@ namespace RGBSyncPlus.UI
         //private RadialGradientBrush left = new RadialGradientBrush(Colors.Red, Colors.Transparent);
         //private RadialGradientBrush right = new RadialGradientBrush(Colors.Red, Colors.Transparent);
         //private RadialGradientBrush bottom = new RadialGradientBrush(Colors.Red, Colors.Transparent);
+
+
+        //This is a semi-hacky way to create custom minimize actions
+        private void OnSourceInitialized(object sender, EventArgs e)
+        {
+            HwndSource source = (HwndSource)PresentationSource.FromVisual(this);
+            source.AddHook(new HwndSourceHook(HandleMessages));
+        }
+
+        private IntPtr HandleMessages(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            // 0x0112 == WM_SYSCOMMAND, 'Window' command message.
+            // 0xF020 == SC_MINIMIZE, command to minimize the window.
+            if (msg == 0x0112 && ((int)wParam & 0xFFF0) == 0xF020)
+            {
+                if (ApplicationManager.Instance.NGSettings.MinimizeToTray == true)
+                {
+                    // Cancel the minimize.
+                    handled = true;
+
+                    //hide window instead
+                    this.Hide();
+
+                }
+                else
+                {
+                    // Let system handle minimization
+                    handled = false;
+                }
+
+            }
+
+            return IntPtr.Zero;
+        }
+        //end minimization stuff
 
         private void SubmitModalText(object sender, RoutedEventArgs e)
         {

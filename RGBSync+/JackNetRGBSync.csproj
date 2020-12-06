@@ -151,20 +151,8 @@
     <Compile Include="UI\CrashWindow.xaml.cs">
       <DependentUpon>CrashWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\DeleteLayerDialog.xaml.cs">
-      <DependentUpon>DeleteLayerDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\EnterKeyDialog.xaml.cs">
       <DependentUpon>EnterKeyDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\GenericErrorDialog.xaml.cs">
-      <DependentUpon>GenericErrorDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\GenericInfoDialog.xaml.cs">
-      <DependentUpon>GenericInfoDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\GetUpdateWindow.xaml.cs">
-      <DependentUpon>GetUpdateWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\LanguageAwareBaseViewModel.cs" />
     <Compile Include="UI\LanguageAwareViewModel.cs" />
@@ -174,9 +162,6 @@
     <Compile Include="UI\MainWindowViewModel.cs" />
     <Compile Include="UI\NoUpdateDialog.xaml.cs">
       <DependentUpon>NoUpdateDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\PremiumMessageBox.xaml.cs">
-      <DependentUpon>PremiumMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\SimpleModal.cs" />
     <Compile Include="UI\SplashLoader.xaml.cs">
@@ -228,23 +213,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\DeleteLayerDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\EnterKeyDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\GenericErrorDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\GenericInfoDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\GetUpdateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -253,10 +222,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\NoUpdateDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\PremiumMessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -541,6 +506,10 @@
     <EmbeddedResource Include="UI\hires.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ColorpickerWPF\ColorPickerWPF.csproj">
+      <Project>{7028e44e-407c-4460-a51e-00171036fb36}</Project>
+      <Name>ColorPickerWPF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FluentWPF\FluentWPF.csproj">
       <Project>{23a9ed3d-5354-4707-91e3-5a57104779bf}</Project>
       <Name>FluentWPF</Name>
