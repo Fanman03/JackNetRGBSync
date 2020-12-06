@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentWPF, Version=0.8.0.6, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\FluentWPF\bin\Debug\net45\FluentWPF.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -53,7 +50,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WriteableBitmapEx.Wpf, Version=1.5.0.0, Culture=neutral, PublicKeyToken=50375ca6144f1c69, processorArchitecture=MSIL">
-      <HintPath>..\packages\WriteableBitmapEx.1.5.1.0\lib\net40\WriteableBitmapEx.Wpf.dll</HintPath>
+      <HintPath>..\RGBSync+\packages\WriteableBitmapEx.1.5.1.0\lib\net40\WriteableBitmapEx.Wpf.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -132,7 +129,12 @@
   <ItemGroup>
     <Resource Include="Resources\colorpicker1.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\FluentWPF\FluentWPF.csproj">
+      <Project>{23a9ed3d-5354-4707-91e3-5a57104779bf}</Project>
+      <Name>FluentWPF</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
