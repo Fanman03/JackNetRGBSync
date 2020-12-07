@@ -20,7 +20,11 @@ namespace RGBSyncPlus.Converter
         {
             try
             {
-                return System.Convert.ToDouble(value) * System.Convert.ToDouble(parameter);
+                double res= System.Convert.ToDouble(value) * System.Convert.ToDouble(parameter);
+
+                if (res < 1) res = 1;
+
+                return res;
             }
             catch
             {
