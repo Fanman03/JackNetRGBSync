@@ -449,6 +449,8 @@
                                           SelectionMode="Single" 
                                           HorizontalContentAlignment="Stretch" 
                                           Margin="0"
+                                          MaxWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, ConverterParameter=0.95, Converter={StaticResource PercentageConverter}}"
+                                          HorizontalAlignment="Stretch"
                                           >
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate >
