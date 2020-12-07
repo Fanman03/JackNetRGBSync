@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
+using RGBSyncPlus.Helper;
 
 namespace RGBSyncPlus.Converter
 {
@@ -77,6 +78,8 @@ namespace RGBSyncPlus.Converter
         }
     }
 
+
+
     public class MarginConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -100,7 +103,7 @@ namespace RGBSyncPlus.Converter
 
             if (parts.Length > 1)
             {
-                double amount = double.Parse(parts[1]);
+                double amount = parts[1].GetDouble();
 
                 v = v * amount;
             }
