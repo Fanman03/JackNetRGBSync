@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -63,8 +64,8 @@ namespace RGBSyncPlus.UI.Tabs
 
         private void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            double bytesIn = double.Parse(e.BytesReceived.ToString());
-            double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
+            double bytesIn = double.Parse(e.BytesReceived.ToString(), CultureInfo.InvariantCulture);
+            double totalBytes = double.Parse(e.TotalBytesToReceive.ToString(), CultureInfo.InvariantCulture);
             double percentage = bytesIn / totalBytes * 100;
 
             installingModal?.UpdateModalPercentage(mainVm, (int)percentage);

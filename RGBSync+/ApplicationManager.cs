@@ -100,7 +100,7 @@ namespace RGBSyncPlus
         }
 
         public event EventHandler LanguageChangedEvent;
-        
+
         #endregion
 
         #region Constructors
@@ -110,7 +110,7 @@ namespace RGBSyncPlus
             if (!Directory.Exists(NGPROFILES_DIRECTORY))
             {
                 Directory.CreateDirectory(NGPROFILES_DIRECTORY);
-                GenerateNewProfile("Default",false);
+                GenerateNewProfile("Default", false);
                 isHotLoading = false;
                 return;
             }
@@ -348,13 +348,13 @@ namespace RGBSyncPlus
                 }
                 catch
                 {
-                    SimpleLedAuth.AccessToken ="";
+                    SimpleLedAuth.AccessToken = "";
                     SimpleLedAuth.UserName = "";
                     SimpleLedAuth.UserId = Guid.Empty;
                     SimpleLedAuthenticated = false;
 
                     NGSettings.SimpleLedAuthToken = "";
-                    NGSettings.SimpleLedUserId=Guid.Empty;
+                    NGSettings.SimpleLedUserId = Guid.Empty;
                     NGSettings.SimpleLedUserName = "";
                 }
             }
@@ -414,7 +414,7 @@ namespace RGBSyncPlus
         {
             if (NGSettings?.ProfileNames != null && NGSettings.ProfileNames.Any(x => x.ToLower() == name.ToLower()))
             {
-                throw new ArgumentException("Profile name already exists");
+                throw new ArgumentException("Profile name '" + name + "' already exists");
             }
 
             if (!Directory.Exists(NGPROFILES_DIRECTORY))
@@ -518,7 +518,7 @@ namespace RGBSyncPlus
             Task.Delay(TimeSpan.FromSeconds(1)).Wait();
 
             profilePathMapping.Clear();
-            
+
 
 
 
@@ -826,7 +826,7 @@ namespace RGBSyncPlus
                 try
                 {
                     x.Dispose();
-                 
+
                 }
                 catch (Exception ex)
                 {
@@ -836,7 +836,7 @@ namespace RGBSyncPlus
 
                 try
                 {
-                 
+
                     x = null;
                 }
                 catch (Exception ex)
@@ -972,8 +972,8 @@ namespace RGBSyncPlus
             }
 
             SLSManager.Drivers.Add(RssBackgroundDevice);
-               RssBackgroundDevice.DeviceAdded += SlsDriver_DeviceAdded;
-               RssBackgroundDevice.DeviceRemoved += SlsDriver_DeviceRemoved;
+            RssBackgroundDevice.DeviceAdded += SlsDriver_DeviceAdded;
+            RssBackgroundDevice.DeviceRemoved += SlsDriver_DeviceRemoved;
 
             SLSManager.RescanRequired += Rescan;
 
@@ -1008,7 +1008,7 @@ namespace RGBSyncPlus
                                 loadingSplash.LoadingText.Refresh();
                                 Task.Delay(33).Wait();
                                 SLSManager.Drivers.Add(slsDriver);
-                               // driversAdded.Add(slsDriver.GetProperties().Id);
+                                // driversAdded.Add(slsDriver.GetProperties().Id);
                                 Debug.WriteLine("all loaded: " + slsDriver.Name());
                                 slsDriver.DeviceAdded += SlsDriver_DeviceAdded;
                                 slsDriver.DeviceRemoved += SlsDriver_DeviceRemoved;
