@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using RGBSyncPlus.UI.Tabs;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,7 +19,22 @@ namespace RGBSyncPlus.UI
 
         public MainWindow()
         {
-            InitializeComponent();
+            bool success = false;
+            int attempts = 0;
+
+            while (!success && attempts < 10)
+            {
+                try
+                {
+                    InitializeComponent();
+                    success = true;
+                }
+                catch
+                {
+                    attempts++;
+                    Thread.Sleep(500);
+                }
+            }
 
             this.Title = "RGB Sync Studio " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
 
