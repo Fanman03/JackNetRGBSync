@@ -105,7 +105,7 @@ Devices.InfoName    Nombre:
 Devices.InfoAuthor  Autor:
 Devices.InfoDriverVersion   Version de Controlador:
 Devices.Multiple    Varios Dispositivos
-Devices.Selected    Seleccionado
+Devices.Selected    Seleccionado(s)
 Devices.Config  Configuración
 Devices.Alignment   Alineamiento
 Devices.NoConfig    Este dispositivo no tiene configuración.

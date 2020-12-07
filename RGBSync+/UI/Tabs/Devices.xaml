@@ -420,8 +420,8 @@
                     </StackPanel>
                 </Grid>
 
-                <Grid Grid.Row="1" x:Name="SubContents" Margin="0">
-                    <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisConverter}}">
+                <Grid Grid.Row="1" x:Name="SubContents" Margin="0" MaxHeight="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=0.997, Converter={StaticResource PercentageConverter}}">
+                    <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisConverter}}" MaxHeight="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=0.997, Converter={StaticResource PercentageConverter}}">
 
 
                         <StackPanel Margin="10" Orientation="Horizontal">
@@ -441,7 +441,7 @@
                         </StackPanel>
                     </Grid>
 
-                    <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisConverter}}">
+                    <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisConverter}}" >
                         <ListView x:Name="SourceList" 
                                           ItemsSource="{Binding Path=DataContext.SourceDevices, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" 
                                           ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
@@ -449,6 +449,7 @@
                                           SelectionMode="Single" 
                                           HorizontalContentAlignment="Stretch" 
                                           Margin="0"
+                                          
                                            >
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate >
