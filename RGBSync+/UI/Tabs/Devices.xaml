@@ -452,20 +452,14 @@
                                           
                                           HorizontalAlignment="Stretch"
                                           >
-                            <ListView.Background>
-                                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                    <GradientStop Color="Lime" Offset="0"/>
-                                    <GradientStop Color="Red" Offset="1"/>
-                                </LinearGradientBrush>
-                            </ListView.Background>
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate >
                                     <UniformGrid Columns="2" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}, ConverterParameter=0.95, Converter={StaticResource PercentageConverter}, Mode=OneWay}"/>
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
                         </ListView>
-                        <Label Background="Blue" Foreground="White" Content="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, ConverterParameter=1, Converter={StaticResource PercentageConverter}}" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
-                        <Label Margin="0,30" Background="DarkGreen" Foreground="White" Content="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=1, Converter={StaticResource PercentageConverter}}" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+                        
+                        
                     </Grid>
 
                     <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisConverter}}">
