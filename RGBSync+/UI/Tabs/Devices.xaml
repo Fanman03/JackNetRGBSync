@@ -41,7 +41,7 @@
         </DataTemplate>
         <DataTemplate x:Key="DeviceMapperSourceItemTemplate" >
 
-            <Grid Margin="0,5,0,5"  HorizontalAlignment="Stretch" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisConverter}}" MaxWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=0.47, Converter={StaticResource PercentageConverter}}" VerticalAlignment="Top">
+            <Grid Margin="0,5,0,5"  HorizontalAlignment="Stretch" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisConverter}}" MaxWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}, ConverterParameter=0.47, Converter={StaticResource PercentageConverter}}" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
 
                     <ColumnDefinition/>
@@ -447,14 +447,14 @@
                                           ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
                                           BorderBrush="Transparent" 
                                           SelectionMode="Single" 
-                                          HorizontalContentAlignment="Stretch" 
+                                          HorizontalContentAlignment="Left" 
                                           Margin="0"
                                           
                                           HorizontalAlignment="Stretch"
                                           >
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate >
-                                    <UniformGrid Columns="2" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}, ConverterParameter=0.95, Converter={StaticResource PercentageConverter}, Mode=OneWay}"/>
+                                    <UniformGrid Columns="2" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=0.95, Converter={StaticResource PercentageConverter}, Mode=OneWay}" />
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
                         </ListView>
