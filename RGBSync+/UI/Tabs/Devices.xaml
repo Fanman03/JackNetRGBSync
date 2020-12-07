@@ -449,8 +449,7 @@
                                           SelectionMode="Single" 
                                           HorizontalContentAlignment="Stretch" 
                                           Margin="0"
-                                          
-                                           >
+                                          Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=0.95, Converter={StaticResource PercentageConverter}, Mode=OneWay}">
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate >
                                     <UniformGrid Columns="2" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}, ConverterParameter=0.95, Converter={StaticResource PercentageConverter}, Mode=OneWay}"/>
