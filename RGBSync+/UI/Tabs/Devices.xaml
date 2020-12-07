@@ -247,7 +247,7 @@
                     </StackPanel>
                 </Grid>
 
-                <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,40" Background="Black">
+                <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,40" Background="{DynamicResource SystemAltHighColorBrush}">
                     <StackPanel Orientation="Horizontal" Visibility="{Binding SunkTo, Converter={StaticResource NonEmptyStringToVisibilityConverter}}" Margin="5,5,10,5">
                     <TextBlock Text="" FontSize="18" VerticalAlignment="Center" Margin="8,0,0,0"  Foreground="{DynamicResource SystemBaseHighColorBrush}"  FontFamily="Segoe MDL2 Assets"/>
                     <TextBlock Text="{Binding SunkTo}" FontSize="14" VerticalAlignment="Center" Margin="8,0,0,0"  Foreground="{DynamicResource SystemBaseHighColorBrush}" />
@@ -264,7 +264,7 @@
                         <TextBlock Text="{Binding Title}" Margin="6" FontSize="20" FontWeight="Bold" MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right" Foreground="{DynamicResource SystemAltHighColorBrush}"/>
                     </Grid>
 
-                    <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" Background="#d0000000" >
+                    <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,0,0" MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" Background="{DynamicResource SystemAltHighColorBrush}" >
                         <Grid Width="2" HorizontalAlignment="Left" Background="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
 
 
@@ -449,7 +449,7 @@
                                           SelectionMode="Single" 
                                           HorizontalContentAlignment="Stretch" 
                                           Margin="0"
-                                          MaxWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, ConverterParameter=0.95, Converter={StaticResource PercentageConverter}}"
+                                          
                                           HorizontalAlignment="Stretch"
                                           >
                             <ListView.ItemsPanel>
@@ -458,6 +458,7 @@
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
                         </ListView>
+                        <Label Background="Blue" Foreground="White" Content="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, ConverterParameter=1, Converter={StaticResource PercentageConverter}}" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
                     </Grid>
 
                     <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisConverter}}">
