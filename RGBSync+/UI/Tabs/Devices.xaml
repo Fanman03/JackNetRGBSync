@@ -214,7 +214,7 @@
                         </LinearGradientBrush>
                     </Rectangle.Fill>
                 </Rectangle>
-                <Image Source="{Binding Image}" Width="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" Height="{Binding DataContext.ThumbHeight, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}"/>
+                <Image Source="{Binding Image}" Width="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" Height="{Binding DataContext.ThumbHeight, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" HorizontalAlignment="Left"/>
                 <Rectangle Width="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" Height="{Binding DataContext.ThumbHeight, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}">
                     <Rectangle.Fill>
                         <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
@@ -350,7 +350,8 @@
 
             </Grid>
         </Grid>
-        <Grid Grid.Row="1" x:Name="ConfigPanel"  Margin="0"  MaxHeight="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=0.47, Converter={StaticResource PercentageConverter}}" Height="{Binding MaxSubViewHeight}" fluentWpf:PointerTracker.Enabled="True">
+        <Grid Grid.Row="1" x:Name="ConfigPanel"  Margin="0"  MaxHeight="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=0.47, Converter={StaticResource PercentageConverter}}" fluentWpf:PointerTracker.Enabled="True"
+              Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.AnyDevicesSelected, Converter={StaticResource BoolToVisConverter}}">
 
             <Grid Margin="0">
                 <Grid.RowDefinitions>
@@ -419,7 +420,7 @@
                     </StackPanel>
                 </Grid>
 
-                <Grid Grid.Row="1" x:Name="SubContents" >
+                <Grid Grid.Row="1" x:Name="SubContents" Margin="0">
                     <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisConverter}}">
 
 

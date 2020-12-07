@@ -70,6 +70,7 @@ namespace RGBSyncPlus.UI.Tabs
                     SubViewMode = "Info";
                 }
 
+                AnyDevicesSelected = value != 0;
                 SingledDeviceSelected = value == 1;
                 MultipleDeviceSelected = value > 1;
 
@@ -351,8 +352,12 @@ namespace RGBSyncPlus.UI.Tabs
                 if (ZoomLevel > 9) ZoomLevel = 9;
                 ThumbWidth = new[] { 16, 32, 64, 128, 192, 256, 385, 512, 768, 1024, 2048, 4096 }[ZoomLevel];
                 ThumbHeight = (int)(ThumbWidth / 1.3333333333333333f);
+                if (ZoomLevel > 5)
+                {
+                    ThumbHeight = (int)((new[] { 16, 32, 64, 128, 192, 256, 385, 512, 768, 1024, 2048, 4096 }[ZoomLevel-1]) / 1.3333333333333333f);
+                }
 
-                ShowFullThumb = ZoomLevel > 3;
+                ShowFullThumb = ZoomLevel > 4;
             }
         }
 
@@ -379,6 +384,14 @@ namespace RGBSyncPlus.UI.Tabs
         {
             get => multipleDeviceSelected;
             set => SetProperty(ref multipleDeviceSelected, value);
+        }
+
+        private bool anyDevicesSelected;
+
+        public bool AnyDevicesSelected
+        {
+            get => anyDevicesSelected;
+            set => SetProperty(ref anyDevicesSelected, value);
         }
 
         private bool showSources;
