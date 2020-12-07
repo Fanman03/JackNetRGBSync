@@ -333,7 +333,10 @@
 
                 </ListView>
 
-                <ListView ItemsSource="{Binding SLSDevicesFiltered}" ItemTemplate="{DynamicResource DeviceControlCondensedTemplate}" SelectionChanged="DevicesListCondensedSelectionChanged" x:Name="DeviceConfigCondensedList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource BoolToVisConverter}}" >
+                <ListView ItemsSource="{Binding SLSDevicesFiltered}" ItemTemplate="{DynamicResource DeviceControlCondensedTemplate}" SelectionChanged="DevicesListCondensedSelectionChanged" x:Name="DeviceConfigCondensedList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource BoolToVisConverter}}"
+                          
+                          
+                          >
 
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -347,7 +350,7 @@
 
             </Grid>
         </Grid>
-        <Grid Grid.Row="1" x:Name="ConfigPanel"  Margin="0"  MaxHeight="{Binding MaxSubViewHeight}" Height="{Binding MaxSubViewHeight}" fluentWpf:PointerTracker.Enabled="True">
+        <Grid Grid.Row="1" x:Name="ConfigPanel"  Margin="0"  MaxHeight="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=0.47, Converter={StaticResource PercentageConverter}}" Height="{Binding MaxSubViewHeight}" fluentWpf:PointerTracker.Enabled="True">
 
             <Grid Margin="0">
                 <Grid.RowDefinitions>
