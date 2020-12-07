@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
 using QRCoder;
 using RGBSyncPlus.UI;
 
@@ -35,10 +36,16 @@ namespace RGBSyncPlus
             crashWindow.stackTrace.Text = ex.StackTrace;
             crashWindow.Show();
 
-
             Log = Log + "Crash: " + DateTime.Now + " : " + ex.GetType() + "\r\n";
+            Log = Log + "Crash: " + DateTime.Now + " : " + JsonConvert.SerializeObject(ex.Data) + "\r\n";
             Log = Log + "Crash: " + DateTime.Now + " : " + ex.Message + "\r\n";
+            Log = Log + "Crash: " + DateTime.Now + " : " + ex.TargetSite + "\r\n";
             Log = Log + "Crash: " + DateTime.Now + " : " + ex.StackTrace + "\r\n";
+            if (ex.InnerException != null)
+            {
+                Log = Log + "Crash: " + DateTime.Now + " : " + ex.InnerException.Message + "\r\n";
+                Log = Log + "Crash: " + DateTime.Now + " : " + ex.InnerException.StackTrace + "\r\n";
+            }
 
             string guid = crashWindow.SendReport();
             string url = "https://api.rgbsync.com/crashlogs/viewReport/?guid=" + guid;

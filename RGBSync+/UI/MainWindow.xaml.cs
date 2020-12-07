@@ -22,7 +22,7 @@ namespace RGBSyncPlus.UI
             bool success = false;
             int attempts = 0;
 
-            while (!success && attempts < 10)
+            while (!success)
             {
                 try
                 {
@@ -33,6 +33,10 @@ namespace RGBSyncPlus.UI
                 {
                     attempts++;
                     Thread.Sleep(500);
+                    if (attempts > 10)
+                    {
+                        throw;
+                    }
                 }
             }
 
@@ -44,61 +48,10 @@ namespace RGBSyncPlus.UI
             ApplicationManager.Instance.RssBackgroundDevice.ColourChange += (sender, args) =>
             {
                
-                    //var rbd = ApplicationManager.Instance.RssBackgroundDevice;
-                    //vm.SCTop.GradientStops.First().Color = new Color()
-                    //{
-                    //    R = (byte) rbd.Leds[0].Red,
-                    //    G = (byte) rbd.Leds[0].Green,
-                    //    B = (byte) rbd.Leds[0].Blue
-                    //};
-
-                    //vm.SCRight.GradientStops.First().Color = new Color()
-                    //{
-                    //    R = (byte) rbd.Leds[1].Red,
-                    //    G = (byte) rbd.Leds[1].Green,
-                    //    B = (byte) rbd.Leds[1].Blue
-                    //};
-
-
-                    //vm.SCBottom.GradientStops.First().Color = new Color()
-                    //{
-                    //    R = (byte) rbd.Leds[2].Red,
-                    //    G = (byte) rbd.Leds[2].Green,
-                    //    B = (byte) rbd.Leds[2].Blue
-                    //};
-
-
-                    //vm.SCLeft.GradientStops.First().Color = new Color()
-                    //{
-                    //    R = (byte) rbd.Leds[3].Red,
-                    //    G = (byte) rbd.Leds[3].Green,
-                    //    B = (byte) rbd.Leds[3].Blue
-                    //};
-
             };
 
 
-          //  DispatcherTimer update = new DispatcherTimer(TimeSpan.FromMilliseconds(30), DispatcherPriority.Render, Callback, Application.Current.Dispatcher);
         }
-
-        //private void Callback(object sender, EventArgs e)
-        //{
-        //    vm.SCTop = top;
-        //    vm.SCRight = right;
-        //    vm.SCBottom = bottom;
-        //    vm.SCLeft = left;
-        //    //scbottomtest.Fill = bottom;
-        //    //scrighttest.Fill = right;
-        //    //sctoptest.Fill = top;
-        //    //sclefttest.Fill = left;
-
-        //}
-
-        //private RadialGradientBrush top=new RadialGradientBrush(Colors.Red,Colors.Transparent);
-        //private RadialGradientBrush left = new RadialGradientBrush(Colors.Red, Colors.Transparent);
-        //private RadialGradientBrush right = new RadialGradientBrush(Colors.Red, Colors.Transparent);
-        //private RadialGradientBrush bottom = new RadialGradientBrush(Colors.Red, Colors.Transparent);
-
 
         //This is a semi-hacky way to create custom minimize actions
         private void OnSourceInitialized(object sender, EventArgs e)
