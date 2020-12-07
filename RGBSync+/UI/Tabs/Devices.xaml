@@ -293,7 +293,7 @@
     <UserControl.DataContext>
         <local:DevicesViewModel/>
     </UserControl.DataContext>
-    <Grid>
+    <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto"/>
@@ -364,8 +364,8 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Height="36" Margin="0" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.MultipleDeviceSelected, Converter={StaticResource BoolToVisConverter}}">
-                        <TextBlock FontSize="24" Text="{Binding ConverterParameter=Devices.Multiple, Converter={StaticResource LocConverter}, Source=Language}" FontWeight="Bold" Foreground="Black" Margin="12,0,0,0" />
-                        <TextBlock FontSize="24" Text="{Binding ConverterParameter=Devices.Selected, Converter={StaticResource LocConverter}, Source=Language}" FontWeight="Light" Margin="12,0,0,0" Foreground="Black"/>
+                        <TextBlock FontSize="24" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Devices.Multiple, Converter={StaticResource LocConverter}}" FontWeight="Bold" Foreground="Black" Margin="12,0,0,0" />
+                        <TextBlock FontSize="24" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Devices.Selected, Converter={StaticResource LocConverter}}" FontWeight="Light" Margin="12,0,0,0" Foreground="Black"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="8,0,8,8" VerticalAlignment="Bottom"  >
@@ -416,7 +416,7 @@
                     </StackPanel>
                 </Grid>
 
-                <Grid Grid.Row="1" x:Name="SubContents">
+                <Grid Grid.Row="1" x:Name="SubContents" >
                     <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisConverter}}">
 
 
@@ -437,14 +437,14 @@
                         </StackPanel>
                     </Grid>
 
-                    <Grid MaxHeight="200" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisConverter}}">
+                    <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisConverter}}">
                         <ListView x:Name="SourceList" 
                                           ItemsSource="{Binding Path=DataContext.SourceDevices, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" 
                                           ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
                                           BorderBrush="Transparent" 
                                           SelectionMode="Single" 
                                           HorizontalContentAlignment="Stretch" 
-                                          
+                                          Margin="0"
                                            >
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate >
