@@ -19,26 +19,8 @@ namespace RGBSyncPlus.UI
 
         public MainWindow()
         {
-            bool success = false;
-            int attempts = 0;
 
-            while (!success)
-            {
-                try
-                {
-                    InitializeComponent();
-                    success = true;
-                }
-                catch
-                {
-                    attempts++;
-                    Thread.Sleep(500);
-                    if (attempts > 10)
-                    {
-                        throw;
-                    }
-                }
-            }
+            InitializeComponent();
 
             this.Title = "RGB Sync Studio " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
 
@@ -47,7 +29,7 @@ namespace RGBSyncPlus.UI
 
             ApplicationManager.Instance.RssBackgroundDevice.ColourChange += (sender, args) =>
             {
-               
+
             };
 
 
