@@ -62,6 +62,10 @@ Settings.MinimizeOnStart Minimizar al iniciar
 Settings.MinimizeOnStartHelp ¿La app debe mostrarse al inciar, o minimizarse instantáneamente?
 Settings.Experimental Drivers Experimentales
 Settings.ExperimentalHelp Muestra los drivers experimentales en la tienda
+Settings.SimpleLedAuth Autenticación de SimpleLed
+Settings.SimpleLedAuthHelp Conectarse a los servidores de SimpleLed para desbloquear funcionalidades
+Settings.SimpleLedLogin Iniciar Sesión
+Settings.SimpleLedLogout Cerrar Sesión
 Store.ExperimentalBtnText	Experimental
 Store.FilterLabel	Buscar
 Store.Plugin.DisableBtnLabel	Deshabilitar
@@ -95,6 +99,7 @@ Donate.PayPal	DONAR VÍA PAYPAL
 About.Thanks	Gracias a todos los Patrons, tradcutores y contribuidores a hacer este programa posible. Vuestras contribuciones son agradecidas.
 Devices.Info    Información
 Devices.SyncTo  Sincronizar a
+Devices.Customize Personalizar
 Devices.InfoDriver  Controlador:
 Devices.InfoName    Nombre:
 Devices.InfoAuthor  Autor:
