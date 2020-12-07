@@ -20,7 +20,7 @@ namespace RGBSyncPlus.Converter
         {
             try
             {
-                double res= System.Convert.ToDouble(value) * System.Convert.ToDouble(parameter);
+                double res = System.Convert.ToDouble(value) * System.Convert.ToDouble(parameter);
 
                 if (res < 1) res = 1;
 
@@ -81,11 +81,15 @@ namespace RGBSyncPlus.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null || (value as double?) == null)
+            {
+                return new Thickness(0, 0, 0, 0);
+            }
             double v = (double)value;
 
-            
-            string param = (string) parameter;
-            if (param.StartsWith("-"))
+
+            string param = (string)parameter;
+            if (param != null && param.StartsWith("-"))
             {
                 param = param.Substring(1);
                 v = -v;
@@ -115,7 +119,7 @@ namespace RGBSyncPlus.Converter
 
             }
 
-            return null;
+            return new Thickness(0, 0, 0, 0);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
