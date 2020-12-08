@@ -518,10 +518,7 @@ namespace RGBSyncPlus
             Task.Delay(TimeSpan.FromSeconds(1)).Wait();
 
             profilePathMapping.Clear();
-
-
-
-
+            
 
             if (!Directory.Exists(SLSCONFIGS_DIRECTORY))
             {
@@ -531,16 +528,6 @@ namespace RGBSyncPlus
             loadingSplash.Activate();
             SLSManager = new SLSManager(SLSCONFIGS_DIRECTORY);
 
-            //NLog.Config.LoggingConfiguration config = new NLog.Config.LoggingConfiguration();
-
-            // Targets where to log to: File and Console
-            //NLog.Targets.FileTarget logfile = new NLog.Targets.FileTarget("logfile") { FileName = "rgbsync.log" };
-
-            // Rules for mapping loggers to targets            
-            //config.AddRule(LogLevel.Debug, LogLevel.Fatal, logfile);
-
-            // Apply config           
-            //LogManager.Configuration = config;
 
             Logger.Debug("============ JackNet RGB Sync is Starting ============");
 

@@ -16,15 +16,16 @@ namespace RGBSyncPlus
 {
     public class SimpleLogger
     {
-        public string Log = "";
-        public void Debug(object log)
+        public List<LogEntry> Log = new List<LogEntry>();
+        
+        public void Debug(object log,[CallerMemberName] string cmn="")
         {
-            Log = Log + "DEBUG: " + DateTime.Now + " : " + log + "\r\n";
+            Log.Add(new LogEntry(log.ToString(),  "Debug",null,cmn));
         }
 
-        public void Info(object log)
+        public void Info(object log, [CallerMemberName] string cmn = "")
         {
-            Log = Log + "LOG: " + DateTime.Now + " : " + log + "\r\n";
+            Log.Add(new LogEntry(log.ToString(), "Info", null,cmn));
         }
 
         public void CrashWindow(Exception ex, [CallerMemberName] string callerMemberName = "")
@@ -36,18 +37,8 @@ namespace RGBSyncPlus
             crashWindow.stackTrace.Text = ex.StackTrace;
             crashWindow.Show();
 
-            Log = Log + "Crash: " + DateTime.Now + " : " + ex.GetType() + "\r\n";
-            Log = Log + "Crash: " + DateTime.Now + " : " + JsonConvert.SerializeObject(ex.Data) + "\r\n";
-            Log = Log + "Crash: " + DateTime.Now + " : " + ex.Message + "\r\n";
-            Log = Log + "Crash: " + DateTime.Now + " : " + ex.TargetSite + "\r\n";
-            Log = Log + "Crash: " + DateTime.Now + " : " + ex.StackTrace + "\r\n";
-            if (ex.InnerException != null)
-            {
-                Log = Log + "Crash: " + DateTime.Now + " : " + ex.InnerException.Message + "\r\n";
-                Log = Log + "Crash: " + DateTime.Now + " : " + ex.InnerException.StackTrace + "\r\n";
-            }
-
-            string guid = crashWindow.SendReport();
+            Log.Add(new LogEntry(ex.GetType().ToString(), "Crash", ex));
+            string guid = crashWindow.SendReport(ex);
             string url = "https://api.rgbsync.com/crashlogs/viewReport/?guid=" + guid;
             crashWindow.ErrorReportUrl = url;
 
@@ -73,6 +64,27 @@ namespace RGBSyncPlus
                 bitmapimage.EndInit();
 
                 return bitmapimage;
+            }
+        }
+
+        public class LogEntry
+        {
+            public string Log { get; set; }
+            public DateTime Time { get; set; }
+            public string Caller { get; set; }
+            public string LogType { get; set; }
+            public Exception Exception { get; set; }
+            public LogEntry(string log, string logType="Info", Exception exception = null, [CallerMemberName] string callerMemberName = "")
+            {
+                Log = log;
+                Time = DateTime.Now;
+                Caller = callerMemberName;
+                LogType = logType;
+
+                if (exception != null)
+                {
+                    Exception = exception;
+                }
             }
         }
     }

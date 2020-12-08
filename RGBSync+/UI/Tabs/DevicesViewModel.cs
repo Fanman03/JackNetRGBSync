@@ -282,7 +282,8 @@ namespace RGBSyncPlus.UI.Tabs
                 });
             }
 
-            SinkThing();
+            OnPropertyChanged("SourceDevices");
+            //SinkThing();
         }
 
 

@@ -254,10 +254,10 @@ namespace RGBSyncPlus.UI.Tabs
                 return;
             }
 
-            if (selected.Enabled)
-            {
-                selected = null;
-            }
+            //if (selected.Enabled)
+            //{
+            //    selected = null;
+            //}
 
             List<DeviceMappingModels.SourceModel> selectedItems = new List<DeviceMappingModels.SourceModel>();
             foreach (object itemsSelectedItem in items.SelectedItems)
@@ -313,7 +313,7 @@ namespace RGBSyncPlus.UI.Tabs
                     }
 
 
-                    if (selected != null && selected.Name.Trim()!="None")
+                    if (selected.Name.Trim()!="None")
                     {
                         configDevice.SourceName = selected?.Name;
                         configDevice.SourceProviderName = selected?.ProviderName;
@@ -343,24 +343,8 @@ namespace RGBSyncPlus.UI.Tabs
                 }
             }
 
-            if (selected == null)
-            {
-                foreach (DeviceMappingModels.Device parentDevice in selectedParents)
-                {
-                    foreach (ControlDevice.LedUnit controlDeviceLeD in parentDevice.ControlDevice.LEDs)
-                    {
-                        controlDeviceLeD.Color = new LEDColor(0, 0, 0);
-                    }
-
-                    if (parentDevice.SupportsPush)
-                    {
-                        parentDevice.ControlDevice.Push();
-                    }
-                }
-            }
-
             vm.SetupSourceDevices();
-            vm.SinkThing();
+           // vm.SinkThing();
         }
 
 
