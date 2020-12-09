@@ -146,6 +146,11 @@ namespace RGBSyncPlus
 
         #region Methods
 
+        public void NavigateToTab(string tab)
+        {
+            ConfigurationWindow.SetTab(tab);
+        }
+
         private readonly Dictionary<string, string> profilePathMapping = new Dictionary<string, string>();
         public void LoadNGSettings()
         {

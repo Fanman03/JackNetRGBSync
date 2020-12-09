@@ -5,10 +5,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using RGBSyncPlus.Helper;
 
 namespace RGBSyncPlus.UI.Tabs
 {
@@ -22,6 +25,7 @@ namespace RGBSyncPlus.UI.Tabs
         public Devices()
         {
             InitializeComponent();
+            
         }
 
         private void ZoomIn(object sender, RoutedEventArgs e)
@@ -43,24 +47,32 @@ namespace RGBSyncPlus.UI.Tabs
             vm.ShowSources = !vm.ShowSources;
         }
 
-        private void SubInfo(object sender, RoutedEventArgs e)
+        private async void SubInfo(object sender, RoutedEventArgs e)
         {
             vm.SubViewMode = "Info";
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            await SetMaxHeight();
         }
 
-        private void SyncTo(object sender, RoutedEventArgs e)
+        private async void SyncTo(object sender, RoutedEventArgs e)
         {
             vm.SubViewMode = "SyncTo";
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            await SetMaxHeight();
         }
 
-        private void Config(object sender, RoutedEventArgs e)
+        private async void Config(object sender, RoutedEventArgs e)
         {
             vm.SubViewMode = "Config";
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            await SetMaxHeight();
         }
 
-        private void Alignment(object sender, RoutedEventArgs e)
+        private async void Alignment(object sender, RoutedEventArgs e)
         {
             vm.SubViewMode = "Alignment";
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            await SetMaxHeight();
         }
 
 
@@ -156,9 +168,8 @@ namespace RGBSyncPlus.UI.Tabs
 
                 ConfigPanel.DataContext = DeviceConfigList.SelectedItem;
                 ConfigPanelBar.DataContext = DeviceConfigList.SelectedItem;
+                AddBottomPanel();
 
-                configBarRow.Height = new GridLength(56);
-                configPanelRow.Height = GridLength.Auto;
                 ControlDevice selectedDevice = null;
                 if (ConfigPanel != null && ((DeviceMappingModels.Device)ConfigPanel.DataContext) != null)
                 {
@@ -198,6 +209,33 @@ namespace RGBSyncPlus.UI.Tabs
             vm.SinkThing();
         }
 
+        private void AddBottomPanel()
+        {
+            if (ConfigBarRow.Height.IsAbsolute && ConfigBarRow.Height.Value!= null && ConfigBarRow.Height.Value == 0)
+            {
+                ConfigBarRow.Height = new GridLength(56);
+                ConfigPanelRow.Height = GridLength.Auto;
+
+                Thread.Sleep(100);
+                SetMaxHeight();
+            }
+        }
+
+        private async Task SetMaxHeight()
+        {
+            DevicesPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
+            ConfigPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
+
+            //await Task.Delay(TimeSpan.FromMilliseconds(20));
+            //ConfigPanelRow.Height = new GridLength(ConfigPanelRow.Height.Value + 1);
+            //await Task.Delay(TimeSpan.FromMilliseconds(20));
+            //ConfigPanelRow.Height = new GridLength(ConfigPanelRow.Height.Value - 1);
+            //await Task.Delay(TimeSpan.FromMilliseconds(20));
+            ContainerGrid.Refresh();
+
+            DevicesPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
+            ConfigPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
+        }
 
         public void UpdateDeviceConfigUi(ControlDevice cd)
         {
@@ -371,6 +409,9 @@ namespace RGBSyncPlus.UI.Tabs
 
             ConfigPanel.DataContext = DeviceConfigCondensedList.SelectedItem;
             ConfigPanelBar.DataContext = DeviceConfigCondensedList.SelectedItem;
+
+            AddBottomPanel();
+
             if (ConfigPanel != null && ((DeviceMappingModels.Device)ConfigPanel.DataContext) != null)
             {
                 ApplicationManager.Instance.DeviceBeingAligned = ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
@@ -395,6 +436,19 @@ namespace RGBSyncPlus.UI.Tabs
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             ZoomIn(this, new RoutedEventArgs());
+            ZoomIn(this, new RoutedEventArgs());
+            
+            ConfigPanelRow.MaxHeight = Math.Max(0,ContainerGrid.ActualHeight - 200);
+        }
+
+        private void ContainerGrid_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (vm.AnyDevicesSelected)
+            {
+                DevicesPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
+            }
+
+            ConfigPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
         }
     }
 }

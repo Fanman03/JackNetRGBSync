@@ -19,7 +19,7 @@ namespace RGBSyncPlus.UI
 
         public MainWindow()
         {
-
+            ApplicationManager.Instance.ConfigurationWindow = this;
             InitializeComponent();
 
             this.Title = "RGB Sync Studio " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
@@ -85,7 +85,11 @@ namespace RGBSyncPlus.UI
             vm.HamburgerExtended = !vm.HamburgerExtended;
         }
 
-        private void SetTab(object sender, RoutedEventArgs e)
+        public void SetTab(string tab)
+        {
+            vm.CurrentTab = tab;
+        }
+        public void SetTab(object sender, RoutedEventArgs e)
         {
             if ((sender as Button).DataContext is MainWindowViewModel.TabItem lvm)
             {

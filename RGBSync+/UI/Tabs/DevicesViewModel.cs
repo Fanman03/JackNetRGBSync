@@ -431,6 +431,12 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void SetUpDeviceMapViewModel()
         {
+
+            if (ApplicationManager.Instance.SLSDevices!=null && ApplicationManager.Instance.SLSDevices.Count(x => x.Driver!=null && x.Driver.GetProperties().Id != Guid.Parse("11111111-1111-1111-1111-111111111111")) == 0)
+            {
+                ApplicationManager.Instance.NavigateToTab("store");
+            }
+
             ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ApplicationManager.Instance.CurrentProfile?.DeviceProfileSettings;
 
             SLSDevices = new ObservableCollection<DeviceMappingModels.Device>();

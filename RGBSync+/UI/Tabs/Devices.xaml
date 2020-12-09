@@ -296,11 +296,11 @@
         <local:DevicesViewModel/>
     </UserControl.DataContext>
 
-    <Grid Margin="0">
+    <Grid Margin="0" x:Name="ContainerGrid" SizeChanged="ContainerGrid_OnSizeChanged">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="0" x:Name="configBarRow"/>
-            <RowDefinition Height="0" x:Name="configPanelRow"/>
+            <RowDefinition Height="*" x:Name="DevicesPanelRow"/>
+            <RowDefinition Height="0" x:Name="ConfigBarRow"/>
+            <RowDefinition Height="0" x:Name="ConfigPanelRow"/>
         </Grid.RowDefinitions>
 
         <Grid Row="0">
@@ -422,11 +422,7 @@
         
 
         
-        <Grid Row="2">
-            <Grid.RowDefinitions>
-           
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <Grid Row="2" x:Name="ConfigPanelHolder">
            
 
             <Grid Grid.Row="0" x:Name="ConfigPanel" Margin="0">
@@ -459,6 +455,7 @@
                                           Margin="0"
                                           Padding="0"
                                           HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Top"
                                           >
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate >

@@ -34,6 +34,15 @@ namespace RGBSyncPlus.UI.Tabs
             ShowStore = false;
             ShowUpdates = false;
 
+            if (ApplicationManager.Instance.SLSDevices != null && ApplicationManager.Instance.SLSDevices.Count(x =>
+                x.Driver != null && x.Driver.GetProperties().Id !=
+                Guid.Parse("11111111-1111-1111-1111-111111111111")) == 0)
+            {
+                ShowInstalled = false;
+                ShowStore = true;
+                ShowUpdates = false;
+            }
+
         }
 
         private MainWindowViewModel mainVm

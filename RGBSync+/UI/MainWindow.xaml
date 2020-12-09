@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Title="RGB Sync Studio" 
         Height="720" 
-        Width="1280"
+        Width="1300"
         MinHeight="360"
         MinWidth="640"
         fw:AcrylicWindow.Enabled="True" Icon="/RGBSync+;component/ProgramIcon.ico">

@@ -7,6 +7,7 @@ using RGBSyncPlus.UI;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -32,23 +33,15 @@ namespace RGBSyncPlus
         #region Methods
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            // Process unhandled exception
-            //CrashWindow crashWindow = new CrashWindow();
-            //crashWindow.errorName.Text = e.Exception.GetType().ToString();
-            //crashWindow.message.Text = e.Exception.Message;
-
-            //crashWindow.stackTrace.Text = e.Exception.StackTrace;
-            //crashWindow.Show();
             ApplicationManager.Logger.CrashWindow(e.Exception);
 
-            // Prevent default unhandled exception processing
             e.Handled = true;
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            //if (!Debugger.IsAttached)
+            if (!Debugger.IsAttached)
             {
                 this.DispatcherUnhandledException += App_DispatcherUnhandledException;
             }
@@ -91,7 +84,7 @@ namespace RGBSyncPlus
 
         private void App_OnExit(object sender, ExitEventArgs e)
         {
-          //  throw new NotImplementedException();
+            //  throw new NotImplementedException();
         }
     }
 }
