@@ -435,9 +435,9 @@ namespace RGBSyncPlus.UI.Tabs
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            ZoomIn(this, new RoutedEventArgs());
-            ZoomIn(this, new RoutedEventArgs());
-            
+            vm.ZoomLevel = 6;
+
+
             ConfigPanelRow.MaxHeight = Math.Max(0,ContainerGrid.ActualHeight - 200);
         }
 
