@@ -118,6 +118,7 @@
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Configuration\ProgVersion.cs" />
     <Compile Include="Converter\BackgroundGradientConverter.cs" />
+    <Compile Include="Converter\BoolToSolidColorBrush.cs" />
     <Compile Include="Converter\DeviceTypeToImageConverter.cs" />
     <Compile Include="Converter\IndeterminateBoolToOpacityConverter.cs" />
     <Compile Include="Converter\LocConverter.cs" />

@@ -153,7 +153,12 @@ namespace RGBSyncPlus.UI.Tabs
                     //}
                 }
 
+
                 ConfigPanel.DataContext = DeviceConfigList.SelectedItem;
+                ConfigPanelBar.DataContext = DeviceConfigList.SelectedItem;
+
+                configBarRow.Height = new GridLength(56);
+                configPanelRow.Height = GridLength.Auto;
                 ControlDevice selectedDevice = null;
                 if (ConfigPanel != null && ((DeviceMappingModels.Device)ConfigPanel.DataContext) != null)
                 {
@@ -365,6 +370,7 @@ namespace RGBSyncPlus.UI.Tabs
             }
 
             ConfigPanel.DataContext = DeviceConfigCondensedList.SelectedItem;
+            ConfigPanelBar.DataContext = DeviceConfigCondensedList.SelectedItem;
             if (ConfigPanel != null && ((DeviceMappingModels.Device)ConfigPanel.DataContext) != null)
             {
                 ApplicationManager.Instance.DeviceBeingAligned = ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
