@@ -452,11 +452,11 @@
                                           
                                           HorizontalAlignment="Stretch"
                                           >
-                            <!--<ListView.ItemsPanel>
+                            <ListView.ItemsPanel>
                                 <ItemsPanelTemplate >
-                                    <UniformGrid Columns="2" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=0.95, Converter={StaticResource PercentageConverter}, Mode=OneWay}" />
+                                    <UniformGrid Columns="2"  />
                                 </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>-->
+                            </ListView.ItemsPanel>
                         </ListView>
                         
                         
