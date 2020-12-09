@@ -121,6 +121,8 @@ namespace RGBSyncPlus.UI.Tabs
             DimBackgroundOpacity = ApplicationManager.Instance.NGSettings.DimBackgroundOpacity * 100;
             BackgroundBlur = ApplicationManager.Instance.NGSettings.BackgroundBlur * 5;
             ControllableBG = ApplicationManager.Instance.NGSettings.ControllableBG;
+
+            UpdateRate = ApplicationManager.Instance.NGSettings.UpdateRate;
         }
 
 
@@ -146,6 +148,18 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 SetProperty(ref bgopacity, (float)Math.Floor(value));
                 ApplicationManager.Instance.NGSettings.BackgroundOpacity = (float)Math.Floor(value) / 100f;
+            }
+        }
+
+        private int updateRate;
+
+        public int UpdateRate
+        {
+            get => updateRate;
+            set
+            {
+                SetProperty(ref updateRate, value);
+                ApplicationManager.Instance.NGSettings.UpdateRate =value;
             }
         }
 
