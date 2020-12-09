@@ -14,7 +14,7 @@
         <Converter:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter"/>
         <Converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <DataTemplate x:Key="NewsItemTemplate">
-            <Grid  MaxWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}, ConverterParameter=0.95, Converter={StaticResource PercentageConverter}}" MaxHeight="200" Margin="0,0,0,0">
+            <Grid  MaxWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}, ConverterParameter=95, Converter={StaticResource PercentageConverter}}" MaxHeight="200" Margin="0,0,0,0">
                 <Grid Margin="20">
                     <Rectangle Fill="#808080" Opacity="0.7"/>
                     <Button Background="{x:Null}" Click="Button_Click" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
@@ -35,7 +35,7 @@
         </DataTemplate>
         <DataTemplate x:Key="ImageTemplate">
      
-                <Image Source="{Binding Mode=OneWay}" MaxWidth="{Binding ActualWidth, ConverterParameter=0.25, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}" Margin="20"/>
+                <Image Source="{Binding Mode=OneWay}" MaxWidth="{Binding ActualWidth, ConverterParameter=25, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}" Margin="20"/>
      
         </DataTemplate>
     </UserControl.Resources>
