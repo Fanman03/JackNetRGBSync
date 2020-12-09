@@ -21,7 +21,7 @@ namespace RGBSyncPlus.Converter
         {
             try
             {
-                double res = (value.ToString()).GetDouble() * (parameter.ToString()).GetDouble();
+                double res = (value.ToString()).GetDouble() * ((parameter.ToString()).GetDouble()/100d);
 
                 if (res < 1) res = 1;
 

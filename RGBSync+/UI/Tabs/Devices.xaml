@@ -41,7 +41,7 @@
         </DataTemplate>
         <DataTemplate x:Key="DeviceMapperSourceItemTemplate" >
 
-            <Grid Margin="0,5,0,5"  HorizontalAlignment="Stretch" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisConverter}}" MaxWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}, ConverterParameter=0.47, Converter={StaticResource PercentageConverter}}" VerticalAlignment="Top">
+            <Grid Margin="0,5,0,5"  HorizontalAlignment="Stretch" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisConverter}}" MaxWidth="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}, ConverterParameter=47, Converter={StaticResource PercentageConverter}}" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
 
                     <ColumnDefinition/>
@@ -350,7 +350,7 @@
 
             </Grid>
         </Grid>
-        <Grid Grid.Row="1" x:Name="ConfigPanel"  Margin="0"  MaxHeight="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=0.47, Converter={StaticResource PercentageConverter}}" fluentWpf:PointerTracker.Enabled="True"
+        <Grid Grid.Row="1" x:Name="ConfigPanel"  Margin="0"  MaxHeight="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=47, Converter={StaticResource PercentageConverter}}" fluentWpf:PointerTracker.Enabled="True"
               Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.AnyDevicesSelected, Converter={StaticResource BoolToVisConverter}}">
 
             <Grid Margin="0">
@@ -420,8 +420,8 @@
                     </StackPanel>
                 </Grid>
 
-                <Grid Grid.Row="1" x:Name="SubContents" Margin="0" MaxHeight="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=0.997, Converter={StaticResource PercentageConverter}}">
-                    <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisConverter}}" MaxHeight="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=0.997, Converter={StaticResource PercentageConverter}}">
+                <Grid Grid.Row="1" x:Name="SubContents" Margin="0" MaxHeight="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=99, Converter={StaticResource PercentageConverter}}">
+                    <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisConverter}}" MaxHeight="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=0.99, Converter={StaticResource PercentageConverter}}">
 
 
                         <StackPanel Margin="10" Orientation="Horizontal">
@@ -452,11 +452,11 @@
                                           
                                           HorizontalAlignment="Stretch"
                                           >
-                            <ListView.ItemsPanel>
+                            <!--<ListView.ItemsPanel>
                                 <ItemsPanelTemplate >
                                     <UniformGrid Columns="2" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, ConverterParameter=0.95, Converter={StaticResource PercentageConverter}, Mode=OneWay}" />
                                 </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
+                            </ListView.ItemsPanel>-->
                         </ListView>
                         
                         
