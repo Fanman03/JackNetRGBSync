@@ -245,6 +245,13 @@ namespace RGBSyncPlus
             if (isHotLoading) return;
 
             isHotLoading = true;
+
+            if (File.Exists("NGOverrides.json"))
+            {
+                string json = File.ReadAllText("NGOverrides.json");
+                DeviceOverrides = new ObservableCollection<DeviceMappingModels.DeviceOverrides>(JsonConvert.DeserializeObject<List<DeviceMappingModels.DeviceOverrides>>(json));
+            }
+
             profilePathMapping.Clear();
             if (!Directory.Exists(NGPROFILES_DIRECTORY))
             {
@@ -412,7 +419,16 @@ namespace RGBSyncPlus
                 {
                     SaveCurrentNGProfile();
                 }
+
+                if (overridesDirty)
+                {
+                    overridesDirty = false;
+                    string json = JsonConvert.SerializeObject(DeviceOverrides.ToList());
+                    File.WriteAllText("NGOverrides.json", json);
+                }
             }
+
+
         }
 
         public void GenerateNewProfile(string name, bool hotLoad = true)
@@ -523,7 +539,7 @@ namespace RGBSyncPlus
             Task.Delay(TimeSpan.FromSeconds(1)).Wait();
 
             profilePathMapping.Clear();
-            
+
 
             if (!Directory.Exists(SLSCONFIGS_DIRECTORY))
             {
@@ -666,6 +682,8 @@ namespace RGBSyncPlus
                     SLSManager.SaveConfig(cfgable);
                 }
             }
+
+        
 
             //foreach (var controlDevice in SLSDevices)
             //{
@@ -1078,6 +1096,44 @@ namespace RGBSyncPlus
         }
 
         public ObservableCollection<ControlDevice> SLSDevices = new ObservableCollection<ControlDevice>();
+        public ObservableCollection<DeviceMappingModels.DeviceOverrides> DeviceOverrides = new ObservableCollection<DeviceMappingModels.DeviceOverrides>();
+        private bool overridesDirty = false;
+        public void SetOverride(DeviceMappingModels.DeviceOverrides overrider)
+        {
+            DeviceMappingModels.DeviceOverrides existing = DeviceOverrides.FirstOrDefault(x =>
+                x.Name == overrider.Name && x.ConnectedTo == overrider.ConnectedTo &&
+                x.ProviderName == overrider.ProviderName);
+
+            if (existing != null)
+            {
+                DeviceOverrides.Remove(existing);
+            }
+
+            DeviceOverrides.Add(overrider);
+            overridesDirty = true;
+
+        }
+
+        public DeviceMappingModels.DeviceOverrides GetOverride(ControlDevice cd)
+        {
+            DeviceMappingModels.DeviceOverrides existing = DeviceOverrides.FirstOrDefault(x =>
+                x.Name == cd.Name && x.ConnectedTo == cd.ConnectedTo &&
+                x.ProviderName == cd.Driver.Name());
+
+            if (existing == null)
+            {
+                existing = new DeviceMappingModels.DeviceOverrides
+                {
+                    Name = cd.Name,
+                    ConnectedTo = cd.ConnectedTo,
+                    ProviderName = cd.Driver?.Name(),
+                    TitleOverride = string.IsNullOrWhiteSpace(cd.TitleOverride) ? cd.Driver.Name() : cd.TitleOverride, ChannelOverride = cd.ConnectedTo,
+                    SubTitleOverride = cd.Name
+                };
+            }
+
+            return existing;
+        }
 
         public void UpdateSLSDevices()
         {

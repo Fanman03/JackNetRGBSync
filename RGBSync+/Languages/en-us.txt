@@ -114,6 +114,11 @@ Devices.ZoomIn  Zoom In
 Devices.Condensed   Condensed View
 Devices.IconView    Icon View
 Devices.ShowSources     Show Sources
+Customize.Align Edit Alignment
+Customize.AlignHint Use the controls below to make your device match the images
+Customize.TitleOverride Override Title
+Customize.SubTitleOverride Override SubTitle
+Customize.ChannelOverride Override Channel text
 Profile.TimeBasedTrigger    Time Based Trigger
 Profile.TimeToTrigger   Time at which to trigger:
 Profile.ProcessTrigger  Running Process Trigger

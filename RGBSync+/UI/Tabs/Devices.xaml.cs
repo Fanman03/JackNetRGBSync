@@ -3,6 +3,7 @@ using SimpleLed;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -25,7 +26,12 @@ namespace RGBSyncPlus.UI.Tabs
         public Devices()
         {
             InitializeComponent();
-            
+
+            if (DesignerProperties.GetIsInDesignMode(this))
+            {
+                this.ConfigPanelRow.Height = new GridLength(400);
+                this.vm.SubViewMode = "Alignment";
+            }
         }
 
         private void ZoomIn(object sender, RoutedEventArgs e)

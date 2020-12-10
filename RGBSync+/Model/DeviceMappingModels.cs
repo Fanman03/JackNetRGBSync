@@ -465,6 +465,31 @@ namespace RGBSyncPlus.Model
 
         public class SourceModel : BaseViewModel
         {
+            private string titleOverride;
+            private string subTitleOverride;
+            private string channelOverride;
+
+            [JsonIgnore]
+            public string TitleOverride
+            {
+                get => titleOverride;
+                set => SetProperty(ref titleOverride, value);
+            }
+
+            [JsonIgnore]
+            public string SubTitleOverride
+            {
+                get => subTitleOverride;
+                set => SetProperty(ref subTitleOverride, value);
+            }
+
+            [JsonIgnore]
+            public string ChannelOverride
+            {
+                get => channelOverride;
+                set => SetProperty(ref channelOverride, value);
+            }
+
             private bool isControllingSomething;
 
             public bool IsControllingSomething
@@ -605,8 +630,93 @@ namespace RGBSyncPlus.Model
 
         }
 
+        public class DeviceOverrides : BaseViewModel
+        {
+            private string titleOverride;
+            private string subTitleOverride;
+            private string channelOverride;
+
+            public string TitleOverride
+            {
+                get => titleOverride;
+                set
+                {
+                    SetProperty(ref titleOverride, value);
+                    PushUpdate();
+                }
+            }
+
+            public string SubTitleOverride
+            {
+                get => subTitleOverride;
+                set
+                {
+                    SetProperty(ref subTitleOverride, value);
+                    PushUpdate();
+                }
+            }
+
+            public string ChannelOverride
+            {
+                get => channelOverride;
+                set
+                {
+                    SetProperty(ref channelOverride, value);
+                    PushUpdate();
+                }
+            }
+
+            private string name;
+            public string Name
+            {
+                get => name;
+                set
+                {
+                    SetProperty(ref name, value);
+                   // PushUpdate();
+                }
+            }
+
+            private string connectedTo;
+
+            public string ConnectedTo
+            {
+                get => connectedTo;
+                set
+                {
+                    SetProperty(ref connectedTo, value);
+                   // PushUpdate();
+                }
+            }
+
+            private string providerName;
+            public string ProviderName
+            {
+                get => providerName;
+                set
+                {
+                    SetProperty(ref providerName, value);
+                   // PushUpdate();
+                }
+            }
+
+            private void PushUpdate()
+            {
+                ApplicationManager.Instance.SetOverride(this);
+            }
+        }
+
         public class Device : BaseViewModel
         {
+            private DeviceOverrides overrides;
+
+            [JsonIgnore]
+            public DeviceOverrides Overrides
+            {
+                get => overrides;
+                set => SetProperty(ref overrides, value);
+            }
+
             private bool selected;
 
             public bool Selected

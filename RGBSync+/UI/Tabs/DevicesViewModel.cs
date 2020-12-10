@@ -372,6 +372,16 @@ namespace RGBSyncPlus.UI.Tabs
         }
 
 
+
+        private bool alignDevice;
+
+        public bool AlignDevice
+        {
+            get => alignDevice;
+            set => SetProperty(ref alignDevice, value);
+        }
+
+
         private bool singleDeviceSelected;
 
         public bool SingledDeviceSelected
@@ -465,6 +475,7 @@ namespace RGBSyncPlus.UI.Tabs
                             ? device.Driver.Name()
                             : device.TitleOverride,
                         ConnectedTo = device.ConnectedTo,
+                        Overrides = ApplicationManager.Instance.GetOverride(device)
 
                     });
                 }
