@@ -275,7 +275,6 @@
                         <StackPanel>
                             <TextBlock Text="{Binding Overrides.SubTitleOverride}" Margin="6" FontSize="14" MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right"  Foreground="{DynamicResource SystemBaseHighColorBrush}" />
                             <TextBlock Text="{Binding Overrides.ChannelOverride}" Margin="6" FontSize="12" MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right" Visibility="{Binding ConnectedTo, Converter={StaticResource NonEmptyStringToVisibilityConverter}}"  Foreground="{DynamicResource SystemBaseHighColorBrush}" />
-
                         </StackPanel>
                     </Grid>
 
@@ -469,7 +468,7 @@
 
                 </Grid>
 
-                <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisConverter}}" >
+                <Grid Margin="10" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisConverter}}" >
                     <StackPanel Orientation="Horizontal">
                     <StackPanel Background="Transparent" HorizontalAlignment="Left" >
                         <CheckBox FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.Language, ConverterParameter=Customize.Align, Converter={StaticResource LocConverter}}"
@@ -497,11 +496,11 @@
                         <StackPanel Background="Transparent" HorizontalAlignment="Left" Margin="10,0">
 
                             <Label Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="16" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.Language, ConverterParameter=Customize.TitleOverride, Converter={StaticResource LocConverter}}"/>
-                            <TextBox Text="{Binding Overrides.TitleOverride}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20" Width="300"/>
+                            <TextBox Text="{Binding Overrides.TitleOverride}" Style="{DynamicResource TextBoxRevealStyle}"  VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20" Width="300"/>
                             <Label Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="16" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.Language, ConverterParameter=Customize.SubTitleOverride, Converter={StaticResource LocConverter}}"/>
-                            <TextBox Text="{Binding Overrides.SubTitleOverride}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20" Width="300"/>
+                            <TextBox Text="{Binding Overrides.SubTitleOverride}" Style="{DynamicResource TextBoxRevealStyle}" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20" Width="300"/>
                             <Label Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="16" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.Language, ConverterParameter=Customize.ChannelOverride, Converter={StaticResource LocConverter}}"/>
-                            <TextBox Text="{Binding Overrides.ChannelOverride}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20" Width="300"/>
+                            <TextBox Text="{Binding Overrides.ChannelOverride}" Style="{DynamicResource TextBoxRevealStyle}" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20" Width="300"/>
 
                         </StackPanel>
 
