@@ -83,7 +83,8 @@ namespace RGBSyncPlus
                 Author = "RGB Sync Studio Team",
                 Blurb = "Solid Colors provided by Color Profile",
                 CurrentVersion = new ReleaseNumber(1, 0, 0, 0),
-                IsPublicRelease = true
+                IsPublicRelease = true,
+                SetColorProfileAction = SetColorProfile
             };
         }
 
@@ -217,7 +218,8 @@ namespace RGBSyncPlus
                 Author = "RGB Sync Studio Team",
                 Blurb = "Solid Colors provided by Color Profile",
                 CurrentVersion = new ReleaseNumber(1, 0, 0, 0),
-                IsPublicRelease = true
+                IsPublicRelease = true,
+                SetColorProfileAction = SetColorProfile
             };
         }
 
