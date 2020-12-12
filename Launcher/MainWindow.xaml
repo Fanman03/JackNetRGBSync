@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Launcher"
         mc:Ignorable="d"
         Title="RGB Sync Studio Launcher" Height="300" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
-        >
+>
 
     <Grid>
         

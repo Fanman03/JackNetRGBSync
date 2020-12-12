@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,7 +36,7 @@ namespace Launcher
 
         private async void AcrylicWindow_Loaded(object sender, RoutedEventArgs e)
         {
-
+            Thread.Sleep(100);
             await StartCheck();
         }
 
@@ -101,6 +103,25 @@ namespace Launcher
             await Task.Delay(2000);
 
             System.Windows.Application.Current.Shutdown();
+        }
+
+        private void UpgradingWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Key == Key.LeftShift) && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+            {
+                try
+                {
+                    LoadingText.Text = "Resetting app...";
+                    Directory.Delete(BaseFolder, true);
+                    Thread.Sleep(200);
+                    Process.Start(Assembly.GetExecutingAssembly().Location);
+                    Environment.Exit(-1);
+                }
+                catch
+                {
+
+                }
+            }
         }
     }
 }

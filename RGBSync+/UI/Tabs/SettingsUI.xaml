@@ -68,21 +68,16 @@
                 <Label Grid.Column="2" Grid.Row="7" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.SimpleLedAuthHelp, Converter={StaticResource LocConverter}}"/>
             </StackPanel>
 
-            <Button Background="#80000000" Style="{StaticResource SmallSquareIcon}"  Click="Button_Click" Width="180" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Visibility="{Binding SimpleLedUserName, Converter={StaticResource EmptyStringToVisibilityConverter}}">
+            <Button Style="{StaticResource SmallSquareIcon}"  Click="Button_Click" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Visibility="{Binding SimpleLedUserName, Converter={StaticResource EmptyStringToVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <TextBlock></TextBlock>
-                    <TextBlock FontFamily="Segoe UI Light" VerticalAlignment="Center" FontSize="18" Margin="8,0,0,0" Text="{Binding Language, ConverterParameter=Settings.SimpleLedLogIn, Converter={StaticResource LocConverter}}"></TextBlock>
+                    <TextBlock FontFamily="Segoe UI Light" VerticalAlignment="Center" FontSize="18" Margin="8,0,8,0" Text="{Binding Language, ConverterParameter=Settings.SimpleLedLogIn, Converter={StaticResource LocConverter}}"></TextBlock>
                 </StackPanel>
             </Button>
             <StackPanel Orientation="Horizontal" Visibility="{Binding SimpleLedUserName, Converter={StaticResource NonEmptyStringToVisibilityConverter}}">
                 
-                <TextBox VerticalAlignment="Center" Margin="10,0,0,0" FontFamily="Segoe UI Light" FontSize="16" Width="400" Style="{StaticResource TextBoxRevealStyle}" VerticalContentAlignment="Center" Text="{Binding SimpleLedUserName}" IsReadOnly="True"/>
-                <Button Background="#80000000" Style="{StaticResource SmallSquareIcon}"  Click="LogOut" Width="180" HorizontalContentAlignment="Left" HorizontalAlignment="Left" >
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <TextBlock></TextBlock>
-                        <TextBlock FontFamily="Segoe UI Light" VerticalAlignment="Center" FontSize="18" Margin="8,0,0,0" Text="{Binding Language, ConverterParameter=Settings.SimpleLedLogOut, Converter={StaticResource LocConverter}}"></TextBlock>
-                    </StackPanel>
-                </Button>
+                <TextBox VerticalAlignment="Center" Margin="10,0,0,0" FontFamily="Segoe UI Light" FontSize="16" Width="200" Style="{StaticResource TextBoxRevealStyle}" VerticalContentAlignment="Center" Text="{Binding SimpleLedUserName}" IsReadOnly="True"/>
+                <Button Margin="0,0,10,0" Style="{StaticResource ButtonRevealStyle}" Width="36" Click="LogOut" Height="36" ToolTip="{Binding Language, ConverterParameter=Settings.SimpleLedLogOut, Converter={StaticResource LocConverter}}" FontSize="18" FontFamily="Segoe MDL2 Assets" Content=""/>
             </StackPanel>
 
             <Grid Margin="0,15"></Grid>
