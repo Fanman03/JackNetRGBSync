@@ -6,10 +6,17 @@
              xmlns:local="clr-namespace:ColorPickerWPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,0,0,0">
-        <StackPanel Orientation="Horizontal">
-            <TextBox x:Name="ColorBox" Margin="0,0,0,0" Style="{StaticResource TextBoxRevealStyle}" Width="100" TextChanged="ColorBox_OnChanged" Loaded="ColorBox_OnLoaded" ></TextBox>
-            <Button x:Name="ColorIcon" Width="35" Style="{StaticResource ButtonRevealStyle}" FontSize="16" FontFamily="Segoe MDL2 Assets" Content="&#xE104;" Click="EditBtn_OnClick"/>
+    
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+            <TextBox x:Name="ColorBox" Margin="0,0,0,0" Style="{StaticResource TextBoxRevealStyle}" Width="100" TextChanged="ColorBox_OnChanged" Loaded="ColorBox_OnLoaded" BorderThickness="0"></TextBox>
+            <Button x:Name="ColorIcon" Width="35" Style="{StaticResource ButtonRevealStyle}" FontSize="16" FontFamily="Segoe MDL2 Assets" Click="EditBtn_OnClick" BorderThickness="0">
+                <TextBlock Text="&#xE104;">
+                    <TextBlock.Effect>
+                        <DropShadowEffect ShadowDepth="1" Direction="300" Color="Black" BlurRadius="1"/>
+
+                    </TextBlock.Effect>
+                </TextBlock>
+                </Button>
         </StackPanel>
-    </StackPanel>
+    
 </UserControl>

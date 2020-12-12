@@ -77,7 +77,7 @@ namespace RGBSyncPlus.UI
 
         private void CloseModal(object sender, RoutedEventArgs e)
         {
-            //vm.ShowModal = false;
+            vm.ShowModal = false;
         }
 
         private void ToggleHamburger(object sender, RoutedEventArgs e)

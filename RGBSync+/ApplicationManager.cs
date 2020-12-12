@@ -135,7 +135,22 @@ namespace RGBSyncPlus
 
         internal void ShowModal(ModalModel modalModel)
         {
-            throw new NotImplementedException();
+            MainWindowViewModel vm = ((MainWindowViewModel)ConfigurationWindow.DataContext);
+
+            vm.ModalText = modalModel.ModalText;
+            vm.ModalShowPercentage = false;
+            vm.ShowModalCloseButton = true;
+            vm.ShowModal = true;
+        }
+
+        internal void ShowSimpleModal(string text)
+        {
+            MainWindowViewModel vm = ((MainWindowViewModel)ConfigurationWindow.DataContext);
+
+            vm.ModalText = text;
+            vm.ModalShowPercentage = false;
+            vm.ShowModalCloseButton = true;
+            vm.ShowModal = true;
         }
 
         public DiscordRpcClient client;
@@ -149,6 +164,60 @@ namespace RGBSyncPlus
         public void NavigateToTab(string tab)
         {
             ConfigurationWindow.SetTab(tab);
+        }
+
+        public List<ColorProfile> GetColorProfiles()
+        {
+            var dir = Directory.GetFiles("ColorProfiles");
+            var result= dir.Select(s => JsonConvert.DeserializeObject<ColorProfile>(File.ReadAllText(s))).ToList();
+            if (result.Count == 0)
+            {
+                result = new List<ColorProfile>
+                {
+                    new ColorProfile
+                    {
+                        Id = Guid.Empty,
+                        ProfileName = "Default",
+                        ColorBanks = new ObservableCollection<ColorBank>
+                        {
+                            new ColorBank
+                            {
+                                BankName = "Primary",
+                                Colors = new ObservableCollection<ColorObject>
+                                {
+                                    new ColorObject {ColorString = "#ff0000"}, new ColorObject {ColorString = "#000000"}
+                                }
+                            },
+                            new ColorBank
+                            {
+                                BankName = "Secondary",
+                                Colors = new ObservableCollection<ColorObject>
+                                {
+                                    new ColorObject {ColorString = "#00ff00"}, new ColorObject {ColorString = "#000000"}
+                                }
+                            },
+                            new ColorBank
+                            {
+                                BankName = "Tertiary",
+                                Colors = new ObservableCollection<ColorObject>
+                                {
+                                    new ColorObject {ColorString = "#0000ff"}, new ColorObject {ColorString = "#000000"}
+                                }
+                            },
+                            new ColorBank
+                            {
+                                BankName = "Auxilary",
+                                Colors = new ObservableCollection<ColorObject>
+                                {
+                                    new ColorObject {ColorString = "#ff00ff"}, new ColorObject {ColorString = "#000000"}
+                                }
+                            }
+                        }
+                    }
+                };
+            }
+
+            return result;
         }
 
         private readonly Dictionary<string, string> profilePathMapping = new Dictionary<string, string>();
@@ -497,6 +566,55 @@ namespace RGBSyncPlus
                     CurrentProfile.Id = Guid.Parse(gid);
                 }
 
+                if (CurrentProfile.ColorProfileId != null)
+                {
+                    try
+                    {
+                        CurrentProfile.LoadedColorProfile =
+                            JsonConvert.DeserializeObject<ColorProfile>(
+                                File.ReadAllText("ColorProfiles\\" + CurrentProfile.ColorProfileId + ".json"));
+
+                        SLSManager.ColorProfile = CurrentProfile.LoadedColorProfile;
+                    }
+                    catch (Exception ee)
+                    {
+                        Logger.Info("Color Profile not loaded, " + ee.Message);
+                    }
+                }
+
+                if (CurrentProfile.LoadedColorProfile == null)
+                {
+                    CurrentProfile.LoadedColorProfile =  new ColorProfile
+                    {
+                        Id = Guid.Empty,
+                        ProfileName = profileName,
+                        ColorBanks = new ObservableCollection<ColorBank>
+                        {
+                            new ColorBank
+                            {
+                                BankName = "Primary",
+                                Colors = new ObservableCollection<ColorObject>{ new ColorObject { ColorString = "#ff0000" } , new ColorObject { ColorString = "#000000" } }
+                            },
+                            new ColorBank
+                            {
+                                BankName = "Secondary",
+                                Colors = new ObservableCollection<ColorObject>{ new ColorObject { ColorString = "#00ff00" } , new ColorObject { ColorString = "#000000" } }
+                            },new ColorBank
+                            {
+                                BankName = "Tertiary",
+                                Colors = new ObservableCollection<ColorObject>{ new ColorObject { ColorString = "#0000ff" } , new ColorObject { ColorString = "#000000" } }
+                            },new ColorBank
+                            {
+                                BankName = "Auxilary",
+                                Colors = new ObservableCollection<ColorObject>{ new ColorObject { ColorString = "#ff00ff" } , new ColorObject { ColorString = "#000000" } }
+                            }
+                        }
+                    };
+
+                    CurrentProfile.ColorProfileId = Guid.Empty;
+                    CurrentProfile.IsProfileStale = true;
+                }
+
                 NGSettings.CurrentProfile = profileName;
             }
         }
@@ -683,7 +801,7 @@ namespace RGBSyncPlus
                 }
             }
 
-        
+
 
             //foreach (var controlDevice in SLSDevices)
             //{
@@ -981,15 +1099,33 @@ namespace RGBSyncPlus
 
             }
 
+            SolidColorDevice = new SolidColorDriver();
+            GradientDriver=new GradientDriver();
+
+
+
             SLSManager.Drivers.Add(RssBackgroundDevice);
+            SLSManager.Drivers.Add(SolidColorDevice);
+            SLSManager.Drivers.Add(GradientDriver);
             RssBackgroundDevice.DeviceAdded += SlsDriver_DeviceAdded;
             RssBackgroundDevice.DeviceRemoved += SlsDriver_DeviceRemoved;
 
-            SLSManager.RescanRequired += Rescan;
+            SolidColorDevice.DeviceAdded += SlsDriver_DeviceAdded;
+            SolidColorDevice.DeviceRemoved += SlsDriver_DeviceRemoved;
 
+            GradientDriver.DeviceAdded += SlsDriver_DeviceAdded;
+            GradientDriver.DeviceRemoved += SlsDriver_DeviceRemoved;
+
+            SolidColorDevice.Configure(new DriverDetails());
+            GradientDriver.Configure(new DriverDetails());
+            
+            SLSManager.RescanRequired += Rescan;
             loadingSplash.LoadingText.Text = "Updating SLS devices";
             UpdateSLSDevices();
         }
+
+        public SolidColorDriver SolidColorDevice { get; set; }
+        public GradientDriver GradientDriver { get; set; }
 
         public void LoadPlung(string file)
         {
@@ -1127,7 +1263,8 @@ namespace RGBSyncPlus
                     Name = cd.Name,
                     ConnectedTo = cd.ConnectedTo,
                     ProviderName = cd.Driver?.Name(),
-                    TitleOverride = string.IsNullOrWhiteSpace(cd.TitleOverride) ? cd.Driver.Name() : cd.TitleOverride, ChannelOverride = cd.ConnectedTo,
+                    TitleOverride = string.IsNullOrWhiteSpace(cd.TitleOverride) ? cd.Driver.Name() : cd.TitleOverride,
+                    ChannelOverride = cd.ConnectedTo,
                     SubTitleOverride = cd.Name
                 };
             }

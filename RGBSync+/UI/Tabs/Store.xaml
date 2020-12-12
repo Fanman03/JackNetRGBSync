@@ -14,9 +14,11 @@
 
         <converter:StringMatchToVisibilityConverter x:Key="StringMatchToVisConverter"/>
         <converter:IndeterminateBoolToOpacityConverter x:Key="IndeterminateBoolToOpacityConverter"/>
+        <converter:PercentageConverter x:Key="PercentageConverter"/>
         <converter:InvertedBoolToVisibilityConverter x:Key="InvertedBoolToVisConverter"/>
         <converter:BoolToVisibilityConverter x:Key="BoolToVisConverter"/>
         <converter:DeviceTypeToImageConverter x:Key="DeviceTypeToImageConverter"/>
+        <converter:SubtractorConverter x:Key="SubtractorConverter"/>
 
         <DataTemplate x:Key="PluginItemTemplate">
             <Grid Height="100" Margin="8,8,8,0" Background="#c0000000"  MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" fw:PointerTracker.Enabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -26,7 +28,7 @@
                     <ColumnDefinition MinWidth="180"/>
                     <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
-
+                
                 <Grid Grid.Column="0" Grid.ColumnSpan="4" Visibility="{Binding InstalledButOutdated, Converter={StaticResource InvertedBoolToVisConverter}}">
                     <Rectangle Fill="{StaticResource Tc-Blue}" Opacity="0.5" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}"></Rectangle>
                 </Grid>
@@ -46,25 +48,25 @@
                         <TextBlock Foreground="#c0c0c0" Text="" FontSize="24" FontFamily="Segoe MDL2 Assets"  VerticalAlignment="Center" Margin="5" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}" ToolTip="{Binding Language, ConverterParameter=Store.UpdateAvail, Converter={StaticResource LocConverter}}"></TextBlock>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Vertical" Grid.Column="2">
+                <StackPanel Orientation="Vertical" Grid.Column="2" Width="{Binding ActualWidth, ConverterParameter=582, Converter={StaticResource SubtractorConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
 
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="10,0,0,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="Older version" VerticalAlignment="Center" Visibility="{Binding InstalledButOutdated, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
                         <TextBlock Margin="4,0" FontSize="14" FontFamily="Segoe UI Light" Foreground="White" FontWeight="Light" Text="{Binding Language, ConverterParameter=Store.Plugin.InstallBtnLabel, Converter={StaticResource LocConverter}}" VerticalAlignment="Center" Visibility="{Binding Installed, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
                     </StackPanel>
-                    <Viewbox StretchDirection="Both" Stretch="Uniform" HorizontalAlignment="Left">
+                    <ScrollViewer HorizontalAlignment="Left">
                         <TextBlock 
                         Margin="10,0" 
-                        HorizontalAlignment="Center" 
+                        HorizontalAlignment="Stretch" 
                         FontSize="16" 
                         FontFamily="Segoe UI Light" 
                         Foreground="White" 
                         FontWeight="Light" 
                         Text="{Binding Blurb}" 
-                        VerticalAlignment="Center" 
+                        VerticalAlignment="Stretch" 
                         
                         TextWrapping="WrapWithOverflow"/>
-                    </Viewbox>
+                    </ScrollViewer>
                 </StackPanel>
 
                 <StackPanel Grid.Column="3" HorizontalAlignment="Right">
@@ -180,7 +182,8 @@
 
         </Grid>
 
-        <ListView Grid.Column="0" ItemsSource="{Binding FilteredPlugins}" ItemTemplate="{DynamicResource PluginItemTemplate}" Grid.Row="1" Margin="0,0,0,10" Grid.ColumnSpan="2" IsSynchronizedWithCurrentItem="True" Background="{x:Null}" HorizontalContentAlignment="Stretch" ></ListView>
+        <ListView Grid.Column="0" ItemsSource="{Binding FilteredPlugins}" ItemTemplate="{DynamicResource PluginItemTemplate}" Grid.Row="1" Margin="0,0,0,10" Grid.ColumnSpan="2" IsSynchronizedWithCurrentItem="True" Background="{x:Null}" HorizontalContentAlignment="Stretch" 
+                  Width="{Binding ActualWidth, ConverterParameter=100, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"></ListView>
 
         <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="#d0000000" Visibility="{Binding ShowConfig, Converter={StaticResource BoolToVisConverter}}" d:IsHidden="True"/>
 

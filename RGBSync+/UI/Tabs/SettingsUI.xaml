@@ -170,7 +170,7 @@
                 <Label Grid.Column="2" Grid.Row="13" HorizontalContentAlignment="Left" FontFamily="Segoe UI" FontSize="12" Foreground="{DynamicResource SystemBaseHighColorBrush}" VerticalAlignment="Center" Content="{Binding Language, ConverterParameter=Settings.AccentColorHelp, Converter={StaticResource LocConverter}}"/>
             </StackPanel>
 
-            <controls:CompactPickerControl Margin="10,0,0,0" Color="White"></controls:CompactPickerControl>
+            <!--<controls:CompactPickerControl Margin="10,0,0,0" Color="White"></controls:CompactPickerControl>-->
 
             <Grid Margin="0,15"></Grid>
             <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" HorizontalContentAlignment="Right" FontFamily="Segoe UI" FontSize="20" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding Language, ConverterParameter=Settings.MinimizeBehaviour, Converter={StaticResource LocConverter}}"/>

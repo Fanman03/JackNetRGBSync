@@ -323,6 +323,27 @@ namespace RGBSyncPlus.Model
 
         public class NGProfile : BaseViewModel
         {
+
+            private ColorProfile colorProfile;
+
+            [JsonIgnore]
+            public ColorProfile LoadedColorProfile
+            {
+                get => colorProfile;
+                set { SetProperty(ref colorProfile, value); }
+            }
+            private Guid? colorProfileId;
+
+            public Guid? ColorProfileId
+            {
+                get => colorProfileId;
+                set
+                {
+                    SetProperty(ref colorProfileId, value);
+                    IsProfileStale = true;
+                }
+            }
+
             [JsonIgnore]
             public bool IsProfileStale { get; set; }
 

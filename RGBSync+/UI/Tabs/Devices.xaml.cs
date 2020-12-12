@@ -208,8 +208,9 @@ namespace RGBSyncPlus.UI.Tabs
                   
                 vm.RefreshDevicesUI();
             }
-            catch
+            catch(Exception eee)
             {
+                Debug.WriteLine(eee.Message);
             }
 
             vm.SinkThing();

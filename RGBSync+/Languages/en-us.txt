@@ -84,6 +84,8 @@ TrayMenu.ExitAppItem	Exit App
 TrayMenu.OpenUIItem	Open App
 TrayMenu.RestartAppItem	Restart App
 TrayMenu.TechSupportItem	Tech Support
+ColorProfile.AddProfile Add Profile
+ColorProfile.DeleteProfile  Delete Profile
 UI.AboutTabHeader	About
 UI.AppName	RGB Sync
 UI.DeviceTabHeader	Devices

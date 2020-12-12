@@ -35,8 +35,7 @@ namespace RGBSyncPlus.UI.Tabs
             ShowUpdates = false;
 
             if (ApplicationManager.Instance.SLSDevices != null && ApplicationManager.Instance.SLSDevices.Count(x =>
-                x.Driver != null && x.Driver.GetProperties().Id !=
-                Guid.Parse("11111111-1111-1111-1111-111111111111")) == 0)
+                x.Driver != null && !x.Driver.GetProperties().Id.ToString().StartsWith("1111")) == 0)
             {
                 ShowInstalled = false;
                 ShowStore = true;
@@ -132,17 +131,17 @@ namespace RGBSyncPlus.UI.Tabs
 
                 if (ShowUpdates)
                 {
-                    return new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(Plugins.Where(x => x.InstalledButOutdated));
+                    return new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(Plugins.Where(x => x.InstalledButOutdated && !x.Id.ToString().StartsWith("11111")));
                 }
                 else
                 {
                     if (ShowStore)
                     {
-                        return new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(Plugins);
+                        return new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(Plugins.Where(x => !x.Id.ToString().StartsWith("11111")));
                     }
                     else
                     {
-                        return new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(Plugins.Where(x => x.Installed));
+                        return new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(Plugins.Where(x => x.Installed && !x.Id.ToString().StartsWith("11111")));
                     }
                 }
             }

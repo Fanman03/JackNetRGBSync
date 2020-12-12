@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,30 +21,87 @@ namespace ColorPickerWPF.Controls
     /// </summary>
     public partial class CompactPickerControl : UserControl
     {
-        public Color Color { get; set; }
+        public static readonly DependencyProperty PickedColorProperty = DependencyProperty.Register("PickedColor", typeof(string), typeof(CompactPickerControl), new FrameworkPropertyMetadata("#000000", FrameworkPropertyMetadataOptions.AffectsRender, PropertyChangedCallback));
+
+        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            CompactPickerControl input = (CompactPickerControl)d;
+
+            if (e.NewValue is string col)
+            {
+
+                input.PickedColor = col;
+                if (input.ColorBox.Text != input.PickedColor)
+                {
+                    input.ColorBox.Text = input.PickedColor;
+                }
+                if (input.PickedColor.Replace("#", "").Length == 6)
+                {
+                    try
+                    {
+                        input.Color = (System.Windows.Media.Color)ColorConverter.ConvertFromString(input.PickedColor);
+
+                        input.ColorIcon.Background = new SolidColorBrush(input.Color);
+                    }
+                    catch (Exception ee)
+                    {
+                        Debug.WriteLine(ee.Message);
+                    }
+                }
+
+            }
+        }
+
+        private void SetColor()
+        {
+            if (PickedColor.Replace("#", "").Length == 6)
+            {
+                try
+                {
+                    Color = (System.Windows.Media.Color)ColorConverter.ConvertFromString(PickedColor);
+                    ColorIcon.Background = new SolidColorBrush(Color);
+                    Debug.WriteLine(PickedColor);
+                }
+                catch(Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
+            }
+        }
+
         public CompactPickerControl()
         {
             InitializeComponent();
-            this.DataContext = this;
+            //this.DataContext = this;
         }
         private void ColorBox_OnChanged(object sender, TextChangedEventArgs e)
         {
-            try
-            {
-                TextBox colorBox = sender as TextBox;
-                Color = HexToColor(colorBox.Text.ToString());
-                ColorIcon.Foreground = new SolidColorBrush(Color);
-                ColorBox.Text = Color.ToString();
-            }
-            catch
-            {
+            TextBox colorBox = sender as TextBox;
+            PickedColor = colorBox.Text;
+            SetColor();
 
-            }
         }
 
         private void ColorBox_OnLoaded(object sender, RoutedEventArgs e)
         {
-            ColorBox.Text = Color.ToString();
+            ColorBox.Text = PickedColor;
+        }
+
+        public string PickedColor
+        {
+            get => (string)GetValue(PickedColorProperty);
+            set => SetValue(PickedColorProperty, value);
+        }
+
+        private Color color;
+
+        public Color Color
+        {
+            get => color;
+            set
+            {
+                color = value;
+            }
         }
 
         private void EditBtn_OnClick(object sender, RoutedEventArgs e)
@@ -51,15 +109,21 @@ namespace ColorPickerWPF.Controls
             ColorPickerWindow picker = new ColorPickerWindow();
             Color color;
             bool showWindow = ColorPickerWindow.ShowDialog(out color, HexToColor(ColorBox.Text));
-            Color = color;
-            ColorIcon.Foreground = new SolidColorBrush(Color);
-            ColorBox.Text = Color.ToString();
+            string ccc = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+            PickedColor = ccc;
+            ColorBox.Text = PickedColor;
+            SetColor();
         }
 
         public static System.Windows.Media.Color HexToColor(String hex)
         {
             //remove the # at the front
             hex = hex.Replace("#", "");
+
+            if (string.IsNullOrWhiteSpace(hex))
+            {
+                return Colors.Transparent;
+            }
 
             byte a = 255;
             byte r = 255;
