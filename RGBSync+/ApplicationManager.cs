@@ -168,6 +168,11 @@ namespace RGBSyncPlus
 
         public List<ColorProfile> GetColorProfiles()
         {
+            if (!Directory.Exists("ColorProfiles"))
+            {
+                Directory.CreateDirectory("ColorProfiles");
+            }
+
             var dir = Directory.GetFiles("ColorProfiles");
             var result= dir.Select(s => JsonConvert.DeserializeObject<ColorProfile>(File.ReadAllText(s))).ToList();
             if (result.Count == 0)
