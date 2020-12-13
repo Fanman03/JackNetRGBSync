@@ -922,7 +922,7 @@ namespace RGBSyncPlus
                 {
                     Task.Run(async () =>
                    {
-                       foreach (PushListItem t in gp)
+                       foreach (PushListItem t in gp.ToList())
                        {
                            try
                            {
@@ -930,7 +930,7 @@ namespace RGBSyncPlus
                            }
                            catch { }
                        }
-                       foreach (PushListItem t in gp)
+                       foreach (PushListItem t in gp.ToList())
                        {
                            try
                            {

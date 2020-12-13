@@ -43,7 +43,7 @@ namespace RGBSyncPlus
                     {
                         Color = new LEDColor(0, 0, 0),
                         Data = new ControlDevice.LEDData { LEDNumber = p },
-                        LEDName = "LED "+(p+1)
+                        LEDName = "LED " + (p + 1)
                     };
                 }
 
@@ -131,18 +131,13 @@ namespace RGBSyncPlus
                 }
 
 
-                float steps = 1 / 16f;
-
-                Vector3 pcv = new Vector3(pc.Color.Red,pc.Color.Green,pc.Color.Blue);
-                Vector3 dcv = new Vector3(dc.Color.Red, dc.Color.Green, dc.Color.Blue);
-                for (int p = 0; p < 16; p++)
+                dd.LEDs = cc.Colors.Select(x => new ControlDevice.LedUnit
                 {
-                    Vector3 stage = Vector3.Lerp(pcv,dcv,steps*p);
-                    dd.LEDs[0].Color.Red = (int)stage.X;
-                    dd.LEDs[0].Color.Green = (int)stage.Y;
-                    dd.LEDs[0].Color.Blue = (int)stage.Z;
-                }
+                    Color = new LEDColor(x.Color.Red, x.Color.Green, x.Color.Blue)
+                }).ToArray();
 
+                float steps = 1 / 16f;
+                
                 dd.Name = value.ColorBanks[i].BankName;
                 dd.ProductImage = Bmp;
             }
