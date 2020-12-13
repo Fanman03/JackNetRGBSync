@@ -183,27 +183,40 @@ namespace RGBSyncPlus
                     {
                         Id = Guid.Empty,
                         ProfileName = "Default",
-                        ColorBanks = new ObservableCollection<ColorBank>
+                        ColorBanks = new ObservableCollection<ColorBank>()
                         {
-                            new ColorBank
+                            new ColorBank()
                             {
-                                BankName = "Primary",
+                                BankName = "Basics",
                                 Colors = new ObservableCollection<ColorObject>
                                 {
-                                    new ColorObject {ColorString = "#ff0000"}, new ColorObject {ColorString = "#000000"}
+                                    new ColorObject {Color = new ColorModel(255,0,0)},
+                                    new ColorObject {Color = new ColorModel(255,255,0)},
+                                    new ColorObject {Color = new ColorModel(0,255,0)},
+                                    new ColorObject {Color = new ColorModel(0,0,255)},
+                                    new ColorObject {Color = new ColorModel(255,255,255)},
+                                }
+                            },
+                            new ColorBank()
+                            {
+                                BankName = "Rainbow",
+                                Colors = new ObservableCollection<ColorObject>
+                                {
+                                    new ColorObject {Color = new ColorModel(255,0,0)},
+                                    new ColorObject {Color = new ColorModel(255,153,0)},
+                                    new ColorObject {Color = new ColorModel(204,255,0)},
+                                    new ColorObject {Color = new ColorModel(51, 255, 0)},
+                                    new ColorObject {Color = new ColorModel(0, 255, 102)},
+                                    new ColorObject {Color = new ColorModel(0, 255, 255)},
+                                    new ColorObject {Color = new ColorModel(0, 102, 255)},
+                                    new ColorObject {Color = new ColorModel(51,0,255)},
+                                    new ColorObject {Color = new ColorModel(204, 0, 255)},
+                                    new ColorObject {Color = new ColorModel(255, 0, 153)},
                                 }
                             },
                             new ColorBank
                             {
-                                BankName = "Secondary",
-                                Colors = new ObservableCollection<ColorObject>
-                                {
-                                    new ColorObject {ColorString = "#00ff00"}, new ColorObject {ColorString = "#000000"}
-                                }
-                            },
-                            new ColorBank
-                            {
-                                BankName = "Tertiary",
+                                BankName = "Swatch 3",
                                 Colors = new ObservableCollection<ColorObject>
                                 {
                                     new ColorObject {ColorString = "#0000ff"}, new ColorObject {ColorString = "#000000"}
@@ -211,7 +224,7 @@ namespace RGBSyncPlus
                             },
                             new ColorBank
                             {
-                                BankName = "Auxilary",
+                                BankName = "Swatch 4",
                                 Colors = new ObservableCollection<ColorObject>
                                 {
                                     new ColorObject {ColorString = "#ff00ff"}, new ColorObject {ColorString = "#000000"}
