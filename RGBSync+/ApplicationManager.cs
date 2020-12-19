@@ -73,8 +73,8 @@ namespace RGBSyncPlus
         //  public AppSettings AppSettings { get; set; } = new AppSettings();
         //public TimerUpdateTrigger UpdateTrigger { get; private set; } = new TimerUpdateTrigger();
 
-        public DispatcherTimer UpdateTrigger { get; private set; } = new DispatcherTimer();
-
+        //public DispatcherTimer UpdateTrigger { get; private set; } = new DispatcherTimer();
+        public System.Timers.Timer SLSTimer;
         #endregion
 
         #region Commands
@@ -174,7 +174,7 @@ namespace RGBSyncPlus
             }
 
             var dir = Directory.GetFiles("ColorProfiles");
-            var result= dir.Select(s => JsonConvert.DeserializeObject<ColorProfile>(File.ReadAllText(s))).ToList();
+            var result = dir.Select(s => JsonConvert.DeserializeObject<ColorProfile>(File.ReadAllText(s))).ToList();
             if (result.Count == 0)
             {
                 result = new List<ColorProfile>
@@ -381,20 +381,28 @@ namespace RGBSyncPlus
                 LoadProfileFromName(NGSettings.CurrentProfile);
             }
 
-            if (UpdateTrigger != null)
+            if (SLSTimer != null)
             {
-                UpdateTrigger.Stop();
+                SLSTimer.Stop();
+                SLSTimer.Dispose();
+                SLSTimer = null;
             }
 
             double tmr = 1.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
             double tmr2 = 1000.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
-            UpdateTrigger = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(tmr) };
+            //UpdateTrigger = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(tmr) };
+            //UpdateTrigger.Tick += OnUpdateTriggerOnTick;
 
             //  loadingSplash.LoadingText.Text = "Registering Update Trigger";
 
-            UpdateTrigger.Start();
+            //UpdateTrigger.Start();
 
-            slsTimer = new Timer(SLSUpdate, null, 0, (int)tmr2);
+            Debug.WriteLine("Setting up timer with ms of " + tmr2);
+            SLSTimer = new System.Timers.Timer(tmr2);
+            SLSTimer.AutoReset = true;
+            SLSTimer.Elapsed += (sender, args) => SLSUpdate(null);
+            SLSTimer.Start();
+
 
             server?.CloseAsync().Wait();
 
@@ -455,6 +463,11 @@ namespace RGBSyncPlus
             }
 
             isHotLoading = false;
+        }
+
+        private void OnUpdateTriggerOnTick(object sender, EventArgs args)
+        {
+            SLSUpdate(null);
         }
 
         public bool SettingsRequiresSave()
@@ -589,7 +602,7 @@ namespace RGBSyncPlus
 
                 if (CurrentProfile.LoadedColorProfile == null)
                 {
-                    CurrentProfile.LoadedColorProfile =  new ColorProfile
+                    CurrentProfile.LoadedColorProfile = new ColorProfile
                     {
                         Id = Guid.Empty,
                         ProfileName = profileName,
@@ -723,7 +736,7 @@ namespace RGBSyncPlus
 
         public HttpSelfHostServer server;
         public DispatcherTimer profileTriggerTimer;
-        public Timer slsTimer;
+        //public Timer slsTimer;
         public Timer configTimer;
         public void SetUpMappedDevicesFromConfig()
         {
@@ -824,6 +837,11 @@ namespace RGBSyncPlus
             public ISimpleLed Driver { get; set; }
             public ControlDevice Device { get; set; }
             public string Key { get; set; }
+
+        }
+
+        private void SLSUpdateLoop()
+        {
 
         }
         private void SLSUpdate(object state)
@@ -927,6 +945,7 @@ namespace RGBSyncPlus
                            try
                            {
                                gp.Key.Push(t.Device);
+                               await Task.Delay(0);
                            }
                            catch { }
                        }
@@ -1105,7 +1124,7 @@ namespace RGBSyncPlus
             }
 
             SolidColorDevice = new SolidColorDriver();
-            GradientDriver=new GradientDriver();
+            GradientDriver = new GradientDriver();
 
 
 
@@ -1123,7 +1142,7 @@ namespace RGBSyncPlus
 
             SolidColorDevice.Configure(new DriverDetails());
             GradientDriver.Configure(new DriverDetails());
-            
+
             SLSManager.RescanRequired += Rescan;
             loadingSplash.LoadingText.Text = "Updating SLS devices";
             UpdateSLSDevices();
@@ -1167,8 +1186,9 @@ namespace RGBSyncPlus
                                 {
                                     slsDriver.Configure(new DriverDetails() { HomeFolder = justPath });
                                 }
-                                catch
+                                catch (Exception ex)
                                 {
+                                    Debug.WriteLine(ex.Message);
                                 }
 
                                 Debug.WriteLine("Have Initialized: " + slsDriver.Name());

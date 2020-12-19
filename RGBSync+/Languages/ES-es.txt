@@ -113,6 +113,11 @@ Devices.ZoomOut Alejar
 Devices.ZoomIn Acercar
 Devices.Condensed Compacto
 Devices.ShowSources Mostrar efectos
+Customize.Align Editar Alineamiento
+Customize.AlignHint Usa estos controles para que tu dispositivo coincida con la imágenes
+Customize.TitleOverride Cambiar Título
+Customize.SubTitleOverride Cambiar SubTítulo
+Customize.ChannelOverride Cambiar Nombre de Canal
 Profile.Triggers Acciones
 Profile.EditProfile Editar Perfil
 Profile.SelectProfile Selccionar Perfil
@@ -126,12 +131,15 @@ Profile.TriggerDesc Acciones por
 Profile.MomentaryTrigger Acción Instantánea
 Profile.Expand Expandir
 Profile.Collapse Colapsar
+ColorProfile.AddProfile Crear Perfil
+ColorProfile.DeleteProfile  Eliminar Perfil
 Generic.Off Apagado
 Generic.On  Encendido
 Generic.Yes Sí
 Generic.No  No
 Main.Devices Dispositivos
-Main.Profiles Perfiles
+Main.Profiles Perfiles de Sincronización
+Main.palettes Perfiles de Color
 Main.Store Tienda
 Main.About Acerca de
 Main.Crash  Fallo!
