@@ -81,24 +81,30 @@ namespace RGBSyncPlus.UI.Tabs
                 {
                     new ColorBank()
                     {
-                        BankName = "Primary Bank",
+                        BankName = "Basic colors",
                         Colors = new ObservableCollection<ColorObject>
                         {
                             new ColorObject {Color = new ColorModel(255,0,0)},
                             new ColorObject {Color = new ColorModel(0,255,0)},
                             new ColorObject {Color = new ColorModel(0,0,255)},
-                            new ColorObject {Color = new ColorModel(255,0,255)},
+                            new ColorObject {Color = new ColorModel(255,255,255)},
                         }
                     },
                     new ColorBank()
                     {
-                        BankName = "Poiple",
+                        BankName = "Rainbow",
                         Colors = new ObservableCollection<ColorObject>
                         {
-                            new ColorObject {Color = new ColorModel(255,0,255)},
-                            new ColorObject {Color = new ColorModel(192,0,192)},
-                            new ColorObject {Color = new ColorModel(128,0,128)},
-                            new ColorObject {Color = new ColorModel(64,0,64)},
+                            new ColorObject {Color = new ColorModel(255,0,0)},
+                            new ColorObject {Color = new ColorModel(255,153,0)},
+                            new ColorObject {Color = new ColorModel(204,255,0)},
+                            new ColorObject {Color = new ColorModel(51, 255, 0)},
+                            new ColorObject {Color = new ColorModel(0, 255, 102)},
+                            new ColorObject {Color = new ColorModel(0, 255, 255)},
+                            new ColorObject {Color = new ColorModel(0, 102, 255)},
+                            new ColorObject {Color = new ColorModel(51,0,255)},
+                            new ColorObject {Color = new ColorModel(204, 0, 255)},
+                            new ColorObject {Color = new ColorModel(255, 0, 153)},
                         }
                     }
                     ,

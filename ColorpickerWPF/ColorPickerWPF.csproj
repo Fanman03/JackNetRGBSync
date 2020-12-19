@@ -74,6 +74,9 @@
     <Compile Include="CompactPickerControl.xaml.cs">
       <DependentUpon>CompactPickerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PalettePickerControl.xaml.cs">
+      <DependentUpon>PalettePickerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -115,6 +118,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="CompactPickerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PalettePickerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
