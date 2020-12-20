@@ -457,5 +457,20 @@ namespace RGBSyncPlus.UI.Tabs
 
             ConfigPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
         }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            Grid button = sender as Grid;
+            DevicesViewModel.SourceGroup sg = button.DataContext as DevicesViewModel.SourceGroup;
+
+            foreach (DevicesViewModel.SourceGroup vmSourceGroup in vm.SourceGroups)
+            {
+                vmSourceGroup.Selected = vmSourceGroup == sg;
+            }
+
+            vm.SelectedSourceGroup = sg;
+
+            vm.FilterSourceDevices();
+        }
     }
 }

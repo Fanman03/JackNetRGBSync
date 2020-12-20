@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
@@ -57,7 +58,7 @@ namespace RGBSyncPlus.UI.Tabs
         private ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> deviceMappingViewModel;
         public ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> DeviceMappingViewModel { get => deviceMappingViewModel; set => SetProperty(ref deviceMappingViewModel, value); }
 
-        
+
         private int devicesSelectedCount = 0;
         public int DevicesSelectedCount
         {
@@ -142,27 +143,116 @@ namespace RGBSyncPlus.UI.Tabs
             set { SetProperty(ref sourceDevices, value); }
         }
 
+        private ObservableCollection<SourceGroup> sourceGroups;
+
+        public ObservableCollection<SourceGroup> SourceGroups
+        {
+            get => sourceGroups;
+            set { SetProperty(ref sourceGroups, value); }
+        }
+
+        private SourceGroup selectedSourceGroup;
+
+        public SourceGroup SelectedSourceGroup
+        {
+            get => selectedSourceGroup;
+            set => SetProperty(ref selectedSourceGroup, value);
+        }
+
+        public class SourceGroup : BaseViewModel
+        {
+            private string name;
+
+            public string Name
+            {
+                get => name;
+                set => SetProperty(ref name, value);
+            }
+
+            private string subname;
+
+            public string SubName
+            {
+                get => subname;
+                set => SetProperty(ref subname, value);
+            }
+
+            private BitmapImage image;
+            public BitmapImage Image
+            {
+                get => image;
+                set => SetProperty(ref image, value);
+            }
+
+            private int plugins;
+
+            public int Plugins
+            {
+                get => plugins;
+                set => SetProperty(ref plugins, value);
+            }
+
+            private bool selected;
+
+            public bool Selected
+            {
+                get => selected;
+                set => SetProperty(ref selected, value);
+            }
+        }
+
         public void FilterSourceDevices()
         {
 
-            IEnumerable<DeviceMappingModels.SourceModel> visibleDevices = SourceDevices.Where(sourceDevice => ((string.IsNullOrWhiteSpace(SyncToSearch) ||
+            IEnumerable<DeviceMappingModels.SourceModel> visibleDevices = SourceDevices.Where(sourceDevice => (((string.IsNullOrWhiteSpace(SyncToSearch) ||
                                                                        (sourceDevice.Name.ToLower() ==
                                                                         SyncToSearch.ToLower() ||
                                                                         sourceDevice.ProviderName.ToLower() ==
                                                                         SyncToSearch.ToLower()
                                                                        )
                     )
+                )
+                &&
+                (SelectedSourceGroup == null || SelectedSourceGroup.Name == "Show All" ||
+                 (sourceDevice.Name == SelectedSourceGroup.Name && sourceDevice.Device.DeviceType == SelectedSourceGroup.SubName)
+                 )
                 ));
 
             Debug.WriteLine(visibleDevices.Count());
             foreach (DeviceMappingModels.SourceModel sourceDevice in SourceDevices)
             {
-                sourceDevice.IsHidden = !
+                sourceDevice.IsHidden = (SelectedSourceGroup == null || SelectedSourceGroup.Name == "Show All" ||
+                                         (sourceDevice.Name == SelectedSourceGroup.Name && sourceDevice.Device.DeviceType == SelectedSourceGroup.SubName)
+                    )&&!
                     (sourceDevice.Enabled || (string.IsNullOrWhiteSpace(SyncToSearch) ||
                       (sourceDevice.Name.ToLower().Contains(SyncToSearch.ToLower()) ||
                        sourceDevice.ProviderName.ToLower().Contains(SyncToSearch.ToLower()))));
             }
 
+
+            FilteredSourceDevices=new ObservableCollection<DeviceMappingModels.SourceModel>();
+            foreach (DeviceMappingModels.SourceModel sourceDevice in SourceDevices)
+            {
+                bool match = false;
+                if (SelectedSourceGroup == null || SelectedSourceGroup.Name == "Show All" ||
+                    (sourceDevice.ProviderName == SelectedSourceGroup.Name &&
+                     sourceDevice.DeviceType == SelectedSourceGroup.SubName))
+                {
+                    match = true;
+                }
+
+
+                if (match)
+                {
+                    FilteredSourceDevices.Add(sourceDevice);
+                }
+
+                if (SelectedSourceGroup != null)
+                {
+                    Debug.WriteLine(">" + SelectedSourceGroup.SubName +"/"+ SelectedSourceGroup.Name+ "<---->" + sourceDevice.ProviderName+"/"+ sourceDevice.DeviceType+"/"+ sourceDevice.Name + "<   "+match);
+                }
+            }
+            
             OnPropertyChanged(nameof(SourceDevices));
         }
 
@@ -201,6 +291,18 @@ namespace RGBSyncPlus.UI.Tabs
                 Controlling = "",
             });
 
+            SourceGroups = new ObservableCollection<SourceGroup>();
+            SourceGroups.Add(new SourceGroup
+            {
+                Plugins = 1,
+                Name = "Show All",
+
+            });
+
+            if (SelectedSourceGroup == null)
+            {
+                SelectedSourceGroup = SourceGroups.First();
+            }
 
             foreach (ControlDevice source in sources)
             {
@@ -208,11 +310,12 @@ namespace RGBSyncPlus.UI.Tabs
                     x.SourceName == source.Name && x.SourceProviderName == source.Driver.Name() &&
                     x.SourceConnectedTo == source.ConnectedTo);
 
-                current = things.FirstOrDefault(x=>x.SourceName==source.Driver.Name() && x.Name==source.Name && x.ConnectedTo == source.ConnectedTo);
+                current = things.FirstOrDefault(x => x.SourceName == source.Driver.Name() && x.Name == source.Name && x.ConnectedTo == source.ConnectedTo);
                 bool enabled = current != null && source.Driver.Name() == current.SourceProviderName && source.Name == current.SourceName && source.ConnectedTo == current.SourceConnectedTo;
-              //  enabled = things.Any();
+                //  enabled = things.Any();
                 SourceDevices.Add(new DeviceMappingModels.SourceModel
                 {
+                    DeviceType = source.DeviceType,
                     ProviderName = source.Driver.Name(),
                     Device = source,
                     Name = source.Name,
@@ -220,22 +323,38 @@ namespace RGBSyncPlus.UI.Tabs
                     Image = ToBitmapImage(source.ProductImage),
                     ConnectedTo = source.ConnectedTo,
                     Controlling = string.Join(", ", things.Select(x => x.Name)),
-                    ControllingModels =  new ObservableCollection<DeviceMappingModels.SourceControllingModel>(things.Select(x=>new DeviceMappingModels.SourceControllingModel
+                    ControllingModels = new ObservableCollection<DeviceMappingModels.SourceControllingModel>(things.Select(x => new DeviceMappingModels.SourceControllingModel
                     {
                         ProviderName = x.ProviderName,
                         ConnectedTo = x.ConnectedTo,
                         Name = x.Name,
-                        IsCurrent = SLSDevicesFiltered.Any(y=>y.Selected && y.Name == x.Name && y.ProviderName == x.ProviderName && x.ConnectedTo == y.ConnectedTo)
+                        IsCurrent = SLSDevicesFiltered.Any(y => y.Selected && y.Name == x.Name && y.ProviderName == x.ProviderName && x.ConnectedTo == y.ConnectedTo)
                     }).ToList())
                 });
+
+                if (SourceGroups.Any(x => source.Driver.Name() == x.Name && x.SubName == source.DeviceType))
+                {
+                    var existing = SourceGroups.First(x => source.Driver.Name() == x.Name && x.SubName == source.DeviceType);
+                    existing.Plugins++;
+                }
+                else
+                {
+                    SourceGroups.Add(new SourceGroup
+                    {
+                        Plugins = 1,
+                        Name = source.Driver.Name(),
+                        SubName = source.DeviceType,
+                        Image = ToBitmapImage(source.ProductImage)
+                    });
+                }
             }
-            
-            
+
+
         }
 
         public void SetupSourceDevices()
         {
-         
+
 
             IEnumerable<ControlDevice> sources = ApplicationManager.Instance.SLSDevices.Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
 
@@ -250,7 +369,7 @@ namespace RGBSyncPlus.UI.Tabs
                 Device = null,
                 Name = "None",
                 Enabled = false,
-                
+
                 ConnectedTo = "",
                 Controlling = "",
             });
@@ -356,7 +475,7 @@ namespace RGBSyncPlus.UI.Tabs
                 ThumbHeight = (int)(ThumbWidth / 1.3333333333333333f);
                 if (ZoomLevel > 5)
                 {
-                    ThumbHeight = (int)((new[] { 16, 32, 64, 128, 192, 256, 385, 512, 768, 1024, 2048, 4096 }[ZoomLevel-1]) / 1.3333333333333333f);
+                    ThumbHeight = (int)((new[] { 16, 32, 64, 128, 192, 256, 385, 512, 768, 1024, 2048, 4096 }[ZoomLevel - 1]) / 1.3333333333333333f);
                 }
 
                 ShowFullThumb = ZoomLevel > 4;
@@ -442,7 +561,7 @@ namespace RGBSyncPlus.UI.Tabs
         public void SetUpDeviceMapViewModel()
         {
 
-            if (ApplicationManager.Instance.SLSDevices!=null && ApplicationManager.Instance.SLSDevices.Count(x => x.Driver!=null && x.Driver.GetProperties().Id != Guid.Parse("11111111-1111-1111-1111-111111111111")) == 0)
+            if (ApplicationManager.Instance.SLSDevices != null && ApplicationManager.Instance.SLSDevices.Count(x => x.Driver != null && x.Driver.GetProperties().Id != Guid.Parse("11111111-1111-1111-1111-111111111111")) == 0)
             {
                 ApplicationManager.Instance.NavigateToTab("store");
             }

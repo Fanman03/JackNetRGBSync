@@ -1126,7 +1126,7 @@ namespace RGBSyncPlus
             int ct = 0;
             foreach (string pluginFolder in pluginFolders)
             {
-                loadingSplash.Activate();
+                //loadingSplash.Activate();
                 ct++;
 
                 loadingSplash.ProgressBar.Value = ct;
@@ -1134,6 +1134,18 @@ namespace RGBSyncPlus
                 LoadPlungFolder(pluginFolder);
 
 
+            }
+
+            foreach (ISimpleLed slsManagerDriver in SLSManager.Drivers)
+            {
+                try
+                {
+                    slsManagerDriver.Configure(new DriverDetails() { HomeFolder = pathfun[slsManagerDriver.GetProperties().Id.ToString()] });
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             }
 
             SolidColorDevice = new SolidColorDriver();
@@ -1164,6 +1176,7 @@ namespace RGBSyncPlus
         public SolidColorDriver SolidColorDevice { get; set; }
         public GradientDriver GradientDriver { get; set; }
 
+        Dictionary<string,string> pathfun = new Dictionary<string, string>();
         public void LoadPlung(string file)
         {
             string filename = file.Split('\\').Last();
@@ -1189,15 +1202,22 @@ namespace RGBSyncPlus
                                 loadingSplash.UpdateLayout();
                                 loadingSplash.Refresh();
                                 loadingSplash.LoadingText.Refresh();
-                                Task.Delay(33).Wait();
                                 SLSManager.Drivers.Add(slsDriver);
                                 // driversAdded.Add(slsDriver.GetProperties().Id);
                                 Debug.WriteLine("all loaded: " + slsDriver.Name());
                                 slsDriver.DeviceAdded += SlsDriver_DeviceAdded;
                                 slsDriver.DeviceRemoved += SlsDriver_DeviceRemoved;
+                                if (pathfun.ContainsKey(slsDriver.GetProperties().Id.ToString()))
+                                {
+                                    pathfun[slsDriver.GetProperties().Id.ToString()] = justPath;
+                                }
+                                else
+                                {
+                                    pathfun.Add(slsDriver.GetProperties().Id.ToString(), justPath);
+                                }
                                 try
                                 {
-                                    slsDriver.Configure(new DriverDetails() { HomeFolder = justPath });
+                                    Task.Run(() => slsDriver.Configure(new DriverDetails() {HomeFolder = justPath}));
                                 }
                                 catch (Exception ex)
                                 {
@@ -1233,6 +1253,8 @@ namespace RGBSyncPlus
                 Debug.WriteLine("Checking " + file);
                 LoadPlung(file);
             }
+
+           
         }
 
         private void SlsDriver_DeviceRemoved(object sender, Events.DeviceChangeEventArgs e)

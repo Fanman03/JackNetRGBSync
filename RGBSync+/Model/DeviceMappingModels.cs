@@ -489,12 +489,19 @@ namespace RGBSyncPlus.Model
             private string titleOverride;
             private string subTitleOverride;
             private string channelOverride;
-
+            private string deviceType;
             [JsonIgnore]
             public string TitleOverride
             {
                 get => titleOverride;
                 set => SetProperty(ref titleOverride, value);
+            }
+
+            [JsonIgnore]
+            public string DeviceType
+            {
+                get => deviceType;
+                set => SetProperty(ref deviceType, value);
             }
 
             [JsonIgnore]
