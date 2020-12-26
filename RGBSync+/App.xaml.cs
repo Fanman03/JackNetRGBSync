@@ -5,12 +5,15 @@ using RGBSyncPlus.Configuration.Legacy;
 using RGBSyncPlus.Helper;
 using RGBSyncPlus.UI;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
+using SimpleLed;
 
 namespace RGBSyncPlus
 {
@@ -27,6 +30,8 @@ namespace RGBSyncPlus
         #region Properties & Fields
 
         private TaskbarIcon _taskbarIcon;
+
+        public AppBVM appBvm { get; set; } = new AppBVM();
 
         #endregion
 
@@ -85,6 +90,51 @@ namespace RGBSyncPlus
         private void App_OnExit(object sender, ExitEventArgs e)
         {
             //  throw new NotImplementedException();
+        }
+
+
+        private void ToggleProfilesPopup(object sender, RoutedEventArgs e)
+        {
+            if (appBvm.PopupVisibility == Visibility.Collapsed)
+            {
+                appBvm.PopupVisibility = Visibility.Visible;
+                appBvm.ProfilesBackground = SystemParameters.WindowGlassBrush;
+            }
+            else
+            {
+                appBvm.PopupVisibility = Visibility.Collapsed;
+                appBvm.ProfilesBackground = new SolidColorBrush(Color.FromRgb(64, 64, 64));
+            }
+        }
+
+    }
+
+    public class AppBVM : BaseViewModel
+    {
+        private Visibility popupVisibility = Visibility.Collapsed;
+        public Visibility PopupVisibility
+        {
+            get
+            {
+                return popupVisibility;
+            }
+            set
+            {
+                SetProperty(ref popupVisibility, value);
+            }
+        }
+
+        private Brush profilesBackground = new SolidColorBrush(Color.FromRgb(64, 64, 64));
+        public Brush ProfilesBackground
+        {
+            get
+            {
+                return profilesBackground;
+            }
+            set
+            {
+                SetProperty(ref profilesBackground, value);
+            }
         }
     }
 }
