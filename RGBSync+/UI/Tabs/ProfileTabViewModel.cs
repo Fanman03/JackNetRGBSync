@@ -304,7 +304,7 @@ namespace RGBSyncPlus.UI.Tabs
             set => SetProperty(ref isCreateButton, value);
         }
 
-        private void RefreshProfiles(bool setActive = true)
+        public void RefreshProfiles(bool setActive = true)
         {
             ProfileNames = ApplicationManager.Instance.NGSettings.ProfileNames;
             SetUpProfileModels(setActive);
@@ -324,6 +324,7 @@ namespace RGBSyncPlus.UI.Tabs
             ApplicationManager.Instance.LoadProfileFromName(dc.Name);
             RefreshProfiles();
         }
+
 
         public void CreateNewTrigger()
         {

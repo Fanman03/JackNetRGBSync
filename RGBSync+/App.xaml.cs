@@ -5,14 +5,18 @@ using RGBSyncPlus.Configuration.Legacy;
 using RGBSyncPlus.Helper;
 using RGBSyncPlus.UI;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Threading;
+using RGBSyncPlus.UI.Tabs;
 using SimpleLed;
 
 namespace RGBSyncPlus
@@ -98,15 +102,22 @@ namespace RGBSyncPlus
             if (appBvm.PopupVisibility == Visibility.Collapsed)
             {
                 appBvm.PopupVisibility = Visibility.Visible;
+                appBvm.Arrow = "";
                 appBvm.ProfilesBackground = SystemParameters.WindowGlassBrush;
             }
             else
             {
                 appBvm.PopupVisibility = Visibility.Collapsed;
+                appBvm.Arrow = "";
                 appBvm.ProfilesBackground = new SolidColorBrush(Color.FromRgb(64, 64, 64));
             }
         }
 
+        private void SwitchProfile(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            ApplicationManager.Instance.LoadProfileFromName(btn.Content.ToString());
+        }
     }
 
     public class AppBVM : BaseViewModel
@@ -124,6 +135,20 @@ namespace RGBSyncPlus
             }
         }
 
+        private string arrow = "";
+
+        public string Arrow
+        {
+            get
+            {
+                return arrow;
+            }
+            set
+            {
+                SetProperty(ref arrow, value);
+            }
+        }
+
         private Brush profilesBackground = new SolidColorBrush(Color.FromRgb(64, 64, 64));
         public Brush ProfilesBackground
         {
@@ -135,6 +160,35 @@ namespace RGBSyncPlus
             {
                 SetProperty(ref profilesBackground, value);
             }
+        }
+
+        public ObservableCollection<ProfileObject> Profiles
+        {
+            get
+            {
+                ObservableCollection<ProfileObject> prfs = new ObservableCollection<ProfileObject>();
+                foreach (string name in ApplicationManager.Instance.NGSettings.ProfileNames)
+                {
+                    ProfileObject prf = new ProfileObject();
+                    prf.Name = name;
+                    prfs.Add(prf);
+
+                    if (prf.Name == ApplicationManager.Instance.NGSettings.CurrentProfile)
+                    {
+                        prf.IsSelected = true;
+                    }
+                    else
+                    {
+                        prf.IsSelected = false;
+                    }
+                }
+                return prfs;
+            }
+        }
+        public class ProfileObject
+        {
+            public string Name { get; set; }
+            public bool IsSelected { get; set; }
         }
     }
 }
