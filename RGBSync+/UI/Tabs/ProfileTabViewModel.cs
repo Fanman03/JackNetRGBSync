@@ -323,6 +323,9 @@ namespace RGBSyncPlus.UI.Tabs
         {
             ApplicationManager.Instance.LoadProfileFromName(dc.Name);
             RefreshProfiles();
+            AppBVM appBVM = new AppBVM();
+            appBVM.RefreshProfiles();
+            appBVM.PopupVisibility = System.Windows.Visibility.Collapsed;
         }
 
 

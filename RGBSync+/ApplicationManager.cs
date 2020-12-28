@@ -30,6 +30,7 @@ namespace RGBSyncPlus
 {
     public class ApplicationManager
     {
+        public event EventHandler OnProfilesChanged;
         public SimpleLed.LoginSystem SimpleLedAuth = new LoginSystem();
         public bool SimpleLedAuthenticated = false;
         public void SimpleLedLogIn(Action onLoginAction)
@@ -372,6 +373,7 @@ namespace RGBSyncPlus
                             NGSettings.ProfileNames = new ObservableCollection<string>();
                         }
                         NGSettings.ProfileNames.Add(profileName);
+                        OnProfilesChanged?.Invoke(this, new EventArgs());
                     }
                     catch
                     {

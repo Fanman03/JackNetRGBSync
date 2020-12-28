@@ -57,6 +57,8 @@ namespace RGBSyncPlus
 
             ApplicationManager.Instance.Initialize();
 
+            ApplicationManager.Instance.OnProfilesChanged += (object sender, EventArgs ev) => appBvm.RefreshProfiles();
+
             try
             {
                 ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(int.MaxValue));
@@ -117,11 +119,45 @@ namespace RGBSyncPlus
         {
             Button btn = sender as Button;
             ApplicationManager.Instance.LoadProfileFromName(btn.Content.ToString());
+            appBvm.Profiles = AppBVM.GetProfiles();
         }
+
     }
 
     public class AppBVM : BaseViewModel
     {
+        public void RefreshProfiles()
+        {
+            Profiles = GetProfiles();
+        }
+
+        public static ObservableCollection<ProfileObject> GetProfiles()
+        {
+            if (ApplicationManager.Instance?.NGSettings?.ProfileNames != null)
+            {
+                ObservableCollection<ProfileObject> prfs = new ObservableCollection<ProfileObject>();
+                foreach (string name in ApplicationManager.Instance.NGSettings.ProfileNames)
+                {
+                    ProfileObject prf = new ProfileObject();
+                    prf.Name = name;
+                    prfs.Add(prf);
+
+                    if (prf.Name == ApplicationManager.Instance.NGSettings.CurrentProfile)
+                    {
+                        prf.IsSelected = true;
+                    }
+                    else
+                    {
+                        prf.IsSelected = false;
+                    }
+                }
+                return prfs;
+            } else
+            {
+                return new ObservableCollection<ProfileObject>();
+            }
+           
+        }
         private Visibility popupVisibility = Visibility.Collapsed;
         public Visibility PopupVisibility
         {
@@ -162,27 +198,16 @@ namespace RGBSyncPlus
             }
         }
 
+        private ObservableCollection<ProfileObject> profiles = GetProfiles();
         public ObservableCollection<ProfileObject> Profiles
         {
             get
             {
-                ObservableCollection<ProfileObject> prfs = new ObservableCollection<ProfileObject>();
-                foreach (string name in ApplicationManager.Instance.NGSettings.ProfileNames)
-                {
-                    ProfileObject prf = new ProfileObject();
-                    prf.Name = name;
-                    prfs.Add(prf);
-
-                    if (prf.Name == ApplicationManager.Instance.NGSettings.CurrentProfile)
-                    {
-                        prf.IsSelected = true;
-                    }
-                    else
-                    {
-                        prf.IsSelected = false;
-                    }
-                }
-                return prfs;
+                return profiles;
+            }
+            set
+            {
+                SetProperty(ref profiles, value);
             }
         }
         public class ProfileObject
