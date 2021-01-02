@@ -233,13 +233,9 @@ namespace RGBSyncPlus.UI.Tabs
             FilteredSourceDevices=new ObservableCollection<DeviceMappingModels.SourceModel>();
             foreach (DeviceMappingModels.SourceModel sourceDevice in SourceDevices)
             {
-                bool match = false;
-                if (SelectedSourceGroup == null || SelectedSourceGroup.Name == "Show All" ||
-                    (sourceDevice.ProviderName == SelectedSourceGroup.Name &&
-                     sourceDevice.DeviceType == SelectedSourceGroup.SubName))
-                {
-                    match = true;
-                }
+                bool match = SelectedSourceGroup == null || SelectedSourceGroup.Name == "Show All" ||
+                             (sourceDevice.ProviderName == SelectedSourceGroup.Name &&
+                              sourceDevice.DeviceType == SelectedSourceGroup.SubName);
 
 
                 if (match)

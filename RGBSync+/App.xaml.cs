@@ -64,15 +64,19 @@ namespace RGBSyncPlus
                 try { ApplicationManager.Instance.ExitCommand.Execute(null); }
                 catch { Environment.Exit(0); }
             }
+
+           
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
+            
             base.OnExit(e);
 
             //File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
             //File.WriteAllText(PATH_APPSETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.AppSettings, new ColorSerializer()));
         }
+
 
         public static void SaveSettings()
         {

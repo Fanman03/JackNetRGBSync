@@ -152,7 +152,13 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 SetProperty(ref currentProfile, value);
                 SetUpWatchers();
-                ApplicationManager.Instance.SLSManager.ColorProfile = value;
+                try
+                {
+                    ApplicationManager.Instance.SLSManager.ColorProfile = value;
+                }
+                catch
+                {
+                }
             }
         }
 

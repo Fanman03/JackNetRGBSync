@@ -401,14 +401,7 @@ namespace RGBSyncPlus
                 SLSTimer = null;
             }
 
-            double tmr = 1.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
             double tmr2 = 1000.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
-            //UpdateTrigger = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(tmr) };
-            //UpdateTrigger.Tick += OnUpdateTriggerOnTick;
-
-            //  loadingSplash.LoadingText.Text = "Registering Update Trigger";
-
-            //UpdateTrigger.Start();
 
             Debug.WriteLine("Setting up timer with ms of " + tmr2);
             SLSTimer = new System.Timers.Timer(tmr2);
@@ -1109,6 +1102,47 @@ namespace RGBSyncPlus
 
         public static List<string> BasePaths = new List<string>();
 
+        public bool ExecuteWithTimeout(Action action, int timeoutMs = 5000)
+        {
+
+            return ExecuteAsyncWithTimeout(() => InvokeIfNecessary(action)).ConfigureAwait(false).GetAwaiter().GetResult();
+
+        }
+
+        public static void InvokeIfNecessary(Action action)
+        {
+            if (Thread.CurrentThread == Application.Current.Dispatcher.Thread)
+                action();
+            else
+            {
+                Application.Current.Dispatcher.Invoke(action);
+            }
+        }
+
+        public bool RunCodeWithTimeout(Action action, int timeoutMs = 5000)
+        {
+            var task = Task.Run(() => action);
+            if (task.Wait(TimeSpan.FromMilliseconds(timeoutMs)))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public Task<bool> ExecuteAsyncWithTimeout(Action action, int timeoutMs = 5000)
+        {
+            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+            var ct = new CancellationTokenSource(timeoutMs);
+            ct.Token.Register(() => tcs.TrySetCanceled(), useSynchronizationContext: false);
+
+            Task.Run(action, ct.Token);
+
+            return tcs.Task;
+        }
+
 
         public void LoadSLSProviders()
         {
@@ -1136,17 +1170,25 @@ namespace RGBSyncPlus
 
             }
 
-            foreach (ISimpleLed slsManagerDriver in SLSManager.Drivers)
-            {
-                try
-                {
-                    slsManagerDriver.Configure(new DriverDetails() { HomeFolder = pathfun[slsManagerDriver.GetProperties().Id.ToString()] });
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
-            }
+            //foreach (ISimpleLed slsManagerDriver in SLSManager.Drivers)
+            //{
+            //    try
+            //    {
+            //        loadingSplash.LoadingText.Text = "Starting Up " +slsManagerDriver.Name();
+            //        Logger.Debug("Starting up provider " + slsManagerDriver.Name());
+            //        ExecuteWithTimeout(() =>
+            //        {
+            //            slsManagerDriver.Configure(new DriverDetails()
+            //                {HomeFolder = pathfun[slsManagerDriver.GetProperties().Id.ToString()]});
+            //        });
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Debug.WriteLine(ex.Message);
+            //    }
+            //}
+
+
 
             SolidColorDevice = new SolidColorDriver();
             GradientDriver = new GradientDriver();
@@ -1176,7 +1218,7 @@ namespace RGBSyncPlus
         public SolidColorDriver SolidColorDevice { get; set; }
         public GradientDriver GradientDriver { get; set; }
 
-        Dictionary<string,string> pathfun = new Dictionary<string, string>();
+        Dictionary<string, string> pathfun = new Dictionary<string, string>();
         public void LoadPlung(string file)
         {
             string filename = file.Split('\\').Last();
@@ -1217,7 +1259,14 @@ namespace RGBSyncPlus
                                 }
                                 try
                                 {
-                                    Task.Run(() => slsDriver.Configure(new DriverDetails() {HomeFolder = justPath}));
+                                    Debug.WriteLine("Lets config it!");
+
+                                    IAsyncResult result;
+                                    bool complete = false;
+
+                                    slsDriver.Configure(new DriverDetails() { HomeFolder = justPath });
+                                    complete = true;
+
                                 }
                                 catch (Exception ex)
                                 {
@@ -1225,6 +1274,7 @@ namespace RGBSyncPlus
                                 }
 
                                 Debug.WriteLine("Have Initialized: " + slsDriver.Name());
+
                             }
                         }
                         catch (Exception ex)
@@ -1254,7 +1304,7 @@ namespace RGBSyncPlus
                 LoadPlung(file);
             }
 
-           
+
         }
 
         private void SlsDriver_DeviceRemoved(object sender, Events.DeviceChangeEventArgs e)
