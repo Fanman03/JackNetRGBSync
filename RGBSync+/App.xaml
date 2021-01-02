@@ -21,6 +21,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <Converter:LocConverter x:Key="LocConverter"/>
+            <Converter:ProfileSelectedToColorBrushConverter x:Key="ProfileSelectedToColorBrushConverter"></Converter:ProfileSelectedToColorBrushConverter>
 
             <Style TargetType="ListView">
                 <Setter Property="BorderThickness" Value="0"></Setter>
@@ -28,19 +29,12 @@
                 <Setter Property="Background" Value="Transparent"></Setter>
             </Style>
             <Style TargetType="ListViewItem">
-                <Setter Property="Opacity" Value="0.8"></Setter>
+                <Setter Property="Opacity" Value="1"></Setter>
                 <Setter Property="Template">
                     <Setter.Value>
 
                         <ControlTemplate TargetType="ListViewItem">
                             <Border x:Name="TheBorder" Margin="0" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Opacity="1.0">
-                                <Border.Effect>
-                                    <DropShadowEffect x:Name="TheDropShadow"
-                                                      ShadowDepth="0"
-                                                      Color="Black"
-                                                      Opacity="0.95"
-                                                      BlurRadius="20"/>
-                                </Border.Effect>
 
                                 <ContentPresenter  />
                             </Border>
@@ -75,30 +69,55 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Row="1" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=OpenConfigurationCommand}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=OpenConfigurationCommand}">
                             <DockPanel Margin="2,0" LastChildFill="True">
                                 <Image Margin="2" DockPanel.Dock="Left" Width="22" Source="/RGBSync+;component/Resources/hires.ico" />
                                 <TextBlock Margin="2" DockPanel.Dock="Right" Background="Transparent" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="RGB Sync Studio" />
                             </DockPanel>
                         </Button>
-                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Row="2" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=TechSupportCommand}">
+
+                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="1" HorizontalContentAlignment="Stretch" Click="ToggleProfilesPopup" Background="{Binding Path=appBvm.ProfilesBackground, Source={x:Static Application.Current}}">
+                            <DockPanel Margin="2,0" LastChildFill="False">
+                                <TextBlock DockPanel.Dock="Left" Margin="4" FontSize="18" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
+                                <TextBlock Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Profiles"/>
+                                <TextBlock DockPanel.Dock="Right" Margin="4" FontSize="18" FontFamily="Segoe MDL2 Assets" Text="{Binding Path=appBvm.Arrow, Source={x:Static Application.Current}}" HorizontalAlignment="Right" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
+                            </DockPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="2" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=TechSupportCommand}">
                             <DockPanel Margin="2,0" LastChildFill="True">
                                 <TextBlock DockPanel.Dock="Left" Margin="4" FontSize="18" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
                                 <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Tech Support"/>
                             </DockPanel>
                         </Button>
-                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Row="3" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=RestartAppCommand}">
+                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="3" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=RestartAppCommand}">
                             <DockPanel Margin="2,0" LastChildFill="True">
                                 <TextBlock DockPanel.Dock="Left" Margin="6" FontSize="16" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
                                 <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Restart App"/>
                             </DockPanel>
                         </Button>
-                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Row="4" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=ExitCommand}">
+                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="4" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=ExitCommand}">
                             <DockPanel Margin="2,0" LastChildFill="True">
                                 <TextBlock DockPanel.Dock="Left" Margin="6" FontSize="16" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
                                 <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Exit App"/>
                             </DockPanel>
                         </Button>
+
+                        <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="5" Margin="0" Background="#404040">
+                            <ListView  Margin="0" ItemsSource="{Binding Path=appBvm.Profiles, Source={x:Static Application.Current}}" Visibility="{Binding Path=appBvm.PopupVisibility, Source={x:Static Application.Current}}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Background="{Binding Path=IsSelected, Converter={StaticResource ProfileSelectedToColorBrushConverter}}" Click="SwitchProfile" FontSize="18" Width="100" Height="30" Style="{StaticResource ButtonAccentRevealStyle}" Grid.Row="4" HorizontalContentAlignment="Left" Content="{Binding Name}">
+                                        </Button>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+
                     </Grid>
                 </tb:TaskbarIcon.TrayPopup>
                 <tb:TaskbarIcon.TrayToolTip>

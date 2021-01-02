@@ -124,6 +124,7 @@
     <Compile Include="Converter\LocConverter.cs" />
     <Compile Include="Converter\NullToVisibilityConverter.cs" />
     <Compile Include="Converter\PercentageConverter.cs" />
+    <Compile Include="Converter\ProfileSelectedToColorBrushConverter.cs" />
     <Compile Include="Converter\ScrollOffsetToOpacityMaskConverter.cs" />
     <Compile Include="Converter\ScrollOffsetToVisibilityConverter.cs" />
     <Compile Include="Converter\StringMatchToVisibilityConverter.cs" />
