@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentWPF", "..\FluentWPF\F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorPickerWPF", "..\ColorpickerWPF\ColorPickerWPF.csproj", "{7028E44E-407C-4460-A51E-00171036FB36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLed", "..\..\..\Users\james\source\repos\Org\SimpleLed\Interface\SimpleLed\SimpleLed.csproj", "{EB4729F4-0BF6-41D3-9548-F8C7846A2025}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\SharedCode\SharedCode.projitems*{285a3e6c-652a-4ca2-9b27-3a4dc4e1177b}*SharedItemsImports = 13
@@ -60,14 +58,6 @@ Global
 		{7028E44E-407C-4460-A51E-00171036FB36}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7028E44E-407C-4460-A51E-00171036FB36}.Release|x64.ActiveCfg = Release|Any CPU
 		{7028E44E-407C-4460-A51E-00171036FB36}.Release|x64.Build.0 = Release|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Debug|x64.Build.0 = Debug|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Release|x64.ActiveCfg = Release|Any CPU
-		{EB4729F4-0BF6-41D3-9548-F8C7846A2025}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
