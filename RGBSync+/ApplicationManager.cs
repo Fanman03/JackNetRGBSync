@@ -878,17 +878,23 @@ namespace RGBSyncPlus
 
                 foreach (DeviceMappingModels.NGDeviceProfileSettings currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
                 {
-                    ControlDevice cd = SLSDevices.FirstOrDefault(x =>
-                        x.Name == currentProfileDeviceProfileSetting.SourceName &&
-                        x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName &&
-                        x.ConnectedTo == currentProfileDeviceProfileSetting.SourceConnectedTo);
-
-                    if (cd != null)
+                    try
                     {
-                        if (!devicesToPull.Contains(cd))
+                        ControlDevice cd = SLSDevices.ToList().FirstOrDefault(x =>
+                            x.Name == currentProfileDeviceProfileSetting.SourceName &&
+                            x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName &&
+                            x.ConnectedTo == currentProfileDeviceProfileSetting.SourceConnectedTo);
+
+                        if (cd != null)
                         {
-                            devicesToPull.Add(cd);
+                            if (!devicesToPull.Contains(cd))
+                            {
+                                devicesToPull.Add(cd);
+                            }
                         }
+                    }
+                    catch
+                    {
                     }
                 }
 

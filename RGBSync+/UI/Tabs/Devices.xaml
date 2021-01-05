@@ -323,7 +323,7 @@
             <RowDefinition Height="0" x:Name="ConfigPanelRow"/>
         </Grid.RowDefinitions>
 
-        <Grid Row="0">
+        <Grid Row="0" SizeChanged="TopPanelSizeChanged">
             <Grid.RowDefinitions>
                 <RowDefinition Height="56"/>
                 <RowDefinition Height="*"/>
@@ -368,7 +368,7 @@
             </Grid>
         </Grid>
 
-        <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowsPreview="true" Height="56" Background="{DynamicResource SystemBaseLowColorBrush}" ></GridSplitter>
+        <GridSplitter x:Name="Splitter" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowsPreview="true" Height="56" Background="{DynamicResource SystemBaseLowColorBrush}"  ></GridSplitter>
         <Grid Grid.Row="1" Margin="0" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.AnyDevicesSelected, Converter={StaticResource BoolToVisConverter}}" VerticalAlignment="Center" Background="{x:Null}" x:Name="ConfigPanelBar">
 
 

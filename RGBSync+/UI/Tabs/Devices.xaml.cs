@@ -63,8 +63,22 @@ namespace RGBSyncPlus.UI.Tabs
         private async void SyncTo(object sender, RoutedEventArgs e)
         {
             vm.SubViewMode = "SyncTo";
-            await Task.Delay(TimeSpan.FromSeconds(1));
+
+            //  ContainerGrid.RowDefinitions[2].Height = new GridLength(ContainerGrid.ActualHeight / 2);
+
+          
+            ConfigPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
+
+         
+
+            Splitter.UpdateLayout();
+            await Task.Delay(TimeSpan.FromSeconds(0.01f));
             await SetMaxHeight();
+
+           ContainerGrid.RowDefinitions[1].Height = new GridLength(56);
+           ContainerGrid.RowDefinitions[2].Height = new GridLength(1d, GridUnitType.Star);
+           ContainerGrid.RowDefinitions[0].Height = new GridLength(1d, GridUnitType.Star);
+
         }
 
         private async void Config(object sender, RoutedEventArgs e)
@@ -218,15 +232,40 @@ namespace RGBSyncPlus.UI.Tabs
             vm.UpdateFilteredSourceDevices();
         }
 
-        private void AddBottomPanel()
+        private async void AddBottomPanel()
         {
             if (ConfigBarRow.Height.IsAbsolute && ConfigBarRow.Height.Value!= null && ConfigBarRow.Height.Value == 0)
             {
                 ConfigBarRow.Height = new GridLength(56);
-                ConfigPanelRow.Height = GridLength.Auto;
+                //ConfigPanelRow.Height = GridLength.Auto;
+
+                //var r0 = ContainerGrid.RowDefinitions[0].Height;
+
+                //var r2 = ContainerGrid.RowDefinitions[2].Height;
+
+                //var ra0 = ContainerGrid.RowDefinitions[0].ActualHeight;
+
+                //var ra2 = ContainerGrid.RowDefinitions[2].ActualHeight;
+
+                //ContainerGrid.RowDefinitions[0].Height = new GridLength(ra0 + 1);
+                //ContainerGrid.RowDefinitions[2].Height = new GridLength(ra2 + 1);
+
+                //ContainerGrid.RowDefinitions[0].Height = new GridLength(ra0);
+                //ContainerGrid.RowDefinitions[2].Height = new GridLength(ra2);
+
+                ConfigBarRow.Height = new GridLength(56);
+               // ContainerGrid.RowDefinitions[0].Height = new GridLength(ContainerGrid.ActualHeight/2);
+              //  ContainerGrid.RowDefinitions[2].Height = new GridLength(ContainerGrid.ActualHeight / 2);
+
+               ConfigPanelRow.Height = GridLength.Auto;
+
 
                 Thread.Sleep(100);
+               // ConfigPanelRow.Height = GridLength.Auto;
                 SetMaxHeight();
+                //ConfigPanelRow.Height = GridLength.Auto;
+                ContainerGrid_OnSizeChanged(this,null);
+
             }
         }
 
@@ -456,14 +495,31 @@ namespace RGBSyncPlus.UI.Tabs
             ConfigPanelRow.MaxHeight = Math.Max(0,ContainerGrid.ActualHeight - 200);
         }
 
-        private void ContainerGrid_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        private bool blockUpdates = false;
+
+        private async void ContainerGrid_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
+
             if (vm.AnyDevicesSelected)
             {
                 DevicesPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
+                //if (!blockUpdates)
+                //{
+                //    ContainerGrid.RowDefinitions[2].Height =
+                //        new GridLength(ContainerGrid.RowDefinitions[2].ActualHeight);
+                //    blockUpdates = true;
+                //}
+                //else
+                //{
+                //    ContainerGrid.RowDefinitions[2].Height = GridLength.Auto;
+                //}
             }
 
+           // Splitter.Height = Splitter.ActualHeight - 1;
+
             ConfigPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
+
+            
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -506,6 +562,21 @@ namespace RGBSyncPlus.UI.Tabs
             vm.SubViewMode = "Config";
             await Task.Delay(TimeSpan.FromSeconds(1));
             await SetMaxHeight();
+        }
+
+        private void TopPanelSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Grid grid = sender as Grid;
+            
+            Debug.WriteLine(grid.ActualHeight);
+            Debug.WriteLine("---");
+            Debug.WriteLine(ContainerGrid.RowDefinitions[0].Height);
+            Debug.WriteLine(ContainerGrid.RowDefinitions[1].Height);
+            Debug.WriteLine(ContainerGrid.RowDefinitions[2].Height);
+            Debug.WriteLine("---");
+            Debug.WriteLine(ContainerGrid.RowDefinitions[0].ActualHeight);
+            Debug.WriteLine(ContainerGrid.RowDefinitions[1].ActualHeight);
+            Debug.WriteLine(ContainerGrid.RowDefinitions[2].ActualHeight);
         }
     }
 }
