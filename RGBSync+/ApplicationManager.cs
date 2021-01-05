@@ -518,8 +518,15 @@ namespace RGBSyncPlus
                 if (overridesDirty)
                 {
                     overridesDirty = false;
-                    string json = JsonConvert.SerializeObject(DeviceOverrides.ToList());
-                    File.WriteAllText("NGOverrides.json", json);
+                    try
+                    {
+                        string json = JsonConvert.SerializeObject(DeviceOverrides.ToList());
+                        File.WriteAllText("NGOverrides.json", json);
+                    }
+                    catch
+                    {
+                    }
+
                 }
             }
 

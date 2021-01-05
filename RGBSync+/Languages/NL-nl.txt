@@ -1,0 +1,174 @@
+NL-NL
+Dutch	
+Nederlands	
+Crash.TitleText	RGB Sync Studio is gecrashed.
+Dialog.CopyCommand	Kopieer naar klembord
+Dialog.No	Nee
+Dialog.NoPremiumTitle	GeenPremiumTitel
+Dialog.NoUpdateText	U gebruikt op dit moment de nieuwste versie van de app.
+Dialog.NoUpdateTitle	Geen update beschikbaar.
+Dialog.OKCommand	OK
+Dialog.UpdateText	Er is een update voor RGB Sync beschikbaar. Wilt u deze installeren?
+Dialog.UpdateTitle	Update Beschikbaar.
+Dialog.Yes	Ja
+Settings.AdminLabel	Openen met administratierechten:
+Settings.AdminText	AdminTekst
+Settings.DelayLabel	Opstart vertraging:
+Settings.DelayToolTip	opstartvertragingtip
+Settings.DelayUnit	Seconden
+Settings.DevicesLabel	Apparaten:
+Settings.DiscordLabel	Discord:
+Settings.DiscordText	DiscordTekst
+Settings.DiscordToolTip	DiscordtoolTip
+Settings.LanguageLabel	Taal:
+Settings.MinimizationLabel	Minimalisatie mogelijk maken:
+Settings.MinimizationText	Minimalisatietekst
+Settings.PollingRateLabel	Ververs frequentie:
+Settings.PollingRateToolTip	Verversfrequentietip
+Settings.PollingRateUnit	ververfrequentieeenheid
+Settings.ThemeApplyBtnText	Settings.ThemeApplyBtnText
+Settings.ThemeLabel	Thema:
+Settings.UpdateBtnText	Check voor Update
+Settings.UpdateLabel	Updates:
+Settings.VersionLabel	Versie:
+Settings.StartAsAdmin    Start Als Admin
+Settings.StartAsAdminHelp    Kan de compatibiliteit vergroten
+Settings.ReleaseType Uitgave versie
+Settings.ReleaseTypeHelp Welke uitgave versie zou U willen? Release is stabiel, Beta verminderd, CI is instabiel
+Settings.MinimizeToTray  Minimaliseer naar systeemvak
+Settings.MinimizeToTrayHelp  Minimaliseer naar start-balk of systeemvak?
+Settings.MinimizeOnStart Minimaliseer na opstarten
+Settings.MinimizeOnStartHelp Applicatievenster vertonen met windows start, of direct minimaliseren?
+Settings.BackgroundPath Achtergrond
+Settings.BackgroundHelp Pad naar achtergrond te grebruiken
+Settings.BackgroundOpacity Achtergrond doorzichtigheid
+Settings.BackgroundOpacityHelp Past de doorzichtigheid van de achtergrond aan
+Settings.DimBackgroundOpacity   Achtergrond Dimmer
+Settings.DimBackgroundOpacityHelp   Past de doorzichtigheid van de applicatie achtergrond aan
+Settings.BackgroundBlur Achtergrond vervagen
+Settings.BackgroundBlurHelp Hoeveelheid achtergrond vervagen
+Settings.SyncableBG Synchroniseerbare achtergrond
+Settings.SyncableBGHelp Activeer achtergrond kleuren controlerend apparaat.
+Settings.RainbowTab Regenboog Tabblad indicatoren
+Settings.RainbowTabHelp zouden alle tabblad indicatoren in linker paneel alle kleuren moeten zijn.
+Settings.AppSettings    App instellingen
+Settings.LaunchBehaviour    Opstart gedrag
+Settings.MinimizeBehaviour  Minimaliseer gedrag
+Settings.AppStyling Applicatie Stijl
+Settings.AccentColor Accent Kleur
+Settings.AccentColorHelp Accent kleur overschijven.
+Settings.SimpleLedAuth  SimpleLED Authenticatie
+Settings.SimpleLedAuthHelp  Verbind met de SimpleLED authenticatie servers om de volledige functionaliteit beschikbaar te maken.
+Settings.SimpleLedLogin Inloggen
+Settings.SimpleLedLogout Uitloggenm
+Store.ExperimentalBtnText	Experimenteel
+Store.FilterLabel	Zoek
+Store.Plugin.UpdateAvail	Update Beschikbaar
+Store.Plugin.DisableBtnLabel	Uitschakellen
+Store.Plugin.InstallBtnLabel	Geinstalleerd 
+Store.Plugin.InstalledBtnLabel	Geinstalleerd 
+Store.Plugin.UninstallBtnLabel	De-installeren
+Store.Plugin.VersionsBtnLabel	Versies
+Store.RefreshBtnText	Ververs Winkel
+Store.RestartAllBtnText	Herstart Alle
+Store.ShowStore Vertoon Winkel
+Store.Experimental Experimenteel 
+Store.Updates   Updates
+Store.StoreButton   Winkel
+Store.NotStoreButton   Geisntalleerd
+Store.ExperimentalButton    Experimenteel
+Store.UpdatesButton Updates
+Store.Configure Configureren
+Store.Details   Details
+TrayMenu.ExitAppItem	App sluiten
+TrayMenu.OpenUIItem	App openen
+TrayMenu.RestartAppItem	Herstart App
+TrayMenu.TechSupportItem	Tech Ondersteuning
+ColorProfile.AddProfile Profiel toevoegen
+ColorProfile.DeleteProfile  Profiel verwijderen
+UI.AboutTabHeader	Over ons
+UI.AppName	RGB Sync
+UI.DeviceTabHeader	Apparaten
+UI.ProfileTabHeader	Profielen
+UI.SettingsTabHeader	Instellingen
+UI.StoreTabHeader	Apparaten
+About.OrigDev	RGB Sync Origineel Ontwikkelling
+About.20dev	RGBSync Studio Ontwikkelling
+About.simpleleddev	SimpleLED Project Coordinator
+About.Donations	RGB Sync Studio is een ontwikkeld als gratis en open-source software. Het programma is gratis zodat het beschikbaar kan zijn voor iedereen. Desondanks worden donaties zeer welkom om te betalen voor dingen zoals de web-hosting.
+Donate.Patreon	DONEER VIA PATREON
+Donate.PayPal	DONEER VIA PAYPAL
+About.Thanks	Speciale dank gaat uit naar alle Patreons, vertalers, en donateurs die deze software mede mogelijk hebben gemaakt. Jullie contributie is erg gewaardeerd.
+Devices.Info    Info
+Devices.SyncTo  Sync naar
+Devices.InfoDriver  Driver:
+Devices.InfoName    Naam:
+Devices.InfoAuthor  Auteur:
+Devices.InfoDriverVersion   Driver Versie:
+Devices.Multiple    Meerdere Apparaten
+Devices.Selected    geselecteerd
+Devices.Config  Config
+Devices.Customize   Aanpassen
+Devices.Alignment   Uitlijning
+Devices.NoConfig    Dit apparaat heeft geen configuratie.
+Devices.ZoomOut Zoom Uit
+Devices.ZoomIn  Zoom In
+Devices.Condensed   Gecondenseerd
+Devices.IconView    Iconen
+Devices.ShowSources     Bronnen
+Customize.Align Uitlijning aanpassen
+Customize.AlignHint Gebruik de bediening hieronder om het apparaat en de plaatjes overeen te laten komen
+Customize.TitleOverride Overschrijf Titel
+Customize.SubTitleOverride Overschrijf SubTitel
+Customize.ChannelOverride Overschrijf Kanaal tekst
+Profile.TimeBasedTrigger    Tijd basis activatie
+Profile.TimeToTrigger   Tijd tot activatie:
+Profile.ProcessTrigger  Actieve Applciatie activatie
+Profile.ProcessName     Naam van Applicatie:
+Profile.ProcessInvert   Activatie op afwezigheid
+Profile.TriggerDesc     Activeert op
+Profile.SelectProfile   Schakel naar dit profiel
+Profile.EditProfile     Profiel aanpassen
+Profile.Triggers    Activatie
+Profile.RemoveProfile   Profiel verwijderen
+Profile.MomentaryTrigger Tijdelijke activatie
+Profile.Expand  uitvouwen
+Profile.Collapse    invouwen
+Generic.Off Uit
+Generic.On  Aan
+Generic.Yes Ja
+Generic.No  Nee
+Main.Devices    Apparaten
+Main.Profiles   Profielen
+Main.Palettes   Paletten
+Main.Store  Drivers
+Main.About  Over Ons
+Main.CrashMe  Crash
+Main.Settings   Instellingen
+Main.News  Nieuws
+Settings.ApiServer  API Server
+Settings.ApiServerHelp  Schakel dit in om RGB Sync Studio REST API Server in te schakellen
+Settings.RefreshFreq    Ververs Frequency
+Settings.RefreshFreqHelp    Past het aantal keer per seconde dat de RGB wordt geupdate
+Settings.Language   Taal
+Settings.Experimental   Experimentele Drivers
+Settings.ExperimentalHelp   Vertoon experimentele drivers in de winkel
+Fan Ventilator
+LEDStrip    LED Strip
+GPU GPU
+MotherBoard MoederBord
+Keyboard    Toetsenbordbord
+Keypad  Keypad
+Mouse   Muis
+MousePad    Muis Mat
+Headset Headset
+HeadsetStand    Headset Standaard
+PSU PSU
+Cooler  Koeler
+Memory  Geheugen
+Speaker Speaker
+Other   Anders
+AIO AIO
+WaterBlock  Water Blok
+Effect  Effect
+

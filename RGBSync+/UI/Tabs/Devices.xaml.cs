@@ -214,6 +214,8 @@ namespace RGBSyncPlus.UI.Tabs
             }
 
             vm.SinkThing();
+
+            vm.UpdateFilteredSourceDevices();
         }
 
         private void AddBottomPanel()
@@ -288,17 +290,23 @@ namespace RGBSyncPlus.UI.Tabs
             UpdateDeviceConfigUi(cd);
         }
 
-        private void ClickSource(object sender, MouseButtonEventArgs e)
+        private void ClickSource(object sender, RoutedEventArgs routedEventArgs)
         {
             Debug.WriteLine(sender);
-            ListView_SelectionChanged(this.SourceList, null);
+            Button but = sender as Button;
+            DeviceMappingModels.SourceModel dc = but.DataContext as DeviceMappingModels.SourceModel;
+            ListView_SelectionChanged(this.SourceList, null,dc);
+
+            vm.UpdateFilteredSourceDevices();
+
+            vm.UpdateSourceDevice(dc);
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e, DeviceMappingModels.SourceModel selected)
         {
             ListView items = (System.Windows.Controls.ListView)sender;
 
-            DeviceMappingModels.SourceModel selected = (DeviceMappingModels.SourceModel)items.SelectedItem;
+            //DeviceMappingModels.SourceModel selected = (DeviceMappingModels.SourceModel)items.SelectedItem;
             if (selected == null)
             {
                 return;
@@ -471,6 +479,33 @@ namespace RGBSyncPlus.UI.Tabs
             vm.SelectedSourceGroup = sg;
 
             vm.FilterSourceDevices();
+        }
+
+        private void MouseEnterMapper(object sender, MouseEventArgs e)
+        {
+            Grid grid = sender as Grid;
+            DeviceMappingModels.SourceModel dc = grid.DataContext as DeviceMappingModels.SourceModel;
+
+            foreach (DeviceMappingModels.SourceModel vmFilteredSourceDevice in vm.FilteredSourceDevices)
+            {
+                vmFilteredSourceDevice.Hovered = vmFilteredSourceDevice == dc;
+            }
+        }
+
+        private void MouseLeaveMapper(object sender, MouseEventArgs e)
+        {
+            
+        }
+
+        private async void ConfigSource(object sender, RoutedEventArgs e)
+        {
+            Button grid = sender as Button;
+            DeviceMappingModels.SourceModel dc = grid.DataContext as DeviceMappingModels.SourceModel;
+
+            UpdateDeviceConfigUi(dc.Device);
+            vm.SubViewMode = "Config";
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            await SetMaxHeight();
         }
     }
 }

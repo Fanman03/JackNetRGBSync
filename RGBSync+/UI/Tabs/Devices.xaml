@@ -44,7 +44,11 @@
         </DataTemplate>
         <DataTemplate x:Key="DeviceMapperSourceItemTemplate" >
 
-            <Grid Margin="0,5,0,5"  HorizontalAlignment="Stretch" Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisConverter}}" MaxWidth="{Binding ActualWidth, ConverterParameter=47, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}" VerticalAlignment="Top">
+            <Grid Margin="0,5,0,5"  
+                  HorizontalAlignment="Stretch" 
+                  Visibility="{Binding IsHidden, Converter={StaticResource InvertedBoolToVisConverter}}" 
+                  MaxWidth="{Binding ActualWidth, ConverterParameter=47, Converter={StaticResource PercentageConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}" 
+                  VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
 
                     <ColumnDefinition/>
@@ -52,11 +56,11 @@
 
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="1" Width="102" Height="52" Background="{x:Static SystemParameters.WindowGlassBrush}" Margin="8,0,0,0" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisConverter}}">
+                <!--<Grid Grid.Column="1" Width="102" Height="52" Background="{x:Static SystemParameters.WindowGlassBrush}" Margin="8,0,0,0" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisConverter}}">
                     <Button  Width="102" Height="52" HorizontalAlignment="Center" Margin="0" VerticalContentAlignment="Center" MouseUp="UIElement_OnMouseUp" FontFamily="Segoe UI SemiLight" Background="Transparent" Foreground="{DynamicResource SystemBaseHighColorBrush}"  VerticalAlignment="Center" FontSize="36" Padding="0" BorderThickness="0" Style="{StaticResource ButtonAccentRevealStyle}" Content="Edit"/>
-                </Grid>
+                </Grid>-->
 
-                <Grid Grid.Column="0" MouseLeftButtonUp="ClickSource">
+                <Grid Grid.Column="0" MouseEnter="MouseEnterMapper" MouseLeave="MouseLeaveMapper">
                     <Grid ClipToBounds="True" Height="62" MaxHeight="62" >
                         <Border Opacity="0.5">
                             <Border.Background>
@@ -79,8 +83,8 @@
                         </Rectangle>
 
                         <Rectangle Fill="Black" Opacity="0.5"/>
-                        <Rectangle Fill="Green" Opacity="0.5" Visibility="{Binding IsControllingSomething, Converter={StaticResource BoolToVisConverter}}"/>
-                        <Rectangle Fill="Pink" Opacity="0.5" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisConverter}}"/>
+                        <Rectangle Fill="Black" Opacity="0.75" Visibility="{Binding IsControllingSomething, Converter={StaticResource BoolToVisConverter}}"/>
+                        <!--<Rectangle Fill="Pink" Opacity="0.5" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisConverter}}"/>-->
                     </Grid>
                     <Grid MaxHeight="62">
 
@@ -89,20 +93,13 @@
 
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Grid Width="72" Height="48" Background="#F2000000" MaxWidth="64" Margin="8,0,0,0" >
+                                <Grid Width="48" Height="48" Background="#F2000000" MaxWidth="48" Margin="8,0,0,0" >
 
-                                    <Image Source="{Binding Image}" Width="72" Height="48"/>
-                                    <Rectangle Width="72" Height="48">
-                                        <Rectangle.Fill>
-                                            <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                                <GradientStop Color="{DynamicResource SystemListLowColor}" Offset="0.724"/>
-                                                <GradientStop Color="{DynamicResource SystemChromeLowColor}" Offset="0.93"/>
-                                            </LinearGradientBrush>
-                                        </Rectangle.Fill>
-                                    </Rectangle>
+                                    <Image Source="{Binding Image}" Width="48" Height="48" HorizontalAlignment="Stretch" Stretch="UniformToFill"/>
 
+                                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20" FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5"  Foreground="White"  Visibility="{Binding IsControllingSomething, Converter={StaticResource BoolToVisConverter}}"></TextBlock>
 
-                                    <Border BorderBrush="White" BorderThickness="1"/>
+                                    <!--<Border BorderBrush="White" BorderThickness="1"/>-->
                                 </Grid>
 
                                 <Image ToolTip="{Binding Device.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"  Margin="8,0"/>
@@ -116,7 +113,7 @@
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock FontSize="14" Foreground="White" FontFamily="Segoe UI" FontWeight ="Light"  Margin="8,0,0,0" Text="Controlling " />
-                                        <TextBlock FontSize="14" Foreground="White" FontFamily="Segoe UI" FontWeight ="Light"  Margin="0,0" Text="{Binding ControllingModels.Count}" />
+                                        <TextBlock FontSize="14" Foreground="White" FontFamily="Segoe UI" FontWeight ="Light"  Margin="0,0" Text="{Binding ControllingModelsCount}" />
                                         <TextBlock FontSize="14" Foreground="White" FontFamily="Segoe UI" FontWeight ="Light"  Margin="0,0" Text=" Devices" />
                                     </StackPanel>
                                     <!--<ListView x:Name="listView" ItemsSource="{Binding ControllingModels}" ItemTemplate="{DynamicResource controllingTemplate}" Background="{x:Null}" 
@@ -134,12 +131,19 @@
 
                         </Grid>
 
-                        <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisConverter}}">
+                        <!--<Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding Enabled, Converter={StaticResource BoolToVisConverter}}">
                             <Border BorderThickness="4" BorderBrush="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}"/>
-                        </Grid>
+                        </Grid>-->
                     </Grid>
                 </Grid>
-            </Grid>
+                <Grid Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding Hovered, Converter={StaticResource BoolToVisConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Devices.ZoomOut, Converter={StaticResource LocConverter}}" Click="ConfigSource"  Visibility="{Binding HasConfig, Converter={StaticResource BoolToVisConverter}}"/>
+                        <Button Background="#80000000" Content="" Style="{StaticResource SmallSquareIcon}" ToolTip="{Binding Language, ConverterParameter=Devices.SyncTo, Converter={StaticResource LocConverter}}" Click="ClickSource"/>
+                        
+                    </StackPanel>
+                </Grid>
+                </Grid>
 
         </DataTemplate>
         <DataTemplate x:Key="DeviceControlCondensedTemplate">
@@ -295,13 +299,13 @@
             
                 <Grid Height="60" Background="#40000000" Margin="5" VerticalAlignment="Top" MouseDown="ButtonBase_OnClick">
 
-                    <Border BorderThickness="2" BorderBrush="Green" Visibility="{Binding Selected, Converter={StaticResource BoolToVisConverter}}"></Border>
+                    <Rectangle Fill="Green" Opacity="0.5" Visibility="{Binding Selected, Converter={StaticResource BoolToVisConverter}}"></Rectangle>
                     <StackPanel>
-                        <TextBlock Text="{Binding Name}" FontFamily="Segoe UI" FontSize="18" Margin="7,5,0,0" Foreground="{DynamicResource SystemBaseHighColorBrush}"></TextBlock>
-                        <TextBlock Text="{Binding SubName}" FontFamily="Segoe UI" FontSize="12" Margin="7" Foreground="{DynamicResource SystemBaseHighColorBrush}"></TextBlock>
+                    <TextBlock Text="{Binding Name}" FontFamily="Segoe UI" FontWeight="Bold" FontSize="16" Margin="7,5,0,0" Foreground="{DynamicResource SystemBaseHighColorBrush}"></TextBlock>
+                    <TextBlock Text="{Binding SubName}" FontFamily="Segoe UI Light" FontSize="14" Margin="7" Foreground="{DynamicResource SystemBaseHighColorBrush}"  FontWeight="Light"></TextBlock>
                     </StackPanel>
-                    <Grid Background="Black" Margin="5" HorizontalAlignment="Right" Width="45" Height="30" VerticalAlignment="Top">
-                        <Image Source="{Binding Image}"/>
+                    <Grid Background="Black" Margin="5" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Center">
+                        <Image Source="{Binding Image}" Stretch="UniformToFill"/>
                     </Grid>
 
                 </Grid>
@@ -352,7 +356,7 @@
                     </ListView.ItemsPanel>
                 </ListView>
 
-                <ListView ItemsSource="{Binding SLSDevicesFiltered}" ItemTemplate="{DynamicResource DeviceControlCondensedTemplate}" SelectionChanged="DevicesListCondensedSelectionChanged" x:Name="DeviceConfigCondensedList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource BoolToVisConverter}}">
+                <ListView ItemsSource="{Binding SLSDevicesFiltered}" ItemTemplate="{DynamicResource DeviceControlCondensedTemplate}" SelectionChanged="DevicesListCondensedSelectionChanged" x:Name="DeviceConfigCondensedList" Visibility="{Binding DevicesCondenseView, Converter={StaticResource BoolToVisConverter}}" Margin="0" Padding="0">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="2"/>
@@ -370,7 +374,6 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Height="36" Margin="0" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingledDeviceSelected, Converter={StaticResource BoolToVisConverter}}" >
                 <TextBlock FontSize="24" Text="{Binding ProviderName}" Margin="12,0,0,0" FontWeight="Bold" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
-
                 <TextBlock FontSize="24" Text="{Binding Name}" FontWeight="Light" Margin="12,0,0,0" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
 
             </StackPanel>
@@ -381,10 +384,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Center"  >
-
-
                 <Button Background="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SubViewMode, ConverterParameter=info|#e0000000|#80000000, Converter={StaticResource StringMatchToSolidColorBrush}}" Style="{StaticResource SmallSquareIcon}" Click="SubInfo" Width="180" HorizontalContentAlignment="Left" IsHitTestVisible="True">
-
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <TextBlock></TextBlock>
                         <TextBlock FontFamily="Segoe UI Light" VerticalAlignment="Center" FontSize="18" Margin="4,0,0,0" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Devices.Info, Converter={StaticResource LocConverter}}"></TextBlock>

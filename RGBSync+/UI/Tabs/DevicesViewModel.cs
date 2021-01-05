@@ -55,10 +55,7 @@ namespace RGBSyncPlus.UI.Tabs
             }
         }
 
-        private ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> deviceMappingViewModel;
-        public ObservableCollection<DeviceMappingModels.DeviceMappingViewModel> DeviceMappingViewModel { get => deviceMappingViewModel; set => SetProperty(ref deviceMappingViewModel, value); }
-
-
+        
         private int devicesSelectedCount = 0;
         public int DevicesSelectedCount
         {
@@ -140,7 +137,7 @@ namespace RGBSyncPlus.UI.Tabs
         public ObservableCollection<DeviceMappingModels.SourceModel> SourceDevices
         {
             get => sourceDevices;
-            set { SetProperty(ref sourceDevices, value); }
+            set => SetProperty(ref sourceDevices, value);
         }
 
         private ObservableCollection<SourceGroup> sourceGroups;
@@ -148,7 +145,7 @@ namespace RGBSyncPlus.UI.Tabs
         public ObservableCollection<SourceGroup> SourceGroups
         {
             get => sourceGroups;
-            set { SetProperty(ref sourceGroups, value); }
+            set => SetProperty(ref sourceGroups, value);
         }
 
         private SourceGroup selectedSourceGroup;
@@ -169,12 +166,12 @@ namespace RGBSyncPlus.UI.Tabs
                 set => SetProperty(ref name, value);
             }
 
-            private string subname;
+            private string subName;
 
             public string SubName
             {
-                get => subname;
-                set => SetProperty(ref subname, value);
+                get => subName;
+                set => SetProperty(ref subName, value);
             }
 
             private BitmapImage image;
@@ -199,10 +196,35 @@ namespace RGBSyncPlus.UI.Tabs
                 get => selected;
                 set => SetProperty(ref selected, value);
             }
+
+
+            private ObservableCollection<DeviceMappingModels.SourceModel> filteredSourceDevices;
+
+            public ObservableCollection<DeviceMappingModels.SourceModel> FilteredSourceDevices
+            {
+                get => filteredSourceDevices;
+                set => SetProperty(ref filteredSourceDevices, value);
+            }
         }
 
         public void FilterSourceDevices()
         {
+
+            IEnumerable<DeviceMappingModels.SourceModel> showSourceDevices = SourceDevices.ToList();
+
+            if (selectedSourceGroup != null && selectedSourceGroup.Name.ToLower() != "show all")
+            {
+                showSourceDevices = showSourceDevices.Where(sourceDevice =>
+                    sourceDevice.ProviderName == SelectedSourceGroup.Name &&
+                    sourceDevice.Device.DeviceType == SelectedSourceGroup.SubName);
+                //FilteredSourceDevices = new ObservableCollection<DeviceMappingModels.SourceModel>(SourceDevices.Where(sourceDevice => sourceDevice.Name == SelectedSourceGroup.Name && sourceDevice.Device.DeviceType == SelectedSourceGroup.SubName));
+            }
+
+
+            FilteredSourceDevices = new ObservableCollection<DeviceMappingModels.SourceModel>(showSourceDevices);
+
+            return;
+
 
             IEnumerable<DeviceMappingModels.SourceModel> visibleDevices = SourceDevices.Where(sourceDevice => (((string.IsNullOrWhiteSpace(SyncToSearch) ||
                                                                        (sourceDevice.Name.ToLower() ==
@@ -311,6 +333,7 @@ namespace RGBSyncPlus.UI.Tabs
                 //  enabled = things.Any();
                 SourceDevices.Add(new DeviceMappingModels.SourceModel
                 {
+                    HasConfig = source.Driver != null && source.Driver is ISimpleLedWithConfig,
                     DeviceType = source.DeviceType,
                     ProviderName = source.Driver.Name(),
                     Device = source,
@@ -325,7 +348,8 @@ namespace RGBSyncPlus.UI.Tabs
                         ConnectedTo = x.ConnectedTo,
                         Name = x.Name,
                         IsCurrent = SLSDevicesFiltered.Any(y => y.Selected && y.Name == x.Name && y.ProviderName == x.ProviderName && x.ConnectedTo == y.ConnectedTo)
-                    }).ToList())
+                    }).ToList()),
+                    ControllingModelsCount = things.Count()
                 });
 
                 if (SourceGroups.Any(x => source.Driver.Name() == x.Name && x.SubName == source.DeviceType))
@@ -345,6 +369,69 @@ namespace RGBSyncPlus.UI.Tabs
                 }
             }
 
+            if (SelectedSourceGroup == null)
+            {
+                SelectedSourceGroup = SourceGroups.First(x => x.Name.ToLower() == "show all");
+            }
+
+            FilterSourceDevices();
+
+            foreach (DevicesViewModel.SourceGroup vmSourceGroup in SourceGroups)
+            {
+                vmSourceGroup.Selected = vmSourceGroup == SelectedSourceGroup;
+            }
+        }
+
+        public void UpdateFilteredSourceDevices()
+        {
+
+            if (FilteredSourceDevices != null)
+            {
+                foreach (DeviceMappingModels.SourceModel sd in FilteredSourceDevices)
+                {
+                    UpdateSourceDevice(sd);
+                }
+
+                OnPropertyChanged("SourceDevices");
+                OnPropertyChanged("FilteredSourceDevices");
+            }
+        }
+
+        public void UpdateSourceDevices()
+        {
+            
+
+            foreach (DeviceMappingModels.SourceModel sd in SourceDevices)
+            {
+                UpdateSourceDevice(sd);
+            }
+
+            OnPropertyChanged("SourceDevices");
+            OnPropertyChanged("FilteredSourceDevices");
+
+        }
+
+        public void UpdateSourceDevice(DeviceMappingModels.SourceModel sd)
+        {
+            ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ApplicationManager.Instance.CurrentProfile?.DeviceProfileSettings;
+
+            IEnumerable<DeviceMappingModels.NGDeviceProfileSettings> things = temp.Where(x =>
+                x.SourceName == sd.Name && x.SourceProviderName == sd.ProviderName &&
+                x.SourceConnectedTo == sd.ConnectedTo);
+
+            sd.Controlling = string.Join(", ", things.Select(x => x.Name));
+            sd.ControllingModels = new ObservableCollection<DeviceMappingModels.SourceControllingModel>(things
+                .Select(x => new DeviceMappingModels.SourceControllingModel
+                {
+                    ProviderName = x.ProviderName,
+                    ConnectedTo = x.ConnectedTo,
+                    Name = x.Name,
+                    IsCurrent = SLSDevicesFiltered.Any(y =>
+                        y.Selected && y.Name == x.Name && y.ProviderName == x.ProviderName &&
+                        x.ConnectedTo == y.ConnectedTo)
+                }).ToList());
+            sd.ControllingModelsCount = sd.ControllingModels.Count;
+            sd.IsControllingSomething = sd.ControllingModels.Any(x => x.IsCurrent);
 
         }
 
