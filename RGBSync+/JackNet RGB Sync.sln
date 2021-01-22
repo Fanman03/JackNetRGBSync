@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentWPF", "..\FluentWPF\F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorPickerWPF", "..\ColorpickerWPF\ColorPickerWPF.csproj", "{7028E44E-407C-4460-A51E-00171036FB36}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Drivers", "Drivers", "{6F4DCDAA-0EEC-414D-ABC1-31CC3D30B0BD}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\SharedCode\SharedCode.projitems*{285a3e6c-652a-4ca2-9b27-3a4dc4e1177b}*SharedItemsImports = 13

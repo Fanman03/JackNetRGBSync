@@ -27,6 +27,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
+
 namespace RGBSyncPlus
 {
     public class ApplicationManager
@@ -1219,16 +1220,25 @@ namespace RGBSyncPlus
             //    }
             //}
 
+            var type = typeof(ISimpleLed);
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => type.IsAssignableFrom(p)).ToList();
 
+            Assembly asm = Assembly.GetExecutingAssembly();
+            var typos = asm.GetTypesWithInterface();
 
             SolidColorDevice = new SolidColorDriver();
             GradientDriver = new GradientDriver();
-
+            
 
 
             SLSManager.Drivers.Add(RssBackgroundDevice);
             SLSManager.Drivers.Add(SolidColorDevice);
             SLSManager.Drivers.Add(GradientDriver);
+
+
+
             RssBackgroundDevice.DeviceAdded += SlsDriver_DeviceAdded;
             RssBackgroundDevice.DeviceRemoved += SlsDriver_DeviceRemoved;
 
@@ -1241,9 +1251,22 @@ namespace RGBSyncPlus
             SolidColorDevice.Configure(new DriverDetails());
             GradientDriver.Configure(new DriverDetails());
 
+            //HarnessDriver(new CUEDriver());
+
             SLSManager.RescanRequired += Rescan;
             loadingSplash.LoadingText.Text = "Updating SLS devices";
             UpdateSLSDevices();
+        }
+
+        private void HarnessDriver(ISimpleLed driver)
+        {
+            SLSManager.Drivers.Add(driver);
+
+            driver.DeviceAdded += SlsDriver_DeviceAdded;
+            driver.DeviceRemoved += SlsDriver_DeviceRemoved;
+
+            driver.Configure(new DriverDetails());
+
         }
 
         public SolidColorDriver SolidColorDevice { get; set; }
@@ -1370,7 +1393,7 @@ namespace RGBSyncPlus
                 if (overriden != null)
                 {
                     var props = e.ControlDevice.Driver.GetProperties();
-                    if (props?.OverrideSupport != OverrideSupport.None)
+                    if (e.ControlDevice.OverrideSupport != OverrideSupport.None)
                     {
                         if (props?.SetDeviceOverride != null && overriden.CustomDeviceSpecification.LedCount > 0)
                         {

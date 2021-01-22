@@ -246,14 +246,14 @@ namespace RGBSyncPlus.UI.Tabs
 
             var props = controlDevice.Driver.GetProperties();
 
-            if (props.OverrideSupport != null && props.OverrideSupport != OverrideSupport.None)
+            if (controlDevice.OverrideSupport != null && controlDevice.OverrideSupport != OverrideSupport.None)
             {
-                if (props.OverrideSupport == OverrideSupport.All)
+                if (controlDevice.OverrideSupport == OverrideSupport.All)
                 {
                     OverrideSpecs = new ObservableCollection<CustomDeviceSpecification>(ApplicationManager.Instance.SLSManager.GetCustomDeviceSpecifications());
                 }
 
-                if (props.OverrideSupport == OverrideSupport.Self && props.GetCustomDeviceSpecifications!=null)
+                if (controlDevice.OverrideSupport == OverrideSupport.Self && props.GetCustomDeviceSpecifications!=null)
                 {
                     OverrideSpecs = new ObservableCollection<CustomDeviceSpecification>(props.GetCustomDeviceSpecifications());
                 }
