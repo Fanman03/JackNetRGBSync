@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +14,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Microsoft.Win32;
 using RGBSyncPlus.Helper;
+using CustomDeviceSpecification = SimpleLed.CustomDeviceSpecification;
 
 namespace RGBSyncPlus.UI.Tabs
 {
@@ -577,6 +581,134 @@ namespace RGBSyncPlus.UI.Tabs
             Debug.WriteLine(ContainerGrid.RowDefinitions[0].ActualHeight);
             Debug.WriteLine(ContainerGrid.RowDefinitions[1].ActualHeight);
             Debug.WriteLine(ContainerGrid.RowDefinitions[2].ActualHeight);
+        }
+
+        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cb = sender as ComboBox;
+
+            StackPanel parent = cb.Parent as StackPanel;
+
+            CustomDeviceSpecification cds = cb.SelectedItem as CustomDeviceSpecification;
+           // CustomDeviceSpecification cds = cbi.DataContext as CustomDeviceSpecification;
+
+            Debug.WriteLine(cds);
+
+            DeviceMappingModels.Device parentContext = parent.DataContext as DeviceMappingModels.Device;
+
+            if (parentContext.Overrides == null)
+            {
+                parentContext.Overrides = ApplicationManager.Instance.GenerateOverride(parentContext.ControlDevice);
+            }
+
+            parentContext.Overrides.CustomDeviceSpecification = cds;
+
+            if (cds.Bitmap != null)
+            {
+                parentContext.Image = DevicesViewModel.ToBitmapImage(cds.Bitmap);
+            }
+        }
+
+        public void PickFile(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+
+            StackPanel parent = button.Parent as StackPanel;
+            DeviceMappingModels.Device device = parent.DataContext as DeviceMappingModels.Device;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var bim = new Bitmap(openFileDialog.FileName);
+
+                    if ((bim.Width != 192 && bim.Width != 256) || bim.Height != 192)
+                    {
+                        MessageBox.Show("Image needs to be 192x192 or 256x192\r\n("+bim.Width+", "+bim.Height+")", "Incorrect Dimensions");
+                    }
+                    else
+                    {
+                        using (var s = File.OpenRead(openFileDialog.FileName))
+                        {
+                            byte[] tmp = new byte[s.Length];
+                            s.Read(tmp, 0, tmp.Length);
+
+                            if (device.Overrides.CustomDeviceSpecification == null)
+                            {
+                                device.Overrides = ApplicationManager.Instance.GetOverride(device.ControlDevice);
+                                if (device.Overrides.CustomDeviceSpecification == null)
+                                {
+                                    device.Overrides.CustomDeviceSpecification=new CustomDeviceSpecification();
+                                }
+                            }
+
+                            device.Overrides.CustomDeviceSpecification.PngData = tmp;
+                            device.Overrides.CustomDeviceSpecification.Bitmap = bim;
+                            BitmapOverrideImageHolder.Source = DevicesViewModel.ToBitmapImage(bim);
+                            device.Image = DevicesViewModel.ToBitmapImage(bim);
+                        }
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+            }
+
+            
+        }
+
+        private void RGBOrderOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cb = sender as ComboBox;
+            var derp = cb.SelectedValue;
+
+            Debug.WriteLine(derp);
+            object si = cb.SelectedItem;
+
+            ComboBoxItem sis = si as ComboBoxItem;
+            
+
+            Debug.WriteLine(sis);
+            Debug.WriteLine(sis.Content);
+            string tt = (string)si.ToString();
+
+            RGBOrder order = (RGBOrder)Enum.Parse(typeof(RGBOrder), (string)sis.Content);
+
+            var pp = cb.DataContext as DeviceMappingModels.Device;
+            pp.Overrides.CustomDeviceSpecification.RGBOrder = order;
+
+            Debug.WriteLine(cb);
+        }
+
+        private void LedCountChanged(object sender, TextChangedEventArgs e)
+        {
+            //var dc = this.DataContext as DeviceMappingModels.Device;
+            //var cd = (this.DataContext as DeviceMappingModels.Device).ControlDevice;
+            //    var props = cd.Driver.GetProperties();
+            //    if (props.SetDeviceOverride != null)
+            //    {
+            //        props.SetDeviceOverride(cd, cd.CustomDeviceSpecification);
+            //    }
+        }
+
+        private void WriteCDS(object sender, RoutedEventArgs e)
+        {
+            Button sb = sender as Button;
+            DeviceMappingModels.Device dave = sb.DataContext as DeviceMappingModels.Device;
+
+            var cd = dave.ControlDevice;
+            var props = cd.Driver.GetProperties();
+            if (props.SetDeviceOverride != null)
+            {
+                props.SetDeviceOverride(cd, dave.Overrides.CustomDeviceSpecification);
+                cd.CustomDeviceSpecification = dave.Overrides.CustomDeviceSpecification;
+            }
+
+            Debug.WriteLine(sb);
         }
     }
 }

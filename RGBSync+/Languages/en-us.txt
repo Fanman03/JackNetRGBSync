@@ -122,6 +122,13 @@ Customize.AlignHint Use the controls below to make your device match the images
 Customize.TitleOverride Override Title
 Customize.SubTitleOverride Override SubTitle
 Customize.ChannelOverride Override Channel text
+Customize.LEDCount  LED Count
+Customize.Template  Template
+Customize.Image Product Image
+Customize.Mapper    Mapper
+Customize.GridWidth 2D Width
+Customize.GridHeight    2D Height
+Customize.RGBOrder    RGB Order
 Profile.TimeBasedTrigger    Time Based Trigger
 Profile.TimeToTrigger   Time at which to trigger:
 Profile.ProcessTrigger  Running Process Trigger

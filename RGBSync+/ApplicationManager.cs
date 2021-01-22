@@ -1,4 +1,5 @@
 ﻿using DiscordRPC;
+using DiscordRPC;
 using Newtonsoft.Json;
 
 using RGBSyncPlus.Configuration;
@@ -328,17 +329,24 @@ namespace RGBSyncPlus
         }
 
         public static bool isHotLoading = false;
+
+        public void LoadOverrides()
+        {
+            if (File.Exists("NGOverrides.json"))
+            {
+                string json = File.ReadAllText("NGOverrides.json");
+                var tmp = JsonConvert.DeserializeObject<List<DeviceMappingModels.DeviceOverrides>>(json);
+                DeviceOverrides = new ObservableCollection<DeviceMappingModels.DeviceOverrides>(tmp);
+            }
+        }
+
         public void HotLoadNGSettings()
         {
             if (isHotLoading) return;
 
             isHotLoading = true;
 
-            if (File.Exists("NGOverrides.json"))
-            {
-                string json = File.ReadAllText("NGOverrides.json");
-                DeviceOverrides = new ObservableCollection<DeviceMappingModels.DeviceOverrides>(JsonConvert.DeserializeObject<List<DeviceMappingModels.DeviceOverrides>>(json));
-            }
+            LoadOverrides();
 
             profilePathMapping.Clear();
             if (!Directory.Exists(NGPROFILES_DIRECTORY))
@@ -716,7 +724,7 @@ namespace RGBSyncPlus
             loadingSplash.LoadingText.Text = "Starting Discord";
             client = new DiscordRpcClient("581567509959016456");
             client.Initialize();
-
+            LoadOverrides();
             LoadSLSProviders();
 
             loadingSplash.LoadingText.Text = "Mapping from config";
@@ -861,7 +869,7 @@ namespace RGBSyncPlus
         }
         private void SLSUpdate(object state)
         {
-            try
+            //try
             {
 
                 if (PauseSyncing)
@@ -928,14 +936,14 @@ namespace RGBSyncPlus
                                      currentProfileDeviceProfileSetting.ProviderName +
                                      currentProfileDeviceProfileSetting.ConnectedTo;
 
-                        if (!isMapping.ContainsKey(key) || isMapping[key] == false)
+                        //if (!isMapping.ContainsKey(key) || isMapping[key] == false)
                         {
                             if (!isMapping.ContainsKey(key))
                             {
                                 isMapping.Add(key, true);
                             }
 
-                            try
+                           // try
                             {
                                 dest.MapLEDs(cd);
                                 pushMe.Add(new PushListItem
@@ -945,9 +953,10 @@ namespace RGBSyncPlus
                                     Key = key
                                 });
                             }
-                            catch
-                            {
-                            }
+                            //catch (Exception e)
+                            //{
+                            //    Debug.WriteLine(e.Message);
+                            //}
 
                             isMapping[key] = true;
                         }
@@ -968,26 +977,33 @@ namespace RGBSyncPlus
                                gp.Key.Push(t.Device);
                                await Task.Delay(0);
                            }
-                           catch { }
+                           catch (Exception e)
+                           {
+                               Debug.WriteLine(e.Message);
+                           }
                        }
+
                        foreach (PushListItem t in gp.ToList())
                        {
                            try
                            {
                                isMapping[t.Key] = false;
                            }
-                           catch { }
+                           catch (Exception e)
+                           {
+                               Debug.WriteLine(e.Message);
+                           }
                        }
                    }
                    );
                 }
             }
-            catch (Exception ex)
-            {
-                // Process unhandled exception
-                ApplicationManager.Logger.CrashWindow(ex);
+            //catch (Exception ex)
+            //{
+            //    // Process unhandled exception
+            //    ApplicationManager.Logger.CrashWindow(ex);
 
-            }
+            //}
         }
 
         public Dictionary<string, bool> isMapping = new Dictionary<string, bool>();
@@ -1329,7 +1345,49 @@ namespace RGBSyncPlus
 
         private void SlsDriver_DeviceAdded(object sender, Events.DeviceChangeEventArgs e)
         {
-            SLSDevices.Add(e.ControlDevice);
+            Debug.WriteLine("" +
+                            "Adding device" +
+                            ": "+e.ControlDevice.Name);
+
+            if (e.ControlDevice.Name == "matrix")
+            {
+                Debug.WriteLine("Here we go!");
+            }
+           
+
+            //DispatcherTimer t = new DispatcherTimer();
+            //t.Interval = TimeSpan.FromMilliseconds(200);
+            //t.Tick+= (o, args) =>
+            //{
+
+                if (e.ControlDevice.Name == "matrix")
+                {
+                    Debug.WriteLine("Here we go!");
+                }
+
+             //   t.Stop();
+                var overriden = GetOverride(e.ControlDevice);
+                if (overriden != null)
+                {
+                    var props = e.ControlDevice.Driver.GetProperties();
+                    if (props?.OverrideSupport != OverrideSupport.None)
+                    {
+                        if (props?.SetDeviceOverride != null && overriden.CustomDeviceSpecification.LedCount > 0)
+                        {
+                            props.SetDeviceOverride(e.ControlDevice, overriden.CustomDeviceSpecification);
+                            e.ControlDevice.CustomDeviceSpecification = overriden.CustomDeviceSpecification;
+                        }
+
+                        e.ControlDevice.GridWidth = overriden.CustomDeviceSpecification.GridWidth;
+                        e.ControlDevice.GridHeight = overriden.CustomDeviceSpecification.GridHeight;
+
+                    }
+                }
+
+                SLSDevices.Add(e.ControlDevice);
+            // };
+
+            //  t.Start();
         }
 
         public void Rescan(object sender, EventArgs args)
@@ -1377,25 +1435,36 @@ namespace RGBSyncPlus
 
         public DeviceMappingModels.DeviceOverrides GetOverride(ControlDevice cd)
         {
-            DeviceMappingModels.DeviceOverrides existing = DeviceOverrides.FirstOrDefault(x =>
+            DeviceMappingModels.DeviceOverrides existing = DeviceOverrides.ToList().FirstOrDefault(x =>
                 x.Name == cd.Name && x.ConnectedTo == cd.ConnectedTo &&
                 x.ProviderName == cd.Driver.Name());
 
             if (existing == null)
             {
-                existing = new DeviceMappingModels.DeviceOverrides
-                {
-                    Name = cd.Name,
-                    ConnectedTo = cd.ConnectedTo,
-                    ProviderName = cd.Driver?.Name(),
-                    TitleOverride = string.IsNullOrWhiteSpace(cd.TitleOverride) ? cd.Driver.Name() : cd.TitleOverride,
-                    ChannelOverride = cd.ConnectedTo,
-                    SubTitleOverride = cd.Name
-                };
+                existing = GenerateOverride(cd);
             }
 
             return existing;
         }
+
+        public DeviceMappingModels.DeviceOverrides GenerateOverride(ControlDevice cd)
+        {
+            var existing = new DeviceMappingModels.DeviceOverrides
+            {
+                Name = cd.Name,
+                ConnectedTo = cd.ConnectedTo,
+                ProviderName = cd.Driver?.Name(),
+                TitleOverride = string.IsNullOrWhiteSpace(cd.TitleOverride) ? cd.Driver.Name() : cd.TitleOverride,
+                ChannelOverride = cd.ConnectedTo,
+                SubTitleOverride = cd.Name,
+                CustomDeviceSpecification = new CustomDeviceSpecification()
+            };
+            DeviceOverrides.Add(existing);
+            overridesDirty = true;
+
+            return existing;
+        }
+
 
         public void UpdateSLSDevices()
         {

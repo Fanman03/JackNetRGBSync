@@ -696,7 +696,17 @@ namespace RGBSyncPlus.Model
             private string titleOverride;
             private string subTitleOverride;
             private string channelOverride;
+            private CustomDeviceSpecification customDeviceSpecification;
 
+            public CustomDeviceSpecification CustomDeviceSpecification
+            {
+                get => customDeviceSpecification;
+                set
+                {
+                    SetProperty(ref customDeviceSpecification, value);
+                    PushUpdate();
+                }
+            }
             public string TitleOverride
             {
                 get => titleOverride;
