@@ -542,7 +542,7 @@
 
                         </StackPanel>
 
-                        <StackPanel Background="Transparent" HorizontalAlignment="Left" Margin="10,0">
+                        <StackPanel Background="Transparent" HorizontalAlignment="Left" Margin="10,0" Visibility="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.ShowOverrides, Converter={StaticResource BoolToVisConverter}}">
                             <Label Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="16" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.Language, ConverterParameter=Customize.Template, Converter={StaticResource LocConverter}}"/>
                             <StackPanel Orientation="Horizontal">
                                 <ComboBox 
@@ -563,7 +563,7 @@
                                 
 
                             </StackPanel>
-                            <Grid Width="300" Margin="0">
+                            <Grid Width="300" Margin="0" Visibility="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.ShowOverrides, Converter={StaticResource BoolToVisConverter}}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="150"></ColumnDefinition>
                                     <ColumnDefinition Width="150"></ColumnDefinition>
@@ -588,7 +588,7 @@
 
                         </StackPanel>
 
-                        <StackPanel Background="Transparent" HorizontalAlignment="Left" Margin="10,0">
+                        <StackPanel Background="Transparent" HorizontalAlignment="Left" Margin="10,0"  Visibility="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.ShowOverrides, Converter={StaticResource BoolToVisConverter}}">
                             <Label Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="16" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.Language, ConverterParameter=Customize.Mapper, Converter={StaticResource LocConverter}}"/>
 
                             <ComboBox 

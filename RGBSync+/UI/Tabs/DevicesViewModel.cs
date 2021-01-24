@@ -240,11 +240,21 @@ namespace RGBSyncPlus.UI.Tabs
             get => overrideSpecs;
             set => SetProperty(ref overrideSpecs, value);
         }
+
+        private bool showOverrides = false;
+
+        public bool ShowOverrides
+        {
+            get => showOverrides;
+            set => SetProperty(ref showOverrides, value);
+        }
         public void SetupSourceDevices(ControlDevice controlDevice)
         {
             if (controlDevice == null) return;
 
             var props = controlDevice.Driver.GetProperties();
+
+            ShowOverrides = controlDevice.OverrideSupport!= null && controlDevice.OverrideSupport != OverrideSupport.None;
 
             if (controlDevice.OverrideSupport != null && controlDevice.OverrideSupport != OverrideSupport.None)
             {
@@ -639,6 +649,11 @@ namespace RGBSyncPlus.UI.Tabs
             if (ApplicationManager.Instance.SLSDevices != null && ApplicationManager.Instance.SLSDevices.Count(x => x.Driver != null && x.Driver.GetProperties().Id != Guid.Parse("11111111-1111-1111-1111-111111111111")) == 0)
             {
                 ApplicationManager.Instance.NavigateToTab("store");
+            }
+
+            if (ApplicationManager.Instance.CurrentProfile == null)
+            {
+                return;
             }
 
             ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ApplicationManager.Instance.CurrentProfile?.DeviceProfileSettings;
