@@ -110,12 +110,18 @@ namespace RGBSyncPlus
 
         private ApplicationManager()
         {
-            if (!Directory.Exists(NGPROFILES_DIRECTORY))
+            try
             {
-                Directory.CreateDirectory(NGPROFILES_DIRECTORY);
-                GenerateNewProfile("Default", false);
-                isHotLoading = false;
-                return;
+                if (!Directory.Exists(NGPROFILES_DIRECTORY))
+                {
+                    Directory.CreateDirectory(NGPROFILES_DIRECTORY);
+                    GenerateNewProfile("Default", false);
+                    isHotLoading = false;
+                    return;
+                }
+            }
+            catch
+            {
             }
 
             //AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
@@ -166,7 +172,10 @@ namespace RGBSyncPlus
 
         public void NavigateToTab(string tab)
         {
-            ConfigurationWindow.SetTab(tab);
+            if (ConfigurationWindow != null)
+            {
+                ConfigurationWindow.SetTab(tab);
+            }
         }
 
         public List<ColorProfile> GetColorProfiles()
