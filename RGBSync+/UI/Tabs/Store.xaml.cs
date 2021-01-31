@@ -381,8 +381,23 @@ namespace RGBSyncPlus.UI.Tabs
                             List<string> pluginPaths = new List<string>();
                             foreach (IArchiveEntry archiveEntry in thingy.Entries)
                             {
+                                bool suc = false;
+                                int attemp = 0;
 
-                                archiveEntry.WriteToDirectory(pluginPath);
+                                while (attemp < 10 && !suc)
+                                {
+                                    try
+                                    {
+                                        archiveEntry.WriteToDirectory(pluginPath);
+                                        suc = true;
+                                    }
+                                    catch
+                                    {
+                                        attemp++;
+                                        Thread.Sleep(100);
+                                    }
+                                }
+
                                 ct++;
 
                                 installingModal?.UpdateModalPercentage(mainVm, (int)(ct / mx) * 100);
