@@ -290,7 +290,7 @@ namespace RGBSyncPlus.UI.Tabs
 
                     PositionalAssignment.PluginDetailsViewModel tmp = new PositionalAssignment.PluginDetailsViewModel(new PositionalAssignment.PluginDetails(insertThis));
                     tmp.Versions = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(driverPropertieses.Select(x => new PositionalAssignment.PluginDetailsViewModel(new PositionalAssignment.PluginDetails(x), true)).ToList());
-                    tmp.VersionsAvailable = new ObservableCollection<PositionalAssignment.PluginVersionDetails>(driverPropertieses.OrderByDescending(x => x.CurrentVersion).Select(x => new PositionalAssignment.PluginVersionDetails
+                    tmp.VersionsAvailable = new ObservableCollection<PositionalAssignment.PluginVersionDetails>(driverPropertieses.OrderByDescending(x => x.CurrentVersion.ToString()).Select(x => new PositionalAssignment.PluginVersionDetails
                     {
                         ReleaseNumber = x.CurrentVersion,
                         IsExperimental = !x.IsPublicRelease,

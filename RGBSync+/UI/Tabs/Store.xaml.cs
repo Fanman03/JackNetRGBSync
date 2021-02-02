@@ -333,7 +333,7 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 ComboBox parent = e.Source as ComboBox;
                 PositionalAssignment.PluginDetailsViewModel parentDC = parent.DataContext as PositionalAssignment.PluginDetailsViewModel;
-
+                bool anyFail = false;
                 using (installingModal = new SimpleModal(mainVm, "Installing..."))
                 {
                     ApplicationManager.Instance.PauseSyncing = true;
@@ -350,6 +350,18 @@ namespace RGBSyncPlus.UI.Tabs
 
                         SimpleLedApiClient apiClient = new SimpleLedApiClient();
                         byte[] drver = await apiClient.GetProduct(parentDC.PluginId, bdc.ReleaseNumber);
+
+                        var exist = ApplicationManager.Instance.SLSManager.Drivers.FirstOrDefault(x =>
+                            x.GetProperties().Id == parentDC.PluginId);
+                        if (exist != null)
+                        {
+                         
+                            ApplicationManager.Instance.SLSManager.Drivers.Remove(exist);
+                            Thread.Sleep(100);
+                            exist.Dispose();
+                            Thread.Sleep(1000);
+                        }
+
 
 
                         string pluginPath = ApplicationManager.SLSPROVIDER_DIRECTORY + "\\" + parentDC.PluginId;
@@ -371,7 +383,7 @@ namespace RGBSyncPlus.UI.Tabs
                         catch
                         {
                         }
-
+                        
                         using (Stream stream = new MemoryStream(drver))
                         {
                             IArchive thingy = SharpCompress.Archives.ArchiveFactory.Open(stream);
@@ -379,6 +391,7 @@ namespace RGBSyncPlus.UI.Tabs
                             float mx = thingy.Entries.Count();
                             int ct = 0;
                             List<string> pluginPaths = new List<string>();
+                            
                             foreach (IArchiveEntry archiveEntry in thingy.Entries)
                             {
                                 bool suc = false;
@@ -398,6 +411,11 @@ namespace RGBSyncPlus.UI.Tabs
                                     }
                                 }
 
+                                if (!suc)
+                                {
+                                    anyFail = true;
+                                }
+
                                 ct++;
 
                                 installingModal?.UpdateModalPercentage(mainVm, (int)(ct / mx) * 100);
@@ -413,13 +431,28 @@ namespace RGBSyncPlus.UI.Tabs
 
                         }
 
-                        ApplicationManager.Instance.LoadPlungFolder(pluginPath);
-                        vm.LoadStoreAndPlugins();
+
+
+                        try
+                        {
+                            ApplicationManager.Instance.LoadPlungFolder(pluginPath);
+                            vm.LoadStoreAndPlugins();
+                        }
+                        catch { }
                     }
 
 
                     //vm.ReloadStoreAndPlugins();
                     ApplicationManager.Instance.Rescan(this, new EventArgs());
+                }
+
+                if (anyFail)
+                {
+
+                    var error = new SimpleModal(mainVm, "One or more files failed to upgrade.");
+                    
+
+
                 }
 
             }
