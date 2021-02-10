@@ -47,7 +47,7 @@ namespace RGBSyncPlus.UI.Tabs
             }
             else
             {
-                ServiceManager.Instance.ApplicationManager.ShowSimpleModal("Color banks are limited to 20 colors");
+                ServiceManager.Instance.ModalService.ShowSimpleModal("Color banks are limited to 20 colors");
             }
         }
 
@@ -76,7 +76,7 @@ namespace RGBSyncPlus.UI.Tabs
             }
             else
             {
-                ServiceManager.Instance.ApplicationManager.ShowSimpleModal("Color banks require at least 2 colors");
+                ServiceManager.Instance.ModalService.ShowSimpleModal("Color banks require at least 2 colors");
             }
         }
 

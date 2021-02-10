@@ -236,7 +236,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void ShowCreateNewProfile()
         {
-            ServiceManager.Instance.ApplicationManager.ShowModal(new ModalModel
+            ServiceManager.Instance.ModalService.ShowModal(new ModalModel
             {
                 ModalText = "Enter name for new profile",
                 ShowModalTextBox = true,

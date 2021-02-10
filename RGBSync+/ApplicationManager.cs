@@ -66,26 +66,6 @@ namespace RGBSyncPlus
             }
         }
 
-        internal void ShowModal(ModalModel modalModel)
-        {
-            MainWindowViewModel vm = ((MainWindowViewModel)ConfigurationWindow.DataContext);
-
-            vm.ModalText = modalModel.ModalText;
-            vm.ModalShowPercentage = false;
-            vm.ShowModalCloseButton = true;
-            vm.ShowModal = true;
-        }
-
-        internal void ShowSimpleModal(string text)
-        {
-            MainWindowViewModel vm = ((MainWindowViewModel)ConfigurationWindow.DataContext);
-
-            vm.ModalText = text;
-            vm.ModalShowPercentage = false;
-            vm.ShowModalCloseButton = true;
-            vm.ShowModal = true;
-        }
-
 
         #region Methods
 

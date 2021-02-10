@@ -154,6 +154,7 @@
     <Compile Include="Services\ConfigService.cs" />
     <Compile Include="Services\DiscordService.cs" />
     <Compile Include="Services\LedService.cs" />
+    <Compile Include="Services\ModalService.cs" />
     <Compile Include="Services\ProfileService.cs" />
     <Compile Include="Services\SLSAuthService.cs" />
     <Compile Include="SimpleLogger.cs" />

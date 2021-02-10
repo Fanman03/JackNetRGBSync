@@ -23,6 +23,7 @@ namespace RGBSyncPlus
         public DiscordService DiscordService;
         public SLSAuthService SLSAuthService;
         public ColorProfileService ColorProfileService;
+        public ModalService ModalService;
         public static void Initialize(string slsConfigsDirectory, string ngProfileDir)
         {
             Instance = new ServiceManager();
@@ -36,6 +37,7 @@ namespace RGBSyncPlus
             Instance.DiscordService = new DiscordService();
             Instance.SLSAuthService = new SLSAuthService();
             Instance.ColorProfileService = new ColorProfileService();
+            Instance.ModalService = new ModalService();
 
         }
     }
