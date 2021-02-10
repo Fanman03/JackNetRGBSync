@@ -51,6 +51,10 @@ namespace RGBSyncPlus.UI.Tabs
         {
             get
             {
+                if (SLSDevices == null)
+                {
+                    return null;
+                }
                 return new ObservableCollection<DeviceMappingModels.Device>(SLSDevices.Where(x => x.SupportsPush || ShowSources));
             }
         }
