@@ -22,7 +22,7 @@ namespace RGBSyncPlus.API
         public List<ApiDeviceModel> GetDevices()
         {
             List<ApiDeviceModel> result = new List<ApiDeviceModel>();
-            foreach (ControlDevice instanceSlsDevice in ApplicationManager.Instance.SLSDevices)
+            foreach (ControlDevice instanceSlsDevice in ServiceManager.Instance.LedService.SLSDevices)
             {
                 result.Add(new ApiDeviceModel
                 {

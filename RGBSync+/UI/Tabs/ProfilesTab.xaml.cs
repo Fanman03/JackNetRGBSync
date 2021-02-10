@@ -34,7 +34,7 @@ namespace RGBSyncPlus.UI.Tabs
             vm.ShowTriggers = !vm.ShowTriggers;
             vm.CurrentProfile = dc;
 
-            Model.DeviceMappingModels.NGProfile tempProfile = ApplicationManager.Instance.GetProfileFromName(dc.Name);
+            Model.DeviceMappingModels.NGProfile tempProfile = ServiceManager.Instance.ProfileService.GetProfileFromName(dc.Name);
             vm.CurrentProfile.ProfileId = tempProfile.Id;
         }
 

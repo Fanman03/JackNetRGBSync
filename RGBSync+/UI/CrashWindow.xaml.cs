@@ -26,7 +26,7 @@ namespace RGBSyncPlus.UI
 
         public async Task<string> Send_Report(object sender, RoutedEventArgs e)
         {
-            string text = JsonConvert.SerializeObject(ApplicationManager.Logger.Log);
+            string text = JsonConvert.SerializeObject(ServiceManager.Instance.Logger.Log);
 
             HttpClient client = new HttpClient();
             var values = new Dictionary<string, string>
@@ -47,10 +47,10 @@ namespace RGBSyncPlus.UI
         {
             CrashContainer crashContainer = new CrashContainer();
 
-            if (ApplicationManager.Instance?.SimpleLedAuthenticated == true)
+            if (ServiceManager.Instance.SLSAuthService?.SimpleLedAuthenticated == true)
             {
-                crashContainer.SimpleLedUserId = ApplicationManager.Instance.NGSettings.SimpleLedUserId;
-                crashContainer.SimpleLedUserName = ApplicationManager.Instance.NGSettings.SimpleLedUserName;
+                crashContainer.SimpleLedUserId = ServiceManager.Instance.ConfigService.NGSettings.SimpleLedUserId;
+                crashContainer.SimpleLedUserName = ServiceManager.Instance.ConfigService.NGSettings.SimpleLedUserName;
             }
 
             StackTrace st = new StackTrace(exception, true);
@@ -58,7 +58,7 @@ namespace RGBSyncPlus.UI
 
             crashContainer.ErrorName = exception.GetType().ToString();
             crashContainer.ErrorLocation = frame.GetFileName()+" / "+frame.GetMethod().Name+" / "+frame.GetFileLineNumber();
-            crashContainer.Logs = ApplicationManager.Logger.Log;
+            crashContainer.Logs = ServiceManager.Instance.Logger.Log;
 
             string text = JsonConvert.SerializeObject(crashContainer);
 

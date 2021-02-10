@@ -115,7 +115,7 @@ namespace RGBSyncPlus
 
                     if (doit && blockedTriggers.All(x => x != profileTriggerEntry.Id))
                     {
-                        ApplicationManager.Instance.LoadProfileFromName(profileTriggerEntry.ProfileName);
+                        ServiceManager.Instance.ProfileService.LoadProfileFromName(profileTriggerEntry.ProfileName);
                         blockedTriggers.Add(profileTriggerEntry.Id);
                     }
 

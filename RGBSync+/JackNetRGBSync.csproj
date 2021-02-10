@@ -128,9 +128,11 @@
     <Compile Include="Converter\ScrollOffsetToOpacityMaskConverter.cs" />
     <Compile Include="Converter\ScrollOffsetToVisibilityConverter.cs" />
     <Compile Include="Converter\StringMatchToVisibilityConverter.cs" />
+    <Compile Include="DriverService.cs" />
     <Compile Include="Helper\ActionCommand.cs" />
     <Compile Include="Helper\BrowserHelper.cs" />
     <Compile Include="Helper\ExceptionExtension.cs" />
+    <Compile Include="Helper\ImageHelpers.cs" />
     <Compile Include="Helper\MathHelper.cs" />
     <Compile Include="Helper\ReflectionHelpers.cs" />
     <Compile Include="Helper\UIHelpers.cs" />
@@ -146,6 +148,13 @@
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\EqualsToBoolConverter.cs" />
     <Compile Include="RSSBackgroundDevice.cs" />
+    <Compile Include="ServiceManager.cs" />
+    <Compile Include="Services\ApiServerService.cs" />
+    <Compile Include="Services\ConfigService.cs" />
+    <Compile Include="Services\DiscordService.cs" />
+    <Compile Include="Services\LedService.cs" />
+    <Compile Include="Services\ProfileService.cs" />
+    <Compile Include="Services\SLSAuthService.cs" />
     <Compile Include="SimpleLogger.cs" />
     <Compile Include="Styles\CachedResourceDictionary.cs" />
     <Compile Include="App.xaml.cs">

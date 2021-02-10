@@ -139,7 +139,7 @@ namespace RGBSyncPlus.UI.Tabs
         {
             try
             {
-                DeviceMappingModels.NGProfile profile = ApplicationManager.Instance.CurrentProfile;
+                DeviceMappingModels.NGProfile profile = ServiceManager.Instance.ProfileService.CurrentProfile;
                 if (profile?.DeviceProfileSettings == null)
                 {
                     profile.DeviceProfileSettings = new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();
@@ -219,7 +219,7 @@ namespace RGBSyncPlus.UI.Tabs
 
                     UpdateDeviceConfigUi(cd);
 
-                    ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ApplicationManager.Instance.CurrentProfile?.DeviceProfileSettings;
+                    ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ServiceManager.Instance.ProfileService.CurrentProfile?.DeviceProfileSettings;
                     var thingy = temp.Where(x => x.Name == cd.Name && x.ConnectedTo == cd.ConnectedTo && x.ProviderName == cd.Driver.Name()).ToList();
 
                 }
@@ -393,7 +393,7 @@ namespace RGBSyncPlus.UI.Tabs
             foreach (DeviceMappingModels.Device parentDevice in selectedParents)
             {
                 {
-                    DeviceMappingModels.NGProfile profile = ApplicationManager.Instance.CurrentProfile;
+                    DeviceMappingModels.NGProfile profile = ServiceManager.Instance.ProfileService.CurrentProfile;
                     if (profile?.DeviceProfileSettings == null)
                     {
                         profile.DeviceProfileSettings = new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();
@@ -598,14 +598,14 @@ namespace RGBSyncPlus.UI.Tabs
 
             if (parentContext.Overrides == null)
             {
-                parentContext.Overrides = ApplicationManager.Instance.GenerateOverride(parentContext.ControlDevice);
+                parentContext.Overrides = ServiceManager.Instance.LedService.GenerateOverride(parentContext.ControlDevice);
             }
 
             parentContext.Overrides.CustomDeviceSpecification = cds;
 
             if (cds.Bitmap != null)
             {
-                parentContext.Image = DevicesViewModel.ToBitmapImage(cds.Bitmap);
+                parentContext.Image = (cds.Bitmap.ToBitmapImage());
             }
         }
 
@@ -636,7 +636,7 @@ namespace RGBSyncPlus.UI.Tabs
 
                             if (device.Overrides.CustomDeviceSpecification == null)
                             {
-                                device.Overrides = ApplicationManager.Instance.GetOverride(device.ControlDevice);
+                                device.Overrides = ServiceManager.Instance.LedService.GetOverride(device.ControlDevice);
                                 if (device.Overrides.CustomDeviceSpecification == null)
                                 {
                                     device.Overrides.CustomDeviceSpecification=new CustomDeviceSpecification();
@@ -645,8 +645,8 @@ namespace RGBSyncPlus.UI.Tabs
 
                             device.Overrides.CustomDeviceSpecification.PngData = tmp;
                             device.Overrides.CustomDeviceSpecification.Bitmap = bim;
-                            BitmapOverrideImageHolder.Source = DevicesViewModel.ToBitmapImage(bim);
-                            device.Image = DevicesViewModel.ToBitmapImage(bim);
+                            BitmapOverrideImageHolder.Source = (bim.ToBitmapImage());
+                            device.Image = (bim.ToBitmapImage());
                         }
                     }
 

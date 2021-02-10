@@ -27,7 +27,7 @@ namespace RGBSyncPlus.UI
             this.SourceInitialized += new EventHandler(OnSourceInitialized); //this makes minimize to tray work
 
 
-            ApplicationManager.Instance.RssBackgroundDevice.ColourChange += (sender, args) =>
+            ServiceManager.Instance.LedService.RssBackgroundDevice.ColourChange += (sender, args) =>
             {
 
             };
@@ -48,7 +48,7 @@ namespace RGBSyncPlus.UI
             // 0xF020 == SC_MINIMIZE, command to minimize the window.
             if (msg == 0x0112 && ((int)wParam & 0xFFF0) == 0xF020)
             {
-                if (ApplicationManager.Instance.NGSettings.MinimizeToTray == true)
+                if (ServiceManager.Instance.ConfigService.NGSettings.MinimizeToTray == true)
                 {
                     // Cancel the minimize.
                     handled = true;

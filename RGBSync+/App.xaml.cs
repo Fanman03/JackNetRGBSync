@@ -42,7 +42,7 @@ namespace RGBSyncPlus
         #region Methods
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            ApplicationManager.Logger.CrashWindow(e.Exception);
+            ServiceManager.Instance.Logger.CrashWindow(e.Exception);
 
             e.Handled = true;
         }
@@ -57,7 +57,7 @@ namespace RGBSyncPlus
 
             ApplicationManager.Instance.Initialize();
 
-            ApplicationManager.Instance.OnProfilesChanged += (object sender, EventArgs ev) => appBvm.RefreshProfiles();
+            ServiceManager.Instance.ProfileService.OnProfilesChanged += (object sender, EventArgs ev) => appBvm.RefreshProfiles();
 
             try
             {
@@ -122,7 +122,7 @@ namespace RGBSyncPlus
         private void SwitchProfile(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            ApplicationManager.Instance.LoadProfileFromName(btn.Content.ToString());
+            ServiceManager.Instance.ProfileService.LoadProfileFromName(btn.Content.ToString());
             appBvm.Profiles = AppBVM.GetProfiles();
         }
 
@@ -137,16 +137,16 @@ namespace RGBSyncPlus
 
         public static ObservableCollection<ProfileObject> GetProfiles()
         {
-            if (ApplicationManager.Instance?.NGSettings?.ProfileNames != null)
+            if (ServiceManager.Instance?.ConfigService?.NGSettings?.ProfileNames != null)
             {
                 ObservableCollection<ProfileObject> prfs = new ObservableCollection<ProfileObject>();
-                foreach (string name in ApplicationManager.Instance.NGSettings.ProfileNames)
+                foreach (string name in ServiceManager.Instance.ConfigService.NGSettings.ProfileNames)
                 {
                     ProfileObject prf = new ProfileObject();
                     prf.Name = name;
                     prfs.Add(prf);
 
-                    if (prf.Name == ApplicationManager.Instance.NGSettings.CurrentProfile)
+                    if (prf.Name == ServiceManager.Instance.ConfigService.NGSettings.CurrentProfile)
                     {
                         prf.IsSelected = true;
                     }

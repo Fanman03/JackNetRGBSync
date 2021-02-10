@@ -6,7 +6,7 @@ namespace RGBSyncPlus.API
     {
         public void PauseSyncing(bool pause)
         {
-            ApplicationManager.Instance.PauseSyncing = pause;
+            ServiceManager.Instance.LedService.PauseSyncing = pause;
         }
     }
 }

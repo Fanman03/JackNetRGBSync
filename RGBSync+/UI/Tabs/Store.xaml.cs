@@ -28,7 +28,7 @@ namespace RGBSyncPlus.UI.Tabs
         public Store()
         {
             InitializeComponent();
-            ApplicationManager.Instance.SLSManager.RescanRequired += SLSManagerOnRescanRequired;
+            ServiceManager.Instance.SLSManager.RescanRequired += SLSManagerOnRescanRequired;
 
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
@@ -78,9 +78,9 @@ namespace RGBSyncPlus.UI.Tabs
 
             using (installingModal = new SimpleModal(mainVm, "Installing..."))
             {
-                ApplicationManager.Instance.PauseSyncing = true;
+                ServiceManager.Instance.LedService.PauseSyncing = true;
                 Task.Delay(TimeSpan.FromSeconds(1)).Wait();
-                ApplicationManager.Instance.UnloadSLSProviders();
+                ServiceManager.Instance.LedService.UnloadSLSProviders();
 
 
                 if (((Button)sender).DataContext is PositionalAssignment.PluginDetailsViewModel bdc)
@@ -135,7 +135,7 @@ namespace RGBSyncPlus.UI.Tabs
 
                     }
 
-                    ApplicationManager.Instance.LoadPlungFolder(pluginPath);
+                    ServiceManager.Instance.LedService.LoadPlungFolder(pluginPath);
                 }
             }
 
@@ -150,12 +150,12 @@ namespace RGBSyncPlus.UI.Tabs
             using (new SimpleModal(mainVm, "Reloading Plugins"))
             {
                 ContainingGrid.Refresh();
-                ApplicationManager.Instance.UnloadSLSProviders();
+                ServiceManager.Instance.LedService.UnloadSLSProviders();
 
 
-                ApplicationManager.Instance.LoadSLSProviders();
+                ServiceManager.Instance.LedService.LoadSLSProviders();
                 vm.LoadStoreAndPlugins();
-                ApplicationManager.Instance.Rescan(this, new EventArgs());
+                //ServiceManager.Instance.LedService.Rescan(this, new EventArgs());
             }
 
         }
@@ -178,19 +178,19 @@ namespace RGBSyncPlus.UI.Tabs
                 {
                     var vmplugin = vm.Plugins.First(x => x.PluginId == tvm.PluginId);
 
-                    ISimpleLed existingPlugin = ApplicationManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == tvm.PluginId);
+                    ISimpleLed existingPlugin = ServiceManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == tvm.PluginId);
 
                     if (existingPlugin != null)
                     {
-                        var removeList = ApplicationManager.Instance.SLSDevices.Where(x =>
+                        var removeList = ServiceManager.Instance.LedService.SLSDevices.Where(x =>
                             x.Driver.GetProperties().Id == existingPlugin.GetProperties().Id).ToList();
 
-                        while (ApplicationManager.Instance.SLSDevices.Any(x => x.Driver.GetProperties().Id == existingPlugin.GetProperties().Id) && removeList.Any())
+                        while (ServiceManager.Instance.LedService.SLSDevices.Any(x => x.Driver.GetProperties().Id == existingPlugin.GetProperties().Id) && removeList.Any())
                         {
                             try
                             {
                                 var pp = removeList.First();
-                                ApplicationManager.Instance.SLSDevices.Remove(pp);
+                                ServiceManager.Instance.LedService.SLSDevices.Remove(pp);
                                 removeList.Remove(pp);
                             }
                             catch
@@ -211,9 +211,9 @@ namespace RGBSyncPlus.UI.Tabs
 
                     Thread.Sleep(1000);
 
-                    if (ApplicationManager.Instance.SLSManager.Drivers.Contains(existingPlugin))
+                    if (ServiceManager.Instance.SLSManager.Drivers.Contains(existingPlugin))
                     {
-                        ApplicationManager.Instance.SLSManager.Drivers.Remove(existingPlugin);
+                        ServiceManager.Instance.SLSManager.Drivers.Remove(existingPlugin);
                     }
 
                     try
@@ -259,7 +259,7 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 if (btn.DataContext is PositionalAssignment.PluginDetailsViewModel tvm)
                 {
-                    ISimpleLed existingPlugin = ApplicationManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == tvm.PluginId);
+                    ISimpleLed existingPlugin = ServiceManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == tvm.PluginId);
 
                     ISimpleLedWithConfig testDrv = existingPlugin as ISimpleLedWithConfig;
 
@@ -336,7 +336,7 @@ namespace RGBSyncPlus.UI.Tabs
                 bool anyFail = false;
                 using (installingModal = new SimpleModal(mainVm, "Installing..."))
                 {
-                    ApplicationManager.Instance.PauseSyncing = true;
+                    ServiceManager.Instance.LedService.PauseSyncing = true;
                     Task.Delay(TimeSpan.FromSeconds(1)).Wait();
                     //ApplicationManager.Instance.UnloadSLSProviders();
 
@@ -351,12 +351,12 @@ namespace RGBSyncPlus.UI.Tabs
                         SimpleLedApiClient apiClient = new SimpleLedApiClient();
                         byte[] drver = await apiClient.GetProduct(parentDC.PluginId, bdc.ReleaseNumber);
 
-                        var exist = ApplicationManager.Instance.SLSManager.Drivers.FirstOrDefault(x =>
+                        var exist = ServiceManager.Instance.SLSManager.Drivers.FirstOrDefault(x =>
                             x.GetProperties().Id == parentDC.PluginId);
                         if (exist != null)
                         {
                          
-                            ApplicationManager.Instance.SLSManager.Drivers.Remove(exist);
+                            ServiceManager.Instance.SLSManager.Drivers.Remove(exist);
                             Thread.Sleep(100);
                             exist.Dispose();
                             Thread.Sleep(1000);
@@ -435,7 +435,7 @@ namespace RGBSyncPlus.UI.Tabs
 
                         try
                         {
-                            ApplicationManager.Instance.LoadPlungFolder(pluginPath);
+                            ServiceManager.Instance.LedService.LoadPlungFolder(pluginPath);
                             vm.LoadStoreAndPlugins();
                         }
                         catch { }
@@ -443,7 +443,7 @@ namespace RGBSyncPlus.UI.Tabs
 
 
                     //vm.ReloadStoreAndPlugins();
-                    ApplicationManager.Instance.Rescan(this, new EventArgs());
+                   // ApplicationManager.Instance.Rescan(this, new EventArgs());
                 }
 
                 if (anyFail)

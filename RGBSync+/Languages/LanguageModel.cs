@@ -144,9 +144,9 @@ namespace RGBSyncPlus.Languages
 
                 if (ApplicationManager.Instance != null)
                 {
-                    if (ApplicationManager.Instance.NGSettings?.Lang != null)
+                    if (ServiceManager.Instance.ConfigService.NGSettings?.Lang != null)
                     {
-                        lang = ApplicationManager.Instance.NGSettings.Lang;
+                        lang = ServiceManager.Instance.ConfigService.NGSettings.Lang;
                     }
                 }
 
@@ -154,10 +154,10 @@ namespace RGBSyncPlus.Languages
                 {
                     lang = System.Globalization.CultureInfo.CurrentCulture.Name;
 
-                    if (ApplicationManager.Instance?.NGSettings != null)
+                    if (ServiceManager.Instance?.ConfigService?.NGSettings != null)
                     {
 
-                        ApplicationManager.Instance.NGSettings.Lang = lang;
+                        ServiceManager.Instance.ConfigService.NGSettings.Lang = lang;
                     }
                 }
 

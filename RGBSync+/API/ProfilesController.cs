@@ -8,12 +8,12 @@ namespace RGBSyncPlus.API
     {
         public List<string> GetProfiles()
         {
-            return ApplicationManager.Instance.NGSettings.ProfileNames.ToList();
+            return ServiceManager.Instance.ConfigService.NGSettings.ProfileNames.ToList();
         }
 
         public void SetProfile(string profileName)
         {
-            ApplicationManager.Instance.LoadProfileFromName(profileName);
+            ServiceManager.Instance.ProfileService.LoadProfileFromName(profileName);
         }
     }
 }

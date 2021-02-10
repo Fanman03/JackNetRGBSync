@@ -24,7 +24,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void Init()
         {
-            ShowPreRelease = ApplicationManager.Instance.NGSettings.Experimental;
+            ShowPreRelease = ServiceManager.Instance.ConfigService.NGSettings.Experimental;
 
             storeHandler = new StoreHandler();
 
@@ -34,7 +34,7 @@ namespace RGBSyncPlus.UI.Tabs
             ShowStore = false;
             ShowUpdates = false;
 
-            if (ApplicationManager.Instance.SLSDevices != null && ApplicationManager.Instance.SLSDevices.Count(x =>
+            if (ServiceManager.Instance.LedService.SLSDevices != null && ServiceManager.Instance.LedService.SLSDevices.Count(x =>
                 x.Driver != null && !x.Driver.GetProperties().Id.ToString().StartsWith("1111")) == 0)
             {
                 ShowInstalled = false;
@@ -212,14 +212,14 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void ReloadStoreAndPlugins()
         {
-            ApplicationManager.Instance.UnloadSLSProviders();
+            ServiceManager.Instance.LedService.UnloadSLSProviders();
 
 
-            ApplicationManager.Instance.LoadSLSProviders();
+            ServiceManager.Instance.LedService.LoadSLSProviders();
 
             LoadStoreAndPlugins();
 
-            ApplicationManager.Instance.Rescan(this, new EventArgs());
+            //ApplicationManager.Instance.Rescan(this, new EventArgs());
         }
 
         public List<DriverProperties> GetStoreDrivers()
@@ -240,7 +240,7 @@ namespace RGBSyncPlus.UI.Tabs
                 Plugins = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>();
                 StoreOnly = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>();
 
-                foreach (ISimpleLed slsManagerDriver in ApplicationManager.Instance.SLSManager.Drivers)
+                foreach (ISimpleLed slsManagerDriver in ServiceManager.Instance.SLSManager.Drivers)
                 {
                     DriverProperties pid = slsManagerDriver.GetProperties();
 
@@ -410,9 +410,9 @@ namespace RGBSyncPlus.UI.Tabs
                 ReleaseNumber newestExperimentalFound = new ReleaseNumber(0, 0, 0, 0);
                 ReleaseNumber installed = new ReleaseNumber(0, 0, 0, 0);
 
-                if (ApplicationManager.Instance.SLSManager.Drivers.Any(x => x.GetProperties().Id == pluginDetailsViewModel.PluginId))
+                if (ServiceManager.Instance.SLSManager.Drivers.Any(x => x.GetProperties().Id == pluginDetailsViewModel.PluginId))
                 {
-                    installedVersion = ApplicationManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == pluginDetailsViewModel.PluginId);
+                    installedVersion = ServiceManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == pluginDetailsViewModel.PluginId);
                     installed = installedVersion.GetProperties().CurrentVersion;
                     pluginDetailsViewModel.Installed = true;
                 }

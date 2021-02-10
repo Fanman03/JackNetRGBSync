@@ -15,7 +15,7 @@ namespace RGBSyncPlus.UI.Tabs
     {
         private void SaveLauncherSettings()
         {
-            string json = JsonConvert.SerializeObject(ApplicationManager.Instance.LauncherPrefs);
+            string json = JsonConvert.SerializeObject(ServiceManager.Instance.ConfigService.LauncherPrefs);
             File.WriteAllText("launcherPrefs.json", json);
         }
 
@@ -27,7 +27,7 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref startAsAdmin, value);
-                ApplicationManager.Instance.LauncherPrefs.RunAsAdmin = value;
+                ServiceManager.Instance.ConfigService.LauncherPrefs.RunAsAdmin = value;
                 SaveLauncherSettings();
             }
         }
@@ -41,7 +41,7 @@ namespace RGBSyncPlus.UI.Tabs
 
             {
                 SetProperty(ref releaseType, value);
-                ApplicationManager.Instance.LauncherPrefs.ReleaseBranch = value;
+                ServiceManager.Instance.ConfigService.LauncherPrefs.ReleaseBranch = value;
                 SaveLauncherSettings();
             }
         }
@@ -55,8 +55,8 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref minimizeToTray, value);
-                ApplicationManager.Instance.NGSettings.MinimizeToTray = value;
-                ApplicationManager.Instance.LauncherPrefs.MinimizeToTray = value;
+                ServiceManager.Instance.ConfigService.NGSettings.MinimizeToTray = value;
+                ServiceManager.Instance.ConfigService.LauncherPrefs.MinimizeToTray = value;
                 SaveLauncherSettings();
             }
         }
@@ -67,7 +67,7 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref minimizeOnStart, value);
-                ApplicationManager.Instance.LauncherPrefs.MinimizeOnStartUp = value;
+                ServiceManager.Instance.ConfigService.LauncherPrefs.MinimizeOnStartUp = value;
                 SaveLauncherSettings();
             }
         }
@@ -94,8 +94,8 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void Init()
         {
-            NGSettings = ApplicationManager.Instance.NGSettings;
-            CurrentLanguage = Languages.FirstOrDefault(x => x.Code == ApplicationManager.Instance.NGSettings.Lang);
+            NGSettings = ServiceManager.Instance.ConfigService.NGSettings;
+            CurrentLanguage = Languages.FirstOrDefault(x => x.Code == ServiceManager.Instance.ConfigService.NGSettings.Lang);
 
             ReleaseTypes = new ObservableCollection<LauncherPrefs.ReleaseType>();
 
@@ -103,12 +103,12 @@ namespace RGBSyncPlus.UI.Tabs
             ReleaseTypes.Add(LauncherPrefs.ReleaseType.Beta);
             ReleaseTypes.Add(LauncherPrefs.ReleaseType.CI);
 
-            StartAsAdmin = ApplicationManager.Instance.LauncherPrefs.MinimizeToTray;
-            MinimizeOnStart = ApplicationManager.Instance.LauncherPrefs.MinimizeOnStartUp;
-            MinimizeToTray = ApplicationManager.Instance.LauncherPrefs.MinimizeToTray;
+            StartAsAdmin = ServiceManager.Instance.ConfigService.LauncherPrefs.MinimizeToTray;
+            MinimizeOnStart = ServiceManager.Instance.ConfigService.LauncherPrefs.MinimizeOnStartUp;
+            MinimizeToTray = ServiceManager.Instance.ConfigService.LauncherPrefs.MinimizeToTray;
 
-            ReleaseType = ApplicationManager.Instance.LauncherPrefs.ReleaseBranch;
-            SimpleLedUserName = ApplicationManager.Instance.NGSettings.SimpleLedUserName;
+            ReleaseType = ServiceManager.Instance.ConfigService.LauncherPrefs.ReleaseBranch;
+            SimpleLedUserName = ServiceManager.Instance.ConfigService.NGSettings.SimpleLedUserName;
 
             OnPropertyChanged("ReleaseTypes");
             OnPropertyChanged("StartAsAdmin");
@@ -116,13 +116,13 @@ namespace RGBSyncPlus.UI.Tabs
             OnPropertyChanged("ReleaseType");
             OnPropertyChanged("MinimizeToTray");
 
-            Background = ApplicationManager.Instance.NGSettings.Background;
-            BackgroundOpacity = ApplicationManager.Instance.NGSettings.BackgroundOpacity*100;
-            DimBackgroundOpacity = ApplicationManager.Instance.NGSettings.DimBackgroundOpacity * 100;
-            BackgroundBlur = ApplicationManager.Instance.NGSettings.BackgroundBlur * 5;
-            ControllableBG = ApplicationManager.Instance.NGSettings.ControllableBG;
+            Background = ServiceManager.Instance.ConfigService.NGSettings.Background;
+            BackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.BackgroundOpacity*100;
+            DimBackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.DimBackgroundOpacity * 100;
+            BackgroundBlur = ServiceManager.Instance.ConfigService.NGSettings.BackgroundBlur * 5;
+            ControllableBG = ServiceManager.Instance.ConfigService.NGSettings.ControllableBG;
 
-            UpdateRate = ApplicationManager.Instance.NGSettings.UpdateRate;
+            UpdateRate = ServiceManager.Instance.ConfigService.NGSettings.UpdateRate;
         }
 
 
@@ -134,7 +134,7 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref background, value);
-                ApplicationManager.Instance.NGSettings.Background = value;
+                ServiceManager.Instance.ConfigService.NGSettings.Background = value;
             }
         }
 
@@ -147,7 +147,7 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref bgopacity, (float)Math.Floor(value));
-                ApplicationManager.Instance.NGSettings.BackgroundOpacity = (float)Math.Floor(value) / 100f;
+                ServiceManager.Instance.ConfigService.NGSettings.BackgroundOpacity = (float)Math.Floor(value) / 100f;
             }
         }
 
@@ -159,7 +159,7 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref updateRate, value);
-                ApplicationManager.Instance.NGSettings.UpdateRate =value;
+                ServiceManager.Instance.ConfigService.NGSettings.UpdateRate =value;
             }
         }
 
@@ -171,7 +171,7 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref controllableBG, value);
-                ApplicationManager.Instance.NGSettings.ControllableBG = value;
+                ServiceManager.Instance.ConfigService.NGSettings.ControllableBG = value;
             }
         }
 
@@ -183,7 +183,7 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref rainbowTab, value);
-                ApplicationManager.Instance.NGSettings.RainbowTabBars = value;
+                ServiceManager.Instance.ConfigService.NGSettings.RainbowTabBars = value;
             }
         }
 
@@ -195,7 +195,7 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref accentColor, value);
-                ApplicationManager.Instance.NGSettings.AccentColor = value;
+                ServiceManager.Instance.ConfigService.NGSettings.AccentColor = value;
             }
         }
 
@@ -207,7 +207,7 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref dimbgopacity, (float)Math.Floor(value));
-                ApplicationManager.Instance.NGSettings.DimBackgroundOpacity = (float)Math.Floor(value) / 100f;
+                ServiceManager.Instance.ConfigService.NGSettings.DimBackgroundOpacity = (float)Math.Floor(value) / 100f;
             }
         }
 
@@ -219,7 +219,7 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref backgroundBlur, (float)Math.Floor(value));
-                ApplicationManager.Instance.NGSettings.BackgroundBlur = (float)Math.Floor(value) / 5f;
+                ServiceManager.Instance.ConfigService.NGSettings.BackgroundBlur = (float)Math.Floor(value) / 5f;
                 //if (blurTimer != null)
                 //{
                 //    blurTimer.Stop();
@@ -234,7 +234,7 @@ namespace RGBSyncPlus.UI.Tabs
                 //blurTimer.Tick += (sender, args) =>
                 //{
                 //    blurTimer.Stop();
-                //    ApplicationManager.Instance.NGSettings.BackgroundBlur = (float)Math.Floor(value) / 20f;
+                //    ServiceManager.Instance.ConfigService.NGSettings.BackgroundBlur = (float)Math.Floor(value) / 20f;
                 //};
                 
                 //blurTimer.Start();

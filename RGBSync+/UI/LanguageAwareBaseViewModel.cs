@@ -12,9 +12,9 @@ namespace RGBSyncPlus.UI
                 {
                     ApplicationManager.Instance.LanguageChangedEvent += (sender, args) =>
                     {
-                        if (ApplicationManager.Instance?.NGSettings != null)
+                        if (ServiceManager.Instance?.ConfigService?.NGSettings != null)
                         {
-                            Language = ApplicationManager.Instance.NGSettings.Lang;
+                            Language = ServiceManager.Instance.ConfigService.NGSettings.Lang;
                         }
                     };
                 }

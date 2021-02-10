@@ -236,11 +236,11 @@ namespace RGBSyncPlus.Model
                     AreSettingsStale = true;
                     if (value)
                     {
-                        ApplicationManager.Instance.RssBackgroundDevice.Enable();
+                        ServiceManager.Instance.LedService.RssBackgroundDevice.Enable();
                     }
                     else
                     {
-                        ApplicationManager.Instance.RssBackgroundDevice.Disable();
+                        ServiceManager.Instance.LedService.RssBackgroundDevice.Disable();
                     }
                     BGChangedEvent?.Invoke(this, new EventArgs());
                 }
@@ -773,7 +773,7 @@ namespace RGBSyncPlus.Model
 
             private void PushUpdate()
             {
-                ApplicationManager.Instance.SetOverride(this);
+                ServiceManager.Instance.LedService.SetOverride(this);
             }
         }
 
