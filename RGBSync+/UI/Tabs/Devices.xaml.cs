@@ -1,5 +1,4 @@
-﻿using RGBSyncPlus.Model;
-using SimpleLed;
+﻿using SimpleLed;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,10 +14,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Win32;
-using RGBSyncPlus.Helper;
+using RGBSyncStudio.Helper;
+using RGBSyncStudio.Model;
 using CustomDeviceSpecification = SimpleLed.CustomDeviceSpecification;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     /// <summary>
     /// Interaction logic for Devices.xaml

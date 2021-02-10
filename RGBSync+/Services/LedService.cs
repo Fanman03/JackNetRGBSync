@@ -10,13 +10,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
-using RGBSyncPlus.Helper;
-using RGBSyncPlus.Model;
-using RGBSyncPlus.UI;
-using RGBSyncPlus.UI.Tabs;
+using RGBSyncStudio.UI;
+using RGBSyncStudio.UI.Tabs;
+using RGBSyncStudio.Helper;
+using RGBSyncStudio.Model;
 using SimpleLed;
 
-namespace RGBSyncPlus.Services
+namespace RGBSyncStudio.Services
 {
 
     public class LedService

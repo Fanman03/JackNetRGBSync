@@ -1,9 +1,9 @@
-﻿using RGBSyncPlus.Languages;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using RGBSyncStudio.Languages;
 
-namespace RGBSyncPlus.Converter
+namespace RGBSyncStudio.Converter
 {
     [ValueConversion(typeof(string), typeof(string))]
     public class LocConverter : IValueConverter

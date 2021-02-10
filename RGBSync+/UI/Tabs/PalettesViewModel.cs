@@ -12,7 +12,7 @@ using System.Windows.Threading;
 using Newtonsoft.Json;
 using SimpleLed;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     public class PalettesViewModel : LanguageAwareBaseViewModel
     {

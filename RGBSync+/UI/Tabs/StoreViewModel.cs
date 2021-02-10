@@ -1,5 +1,4 @@
-﻿using RGBSyncPlus.Model;
-using SimpleLed;
+﻿using SimpleLed;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,8 +10,9 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using RGBSyncStudio.Model;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     public class StoreViewModel : LanguageAwareBaseViewModel
     {

@@ -8,7 +8,7 @@ using System.Configuration;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace RGBSyncPlus.Model
+namespace RGBSyncStudio.Model
 {
     public class DeviceMappingModels
     {

@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using RGBSyncPlus.Model;
 using System.Collections.Generic;
+using RGBSyncStudio.Model;
 
-namespace RGBSyncPlus.UI
+namespace RGBSyncStudio.UI
 {
     public class StoreHandler
     {

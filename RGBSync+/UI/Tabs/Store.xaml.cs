@@ -1,5 +1,4 @@
-﻿using RGBSyncPlus.Helper;
-using RGBSyncPlus.Model;
+﻿using RGBSyncStudio.Helper;
 using SharpCompress.Archives;
 using SimpleLed;
 using System;
@@ -17,8 +16,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using RGBSyncStudio.Model;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     /// <summary>
     /// Interaction logic for Store.xaml

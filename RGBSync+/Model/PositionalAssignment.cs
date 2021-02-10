@@ -4,7 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
 
-namespace RGBSyncPlus.Model
+namespace RGBSyncStudio.Model
 {
     public class PositionalAssignment
     {

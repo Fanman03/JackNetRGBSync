@@ -1,4 +1,4 @@
-﻿namespace RGBSyncPlus.Configuration.Legacy
+﻿namespace RGBSyncStudio.Configuration.Legacy
 {
     public static class ConfigurationUpdates
     {

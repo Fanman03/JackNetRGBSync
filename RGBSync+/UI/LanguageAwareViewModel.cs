@@ -5,7 +5,7 @@
 //using System.Threading.Tasks;
 //using SimpleLed;
 
-//namespace RGBSyncPlus.UI
+//namespace RGBSyncStudio.UI
 //{
 //    public class LanguageAwareViewModel : BaseViewModel
 //    {

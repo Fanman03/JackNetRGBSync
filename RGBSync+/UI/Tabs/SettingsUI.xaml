@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:RGBSyncPlus.UI.Tabs"
-             xmlns:Converter="clr-namespace:RGBSyncPlus.Converter"
+             xmlns:local="clr-namespace:RGBSyncStudio.UI.Tabs"
+             xmlns:Converter="clr-namespace:RGBSyncStudio.Converter"
              
              xmlns:fluentWpf="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
              xmlns:controls="clr-namespace:ColorPickerWPF.Controls;assembly=ColorPickerWPF"
-             x:Class="RGBSyncPlus.UI.Tabs.SettingsUI"
+             x:Class="RGBSyncStudio.UI.Tabs.SettingsUI"
              >
     <UserControl.Resources>
         <Converter:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>

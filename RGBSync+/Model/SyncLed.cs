@@ -1,9 +1,9 @@
 ﻿//using Newtonsoft.Json;
 //using RGB.NET.Core;
-//using RGBSyncPlus.Helper;
+//using RGBSyncStudio.Helper;
 //using SimpleLed;
 
-//namespace RGBSyncPlus.Model
+//namespace RGBSyncStudio.Model
 //{
 //    //public class SyncLed : AbstractBindable
 //    {

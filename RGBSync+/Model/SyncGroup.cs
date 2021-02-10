@@ -4,7 +4,7 @@
 //using System.Collections.ObjectModel;
 //using System.Collections.Specialized;
 
-//namespace RGBSyncPlus.Model
+//namespace RGBSyncStudio.Model
 //{
 //    public class SyncGroup : AbstractBindable
 //    {

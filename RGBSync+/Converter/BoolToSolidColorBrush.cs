@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using RGBSyncPlus.UI.Tabs;
+using RGBSyncStudio.UI.Tabs;
 using SimpleLed;
 
-namespace RGBSyncPlus.Converter
+namespace RGBSyncStudio.Converter
 {
     public class BoolToSolidColorBrush : IValueConverter
     {

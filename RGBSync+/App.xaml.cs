@@ -1,9 +1,8 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using Newtonsoft.Json;
-using RGBSyncPlus.Configuration;
-using RGBSyncPlus.Configuration.Legacy;
-using RGBSyncPlus.Helper;
-using RGBSyncPlus.UI;
+using RGBSyncStudio.Configuration;
+using RGBSyncStudio.Configuration.Legacy;
+using RGBSyncStudio.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,10 +15,11 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Threading;
-using RGBSyncPlus.UI.Tabs;
+using RGBSyncStudio.UI.Tabs;
+using RGBSyncStudio.Helper;
 using SimpleLed;
 
-namespace RGBSyncPlus
+namespace RGBSyncStudio
 {
     public partial class App : Application
     {

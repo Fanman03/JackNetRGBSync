@@ -1,4 +1,4 @@
-﻿namespace RGBSyncPlus.Configuration
+﻿namespace RGBSyncStudio.Configuration
 {
     class BannerSchema
     {

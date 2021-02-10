@@ -4,7 +4,7 @@
 //using System.Collections.ObjectModel;
 //using System.Linq;
 
-//namespace RGBSyncPlus.Model
+//namespace RGBSyncStudio.Model
 //{
 //    public class DeviceGroup : AbstractBindable
 //    {

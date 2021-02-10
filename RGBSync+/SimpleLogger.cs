@@ -10,9 +10,9 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using QRCoder;
-using RGBSyncPlus.UI;
+using RGBSyncStudio.UI;
 
-namespace RGBSyncPlus
+namespace RGBSyncStudio
 {
     public class SimpleLogger
     {

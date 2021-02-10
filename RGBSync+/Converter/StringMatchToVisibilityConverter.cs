@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace RGBSyncPlus.Converter
+namespace RGBSyncStudio.Converter
 {
     [ValueConversion(typeof(string), typeof(Visibility))]
     public class StringMatchToVisibilityConverter : IValueConverter

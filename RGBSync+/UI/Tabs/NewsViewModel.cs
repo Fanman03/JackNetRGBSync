@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using SimpleLed;
 
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     public class NewsViewModel : BaseViewModel
     {

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace RGBSyncPlus.Languages
+namespace RGBSyncStudio.Languages
 {
     public class LanguageModel
     {

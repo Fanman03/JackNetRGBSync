@@ -1,8 +1,8 @@
 ﻿using System;
-using RGBSyncPlus.Model;
 using System.Collections.Generic;
+using RGBSyncStudio.Model;
 
-namespace RGBSyncPlus.Configuration
+namespace RGBSyncStudio.Configuration
 {
     public class Settings
     {

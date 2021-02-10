@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SimpleLed;
 
-namespace RGBSyncPlus.Services
+namespace RGBSyncStudio.Services
 {
     public class ColorProfileService
     {

@@ -1,15 +1,15 @@
 ﻿using System;
 using Newtonsoft.Json;
-using RGBSyncPlus.Languages;
-using RGBSyncPlus.Model;
 using SharedCode;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Threading;
+using RGBSyncStudio.Languages;
+using RGBSyncStudio.Model;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     public class SettingsUIViewModel : LanguageAwareBaseViewModel
     {

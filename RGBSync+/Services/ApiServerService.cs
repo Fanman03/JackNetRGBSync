@@ -8,7 +8,7 @@ using System.Web.Http;
 using System.Web.Http.SelfHost;
 using Swashbuckle.Application;
 
-namespace RGBSyncPlus.Services
+namespace RGBSyncStudio.Services
 {
     public class ApiServerService
     {

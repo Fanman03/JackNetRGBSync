@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DiscordRPC;
 
-namespace RGBSyncPlus.Services
+namespace RGBSyncStudio.Services
 {
     public class DiscordService
     {

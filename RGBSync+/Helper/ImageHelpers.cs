@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace RGBSyncPlus.Helper
+namespace RGBSyncStudio.Helper
 {
     public static class ImageHelpers
     {

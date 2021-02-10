@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C6BF4357-07D9-496B-9630-A26568D30723}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>RGBSyncPlus</RootNamespace>
+    <RootNamespace>RGBSyncStudio</RootNamespace>
     <AssemblyName>RGBSync+</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -49,7 +49,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>RGBSyncPlus.App</StartupObject>
+    <StartupObject>RGBSyncStudio.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>ProgramIcon.ico</ApplicationIcon>

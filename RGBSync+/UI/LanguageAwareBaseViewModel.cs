@@ -1,6 +1,6 @@
 ﻿using SimpleLed;
 
-namespace RGBSyncPlus.UI
+namespace RGBSyncStudio.UI
 {
     public class LanguageAwareBaseViewModel : BaseViewModel
     {

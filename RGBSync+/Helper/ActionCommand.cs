@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace RGBSyncPlus.Helper
+namespace RGBSyncStudio.Helper
 {
     public class ActionCommand : ICommand
     {

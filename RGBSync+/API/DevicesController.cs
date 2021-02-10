@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Web.Http;
 
-namespace RGBSyncPlus.API
+namespace RGBSyncStudio.API
 {
     public class DevicesController : ApiController
     {

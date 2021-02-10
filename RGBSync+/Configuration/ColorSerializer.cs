@@ -2,7 +2,7 @@
 //using Newtonsoft.Json.Linq;
 //using System;
 
-//namespace RGBSyncPlus.Configuration
+//namespace RGBSyncStudio.Configuration
 //{
 //    public class ColorSerializer : JsonConverter
 //    {

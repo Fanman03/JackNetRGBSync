@@ -1,7 +1,7 @@
 ﻿
 using System.Diagnostics;
 
-namespace RGBSyncPlus.Configuration
+namespace RGBSyncStudio.Configuration
 {
     public class AppSettings
     {

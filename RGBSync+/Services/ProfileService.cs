@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using RGBSyncPlus.Model;
+using RGBSyncStudio.Model;
 using SimpleLed;
 
-namespace RGBSyncPlus.Services
+namespace RGBSyncStudio.Services
 {
     public class ProfileService
     {

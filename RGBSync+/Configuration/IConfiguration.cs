@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace RGBSyncPlus.Configuration
+namespace RGBSyncStudio.Configuration
 {
     public interface IConfiguration : INotifyPropertyChanged
     { }

@@ -1,5 +1,4 @@
-﻿using RGBSyncPlus.UI;
-using System;
+﻿using System;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -7,9 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using RGBSyncStudio.UI;
 
 
-namespace RGBSyncPlus
+namespace RGBSyncStudio
 {
     public class ApplicationManager
     {

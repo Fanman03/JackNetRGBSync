@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
-using RGBSyncPlus.Helper;
+using RGBSyncStudio.Helper;
 
-namespace RGBSyncPlus.Converter
+namespace RGBSyncStudio.Converter
 {
     public class PercentageConverter : MarkupExtension, IValueConverter
     {

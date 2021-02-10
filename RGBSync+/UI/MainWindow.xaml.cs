@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using RGBSyncPlus.UI.Tabs;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
+using RGBSyncStudio.UI.Tabs;
 
-namespace RGBSyncPlus.UI
+namespace RGBSyncStudio.UI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -27,10 +27,10 @@ namespace RGBSyncPlus.UI
             this.SourceInitialized += new EventHandler(OnSourceInitialized); //this makes minimize to tray work
 
 
-            ServiceManager.Instance.LedService.RssBackgroundDevice.ColourChange += (sender, args) =>
-            {
+            //ServiceManager.Instance.LedService.RssBackgroundDevice.ColourChange += (sender, args) =>
+            //{
 
-            };
+            //};
 
 
         }

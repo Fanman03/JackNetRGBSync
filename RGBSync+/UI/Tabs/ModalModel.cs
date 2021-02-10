@@ -1,4 +1,4 @@
-﻿namespace RGBSyncPlus.UI.Tabs
+﻿namespace RGBSyncStudio.UI.Tabs
 {
     public class ModalModel
     {

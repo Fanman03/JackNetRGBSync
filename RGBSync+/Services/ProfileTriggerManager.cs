@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using RGBSyncPlus.UI;
 using SimpleLed;
 using System;
 using System.Collections.Generic;
@@ -8,8 +7,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Threading;
+using RGBSyncStudio.UI;
 
-namespace RGBSyncPlus
+namespace RGBSyncStudio
 {
     public class ProfileTriggerManager : LanguageAwareBaseViewModel
     {

@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using RGBSyncPlus.Services;
+using RGBSyncStudio.Services;
 using SimpleLed;
 
-namespace RGBSyncPlus
+namespace RGBSyncStudio
 {
     public class ServiceManager
     {

@@ -1,5 +1,4 @@
-﻿using RGBSyncPlus.Model;
-using SimpleLed;
+﻿using SimpleLed;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,9 +10,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using RGBSyncPlus.Helper;
+using RGBSyncStudio.Helper;
+using RGBSyncStudio.Model;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     
     public class DevicesViewModel : LanguageAwareBaseViewModel

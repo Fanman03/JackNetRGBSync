@@ -1,6 +1,6 @@
 ﻿//using RGB.NET.Core;
 
-//namespace RGBSyncPlus.Model
+//namespace RGBSyncStudio.Model
 //{
 //    public class AbstractBindableExtended : AbstractBindable
 //    {

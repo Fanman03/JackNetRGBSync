@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Http;
 
-namespace RGBSyncPlus.API
+namespace RGBSyncStudio.API
 {
     public class ProfilesController : ApiController
     {

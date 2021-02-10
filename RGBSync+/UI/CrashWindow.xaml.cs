@@ -5,9 +5,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using Newtonsoft.Json;
-using RGBSyncPlus.Helper;
+using RGBSyncStudio.Helper;
 
-namespace RGBSyncPlus.UI
+namespace RGBSyncStudio.UI
 {
     /// <summary>
     /// Interaction logic for CrashWindow.xaml

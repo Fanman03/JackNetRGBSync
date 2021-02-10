@@ -1,9 +1,9 @@
 ﻿//using RGB.NET.Core;
-//using RGBSyncPlus.Helper;
-//using RGBSyncPlus.Model;
+//using RGBSyncStudio.Helper;
+//using RGBSyncStudio.Model;
 //using System.ComponentModel;
 
-//namespace RGBSyncPlus.Brushes
+//namespace RGBSyncStudio.Brushes
 //{
 //    public class SyncBrush : AbstractBrush
 //    {

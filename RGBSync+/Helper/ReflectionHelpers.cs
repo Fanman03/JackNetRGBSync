@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using SimpleLed;
 
-namespace RGBSyncPlus.Helper
+namespace RGBSyncStudio.Helper
 {
     public static class TypeLoaderExtensions
     {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace RGBSyncPlus
+namespace RGBSyncStudio
 {
     public interface INewsSource
     {

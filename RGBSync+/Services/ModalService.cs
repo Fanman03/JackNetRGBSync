@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RGBSyncPlus.UI;
-using RGBSyncPlus.UI.Tabs;
+using RGBSyncStudio.UI;
+using RGBSyncStudio.UI.Tabs;
 
-namespace RGBSyncPlus.Services
+namespace RGBSyncStudio.Services
 {
     public class ModalService
     {

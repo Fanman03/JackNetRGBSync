@@ -8,13 +8,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using RGBSyncPlus.Configuration;
-using RGBSyncPlus.Helper;
-using RGBSyncPlus.Model;
+using RGBSyncStudio.Configuration;
+using RGBSyncStudio.Helper;
+using RGBSyncStudio.Model;
 using SharedCode;
 using SimpleLed;
 
-namespace RGBSyncPlus.Services
+namespace RGBSyncStudio.Services
 {
     public class ConfigService
     {

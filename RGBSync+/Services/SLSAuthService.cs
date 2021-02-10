@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SimpleLed;
 
-namespace RGBSyncPlus.Services
+namespace RGBSyncStudio.Services
 {
     public class SLSAuthService
     {

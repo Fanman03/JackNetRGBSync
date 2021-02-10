@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RGBSyncPlus.Model;
+using RGBSyncStudio.Model;
 using SimpleLed;
 
-namespace RGBSyncPlus
+namespace RGBSyncStudio
 {
    public  class DriverService : BaseViewModel
     {

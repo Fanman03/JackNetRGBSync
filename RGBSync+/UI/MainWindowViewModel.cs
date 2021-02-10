@@ -1,15 +1,15 @@
-﻿using RGBSyncPlus.Languages;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
-using RGBSyncPlus.Model;
+using RGBSyncStudio.Model;
+using RGBSyncStudio.Languages;
 using SimpleLed;
 
-namespace RGBSyncPlus.UI
+namespace RGBSyncStudio.UI
 {
     public class MainWindowViewModel : LanguageAwareBaseViewModel
     {

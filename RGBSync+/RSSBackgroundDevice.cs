@@ -9,12 +9,12 @@ using System.Numerics;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using RGBSyncPlus.Helper;
+using RGBSyncStudio.Helper;
 using SimpleLed;
 using Color = System.Drawing.Color;
 using LinearGradientBrush = System.Windows.Media.LinearGradientBrush;
 
-namespace RGBSyncPlus
+namespace RGBSyncStudio
 {
     public class GradientDriver : ISimpleLed
     {
@@ -267,7 +267,7 @@ namespace RGBSyncPlus
     public class RSSBackgroundDevice : ISimpleLed
     {
         public static Assembly assembly = Assembly.GetExecutingAssembly();
-        public static Stream imageStream = assembly.GetManifestResourceStream("RGBSyncPlus.UI.hires.png");
+        public static Stream imageStream = assembly.GetManifestResourceStream("RGBSyncStudio.UI.hires.png");
         public RSSBackgroundDevice()
         {
             dvs = new ControlDevice
