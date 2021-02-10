@@ -19,7 +19,7 @@ namespace RGBSyncPlus.UI
 
         public MainWindow()
         {
-            ApplicationManager.Instance.ConfigurationWindow = this;
+            ServiceManager.Instance.ApplicationManager.ConfigurationWindow = this;
             InitializeComponent();
 
             this.Title = "RGB Sync Studio " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version;

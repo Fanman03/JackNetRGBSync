@@ -33,46 +33,16 @@ namespace RGBSyncPlus
 {
     public class ApplicationManager
     {
-
-
-        
-
-        #region Constants
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
 
         public const string SLSPROVIDER_DIRECTORY = "SLSProvider";
         private const string NGPROFILES_DIRECTORY = "NGProfiles";
         private const string SLSCONFIGS_DIRECTORY = "SLSConfigs";
-        #endregion
 
-        #region Properties & Fields
-
-
-
-        
-        public static ApplicationManager Instance { get; } = new ApplicationManager();
+        //public static ApplicationManager Instance { get; } = new ApplicationManager();
 
         public MainWindow ConfigurationWindow;
-
-        #endregion
-
-        #region Commands
-
-        private ActionCommand _openConfiguration;
-        public ActionCommand OpenConfigurationCommand => _openConfiguration ?? (_openConfiguration = new ActionCommand(OpenConfiguration));
-
-        private ActionCommand _hideConfiguration;
-        public ActionCommand HideConfigurationCommand => _hideConfiguration ?? (_hideConfiguration = new ActionCommand(HideConfiguration));
-
-        private ActionCommand _restartApp;
-        public ActionCommand RestartAppCommand => _restartApp ?? (_restartApp = new ActionCommand(RestartApp));
-
-        private ActionCommand _techSupport;
-        public ActionCommand TechSupportCommand => _techSupport ?? (_techSupport = new ActionCommand(TechSupport));
-
-        private ActionCommand _exitCommand;
-        public ActionCommand ExitCommand => _exitCommand ?? (_exitCommand = new ActionCommand(Exit));
-
+        
         public void FireLanguageChangedEvent()
         {
             LanguageChangedEvent?.Invoke(this, new EventArgs());
@@ -80,11 +50,7 @@ namespace RGBSyncPlus
 
         public event EventHandler LanguageChangedEvent;
 
-        #endregion
-
-        #region Constructors
-
-        private ApplicationManager()
+        public ApplicationManager()
         {
             try
             {
@@ -93,29 +59,11 @@ namespace RGBSyncPlus
                     Directory.CreateDirectory(NGPROFILES_DIRECTORY);
                     ServiceManager.Instance.ProfileService.GenerateNewProfile("Default", false);
                     ServiceManager.Instance.ConfigService.isHotLoading = false;
-                    return;
                 }
             }
             catch
             {
             }
-
-            //AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-            //{
-            //    string dllName = args.Name.Split(',').First() + ".dll";
-
-            //    foreach (string basePath in BasePaths)
-            //    {
-            //        if (File.Exists(basePath + "\\" + dllName))
-            //        {
-            //            return Assembly.Load(File.ReadAllBytes(basePath + "\\" + dllName));
-            //        }
-            //    }
-
-            //    Debug.WriteLine("Failed to Load: "+dllName);
-            //    return null;
-
-            //};
         }
 
         internal void ShowModal(ModalModel modalModel)
@@ -138,7 +86,6 @@ namespace RGBSyncPlus
             vm.ShowModal = true;
         }
 
-        #endregion
 
         #region Methods
 
@@ -150,77 +97,6 @@ namespace RGBSyncPlus
             }
         }
 
-        public List<ColorProfile> GetColorProfiles()
-        {
-            if (!Directory.Exists("ColorProfiles"))
-            {
-                Directory.CreateDirectory("ColorProfiles");
-            }
-
-            var dir = Directory.GetFiles("ColorProfiles");
-            var result = dir.Select(s => JsonConvert.DeserializeObject<ColorProfile>(File.ReadAllText(s))).ToList();
-            if (result.Count == 0)
-            {
-                result = new List<ColorProfile>
-                {
-                    new ColorProfile
-                    {
-                        Id = Guid.Empty,
-                        ProfileName = "Default",
-                        ColorBanks = new ObservableCollection<ColorBank>()
-                        {
-                            new ColorBank()
-                            {
-                                BankName = "Basics",
-                                Colors = new ObservableCollection<ColorObject>
-                                {
-                                    new ColorObject {Color = new ColorModel(255,0,0)},
-                                    new ColorObject {Color = new ColorModel(255,255,0)},
-                                    new ColorObject {Color = new ColorModel(0,255,0)},
-                                    new ColorObject {Color = new ColorModel(0,0,255)},
-                                    new ColorObject {Color = new ColorModel(255,255,255)},
-                                }
-                            },
-                            new ColorBank()
-                            {
-                                BankName = "Rainbow",
-                                Colors = new ObservableCollection<ColorObject>
-                                {
-                                    new ColorObject {Color = new ColorModel(255,0,0)},
-                                    new ColorObject {Color = new ColorModel(255,153,0)},
-                                    new ColorObject {Color = new ColorModel(204,255,0)},
-                                    new ColorObject {Color = new ColorModel(51, 255, 0)},
-                                    new ColorObject {Color = new ColorModel(0, 255, 102)},
-                                    new ColorObject {Color = new ColorModel(0, 255, 255)},
-                                    new ColorObject {Color = new ColorModel(0, 102, 255)},
-                                    new ColorObject {Color = new ColorModel(51,0,255)},
-                                    new ColorObject {Color = new ColorModel(204, 0, 255)},
-                                    new ColorObject {Color = new ColorModel(255, 0, 153)},
-                                }
-                            },
-                            new ColorBank
-                            {
-                                BankName = "Swatch 3",
-                                Colors = new ObservableCollection<ColorObject>
-                                {
-                                    new ColorObject {ColorString = "#0000ff"}, new ColorObject {ColorString = "#000000"}
-                                }
-                            },
-                            new ColorBank
-                            {
-                                BankName = "Swatch 4",
-                                Colors = new ObservableCollection<ColorObject>
-                                {
-                                    new ColorObject {ColorString = "#ff00ff"}, new ColorObject {ColorString = "#000000"}
-                                }
-                            }
-                        }
-                    }
-                };
-            }
-
-            return result;
-        }
         
         public SplashLoader LoadingSplash;
         public void Initialize()
@@ -233,9 +109,7 @@ namespace RGBSyncPlus
             Task.Delay(TimeSpan.FromSeconds(1)).Wait();
 
             LoadingSplash.Activate();
-            ServiceManager.Initialize(SLSCONFIGS_DIRECTORY, NGPROFILES_DIRECTORY);
-
-
+            
 
             ServiceManager.Instance.Logger.Debug("============ JackNet RGB Sync is Starting ============");
 
@@ -250,7 +124,7 @@ namespace RGBSyncPlus
             System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(ServiceManager.Instance.ConfigService.NGSettings.Lang);
 
             LoadingSplash.LoadingText.Text = "Starting Discord";
-            
+
             ServiceManager.Instance.LedService.LoadOverrides();
             ServiceManager.Instance.LedService.LoadSLSProviders();
 
@@ -368,74 +242,9 @@ namespace RGBSyncPlus
                     ServiceManager.Instance.SLSManager.SaveConfig(cfgable);
                 }
             }
-
-
-
-            //foreach (var controlDevice in SLSDevices)
-            //{
-            //    if (controlDevice.Driver is ISimpleLedWithConfig slsConfig)
-            //    {
-            //        if (slsConfig.GetIsDirty())
-            //        {
-            //            SLSManager.SaveConfig(slsConfig);
-            //        }
-            //    }
-            //}
-        }
-        
-        private void SLSUpdateLoop()
-        {
-
-        }
-       
-
-
-
-
-        public static List<string> BasePaths = new List<string>();
-
-        public bool ExecuteWithTimeout(Action action, int timeoutMs = 5000)
-        {
-
-            return ExecuteAsyncWithTimeout(() => InvokeIfNecessary(action)).ConfigureAwait(false).GetAwaiter().GetResult();
-
         }
 
-        public static void InvokeIfNecessary(Action action)
-        {
-            if (Thread.CurrentThread == Application.Current.Dispatcher.Thread)
-                action();
-            else
-            {
-                Application.Current.Dispatcher.Invoke(action);
-            }
-        }
-
-        public bool RunCodeWithTimeout(Action action, int timeoutMs = 5000)
-        {
-            var task = Task.Run(() => action);
-            if (task.Wait(TimeSpan.FromMilliseconds(timeoutMs)))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public Task<bool> ExecuteAsyncWithTimeout(Action action, int timeoutMs = 5000)
-        {
-            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
-            var ct = new CancellationTokenSource(timeoutMs);
-            ct.Token.Register(() => tcs.TrySetCanceled(), useSynchronizationContext: false);
-
-            Task.Run(action, ct.Token);
-
-            return tcs.Task;
-        }
-
-        private void HideConfiguration()
+        public void HideConfiguration()
         {
             if (ServiceManager.Instance.ConfigService.NGSettings.EnableDiscordRPC == true)
             {
@@ -449,8 +258,6 @@ namespace RGBSyncPlus
             else
                 ConfigurationWindow.WindowState = WindowState.Minimized;
         }
-
-
 
         public void OpenConfiguration()
         {
@@ -476,10 +283,7 @@ namespace RGBSyncPlus
             }
             Application.Current.Shutdown();
         }
-
-
-        private void TechSupport() => System.Diagnostics.Process.Start("https://rgbsync.com/discord");
-
+        
         public void Exit()
         {
             ServiceManager.Instance.Logger.Debug("============ App is Shutting Down ============");
@@ -488,7 +292,10 @@ namespace RGBSyncPlus
                 ServiceManager.Instance.DiscordService.Stop();
 
             }
-            catch { /* well, we're shuting down anyway ... */ }
+            catch
+            {
+
+            }
 
             Application.Current.Shutdown();
         }

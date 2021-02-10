@@ -7,7 +7,7 @@ namespace RGBSyncPlus.API
         [RouteAttribute("{key/{value}")]
         public void SetValue(string key, string value)
         {
-            ApplicationManager.Instance.ProfileTriggerManager.APIValueSet(key, value);
+            ServiceManager.Instance.ApplicationManager.ProfileTriggerManager.APIValueSet(key, value);
         }
     }
 }

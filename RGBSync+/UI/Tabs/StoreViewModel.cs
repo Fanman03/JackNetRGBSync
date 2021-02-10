@@ -48,7 +48,7 @@ namespace RGBSyncPlus.UI.Tabs
         {
             get
             {
-                MainWindow cfgWindow = ApplicationManager.Instance.ConfigurationWindow;
+                MainWindow cfgWindow = ServiceManager.Instance.ApplicationManager.ConfigurationWindow;
                 if (cfgWindow != null)
                 {
                     object cfgVm = cfgWindow.DataContext;
@@ -219,7 +219,7 @@ namespace RGBSyncPlus.UI.Tabs
 
             LoadStoreAndPlugins();
 
-            //ApplicationManager.Instance.Rescan(this, new EventArgs());
+            //ServiceManager.Instance.ApplicationManager.Rescan(this, new EventArgs());
         }
 
         public List<DriverProperties> GetStoreDrivers()

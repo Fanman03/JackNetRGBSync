@@ -33,7 +33,7 @@ namespace RGBSyncPlus.UI
             }
             OnPropertyChanged(nameof(TabItems));
 
-            ApplicationManager.Instance.LanguageChangedEvent += delegate (object sender, EventArgs args)
+            ServiceManager.Instance.ApplicationManager.LanguageChangedEvent += delegate (object sender, EventArgs args)
             {
                 ObservableCollection<TabItem> ti = new ObservableCollection<TabItem>
                 {

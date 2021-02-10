@@ -150,6 +150,7 @@
     <Compile Include="RSSBackgroundDevice.cs" />
     <Compile Include="ServiceManager.cs" />
     <Compile Include="Services\ApiServerService.cs" />
+    <Compile Include="Services\ColorProfileService.cs" />
     <Compile Include="Services\ConfigService.cs" />
     <Compile Include="Services\DiscordService.cs" />
     <Compile Include="Services\LedService.cs" />

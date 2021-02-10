@@ -73,7 +73,7 @@
                             <ColumnDefinition Width="200"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=OpenConfigurationCommand}">
+                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Left" Click="HideClicked">
                             <DockPanel Margin="2,0" LastChildFill="True">
                                 <Image Margin="2" DockPanel.Dock="Left" Width="22" Source="/RGBSync+;component/Resources/hires.ico" />
                                 <TextBlock Margin="2" DockPanel.Dock="Right" Background="Transparent" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="RGB Sync Studio" />
@@ -88,19 +88,19 @@
                             </DockPanel>
                         </Button>
 
-                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="2" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=TechSupportCommand}">
+                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="2" HorizontalContentAlignment="Left" Click="TechSupportClick">
                             <DockPanel Margin="2,0" LastChildFill="True">
                                 <TextBlock DockPanel.Dock="Left" Margin="4" FontSize="18" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
                                 <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Tech Support"/>
                             </DockPanel>
                         </Button>
-                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="3" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=RestartAppCommand}">
+                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="3" HorizontalContentAlignment="Left" Click="RestartAppClick">
                             <DockPanel Margin="2,0" LastChildFill="True">
                                 <TextBlock DockPanel.Dock="Left" Margin="6" FontSize="16" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
                                 <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Restart App"/>
                             </DockPanel>
                         </Button>
-                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="4" HorizontalContentAlignment="Left" Command="{Binding Source={x:Static rgbSyncPlus:ApplicationManager.Instance}, Path=ExitCommand}">
+                        <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="4" HorizontalContentAlignment="Left" Click="ExitClicked">
                             <DockPanel Margin="2,0" LastChildFill="True">
                                 <TextBlock DockPanel.Dock="Left" Margin="6" FontSize="16" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
                                 <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Exit App"/>

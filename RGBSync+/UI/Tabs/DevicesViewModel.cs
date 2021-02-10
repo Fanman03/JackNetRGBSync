@@ -28,7 +28,7 @@ namespace RGBSyncPlus.UI.Tabs
             this.ZoomLevel = 4;
             SetUpDeviceMapViewModel();
 
-            ApplicationManager.Instance.LanguageChangedEvent += Instance_LanguageChangedEvent;
+            ServiceManager.Instance.ApplicationManager.LanguageChangedEvent += Instance_LanguageChangedEvent;
         }
 
         private void Instance_LanguageChangedEvent(object sender, EventArgs e)
@@ -625,7 +625,7 @@ namespace RGBSyncPlus.UI.Tabs
 
             if (ServiceManager.Instance.LedService.SLSDevices != null && ServiceManager.Instance.LedService.SLSDevices.Count(x => x.Driver != null && x.Driver.GetProperties().Id != Guid.Parse("11111111-1111-1111-1111-111111111111")) == 0)
             {
-                ApplicationManager.Instance.NavigateToTab("store");
+                ServiceManager.Instance.ApplicationManager.NavigateToTab("store");
             }
 
             if (ServiceManager.Instance.ProfileService.CurrentProfile == null)

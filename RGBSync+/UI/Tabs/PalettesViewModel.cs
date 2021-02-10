@@ -135,7 +135,7 @@ namespace RGBSyncPlus.UI.Tabs
             };
 
 
-            ColorProfiles = new ObservableCollection<ColorProfile>(ApplicationManager.Instance.GetColorProfiles());
+            ColorProfiles = new ObservableCollection<ColorProfile>(ServiceManager.Instance.ColorProfileService.GetColorProfiles());
 
             if (ServiceManager.Instance.ProfileService.CurrentProfile.ColorProfileId != null)
             {

@@ -352,8 +352,8 @@ namespace RGBSyncPlus.Services
 
             if (!Directory.Exists(deviceProvierDir)) return;
             string[] pluginFolders = Directory.GetDirectories(deviceProvierDir);
-            ApplicationManager.Instance.LoadingSplash.LoadingText.Text = "Loading SLS plugins";
-            ApplicationManager.Instance.LoadingSplash.ProgressBar.Maximum = pluginFolders.Length;
+            ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Text = "Loading SLS plugins";
+            ServiceManager.Instance.ApplicationManager.LoadingSplash.ProgressBar.Maximum = pluginFolders.Length;
 
             int ct = 0;
             foreach (string pluginFolder in pluginFolders)
@@ -361,8 +361,8 @@ namespace RGBSyncPlus.Services
                 //LoadingSplash.Activate();
                 ct++;
 
-                ApplicationManager.Instance.LoadingSplash.ProgressBar.Value = ct;
-                ApplicationManager.Instance.LoadingSplash.ProgressBar.Refresh();
+                ServiceManager.Instance.ApplicationManager.LoadingSplash.ProgressBar.Value = ct;
+                ServiceManager.Instance.ApplicationManager.LoadingSplash.ProgressBar.Refresh();
                 LoadPlungFolder(pluginFolder);
 
 
@@ -402,7 +402,7 @@ namespace RGBSyncPlus.Services
             //HarnessDriver(new CUEDriver());
 
             //SLSManager.RescanRequired += Rescan;
-            ApplicationManager.Instance.LoadingSplash.LoadingText.Text = "Updating SLS devices";
+            ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Text = "Updating SLS devices";
             UpdateSLSDevices();
         }
 
@@ -419,7 +419,7 @@ namespace RGBSyncPlus.Services
         
         public void UpdateSLSDevices()
         {
-            ApplicationManager.Instance.LoadingSplash.LoadingText.Text = "Loading Configs";
+            ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Text = "Loading Configs";
             foreach (ISimpleLed drv in ServiceManager.Instance.SLSManager.Drivers)
             {
                 if (drv is ISimpleLedWithConfig cfgdrv)
@@ -436,10 +436,10 @@ namespace RGBSyncPlus.Services
             }
 
 
-            ApplicationManager.Instance.LoadingSplash.LoadingText.Text = "Getting devices";
+            ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Text = "Getting devices";
             //SLSDevices = SLSManager.GetDevices();
-            ApplicationManager.Instance.LoadingSplash.ProgressBar.Value = 0;
-            ApplicationManager.Instance.LoadingSplash.ProgressBar.Maximum = ServiceManager.Instance.SLSManager.Drivers.Count;
+            ServiceManager.Instance.ApplicationManager.LoadingSplash.ProgressBar.Value = 0;
+            ServiceManager.Instance.ApplicationManager.LoadingSplash.ProgressBar.Maximum = ServiceManager.Instance.SLSManager.Drivers.Count;
 
         }
 
@@ -451,7 +451,7 @@ namespace RGBSyncPlus.Services
             {
                 try
                 {
-                    ApplicationManager.Instance.LoadingSplash.LoadingText.Text = "Loading " + file.Split('\\').Last().Split('.').First();
+                    ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Text = "Loading " + file.Split('\\').Last().Split('.').First();
                     ServiceManager.Instance.Logger.Debug("Loading provider " + file);
 
                     ISimpleLed slsDriver = TypeLoaderExtensions.LoadDll(justPath, filename);
@@ -464,10 +464,10 @@ namespace RGBSyncPlus.Services
                             {
                                 //slsDriver.Configure(null);
                                 Debug.WriteLine("We got one! " + "Loading " + slsDriver.Name());
-                                ApplicationManager.Instance.LoadingSplash.LoadingText.Text = "Loading " + slsDriver.Name();
-                                ApplicationManager.Instance.LoadingSplash.UpdateLayout();
-                                ApplicationManager.Instance.LoadingSplash.Refresh();
-                                ApplicationManager.Instance.LoadingSplash.LoadingText.Refresh();
+                                ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Text = "Loading " + slsDriver.Name();
+                                ServiceManager.Instance.ApplicationManager.LoadingSplash.UpdateLayout();
+                                ServiceManager.Instance.ApplicationManager.LoadingSplash.Refresh();
+                                ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Refresh();
                                 ServiceManager.Instance.SLSManager.Drivers.Add(slsDriver);
                                 // driversAdded.Add(slsDriver.GetProperties().Id);
                                 Debug.WriteLine("all loaded: " + slsDriver.Name());

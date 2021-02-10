@@ -280,7 +280,7 @@ namespace RGBSyncPlus.Model
                 {
                     SetProperty(ref lang, value);
                     AreSettingsStale = true;
-                    ApplicationManager.Instance.FireLanguageChangedEvent();
+                    ServiceManager.Instance.ApplicationManager.FireLanguageChangedEvent();
                 }
             }
 

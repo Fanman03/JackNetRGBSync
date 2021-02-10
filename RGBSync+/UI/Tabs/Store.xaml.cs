@@ -142,7 +142,7 @@ namespace RGBSyncPlus.UI.Tabs
         }
 
         private MainWindowViewModel mainVm =>
-            (MainWindowViewModel)ApplicationManager.Instance.ConfigurationWindow.DataContext;
+            (MainWindowViewModel)ServiceManager.Instance.ApplicationManager.ConfigurationWindow.DataContext;
 
         private void ReloadAllPlugins(object sender, RoutedEventArgs e)
         {
@@ -338,7 +338,7 @@ namespace RGBSyncPlus.UI.Tabs
                 {
                     ServiceManager.Instance.LedService.PauseSyncing = true;
                     Task.Delay(TimeSpan.FromSeconds(1)).Wait();
-                    //ApplicationManager.Instance.UnloadSLSProviders();
+                    //ServiceManager.Instance.ApplicationManager.UnloadSLSProviders();
 
 
 
@@ -443,7 +443,7 @@ namespace RGBSyncPlus.UI.Tabs
 
 
                     //vm.ReloadStoreAndPlugins();
-                   // ApplicationManager.Instance.Rescan(this, new EventArgs());
+                   // ServiceManager.Instance.ApplicationManager.Rescan(this, new EventArgs());
                 }
 
                 if (anyFail)
