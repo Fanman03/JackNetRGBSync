@@ -144,7 +144,7 @@
     <Compile Include="Model\PositionalAssignment.cs" />
     <Compile Include="Model\SyncGroup.cs" />
     <Compile Include="Model\SyncLed.cs" />
-    <Compile Include="ProfileTriggerManager.cs" />
+    <Compile Include="Services\ProfileTriggerManager.cs" />
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\EqualsToBoolConverter.cs" />
     <Compile Include="RSSBackgroundDevice.cs" />

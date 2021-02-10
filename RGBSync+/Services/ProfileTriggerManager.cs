@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows.Threading;
 
 namespace RGBSyncPlus
 {
@@ -31,10 +32,8 @@ namespace RGBSyncPlus
                     string json = File.ReadAllText("NGProfileTriggers.json");
                     List<ProfileTriggerEntry> temp = JsonConvert.DeserializeObject<List<ProfileTriggerEntry>>(json);
                     ProfileTriggers = new ObservableCollection<ProfileTriggerEntry>(temp);
-                    if (ServiceManager.Instance.ApplicationManager?.ProfileTriggerManager != null)
-                    {
-                        ServiceManager.Instance.ApplicationManager.ProfileTriggerManager.IsDirty = false;
-                    }
+                    IsDirty = false;
+
                 }
                 catch
                 {
@@ -47,8 +46,16 @@ namespace RGBSyncPlus
             }
 
             ProfileTriggers.CollectionChanged += ProfileTriggers_CollectionChanged;
+
+        
+
+        profileTriggerTimer = new DispatcherTimer();
+        profileTriggerTimer.Interval = TimeSpan.FromSeconds(1);
+        profileTriggerTimer.Tick += (sender, args) => ServiceManager.Instance.ProfileTriggerManager.CheckTriggers();
+        profileTriggerTimer.Start();
         }
 
+        public DispatcherTimer profileTriggerTimer;
 
 
         [JsonIgnore] public bool IsDirty = false;
@@ -73,7 +80,7 @@ namespace RGBSyncPlus
                 }
 
                 IsDirty = false;
-                ServiceManager.Instance.ApplicationManager.ProfileTriggerManager.IsDirty = false;
+
             }
         }
 
@@ -130,10 +137,8 @@ namespace RGBSyncPlus
         {
             private void Dirty()
             {
-                if (ServiceManager.Instance.ApplicationManager?.ProfileTriggerManager != null)
-                {
-                    ServiceManager.Instance.ApplicationManager.ProfileTriggerManager.IsDirty = true;
-                }
+                ServiceManager.Instance.ProfileTriggerManager.IsDirty = true;
+
             }
 
             private bool expanded = false;

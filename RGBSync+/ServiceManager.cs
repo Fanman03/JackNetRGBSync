@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using RGBSyncPlus.Services;
 using SimpleLed;
 
@@ -24,6 +25,7 @@ namespace RGBSyncPlus
         public SLSAuthService SLSAuthService;
         public ColorProfileService ColorProfileService;
         public ModalService ModalService;
+        public ProfileTriggerManager ProfileTriggerManager;
         public static void Initialize(string slsConfigsDirectory, string ngProfileDir)
         {
             Instance = new ServiceManager();
@@ -38,7 +40,17 @@ namespace RGBSyncPlus
             Instance.SLSAuthService = new SLSAuthService();
             Instance.ColorProfileService = new ColorProfileService();
             Instance.ModalService = new ModalService();
+            Instance.ProfileTriggerManager = new ProfileTriggerManager();
 
+        }
+
+        public static void Shutdown()
+        {
+            Instance.LedService.PauseSyncing = true;
+            Instance.LedService.UnloadSLSProviders();
+
+            Instance.DiscordService.Stop();
+            Application.Current.Shutdown();
         }
     }
 }

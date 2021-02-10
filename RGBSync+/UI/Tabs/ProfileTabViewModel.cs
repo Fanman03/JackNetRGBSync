@@ -187,7 +187,7 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 if (ProfileNames != null)
                 {
-                    ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry> triggers = ServiceManager.Instance.ApplicationManager.ProfileTriggerManager.ProfileTriggers;
+                    ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry> triggers = ServiceManager.Instance.ProfileTriggerManager.ProfileTriggers;
                     ProfileItems.Clear();
                     foreach (string profileName in ProfileNames)
                     {
@@ -331,7 +331,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void CreateNewTrigger()
         {
-            ServiceManager.Instance.ApplicationManager.ProfileTriggerManager.ProfileTriggers.Add(new ProfileTriggerManager.ProfileTriggerEntry
+            ServiceManager.Instance.ProfileTriggerManager.ProfileTriggers.Add(new ProfileTriggerManager.ProfileTriggerEntry
             {
                 Name = "No name",
                 TriggerType = ProfileTriggerManager.ProfileTriggerTypes.RunningProccess,
@@ -340,7 +340,7 @@ namespace RGBSyncPlus.UI.Tabs
             });
 
             CurrentProfile.Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(
-                ServiceManager.Instance.ApplicationManager.ProfileTriggerManager.ProfileTriggers.Where(x =>
+                ServiceManager.Instance.ProfileTriggerManager.ProfileTriggers.Where(x =>
                     x.ProfileName == CurrentProfile.OriginalName));
 
             OnPropertyChanged("ProfileNames");
@@ -350,13 +350,13 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void DeleteTrigger(ProfileTriggerManager.ProfileTriggerEntry entry)
         {
-            ProfileTriggerManager.ProfileTriggerEntry killMe = ServiceManager.Instance.ApplicationManager.ProfileTriggerManager.ProfileTriggers.First(x => x.Id == entry.Id);
-            ServiceManager.Instance.ApplicationManager.ProfileTriggerManager.ProfileTriggers.Remove(killMe);
+            ProfileTriggerManager.ProfileTriggerEntry killMe = ServiceManager.Instance.ProfileTriggerManager.ProfileTriggers.First(x => x.Id == entry.Id);
+            ServiceManager.Instance.ProfileTriggerManager.ProfileTriggers.Remove(killMe);
 
             RefreshProfiles();
 
             CurrentProfile.Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(
-                ServiceManager.Instance.ApplicationManager.ProfileTriggerManager.ProfileTriggers.Where(x =>
+                ServiceManager.Instance.ProfileTriggerManager.ProfileTriggers.Where(x =>
                     x.ProfileName == CurrentProfile.OriginalName));
 
             OnPropertyChanged("ProfileNames");

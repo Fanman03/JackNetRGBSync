@@ -102,35 +102,35 @@ namespace RGBSyncPlus.UI.Tabs
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (ServiceManager.Instance.ApplicationManager.DeviceBeingAligned != null)
+            if (ServiceManager.Instance.LedService.DeviceBeingAligned != null)
             {
-                int vl = ServiceManager.Instance.ApplicationManager.DeviceBeingAligned.LedShift;
+                int vl = ServiceManager.Instance.LedService.DeviceBeingAligned.LedShift;
 
                 vl--;
-                if (vl < 0) vl = ServiceManager.Instance.ApplicationManager.DeviceBeingAligned.LEDs.Length - 1;
+                if (vl < 0) vl = ServiceManager.Instance.LedService.DeviceBeingAligned.LEDs.Length - 1;
 
-                ServiceManager.Instance.ApplicationManager.DeviceBeingAligned.LedShift = vl;
+                ServiceManager.Instance.LedService.DeviceBeingAligned.LedShift = vl;
             }
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            if (ServiceManager.Instance.ApplicationManager.DeviceBeingAligned != null)
+            if (ServiceManager.Instance.LedService.DeviceBeingAligned != null)
             {
-                int vl = ServiceManager.Instance.ApplicationManager.DeviceBeingAligned.LedShift;
+                int vl = ServiceManager.Instance.LedService.DeviceBeingAligned.LedShift;
 
                 vl++;
-                if (vl >= ServiceManager.Instance.ApplicationManager.DeviceBeingAligned.LEDs.Length) vl = 0;
+                if (vl >= ServiceManager.Instance.LedService.DeviceBeingAligned.LEDs.Length) vl = 0;
 
-                ServiceManager.Instance.ApplicationManager.DeviceBeingAligned.LedShift = vl;
+                ServiceManager.Instance.LedService.DeviceBeingAligned.LedShift = vl;
             }
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            if (ServiceManager.Instance.ApplicationManager.DeviceBeingAligned != null)
+            if (ServiceManager.Instance.LedService.DeviceBeingAligned != null)
             {
-                ServiceManager.Instance.ApplicationManager.DeviceBeingAligned.Reverse = !ServiceManager.Instance.ApplicationManager.DeviceBeingAligned.Reverse;
+                ServiceManager.Instance.LedService.DeviceBeingAligned.Reverse = !ServiceManager.Instance.LedService.DeviceBeingAligned.Reverse;
 
             }
         }
@@ -197,14 +197,14 @@ namespace RGBSyncPlus.UI.Tabs
                 ControlDevice selectedDevice = null;
                 if (ConfigPanel != null && ((DeviceMappingModels.Device)ConfigPanel.DataContext) != null)
                 {
-                    ServiceManager.Instance.ApplicationManager.DeviceBeingAligned =
+                    ServiceManager.Instance.LedService.DeviceBeingAligned =
                         ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
                     ((DevicesViewModel)this.DataContext).SetupSourceDevices(
                         ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice);
                 }
                 else
                 {
-                    ServiceManager.Instance.ApplicationManager.DeviceBeingAligned = null;
+                    ServiceManager.Instance.LedService.DeviceBeingAligned = null;
                     ((DevicesViewModel)this.DataContext).SetupSourceDevices(null);
                 }
 
@@ -472,12 +472,12 @@ namespace RGBSyncPlus.UI.Tabs
 
             if (ConfigPanel != null && ((DeviceMappingModels.Device)ConfigPanel.DataContext) != null)
             {
-                ServiceManager.Instance.ApplicationManager.DeviceBeingAligned = ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
+                ServiceManager.Instance.LedService.DeviceBeingAligned = ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
                 ((DevicesViewModel)this.DataContext).SetupSourceDevices(((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice);
             }
             else
             {
-                ServiceManager.Instance.ApplicationManager.DeviceBeingAligned = null;
+                ServiceManager.Instance.LedService.DeviceBeingAligned = null;
                 ((DevicesViewModel)this.DataContext).SetupSourceDevices(null);
             }
 

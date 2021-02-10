@@ -22,6 +22,7 @@ namespace RGBSyncPlus.Services
                 client = new DiscordRpcClient("581567509959016456");
                 client.Initialize();
             }
+
             ServiceManager.Instance.Logger.Info("Setting Discord presensce.");
             client.SetPresence(new RichPresence()
             {
@@ -39,12 +40,17 @@ namespace RGBSyncPlus.Services
 
         public void Stop()
         {
-            try
+            if (ServiceManager.Instance.ConfigService.NGSettings.EnableDiscordRPC == true)
             {
-                client.Dispose();
-                
+                try
+                {
+                    client.Dispose();
+
+                }
+                catch
+                {
+                }
             }
-            catch { }
 
             client = null;
         }
