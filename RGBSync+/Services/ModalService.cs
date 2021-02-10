@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RGBSyncStudio.UI;
+﻿using RGBSyncStudio.UI;
 using RGBSyncStudio.UI.Tabs;
 
 namespace RGBSyncStudio.Services
 {
     public class ModalService
     {
-        
+
         public void ShowModal(ModalModel modalModel)
         {
             MainWindowViewModel vm = ((MainWindowViewModel)ServiceManager.Instance.ApplicationManager.ConfigurationWindow.DataContext);

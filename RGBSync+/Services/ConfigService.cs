@@ -1,18 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using RGBSyncStudio.Helper;
+using RGBSyncStudio.Model;
+using SharedCode;
+using SimpleLed;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using RGBSyncStudio.Configuration;
-using RGBSyncStudio.Helper;
-using RGBSyncStudio.Model;
-using SharedCode;
-using SimpleLed;
 
 namespace RGBSyncStudio.Services
 {
@@ -30,20 +27,30 @@ namespace RGBSyncStudio.Services
                 Directory.CreateDirectory(SLSCONFIGS_DIRECTORY);
             }
 
-            configTimer = new Timer(ConfigUpdate, null, 0, (int)5000);
+            configTimer = new Timer(ConfigUpdate, null, 0, 5000);
         }
 
         public Timer configTimer;
         public List<DeviceMappingModels.DeviceMap> MappedDevices = new List<DeviceMappingModels.DeviceMap>();
         public bool isHotLoading;
 
+
+        private List<DeviceMappingModels.DeviceMapping> deviceMappingProxy;
+
+        public List<DeviceMappingModels.DeviceMapping> DeviceMappingProxy
+        {
+            get => deviceMappingProxy;
+            set { deviceMappingProxy = value; }
+        }
+
+        //TODO does this actually run? I cant see that we ever set up the proxy
         public void SetUpMappedDevicesFromConfig()
         {
             List<ControlDevice> alreadyBeingSyncedTo = new List<ControlDevice>();
             MappedDevices = new List<DeviceMappingModels.DeviceMap>();
-            if (ServiceManager.Instance.ConfigService.Settings.DeviceMappingProxy != null)
+            if (ServiceManager.Instance.ConfigService.DeviceMappingProxy != null)
             {
-                foreach (DeviceMappingModels.DeviceMapping deviceMapping in ServiceManager.Instance.ConfigService.Settings.DeviceMappingProxy)
+                foreach (DeviceMappingModels.DeviceMapping deviceMapping in ServiceManager.Instance.ConfigService.DeviceMappingProxy)
                 {
                     ControlDevice src = ServiceManager.Instance.LedService.SLSDevices.FirstOrDefault(x =>
                         x.Name == deviceMapping.SourceDevice.DeviceName &&
@@ -97,7 +104,6 @@ namespace RGBSyncStudio.Services
             BackgroundOpacity = 0.5f
         };
 
-        public Settings Settings { get; set; } = new Settings();
         public LauncherPrefs LauncherPrefs { get; set; } = new LauncherPrefs();
 
         public void LoadNGSettings()
@@ -259,7 +265,7 @@ namespace RGBSyncStudio.Services
                 ServiceManager.Instance.ProfileService.LoadProfileFromName(NGSettings.CurrentProfile);
             }
 
-            
+
             double tmr2 = 1000.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
 
             ServiceManager.Instance.LedService.SetUpdateRate(tmr2);
@@ -288,9 +294,9 @@ namespace RGBSyncStudio.Services
 
             if (!string.IsNullOrWhiteSpace(NGSettings.SimpleLedAuthToken))
             {
-               ServiceManager.Instance.SLSAuthService.SimpleLedAuth.AccessToken = NGSettings.SimpleLedAuthToken;
-               ServiceManager.Instance.SLSAuthService.SimpleLedAuth.UserName = NGSettings.SimpleLedUserName;
-               ServiceManager.Instance.SLSAuthService.SimpleLedAuth.UserId = NGSettings.SimpleLedUserId;
+                ServiceManager.Instance.SLSAuthService.SimpleLedAuth.AccessToken = NGSettings.SimpleLedAuthToken;
+                ServiceManager.Instance.SLSAuthService.SimpleLedAuth.UserName = NGSettings.SimpleLedUserName;
+                ServiceManager.Instance.SLSAuthService.SimpleLedAuth.UserId = NGSettings.SimpleLedUserId;
                 try
                 {
                     ServiceManager.Instance.SLSAuthService.SimpleLedAuth.Authenticate(() =>

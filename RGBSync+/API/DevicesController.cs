@@ -17,7 +17,8 @@ namespace RGBSyncStudio.API
             public Bitmap ProductImage { get; set; }
             public int GridWidth { get; set; }
             public int GridHeight { get; set; }
-            public bool Has2DSupport { get; set; } }
+            public bool Has2DSupport { get; set; }
+        }
 
         public List<ApiDeviceModel> GetDevices()
         {

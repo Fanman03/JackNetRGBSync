@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
 using RGBSyncStudio.Model;
+using System.Collections.Generic;
 
 namespace RGBSyncStudio.UI
 {

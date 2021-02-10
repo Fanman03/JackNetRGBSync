@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SourceChord.FluentWPF
 {
@@ -87,8 +78,8 @@ namespace SourceChord.FluentWPF
 
         private void OnScrollUpdated(ScrollViewer scrollViewer)
         {
-            var posX = scrollViewer.ScrollableWidth == 0 ? 0 : scrollViewer.HorizontalOffset / scrollViewer.ScrollableWidth;
-            var posY = scrollViewer.ScrollableHeight == 0 ? 0 : scrollViewer.VerticalOffset / scrollViewer.ScrollableHeight;
+            double posX = scrollViewer.ScrollableWidth == 0 ? 0 : scrollViewer.HorizontalOffset / scrollViewer.ScrollableWidth;
+            double posY = scrollViewer.ScrollableHeight == 0 ? 0 : scrollViewer.VerticalOffset / scrollViewer.ScrollableHeight;
 
             this.OffsetMargin = new Thickness(-posX * HorizontalShift, -posY * VerticalShift, 0, 0);
         }
@@ -106,11 +97,11 @@ namespace SourceChord.FluentWPF
         {
             // Sourceが設定されたら、VisualTreeを辿りScrollViewerを探す。
             // ⇒見つかったScrollViewerの各種プロパティと、このParallaxViewのオフセット値をバインディングする。
-            var parallax = d as ParallaxView;
-            var ctrl = e.NewValue as FrameworkElement;
+            ParallaxView parallax = d as ParallaxView;
+            FrameworkElement ctrl = e.NewValue as FrameworkElement;
             ctrl.Loaded += (_, __) =>
             {
-                var viewer = GetScrollViewer(ctrl);
+                ScrollViewer viewer = GetScrollViewer(ctrl);
 
                 if (viewer != null)
                 {
@@ -124,7 +115,7 @@ namespace SourceChord.FluentWPF
 
         private static ScrollViewer GetScrollViewer(DependencyObject obj)
         {
-            var viewer = obj as ScrollViewer ?? FindVisualChild<ScrollViewer>(obj);
+            ScrollViewer viewer = obj as ScrollViewer ?? FindVisualChild<ScrollViewer>(obj);
             return viewer;
         }
 
@@ -152,12 +143,12 @@ namespace SourceChord.FluentWPF
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             double sum = 0;
-            foreach(var  v in values)
+            foreach (object v in values)
             {
-                var isInvalid = v == DependencyProperty.UnsetValue;
+                bool isInvalid = v == DependencyProperty.UnsetValue;
                 if (isInvalid) continue;
 
-                var value = (double)v;
+                double value = (double)v;
                 sum += value;
             }
             return sum;

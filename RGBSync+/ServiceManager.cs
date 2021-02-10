@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using RGBSyncStudio.Services;
+﻿using RGBSyncStudio.Services;
 using SimpleLed;
+using System.Windows;
 
 namespace RGBSyncStudio
 {

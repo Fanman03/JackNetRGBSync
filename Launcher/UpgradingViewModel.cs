@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Launcher
+﻿namespace Launcher
 {
     public class UpgradingViewModel : BaseViewModel
     {
@@ -12,7 +6,7 @@ namespace Launcher
         public string Message
         {
             get => message;
-            set => Set(ref message,value);
+            set => Set(ref message, value);
         }
 
         private int percentage = 100;

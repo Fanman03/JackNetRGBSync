@@ -1,20 +1,17 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using RGBSyncStudio.Helper;
+using RGBSyncStudio.Model;
+using SimpleLed;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using Newtonsoft.Json;
-using RGBSyncStudio.UI;
-using RGBSyncStudio.UI.Tabs;
-using RGBSyncStudio.Helper;
-using RGBSyncStudio.Model;
-using SimpleLed;
 
 namespace RGBSyncStudio.Services
 {
@@ -24,7 +21,8 @@ namespace RGBSyncStudio.Services
         public System.Timers.Timer SLSTimer;
         public const string SLSPROVIDER_DIRECTORY = "SLSProvider";
         public bool PauseSyncing { get; set; } = false;
-        Dictionary<string, string> pathfun = new Dictionary<string, string>();
+
+        private readonly Dictionary<string, string> pathfun = new Dictionary<string, string>();
         public RSSBackgroundDevice RssBackgroundDevice = new RSSBackgroundDevice();
 
         public ObservableCollection<ControlDevice> SLSDevices = new ObservableCollection<ControlDevice>();
@@ -63,7 +61,7 @@ namespace RGBSyncStudio.Services
 
         private void SLSUpdate(object state)
         {
-            var CurrentProfile = ServiceManager.Instance.ProfileService.CurrentProfile;
+            DeviceMappingModels.NGProfile CurrentProfile = ServiceManager.Instance.ProfileService.CurrentProfile;
 
 
             if (PauseSyncing)
@@ -209,7 +207,7 @@ namespace RGBSyncStudio.Services
 
             DriverProperties props = device.Driver.GetProperties();
 
-            var overrides = GetOverride(device);
+            DeviceMappingModels.DeviceOverrides overrides = GetOverride(device);
 
             BitmapImage bmp = null;
 
@@ -228,7 +226,7 @@ namespace RGBSyncStudio.Services
             {
             }
 
-            var tmp = new DeviceMappingModels.Device
+            DeviceMappingModels.Device tmp = new DeviceMappingModels.Device
             {
                 SunkTo = thingy?.SourceName ?? "",
                 ControlDevice = device,
@@ -287,7 +285,7 @@ namespace RGBSyncStudio.Services
 
         public DeviceMappingModels.DeviceOverrides GenerateOverride(ControlDevice cd)
         {
-            var existing = new DeviceMappingModels.DeviceOverrides
+            DeviceMappingModels.DeviceOverrides existing = new DeviceMappingModels.DeviceOverrides
             {
                 Name = cd.Name,
                 ConnectedTo = cd.ConnectedTo,
@@ -307,7 +305,7 @@ namespace RGBSyncStudio.Services
         {
             return SLSDevices.FirstOrDefault(x => x.Name == name && x.Driver.Name() == providerName);
         }
-        
+
         public SolidColorDriver SolidColorDevice { get; set; }
         public GradientDriver GradientDriver { get; set; }
 
@@ -363,7 +361,7 @@ namespace RGBSyncStudio.Services
             if (File.Exists("NGOverrides.json"))
             {
                 string json = File.ReadAllText("NGOverrides.json");
-                var tmp = JsonConvert.DeserializeObject<List<DeviceMappingModels.DeviceOverrides>>(json);
+                List<DeviceMappingModels.DeviceOverrides> tmp = JsonConvert.DeserializeObject<List<DeviceMappingModels.DeviceOverrides>>(json);
                 DeviceOverrides = new ObservableCollection<DeviceMappingModels.DeviceOverrides>(tmp);
             }
         }
@@ -393,14 +391,14 @@ namespace RGBSyncStudio.Services
 
 
             }
-            
-            var type = typeof(ISimpleLed);
-            var types = AppDomain.CurrentDomain.GetAssemblies()
+
+            Type type = typeof(ISimpleLed);
+            List<Type> types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
                 .Where(p => type.IsAssignableFrom(p)).ToList();
 
             Assembly asm = Assembly.GetExecutingAssembly();
-            var typos = asm.GetTypesWithInterface();
+            IEnumerable<Type> typos = asm.GetTypesWithInterface();
 
             SolidColorDevice = new SolidColorDriver();
             GradientDriver = new GradientDriver();
@@ -442,7 +440,7 @@ namespace RGBSyncStudio.Services
             driver.Configure(new DriverDetails());
 
         }
-        
+
         public void UpdateSLSDevices()
         {
             ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Text = "Loading Configs";
@@ -585,10 +583,10 @@ namespace RGBSyncStudio.Services
             }
 
             //   t.Stop();
-            var overriden = GetOverride(e.ControlDevice);
+            DeviceMappingModels.DeviceOverrides overriden = GetOverride(e.ControlDevice);
             if (overriden != null)
             {
-                var props = e.ControlDevice.Driver.GetProperties();
+                DriverProperties props = e.ControlDevice.Driver.GetProperties();
                 if (e.ControlDevice.OverrideSupport != OverrideSupport.None)
                 {
                     if (props?.SetDeviceOverride != null && overriden.CustomDeviceSpecification.LedCount > 0)

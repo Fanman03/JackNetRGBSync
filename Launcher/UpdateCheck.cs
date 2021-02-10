@@ -1,19 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using SharedCode;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using Newtonsoft.Json;
-using SharedCode;
 
 namespace Launcher
 {
@@ -27,12 +24,12 @@ namespace Launcher
             UpgradingWindow.Show();
             UpgradingWindow.UpdateLayout();
             UpgradingWindow.UpdateDefaultStyle();
-            
+
             UpgradingWindow.vm.Message = "Checking For Update...";
             await Task.Delay(1000);
             string url = "";
             string regexPattern = "";
-            
+
             //  try
             {
                 switch (releaseType)
@@ -62,32 +59,32 @@ namespace Launcher
 
                 MatchCollection urls = Regex.Matches(html, regexPattern);
 
-               // MessageBox.Show(urls[0].ToString());
+                // MessageBox.Show(urls[0].ToString());
                 Dictionary<string, int> usableUrls = urls.Cast<Match>().ToDictionary(match => (url + (match.Value.Substring(2, (match.Value).Length - 3).Split('/').Last())), match => int.Parse(match.Value.Split('_').Last().Split('.').First()));
 
                 Debug.WriteLine(usableUrls);
 
                 int maxReleaseNumber = usableUrls.Values.Max();
 
-                if (Core.LauncherPrefs.ReleaseInstalled != maxReleaseNumber || Core.LauncherPrefs.ReleaseTypeInstalled != releaseType )
+                if (Core.LauncherPrefs.ReleaseInstalled != maxReleaseNumber || Core.LauncherPrefs.ReleaseTypeInstalled != releaseType)
                 {
-                    
+
                     try
                     {
-                        if (File.Exists(destFolder+"\\RGBSync+.exe"))
+                        if (File.Exists(destFolder + "\\RGBSync+.exe"))
                         {
-                            if (!Directory.Exists(destFolder+"\\.old"))
+                            if (!Directory.Exists(destFolder + "\\.old"))
                             {
-                                DirectoryInfo dir = Directory.CreateDirectory(destFolder+"\\old");
-                                
+                                DirectoryInfo dir = Directory.CreateDirectory(destFolder + "\\old");
+
                                 dir.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
                             }
 
-                            File.Move("RGBSync+.exe", destFolder+"\\.old\\oldrss_" +Guid.NewGuid()+".exe");
+                            File.Move("RGBSync+.exe", destFolder + "\\.old\\oldrss_" + Guid.NewGuid() + ".exe");
                             File.Delete("oldrss.exe");
                         }
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Debug.WriteLine(e.Message);
                     }
@@ -95,7 +92,7 @@ namespace Launcher
                     if (Directory.Exists(".old"))
                     {
                         Thread.Sleep(1000);
-                        foreach (var f in Directory.GetFiles(destFolder+"\\.old\\"))
+                        foreach (string f in Directory.GetFiles(destFolder + "\\.old\\"))
                         {
                             try
                             {
@@ -107,40 +104,40 @@ namespace Launcher
                         }
                     }
 
-                    if (Directory.Exists(destFolder+"\\.old"))
+                    if (Directory.Exists(destFolder + "\\.old"))
                     {
                         Thread.Sleep(1000);
 
-                        if (Directory.GetFiles(destFolder+"\\.old\\").Length == 0)
+                        if (Directory.GetFiles(destFolder + "\\.old\\").Length == 0)
                         {
-                            Directory.Delete(destFolder+"\\.old", true);
+                            Directory.Delete(destFolder + "\\.old", true);
                         }
                     }
 
                     vm.Message = "Installing " + releaseType + " release " + maxReleaseNumber;
 
-                    string zipPath = destFolder+"\\"+releaseType + "_" + maxReleaseNumber + ".zip";
+                    string zipPath = destFolder + "\\" + releaseType + "_" + maxReleaseNumber + ".zip";
 
                     WebClient wc = new WebClient();
                     wc.DownloadProgressChanged += client_DownloadProgressChanged;
                     wc.DownloadFileCompleted += (sender, e) =>
                     {
-                        if (Directory.Exists(destFolder+"\\temp"))
+                        if (Directory.Exists(destFolder + "\\temp"))
                         {
-                            Directory.Delete(destFolder+"\\temp", true);
+                            Directory.Delete(destFolder + "\\temp", true);
                         }
 
-                        Directory.CreateDirectory(destFolder+"\\temp");
+                        Directory.CreateDirectory(destFolder + "\\temp");
 
                         vm.Message = "Extracting...";
-                        ZipFile.ExtractToDirectory(zipPath, destFolder+"\\temp");
+                        ZipFile.ExtractToDirectory(zipPath, destFolder + "\\temp");
 
-                        DirectoryCopy(destFolder+"\\temp", destFolder, true);
+                        DirectoryCopy(destFolder + "\\temp", destFolder, true);
 
                         File.Delete(zipPath);
                         try
                         {
-                            Directory.Delete(destFolder+"\\temp", true);
+                            Directory.Delete(destFolder + "\\temp", true);
                         }
                         catch
                         {
@@ -158,20 +155,20 @@ namespace Launcher
                         Core.LauncherPrefs.ReleaseTypeInstalled = releaseType;
 
                         string json = JsonConvert.SerializeObject(Core.LauncherPrefs);
-                        File.WriteAllText(destFolder+"\\LauncherPrefs.json", json);
+                        File.WriteAllText(destFolder + "\\LauncherPrefs.json", json);
 
 
-                        if (Directory.Exists(destFolder+"\\.old"))
+                        if (Directory.Exists(destFolder + "\\.old"))
                         {
                             Thread.Sleep(1000);
 
-                            if (Directory.GetFiles(destFolder+"\\.old\\").Length == 0)
+                            if (Directory.GetFiles(destFolder + "\\.old\\").Length == 0)
                             {
-                                Directory.Delete(destFolder+"\\.old", true);
+                                Directory.Delete(destFolder + "\\.old", true);
                             }
                         }
 
-                            
+
                     };
 
                     wc.DownloadFileAsync(new Uri(usableUrls.First(x => x.Value == maxReleaseNumber).Key), zipPath);
@@ -210,7 +207,7 @@ namespace Launcher
             foreach (FileInfo file in files)
             {
                 string temppath = Path.Combine(destDirName, file.Name);
-                Debug.WriteLine("Copying to "+temppath);
+                Debug.WriteLine("Copying to " + temppath);
                 try
                 {
                     file.CopyTo(temppath, true);
@@ -239,7 +236,7 @@ namespace Launcher
 
             vm.Message = "Downloaded " + (e.BytesReceived / 1000000).ToString() + " MB of " + (e.TotalBytesToReceive / 1000000).ToString() + " MB.";
 
-            vm.Percentage = 100-(int)percentage;
+            vm.Percentage = 100 - (int)percentage;
         }
 
         private UpgradingViewModel vm => UpgradingWindow.vm;

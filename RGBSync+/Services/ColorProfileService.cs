@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using SimpleLed;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using SimpleLed;
 
 namespace RGBSyncStudio.Services
 {
@@ -19,8 +17,8 @@ namespace RGBSyncStudio.Services
                 Directory.CreateDirectory("ColorProfiles");
             }
 
-            var dir = Directory.GetFiles("ColorProfiles");
-            var result = dir.Select(s => JsonConvert.DeserializeObject<ColorProfile>(File.ReadAllText(s))).ToList();
+            string[] dir = Directory.GetFiles("ColorProfiles");
+            List<ColorProfile> result = dir.Select(s => JsonConvert.DeserializeObject<ColorProfile>(File.ReadAllText(s))).ToList();
             if (result.Count == 0)
             {
                 result = new List<ColorProfile>

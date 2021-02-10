@@ -4,7 +4,6 @@ using SimpleLed;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -36,7 +35,7 @@ namespace RGBSyncStudio.Model
             }
         }
 
-      
+
 
         public class NGSettings : BaseViewModel
         {
@@ -600,7 +599,7 @@ namespace RGBSyncStudio.Model
                 set
                 {
                     SetProperty(ref controllingModels, value);
-               //     ControllingModelsCount = controllingModels.Count;
+                    //     ControllingModelsCount = controllingModels.Count;
                 }
             }
 
@@ -627,7 +626,7 @@ namespace RGBSyncStudio.Model
 
             private bool hovered;
             [JsonIgnore]
-            public bool Hovered { get=>hovered; set=>SetProperty(ref hovered, value); }
+            public bool Hovered { get => hovered; set => SetProperty(ref hovered, value); }
         }
 
         public class NGDeviceProfileSettings : BaseViewModel
@@ -744,7 +743,7 @@ namespace RGBSyncStudio.Model
                 set
                 {
                     SetProperty(ref name, value);
-                   // PushUpdate();
+                    // PushUpdate();
                 }
             }
 
@@ -756,7 +755,7 @@ namespace RGBSyncStudio.Model
                 set
                 {
                     SetProperty(ref connectedTo, value);
-                   // PushUpdate();
+                    // PushUpdate();
                 }
             }
 
@@ -767,7 +766,7 @@ namespace RGBSyncStudio.Model
                 set
                 {
                     SetProperty(ref providerName, value);
-                   // PushUpdate();
+                    // PushUpdate();
                 }
             }
 
@@ -890,7 +889,7 @@ namespace RGBSyncStudio.Model
             }
 
             public Action<object> SyncBack;
-            
+
             public string ProviderName { get; set; }
             private bool enabled;
 

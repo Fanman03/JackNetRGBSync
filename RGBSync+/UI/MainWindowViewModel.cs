@@ -1,13 +1,11 @@
-﻿using System;
+﻿using RGBSyncStudio.Languages;
+using SimpleLed;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
-using RGBSyncStudio.Model;
-using RGBSyncStudio.Languages;
-using SimpleLed;
 
 namespace RGBSyncStudio.UI
 {
@@ -83,7 +81,7 @@ namespace RGBSyncStudio.UI
             {
                 if (ControllableBG)
                 {
-                    var rbd = ServiceManager.Instance.LedService.RssBackgroundDevice;
+                    RSSBackgroundDevice rbd = ServiceManager.Instance.LedService.RssBackgroundDevice;
                     SCTop = GetBrush(rbd.Leds[0]);
                     SCTopRight = GetBrush(rbd.Leds[1]);
                     SCRight = GetBrush(rbd.Leds[2]);
@@ -98,7 +96,7 @@ namespace RGBSyncStudio.UI
             update.Start();
         }
 
-        RadialGradientBrush GetBrush(LEDColor clr)
+        private RadialGradientBrush GetBrush(LEDColor clr)
         {
             return new RadialGradientBrush(new Color()
             {

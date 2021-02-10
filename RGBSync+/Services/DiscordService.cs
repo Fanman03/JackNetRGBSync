@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DiscordRPC;
+﻿using DiscordRPC;
 
 namespace RGBSyncStudio.Services
 {
@@ -26,7 +21,7 @@ namespace RGBSyncStudio.Services
             ServiceManager.Instance.Logger.Info("Setting Discord presensce.");
             client.SetPresence(new RichPresence()
             {
-                State = "Profile: " + ServiceManager.Instance.ConfigService.Settings.Name,
+                State = "Profile: " + ServiceManager.Instance.ProfileService.CurrentProfile.Name,
                 Details = "Syncing lighting effects",
                 Assets = new Assets()
                 {

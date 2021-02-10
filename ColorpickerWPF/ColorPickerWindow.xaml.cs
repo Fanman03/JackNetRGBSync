@@ -1,10 +1,7 @@
-﻿using System;
-using System.Security.Cryptography.X509Certificates;
+﻿using ColorPickerWPF.Code;
+using SourceChord.FluentWPF;
 using System.Windows;
 using System.Windows.Media;
-using ColorPickerWPF.Code;
-using ColorPickerWPF.Properties;
-using SourceChord.FluentWPF;
 
 namespace ColorPickerWPF
 {
@@ -21,7 +18,7 @@ namespace ColorPickerWPF
             InitializeComponent();
             DataContext = this;
         }
-        
+
         public static bool ShowDialog(out Color color, Color currentColor, ColorPickerDialogOptions flags = ColorPickerDialogOptions.None, ColorPickerControl.ColorPickerChangeHandler customPreviewEventHandler = null)
         {
             if ((flags & ColorPickerDialogOptions.LoadCustomPalette) == ColorPickerDialogOptions.LoadCustomPalette)
@@ -29,9 +26,9 @@ namespace ColorPickerWPF
                 ColorPickerSettings.UsingCustomPalette = true;
             }
 
-            var instance = new ColorPickerWindow();
-            
-            instance.ColorPicker.SetColor(currentColor); 
+            ColorPickerWindow instance = new ColorPickerWindow();
+
+            instance.ColorPicker.SetColor(currentColor);
 
             color = currentColor;
 
@@ -48,8 +45,8 @@ namespace ColorPickerWPF
             {
                 instance.ColorPicker.OnPickColor += customPreviewEventHandler;
             }
-            
-            var result = instance.ShowDialog();
+
+            bool? result = instance.ShowDialog();
             if (result.HasValue && result.Value)
             {
                 color = instance.ColorPicker.Color;
@@ -58,7 +55,7 @@ namespace ColorPickerWPF
 
             return false;
         }
-        
+
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;

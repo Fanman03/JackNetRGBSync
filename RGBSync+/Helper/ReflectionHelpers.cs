@@ -1,13 +1,11 @@
-﻿using System;
+﻿using SimpleLed;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using SimpleLed;
 
 namespace RGBSyncStudio.Helper
 {
@@ -26,9 +24,9 @@ namespace RGBSyncStudio.Helper
             }
         }
 
-        public static  IEnumerable<Type> GetTypesWithInterface(this Assembly asm)
+        public static IEnumerable<Type> GetTypesWithInterface(this Assembly asm)
         {
-            var it = typeof(ISimpleLed);
+            Type it = typeof(ISimpleLed);
             return asm.GetLoadableTypes().Where(it.IsAssignableFrom).ToList();
         }
 

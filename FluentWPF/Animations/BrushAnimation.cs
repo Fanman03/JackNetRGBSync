@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -20,17 +16,17 @@ namespace SourceChord.FluentWPF.Animations
                 return Brushes.Transparent;
 
             // From/Toが設定されていない場合は、デフォルト値を使う
-            var originValue = this.From ?? defaultOriginValue as Brush;
-            var dstValue = this.To ?? defaultDestinationValue as Brush;
+            Brush originValue = this.From ?? defaultOriginValue as Brush;
+            Brush dstValue = this.To ?? defaultDestinationValue as Brush;
 
-            var progress = animationClock.CurrentProgress.Value;
+            double progress = animationClock.CurrentProgress.Value;
             if (progress == 0)
                 return originValue;
             if (progress == 1)
                 return dstValue;
 
             // Easingを適用
-            var easingFunction = this.EasingFunction;
+            IEasingFunction easingFunction = this.EasingFunction;
             if (easingFunction != null)
             {
                 progress = easingFunction.Ease(progress);

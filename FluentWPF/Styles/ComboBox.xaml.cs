@@ -24,12 +24,12 @@ namespace SourceChord.FluentWPF
                 return false;
             }
 
-            var item = (ComboBoxItem)control;
+            ComboBoxItem item = (ComboBoxItem)control;
 
             // If no state is defined yet, go to Normal without additional checks
             if (group.CurrentState == null)
             {
-                var normal = group.States.OfType<VisualState>().Single(s => s.Name == Normal);
+                VisualState normal = group.States.OfType<VisualState>().Single(s => s.Name == Normal);
                 return base.GoToStateCore(item, stateGroupsRoot, Normal, group, normal, false);
             }
 
@@ -42,7 +42,7 @@ namespace SourceChord.FluentWPF
                 Selected = item.IsSelected
             };
 
-            var nextStateName = status switch
+            string nextStateName = status switch
             {
                 { Disabled: true, Selected: true } => SelectedDisabled,
                 { Disabled: true } => Disabled,
@@ -61,7 +61,7 @@ namespace SourceChord.FluentWPF
                 return false;
             }
 
-            var nextState = group.States.OfType<VisualState>().Single(s => s.Name == nextStateName);
+            VisualState nextState = group.States.OfType<VisualState>().Single(s => s.Name == nextStateName);
             return base.GoToStateCore(item, stateGroupsRoot, nextStateName, group, nextState, false);
         }
     }
@@ -88,7 +88,7 @@ namespace SourceChord.FluentWPF
             // Prevent PointerOver visual state with touch devices
             if (e.StylusDevice == null)
             {
-                var item = ((FrameworkElement)sender).TemplatedParent;
+                DependencyObject item = ((FrameworkElement)sender).TemplatedParent;
                 VisualStateManager.GoToState((ComboBoxItem)item, ComboBoxItemVisualStateManager.PointerOver, false);
             }
         }

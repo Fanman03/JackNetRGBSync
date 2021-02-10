@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using RGBSyncStudio.Model;
+using SimpleLed;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using RGBSyncStudio.Model;
-using SimpleLed;
 
 namespace RGBSyncStudio.Services
 {
@@ -16,11 +14,11 @@ namespace RGBSyncStudio.Services
         public event EventHandler OnProfilesChanged;
         public void OnProfilesChangedInvoke(object sender, EventArgs e)
         {
-            OnProfilesChanged?.Invoke(sender,e);
+            OnProfilesChanged?.Invoke(sender, e);
         }
         public readonly Dictionary<string, string> profilePathMapping = new Dictionary<string, string>();
-        SimpleLogger Logger = ServiceManager.Instance.Logger;
-        private DeviceMappingModels.NGSettings NGSettings = ServiceManager.Instance.ConfigService.NGSettings;
+        private readonly SimpleLogger Logger = ServiceManager.Instance.Logger;
+        private readonly DeviceMappingModels.NGSettings NGSettings = ServiceManager.Instance.ConfigService.NGSettings;
         public string NGPROFILES_DIRECTORY;
         public ProfileService(string profilesDir)
         {
@@ -188,7 +186,7 @@ namespace RGBSyncStudio.Services
         public void DeleteProfile(string dcName)
         {
             string path = profilePathMapping[dcName];
-          ServiceManager.Instance.ConfigService.TimeSettingsLastSave = DateTime.Now;
+            ServiceManager.Instance.ConfigService.TimeSettingsLastSave = DateTime.Now;
             File.Delete(path);
             ServiceManager.Instance.ConfigService.HotLoadNGSettings();
         }

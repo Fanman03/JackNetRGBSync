@@ -11,8 +11,7 @@ namespace RGBSyncStudio.UI.Tabs
     /// </summary>
     public partial class ProfilesTab : UserControl
     {
-
-        ProfileTabViewModel vm => (ProfileTabViewModel)DataContext;
+        private ProfileTabViewModel vm => (ProfileTabViewModel)DataContext;
         public ProfilesTab()
         {
             InitializeComponent();

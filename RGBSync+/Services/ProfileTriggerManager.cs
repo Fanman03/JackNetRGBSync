@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RGBSyncStudio.UI;
 using SimpleLed;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Threading;
-using RGBSyncStudio.UI;
 
 namespace RGBSyncStudio
 {
@@ -47,12 +47,12 @@ namespace RGBSyncStudio
 
             ProfileTriggers.CollectionChanged += ProfileTriggers_CollectionChanged;
 
-        
 
-        profileTriggerTimer = new DispatcherTimer();
-        profileTriggerTimer.Interval = TimeSpan.FromSeconds(1);
-        profileTriggerTimer.Tick += (sender, args) => ServiceManager.Instance.ProfileTriggerManager.CheckTriggers();
-        profileTriggerTimer.Start();
+
+            profileTriggerTimer = new DispatcherTimer();
+            profileTriggerTimer.Interval = TimeSpan.FromSeconds(1);
+            profileTriggerTimer.Tick += (sender, args) => ServiceManager.Instance.ProfileTriggerManager.CheckTriggers();
+            profileTriggerTimer.Start();
         }
 
         public DispatcherTimer profileTriggerTimer;

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SourceChord.FluentWPF.Utility
 {
-    struct VersionInfo : IEquatable<VersionInfo>, IComparable<VersionInfo>, IComparable
+    internal struct VersionInfo : IEquatable<VersionInfo>, IComparable<VersionInfo>, IComparable
     {
         public int Major;
         public int Minor;

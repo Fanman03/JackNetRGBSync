@@ -22,7 +22,7 @@ namespace ColorPickerWPF.Code
             return Color.FromArgb(255, bytes[0], bytes[1], bytes[2]);
         }
 
-        
+
         public static string ToHexString(this Color c)
         {
             return "#" + c.A.ToString("X2") + c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2");
@@ -64,22 +64,22 @@ namespace ColorPickerWPF.Code
 
             return bImg;
         }
-        
+
         public static float GetHue(this System.Windows.Media.Color c)
         {
-            var color = System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);
+            System.Drawing.Color color = System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);
             return color.GetHue();
         }
 
         public static float GetBrightness(this System.Windows.Media.Color c)
         {
-            var color = System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);
+            System.Drawing.Color color = System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);
             return color.GetBrightness();
         }
 
         public static float GetSaturation(this System.Windows.Media.Color c)
         {
-            var color = System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);
+            System.Drawing.Color color = System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);
             return color.GetSaturation();
         }
 
@@ -174,39 +174,39 @@ namespace ColorPickerWPF.Code
             List<Color> list = new List<Color>();
             foreach (PropertyInfo info in colorInfo)
             {
-                var c = System.Drawing.Color.FromName(info.Name);
+                System.Drawing.Color c = System.Drawing.Color.FromName(info.Name);
                 list.Add(Color.FromArgb(c.A, c.R, c.G, c.B));
             }
 
-            
+
             return list;
         }
 
 
         public static void SaveToXml<T>(this T obj, string filename)
         {
-            var xml = obj.GetXmlText();
+            string xml = obj.GetXmlText();
 
             File.WriteAllText(filename, xml);
         }
 
         public static string GetXmlText<T>(this T obj)
         {
-            var xmlSerializer = new XmlSerializer(typeof(T));
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
 
-            var sww = new StringWriter();
+            StringWriter sww = new StringWriter();
 
-            var settings = new XmlWriterSettings()
+            XmlWriterSettings settings = new XmlWriterSettings()
             {
                 Indent = true,
                 IndentChars = "    ",
                 NewLineOnAttributes = false,
                 //OmitXmlDeclaration = true
             };
-            var writer = XmlWriter.Create(sww, settings);
+            XmlWriter writer = XmlWriter.Create(sww, settings);
 
             xmlSerializer.Serialize(writer, obj);
-            var xml = sww.ToString();
+            string xml = sww.ToString();
 
             writer.Close();
             writer.Dispose();
@@ -220,11 +220,11 @@ namespace ColorPickerWPF.Code
             T result = default(T);
             if (File.Exists(filename))
             {
-                var sr = new StreamReader(filename);
-                var xr = new XmlTextReader(sr);
+                StreamReader sr = new StreamReader(filename);
+                XmlTextReader xr = new XmlTextReader(sr);
 
-                var xmlSerializer = new XmlSerializer(typeof(T));
-                
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+
                 result = (T)xmlSerializer.Deserialize(xr);
 
                 xr.Close();
@@ -240,10 +240,10 @@ namespace ColorPickerWPF.Code
             T result = default(T);
             if (!String.IsNullOrEmpty(xml))
             {
-                var xr = XmlReader.Create(new StringReader(xml));
+                XmlReader xr = XmlReader.Create(new StringReader(xml));
 
-                var xmlSerializer = new XmlSerializer(typeof(T));
-                
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+
                 result = (T)xmlSerializer.Deserialize(xr);
 
                 xr.Close();

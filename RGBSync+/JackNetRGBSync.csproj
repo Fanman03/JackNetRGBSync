@@ -108,15 +108,6 @@
     <Compile Include="ApplicationManager.cs" />
     <Compile Include="Attached\SliderValue.cs" />
     <Compile Include="Attached\SliderValueAdorner.cs" />
-    <Compile Include="Brushes\SyncBrush.cs" />
-    <Compile Include="Configuration\AbstractConfiguration.cs" />
-    <Compile Include="Configuration\BannerSchema.cs" />
-    <Compile Include="Configuration\ColorSerializer.cs" />
-    <Compile Include="Configuration\IConfiguration.cs" />
-    <Compile Include="Configuration\Legacy\ConfigurationUpdates.cs" />
-    <Compile Include="Configuration\AppSettings.cs" />
-    <Compile Include="Configuration\Settings.cs" />
-    <Compile Include="Configuration\ProgVersion.cs" />
     <Compile Include="Converter\BackgroundGradientConverter.cs" />
     <Compile Include="Converter\BoolToSolidColorBrush.cs" />
     <Compile Include="Converter\DeviceTypeToImageConverter.cs" />
@@ -138,12 +129,8 @@
     <Compile Include="Helper\UIHelpers.cs" />
     <Compile Include="INewsSource.cs" />
     <Compile Include="Languages\LanguageModel.cs" />
-    <Compile Include="Model\AbstractBindableExtended.cs" />
-    <Compile Include="Model\DeviceGroup.cs" />
     <Compile Include="Model\DeviceMappingModels.cs" />
     <Compile Include="Model\PositionalAssignment.cs" />
-    <Compile Include="Model\SyncGroup.cs" />
-    <Compile Include="Model\SyncLed.cs" />
     <Compile Include="Services\ProfileTriggerManager.cs" />
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\EqualsToBoolConverter.cs" />
@@ -538,9 +525,7 @@
       <Name>FluentWPF</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="..\SharedCode\SharedCode.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

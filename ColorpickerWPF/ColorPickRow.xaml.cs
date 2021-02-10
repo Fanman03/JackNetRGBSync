@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ColorPickerWPF.Code;
+using System;
 using System.Windows;
 using System.Windows.Media;
-using ColorPickerWPF.Code;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace ColorPickerWPF
@@ -14,7 +14,7 @@ namespace ColorPickerWPF
         public event EventHandler OnPick;
 
         public Color Color { get; set; }
-        
+
         public ColorPickerDialogOptions Options { get; set; }
 
         public ColorPickRow()
@@ -25,7 +25,7 @@ namespace ColorPickerWPF
         private void PickColorButton_OnClick(object sender, RoutedEventArgs e)
         {
             Color color;
-            if (ColorPickerWindow.ShowDialog(out color,Colors.Blue, Options))
+            if (ColorPickerWindow.ShowDialog(out color, Colors.Blue, Options))
             {
                 SetColor(color);
                 OnPick?.Invoke(this, EventArgs.Empty);

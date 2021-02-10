@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SourceChord.FluentWPF.Utility
+﻿namespace SourceChord.FluentWPF.Utility
 {
-    sealed class VersionInfos
+    internal sealed class VersionInfos
     {
         public static VersionInfo Windows7 { get { return new VersionInfo(6, 1, 7600); } }
         public static VersionInfo Windows7_SP1 { get { return new VersionInfo(6, 1, 7601); } }

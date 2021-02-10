@@ -1,12 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
+﻿using RGBSyncStudio.UI.Tabs;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Threading;
-using RGBSyncStudio.UI.Tabs;
 
 namespace RGBSyncStudio.UI
 {

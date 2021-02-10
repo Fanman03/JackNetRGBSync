@@ -1,4 +1,5 @@
-﻿using SimpleLed;
+﻿using RGBSyncStudio.Model;
+using SimpleLed;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using RGBSyncStudio.Model;
 
 namespace RGBSyncStudio.UI.Tabs
 {

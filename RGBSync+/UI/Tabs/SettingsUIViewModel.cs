@@ -1,13 +1,13 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using RGBSyncStudio.Languages;
+using RGBSyncStudio.Model;
 using SharedCode;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Threading;
-using RGBSyncStudio.Languages;
-using RGBSyncStudio.Model;
 
 namespace RGBSyncStudio.UI.Tabs
 {
@@ -89,7 +89,7 @@ namespace RGBSyncStudio.UI.Tabs
 
         public SettingsUIViewModel()
         {
-          
+
         }
 
         public void Init()
@@ -117,7 +117,7 @@ namespace RGBSyncStudio.UI.Tabs
             OnPropertyChanged("MinimizeToTray");
 
             Background = ServiceManager.Instance.ConfigService.NGSettings.Background;
-            BackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.BackgroundOpacity*100;
+            BackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.BackgroundOpacity * 100;
             DimBackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.DimBackgroundOpacity * 100;
             BackgroundBlur = ServiceManager.Instance.ConfigService.NGSettings.BackgroundBlur * 5;
             ControllableBG = ServiceManager.Instance.ConfigService.NGSettings.ControllableBG;
@@ -159,7 +159,7 @@ namespace RGBSyncStudio.UI.Tabs
             set
             {
                 SetProperty(ref updateRate, value);
-                ServiceManager.Instance.ConfigService.NGSettings.UpdateRate =value;
+                ServiceManager.Instance.ConfigService.NGSettings.UpdateRate = value;
             }
         }
 
@@ -236,7 +236,7 @@ namespace RGBSyncStudio.UI.Tabs
                 //    blurTimer.Stop();
                 //    ServiceManager.Instance.ConfigService.NGSettings.BackgroundBlur = (float)Math.Floor(value) / 20f;
                 //};
-                
+
                 //blurTimer.Start();
             }
         }
@@ -246,7 +246,7 @@ namespace RGBSyncStudio.UI.Tabs
             throw new NotImplementedException();
         }
 
-        private DispatcherTimer blurTimer;
+        private readonly DispatcherTimer blurTimer;
 
         public ObservableCollection<LanguageOption> Languages { get; set; } =
             new ObservableCollection<LanguageOption>(

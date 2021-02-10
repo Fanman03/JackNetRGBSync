@@ -1,24 +1,17 @@
-﻿using System;
+﻿using SimpleLed;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Numerics;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using RGBSyncStudio.Helper;
-using SimpleLed;
 using Color = System.Drawing.Color;
-using LinearGradientBrush = System.Windows.Media.LinearGradientBrush;
 
 namespace RGBSyncStudio
 {
     public class GradientDriver : ISimpleLed
     {
-        List<ControlDevice> devices = new List<ControlDevice>();
+        private readonly List<ControlDevice> devices = new List<ControlDevice>();
         public void Dispose()
         {
 
@@ -28,7 +21,7 @@ namespace RGBSyncStudio
         {
             for (int i = 0; i < 4; i++)
             {
-                var dd = (new ControlDevice
+                ControlDevice dd = (new ControlDevice
                 {
                     Driver = this,
                     Name = "Gradient",
@@ -114,13 +107,13 @@ namespace RGBSyncStudio
             for (int i = 0; i < 4; i++)
             {
                 ControlDevice dd = devices[i];
-                var cc = colorProfile.ColorBanks[i];
-                var pc = cc.Colors[0];
-                var dc = cc.Colors[1];
+                ColorBank cc = colorProfile.ColorBanks[i];
+                ColorObject pc = cc.Colors[0];
+                ColorObject dc = cc.Colors[1];
                 Bitmap Bmp = new Bitmap(192, 128);
 
-                var cpc = System.Drawing.Color.FromArgb(255, (byte)pc.Color.Red, (byte)pc.Color.Green, (byte)pc.Color.Blue);
-                var cdc = System.Drawing.Color.FromArgb(255, (byte)dc.Color.Red, (byte)dc.Color.Green, (byte)dc.Color.Blue);
+                Color cpc = System.Drawing.Color.FromArgb(255, (byte)pc.Color.Red, (byte)pc.Color.Green, (byte)pc.Color.Blue);
+                Color cdc = System.Drawing.Color.FromArgb(255, (byte)dc.Color.Red, (byte)dc.Color.Green, (byte)dc.Color.Blue);
 
                 using (Graphics graphics = Graphics.FromImage(Bmp))
                 {
@@ -137,7 +130,7 @@ namespace RGBSyncStudio
                 }).ToArray();
 
                 float steps = 1 / 16f;
-                
+
                 dd.Name = value.ColorBanks[i].BankName;
                 dd.ProductImage = Bmp;
             }
@@ -149,7 +142,7 @@ namespace RGBSyncStudio
 
     public class SolidColorDriver : ISimpleLed
     {
-        List<ControlDevice> devices = new List<ControlDevice>();
+        private readonly List<ControlDevice> devices = new List<ControlDevice>();
         public void Dispose()
         {
 
@@ -159,7 +152,7 @@ namespace RGBSyncStudio
         {
             for (int i = 0; i < 4; i++)
             {
-                var dd = (new ControlDevice
+                ControlDevice dd = (new ControlDevice
                 {
                     Driver = this,
                     Name = "Solid Color",
@@ -244,8 +237,8 @@ namespace RGBSyncStudio
             for (int i = 0; i < 4; i++)
             {
                 ControlDevice dd = devices[i];
-                var cc = colorProfile.ColorBanks[i];
-                var pc = cc.Colors[0];
+                ColorBank cc = colorProfile.ColorBanks[i];
+                ColorObject pc = cc.Colors[0];
                 Bitmap Bmp = new Bitmap(192, 128);
                 using (Graphics gfx = Graphics.FromImage(Bmp))
                 using (SolidBrush brush = new SolidBrush(Color.FromArgb(pc.Color.Red, pc.Color.Green, pc.Color.Blue)))
@@ -304,7 +297,7 @@ namespace RGBSyncStudio
             new LEDColor(0,0,0)
         };
 
-        private ControlDevice dvs;
+        private readonly ControlDevice dvs;
         private bool enabled;
         public void Enable()
         {

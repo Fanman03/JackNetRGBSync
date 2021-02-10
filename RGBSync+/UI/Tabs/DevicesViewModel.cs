@@ -1,21 +1,15 @@
-﻿using SimpleLed;
+﻿using RGBSyncStudio.Helper;
+using RGBSyncStudio.Model;
+using SimpleLed;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using RGBSyncStudio.Helper;
-using RGBSyncStudio.Model;
 
 namespace RGBSyncStudio.UI.Tabs
 {
-    
+
     public class DevicesViewModel : LanguageAwareBaseViewModel
     {
         public DevicesViewModel()
@@ -60,7 +54,7 @@ namespace RGBSyncStudio.UI.Tabs
             }
         }
 
-        
+
         private int devicesSelectedCount = 0;
         public int DevicesSelectedCount
         {
@@ -257,9 +251,9 @@ namespace RGBSyncStudio.UI.Tabs
         {
             if (controlDevice == null) return;
 
-            var props = controlDevice.Driver.GetProperties();
+            DriverProperties props = controlDevice.Driver.GetProperties();
 
-            ShowOverrides = controlDevice.OverrideSupport!= null && controlDevice.OverrideSupport != OverrideSupport.None;
+            ShowOverrides = controlDevice.OverrideSupport != null && controlDevice.OverrideSupport != OverrideSupport.None;
 
             if (controlDevice.OverrideSupport != null && controlDevice.OverrideSupport != OverrideSupport.None)
             {
@@ -268,15 +262,15 @@ namespace RGBSyncStudio.UI.Tabs
                     OverrideSpecs = new ObservableCollection<CustomDeviceSpecification>(ServiceManager.Instance.SLSManager.GetCustomDeviceSpecifications());
                 }
 
-                if (controlDevice.OverrideSupport == OverrideSupport.Self && props.GetCustomDeviceSpecifications!=null)
+                if (controlDevice.OverrideSupport == OverrideSupport.Self && props.GetCustomDeviceSpecifications != null)
                 {
                     OverrideSpecs = new ObservableCollection<CustomDeviceSpecification>(props.GetCustomDeviceSpecifications());
                 }
 
-                var mappers = ServiceManager.Instance.SLSManager.GetMappers(controlDevice.Driver);
+                List<Type> mappers = ServiceManager.Instance.SLSManager.GetMappers(controlDevice.Driver);
                 AvailableMappers = new ObservableCollection<string>();
                 AvailableMappers.Add("");
-                foreach (var mapper in mappers)
+                foreach (Type mapper in mappers)
                 {
                     Mapper mapperInstance = (Mapper)Activator.CreateInstance(mapper);
                     AvailableMappers.Add(mapperInstance.GetName());
@@ -353,7 +347,7 @@ namespace RGBSyncStudio.UI.Tabs
 
                 if (SourceGroups.Any(x => source.Driver.Name() == x.Name && x.SubName == source.DeviceType))
                 {
-                    var existing = SourceGroups.First(x => source.Driver.Name() == x.Name && x.SubName == source.DeviceType);
+                    SourceGroup existing = SourceGroups.First(x => source.Driver.Name() == x.Name && x.SubName == source.DeviceType);
                     existing.Plugins++;
                 }
                 else
@@ -398,7 +392,7 @@ namespace RGBSyncStudio.UI.Tabs
 
         public void UpdateSourceDevices()
         {
-            
+
 
             foreach (DeviceMappingModels.SourceModel sd in SourceDevices)
             {
@@ -605,8 +599,8 @@ namespace RGBSyncStudio.UI.Tabs
             {
                 ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp =
                     ServiceManager.Instance.ProfileService.CurrentProfile?.DeviceProfileSettings;
-                var selected = SLSDevices.Where(x => x.Selected);
-                var s2 = temp.Where(x => selected.Any(y =>
+                IEnumerable<DeviceMappingModels.Device> selected = SLSDevices.Where(x => x.Selected);
+                List<DeviceMappingModels.NGDeviceProfileSettings> s2 = temp.Where(x => selected.Any(y =>
                     y.ConnectedTo == x.ConnectedTo && y.Name == x.Name && y.ProviderName == x.ProviderName)).ToList();
                 foreach (DeviceMappingModels.SourceModel sourceDevice in SourceDevices)
                 {
@@ -647,7 +641,7 @@ namespace RGBSyncStudio.UI.Tabs
 
                     DriverProperties props = device.Driver.GetProperties();
 
-                    var overrides = ServiceManager.Instance.LedService.GetOverride(device);
+                    DeviceMappingModels.DeviceOverrides overrides = ServiceManager.Instance.LedService.GetOverride(device);
 
                     BitmapImage bmp = null;
 
@@ -666,7 +660,7 @@ namespace RGBSyncStudio.UI.Tabs
                     {
                     }
 
-                    var tmp = new DeviceMappingModels.Device
+                    DeviceMappingModels.Device tmp = new DeviceMappingModels.Device
                     {
                         SunkTo = thingy?.SourceName ?? "",
                         ControlDevice = device,

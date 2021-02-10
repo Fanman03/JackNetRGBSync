@@ -1,23 +1,14 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
-using Newtonsoft.Json;
-using RGBSyncStudio.Configuration;
-using RGBSyncStudio.Configuration.Legacy;
-using RGBSyncStudio.UI;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Media;
-using System.Windows.Threading;
-using RGBSyncStudio.UI.Tabs;
 using RGBSyncStudio.Helper;
 using SimpleLed;
+using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace RGBSyncStudio
 {
@@ -44,7 +35,7 @@ namespace RGBSyncStudio
         #endregion
 
         #region Methods
-        void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             ServiceManager.Instance.Logger.CrashWindow(e.Exception);
 
@@ -81,7 +72,7 @@ namespace RGBSyncStudio
                 catch { Environment.Exit(0); }
             }
 
-           
+
         }
         #endregion
 
@@ -163,11 +154,12 @@ namespace RGBSyncStudio
                     }
                 }
                 return prfs;
-            } else
+            }
+            else
             {
                 return new ObservableCollection<ProfileObject>();
             }
-           
+
         }
         private Visibility popupVisibility = Visibility.Collapsed;
         public Visibility PopupVisibility
