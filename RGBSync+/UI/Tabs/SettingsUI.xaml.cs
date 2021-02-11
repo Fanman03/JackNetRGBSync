@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Win32;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     /// <summary>
     /// Interaction logic for Settings.xaml

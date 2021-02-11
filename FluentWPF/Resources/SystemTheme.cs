@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SourceChord.FluentWPF
 {
@@ -37,7 +33,7 @@ namespace SourceChord.FluentWPF
         {
             if (msg == WM_SETTINGCHANGE)
             {
-                var systemParmeter = Marshal.PtrToStringAuto(lParam);
+                string systemParmeter = Marshal.PtrToStringAuto(lParam);
                 if (systemParmeter == "ImmersiveColorSet")
                 {
                     // 再度レジストリから Dark/Lightの設定を取得
@@ -54,20 +50,20 @@ namespace SourceChord.FluentWPF
 
         private static ApplicationTheme GetAppTheme()
         {
-            var regkey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", false);
+            Microsoft.Win32.RegistryKey regkey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", false);
             // キーが存在しないときはnullが返る
             if (regkey == null) return ApplicationTheme.Light;
-            var intValue = (int)regkey.GetValue("AppsUseLightTheme", 1);
+            int intValue = (int)regkey.GetValue("AppsUseLightTheme", 1);
 
             return intValue == 0 ? ApplicationTheme.Dark : ApplicationTheme.Light;
         }
 
         private static WindowsTheme GetWindowsTheme()
         {
-            var regkey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", false);
+            Microsoft.Win32.RegistryKey regkey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", false);
             // キーが存在しないときはnullが返る
             if (regkey == null) return WindowsTheme.Light;
-            var intValue = (int)regkey.GetValue("SystemUsesLightTheme", 1);
+            int intValue = (int)regkey.GetValue("SystemUsesLightTheme", 1);
 
             return intValue == 0 ? WindowsTheme.Dark : WindowsTheme.Light;
         }
@@ -87,7 +83,7 @@ namespace SourceChord.FluentWPF
         }
 
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
-        protected static void OnStaticPropertyChanged([CallerMemberName]string propertyName = null)
+        protected static void OnStaticPropertyChanged([CallerMemberName] string propertyName = null)
         {
             StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
         }

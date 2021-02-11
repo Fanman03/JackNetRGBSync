@@ -1,22 +1,19 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using RGBSyncStudio.Helper;
+using RGBSyncStudio.Model;
+using SimpleLed;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using Newtonsoft.Json;
-using RGBSyncPlus.Helper;
-using RGBSyncPlus.Model;
-using RGBSyncPlus.UI;
-using RGBSyncPlus.UI.Tabs;
-using SimpleLed;
 
-namespace RGBSyncPlus.Services
+namespace RGBSyncStudio.Services
 {
 
     public class LedService
@@ -24,7 +21,8 @@ namespace RGBSyncPlus.Services
         public System.Timers.Timer SLSTimer;
         public const string SLSPROVIDER_DIRECTORY = "SLSProvider";
         public bool PauseSyncing { get; set; } = false;
-        Dictionary<string, string> pathfun = new Dictionary<string, string>();
+
+        private readonly Dictionary<string, string> pathfun = new Dictionary<string, string>();
         public RSSBackgroundDevice RssBackgroundDevice = new RSSBackgroundDevice();
 
         public ObservableCollection<ControlDevice> SLSDevices = new ObservableCollection<ControlDevice>();
@@ -35,9 +33,35 @@ namespace RGBSyncPlus.Services
 
         }
 
+        public ControlDevice DeviceBeingAligned;
+
+        private readonly ControlDevice virtualAlignmentDevice = new ControlDevice
+        {
+            LEDs = new ControlDevice.LedUnit[64]
+            {
+                new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)}, new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)}, new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)}, new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)},
+                new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)}, new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)}, new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)}, new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)},
+                new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)}, new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)}, new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)}, new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)},
+                new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)}, new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)}, new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)}, new ControlDevice.LedUnit{Color = new LEDColor(255,0,0)},
+                new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)}, new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)}, new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)}, new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)},
+                new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)}, new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)}, new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)}, new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)},
+                new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)}, new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)}, new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)}, new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)},
+                new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)}, new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)}, new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)}, new ControlDevice.LedUnit{Color = new LEDColor(0,255,0)},
+                new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},
+                new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},
+                new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},
+                new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},
+                new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},
+                new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},
+                new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},
+                new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)},new ControlDevice.LedUnit{Color = new LEDColor(0,0,255)}
+            }
+        };
+
+
         private void SLSUpdate(object state)
         {
-            var CurrentProfile = ServiceManager.Instance.ProfileService.CurrentProfile;
+            DeviceMappingModels.NGProfile CurrentProfile = ServiceManager.Instance.ProfileService.CurrentProfile;
 
 
             if (PauseSyncing)
@@ -183,7 +207,7 @@ namespace RGBSyncPlus.Services
 
             DriverProperties props = device.Driver.GetProperties();
 
-            var overrides = GetOverride(device);
+            DeviceMappingModels.DeviceOverrides overrides = GetOverride(device);
 
             BitmapImage bmp = null;
 
@@ -202,7 +226,7 @@ namespace RGBSyncPlus.Services
             {
             }
 
-            var tmp = new DeviceMappingModels.Device
+            DeviceMappingModels.Device tmp = new DeviceMappingModels.Device
             {
                 SunkTo = thingy?.SourceName ?? "",
                 ControlDevice = device,
@@ -261,7 +285,7 @@ namespace RGBSyncPlus.Services
 
         public DeviceMappingModels.DeviceOverrides GenerateOverride(ControlDevice cd)
         {
-            var existing = new DeviceMappingModels.DeviceOverrides
+            DeviceMappingModels.DeviceOverrides existing = new DeviceMappingModels.DeviceOverrides
             {
                 Name = cd.Name,
                 ConnectedTo = cd.ConnectedTo,
@@ -281,7 +305,7 @@ namespace RGBSyncPlus.Services
         {
             return SLSDevices.FirstOrDefault(x => x.Name == name && x.Driver.Name() == providerName);
         }
-        
+
         public SolidColorDriver SolidColorDevice { get; set; }
         public GradientDriver GradientDriver { get; set; }
 
@@ -337,7 +361,7 @@ namespace RGBSyncPlus.Services
             if (File.Exists("NGOverrides.json"))
             {
                 string json = File.ReadAllText("NGOverrides.json");
-                var tmp = JsonConvert.DeserializeObject<List<DeviceMappingModels.DeviceOverrides>>(json);
+                List<DeviceMappingModels.DeviceOverrides> tmp = JsonConvert.DeserializeObject<List<DeviceMappingModels.DeviceOverrides>>(json);
                 DeviceOverrides = new ObservableCollection<DeviceMappingModels.DeviceOverrides>(tmp);
             }
         }
@@ -352,8 +376,8 @@ namespace RGBSyncPlus.Services
 
             if (!Directory.Exists(deviceProvierDir)) return;
             string[] pluginFolders = Directory.GetDirectories(deviceProvierDir);
-            ApplicationManager.Instance.LoadingSplash.LoadingText.Text = "Loading SLS plugins";
-            ApplicationManager.Instance.LoadingSplash.ProgressBar.Maximum = pluginFolders.Length;
+            ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Text = "Loading SLS plugins";
+            ServiceManager.Instance.ApplicationManager.LoadingSplash.ProgressBar.Maximum = pluginFolders.Length;
 
             int ct = 0;
             foreach (string pluginFolder in pluginFolders)
@@ -361,20 +385,20 @@ namespace RGBSyncPlus.Services
                 //LoadingSplash.Activate();
                 ct++;
 
-                ApplicationManager.Instance.LoadingSplash.ProgressBar.Value = ct;
-                ApplicationManager.Instance.LoadingSplash.ProgressBar.Refresh();
+                ServiceManager.Instance.ApplicationManager.LoadingSplash.ProgressBar.Value = ct;
+                ServiceManager.Instance.ApplicationManager.LoadingSplash.ProgressBar.Refresh();
                 LoadPlungFolder(pluginFolder);
 
 
             }
-            
-            var type = typeof(ISimpleLed);
-            var types = AppDomain.CurrentDomain.GetAssemblies()
+
+            Type type = typeof(ISimpleLed);
+            List<Type> types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
                 .Where(p => type.IsAssignableFrom(p)).ToList();
 
             Assembly asm = Assembly.GetExecutingAssembly();
-            var typos = asm.GetTypesWithInterface();
+            IEnumerable<Type> typos = asm.GetTypesWithInterface();
 
             SolidColorDevice = new SolidColorDriver();
             GradientDriver = new GradientDriver();
@@ -402,7 +426,7 @@ namespace RGBSyncPlus.Services
             //HarnessDriver(new CUEDriver());
 
             //SLSManager.RescanRequired += Rescan;
-            ApplicationManager.Instance.LoadingSplash.LoadingText.Text = "Updating SLS devices";
+            ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Text = "Updating SLS devices";
             UpdateSLSDevices();
         }
 
@@ -416,10 +440,10 @@ namespace RGBSyncPlus.Services
             driver.Configure(new DriverDetails());
 
         }
-        
+
         public void UpdateSLSDevices()
         {
-            ApplicationManager.Instance.LoadingSplash.LoadingText.Text = "Loading Configs";
+            ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Text = "Loading Configs";
             foreach (ISimpleLed drv in ServiceManager.Instance.SLSManager.Drivers)
             {
                 if (drv is ISimpleLedWithConfig cfgdrv)
@@ -436,10 +460,10 @@ namespace RGBSyncPlus.Services
             }
 
 
-            ApplicationManager.Instance.LoadingSplash.LoadingText.Text = "Getting devices";
+            ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Text = "Getting devices";
             //SLSDevices = SLSManager.GetDevices();
-            ApplicationManager.Instance.LoadingSplash.ProgressBar.Value = 0;
-            ApplicationManager.Instance.LoadingSplash.ProgressBar.Maximum = ServiceManager.Instance.SLSManager.Drivers.Count;
+            ServiceManager.Instance.ApplicationManager.LoadingSplash.ProgressBar.Value = 0;
+            ServiceManager.Instance.ApplicationManager.LoadingSplash.ProgressBar.Maximum = ServiceManager.Instance.SLSManager.Drivers.Count;
 
         }
 
@@ -451,7 +475,7 @@ namespace RGBSyncPlus.Services
             {
                 try
                 {
-                    ApplicationManager.Instance.LoadingSplash.LoadingText.Text = "Loading " + file.Split('\\').Last().Split('.').First();
+                    ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Text = "Loading " + file.Split('\\').Last().Split('.').First();
                     ServiceManager.Instance.Logger.Debug("Loading provider " + file);
 
                     ISimpleLed slsDriver = TypeLoaderExtensions.LoadDll(justPath, filename);
@@ -464,10 +488,10 @@ namespace RGBSyncPlus.Services
                             {
                                 //slsDriver.Configure(null);
                                 Debug.WriteLine("We got one! " + "Loading " + slsDriver.Name());
-                                ApplicationManager.Instance.LoadingSplash.LoadingText.Text = "Loading " + slsDriver.Name();
-                                ApplicationManager.Instance.LoadingSplash.UpdateLayout();
-                                ApplicationManager.Instance.LoadingSplash.Refresh();
-                                ApplicationManager.Instance.LoadingSplash.LoadingText.Refresh();
+                                ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Text = "Loading " + slsDriver.Name();
+                                ServiceManager.Instance.ApplicationManager.LoadingSplash.UpdateLayout();
+                                ServiceManager.Instance.ApplicationManager.LoadingSplash.Refresh();
+                                ServiceManager.Instance.ApplicationManager.LoadingSplash.LoadingText.Refresh();
                                 ServiceManager.Instance.SLSManager.Drivers.Add(slsDriver);
                                 // driversAdded.Add(slsDriver.GetProperties().Id);
                                 Debug.WriteLine("all loaded: " + slsDriver.Name());
@@ -559,10 +583,10 @@ namespace RGBSyncPlus.Services
             }
 
             //   t.Stop();
-            var overriden = GetOverride(e.ControlDevice);
+            DeviceMappingModels.DeviceOverrides overriden = GetOverride(e.ControlDevice);
             if (overriden != null)
             {
-                var props = e.ControlDevice.Driver.GetProperties();
+                DriverProperties props = e.ControlDevice.Driver.GetProperties();
                 if (e.ControlDevice.OverrideSupport != OverrideSupport.None)
                 {
                     if (props?.SetDeviceOverride != null && overriden.CustomDeviceSpecification.LedCount > 0)
@@ -599,5 +623,7 @@ namespace RGBSyncPlus.Services
             SLSTimer.Start();
 
         }
+
+        public IEnumerable<DeviceMappingModels.Device> GetDevices() => SLSDevices.Select(ToDevice);
     }
 }

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RGBSyncPlus.Model;
+﻿using RGBSyncStudio.Model;
 using SimpleLed;
+using System.Collections.ObjectModel;
 
-namespace RGBSyncPlus
+namespace RGBSyncStudio
 {
-   public  class DriverService : BaseViewModel
+    public class DriverService : BaseViewModel
     {
 
         private ObservableCollection<DeviceMappingModels.Device> slsDevices;

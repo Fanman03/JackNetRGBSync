@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RGBSyncPlus.Services;
+﻿using RGBSyncStudio.Services;
 using SimpleLed;
+using System.Windows;
 
-namespace RGBSyncPlus
+namespace RGBSyncStudio
 {
     public class ServiceManager
     {
         public static ServiceManager Instance;
 
+        public ApplicationManager ApplicationManager;
         public SLSManager SLSManager;
         public LedService LedService;
         public ApiServerService ApiServerService;
@@ -21,11 +17,12 @@ namespace RGBSyncPlus
         public ProfileService ProfileService;
         public DiscordService DiscordService;
         public SLSAuthService SLSAuthService;
-        public ApplicationManager ApplicationManager;
+        public ColorProfileService ColorProfileService;
+        public ModalService ModalService;
+        public ProfileTriggerManager ProfileTriggerManager;
         public static void Initialize(string slsConfigsDirectory, string ngProfileDir)
         {
             Instance = new ServiceManager();
-
             Instance.ApplicationManager = new ApplicationManager();
             Instance.LedService = new LedService();
             Instance.SLSManager = new SLSManager(slsConfigsDirectory);
@@ -35,7 +32,19 @@ namespace RGBSyncPlus
             Instance.ProfileService = new ProfileService(ngProfileDir);
             Instance.DiscordService = new DiscordService();
             Instance.SLSAuthService = new SLSAuthService();
+            Instance.ColorProfileService = new ColorProfileService();
+            Instance.ModalService = new ModalService();
+            Instance.ProfileTriggerManager = new ProfileTriggerManager();
 
+        }
+
+        public static void Shutdown()
+        {
+            Instance.LedService.PauseSyncing = true;
+            Instance.LedService.UnloadSLSProviders();
+
+            Instance.DiscordService.Stop();
+            Application.Current.Shutdown();
         }
     }
 }

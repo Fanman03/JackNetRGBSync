@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using Newtonsoft.Json;
-using SharedCode;
+﻿using System.Windows;
 
 namespace Launcher
 {
@@ -19,9 +9,9 @@ namespace Launcher
     {
         public App()
         {
-            
-           
-           //Core.UpgradingWindow.Show();
+
+
+            //Core.UpgradingWindow.Show();
         }
 
     }

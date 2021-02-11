@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -132,13 +130,13 @@ namespace SourceChord.FluentWPF
         {
             get
             {
-                var children = this.InternalVisual.Children;
+                VisualCollection children = this.InternalVisual.Children;
                 if (children.Count != 0) return children[0] as UIElement;
                 else return null;
             }
             set
             {
-                var children = this.InternalVisual.Children;
+                VisualCollection children = this.InternalVisual.Children;
                 if (children.Count != 0) children.Clear();
                 children.Add(value);
             }
@@ -149,14 +147,14 @@ namespace SourceChord.FluentWPF
             get { return this.InternalChild; }
             set
             {
-                var old = this.InternalChild;
+                UIElement old = this.InternalChild;
 
                 if (old != value)
                 {
                     // 古い要素をLogicalTreeから取り除く
                     RemoveLogicalChild(old);
 
-                    var ic = this.CreateInternalVisual(value);
+                    UIElement ic = this.CreateInternalVisual(value);
 
                     if (ic != null)
                     {
@@ -172,7 +170,7 @@ namespace SourceChord.FluentWPF
 
         protected internal UIElement CreateInternalVisual(UIElement value)
         {
-            var effect = new System.Windows.Media.Effects.DropShadowEffect();
+            DropShadowEffect effect = new System.Windows.Media.Effects.DropShadowEffect();
             BindingOperations.SetBinding(effect, DropShadowEffect.BlurRadiusProperty, new Binding("BlurRadius") { Source = this });
             BindingOperations.SetBinding(effect, DropShadowEffect.ColorProperty, new Binding("Color") { Source = this });
             BindingOperations.SetBinding(effect, DropShadowEffect.DirectionProperty, new Binding("Direction") { Source = this });
@@ -181,10 +179,10 @@ namespace SourceChord.FluentWPF
             BindingOperations.SetBinding(effect, DropShadowEffect.ShadowDepthProperty, new Binding("ShadowDepth") { Source = this });
 
             // DropShadowのモード切替用にトリガーを設定
-            var st = new Style();
+            Style st = new Style();
 
             // ShadowMode.Contentの場合は、ContentをVisualBrushとして扱ってContentの形状に応じた影を作る
-            var brush = new VisualBrush(value)
+            VisualBrush brush = new VisualBrush(value)
             {
                 TileMode = TileMode.None,
                 Stretch = Stretch.None,
@@ -192,7 +190,7 @@ namespace SourceChord.FluentWPF
                 AlignmentY = AlignmentY.Top,
                 ViewboxUnits = BrushMappingMode.Absolute
             };
-            var contentTrigger = new DataTrigger()
+            DataTrigger contentTrigger = new DataTrigger()
             {
                 Binding = new Binding("ShadowMode") { Source = this },
                 Value = ShadowMode.Content,
@@ -206,7 +204,7 @@ namespace SourceChord.FluentWPF
 
 
             // ShadowMode.Outerの場合は、影はコントロールの外側にだけ表示
-            var outerTrigger = new DataTrigger()
+            DataTrigger outerTrigger = new DataTrigger()
             {
                 Binding = new Binding("ShadowMode") { Source = this },
                 Value = ShadowMode.Outer,
@@ -233,7 +231,7 @@ namespace SourceChord.FluentWPF
             st.Triggers.Add(outerTrigger);
 
             // ShadowMode.Innerの場合は、影はコントロールの内側にだけ表示
-            var innerTrigger = new DataTrigger()
+            DataTrigger innerTrigger = new DataTrigger()
             {
                 Binding = new Binding("ShadowMode") { Source = this },
                 Value = ShadowMode.Inner,
@@ -269,13 +267,13 @@ namespace SourceChord.FluentWPF
             });
             st.Triggers.Add(innerTrigger);
 
-            var border = new Rectangle()
+            Rectangle border = new Rectangle()
             {
                 Effect = effect,
                 Style = st,
             };
 
-            var grid = new Grid();
+            Grid grid = new Grid();
             BindingOperations.SetBinding(grid, Grid.BackgroundProperty, new Binding("Background") { Source = this });
             grid.Children.Add(border);
             if (value != null)
@@ -307,7 +305,7 @@ namespace SourceChord.FluentWPF
                     return null;
                 }
 
-                var list = new List<UIElement>();
+                List<UIElement> list = new List<UIElement>();
                 list.Add(this.InternalChild);
                 return list.GetEnumerator();
             }
@@ -320,14 +318,14 @@ namespace SourceChord.FluentWPF
         {
             if (values.Any(o => o == DependencyProperty.UnsetValue || o == null)) return null;
 
-            var width = (double)values[0];
-            var height = (double)values[1];
-            var outerMargin = (double)values[2];
+            double width = (double)values[0];
+            double height = (double)values[1];
+            double outerMargin = (double)values[2];
 
-            var region = new RectangleGeometry(new Rect(-outerMargin, -outerMargin, width + (outerMargin * 2), height + (outerMargin * 2)));
-            var clip = new RectangleGeometry(new Rect(0, 0, width, height));
+            RectangleGeometry region = new RectangleGeometry(new Rect(-outerMargin, -outerMargin, width + (outerMargin * 2), height + (outerMargin * 2)));
+            RectangleGeometry clip = new RectangleGeometry(new Rect(0, 0, width, height));
 
-            var group = new GeometryGroup();
+            GeometryGroup group = new GeometryGroup();
             group.Children.Add(region);
             group.Children.Add(clip);
 
@@ -346,9 +344,9 @@ namespace SourceChord.FluentWPF
         {
             if (values.Any(o => o == DependencyProperty.UnsetValue || o == null)) return null;
 
-            var width = (double)values[0];
-            var height = (double)values[1];
-            var margin = (double)values[2];
+            double width = (double)values[0];
+            double height = (double)values[1];
+            double margin = (double)values[2];
 
             return new RectangleGeometry(new Rect(margin, margin, width, height));
         }
@@ -363,7 +361,7 @@ namespace SourceChord.FluentWPF
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var margin = (double)value;
+            double margin = (double)value;
             return new Thickness(-margin);
         }
 

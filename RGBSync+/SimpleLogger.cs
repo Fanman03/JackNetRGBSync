@@ -1,31 +1,26 @@
-﻿using System;
+﻿using QRCoder;
+using RGBSyncStudio.UI;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Media.Imaging;
-using Newtonsoft.Json;
-using QRCoder;
-using RGBSyncPlus.UI;
 
-namespace RGBSyncPlus
+namespace RGBSyncStudio
 {
     public class SimpleLogger
     {
         public List<LogEntry> Log = new List<LogEntry>();
-        
-        public void Debug(object log,[CallerMemberName] string cmn="")
+
+        public void Debug(object log, [CallerMemberName] string cmn = "")
         {
-            Log.Add(new LogEntry(log.ToString(),  "Debug",null,cmn));
+            Log.Add(new LogEntry(log.ToString(), "Debug", null, cmn));
         }
 
         public void Info(object log, [CallerMemberName] string cmn = "")
         {
-            Log.Add(new LogEntry(log.ToString(), "Info", null,cmn));
+            Log.Add(new LogEntry(log.ToString(), "Info", null, cmn));
         }
 
         public void CrashWindow(Exception ex, [CallerMemberName] string callerMemberName = "")
@@ -51,7 +46,7 @@ namespace RGBSyncPlus
             crashWindow.qrcode.Source = BitmapToImageSource(qrCodeImage);
         }
 
-        BitmapImage BitmapToImageSource(Bitmap bitmap)
+        private BitmapImage BitmapToImageSource(Bitmap bitmap)
         {
             using (MemoryStream memory = new MemoryStream())
             {
@@ -74,7 +69,7 @@ namespace RGBSyncPlus
             public string Caller { get; set; }
             public string LogType { get; set; }
             public Exception Exception { get; set; }
-            public LogEntry(string log, string logType="Info", Exception exception = null, [CallerMemberName] string callerMemberName = "")
+            public LogEntry(string log, string logType = "Info", Exception exception = null, [CallerMemberName] string callerMemberName = "")
             {
                 Log = log;
                 Time = DateTime.Now;

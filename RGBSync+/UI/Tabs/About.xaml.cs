@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     /// <summary>
     /// Interaction logic for About.xaml

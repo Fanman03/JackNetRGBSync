@@ -1,15 +1,13 @@
-﻿using RGBSyncPlus.Languages;
+﻿using RGBSyncStudio.Languages;
+using SimpleLed;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
-using RGBSyncPlus.Model;
-using SimpleLed;
 
-namespace RGBSyncPlus.UI
+namespace RGBSyncStudio.UI
 {
     public class MainWindowViewModel : LanguageAwareBaseViewModel
     {
@@ -33,7 +31,7 @@ namespace RGBSyncPlus.UI
             }
             OnPropertyChanged(nameof(TabItems));
 
-            ApplicationManager.Instance.LanguageChangedEvent += delegate (object sender, EventArgs args)
+            ServiceManager.Instance.ApplicationManager.LanguageChangedEvent += delegate (object sender, EventArgs args)
             {
                 ObservableCollection<TabItem> ti = new ObservableCollection<TabItem>
                 {
@@ -83,7 +81,7 @@ namespace RGBSyncPlus.UI
             {
                 if (ControllableBG)
                 {
-                    var rbd = ServiceManager.Instance.LedService.RssBackgroundDevice;
+                    RSSBackgroundDevice rbd = ServiceManager.Instance.LedService.RssBackgroundDevice;
                     SCTop = GetBrush(rbd.Leds[0]);
                     SCTopRight = GetBrush(rbd.Leds[1]);
                     SCRight = GetBrush(rbd.Leds[2]);
@@ -98,7 +96,7 @@ namespace RGBSyncPlus.UI
             update.Start();
         }
 
-        RadialGradientBrush GetBrush(LEDColor clr)
+        private RadialGradientBrush GetBrush(LEDColor clr)
         {
             return new RadialGradientBrush(new Color()
             {

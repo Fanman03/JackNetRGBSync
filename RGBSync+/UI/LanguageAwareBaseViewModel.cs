@@ -1,6 +1,6 @@
 ﻿using SimpleLed;
 
-namespace RGBSyncPlus.UI
+namespace RGBSyncStudio.UI
 {
     public class LanguageAwareBaseViewModel : BaseViewModel
     {
@@ -8,9 +8,9 @@ namespace RGBSyncPlus.UI
         {
             try
             {
-                if (ApplicationManager.Instance != null)
+                if (ServiceManager.Instance.ApplicationManager != null)
                 {
-                    ApplicationManager.Instance.LanguageChangedEvent += (sender, args) =>
+                    ServiceManager.Instance.ApplicationManager.LanguageChangedEvent += (sender, args) =>
                     {
                         if (ServiceManager.Instance?.ConfigService?.NGSettings != null)
                         {

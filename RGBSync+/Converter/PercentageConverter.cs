@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RGBSyncStudio.Helper;
+using System;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
-using RGBSyncPlus.Helper;
 
-namespace RGBSyncPlus.Converter
+namespace RGBSyncStudio.Converter
 {
     public class PercentageConverter : MarkupExtension, IValueConverter
     {
@@ -21,7 +18,7 @@ namespace RGBSyncPlus.Converter
         {
             try
             {
-                double res = (value.ToString()).GetDouble() * ((parameter.ToString()).GetDouble()/100d);
+                double res = (value.ToString()).GetDouble() * ((parameter.ToString()).GetDouble() / 100d);
 
                 if (res < 1) res = 1;
 
@@ -98,7 +95,7 @@ namespace RGBSyncPlus.Converter
                 v = -v;
             }
 
-            var parts = param.Split('|');
+            string[] parts = param.Split('|');
             param = parts.First();
 
             if (parts.Length > 1)

@@ -4,11 +4,10 @@ using SimpleLed;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace RGBSyncPlus.Model
+namespace RGBSyncStudio.Model
 {
     public class DeviceMappingModels
     {
@@ -36,7 +35,7 @@ namespace RGBSyncPlus.Model
             }
         }
 
-      
+
 
         public class NGSettings : BaseViewModel
         {
@@ -280,7 +279,7 @@ namespace RGBSyncPlus.Model
                 {
                     SetProperty(ref lang, value);
                     AreSettingsStale = true;
-                    ApplicationManager.Instance.FireLanguageChangedEvent();
+                    ServiceManager.Instance.ApplicationManager.FireLanguageChangedEvent();
                 }
             }
 
@@ -600,7 +599,7 @@ namespace RGBSyncPlus.Model
                 set
                 {
                     SetProperty(ref controllingModels, value);
-               //     ControllingModelsCount = controllingModels.Count;
+                    //     ControllingModelsCount = controllingModels.Count;
                 }
             }
 
@@ -627,7 +626,7 @@ namespace RGBSyncPlus.Model
 
             private bool hovered;
             [JsonIgnore]
-            public bool Hovered { get=>hovered; set=>SetProperty(ref hovered, value); }
+            public bool Hovered { get => hovered; set => SetProperty(ref hovered, value); }
         }
 
         public class NGDeviceProfileSettings : BaseViewModel
@@ -744,7 +743,7 @@ namespace RGBSyncPlus.Model
                 set
                 {
                     SetProperty(ref name, value);
-                   // PushUpdate();
+                    // PushUpdate();
                 }
             }
 
@@ -756,7 +755,7 @@ namespace RGBSyncPlus.Model
                 set
                 {
                     SetProperty(ref connectedTo, value);
-                   // PushUpdate();
+                    // PushUpdate();
                 }
             }
 
@@ -767,7 +766,7 @@ namespace RGBSyncPlus.Model
                 set
                 {
                     SetProperty(ref providerName, value);
-                   // PushUpdate();
+                    // PushUpdate();
                 }
             }
 
@@ -890,7 +889,7 @@ namespace RGBSyncPlus.Model
             }
 
             public Action<object> SyncBack;
-            
+
             public string ProviderName { get; set; }
             private bool enabled;
 

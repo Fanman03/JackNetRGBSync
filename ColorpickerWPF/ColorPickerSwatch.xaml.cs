@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using ColorPickerWPF.Code;
+using System.Collections.Generic;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using ColorPickerWPF.Code;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace ColorPickerWPF
@@ -31,7 +29,7 @@ namespace ColorPickerWPF
 
         private void UIElement_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var border = (sender as Border);
+            Border border = (sender as Border);
             if (border == null)
                 return;
 
@@ -39,7 +37,7 @@ namespace ColorPickerWPF
             {
                 border.Background = new SolidColorBrush(CurrentColor);
 
-                var data = border.DataContext as ColorSwatchItem;
+                ColorSwatchItem data = border.DataContext as ColorSwatchItem;
                 if (data != null)
                 {
                     data.Color = CurrentColor;
@@ -53,21 +51,21 @@ namespace ColorPickerWPF
             }
             else
             {
-                var color = border.Background as SolidColorBrush;
+                SolidColorBrush color = border.Background as SolidColorBrush;
                 OnPickColor?.Invoke(color.Color);
             }
 
-            
+
         }
 
 
         internal List<ColorSwatchItem> GetColors()
         {
-            var results = new List<ColorSwatchItem>();
+            List<ColorSwatchItem> results = new List<ColorSwatchItem>();
 
-            var shit = SwatchListBox.Items;
+            ItemCollection shit = SwatchListBox.Items;
 
-            var colors = SwatchListBox.ItemsSource as List<ColorSwatchItem>;
+            List<ColorSwatchItem> colors = SwatchListBox.ItemsSource as List<ColorSwatchItem>;
             if (colors != null)
             {
                 return colors;

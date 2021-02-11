@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ColorPickerWPF.Code;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -8,8 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using ColorPickerWPF.Code;
-using ColorPickerWPF.Properties;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace ColorPickerWPF
@@ -65,7 +63,7 @@ namespace ColorPickerWPF
             ColorSwatch1.AddRange(ColorPalette.BuiltInColors.Take(NumColorsFirstSwatch).ToArray());
 
             ColorSwatch2.AddRange(ColorPalette.BuiltInColors.Skip(NumColorsFirstSwatch).Take(NumColorsSecondSwatch).ToArray());
-            
+
             Swatch1.SwatchListBox.ItemsSource = ColorSwatch1;
             Swatch2.SwatchListBox.ItemsSource = ColorSwatch2;
 
@@ -122,20 +120,20 @@ namespace ColorPickerWPF
             LSlider.Slider.Value = Color.GetBrightness();
             HSlider.Slider.Value = Color.GetHue();
 
-            string colorHex = Color.ToString().Remove(1,2);
+            string colorHex = Color.ToString().Remove(1, 2);
             hexCode.Text = colorHex;
 
-            var colors = Enum.GetValues(typeof(System.Drawing.KnownColor))
+            IEnumerable<System.Drawing.Color> colors = Enum.GetValues(typeof(System.Drawing.KnownColor))
                 .Cast<System.Drawing.KnownColor>()
                 .Select(x => System.Drawing.Color.FromKnownColor(x));
 
             System.Drawing.Color dColor = System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
 
-            var closest = colors.Aggregate(System.Drawing.Color.Black,
+            System.Drawing.Color closest = colors.Aggregate(System.Drawing.Color.Black,
                 (accu, curr) =>
                     ColorDiff(dColor, curr) < ColorDiff(dColor, accu) ? curr : accu);
 
-            nameLabel.Content = (System.Drawing.Color)closest;
+            nameLabel.Content = closest;
 
             ColorDisplayBorder.Background = new SolidColorBrush(Color);
 
@@ -157,25 +155,25 @@ namespace ColorPickerWPF
         {
             // https://social.msdn.microsoft.com/Forums/vstudio/en-US/82a5731e-e201-4aaf-8d4b-062b138338fe/getting-pixel-information-from-a-bitmapimage?forum=wpf
 
-            int stride = (int) img.Width*4;
-            int size = (int) img.Height*stride;
-            byte[] pixels = new byte[(int) size];
+            int stride = (int)img.Width * 4;
+            int size = (int)img.Height * stride;
+            byte[] pixels = new byte[size];
 
             img.CopyPixels(pixels, stride, 0);
 
 
             // Get pixel
-            var x = (int) pos.X;
-            var y = (int) pos.Y;
+            int x = (int)pos.X;
+            int y = (int)pos.Y;
 
-            int index = y*stride + 4*x;
+            int index = y * stride + 4 * x;
 
             byte red = pixels[index];
             byte green = pixels[index + 1];
             byte blue = pixels[index + 2];
             byte alpha = pixels[index + 3];
 
-            var color = Color.FromArgb(alpha, blue, green, red);
+            Color color = Color.FromArgb(alpha, blue, green, red);
             SetColor(color);
         }
 
@@ -191,9 +189,9 @@ namespace ColorPickerWPF
 
         private void ColorPickerControl_MouseMove(object sender, MouseEventArgs e)
         {
-            var pos = e.GetPosition(SampleImage);
-            var img = SampleImage.Source as BitmapSource;
-                                         
+            Point pos = e.GetPosition(SampleImage);
+            BitmapSource img = SampleImage.Source as BitmapSource;
+
             if (pos.X > 0 && pos.Y > 0 && pos.X < img.PixelWidth && pos.Y < img.PixelHeight)
                 SampleImageClick(img, pos);
         }
@@ -214,10 +212,10 @@ namespace ColorPickerWPF
         {
             if (!IsSettingValues)
             {
-                var s = Color.GetSaturation();
-                var l = Color.GetBrightness();
-                var h = (float) value;
-                var a = (int) ASlider.Slider.Value;
+                float s = Color.GetSaturation();
+                float l = Color.GetBrightness();
+                float h = (float)value;
+                int a = (int)ASlider.Slider.Value;
                 Color = Util.FromAhsb(a, h, s, l);
 
                 SetColor(Color);
@@ -231,7 +229,7 @@ namespace ColorPickerWPF
         {
             if (!IsSettingValues)
             {
-                var val = (byte) value;
+                byte val = (byte)value;
                 Color.R = val;
                 SetColor(Color);
             }
@@ -241,7 +239,7 @@ namespace ColorPickerWPF
         {
             if (!IsSettingValues)
             {
-                var val = (byte) value;
+                byte val = (byte)value;
                 Color.G = val;
                 SetColor(Color);
             }
@@ -251,7 +249,7 @@ namespace ColorPickerWPF
         {
             if (!IsSettingValues)
             {
-                var val = (byte) value;
+                byte val = (byte)value;
                 Color.B = val;
                 SetColor(Color);
             }
@@ -261,7 +259,7 @@ namespace ColorPickerWPF
         {
             if (!IsSettingValues)
             {
-                var val = (byte)value;
+                byte val = (byte)value;
                 Color.A = val;
                 SetColor(Color);
             }
@@ -271,10 +269,10 @@ namespace ColorPickerWPF
         {
             if (!IsSettingValues)
             {
-                var s = (float) value;
-                var l = Color.GetBrightness();
-                var h = Color.GetHue();
-                var a = (int) ASlider.Slider.Value;
+                float s = (float)value;
+                float l = Color.GetBrightness();
+                float h = Color.GetHue();
+                int a = (int)ASlider.Slider.Value;
                 Color = Util.FromAhsb(a, h, s, l);
 
                 SetColor(Color);
@@ -286,10 +284,10 @@ namespace ColorPickerWPF
         {
             if (!IsSettingValues)
             {
-                var s = Color.GetSaturation();
-                var l = (float) value;
-                var h = Color.GetHue();
-                var a = (int) ASlider.Slider.Value;
+                float s = Color.GetSaturation();
+                float l = (float)value;
+                float h = Color.GetHue();
+                int a = (int)ASlider.Slider.Value;
                 Color = Util.FromAhsb(a, h, s, l);
 
                 SetColor(Color);
@@ -300,8 +298,8 @@ namespace ColorPickerWPF
         {
             if (!IsSettingValues)
             {
-                var tb = sender as TextBox;
-                var val = tb.Text;
+                TextBox tb = sender as TextBox;
+                string val = tb.Text;
                 try
                 {
                     System.Drawing.Color col = System.Drawing.ColorTranslator.FromHtml(val);

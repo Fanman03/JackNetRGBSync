@@ -1,8 +1,8 @@
-﻿using RGBSyncPlus.Helper;
+﻿using RGBSyncStudio.Helper;
 using System;
 using System.Threading.Tasks;
 
-namespace RGBSyncPlus.UI
+namespace RGBSyncStudio.UI
 {
     public class SimpleModal : IDisposable
     {
@@ -24,10 +24,10 @@ namespace RGBSyncPlus.UI
                     vm.ModalShowPercentage = showPercentage;
                     vm.ModalPercentage = 100;
                     vm.ModalText = text;
-                    if (ApplicationManager.Instance?.ConfigurationWindow?.ContainingGrid != null)
+                    if (ServiceManager.Instance.ApplicationManager?.ConfigurationWindow?.ContainingGrid != null)
                     {
                         Task.Delay(200).Wait();
-                        ApplicationManager.Instance.ConfigurationWindow.ContainingGrid.Refresh();
+                        ServiceManager.Instance.ApplicationManager.ConfigurationWindow.ContainingGrid.Refresh();
                         Task.Delay(200).Wait();
                     }
 

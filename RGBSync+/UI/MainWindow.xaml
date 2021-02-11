@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RGBSyncPlus.UI"
+        xmlns:local="clr-namespace:RGBSyncStudio.UI"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
-        xmlns:Converter="clr-namespace:RGBSyncPlus.Converter" xmlns:Tabs="clr-namespace:RGBSyncPlus.UI.Tabs" 
-        x:Class="RGBSyncPlus.UI.MainWindow"
+        xmlns:Converter="clr-namespace:RGBSyncStudio.Converter" xmlns:Tabs="clr-namespace:RGBSyncStudio.UI.Tabs" 
+        x:Class="RGBSyncStudio.UI.MainWindow"
         mc:Ignorable="d"
         Title="RGB Sync Studio" 
         Height="720" 
@@ -309,7 +309,7 @@ Foreground="Transparent"
 
                 <StackPanel Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock  FontFamily="Segoe UI Light" FontSize="36" FontWeight="Bold" Margin="0,0" Text="{Binding ModalText}" TextWrapping="WrapWithOverflow" Foreground="White"/>
-                    <ProgressBar x:Name="ProgressBar" Width="350" Height="10" Foreground="Black" BorderBrush="#40000000" Margin="0,20,0,0" Value="{Binding ModalPercentage}" RenderTransformOrigin="0.5,0.5">
+                    <ProgressBar Visibility="{Binding ModalShowPercentage, Converter={StaticResource BoolToVisibilityConverter}}" x:Name="ProgressBar" Width="350" Height="10" Foreground="Black" BorderBrush="#40000000" Margin="0,20,0,0" Value="{Binding ModalPercentage}" RenderTransformOrigin="0.5,0.5">
                         <ProgressBar.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>

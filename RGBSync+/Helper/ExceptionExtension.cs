@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Threading;
 
-namespace RGBSyncPlus.Helper
+namespace RGBSyncStudio.Helper
 {
     public static class ExceptionExtension
     {

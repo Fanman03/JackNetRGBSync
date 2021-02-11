@@ -1,4 +1,4 @@
-﻿using RGBSyncPlus.Model;
+﻿using RGBSyncStudio.Model;
 using SimpleLed;
 using System;
 using System.Collections.Generic;
@@ -11,8 +11,9 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using RGBSyncStudio.Helper;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     public class StoreViewModel : LanguageAwareBaseViewModel
     {
@@ -44,22 +45,8 @@ namespace RGBSyncPlus.UI.Tabs
 
         }
 
-        private MainWindowViewModel mainVm
-        {
-            get
-            {
-                MainWindow cfgWindow = ApplicationManager.Instance.ConfigurationWindow;
-                if (cfgWindow != null)
-                {
-                    object cfgVm = cfgWindow.DataContext;
-                    return cfgVm as MainWindowViewModel;
-                }
-
-                return null;
-
-            }
-        }
-
+        private MainWindowViewModel mainVm => (ServiceManager.Instance.ApplicationManager.ConfigurationWindow?.DataContext) as MainWindowViewModel;
+            
         private bool showPreRelease = false;
 
         public bool ShowPreRelease
@@ -219,7 +206,7 @@ namespace RGBSyncPlus.UI.Tabs
 
             LoadStoreAndPlugins();
 
-            //ApplicationManager.Instance.Rescan(this, new EventArgs());
+            //ServiceManager.Instance.ApplicationManager.Rescan(this, new EventArgs());
         }
 
         public List<DriverProperties> GetStoreDrivers()
@@ -360,7 +347,7 @@ namespace RGBSyncPlus.UI.Tabs
                 {
                     using (Bitmap bm = new Bitmap("icons\\" + id + ".png"))
                     {
-                        return ToBitmapImage(bm);
+                        return (bm.ToBitmapImage());
                     }
                 }
                 else

@@ -1,12 +1,11 @@
-﻿using RGBSyncPlus.Helper;
-using RGBSyncPlus.Model;
+﻿using RGBSyncStudio.Helper;
+using RGBSyncStudio.Model;
 using SharpCompress.Archives;
 using SimpleLed;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -18,7 +17,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     /// <summary>
     /// Interaction logic for Store.xaml
@@ -142,7 +141,7 @@ namespace RGBSyncPlus.UI.Tabs
         }
 
         private MainWindowViewModel mainVm =>
-            (MainWindowViewModel)ApplicationManager.Instance.ConfigurationWindow.DataContext;
+            (MainWindowViewModel)ServiceManager.Instance.ApplicationManager.ConfigurationWindow.DataContext;
 
         private void ReloadAllPlugins(object sender, RoutedEventArgs e)
         {
@@ -176,20 +175,20 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 if (btn.DataContext is PositionalAssignment.PluginDetailsViewModel tvm)
                 {
-                    var vmplugin = vm.Plugins.First(x => x.PluginId == tvm.PluginId);
+                    PositionalAssignment.PluginDetailsViewModel vmplugin = vm.Plugins.First(x => x.PluginId == tvm.PluginId);
 
                     ISimpleLed existingPlugin = ServiceManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == tvm.PluginId);
 
                     if (existingPlugin != null)
                     {
-                        var removeList = ServiceManager.Instance.LedService.SLSDevices.Where(x =>
+                        List<ControlDevice> removeList = ServiceManager.Instance.LedService.SLSDevices.Where(x =>
                             x.Driver.GetProperties().Id == existingPlugin.GetProperties().Id).ToList();
 
                         while (ServiceManager.Instance.LedService.SLSDevices.Any(x => x.Driver.GetProperties().Id == existingPlugin.GetProperties().Id) && removeList.Any())
                         {
                             try
                             {
-                                var pp = removeList.First();
+                                ControlDevice pp = removeList.First();
                                 ServiceManager.Instance.LedService.SLSDevices.Remove(pp);
                                 removeList.Remove(pp);
                             }
@@ -226,7 +225,7 @@ namespace RGBSyncPlus.UI.Tabs
 
                     vm.Plugins.Remove(vmplugin);
 
-                   vm.RefreshPlungs();
+                    vm.RefreshPlungs();
                 }
             }
         }
@@ -338,7 +337,7 @@ namespace RGBSyncPlus.UI.Tabs
                 {
                     ServiceManager.Instance.LedService.PauseSyncing = true;
                     Task.Delay(TimeSpan.FromSeconds(1)).Wait();
-                    //ApplicationManager.Instance.UnloadSLSProviders();
+                    //ServiceManager.Instance.ApplicationManager.UnloadSLSProviders();
 
 
 
@@ -351,11 +350,11 @@ namespace RGBSyncPlus.UI.Tabs
                         SimpleLedApiClient apiClient = new SimpleLedApiClient();
                         byte[] drver = await apiClient.GetProduct(parentDC.PluginId, bdc.ReleaseNumber);
 
-                        var exist = ServiceManager.Instance.SLSManager.Drivers.FirstOrDefault(x =>
+                        ISimpleLed exist = ServiceManager.Instance.SLSManager.Drivers.FirstOrDefault(x =>
                             x.GetProperties().Id == parentDC.PluginId);
                         if (exist != null)
                         {
-                         
+
                             ServiceManager.Instance.SLSManager.Drivers.Remove(exist);
                             Thread.Sleep(100);
                             exist.Dispose();
@@ -383,7 +382,7 @@ namespace RGBSyncPlus.UI.Tabs
                         catch
                         {
                         }
-                        
+
                         using (Stream stream = new MemoryStream(drver))
                         {
                             IArchive thingy = SharpCompress.Archives.ArchiveFactory.Open(stream);
@@ -391,7 +390,7 @@ namespace RGBSyncPlus.UI.Tabs
                             float mx = thingy.Entries.Count();
                             int ct = 0;
                             List<string> pluginPaths = new List<string>();
-                            
+
                             foreach (IArchiveEntry archiveEntry in thingy.Entries)
                             {
                                 bool suc = false;
@@ -443,14 +442,14 @@ namespace RGBSyncPlus.UI.Tabs
 
 
                     //vm.ReloadStoreAndPlugins();
-                   // ApplicationManager.Instance.Rescan(this, new EventArgs());
+                    // ServiceManager.Instance.ApplicationManager.Rescan(this, new EventArgs());
                 }
 
                 if (anyFail)
                 {
 
-                    var error = new SimpleModal(mainVm, "One or more files failed to upgrade.");
-                    
+                    SimpleModal error = new SimpleModal(mainVm, "One or more files failed to upgrade.");
+
 
 
                 }

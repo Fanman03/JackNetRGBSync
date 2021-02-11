@@ -1,13 +1,13 @@
 ﻿using System.Web.Http;
 
-namespace RGBSyncPlus.API
+namespace RGBSyncStudio.API
 {
     public class TriggerController : ApiController
     {
-        [RouteAttribute("{key/{value}")]
+        [Route("{key/{value}")]
         public void SetValue(string key, string value)
         {
-            ApplicationManager.Instance.ProfileTriggerManager.APIValueSet(key, value);
+            ServiceManager.Instance.ProfileTriggerManager.APIValueSet(key, value);
         }
     }
 }

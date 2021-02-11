@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace RGBSyncPlus.Languages
+namespace RGBSyncStudio.Languages
 {
     public class LanguageModel
     {
@@ -142,7 +142,7 @@ namespace RGBSyncPlus.Languages
             {
                 string lang = string.Empty;// "EN-US";
 
-                if (ApplicationManager.Instance != null)
+                if (ServiceManager.Instance.ApplicationManager != null)
                 {
                     if (ServiceManager.Instance.ConfigService.NGSettings?.Lang != null)
                     {

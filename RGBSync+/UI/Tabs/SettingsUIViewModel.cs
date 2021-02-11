@@ -1,18 +1,20 @@
-﻿using System;
-using Newtonsoft.Json;
-using RGBSyncPlus.Languages;
-using RGBSyncPlus.Model;
+﻿using Newtonsoft.Json;
+using RGBSyncStudio.Languages;
+using RGBSyncStudio.Model;
 using SharedCode;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Threading;
+using RGBSyncStudio.Services;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     public class SettingsUIViewModel : LanguageAwareBaseViewModel
     {
+        public bool enableReleaseTypeModal = false;
         private void SaveLauncherSettings()
         {
             string json = JsonConvert.SerializeObject(ServiceManager.Instance.ConfigService.LauncherPrefs);
@@ -38,11 +40,19 @@ namespace RGBSyncPlus.UI.Tabs
         {
             get => releaseType;
             set
-
             {
                 SetProperty(ref releaseType, value);
                 ServiceManager.Instance.ConfigService.LauncherPrefs.ReleaseBranch = value;
                 SaveLauncherSettings();
+                if (value == LauncherPrefs.ReleaseType.CI && enableReleaseTypeModal)
+                {
+                    ModalModel modal = new ModalModel();
+                    modal.ModalText =
+                        "Warning! CI builds contain bleeding-edge updates and features. If you value stability, switching to a different release type is highly advised.";
+                    modal.ShowModalTextBox = false;
+                    ModalService ms = new ModalService();
+                    ms.ShowModal(modal);
+                }
             }
         }
 
@@ -89,7 +99,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         public SettingsUIViewModel()
         {
-          
+
         }
 
         public void Init()
@@ -117,12 +127,14 @@ namespace RGBSyncPlus.UI.Tabs
             OnPropertyChanged("MinimizeToTray");
 
             Background = ServiceManager.Instance.ConfigService.NGSettings.Background;
-            BackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.BackgroundOpacity*100;
+            BackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.BackgroundOpacity * 100;
             DimBackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.DimBackgroundOpacity * 100;
             BackgroundBlur = ServiceManager.Instance.ConfigService.NGSettings.BackgroundBlur * 5;
             ControllableBG = ServiceManager.Instance.ConfigService.NGSettings.ControllableBG;
 
             UpdateRate = ServiceManager.Instance.ConfigService.NGSettings.UpdateRate;
+
+            enableReleaseTypeModal = true;
         }
 
 
@@ -159,7 +171,7 @@ namespace RGBSyncPlus.UI.Tabs
             set
             {
                 SetProperty(ref updateRate, value);
-                ServiceManager.Instance.ConfigService.NGSettings.UpdateRate =value;
+                ServiceManager.Instance.ConfigService.NGSettings.UpdateRate = value;
             }
         }
 
@@ -236,7 +248,7 @@ namespace RGBSyncPlus.UI.Tabs
                 //    blurTimer.Stop();
                 //    ServiceManager.Instance.ConfigService.NGSettings.BackgroundBlur = (float)Math.Floor(value) / 20f;
                 //};
-                
+
                 //blurTimer.Start();
             }
         }
@@ -246,7 +258,7 @@ namespace RGBSyncPlus.UI.Tabs
             throw new NotImplementedException();
         }
 
-        private DispatcherTimer blurTimer;
+        private readonly DispatcherTimer blurTimer;
 
         public ObservableCollection<LanguageOption> Languages { get; set; } =
             new ObservableCollection<LanguageOption>(

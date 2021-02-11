@@ -1,12 +1,8 @@
 ﻿using SourceChord.FluentWPF.Utility;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace SourceChord.FluentWPF
@@ -49,11 +45,11 @@ namespace SourceChord.FluentWPF
 
         public static Color GetColorByTypeName(string name)
         {
-            var colorSet = GetImmersiveUserColorSetPreference(false, false);
-            var colorType = GetImmersiveColorTypeFromName(name);
-            var rawColor = GetImmersiveColorFromColorSetEx(colorSet, colorType, false, 0);
+            uint colorSet = GetImmersiveUserColorSetPreference(false, false);
+            uint colorType = GetImmersiveColorTypeFromName(name);
+            uint rawColor = GetImmersiveColorFromColorSetEx(colorSet, colorType, false, 0);
 
-            var bytes = BitConverter.GetBytes(rawColor);
+            byte[] bytes = BitConverter.GetBytes(rawColor);
             return Color.FromArgb(bytes[3], bytes[0], bytes[1], bytes[2]);
         }
 
@@ -196,14 +192,14 @@ namespace SourceChord.FluentWPF
 
         internal static Brush CreateBrush(Color color)
         {
-            var brush = new SolidColorBrush(color);
+            SolidColorBrush brush = new SolidColorBrush(color);
             brush.Freeze();
             return brush;
         }
 
 
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
-        protected static void OnStaticPropertyChanged([CallerMemberName]string propertyName = null)
+        protected static void OnStaticPropertyChanged([CallerMemberName] string propertyName = null)
         {
             StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
         }

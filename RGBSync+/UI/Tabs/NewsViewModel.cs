@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SimpleLed;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SimpleLed;
 
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     public class NewsViewModel : BaseViewModel
     {
@@ -32,15 +29,15 @@ namespace RGBSyncPlus.UI.Tabs
             NewsItems = new ObservableCollection<NewsItemViewModel>(NewsManager.GetStories().Select(x =>
                 new NewsItemViewModel
                 {
-                    Author=x.Author,
+                    Author = x.Author,
                     Content = x.Body,
                     Date = x.Date,
                     Title = x.Title,
                     Images = x.Images != null ? new ObservableCollection<string>(x.Images) : null,
-                    Videos = x.Videos !=null ? new ObservableCollection<string>(x.Videos) : null
+                    Videos = x.Videos != null ? new ObservableCollection<string>(x.Videos) : null
                 }));
 
-           // SelectedNewsItem = NewsItems.Last();
+            // SelectedNewsItem = NewsItems.Last();
         }
 
         public class NewsItemViewModel : BaseViewModel

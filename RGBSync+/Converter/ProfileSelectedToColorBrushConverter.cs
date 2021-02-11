@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace RGBSyncPlus.Converter
+namespace RGBSyncStudio.Converter
 {
     public class ProfileSelectedToColorBrushConverter : IValueConverter
     {
@@ -21,11 +17,11 @@ namespace RGBSyncPlus.Converter
 
             SolidColorBrush output = new SolidColorBrush();
 
-            bool isSelected = (bool) value;
+            bool isSelected = (bool)value;
 
             if (isSelected)
             {
-                output = (SolidColorBrush) SystemParameters.WindowGlassBrush;
+                output = (SolidColorBrush)SystemParameters.WindowGlassBrush;
             }
             else
             {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     public class ProfileTabViewModel : LanguageAwareBaseViewModel
     {
@@ -187,7 +187,7 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 if (ProfileNames != null)
                 {
-                    ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry> triggers = ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers;
+                    ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry> triggers = ServiceManager.Instance.ProfileTriggerManager.ProfileTriggers;
                     ProfileItems.Clear();
                     foreach (string profileName in ProfileNames)
                     {
@@ -236,7 +236,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void ShowCreateNewProfile()
         {
-            ApplicationManager.Instance.ShowModal(new ModalModel
+            ServiceManager.Instance.ModalService.ShowModal(new ModalModel
             {
                 ModalText = "Enter name for new profile",
                 ShowModalTextBox = true,
@@ -331,7 +331,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void CreateNewTrigger()
         {
-            ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Add(new ProfileTriggerManager.ProfileTriggerEntry
+            ServiceManager.Instance.ProfileTriggerManager.ProfileTriggers.Add(new ProfileTriggerManager.ProfileTriggerEntry
             {
                 Name = "No name",
                 TriggerType = ProfileTriggerManager.ProfileTriggerTypes.RunningProccess,
@@ -340,7 +340,7 @@ namespace RGBSyncPlus.UI.Tabs
             });
 
             CurrentProfile.Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(
-                ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Where(x =>
+                ServiceManager.Instance.ProfileTriggerManager.ProfileTriggers.Where(x =>
                     x.ProfileName == CurrentProfile.OriginalName));
 
             OnPropertyChanged("ProfileNames");
@@ -350,13 +350,13 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void DeleteTrigger(ProfileTriggerManager.ProfileTriggerEntry entry)
         {
-            ProfileTriggerManager.ProfileTriggerEntry killMe = ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.First(x => x.Id == entry.Id);
-            ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Remove(killMe);
+            ProfileTriggerManager.ProfileTriggerEntry killMe = ServiceManager.Instance.ProfileTriggerManager.ProfileTriggers.First(x => x.Id == entry.Id);
+            ServiceManager.Instance.ProfileTriggerManager.ProfileTriggers.Remove(killMe);
 
             RefreshProfiles();
 
             CurrentProfile.Triggers = new ObservableCollection<ProfileTriggerManager.ProfileTriggerEntry>(
-                ApplicationManager.Instance.ProfileTriggerManager.ProfileTriggers.Where(x =>
+                ServiceManager.Instance.ProfileTriggerManager.ProfileTriggers.Where(x =>
                     x.ProfileName == CurrentProfile.OriginalName));
 
             OnPropertyChanged("ProfileNames");

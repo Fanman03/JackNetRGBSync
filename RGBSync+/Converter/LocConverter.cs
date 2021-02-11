@@ -1,9 +1,9 @@
-﻿using RGBSyncPlus.Languages;
+﻿using RGBSyncStudio.Languages;
 using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace RGBSyncPlus.Converter
+namespace RGBSyncStudio.Converter
 {
     [ValueConversion(typeof(string), typeof(string))]
     public class LocConverter : IValueConverter
@@ -14,14 +14,14 @@ namespace RGBSyncPlus.Converter
             {
                 if (!string.IsNullOrWhiteSpace((string)value))
                 {
-                    return LanguageManager.GetValue((string)parameter?.ToString(), (string)value?.ToString());
+                    return LanguageManager.GetValue(parameter?.ToString(), value?.ToString());
                 }
             }
             catch
             {
             }
 
-            return LanguageManager.GetValue((string)parameter?.ToString());
+            return LanguageManager.GetValue(parameter?.ToString());
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -35,7 +35,7 @@ namespace RGBSyncPlus.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return LanguageManager.GetValue((string)value?.ToString().Replace(" ", ""));
+            return LanguageManager.GetValue(value?.ToString().Replace(" ", ""));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

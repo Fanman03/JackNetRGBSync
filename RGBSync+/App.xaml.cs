@@ -1,28 +1,23 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
-using Newtonsoft.Json;
-using RGBSyncPlus.Configuration;
-using RGBSyncPlus.Configuration.Legacy;
-using RGBSyncPlus.Helper;
-using RGBSyncPlus.UI;
+using RGBSyncStudio.Helper;
+using SimpleLed;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Threading;
-using RGBSyncPlus.UI.Tabs;
-using SimpleLed;
 
-namespace RGBSyncPlus
+namespace RGBSyncStudio
 {
     public partial class App : Application
     {
+        public const string SLSPROVIDER_DIRECTORY = "SLSProvider";
+        private const string NGPROFILES_DIRECTORY = "NGProfiles";
+        private const string SLSCONFIGS_DIRECTORY = "SLSConfigs";
+
         #region Constants
 
         private const string PATH_SETTINGS = "Profile.json";
@@ -40,7 +35,7 @@ namespace RGBSyncPlus
         #endregion
 
         #region Methods
-        void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             ServiceManager.Instance.Logger.CrashWindow(e.Exception);
 
@@ -55,7 +50,8 @@ namespace RGBSyncPlus
                 this.DispatcherUnhandledException += App_DispatcherUnhandledException;
             }
 
-            ApplicationManager.Instance.Initialize();
+            ServiceManager.Initialize(SLSCONFIGS_DIRECTORY, NGPROFILES_DIRECTORY);
+            ServiceManager.Instance.ApplicationManager.Initialize();
 
             ServiceManager.Instance.ProfileService.OnProfilesChanged += (object sender, EventArgs ev) => appBvm.RefreshProfiles();
 
@@ -64,37 +60,20 @@ namespace RGBSyncPlus
                 ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(int.MaxValue));
 
                 _taskbarIcon = (TaskbarIcon)FindResource("TaskbarIcon");
-                _taskbarIcon.DoubleClickCommand = new ActionCommand(()=>ServiceManager.Instance.)
+                _taskbarIcon.DoubleClickCommand = new ActionCommand(() => ServiceManager.Instance.ApplicationManager.OpenConfiguration());
 
-                //ApplicationManager.Instance.OpenConfigurationCommand.Execute(null);
+                //ServiceManager.Instance.ApplicationManager.OpenConfigurationCommand.Execute(null);
             }
             catch (Exception ex)
             {
                 File.WriteAllText("error.log", $"[{DateTime.Now:G}] Exception!\r\n\r\nMessage:\r\n{ex.GetFullMessage()}\r\n\r\nStackTrace:\r\n{ex.StackTrace}\r\n\r\n");
 
-                try { ApplicationManager.Instance.Exit(); }
+                try { ServiceManager.Instance.ApplicationManager.Exit(); }
                 catch { Environment.Exit(0); }
             }
 
-           
+
         }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            
-            base.OnExit(e);
-
-            //File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
-            //File.WriteAllText(PATH_APPSETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.AppSettings, new ColorSerializer()));
-        }
-
-
-        public static void SaveSettings()
-        {
-            //File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
-            //File.WriteAllText(PATH_APPSETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.AppSettings, new ColorSerializer()));
-        }
-
         #endregion
 
         private void App_OnExit(object sender, ExitEventArgs e)
@@ -126,6 +105,25 @@ namespace RGBSyncPlus
             appBvm.Profiles = AppBVM.GetProfiles();
         }
 
+        private void TechSupportClick(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://rgbsync.com/discord");
+        }
+
+        private void RestartAppClick(object sender, RoutedEventArgs e)
+        {
+            ServiceManager.Instance.ApplicationManager.RestartApp();
+        }
+
+        private void ExitClicked(object sender, RoutedEventArgs e)
+        {
+            ServiceManager.Instance.ApplicationManager.Exit();
+        }
+
+        private void HideClicked(object sender, RoutedEventArgs e)
+        {
+            ServiceManager.Instance.ApplicationManager.HideConfiguration();
+        }
     }
 
     public class AppBVM : BaseViewModel
@@ -156,11 +154,12 @@ namespace RGBSyncPlus
                     }
                 }
                 return prfs;
-            } else
+            }
+            else
             {
                 return new ObservableCollection<ProfileObject>();
             }
-           
+
         }
         private Visibility popupVisibility = Visibility.Collapsed;
         public Visibility PopupVisibility

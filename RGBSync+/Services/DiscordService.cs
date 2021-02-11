@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DiscordRPC;
+﻿using DiscordRPC;
 
-namespace RGBSyncPlus.Services
+namespace RGBSyncStudio.Services
 {
     public class DiscordService
     {
@@ -22,10 +17,11 @@ namespace RGBSyncPlus.Services
                 client = new DiscordRpcClient("581567509959016456");
                 client.Initialize();
             }
+
             ServiceManager.Instance.Logger.Info("Setting Discord presensce.");
             client.SetPresence(new RichPresence()
             {
-                State = "Profile: " + ServiceManager.Instance.ConfigService.Settings.Name,
+                State = "Profile: " + ServiceManager.Instance.ProfileService.CurrentProfile.Name,
                 Details = "Syncing lighting effects",
                 Assets = new Assets()
                 {
@@ -39,12 +35,17 @@ namespace RGBSyncPlus.Services
 
         public void Stop()
         {
-            try
+            if (ServiceManager.Instance.ConfigService.NGSettings.EnableDiscordRPC == true)
             {
-                client.Dispose();
-                
+                try
+                {
+                    client.Dispose();
+
+                }
+                catch
+                {
+                }
             }
-            catch { }
 
             client = null;
         }

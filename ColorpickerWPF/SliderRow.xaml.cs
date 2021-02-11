@@ -26,7 +26,7 @@ namespace ColorPickerWPF
         private void Slider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             // Set textbox
-            var value = Slider.Value;
+            double value = Slider.Value;
 
             if (!UpdatingValues)
             {
@@ -41,7 +41,7 @@ namespace ColorPickerWPF
         {
             if (!UpdatingValues)
             {
-                var text = TextBox.Text;
+                string text = TextBox.Text;
                 bool ok = false;
                 double parsedValue = 0;
 

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Swashbuckle.Application;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
-using Swashbuckle.Application;
 
-namespace RGBSyncPlus.Services
+namespace RGBSyncStudio.Services
 {
     public class ApiServerService
     {

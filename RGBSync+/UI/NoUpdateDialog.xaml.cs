@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace RGBSyncPlus.UI
+namespace RGBSyncStudio.UI
 {
     /// <summary>
     /// Interaction logic for NoUpdateDialog.xaml

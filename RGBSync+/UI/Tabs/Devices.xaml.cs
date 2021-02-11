@@ -1,4 +1,6 @@
-﻿using RGBSyncPlus.Model;
+﻿using Microsoft.Win32;
+using RGBSyncStudio.Helper;
+using RGBSyncStudio.Model;
 using SimpleLed;
 using System;
 using System.Collections.Generic;
@@ -14,19 +16,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Microsoft.Win32;
-using RGBSyncPlus.Helper;
 using CustomDeviceSpecification = SimpleLed.CustomDeviceSpecification;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     /// <summary>
     /// Interaction logic for Devices.xaml
     /// </summary>
     public partial class Devices : UserControl
     {
-
-        DevicesViewModel vm => (DevicesViewModel)DataContext;
+        private DevicesViewModel vm => (DevicesViewModel)DataContext;
         public Devices()
         {
             InitializeComponent();
@@ -70,18 +69,18 @@ namespace RGBSyncPlus.UI.Tabs
 
             //  ContainerGrid.RowDefinitions[2].Height = new GridLength(ContainerGrid.ActualHeight / 2);
 
-          
+
             ConfigPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
 
-         
+
 
             Splitter.UpdateLayout();
             await Task.Delay(TimeSpan.FromSeconds(0.01f));
             await SetMaxHeight();
 
-           ContainerGrid.RowDefinitions[1].Height = new GridLength(56);
-           ContainerGrid.RowDefinitions[2].Height = new GridLength(1d, GridUnitType.Star);
-           ContainerGrid.RowDefinitions[0].Height = new GridLength(1d, GridUnitType.Star);
+            ContainerGrid.RowDefinitions[1].Height = new GridLength(56);
+            ContainerGrid.RowDefinitions[2].Height = new GridLength(1d, GridUnitType.Star);
+            ContainerGrid.RowDefinitions[0].Height = new GridLength(1d, GridUnitType.Star);
 
         }
 
@@ -102,35 +101,35 @@ namespace RGBSyncPlus.UI.Tabs
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (ApplicationManager.Instance.DeviceBeingAligned != null)
+            if (ServiceManager.Instance.LedService.DeviceBeingAligned != null)
             {
-                int vl = ApplicationManager.Instance.DeviceBeingAligned.LedShift;
+                int vl = ServiceManager.Instance.LedService.DeviceBeingAligned.LedShift;
 
                 vl--;
-                if (vl < 0) vl = ApplicationManager.Instance.DeviceBeingAligned.LEDs.Length - 1;
+                if (vl < 0) vl = ServiceManager.Instance.LedService.DeviceBeingAligned.LEDs.Length - 1;
 
-                ApplicationManager.Instance.DeviceBeingAligned.LedShift = vl;
+                ServiceManager.Instance.LedService.DeviceBeingAligned.LedShift = vl;
             }
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            if (ApplicationManager.Instance.DeviceBeingAligned != null)
+            if (ServiceManager.Instance.LedService.DeviceBeingAligned != null)
             {
-                int vl = ApplicationManager.Instance.DeviceBeingAligned.LedShift;
+                int vl = ServiceManager.Instance.LedService.DeviceBeingAligned.LedShift;
 
                 vl++;
-                if (vl >= ApplicationManager.Instance.DeviceBeingAligned.LEDs.Length) vl = 0;
+                if (vl >= ServiceManager.Instance.LedService.DeviceBeingAligned.LEDs.Length) vl = 0;
 
-                ApplicationManager.Instance.DeviceBeingAligned.LedShift = vl;
+                ServiceManager.Instance.LedService.DeviceBeingAligned.LedShift = vl;
             }
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            if (ApplicationManager.Instance.DeviceBeingAligned != null)
+            if (ServiceManager.Instance.LedService.DeviceBeingAligned != null)
             {
-                ApplicationManager.Instance.DeviceBeingAligned.Reverse = !ApplicationManager.Instance.DeviceBeingAligned.Reverse;
+                ServiceManager.Instance.LedService.DeviceBeingAligned.Reverse = !ServiceManager.Instance.LedService.DeviceBeingAligned.Reverse;
 
             }
         }
@@ -148,7 +147,7 @@ namespace RGBSyncPlus.UI.Tabs
 
                 bool zeroDevicesPreSelected = vm.SLSDevices.All(x => x.Selected == false);
 
-              
+
 
                 foreach (object item in DeviceConfigList.Items)
                 {
@@ -197,14 +196,14 @@ namespace RGBSyncPlus.UI.Tabs
                 ControlDevice selectedDevice = null;
                 if (ConfigPanel != null && ((DeviceMappingModels.Device)ConfigPanel.DataContext) != null)
                 {
-                    ApplicationManager.Instance.DeviceBeingAligned =
+                    ServiceManager.Instance.LedService.DeviceBeingAligned =
                         ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
                     ((DevicesViewModel)this.DataContext).SetupSourceDevices(
                         ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice);
                 }
                 else
                 {
-                    ApplicationManager.Instance.DeviceBeingAligned = null;
+                    ServiceManager.Instance.LedService.DeviceBeingAligned = null;
                     ((DevicesViewModel)this.DataContext).SetupSourceDevices(null);
                 }
 
@@ -220,13 +219,13 @@ namespace RGBSyncPlus.UI.Tabs
                     UpdateDeviceConfigUi(cd);
 
                     ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ServiceManager.Instance.ProfileService.CurrentProfile?.DeviceProfileSettings;
-                    var thingy = temp.Where(x => x.Name == cd.Name && x.ConnectedTo == cd.ConnectedTo && x.ProviderName == cd.Driver.Name()).ToList();
+                    List<DeviceMappingModels.NGDeviceProfileSettings> thingy = temp.Where(x => x.Name == cd.Name && x.ConnectedTo == cd.ConnectedTo && x.ProviderName == cd.Driver.Name()).ToList();
 
                 }
-                  
+
                 vm.RefreshDevicesUI();
             }
-            catch(Exception eee)
+            catch (Exception eee)
             {
                 Debug.WriteLine(eee.Message);
             }
@@ -238,7 +237,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         private async void AddBottomPanel()
         {
-            if (ConfigBarRow.Height.IsAbsolute && ConfigBarRow.Height.Value!= null && ConfigBarRow.Height.Value == 0)
+            if (ConfigBarRow.Height.IsAbsolute && ConfigBarRow.Height.Value != null && ConfigBarRow.Height.Value == 0)
             {
                 ConfigBarRow.Height = new GridLength(56);
                 //ConfigPanelRow.Height = GridLength.Auto;
@@ -258,17 +257,17 @@ namespace RGBSyncPlus.UI.Tabs
                 //ContainerGrid.RowDefinitions[2].Height = new GridLength(ra2);
 
                 ConfigBarRow.Height = new GridLength(56);
-               // ContainerGrid.RowDefinitions[0].Height = new GridLength(ContainerGrid.ActualHeight/2);
-              //  ContainerGrid.RowDefinitions[2].Height = new GridLength(ContainerGrid.ActualHeight / 2);
+                // ContainerGrid.RowDefinitions[0].Height = new GridLength(ContainerGrid.ActualHeight/2);
+                //  ContainerGrid.RowDefinitions[2].Height = new GridLength(ContainerGrid.ActualHeight / 2);
 
-               ConfigPanelRow.Height = GridLength.Auto;
+                ConfigPanelRow.Height = GridLength.Auto;
 
 
                 Thread.Sleep(100);
-               // ConfigPanelRow.Height = GridLength.Auto;
+                // ConfigPanelRow.Height = GridLength.Auto;
                 SetMaxHeight();
                 //ConfigPanelRow.Height = GridLength.Auto;
-                ContainerGrid_OnSizeChanged(this,null);
+                ContainerGrid_OnSizeChanged(this, null);
 
             }
         }
@@ -338,7 +337,7 @@ namespace RGBSyncPlus.UI.Tabs
             Debug.WriteLine(sender);
             Button but = sender as Button;
             DeviceMappingModels.SourceModel dc = but.DataContext as DeviceMappingModels.SourceModel;
-            ListView_SelectionChanged(this.SourceList, null,dc);
+            ListView_SelectionChanged(this.SourceList, null, dc);
 
             vm.UpdateFilteredSourceDevices();
 
@@ -414,7 +413,7 @@ namespace RGBSyncPlus.UI.Tabs
                     }
 
 
-                    if (selected.Name.Trim()!="None")
+                    if (selected.Name.Trim() != "None")
                     {
                         configDevice.SourceName = selected?.Name;
                         configDevice.SourceProviderName = selected?.ProviderName;
@@ -445,7 +444,7 @@ namespace RGBSyncPlus.UI.Tabs
             }
 
             vm.SetupSourceDevices();
-           // vm.SinkThing();
+            // vm.SinkThing();
         }
 
 
@@ -472,12 +471,12 @@ namespace RGBSyncPlus.UI.Tabs
 
             if (ConfigPanel != null && ((DeviceMappingModels.Device)ConfigPanel.DataContext) != null)
             {
-                ApplicationManager.Instance.DeviceBeingAligned = ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
+                ServiceManager.Instance.LedService.DeviceBeingAligned = ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
                 ((DevicesViewModel)this.DataContext).SetupSourceDevices(((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice);
             }
             else
             {
-                ApplicationManager.Instance.DeviceBeingAligned = null;
+                ServiceManager.Instance.LedService.DeviceBeingAligned = null;
                 ((DevicesViewModel)this.DataContext).SetupSourceDevices(null);
             }
 
@@ -485,7 +484,7 @@ namespace RGBSyncPlus.UI.Tabs
             ControlDevice cd = dvc.ControlDevice;
 
             vm.DevicesSelectedCount = vm.SLSDevices.Count(x => x.Selected);
-            
+
 
             UpdateDeviceConfigUi(cd);
 
@@ -496,10 +495,10 @@ namespace RGBSyncPlus.UI.Tabs
             vm.ZoomLevel = 6;
 
 
-            ConfigPanelRow.MaxHeight = Math.Max(0,ContainerGrid.ActualHeight - 200);
+            ConfigPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
         }
 
-        private bool blockUpdates = false;
+        private readonly bool blockUpdates = false;
 
         private async void ContainerGrid_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -519,11 +518,11 @@ namespace RGBSyncPlus.UI.Tabs
                 //}
             }
 
-           // Splitter.Height = Splitter.ActualHeight - 1;
+            // Splitter.Height = Splitter.ActualHeight - 1;
 
             ConfigPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
 
-            
+
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -554,7 +553,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         private void MouseLeaveMapper(object sender, MouseEventArgs e)
         {
-            
+
         }
 
         private async void ConfigSource(object sender, RoutedEventArgs e)
@@ -571,7 +570,7 @@ namespace RGBSyncPlus.UI.Tabs
         private void TopPanelSizeChanged(object sender, SizeChangedEventArgs e)
         {
             Grid grid = sender as Grid;
-            
+
             Debug.WriteLine(grid.ActualHeight);
             Debug.WriteLine("---");
             Debug.WriteLine(ContainerGrid.RowDefinitions[0].Height);
@@ -590,7 +589,7 @@ namespace RGBSyncPlus.UI.Tabs
             StackPanel parent = cb.Parent as StackPanel;
 
             CustomDeviceSpecification cds = cb.SelectedItem as CustomDeviceSpecification;
-           // CustomDeviceSpecification cds = cbi.DataContext as CustomDeviceSpecification;
+            // CustomDeviceSpecification cds = cbi.DataContext as CustomDeviceSpecification;
 
             Debug.WriteLine(cds);
 
@@ -621,15 +620,15 @@ namespace RGBSyncPlus.UI.Tabs
             {
                 try
                 {
-                    var bim = new Bitmap(openFileDialog.FileName);
+                    Bitmap bim = new Bitmap(openFileDialog.FileName);
 
                     if ((bim.Width != 192 && bim.Width != 256) || bim.Height != 192)
                     {
-                        MessageBox.Show("Image needs to be 192x192 or 256x192\r\n("+bim.Width+", "+bim.Height+")", "Incorrect Dimensions");
+                        MessageBox.Show("Image needs to be 192x192 or 256x192\r\n(" + bim.Width + ", " + bim.Height + ")", "Incorrect Dimensions");
                     }
                     else
                     {
-                        using (var s = File.OpenRead(openFileDialog.FileName))
+                        using (FileStream s = File.OpenRead(openFileDialog.FileName))
                         {
                             byte[] tmp = new byte[s.Length];
                             s.Read(tmp, 0, tmp.Length);
@@ -639,7 +638,7 @@ namespace RGBSyncPlus.UI.Tabs
                                 device.Overrides = ServiceManager.Instance.LedService.GetOverride(device.ControlDevice);
                                 if (device.Overrides.CustomDeviceSpecification == null)
                                 {
-                                    device.Overrides.CustomDeviceSpecification=new CustomDeviceSpecification();
+                                    device.Overrides.CustomDeviceSpecification = new CustomDeviceSpecification();
                                 }
                             }
 
@@ -658,27 +657,27 @@ namespace RGBSyncPlus.UI.Tabs
                 }
             }
 
-            
+
         }
 
         private void RGBOrderOnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cb = sender as ComboBox;
-            var derp = cb.SelectedValue;
+            object derp = cb.SelectedValue;
 
             Debug.WriteLine(derp);
             object si = cb.SelectedItem;
 
             ComboBoxItem sis = si as ComboBoxItem;
-            
+
 
             Debug.WriteLine(sis);
             Debug.WriteLine(sis.Content);
-            string tt = (string)si.ToString();
+            string tt = si.ToString();
 
             RGBOrder order = (RGBOrder)Enum.Parse(typeof(RGBOrder), (string)sis.Content);
 
-            var pp = cb.DataContext as DeviceMappingModels.Device;
+            DeviceMappingModels.Device pp = cb.DataContext as DeviceMappingModels.Device;
             pp.Overrides.CustomDeviceSpecification.RGBOrder = order;
 
             Debug.WriteLine(cb);
@@ -700,8 +699,8 @@ namespace RGBSyncPlus.UI.Tabs
             Button sb = sender as Button;
             DeviceMappingModels.Device dave = sb.DataContext as DeviceMappingModels.Device;
 
-            var cd = dave.ControlDevice;
-            var props = cd.Driver.GetProperties();
+            ControlDevice cd = dave.ControlDevice;
+            DriverProperties props = cd.Driver.GetProperties();
             if (props.SetDeviceOverride != null)
             {
                 props.SetDeviceOverride(cd, dave.Overrides.CustomDeviceSpecification);
