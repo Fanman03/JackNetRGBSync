@@ -155,6 +155,7 @@
     <Compile Include="Services\LedService.cs" />
     <Compile Include="Services\ProfileService.cs" />
     <Compile Include="Services\SLSAuthService.cs" />
+    <Compile Include="Services\StoreService.cs" />
     <Compile Include="SimpleLogger.cs" />
     <Compile Include="Styles\CachedResourceDictionary.cs" />
     <Compile Include="App.xaml.cs">

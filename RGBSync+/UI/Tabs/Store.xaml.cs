@@ -71,7 +71,7 @@ namespace RGBSyncPlus.UI.Tabs
             installingModal?.UpdateModalPercentage(mainVm, (int)percentage);
         }
 
-        private SimpleModal installingModal;
+        
 
         private async void InstallPlugin(object sender, RoutedEventArgs e)
         {

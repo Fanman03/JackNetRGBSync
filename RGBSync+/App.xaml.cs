@@ -64,7 +64,7 @@ namespace RGBSyncPlus
                 ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(int.MaxValue));
 
                 _taskbarIcon = (TaskbarIcon)FindResource("TaskbarIcon");
-                _taskbarIcon.DoubleClickCommand = ApplicationManager.Instance.OpenConfigurationCommand;
+                _taskbarIcon.DoubleClickCommand = new ActionCommand(()=>ServiceManager.Instance.)
 
                 //ApplicationManager.Instance.OpenConfigurationCommand.Execute(null);
             }
@@ -72,7 +72,7 @@ namespace RGBSyncPlus
             {
                 File.WriteAllText("error.log", $"[{DateTime.Now:G}] Exception!\r\n\r\nMessage:\r\n{ex.GetFullMessage()}\r\n\r\nStackTrace:\r\n{ex.StackTrace}\r\n\r\n");
 
-                try { ApplicationManager.Instance.ExitCommand.Execute(null); }
+                try { ApplicationManager.Instance.Exit(); }
                 catch { Environment.Exit(0); }
             }
 

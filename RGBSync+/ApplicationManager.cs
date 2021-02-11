@@ -33,58 +33,28 @@ namespace RGBSyncPlus
 {
     public class ApplicationManager
     {
-
-
-        
-
-        #region Constants
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
 
         public const string SLSPROVIDER_DIRECTORY = "SLSProvider";
         private const string NGPROFILES_DIRECTORY = "NGProfiles";
         private const string SLSCONFIGS_DIRECTORY = "SLSConfigs";
-        #endregion
-
-        #region Properties & Fields
-
-
-
         
         public static ApplicationManager Instance { get; } = new ApplicationManager();
 
         public MainWindow ConfigurationWindow;
 
-        #endregion
-
-        #region Commands
-
-        private ActionCommand _openConfiguration;
-        public ActionCommand OpenConfigurationCommand => _openConfiguration ?? (_openConfiguration = new ActionCommand(OpenConfiguration));
-
-        private ActionCommand _hideConfiguration;
-        public ActionCommand HideConfigurationCommand => _hideConfiguration ?? (_hideConfiguration = new ActionCommand(HideConfiguration));
-
-        private ActionCommand _restartApp;
-        public ActionCommand RestartAppCommand => _restartApp ?? (_restartApp = new ActionCommand(RestartApp));
-
-        private ActionCommand _techSupport;
-        public ActionCommand TechSupportCommand => _techSupport ?? (_techSupport = new ActionCommand(TechSupport));
-
-        private ActionCommand _exitCommand;
-        public ActionCommand ExitCommand => _exitCommand ?? (_exitCommand = new ActionCommand(Exit));
-
+        private MainWindowViewModel MainViewModel => (MainWindowViewModel) ApplicationManager.Instance.ConfigurationWindow.DataContext;
+        
         public void FireLanguageChangedEvent()
         {
             LanguageChangedEvent?.Invoke(this, new EventArgs());
         }
 
         public event EventHandler LanguageChangedEvent;
-
-        #endregion
-
+        
         #region Constructors
 
-        private ApplicationManager()
+        public ApplicationManager()
         {
             try
             {

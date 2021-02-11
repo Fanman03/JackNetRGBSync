@@ -21,10 +21,12 @@ namespace RGBSyncPlus
         public ProfileService ProfileService;
         public DiscordService DiscordService;
         public SLSAuthService SLSAuthService;
+        public ApplicationManager ApplicationManager;
         public static void Initialize(string slsConfigsDirectory, string ngProfileDir)
         {
             Instance = new ServiceManager();
 
+            Instance.ApplicationManager = new ApplicationManager();
             Instance.LedService = new LedService();
             Instance.SLSManager = new SLSManager(slsConfigsDirectory);
             Instance.ApiServerService = new ApiServerService();
