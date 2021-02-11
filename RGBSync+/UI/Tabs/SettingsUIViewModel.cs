@@ -8,11 +8,13 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Threading;
+using RGBSyncStudio.Services;
 
 namespace RGBSyncStudio.UI.Tabs
 {
     public class SettingsUIViewModel : LanguageAwareBaseViewModel
     {
+        public bool enableReleaseTypeModal = false;
         private void SaveLauncherSettings()
         {
             string json = JsonConvert.SerializeObject(ServiceManager.Instance.ConfigService.LauncherPrefs);
@@ -38,11 +40,19 @@ namespace RGBSyncStudio.UI.Tabs
         {
             get => releaseType;
             set
-
             {
                 SetProperty(ref releaseType, value);
                 ServiceManager.Instance.ConfigService.LauncherPrefs.ReleaseBranch = value;
                 SaveLauncherSettings();
+                if (value == LauncherPrefs.ReleaseType.CI && enableReleaseTypeModal)
+                {
+                    ModalModel modal = new ModalModel();
+                    modal.ModalText =
+                        "Warning! CI builds contain bleeding-edge updates and features. If you value stability, switching to a different release type is highly advised.";
+                    modal.ShowModalTextBox = false;
+                    ModalService ms = new ModalService();
+                    ms.ShowModal(modal);
+                }
             }
         }
 
@@ -123,6 +133,8 @@ namespace RGBSyncStudio.UI.Tabs
             ControllableBG = ServiceManager.Instance.ConfigService.NGSettings.ControllableBG;
 
             UpdateRate = ServiceManager.Instance.ConfigService.NGSettings.UpdateRate;
+
+            enableReleaseTypeModal = true;
         }
 
 

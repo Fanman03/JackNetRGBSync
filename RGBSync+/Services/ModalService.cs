@@ -5,7 +5,6 @@ namespace RGBSyncStudio.Services
 {
     public class ModalService
     {
-
         public void ShowModal(ModalModel modalModel)
         {
             MainWindowViewModel vm = ((MainWindowViewModel)ServiceManager.Instance.ApplicationManager.ConfigurationWindow.DataContext);

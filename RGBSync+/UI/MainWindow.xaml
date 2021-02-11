@@ -309,7 +309,7 @@ Foreground="Transparent"
 
                 <StackPanel Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock  FontFamily="Segoe UI Light" FontSize="36" FontWeight="Bold" Margin="0,0" Text="{Binding ModalText}" TextWrapping="WrapWithOverflow" Foreground="White"/>
-                    <ProgressBar x:Name="ProgressBar" Width="350" Height="10" Foreground="Black" BorderBrush="#40000000" Margin="0,20,0,0" Value="{Binding ModalPercentage}" RenderTransformOrigin="0.5,0.5">
+                    <ProgressBar Visibility="{Binding ModalShowPercentage, Converter={StaticResource BoolToVisibilityConverter}}" x:Name="ProgressBar" Width="350" Height="10" Foreground="Black" BorderBrush="#40000000" Margin="0,20,0,0" Value="{Binding ModalPercentage}" RenderTransformOrigin="0.5,0.5">
                         <ProgressBar.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
