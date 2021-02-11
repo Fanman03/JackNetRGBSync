@@ -1,4 +1,4 @@
-﻿using RGBSyncPlus.Model;
+﻿using RGBSyncStudio.Model;
 using SimpleLed;
 using System;
 using System.Collections.Generic;
@@ -11,8 +11,9 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using RGBSyncStudio.Helper;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     public class StoreViewModel : LanguageAwareBaseViewModel
     {
@@ -24,7 +25,7 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void Init()
         {
-            ShowPreRelease = ApplicationManager.Instance.NGSettings.Experimental;
+            ShowPreRelease = ServiceManager.Instance.ConfigService.NGSettings.Experimental;
 
             storeHandler = new StoreHandler();
 
@@ -34,7 +35,7 @@ namespace RGBSyncPlus.UI.Tabs
             ShowStore = false;
             ShowUpdates = false;
 
-            if (ApplicationManager.Instance.SLSDevices != null && ApplicationManager.Instance.SLSDevices.Count(x =>
+            if (ServiceManager.Instance.LedService.SLSDevices != null && ServiceManager.Instance.LedService.SLSDevices.Count(x =>
                 x.Driver != null && !x.Driver.GetProperties().Id.ToString().StartsWith("1111")) == 0)
             {
                 ShowInstalled = false;
@@ -44,22 +45,8 @@ namespace RGBSyncPlus.UI.Tabs
 
         }
 
-        private MainWindowViewModel mainVm
-        {
-            get
-            {
-                MainWindow cfgWindow = ApplicationManager.Instance.ConfigurationWindow;
-                if (cfgWindow != null)
-                {
-                    object cfgVm = cfgWindow.DataContext;
-                    return cfgVm as MainWindowViewModel;
-                }
-
-                return null;
-
-            }
-        }
-
+        private MainWindowViewModel mainVm => (ServiceManager.Instance.ApplicationManager.ConfigurationWindow?.DataContext) as MainWindowViewModel;
+            
         private bool showPreRelease = false;
 
         public bool ShowPreRelease
@@ -212,14 +199,14 @@ namespace RGBSyncPlus.UI.Tabs
 
         public void ReloadStoreAndPlugins()
         {
-            ApplicationManager.Instance.UnloadSLSProviders();
+            ServiceManager.Instance.LedService.UnloadSLSProviders();
 
 
-            ApplicationManager.Instance.LoadSLSProviders();
+            ServiceManager.Instance.LedService.LoadSLSProviders();
 
             LoadStoreAndPlugins();
 
-            ApplicationManager.Instance.Rescan(this, new EventArgs());
+            //ServiceManager.Instance.ApplicationManager.Rescan(this, new EventArgs());
         }
 
         public List<DriverProperties> GetStoreDrivers()
@@ -240,7 +227,7 @@ namespace RGBSyncPlus.UI.Tabs
                 Plugins = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>();
                 StoreOnly = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>();
 
-                foreach (ISimpleLed slsManagerDriver in ApplicationManager.Instance.SLSManager.Drivers)
+                foreach (ISimpleLed slsManagerDriver in ServiceManager.Instance.SLSManager.Drivers)
                 {
                     DriverProperties pid = slsManagerDriver.GetProperties();
 
@@ -360,7 +347,7 @@ namespace RGBSyncPlus.UI.Tabs
                 {
                     using (Bitmap bm = new Bitmap("icons\\" + id + ".png"))
                     {
-                        return ToBitmapImage(bm);
+                        return (bm.ToBitmapImage());
                     }
                 }
                 else
@@ -410,9 +397,9 @@ namespace RGBSyncPlus.UI.Tabs
                 ReleaseNumber newestExperimentalFound = new ReleaseNumber(0, 0, 0, 0);
                 ReleaseNumber installed = new ReleaseNumber(0, 0, 0, 0);
 
-                if (ApplicationManager.Instance.SLSManager.Drivers.Any(x => x.GetProperties().Id == pluginDetailsViewModel.PluginId))
+                if (ServiceManager.Instance.SLSManager.Drivers.Any(x => x.GetProperties().Id == pluginDetailsViewModel.PluginId))
                 {
-                    installedVersion = ApplicationManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == pluginDetailsViewModel.PluginId);
+                    installedVersion = ServiceManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == pluginDetailsViewModel.PluginId);
                     installed = installedVersion.GetProperties().CurrentVersion;
                     pluginDetailsViewModel.Installed = true;
                 }

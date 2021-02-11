@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace RGBSyncPlus.Helper
+namespace RGBSyncStudio.Helper
 {
     public static class MathHelper
     {

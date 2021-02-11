@@ -1,16 +1,12 @@
-﻿using System;
+﻿using SimpleLed;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using RGBSyncPlus.UI.Tabs;
-using SimpleLed;
 
-namespace RGBSyncPlus.Converter
+namespace RGBSyncStudio.Converter
 {
     public class BoolToSolidColorBrush : IValueConverter
     {
@@ -18,7 +14,7 @@ namespace RGBSyncPlus.Converter
         {
             string options = parameter.ToString();
 
-            var optionsList = options.Split('|').ToList();
+            List<string> optionsList = options.Split('|').ToList();
 
             string selectedOption;
             if ((value as bool?) == true)
@@ -45,7 +41,7 @@ namespace RGBSyncPlus.Converter
         {
             string options = parameter.ToString();
 
-            var optionsList = options.Split('|').ToList();
+            List<string> optionsList = options.Split('|').ToList();
 
             string selectedOption;
             if ((value as string).ToLower() == optionsList[0].ToLower())
@@ -164,9 +160,9 @@ namespace RGBSyncPlus.Converter
 
             return new SolidColorBrush(new Color
             {
-                R = (byte) ledColor.Red,
-                G = (byte) ledColor.Green,
-                B = (byte) ledColor.Blue,
+                R = (byte)ledColor.Red,
+                G = (byte)ledColor.Green,
+                B = (byte)ledColor.Blue,
                 A = 255
             });
         }
@@ -205,7 +201,7 @@ namespace RGBSyncPlus.Converter
                 return null;
             }
 
-            string ledColors = (string) value;
+            string ledColors = (string)value;
             Color ledColor = (Color)ColorConverter.ConvertFromString(ledColors);
             return new ColorModel(ledColor.R, ledColor.G, ledColor.B);
         }

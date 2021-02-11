@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Web.Http;
 
-namespace RGBSyncPlus.API
+namespace RGBSyncStudio.API
 {
     public class DevicesController : ApiController
     {
@@ -17,12 +17,13 @@ namespace RGBSyncPlus.API
             public Bitmap ProductImage { get; set; }
             public int GridWidth { get; set; }
             public int GridHeight { get; set; }
-            public bool Has2DSupport { get; set; } }
+            public bool Has2DSupport { get; set; }
+        }
 
         public List<ApiDeviceModel> GetDevices()
         {
             List<ApiDeviceModel> result = new List<ApiDeviceModel>();
-            foreach (ControlDevice instanceSlsDevice in ApplicationManager.Instance.SLSDevices)
+            foreach (ControlDevice instanceSlsDevice in ServiceManager.Instance.LedService.SLSDevices)
             {
                 result.Add(new ApiDeviceModel
                 {

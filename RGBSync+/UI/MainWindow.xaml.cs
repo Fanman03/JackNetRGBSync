@@ -1,14 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using RGBSyncPlus.UI.Tabs;
+﻿using RGBSyncStudio.UI.Tabs;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Threading;
 
-namespace RGBSyncPlus.UI
+namespace RGBSyncStudio.UI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -19,7 +15,7 @@ namespace RGBSyncPlus.UI
 
         public MainWindow()
         {
-            ApplicationManager.Instance.ConfigurationWindow = this;
+            ServiceManager.Instance.ApplicationManager.ConfigurationWindow = this;
             InitializeComponent();
 
             this.Title = "RGB Sync Studio " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
@@ -27,10 +23,10 @@ namespace RGBSyncPlus.UI
             this.SourceInitialized += new EventHandler(OnSourceInitialized); //this makes minimize to tray work
 
 
-            ApplicationManager.Instance.RssBackgroundDevice.ColourChange += (sender, args) =>
-            {
+            //ServiceManager.Instance.LedService.RssBackgroundDevice.ColourChange += (sender, args) =>
+            //{
 
-            };
+            //};
 
 
         }
@@ -48,7 +44,7 @@ namespace RGBSyncPlus.UI
             // 0xF020 == SC_MINIMIZE, command to minimize the window.
             if (msg == 0x0112 && ((int)wParam & 0xFFF0) == 0xF020)
             {
-                if (ApplicationManager.Instance.NGSettings.MinimizeToTray == true)
+                if (ServiceManager.Instance.ConfigService.NGSettings.MinimizeToTray == true)
                 {
                     // Cancel the minimize.
                     handled = true;

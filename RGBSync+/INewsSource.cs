@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
-namespace RGBSyncPlus
+namespace RGBSyncStudio
 {
     public interface INewsSource
     {
@@ -41,10 +39,10 @@ namespace RGBSyncPlus
                     Body = x.content,
                     Date = DateTimeOffset.FromUnixTimeSeconds(x.date).DateTime,
                     Ident = x.guid,
-                    Images = !string.IsNullOrWhiteSpace(x.image_url) ? new List<string> {x.image_url} : null,
+                    Images = !string.IsNullOrWhiteSpace(x.image_url) ? new List<string> { x.image_url } : null,
                     Title = x.title,
                     Url = x.url,
-                    Videos = !string.IsNullOrWhiteSpace(x.video_url) ? new List<string> {x.video_url} : null,
+                    Videos = !string.IsNullOrWhiteSpace(x.video_url) ? new List<string> { x.video_url } : null,
                 }).ToList();
             }
             catch
@@ -81,7 +79,7 @@ namespace RGBSyncPlus
 
         public static List<NewsStory> GetStories()
         {
-            List<NewsStory> stories=new List<NewsStory>();
+            List<NewsStory> stories = new List<NewsStory>();
             foreach (INewsSource newsSource in NewsSources)
             {
                 stories.AddRange(newsSource.GetLatestStories());

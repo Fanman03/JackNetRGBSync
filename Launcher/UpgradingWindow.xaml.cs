@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using SharedCode;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Newtonsoft.Json;
-using SharedCode;
 
 namespace Launcher
 {
@@ -40,7 +32,7 @@ namespace Launcher
             await StartCheck();
         }
 
-        public static string BaseFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)+"\\RGBSyncStudio";
+        public static string BaseFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\RGBSyncStudio";
 
         private async Task StartCheck()
         {
@@ -49,7 +41,7 @@ namespace Launcher
             {
                 Directory.CreateDirectory(BaseFolder);
 
-              //  Installer.AddShortcut();
+                //  Installer.AddShortcut();
             }
 
             Process[] processlist = Process.GetProcesses();
@@ -58,7 +50,7 @@ namespace Launcher
             {
                 try
                 {
-                    var proc = processlist.First(x => x.ProcessName == "RGBSync+");
+                    Process proc = processlist.First(x => x.ProcessName == "RGBSync+");
                     proc.Kill();
                     proc.Dispose();
                     proc = null;

@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace SourceChord.FluentWPF.Utility
 {
-    class IconHelper
+    internal class IconHelper
     {
         private static ImageSource appIcon;
         public static ImageSource AppIcon
@@ -19,7 +15,7 @@ namespace SourceChord.FluentWPF.Utility
             {
                 if (appIcon == null)
                 {
-                    var path = System.Reflection.Assembly.GetEntryAssembly().Location;
+                    string path = System.Reflection.Assembly.GetEntryAssembly().Location;
                     appIcon = GetIcon(path);
                 }
                 return appIcon;
@@ -29,11 +25,11 @@ namespace SourceChord.FluentWPF.Utility
 
         public static ImageSource GetIcon(string path)
         {
-            var flags = SHGFI_ICON | SHGFI_USEFILEATTRIBUTES | SHGFI_SMALLICON;
+            uint flags = SHGFI_ICON | SHGFI_USEFILEATTRIBUTES | SHGFI_SMALLICON;
 
-            var ret = SHGetFileInfo(path,
+            int ret = SHGetFileInfo(path,
                                     FILE_ATTRIBUTE_NORMAL,
-                                    out var shfi,
+                                    out SHFILEINFO shfi,
                                     (uint)Marshal.SizeOf(typeof(SHFILEINFO)),
                                     flags);
 

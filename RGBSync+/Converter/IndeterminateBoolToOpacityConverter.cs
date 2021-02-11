@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace RGBSyncPlus.Converter
+namespace RGBSyncStudio.Converter
 {
     public class IndeterminateBoolToOpacityConverter : IValueConverter
     {

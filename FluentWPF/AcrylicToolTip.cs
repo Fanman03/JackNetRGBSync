@@ -1,19 +1,7 @@
 ﻿using SourceChord.FluentWPF.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SourceChord.FluentWPF
 {
@@ -56,7 +44,7 @@ namespace SourceChord.FluentWPF
         protected override void OnOpened(RoutedEventArgs e)
         {
             base.OnOpened(e);
-            var hwnd = (HwndSource)HwndSource.FromVisual(this);
+            HwndSource hwnd = (HwndSource)HwndSource.FromVisual(this);
             AcrylicHelper.EnableBlur(hwnd.Handle, AccentFlagsType.Popup);
         }
     }

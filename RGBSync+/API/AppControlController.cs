@@ -1,12 +1,12 @@
 ﻿using System.Web.Http;
 
-namespace RGBSyncPlus.API
+namespace RGBSyncStudio.API
 {
     public class AppControlController : ApiController
     {
         public void PauseSyncing(bool pause)
         {
-            ApplicationManager.Instance.PauseSyncing = pause;
+            ServiceManager.Instance.LedService.PauseSyncing = pause;
         }
     }
 }

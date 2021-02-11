@@ -1,6 +1,6 @@
-﻿namespace RGBSyncPlus.UI.Tabs
+﻿namespace RGBSyncStudio.UI.Tabs
 {
-    internal class ModalModel
+    public class ModalModel
     {
         public string ModalText { get; set; }
         public bool ShowModalTextBox { get; set; }

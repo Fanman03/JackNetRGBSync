@@ -4,10 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Markup;
 
 namespace SourceChord.FluentWPF
 {
@@ -42,7 +39,7 @@ namespace SourceChord.FluentWPF
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var eventHandler = this.PropertyChanged;
+            PropertyChangedEventHandler eventHandler = this.PropertyChanged;
             if (eventHandler != null)
             {
                 eventHandler(this, new PropertyChangedEventArgs(propertyName));
@@ -53,7 +50,7 @@ namespace SourceChord.FluentWPF
 
     public class ThemeCollection : ObservableCollection<ThemeDictionary>
     {
-        private IList<ThemeDictionary> _previousList;
+        private readonly IList<ThemeDictionary> _previousList;
 
         public ThemeCollection()
         {
@@ -66,7 +63,7 @@ namespace SourceChord.FluentWPF
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
             {
                 // Resetの場合は、全リスト要素のイベントを解除
-                foreach (var item in this._previousList)
+                foreach (ThemeDictionary item in this._previousList)
                 {
                     item.PropertyChanged -= Item_PropertyChanged;
                 }
@@ -94,7 +91,7 @@ namespace SourceChord.FluentWPF
 
         private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var args = new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Reset);
+            System.Collections.Specialized.NotifyCollectionChangedEventArgs args = new System.Collections.Specialized.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedAction.Reset);
             OnCollectionChanged(args);
         }
     }
@@ -135,7 +132,7 @@ namespace SourceChord.FluentWPF
 
         private void ChangeTheme()
         {
-            var theme = this.RequestedTheme ?? ResourceDictionaryEx.GlobalTheme;
+            ElementTheme? theme = this.RequestedTheme ?? ResourceDictionaryEx.GlobalTheme;
             switch (theme)
             {
                 case ElementTheme.Light:
@@ -154,7 +151,7 @@ namespace SourceChord.FluentWPF
         private void ChangeTheme(string themeName)
         {
             this.MergedDictionaries.Clear();
-            var theme = this.ThemeDictionaries.OfType<ThemeDictionary>()
+            ThemeDictionary theme = this.ThemeDictionaries.OfType<ThemeDictionary>()
                                               .FirstOrDefault(o => o.ThemeName == themeName);
             if (theme != null)
             {

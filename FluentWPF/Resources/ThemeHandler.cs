@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -21,7 +15,7 @@ namespace SourceChord.FluentWPF
         public ThemeHandler()
         {
             // 初期化メソッドを呼ぶ
-            var win = Application.Current.MainWindow;
+            Window win = Application.Current.MainWindow;
             if (win != null)
             {
                 this.Initialize(win);
@@ -55,7 +49,7 @@ namespace SourceChord.FluentWPF
 
         protected virtual void InitializeCore(Window win)
         {
-            var source = HwndSource.FromHwnd(new WindowInteropHelper(win).Handle);
+            HwndSource source = HwndSource.FromHwnd(new WindowInteropHelper(win).Handle);
             source.AddHook(this.WndProc);
         }
 

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace RGBSyncPlus.Converter
+namespace RGBSyncStudio.Converter
 {
     public class BackgroundGradientConverter : IValueConverter
     {
@@ -21,15 +17,15 @@ namespace RGBSyncPlus.Converter
 
             SolidColorBrush item = (SolidColorBrush)value;
 
-            var start = new GradientStop();
+            GradientStop start = new GradientStop();
             start.Offset = 0;
             start.Color = item.Color;
 
-            var stop = new GradientStop();
+            GradientStop stop = new GradientStop();
             stop.Offset = 1;
             stop.Color = Colors.Transparent;
 
-            var result = new RadialGradientBrush();
+            RadialGradientBrush result = new RadialGradientBrush();
             result.GradientOrigin = new Point(0.20, 0.5);
             result.Center = new Point(0.25, 0.5);
             result.RadiusX = 0.75;

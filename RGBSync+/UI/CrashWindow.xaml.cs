@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using RGBSyncStudio.Helper;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
-using Newtonsoft.Json;
-using RGBSyncPlus.Helper;
 
-namespace RGBSyncPlus.UI
+namespace RGBSyncStudio.UI
 {
     /// <summary>
     /// Interaction logic for CrashWindow.xaml
@@ -26,19 +26,19 @@ namespace RGBSyncPlus.UI
 
         public async Task<string> Send_Report(object sender, RoutedEventArgs e)
         {
-            string text = JsonConvert.SerializeObject(ApplicationManager.Logger.Log);
+            string text = JsonConvert.SerializeObject(ServiceManager.Instance.Logger.Log);
 
             HttpClient client = new HttpClient();
-            var values = new Dictionary<string, string>
+            Dictionary<string, string> values = new Dictionary<string, string>
             {
                 { "data", text }
             };
 
-            var content = new FormUrlEncodedContent(values);
+            FormUrlEncodedContent content = new FormUrlEncodedContent(values);
 
-            var response = await client.PostAsync("https://api.rgbsync.com/crashlogs/newReport/", content);
+            HttpResponseMessage response = await client.PostAsync("https://api.rgbsync.com/crashlogs/newReport/", content);
 
-            var responseString = await response.Content.ReadAsStringAsync();
+            string responseString = await response.Content.ReadAsStringAsync();
             this.Close();
             return responseString;
         }
@@ -47,54 +47,54 @@ namespace RGBSyncPlus.UI
         {
             CrashContainer crashContainer = new CrashContainer();
 
-            if (ApplicationManager.Instance?.SimpleLedAuthenticated == true)
+            if (ServiceManager.Instance.SLSAuthService?.SimpleLedAuthenticated == true)
             {
-                crashContainer.SimpleLedUserId = ApplicationManager.Instance.NGSettings.SimpleLedUserId;
-                crashContainer.SimpleLedUserName = ApplicationManager.Instance.NGSettings.SimpleLedUserName;
+                crashContainer.SimpleLedUserId = ServiceManager.Instance.ConfigService.NGSettings.SimpleLedUserId;
+                crashContainer.SimpleLedUserName = ServiceManager.Instance.ConfigService.NGSettings.SimpleLedUserName;
             }
 
             StackTrace st = new StackTrace(exception, true);
             StackFrame frame = st.GetFrame(st.FrameCount - 1);
 
             crashContainer.ErrorName = exception.GetType().ToString();
-            crashContainer.ErrorLocation = frame.GetFileName()+" / "+frame.GetMethod().Name+" / "+frame.GetFileLineNumber();
-            crashContainer.Logs = ApplicationManager.Logger.Log;
+            crashContainer.ErrorLocation = frame.GetFileName() + " / " + frame.GetMethod().Name + " / " + frame.GetFileLineNumber();
+            crashContainer.Logs = ServiceManager.Instance.Logger.Log;
 
             string text = JsonConvert.SerializeObject(crashContainer);
 
-        HttpClient client = new HttpClient();
-        var values = new Dictionary<string, string>
+            HttpClient client = new HttpClient();
+            Dictionary<string, string> values = new Dictionary<string, string>
             {
                 { "data", text }
             };
 
-        var content = new FormUrlEncodedContent(values);
+            FormUrlEncodedContent content = new FormUrlEncodedContent(values);
 
-        var response = client.PostAsync("https://api.rgbsync.com/crashlogs/newReport/", content).Result;
+            HttpResponseMessage response = client.PostAsync("https://api.rgbsync.com/crashlogs/newReport/", content).Result;
 
-        var responseString = response.Content.ReadAsStringAsync().Result;
-            
+            string responseString = response.Content.ReadAsStringAsync().Result;
+
             return responseString;
         }
 
-    public string ErrorReportUrl;
-    private void ClickQRCode(object sender, RoutedEventArgs e)
-    {
-        ErrorReportUrl.NavigateToUrlInDefaultBrowser();
-    }
+        public string ErrorReportUrl;
+        private void ClickQRCode(object sender, RoutedEventArgs e)
+        {
+            ErrorReportUrl.NavigateToUrlInDefaultBrowser();
+        }
 
-    private void ViewReport(object sender, RoutedEventArgs e)
-    {
-        ErrorReportUrl.NavigateToUrlInDefaultBrowser();
-    }
+        private void ViewReport(object sender, RoutedEventArgs e)
+        {
+            ErrorReportUrl.NavigateToUrlInDefaultBrowser();
+        }
 
-    public class CrashContainer
-    {
-        public string SimpleLedUserName { get; set; }
-        public Guid SimpleLedUserId { get; set; }
-        public string ErrorName { get; set; }
-        public string ErrorLocation { get; set; }
-        public List<SimpleLogger.LogEntry> Logs { get; set; } = new List<SimpleLogger.LogEntry>();
+        public class CrashContainer
+        {
+            public string SimpleLedUserName { get; set; }
+            public Guid SimpleLedUserId { get; set; }
+            public string ErrorName { get; set; }
+            public string ErrorLocation { get; set; }
+            public List<SimpleLogger.LogEntry> Logs { get; set; } = new List<SimpleLogger.LogEntry>();
+        }
     }
-}
 }

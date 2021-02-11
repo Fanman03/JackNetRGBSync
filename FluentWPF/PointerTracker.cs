@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
@@ -96,9 +93,9 @@ namespace SourceChord.FluentWPF
 
         private static void OnEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var ctrl = d as UIElement;
-            var newValue = (bool)e.NewValue;
-            var oldValue = (bool)e.OldValue;
+            UIElement ctrl = d as UIElement;
+            bool newValue = (bool)e.NewValue;
+            bool oldValue = (bool)e.OldValue;
             if (ctrl == null) return;
 
             // 無効になった場合の処理
@@ -125,7 +122,7 @@ namespace SourceChord.FluentWPF
 
         private static void Ctrl_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            var ctrl = sender as UIElement;
+            UIElement ctrl = sender as UIElement;
             if (ctrl != null)
             {
                 SetIsEnter(ctrl, true);
@@ -134,10 +131,10 @@ namespace SourceChord.FluentWPF
 
         private static void Ctrl_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            var ctrl = sender as UIElement;
+            UIElement ctrl = sender as UIElement;
             if (ctrl != null && GetIsEnter(ctrl))
             {
-                var pos = e.GetPosition(ctrl);
+                Point pos = e.GetPosition(ctrl);
 
                 SetX(ctrl, pos.X);
                 SetY(ctrl, pos.Y);
@@ -147,7 +144,7 @@ namespace SourceChord.FluentWPF
 
         private static void Ctrl_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            var ctrl = sender as UIElement;
+            UIElement ctrl = sender as UIElement;
             if (ctrl != null)
             {
                 SetIsEnter(ctrl, false);
@@ -161,10 +158,10 @@ namespace SourceChord.FluentWPF
         {
             if (values.Any(o => o == DependencyProperty.UnsetValue || o == null)) return new Point(0, 0);
 
-            var parent = values[0] as UIElement;
-            var ctrl = values[1] as UIElement;
-            var pointerPos = (Point)values[2];
-            var relativePos = parent.TranslatePoint(pointerPos, ctrl);
+            UIElement parent = values[0] as UIElement;
+            UIElement ctrl = values[1] as UIElement;
+            Point pointerPos = (Point)values[2];
+            Point relativePos = parent.TranslatePoint(pointerPos, ctrl);
 
             return relativePos;
         }
@@ -179,8 +176,8 @@ namespace SourceChord.FluentWPF
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var isEnter = (bool)value;
-            var opacity = (double)parameter;
+            bool isEnter = (bool)value;
+            double opacity = (double)parameter;
             return isEnter ? opacity : 0;
         }
 
@@ -204,18 +201,18 @@ namespace SourceChord.FluentWPF
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            var pvt = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-            var target = pvt.TargetObject as DependencyObject;
+            IProvideValueTarget pvt = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
+            DependencyObject target = pvt.TargetObject as DependencyObject;
 
             // 円形のグラデーション表示をするブラシを作成
-            var bgColor = Color.FromArgb(0, this.Color.R, this.Color.G, this.Color.B);
-            var brush = new RadialGradientBrush(this.Color, bgColor);
+            Color bgColor = Color.FromArgb(0, this.Color.R, this.Color.G, this.Color.B);
+            RadialGradientBrush brush = new RadialGradientBrush(this.Color, bgColor);
             brush.MappingMode = BrushMappingMode.Absolute;
             brush.RadiusX = this.Size;
             brush.RadiusY = this.Size;
 
             // カーソルが領域外にある場合は、透明にする。
-            var opacityBinding = new Binding("Opacity")
+            Binding opacityBinding = new Binding("Opacity")
             {
                 Source = target,
                 Path = new PropertyPath(PointerTracker.IsEnterProperty),
@@ -225,7 +222,7 @@ namespace SourceChord.FluentWPF
             BindingOperations.SetBinding(brush, RadialGradientBrush.OpacityProperty, opacityBinding);
 
             // グラデーションの中心位置をバインディング
-            var binding = new MultiBinding();
+            MultiBinding binding = new MultiBinding();
             binding.Converter = new RelativePositionConverter();
             binding.Bindings.Add(new Binding() { Source = target, Path = new PropertyPath(PointerTracker.RootObjectProperty) });
             binding.Bindings.Add(new Binding() { Source = target });

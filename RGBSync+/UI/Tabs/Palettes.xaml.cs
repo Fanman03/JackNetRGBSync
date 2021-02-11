@@ -1,31 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RGBSyncStudio.Helper;
+using SimpleLed;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using RGBSyncPlus.Helper;
-using SimpleLed;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     /// <summary>
     /// Interaction logic for Palettes.xaml
     /// </summary>
     public partial class Palettes : UserControl
     {
-        PalettesViewModel vm => (PalettesViewModel)DataContext;
+        private PalettesViewModel vm => (PalettesViewModel)DataContext;
         public Palettes()
         {
             InitializeComponent();
@@ -47,7 +36,7 @@ namespace RGBSyncPlus.UI.Tabs
             }
             else
             {
-                ApplicationManager.Instance.ShowSimpleModal("Color banks are limited to 20 colors");
+                ServiceManager.Instance.ModalService.ShowSimpleModal("Color banks are limited to 20 colors");
             }
         }
 
@@ -64,7 +53,7 @@ namespace RGBSyncPlus.UI.Tabs
             Button button = sender as Button;
             ColorObject colorObject = button.DataContext as ColorObject;
 
-            var parent = button.FindParent<ListView>();
+            ListView parent = button.FindParent<ListView>();
 
             ColorBank parentContext =
                 parent.DataContext as ColorBank;
@@ -76,7 +65,7 @@ namespace RGBSyncPlus.UI.Tabs
             }
             else
             {
-                ApplicationManager.Instance.ShowSimpleModal("Color banks require at least 2 colors");
+                ServiceManager.Instance.ModalService.ShowSimpleModal("Color banks require at least 2 colors");
             }
         }
 
@@ -137,14 +126,14 @@ namespace RGBSyncPlus.UI.Tabs
             if (vm.ColorProfiles.Count > 1)
             {
                 vm.ColorProfiles.Remove(vm.CurrentProfile);
-                File.Delete("ColorProfiles\\"+vm.CurrentProfile.Id+".json");
+                File.Delete("ColorProfiles\\" + vm.CurrentProfile.Id + ".json");
                 vm.CurrentProfile = vm.ColorProfiles.First();
             }
         }
 
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var thingy = sender as ComboBox;
+            ComboBox thingy = sender as ComboBox;
             ColorProfile cp = thingy.SelectedItem as ColorProfile;
             vm.CurrentProfile = cp;
         }

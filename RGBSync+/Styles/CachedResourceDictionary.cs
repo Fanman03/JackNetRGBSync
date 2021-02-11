@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 
-namespace RGBSyncPlus.Styles
+namespace RGBSyncStudio.Styles
 {
     public class CachedResourceDictionary : ResourceDictionary
     {

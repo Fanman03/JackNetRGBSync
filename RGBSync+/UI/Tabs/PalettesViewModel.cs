@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using SimpleLed;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
-using System.Windows.Media;
 using System.Windows.Threading;
-using Newtonsoft.Json;
-using SimpleLed;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     public class PalettesViewModel : LanguageAwareBaseViewModel
     {
@@ -57,9 +51,9 @@ namespace RGBSyncPlus.UI.Tabs
             string json = JsonConvert.SerializeObject(CurrentProfile);
             File.WriteAllText(path, json);
 
-            ApplicationManager.Instance.SLSManager.ColorProfile = CurrentProfile;
-            ApplicationManager.Instance.CurrentProfile.ColorProfileId = CurrentProfile.Id;
-            ApplicationManager.Instance.CurrentProfile.IsProfileStale = true;
+            ServiceManager.Instance.SLSManager.ColorProfile = CurrentProfile;
+            ServiceManager.Instance.ProfileService.CurrentProfile.ColorProfileId = CurrentProfile.Id;
+            ServiceManager.Instance.ProfileService.CurrentProfile.IsProfileStale = true;
 
             Dispatcher.CurrentDispatcher.Invoke(() => Unsaved = false);
         }
@@ -135,11 +129,11 @@ namespace RGBSyncPlus.UI.Tabs
             };
 
 
-            ColorProfiles = new ObservableCollection<ColorProfile>(ApplicationManager.Instance.GetColorProfiles());
+            ColorProfiles = new ObservableCollection<ColorProfile>(ServiceManager.Instance.ColorProfileService.GetColorProfiles());
 
-            if (ApplicationManager.Instance.CurrentProfile.ColorProfileId != null)
+            if (ServiceManager.Instance.ProfileService.CurrentProfile.ColorProfileId != null)
             {
-                CurrentProfile = ColorProfiles.FirstOrDefault(x=>x.Id == ApplicationManager.Instance.CurrentProfile.ColorProfileId);
+                CurrentProfile = ColorProfiles.FirstOrDefault(x => x.Id == ServiceManager.Instance.ProfileService.CurrentProfile.ColorProfileId);
             }
         }
 
@@ -154,7 +148,7 @@ namespace RGBSyncPlus.UI.Tabs
                 SetUpWatchers();
                 try
                 {
-                    ApplicationManager.Instance.SLSManager.ColorProfile = value;
+                    ServiceManager.Instance.SLSManager.ColorProfile = value;
                 }
                 catch
                 {

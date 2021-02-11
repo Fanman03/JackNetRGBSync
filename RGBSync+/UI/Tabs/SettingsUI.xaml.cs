@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Win32;
 
-namespace RGBSyncPlus.UI.Tabs
+namespace RGBSyncStudio.UI.Tabs
 {
     /// <summary>
     /// Interaction logic for Settings.xaml
@@ -33,23 +32,23 @@ namespace RGBSyncPlus.UI.Tabs
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ApplicationManager.Instance.SimpleLedLogIn(() =>
+            ServiceManager.Instance.SLSAuthService.SimpleLedLogIn(() =>
             {
                 this.Dispatcher.Invoke(() =>
                 {
                     (this.DataContext as SettingsUIViewModel).SimpleLedUserName =
-                        ApplicationManager.Instance.SimpleLedAuth.UserName;
+                        ServiceManager.Instance.SLSAuthService.SimpleLedAuth.UserName;
                 });
             });
         }
 
         private void LogOut(object sender, RoutedEventArgs e)
         {
-            ApplicationManager.Instance.SimpleLedAuth.UserName = "";
-            ApplicationManager.Instance.SimpleLedAuth.AccessToken = "";
-            ApplicationManager.Instance.SimpleLedAuth.UserId = Guid.Empty;
-            ApplicationManager.Instance.SimpleLedAuth.Authenticated = false;
-            ApplicationManager.Instance.SimpleLedAuthenticated = false;
+            ServiceManager.Instance.SLSAuthService.SimpleLedAuth.UserName = "";
+            ServiceManager.Instance.SLSAuthService.SimpleLedAuth.AccessToken = "";
+            ServiceManager.Instance.SLSAuthService.SimpleLedAuth.UserId = Guid.Empty;
+            ServiceManager.Instance.SLSAuthService.SimpleLedAuth.Authenticated = false;
+            ServiceManager.Instance.SLSAuthService.SimpleLedAuthenticated = false;
             (this.DataContext as SettingsUIViewModel).SimpleLedUserName = "";
         }
     }

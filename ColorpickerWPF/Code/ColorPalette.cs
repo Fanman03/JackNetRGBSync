@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Xml.Serialization;
 
@@ -122,6 +120,6 @@ namespace ColorPickerWPF.Code
         protected List<ColorSwatchItem> GetColorSwatchItems(List<Color> colors)
         {
             return colors.Select(x => new ColorSwatchItem() { Color = x, HexString = x.ToHexString() }).ToList();
-        } 
+        }
     }
 }

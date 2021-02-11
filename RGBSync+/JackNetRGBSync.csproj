@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C6BF4357-07D9-496B-9630-A26568D30723}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>RGBSyncPlus</RootNamespace>
+    <RootNamespace>RGBSyncStudio</RootNamespace>
     <AssemblyName>RGBSync+</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -49,7 +49,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>RGBSyncPlus.App</StartupObject>
+    <StartupObject>RGBSyncStudio.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>ProgramIcon.ico</ApplicationIcon>
@@ -108,15 +108,6 @@
     <Compile Include="ApplicationManager.cs" />
     <Compile Include="Attached\SliderValue.cs" />
     <Compile Include="Attached\SliderValueAdorner.cs" />
-    <Compile Include="Brushes\SyncBrush.cs" />
-    <Compile Include="Configuration\AbstractConfiguration.cs" />
-    <Compile Include="Configuration\BannerSchema.cs" />
-    <Compile Include="Configuration\ColorSerializer.cs" />
-    <Compile Include="Configuration\IConfiguration.cs" />
-    <Compile Include="Configuration\Legacy\ConfigurationUpdates.cs" />
-    <Compile Include="Configuration\AppSettings.cs" />
-    <Compile Include="Configuration\Settings.cs" />
-    <Compile Include="Configuration\ProgVersion.cs" />
     <Compile Include="Converter\BackgroundGradientConverter.cs" />
     <Compile Include="Converter\BoolToSolidColorBrush.cs" />
     <Compile Include="Converter\DeviceTypeToImageConverter.cs" />
@@ -128,24 +119,31 @@
     <Compile Include="Converter\ScrollOffsetToOpacityMaskConverter.cs" />
     <Compile Include="Converter\ScrollOffsetToVisibilityConverter.cs" />
     <Compile Include="Converter\StringMatchToVisibilityConverter.cs" />
+    <Compile Include="DriverService.cs" />
     <Compile Include="Helper\ActionCommand.cs" />
     <Compile Include="Helper\BrowserHelper.cs" />
     <Compile Include="Helper\ExceptionExtension.cs" />
+    <Compile Include="Helper\ImageHelpers.cs" />
     <Compile Include="Helper\MathHelper.cs" />
     <Compile Include="Helper\ReflectionHelpers.cs" />
     <Compile Include="Helper\UIHelpers.cs" />
     <Compile Include="INewsSource.cs" />
     <Compile Include="Languages\LanguageModel.cs" />
-    <Compile Include="Model\AbstractBindableExtended.cs" />
-    <Compile Include="Model\DeviceGroup.cs" />
     <Compile Include="Model\DeviceMappingModels.cs" />
     <Compile Include="Model\PositionalAssignment.cs" />
-    <Compile Include="Model\SyncGroup.cs" />
-    <Compile Include="Model\SyncLed.cs" />
-    <Compile Include="ProfileTriggerManager.cs" />
+    <Compile Include="Services\ProfileTriggerManager.cs" />
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\EqualsToBoolConverter.cs" />
     <Compile Include="RSSBackgroundDevice.cs" />
+    <Compile Include="ServiceManager.cs" />
+    <Compile Include="Services\ApiServerService.cs" />
+    <Compile Include="Services\ColorProfileService.cs" />
+    <Compile Include="Services\ConfigService.cs" />
+    <Compile Include="Services\DiscordService.cs" />
+    <Compile Include="Services\LedService.cs" />
+    <Compile Include="Services\ModalService.cs" />
+    <Compile Include="Services\ProfileService.cs" />
+    <Compile Include="Services\SLSAuthService.cs" />
     <Compile Include="SimpleLogger.cs" />
     <Compile Include="Styles\CachedResourceDictionary.cs" />
     <Compile Include="App.xaml.cs">
@@ -527,9 +525,7 @@
       <Name>FluentWPF</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="..\SharedCode\SharedCode.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

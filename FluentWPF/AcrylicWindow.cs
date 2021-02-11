@@ -1,21 +1,11 @@
 ﻿using SourceChord.FluentWPF.Utility;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Shell;
 
 namespace SourceChord.FluentWPF
@@ -83,12 +73,12 @@ namespace SourceChord.FluentWPF
             base.OnApplyTemplate();
             EnableBlur(this);
 
-            var caption = this.GetTemplateChild("captionGrid") as FrameworkElement;
+            FrameworkElement caption = this.GetTemplateChild("captionGrid") as FrameworkElement;
             if (caption != null)
             {
                 caption.SizeChanged += (s, e) =>
                 {
-                    var chrome = WindowChrome.GetWindowChrome(this);
+                    WindowChrome chrome = WindowChrome.GetWindowChrome(this);
                     chrome.CaptionHeight = e.NewSize.Height;
                 };
             }
@@ -96,7 +86,7 @@ namespace SourceChord.FluentWPF
 
         internal static void EnableBlur(Window win)
         {
-            var windowHelper = new WindowInteropHelper(win);
+            WindowInteropHelper windowHelper = new WindowInteropHelper(win);
 
             // ウィンドウに半透明のアクリル効果を適用する
             AcrylicHelper.EnableBlur(windowHelper.Handle);
@@ -296,18 +286,18 @@ namespace SourceChord.FluentWPF
 
         private static void OnEnableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var win = d as Window;
+            Window win = d as Window;
             if (win == null) { return; }
 
-            var value = (bool)e.NewValue;
+            bool value = (bool)e.NewValue;
             if (value)
             {
-                var dic = new ResourceDictionary() { Source = new Uri("pack://application:,,,/FluentWPF;component/Styles/Window.xaml") };
-                var style = dic["AcrylicWindowStyle"] as Style;
+                ResourceDictionary dic = new ResourceDictionary() { Source = new Uri("pack://application:,,,/FluentWPF;component/Styles/Window.xaml") };
+                Style style = dic["AcrylicWindowStyle"] as Style;
                 win.Style = style;
 
                 win.Loaded += (_, __) => { EnableBlur(win); };
-                if(win.IsLoaded) EnableBlur(win);
+                if (win.IsLoaded) EnableBlur(win);
             }
         }
         #endregion
@@ -463,7 +453,7 @@ namespace SourceChord.FluentWPF
         {
             try
             {
-                var col = (Color)value;
+                Color col = (Color)value;
                 return new SolidColorBrush(col);
             }
             catch
