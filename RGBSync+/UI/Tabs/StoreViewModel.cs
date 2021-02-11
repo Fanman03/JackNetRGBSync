@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using RGBSyncStudio.Helper;
 
 namespace RGBSyncStudio.UI.Tabs
 {
@@ -44,22 +45,8 @@ namespace RGBSyncStudio.UI.Tabs
 
         }
 
-        private MainWindowViewModel mainVm
-        {
-            get
-            {
-                MainWindow cfgWindow = ServiceManager.Instance.ApplicationManager.ConfigurationWindow;
-                if (cfgWindow != null)
-                {
-                    object cfgVm = cfgWindow.DataContext;
-                    return cfgVm as MainWindowViewModel;
-                }
-
-                return null;
-
-            }
-        }
-
+        private MainWindowViewModel mainVm => (ServiceManager.Instance.ApplicationManager.ConfigurationWindow?.DataContext) as MainWindowViewModel;
+            
         private bool showPreRelease = false;
 
         public bool ShowPreRelease
@@ -360,7 +347,7 @@ namespace RGBSyncStudio.UI.Tabs
                 {
                     using (Bitmap bm = new Bitmap("icons\\" + id + ".png"))
                     {
-                        return ToBitmapImage(bm);
+                        return (bm.ToBitmapImage());
                     }
                 }
                 else

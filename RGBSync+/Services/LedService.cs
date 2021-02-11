@@ -623,5 +623,7 @@ namespace RGBSyncStudio.Services
             SLSTimer.Start();
 
         }
+
+        public IEnumerable<DeviceMappingModels.Device> GetDevices() => SLSDevices.Select(ToDevice);
     }
 }
