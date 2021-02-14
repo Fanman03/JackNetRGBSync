@@ -12,6 +12,14 @@ namespace RGBSyncStudio.UI.Tabs
 
     public class DevicesViewModel : LanguageAwareBaseViewModel
     {
+        private bool showConfig = false;
+
+        public bool ShowConfig
+        {
+            get => showConfig;
+            set => SetProperty(ref showConfig, value);
+        }
+
         public DevicesViewModel()
         {
             ServiceManager.Instance.LedService.SLSDevices.CollectionChanged += (sender, args) =>
@@ -87,7 +95,7 @@ namespace RGBSyncStudio.UI.Tabs
 
                 }
 
-                if (!(SLSDevices.First(x => x.Selected).ControlDevice.Driver is ISimpleLedWithConfig))
+                if (!(SLSDevices.FirstOrDefault(x => x.Selected)?.ControlDevice.Driver is ISimpleLedWithConfig))
                 {
                     ShowConfigTab = false;
                 }
@@ -545,6 +553,13 @@ namespace RGBSyncStudio.UI.Tabs
             set => SetProperty(ref alignDevice, value);
         }
 
+        private DeviceMappingModels.Device singleSelectedSourceControlDevice;
+
+        public DeviceMappingModels.Device SingleSelectedSourceControlDevice
+        {
+            get => singleSelectedSourceControlDevice;
+            set => SetProperty(ref singleSelectedSourceControlDevice, value);
+        }
 
         private bool singleDeviceSelected;
 

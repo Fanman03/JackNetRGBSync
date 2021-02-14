@@ -24,10 +24,10 @@ namespace RGBSyncStudio.UI
                     vm.ModalShowPercentage = showPercentage;
                     vm.ModalPercentage = 100;
                     vm.ModalText = text;
-                    if (ServiceManager.Instance.ApplicationManager?.ConfigurationWindow?.ContainingGrid != null)
+                    if (ServiceManager.Instance.ApplicationManager?.MainWindow?.ContainingGrid != null)
                     {
                         Task.Delay(200).Wait();
-                        ServiceManager.Instance.ApplicationManager.ConfigurationWindow.ContainingGrid.Refresh();
+                        ServiceManager.Instance.ApplicationManager.MainWindow.ContainingGrid.Refresh();
                         Task.Delay(200).Wait();
                     }
 

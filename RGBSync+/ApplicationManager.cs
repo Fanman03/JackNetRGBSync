@@ -14,12 +14,13 @@ namespace RGBSyncStudio
     public class ApplicationManager
     {
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
+        public MainWindowViewModel MainViewModel => MainWindow.DataContext as MainWindowViewModel;
 
         public const string SLSPROVIDER_DIRECTORY = "SLSProvider";
         private const string NGPROFILES_DIRECTORY = "NGProfiles";
         private const string SLSCONFIGS_DIRECTORY = "SLSConfigs";
 
-        public MainWindow ConfigurationWindow;
+        public MainWindow MainWindow;
 
         public void FireLanguageChangedEvent()
         {
@@ -44,7 +45,7 @@ namespace RGBSyncStudio
             }
         }
 
-        public void NavigateToTab(string tab) => ConfigurationWindow?.SetTab(tab);
+        public void NavigateToTab(string tab) => MainWindow?.SetTab(tab);
 
         public SplashLoader LoadingSplash;
         public void Initialize()
@@ -107,37 +108,37 @@ namespace RGBSyncStudio
             }
             if (ServiceManager.Instance.ConfigService.NGSettings.MinimizeToTray)
             {
-                if (ConfigurationWindow.IsVisible)
-                    ConfigurationWindow.Hide();
+                if (MainWindow.IsVisible)
+                    MainWindow.Hide();
             }
             else
-                ConfigurationWindow.WindowState = WindowState.Minimized;
+                MainWindow.WindowState = WindowState.Minimized;
         }
 
         public void OpenConfiguration()
         {
-            if (ConfigurationWindow == null) ConfigurationWindow = new MainWindow();
-            if (!ConfigurationWindow.IsVisible)
+            if (MainWindow == null) MainWindow = new MainWindow();
+            if (!MainWindow.IsVisible)
             {
-                ConfigurationWindow.Show();
+                MainWindow.Show();
             }
 
-            if (ConfigurationWindow.WindowState == WindowState.Minimized)
+            if (MainWindow.WindowState == WindowState.Minimized)
             {
-                ConfigurationWindow.WindowState = WindowState.Normal;
+                MainWindow.WindowState = WindowState.Normal;
             }
         }
 
         public void RestartApp()
         {
-            ServiceManager.Instance.Logger.Debug("App is restarting.");
+            ServiceManager.Instance.Logger.Info("App is restarting.");
             System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
             ServiceManager.Shutdown();
         }
 
         public void Exit()
         {
-            ServiceManager.Instance.Logger.Debug("============ App is Shutting Down ============");
+            ServiceManager.Instance.Logger.Info("App is Shutting Down");
 
             ServiceManager.Shutdown();
         }

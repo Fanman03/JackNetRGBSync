@@ -56,6 +56,12 @@ namespace RGBSyncStudio.UI.Tabs
             vm.ShowSources = !vm.ShowSources;
         }
 
+        private void CloseConfigure(object sender, RoutedEventArgs e)
+        {
+            vm.ShowConfig = false;
+        }
+
+
         private async void SubInfo(object sender, RoutedEventArgs e)
         {
             vm.SubViewMode = "Info";
@@ -158,36 +164,44 @@ namespace RGBSyncStudio.UI.Tabs
                     {
                         cItem.Selected = true;
                     }
-
-
-                    //if (DeviceConfigList.Items.Count == 1)
-                    //{
-                    //    if (vm.SourceDevices == null && cItem.ControlDevice != null)
-                    //    {
-                    //        vm.SetupSourceDevices(cItem.ControlDevice);
-                    //    }
-
-                    //    if (vm.SourceDevices != null)
-                    //    {
-
-                    //var thingy = profile.DeviceProfileSettings.Where(x =>
-                    //        x.Name == cItem.Name && x.ProviderName == cItem.Name &&
-                    //        x.ConnectedTo == cItem.ConnectedTo)
-                    //    .ToList();
-
-
-                    //        foreach (DeviceMappingModels.SourceModel sd in vm.SourceDevices)
-                    //        {
-                    //            bool selected = (thingy.Any(x =>
-                    //                x.SourceName == sd.Name && x.SourceConnectedTo == sd.ConnectedTo &&
-                    //                x.SourceProviderName == sd.ProviderName));
-
-                    //            sd.Enabled = selected;
-                    //        }
-                    //    }
-                    //}
                 }
 
+                vm.DevicesSelectedCount = DeviceConfigList.SelectedItems.Count;
+
+                if (DeviceConfigList.SelectedItems.Count > 1)
+                {
+                    vm.MultipleDeviceSelected = true;
+                    vm.AnyDevicesSelected = true;
+                    vm.SingledDeviceSelected = false;
+                }
+
+                if (DeviceConfigList.SelectedItems.Count == 0)
+                {
+                    vm.MultipleDeviceSelected = false;
+                    vm.AnyDevicesSelected = false;
+                    vm.SingledDeviceSelected = false;
+                }
+                
+                if (DeviceConfigList.SelectedItems.Count == 1)
+                {
+                    vm.MultipleDeviceSelected = false;
+                    vm.AnyDevicesSelected = true;
+                    vm.SingledDeviceSelected = true;
+                    vm.DevicesSelectedCount = 1;
+
+                    foreach (object item in DeviceConfigList.SelectedItems)
+                    {
+                        if (item is DeviceMappingModels.Device cd)
+                        {
+                            ServiceManager.Instance.StoreService.ShowPlugInUI(cd.ControlDevice.Driver.GetProperties().Id, this.ConfigHere);
+                            vm.SingleSelectedSourceControlDevice = cd;
+                        }
+                    }
+                }
+                else
+                {
+                    vm.SingleSelectedSourceControlDevice = null;
+                }
 
                 ConfigPanel.DataContext = DeviceConfigList.SelectedItem;
                 ConfigPanelBar.DataContext = DeviceConfigList.SelectedItem;
@@ -207,21 +221,7 @@ namespace RGBSyncStudio.UI.Tabs
                     ((DevicesViewModel)this.DataContext).SetupSourceDevices(null);
                 }
 
-
-
-                DeviceMappingModels.Device dvc = ConfigHere.DataContext as DeviceMappingModels.Device;
-                if (dvc != null)
-                {
-                    ControlDevice cd = dvc.ControlDevice;
-
-                    vm.DevicesSelectedCount = vm.SLSDevices.Count(x => x.Selected);
-
-                    UpdateDeviceConfigUi(cd);
-
-                    ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings> temp = ServiceManager.Instance.ProfileService.CurrentProfile?.DeviceProfileSettings;
-                    List<DeviceMappingModels.NGDeviceProfileSettings> thingy = temp.Where(x => x.Name == cd.Name && x.ConnectedTo == cd.ConnectedTo && x.ProviderName == cd.Driver.Name()).ToList();
-
-                }
+                vm.DevicesSelectedCount = vm.SLSDevices.Count(x => x.Selected);
 
                 vm.RefreshDevicesUI();
             }
@@ -240,35 +240,15 @@ namespace RGBSyncStudio.UI.Tabs
             if (ConfigBarRow.Height.IsAbsolute && ConfigBarRow.Height.Value != null && ConfigBarRow.Height.Value == 0)
             {
                 ConfigBarRow.Height = new GridLength(56);
-                //ConfigPanelRow.Height = GridLength.Auto;
-
-                //var r0 = ContainerGrid.RowDefinitions[0].Height;
-
-                //var r2 = ContainerGrid.RowDefinitions[2].Height;
-
-                //var ra0 = ContainerGrid.RowDefinitions[0].ActualHeight;
-
-                //var ra2 = ContainerGrid.RowDefinitions[2].ActualHeight;
-
-                //ContainerGrid.RowDefinitions[0].Height = new GridLength(ra0 + 1);
-                //ContainerGrid.RowDefinitions[2].Height = new GridLength(ra2 + 1);
-
-                //ContainerGrid.RowDefinitions[0].Height = new GridLength(ra0);
-                //ContainerGrid.RowDefinitions[2].Height = new GridLength(ra2);
 
                 ConfigBarRow.Height = new GridLength(56);
-                // ContainerGrid.RowDefinitions[0].Height = new GridLength(ContainerGrid.ActualHeight/2);
-                //  ContainerGrid.RowDefinitions[2].Height = new GridLength(ContainerGrid.ActualHeight / 2);
 
                 ConfigPanelRow.Height = GridLength.Auto;
 
 
                 Thread.Sleep(100);
-                // ConfigPanelRow.Height = GridLength.Auto;
                 SetMaxHeight();
-                //ConfigPanelRow.Height = GridLength.Auto;
                 ContainerGrid_OnSizeChanged(this, null);
-
             }
         }
 
@@ -277,11 +257,6 @@ namespace RGBSyncStudio.UI.Tabs
             DevicesPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
             ConfigPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
 
-            //await Task.Delay(TimeSpan.FromMilliseconds(20));
-            //ConfigPanelRow.Height = new GridLength(ConfigPanelRow.Height.Value + 1);
-            //await Task.Delay(TimeSpan.FromMilliseconds(20));
-            //ConfigPanelRow.Height = new GridLength(ConfigPanelRow.Height.Value - 1);
-            //await Task.Delay(TimeSpan.FromMilliseconds(20));
             ContainerGrid.Refresh();
 
             DevicesPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
@@ -353,11 +328,6 @@ namespace RGBSyncStudio.UI.Tabs
             {
                 return;
             }
-
-            //if (selected.Enabled)
-            //{
-            //    selected = null;
-            //}
 
             List<DeviceMappingModels.SourceModel> selectedItems = new List<DeviceMappingModels.SourceModel>();
             foreach (object itemsSelectedItem in items.SelectedItems)
@@ -500,28 +470,19 @@ namespace RGBSyncStudio.UI.Tabs
 
         private readonly bool blockUpdates = false;
 
+        private bool EnforceMinSize = false;
         private async void ContainerGrid_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-
-            if (vm.AnyDevicesSelected)
+            if (EnforceMinSize)
             {
-                DevicesPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
-                //if (!blockUpdates)
-                //{
-                //    ContainerGrid.RowDefinitions[2].Height =
-                //        new GridLength(ContainerGrid.RowDefinitions[2].ActualHeight);
-                //    blockUpdates = true;
-                //}
-                //else
-                //{
-                //    ContainerGrid.RowDefinitions[2].Height = GridLength.Auto;
-                //}
+                if (vm.AnyDevicesSelected)
+                {
+                    DevicesPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
+
+                }
+
+                ConfigPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
             }
-
-            // Splitter.Height = Splitter.ActualHeight - 1;
-
-            ConfigPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
-
 
         }
 
@@ -708,6 +669,12 @@ namespace RGBSyncStudio.UI.Tabs
             }
 
             Debug.WriteLine(sb);
+        }
+
+        private void ShowConfig(object sender, RoutedEventArgs e)
+        {
+            //ServiceManager.Instance.StoreService.ShowPlugInUI();
+            vm.ShowConfig = true;
         }
     }
 }

@@ -45,7 +45,7 @@ namespace RGBSyncStudio.UI.Tabs
 
         }
 
-        private MainWindowViewModel mainVm => (ServiceManager.Instance.ApplicationManager.ConfigurationWindow?.DataContext) as MainWindowViewModel;
+        private MainWindowViewModel mainVm => (ServiceManager.Instance.ApplicationManager.MainWindow?.DataContext) as MainWindowViewModel;
             
         private bool showPreRelease = false;
 

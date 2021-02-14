@@ -61,104 +61,7 @@ namespace RGBSyncStudio.UI.Tabs
             vm.ShowPreRelease = !vm.ShowPreRelease;
         }
 
-        private void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            double bytesIn = double.Parse(e.BytesReceived.ToString(), CultureInfo.InvariantCulture);
-            double totalBytes = double.Parse(e.TotalBytesToReceive.ToString(), CultureInfo.InvariantCulture);
-            double percentage = bytesIn / totalBytes * 100;
-
-            installingModal?.UpdateModalPercentage(mainVm, (int)percentage);
-        }
-
         
-
-        private async void InstallPlugin(object sender, RoutedEventArgs e)
-        {
-
-            using (installingModal = new SimpleModal(mainVm, "Installing..."))
-            {
-                ServiceManager.Instance.LedService.PauseSyncing = true;
-                Task.Delay(TimeSpan.FromSeconds(1)).Wait();
-                ServiceManager.Instance.LedService.UnloadSLSProviders();
-
-
-                if (((Button)sender).DataContext is PositionalAssignment.PluginDetailsViewModel bdc)
-                {
-                    PositionalAssignment.PluginDetailsViewModel newest = bdc.Versions.First(x => x.Version == bdc.Version);
-
-                    SimpleLedApiClient apiClient = new SimpleLedApiClient();
-                    byte[] drver = await apiClient.GetProduct(newest.PluginId, new ReleaseNumber(bdc.Version));
-
-                    string pluginPath = ApplicationManager.SLSPROVIDER_DIRECTORY + "\\" + bdc.PluginId;
-                    if (Directory.Exists(pluginPath))
-                    {
-                        try
-                        {
-                            Directory.Delete(pluginPath, true);
-                        }
-                        catch
-                        {
-                        }
-                    }
-
-                    try
-                    {
-                        Directory.CreateDirectory(pluginPath);
-                    }
-                    catch
-                    {
-                    }
-
-                    using (Stream stream = new MemoryStream(drver))
-                    {
-                        IArchive thingy = SharpCompress.Archives.ArchiveFactory.Open(stream);
-
-                        float mx = thingy.Entries.Count();
-                        int ct = 0;
-                        foreach (IArchiveEntry archiveEntry in thingy.Entries)
-                        {
-
-                            archiveEntry.WriteToDirectory(pluginPath);
-                            ct++;
-
-                            installingModal?.UpdateModalPercentage(mainVm, (int)(ct / mx) * 100);
-                        }
-
-                        try
-                        {
-                            File.Delete(pluginPath + "\\SimpleLed.dll");
-                        }
-                        catch
-                        {
-                        }
-
-                    }
-
-                    ServiceManager.Instance.LedService.LoadPlungFolder(pluginPath);
-                }
-            }
-
-        }
-
-        private MainWindowViewModel mainVm =>
-            (MainWindowViewModel)ServiceManager.Instance.ApplicationManager.ConfigurationWindow.DataContext;
-
-        private void ReloadAllPlugins(object sender, RoutedEventArgs e)
-        {
-            StoreViewModel vm = (StoreViewModel)this.DataContext;
-            using (new SimpleModal(mainVm, "Reloading Plugins"))
-            {
-                ContainingGrid.Refresh();
-                ServiceManager.Instance.LedService.UnloadSLSProviders();
-
-
-                ServiceManager.Instance.LedService.LoadSLSProviders();
-                vm.LoadStoreAndPlugins();
-                //ServiceManager.Instance.LedService.Rescan(this, new EventArgs());
-            }
-
-        }
-
         private void RefreshStore(object sender, RoutedEventArgs e)
         {
             vm.LoadStoreAndPlugins();
@@ -179,49 +82,7 @@ namespace RGBSyncStudio.UI.Tabs
 
                     ISimpleLed existingPlugin = ServiceManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == tvm.PluginId);
 
-                    if (existingPlugin != null)
-                    {
-                        List<ControlDevice> removeList = ServiceManager.Instance.LedService.SLSDevices.Where(x =>
-                            x.Driver.GetProperties().Id == existingPlugin.GetProperties().Id).ToList();
-
-                        while (ServiceManager.Instance.LedService.SLSDevices.Any(x => x.Driver.GetProperties().Id == existingPlugin.GetProperties().Id) && removeList.Any())
-                        {
-                            try
-                            {
-                                ControlDevice pp = removeList.First();
-                                ServiceManager.Instance.LedService.SLSDevices.Remove(pp);
-                                removeList.Remove(pp);
-                            }
-                            catch
-                            {
-                            }
-
-                        }
-                    }
-
-
-                    try
-                    {
-                        existingPlugin?.Dispose();
-                    }
-                    catch
-                    {
-                    }
-
-                    Thread.Sleep(1000);
-
-                    if (ServiceManager.Instance.SLSManager.Drivers.Contains(existingPlugin))
-                    {
-                        ServiceManager.Instance.SLSManager.Drivers.Remove(existingPlugin);
-                    }
-
-                    try
-                    {
-                        Directory.Delete("SLSProvider\\" + tvm.PluginId, true);
-                    }
-                    catch
-                    {
-                    }
+                    ServiceManager.Instance.StoreService.DeletePlugin(existingPlugin);
 
                     vm.Plugins.Remove(vmplugin);
 
@@ -258,29 +119,10 @@ namespace RGBSyncStudio.UI.Tabs
             {
                 if (btn.DataContext is PositionalAssignment.PluginDetailsViewModel tvm)
                 {
-                    ISimpleLed existingPlugin = ServiceManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == tvm.PluginId);
-
-                    ISimpleLedWithConfig testDrv = existingPlugin as ISimpleLedWithConfig;
-
-                    if (existingPlugin is ISimpleLedWithConfig drv)
-                    {
-                        UserControl cfgUI = drv.GetCustomConfig(null);
-                        ConfigHere.Children.Clear();
-                        ConfigHere.Children.Add(cfgUI);
-
-                        ConfigHere.HorizontalAlignment = HorizontalAlignment.Stretch;
-                        ConfigHere.VerticalAlignment = VerticalAlignment.Stretch;
-
-                        cfgUI.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-                        cfgUI.HorizontalAlignment = HorizontalAlignment.Stretch;
-                        cfgUI.VerticalAlignment = VerticalAlignment.Stretch;
-                        cfgUI.VerticalContentAlignment = VerticalAlignment.Stretch;
-
-                        cfgUI.Foreground = new SolidColorBrush(Colors.Black); //Make theme aware
-
+                    ServiceManager.Instance.StoreService.ShowPlugInUI(tvm.PluginId, ConfigHere);
                         vm.ShowConfig = true;
                         double i = 1 / 20d;
-                    }
+                    
                 }
             }
         }
@@ -333,124 +175,17 @@ namespace RGBSyncStudio.UI.Tabs
                 ComboBox parent = e.Source as ComboBox;
                 PositionalAssignment.PluginDetailsViewModel parentDC = parent.DataContext as PositionalAssignment.PluginDetailsViewModel;
                 bool anyFail = false;
-                using (installingModal = new SimpleModal(mainVm, "Installing..."))
+
+
+                if (e.AddedItems != null && e.AddedItems.Count > 0)
                 {
-                    ServiceManager.Instance.LedService.PauseSyncing = true;
-                    Task.Delay(TimeSpan.FromSeconds(1)).Wait();
-                    //ServiceManager.Instance.ApplicationManager.UnloadSLSProviders();
+                    PositionalAssignment.PluginVersionDetails bdc = e.AddedItems[0] as PositionalAssignment.PluginVersionDetails;
 
-
-
-
-                    if (e.AddedItems != null && e.AddedItems.Count > 0)
-                    {
-                        PositionalAssignment.PluginVersionDetails bdc = e.AddedItems[0] as PositionalAssignment.PluginVersionDetails;
-                        //var newest = bdc.Versions.First(x => x.Version == bdc.Version);
-
-                        SimpleLedApiClient apiClient = new SimpleLedApiClient();
-                        byte[] drver = await apiClient.GetProduct(parentDC.PluginId, bdc.ReleaseNumber);
-
-                        ISimpleLed exist = ServiceManager.Instance.SLSManager.Drivers.FirstOrDefault(x =>
-                            x.GetProperties().Id == parentDC.PluginId);
-                        if (exist != null)
-                        {
-
-                            ServiceManager.Instance.SLSManager.Drivers.Remove(exist);
-                            Thread.Sleep(100);
-                            exist.Dispose();
-                            Thread.Sleep(1000);
-                        }
-
-
-
-                        string pluginPath = ApplicationManager.SLSPROVIDER_DIRECTORY + "\\" + parentDC.PluginId;
-                        if (Directory.Exists(pluginPath))
-                        {
-                            try
-                            {
-                                Directory.Delete(pluginPath, true);
-                            }
-                            catch
-                            {
-                            }
-                        }
-
-                        try
-                        {
-                            Directory.CreateDirectory(pluginPath);
-                        }
-                        catch
-                        {
-                        }
-
-                        using (Stream stream = new MemoryStream(drver))
-                        {
-                            IArchive thingy = SharpCompress.Archives.ArchiveFactory.Open(stream);
-
-                            float mx = thingy.Entries.Count();
-                            int ct = 0;
-                            List<string> pluginPaths = new List<string>();
-
-                            foreach (IArchiveEntry archiveEntry in thingy.Entries)
-                            {
-                                bool suc = false;
-                                int attemp = 0;
-
-                                while (attemp < 10 && !suc)
-                                {
-                                    try
-                                    {
-                                        archiveEntry.WriteToDirectory(pluginPath);
-                                        suc = true;
-                                    }
-                                    catch
-                                    {
-                                        attemp++;
-                                        Thread.Sleep(100);
-                                    }
-                                }
-
-                                if (!suc)
-                                {
-                                    anyFail = true;
-                                }
-
-                                ct++;
-
-                                installingModal?.UpdateModalPercentage(mainVm, (int)(ct / mx) * 100);
-                            }
-
-                            try
-                            {
-                                File.Delete(pluginPath + "\\SimpleLed.dll");
-                            }
-                            catch
-                            {
-                            }
-
-                        }
-
-
-
-                        try
-                        {
-                            ServiceManager.Instance.LedService.LoadPlungFolder(pluginPath);
-                            vm.LoadStoreAndPlugins();
-                        }
-                        catch { }
+                   bool success= await ServiceManager.Instance.StoreService.InstallPlugin(parentDC.PluginId, bdc);
+                   if (success)
+                   {
+                       vm.LoadStoreAndPlugins();
                     }
-
-
-                    //vm.ReloadStoreAndPlugins();
-                    // ServiceManager.Instance.ApplicationManager.Rescan(this, new EventArgs());
-                }
-
-                if (anyFail)
-                {
-
-                    SimpleModal error = new SimpleModal(mainVm, "One or more files failed to upgrade.");
-
-
 
                 }
 

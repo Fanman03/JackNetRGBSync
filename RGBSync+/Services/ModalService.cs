@@ -7,7 +7,7 @@ namespace RGBSyncStudio.Services
     {
         public void ShowModal(ModalModel modalModel)
         {
-            MainWindowViewModel vm = ((MainWindowViewModel)ServiceManager.Instance.ApplicationManager.ConfigurationWindow.DataContext);
+            MainWindowViewModel vm = ((MainWindowViewModel)ServiceManager.Instance.ApplicationManager.MainWindow.DataContext);
 
             vm.ModalText = modalModel.ModalText;
             vm.ModalShowPercentage = false;
@@ -17,7 +17,7 @@ namespace RGBSyncStudio.Services
 
         public void ShowSimpleModal(string text)
         {
-            MainWindowViewModel vm = ((MainWindowViewModel)ServiceManager.Instance.ApplicationManager.ConfigurationWindow.DataContext);
+            MainWindowViewModel vm = ((MainWindowViewModel)ServiceManager.Instance.ApplicationManager.MainWindow.DataContext);
 
             vm.ModalText = text;
             vm.ModalShowPercentage = false;

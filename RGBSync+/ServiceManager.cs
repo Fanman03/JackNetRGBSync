@@ -20,6 +20,7 @@ namespace RGBSyncStudio
         public ColorProfileService ColorProfileService;
         public ModalService ModalService;
         public ProfileTriggerManager ProfileTriggerManager;
+        public StoreService StoreService;
         public static void Initialize(string slsConfigsDirectory, string ngProfileDir)
         {
             Instance = new ServiceManager();
@@ -35,7 +36,7 @@ namespace RGBSyncStudio
             Instance.ColorProfileService = new ColorProfileService();
             Instance.ModalService = new ModalService();
             Instance.ProfileTriggerManager = new ProfileTriggerManager();
-
+            Instance.StoreService = new StoreService();
         }
 
         public static void Shutdown()

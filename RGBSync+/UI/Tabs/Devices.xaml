@@ -381,10 +381,12 @@
         </Grid>
 
         <GridSplitter x:Name="Splitter" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowsPreview="true" Height="56" Background="{DynamicResource SystemBaseLowColorBrush}"  ></GridSplitter>
-        <Grid Grid.Row="1" Margin="0" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.AnyDevicesSelected, Converter={StaticResource BoolToVisConverter}}" VerticalAlignment="Center" Background="{x:Null}" x:Name="ConfigPanelBar">
+        <Grid Grid.Row="1" Margin="0" 
+              
+              VerticalAlignment="Center" Background="{x:Null}" x:Name="ConfigPanelBar">
+            <!--Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.AnyDevicesSelected, Converter={StaticResource BoolToVisConverter}}"-->
 
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Height="36" Margin="0" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingledDeviceSelected, Converter={StaticResource BoolToVisConverter}}" >
+<StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Height="36" Margin="0" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingledDeviceSelected, Converter={StaticResource BoolToVisConverter}}" >
                 <TextBlock FontSize="24" Text="{Binding ProviderName}" Margin="12,0,0,0" FontWeight="Bold" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
                 <TextBlock FontSize="24" Text="{Binding Name}" FontWeight="Light" Margin="12,0,0,0" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
 
@@ -406,7 +408,7 @@
                 <Button Background="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SubViewMode, ConverterParameter=syncto|#e0000000|#80000000, Converter={StaticResource StringMatchToSolidColorBrush}}" 
                                 Style="{StaticResource SmallSquareIcon}" 
                                 Click="SyncTo" 
-                                Visibility="{Binding ShowInstalled, Converter={StaticResource InvertedBoolToVisConverter}}" 
+                                
                                 Width="180" 
                                 HorizontalContentAlignment="Left">
 
@@ -415,20 +417,6 @@
                         <TextBlock FontFamily="Segoe UI Light" VerticalAlignment="Center" FontSize="18" Margin="4,0,0,0" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Devices.SyncTo, Converter={StaticResource LocConverter}}"></TextBlock>
                     </StackPanel>
                 </Button>
-
-                <Button Background="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SubViewMode, ConverterParameter=config|#e0000000|#80000000, Converter={StaticResource StringMatchToSolidColorBrush}}" 
-                                Style="{StaticResource SmallSquareIcon}" 
-                                Click="Config" 
-                                Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.ShowConfigTab, ConverterParameter=Alignment, Converter={StaticResource BoolToVisConverter}}" 
-                                Width="180" 
-                                HorizontalContentAlignment="Left">
-
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <TextBlock></TextBlock>
-                        <TextBlock FontFamily="Segoe UI Light" VerticalAlignment="Center" FontSize="18" Margin="4,0,0,0" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Devices.Config, Converter={StaticResource LocConverter}}"></TextBlock>
-                    </StackPanel>
-                </Button>
-
 
                 <Button Background="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SubViewMode, ConverterParameter=Alignment|#e0000000|#80000000, Converter={StaticResource StringMatchToSolidColorBrush}}" 
                                 Style="{StaticResource SmallSquareIcon}" 
@@ -450,10 +438,10 @@
 
 
 
-        <Grid Row="2" x:Name="ConfigPanelHolder">
+        <Grid Row="2" x:Name="ConfigPanelHolder" HorizontalAlignment="Left">
 
 
-            <Grid Grid.Row="0" x:Name="ConfigPanel" Margin="0">
+            <Grid Grid.Row="0" x:Name="ConfigPanel" Margin="0" HorizontalAlignment="Left">
                 <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Info, Converter={StaticResource StringMatchToVisConverter}}" >
 
                     <StackPanel Margin="10" Orientation="Horizontal">
@@ -506,12 +494,27 @@
 
                 </Grid>
 
-                <Grid Margin="10" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisConverter}}" >
-                    <StackPanel Orientation="Horizontal">
+                <Grid Margin="10" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Alignment, Converter={StaticResource StringMatchToVisConverter}}" HorizontalAlignment="Left" >
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
                         <StackPanel Background="Transparent" HorizontalAlignment="Left" >
+
+                            <Button Background="#80808080"
+                                    Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SingleSelectedSourceControlDevice.DriverProps.SupportsCustomConfig, ConverterParameter=Alignment, Converter={StaticResource BoolToVisConverter}}" 
+                                    Style="{StaticResource SmallSquareIcon}" 
+                                    Click="ShowConfig" 
+                                    Width="180" 
+                                    Margin="0,10"
+                                    HorizontalContentAlignment="Left">
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock></TextBlock>
+                                    <TextBlock FontFamily="Segoe UI Light" VerticalAlignment="Center" FontSize="18" Margin="4,0,0,0" Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.Language, ConverterParameter=Devices.Config, Converter={StaticResource LocConverter}}"></TextBlock>
+                                </StackPanel>
+                            </Button>
+
                             <CheckBox FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.Language, ConverterParameter=Customize.Align, Converter={StaticResource LocConverter}}"
-                                  IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.AlignDevice}"
-                                  ></CheckBox>
+                                      IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.AlignDevice}"
+                            ></CheckBox>
 
 
                             <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.AlignDevice, Converter={StaticResource BoolToVisConverter}}">
@@ -564,19 +567,12 @@
 
                             </StackPanel>
                             <Grid Width="300" Margin="0" Visibility="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.ShowOverrides, Converter={StaticResource BoolToVisConverter}}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"></ColumnDefinition>
-                                    <ColumnDefinition Width="150"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Background="Transparent" HorizontalAlignment="Left" Margin="0">
-                                    <Label Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="16" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.Language, ConverterParameter=Customize.LEDCount, Converter={StaticResource LocConverter}}"/>
-                                    <TextBox Text="{Binding Overrides.CustomDeviceSpecification.LedCount}" Style="{DynamicResource TextBoxRevealStyle}"  VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20" Width="100" TextChanged="LedCountChanged"/>
-                                </StackPanel>
-                                <StackPanel Background="Transparent" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Column="1">
+                                
+                                <StackPanel Background="Transparent" HorizontalAlignment="Left" Margin="0,0,0,0" >
                                     <Label Margin="0" Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="16" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.Language, ConverterParameter=Customize.Image, Converter={StaticResource LocConverter}}"/>
                                     <StackPanel Orientation="Horizontal" Margin="0">
-                                        <Border BorderBrush="#c0c0c0" BorderThickness="2"  Width="60" Height="40" Margin="0" Padding="0">
-                                            <Image Source="{Binding Image}" Width="60" Height="40" x:Name="BitmapOverrideImageHolder"/>
+                                        <Border BorderBrush="#c0c0c0" BorderThickness="2"  Width="120" Height="80" Margin="0" Padding="0">
+                                            <Image Source="{Binding Image}" Width="120" Height="80" x:Name="BitmapOverrideImageHolder"/>
                                         </Border>
                                         <!--<TextBox VerticalAlignment="Center" Margin="0,0,0,0" FontFamily="Segoe UI Light" FontSize="16" Width="400" Style="{StaticResource TextBoxRevealStyle}" VerticalContentAlignment="Center" Text="{Binding Background}" />-->
                                         <Button Margin="10,0,10,0" Style="{StaticResource ButtonRevealStyle}" Width="36" Height="36" Click="PickFile" FontSize="18" FontFamily="Segoe MDL2 Assets" Content="&#xE1A5;" VerticalAlignment="Top"/>
@@ -629,13 +625,18 @@
                             </ComboBox>
 
                             <StackPanel Orientation="Horizontal" Margin="0">
+
                                 <StackPanel Background="Transparent" HorizontalAlignment="Left" Margin="0,0">
-                                    <Label Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="16" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.Language, ConverterParameter=Customize.GridWidth, Converter={StaticResource LocConverter}}"/>
-                                    <TextBox Text="{Binding Overrides.CustomDeviceSpecification.GridWidth}" Style="{DynamicResource TextBoxRevealStyle}"  VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20" Width="150"/>
+                                    <Label Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="16" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.Language, ConverterParameter=Customize.LEDCount, Converter={StaticResource LocConverter}}"/>
+                                    <TextBox Text="{Binding Overrides.CustomDeviceSpecification.LedCount}" Style="{DynamicResource TextBoxRevealStyle}"  VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20" Width="93" TextChanged="LedCountChanged"/>
                                 </StackPanel>
                                 <StackPanel Background="Transparent" HorizontalAlignment="Left" Margin="10,0">
+                                    <Label Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="16" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.Language, ConverterParameter=Customize.GridWidth, Converter={StaticResource LocConverter}}"/>
+                                    <TextBox Text="{Binding Overrides.CustomDeviceSpecification.GridWidth}" Style="{DynamicResource TextBoxRevealStyle}"  VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20" Width="93"/>
+                                </StackPanel>
+                                <StackPanel Background="Transparent" HorizontalAlignment="Left" Margin="0,0">
                                     <Label Foreground="{DynamicResource SystemBaseHighColorBrush}" FontSize="16" Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.Language, ConverterParameter=Customize.GridHeight, Converter={StaticResource LocConverter}}"/>
-                                    <TextBox Text="{Binding Overrides.CustomDeviceSpecification.GridHeight}" Style="{DynamicResource TextBoxRevealStyle}" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20" Width="150"/>
+                                    <TextBox Text="{Binding Overrides.CustomDeviceSpecification.GridHeight}" Style="{DynamicResource TextBoxRevealStyle}" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="20" Width="93"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
@@ -643,13 +644,43 @@
                     </StackPanel>
                 </Grid>
 
-                <Grid x:Name="ConfigHere" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Config, Converter={StaticResource StringMatchToVisConverter}}">
+                <!--<Grid x:Name="ConfigHere2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=Config, Converter={StaticResource StringMatchToVisConverter}}">
                     <TextBlock Margin="10,35,0,0" Text="{Binding ConverterParameter=Devices.NoConfig, Converter={StaticResource LocConverter}, Source=Language}"/>
-                </Grid>
+                </Grid>-->
 
 
             </Grid>
 
+
+        </Grid>
+
+        <Grid Grid.Column="0" Visibility="{Binding ShowConfig, Converter={StaticResource BoolToVisConverter}}" Grid.Row="0" Grid.RowSpan="3" d:IsHidden="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="11*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="6*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid Background="{DynamicResource SystemBaseHighColorBrush}" Grid.Column="1" Grid.Row="1" Opacity="0.9"></Grid>
+            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+
+
+                <TextBlock Grid.Row="0" FontFamily="Segoe UI Light" FontSize="36" FontWeight="Bold" Margin="10,0" Text="Configure" TextWrapping="WrapWithOverflow" Foreground="Black"/>
+                <Grid x:Name="ConfigHere" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1"/>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Segoe MDL2 Assets" Click="CloseConfigure" Foreground="{DynamicResource Tc-Red}" Content="&#xE711;" FontSize="24" Margin="0,8,8,0"/>
+
+            </Grid>
 
         </Grid>
     </Grid>
