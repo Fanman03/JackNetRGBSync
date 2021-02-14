@@ -22,22 +22,27 @@ namespace RGBSyncStudio.Converter
                 {
                     case DeviceTypes.Keyboard:
                         return new BitmapImage(new Uri(
-                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/Keyboard.png", UriKind.Absolute));
+                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/Keyboard.png",
+                            UriKind.Absolute));
                     case DeviceTypes.Mouse:
                         return new BitmapImage(new Uri(
                             "pack://application:,,,/RGBSync+;component/Resources/DevImg/Mouse.png", UriKind.Absolute));
                     case DeviceTypes.Headset:
                         return new BitmapImage(new Uri(
-                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/Headphones.png", UriKind.Absolute));
+                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/Headphones.png",
+                            UriKind.Absolute));
                     case DeviceTypes.MousePad:
                         return new BitmapImage(new Uri(
-                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/Mousepad.png", UriKind.Absolute));
+                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/Mousepad.png",
+                            UriKind.Absolute));
                     case DeviceTypes.Fan:
-                        return new BitmapImage(new Uri("pack://application:,,,/RGBSync+;component/Resources/DevImg/Fan.png",
+                        return new BitmapImage(new Uri(
+                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/Fan.png",
                             UriKind.Absolute));
                     case DeviceTypes.LedStrip:
                         return new BitmapImage(new Uri(
-                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/LedStrip.png", UriKind.Absolute));
+                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/LedStrip.png",
+                            UriKind.Absolute));
                     case DeviceTypes.Memory:
                         return new BitmapImage(new Uri(
                             "pack://application:,,,/RGBSync+;component/Resources/DevImg/DRAM.png", UriKind.Absolute));
@@ -46,23 +51,27 @@ namespace RGBSyncStudio.Converter
                             "pack://application:,,,/RGBSync+;component/Resources/DevImg/Motherboard.png",
                             UriKind.Absolute));
                     case DeviceTypes.GPU:
-                        return new BitmapImage(new Uri("pack://application:,,,/RGBSync+;component/Resources/DevImg/GPU.png",
+                        return new BitmapImage(new Uri(
+                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/GPU.png",
                             UriKind.Absolute));
                     case DeviceTypes.Cooler:
                         return new BitmapImage(new Uri(
                             "pack://application:,,,/RGBSync+;component/Resources/DevImg/Pump.png", UriKind.Absolute));
                     case DeviceTypes.Speaker:
                         return new BitmapImage(new Uri(
-                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/Speaker.png", UriKind.Absolute));
+                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/Speaker.png",
+                            UriKind.Absolute));
                     case DeviceTypes.Effect:
                         return new BitmapImage(new Uri(
                             "pack://application:,,,/RGBSync+;component/Resources/DevImg/Effect.png", UriKind.Absolute));
                     case DeviceTypes.Other:
                         return new BitmapImage(new Uri(
-                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/Invalid.png", UriKind.Absolute));
+                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/Invalid.png",
+                            UriKind.Absolute));
                     default:
                         return new BitmapImage(new Uri(
-                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/Default.png", UriKind.Absolute));
+                            "pack://application:,,,/RGBSync+;component/Resources/DevImg/Default.png",
+                            UriKind.Absolute));
                 }
             }
 

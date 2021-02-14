@@ -25,6 +25,7 @@
         <Converter:IndeterminateBoolToOpacityConverter x:Key="IndeterminateBoolToOpacityConverter"/>
         <Converter:InvertedBoolToVisibilityConverter x:Key="InvertedBoolToVisConverter"/>
         <Converter:BoolToVisibilityConverter x:Key="BoolToVisConverter"/>
+        <Converter:DeviceTypeToLetterConverter x:Key="DeviceTypeToLetterConverter"/>
         <Converter:DeviceTypeToImageConverter x:Key="DeviceTypeToImageConverter"/>
 
         <DataTemplate x:Key="DeviceGroupLEDItemTemplate">
@@ -104,7 +105,9 @@
                                     <!--<Border BorderBrush="White" BorderThickness="1"/>-->
                                 </Grid>
 
-                                <Image ToolTip="{Binding Device.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"  Margin="8,0"/>
+                                <TextBlock FontSize="48" FontFamily="{StaticResource RssSymbol}" Text="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToLetterConverter}}" Foreground="{DynamicResource SystemBaseHighColorBrush}" Margin="6,0"></TextBlock>
+                                <!--<Image ToolTip="{Binding Device.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"  Margin="8,0"/>-->
+                                <TextBlock Text="{Binding Device.DeviceType}" Foreground="Pink"></TextBlock>
                                 <StackPanel Margin="0">
 
                                     <StackPanel Orientation="Horizontal">
@@ -192,7 +195,9 @@
                                     <Border BorderBrush="White" BorderThickness="1"/>
                                 </Grid>
 
-                                <Image ToolTip="{Binding Device.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"  Margin="8"/>
+                                <!--<Image ToolTip="{Binding Device.DeviceType}" Width="32" Height="32"  Grid.Column="1"  Source="{Binding Device.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}"  Margin="8"/>-->
+                                <TextBlock FontSize="48" FontFamily="{StaticResource RssSymbol}" Text="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToLetterConverter}}" Foreground="{DynamicResource SystemBaseHighColorBrush}" Margin="6,0"></TextBlock>
+                                <TextBlock Text="{Binding Device.DeviceType}" Foreground="Pink"></TextBlock>
 
                                 <TextBlock TextTrimming="CharacterEllipsis" Margin="8" Text="{Binding ProviderName}" FontSize="20" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{DynamicResource SystemBaseHighColorBrush}" TextAlignment="Center" />
 
@@ -244,7 +249,9 @@
                     </Rectangle>
                     <Rectangle Fill="{x:Static fluentWpf:AccentColors.ImmersiveSystemAccentBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="0.5"/>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <Image ToolTip="{Binding ControlDevice.DeviceType}" Width="24" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6"/>
+
+                        <TextBlock FontSize="48" FontFamily="{StaticResource RssSymbol}" Text="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToLetterConverter}}" Foreground="{DynamicResource SystemBaseHighColorBrush}" Margin="6,0"></TextBlock>
+                        <!--<Image ToolTip="{Binding ControlDevice.DeviceType}" Width="24" Height="24"  Source="{Binding ControlDevice.DeviceType, Converter={StaticResource DeviceTypeToImageConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6"/>-->
                         <TextBlock Text="{Binding ControlDevice.DeviceType, Converter={StaticResource ValueLocConverter}}" FontSize="18" VerticalAlignment="Center" Margin="8,0,0,0"  Foreground="{DynamicResource SystemBaseHighColorBrush}" />
 
                     </StackPanel>

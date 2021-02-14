@@ -26,6 +26,7 @@
         <Converter:IndeterminateBoolToOpacityConverter x:Key="IndeterminateBoolToOpacityConverter"/>
         <Converter:InvertedBoolToVisibilityConverter x:Key="InvertedBoolToVisibilityConverter"/>
         <Converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <Converter:DeviceTypeToLetterConverter x:Key="DeviceTypeToLetterConverter"/>
         <Converter:DeviceTypeToImageConverter x:Key="DeviceTypeToImageConverter"/>
         <DataTemplate x:Key="ManageProfilesTemplateItem">
             <Grid VerticalAlignment="Top" Margin="10" fluentWpf:PointerTracker.Enabled="True">

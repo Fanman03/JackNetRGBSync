@@ -111,6 +111,7 @@
     <Compile Include="Converter\BackgroundGradientConverter.cs" />
     <Compile Include="Converter\BoolToSolidColorBrush.cs" />
     <Compile Include="Converter\DeviceTypeToImageConverter.cs" />
+    <Compile Include="Converter\DeviceTypeToLetterConverter.cs" />
     <Compile Include="Converter\IndeterminateBoolToOpacityConverter.cs" />
     <Compile Include="Converter\LocConverter.cs" />
     <Compile Include="Converter\NullToVisibilityConverter.cs" />
@@ -274,6 +275,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Fonts\RssSymbol-Regular.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

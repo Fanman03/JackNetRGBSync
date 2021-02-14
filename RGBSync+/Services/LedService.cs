@@ -109,7 +109,7 @@ namespace RGBSyncStudio.Services
             List<PushListItem> pushMe = new List<PushListItem>();
             foreach (DeviceMappingModels.NGDeviceProfileSettings currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
             {
-                ControlDevice cd = ServiceManager.Instance.LedService.SLSDevices.FirstOrDefault(x =>
+                ControlDevice cd = ServiceManager.Instance.LedService.SLSDevices.ToArray().FirstOrDefault(x =>
                     x.Name == currentProfileDeviceProfileSetting.SourceName &&
                     x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName &&
                     x.ConnectedTo == currentProfileDeviceProfileSetting.SourceConnectedTo);

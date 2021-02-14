@@ -19,7 +19,7 @@
                 <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
+            <FontFamily x:Key="RssSymbol">pack://application:,,,/Fonts/#Rss Symbol</FontFamily>
             <Converter:LocConverter x:Key="LocConverter"/>
             <Converter:ProfileSelectedToColorBrushConverter x:Key="ProfileSelectedToColorBrushConverter"></Converter:ProfileSelectedToColorBrushConverter>
 

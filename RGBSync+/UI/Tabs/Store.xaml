@@ -17,6 +17,7 @@
         <converter:PercentageConverter x:Key="PercentageConverter"/>
         <converter:InvertedBoolToVisibilityConverter x:Key="InvertedBoolToVisConverter"/>
         <converter:BoolToVisibilityConverter x:Key="BoolToVisConverter"/>
+        <converter:DeviceTypeToLetterConverter x:Key="DeviceTypeToLetterConverter"/>
         <converter:DeviceTypeToImageConverter x:Key="DeviceTypeToImageConverter"/>
         <converter:SubtractorConverter x:Key="SubtractorConverter"/>
 
