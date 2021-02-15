@@ -1,14 +1,20 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
+using Tweetinvi;
+using Tweetinvi.Models;
+using TweetSharp;
 
 namespace RGBSyncStudio
 {
     public interface INewsSource
     {
         List<NewsStory> GetLatestStories();
+        Task<List<NewsStory>> GetLatestStoriesAsync();
     }
 
     public class NewsStory
@@ -21,6 +27,53 @@ namespace RGBSyncStudio
         public List<string> Videos { get; set; }
         public string Url { get; set; }
         public DateTime Date { get; set; }
+    }
+
+    public class TwitterStories : INewsSource
+    {
+        private TwitterClient userClient;
+        public TwitterStories()
+        {
+            userClient = new TwitterClient("LdKYMVl67TYnXCfY7JP9uMWpv", "RNjdMgKTKmnga700z61CNFvtzLItzGF09Yg2VljLwo5BWI0F35", "19777997-tNpHpDmL40JS4QJ5miFAdh4FPhU8W6IBqOq7SBWef", "eMSkBMBfELXTKiCvYi96l4Fz0BT3Ac5nsY0qWmx4U6jVs");
+
+            
+        }
+        public List<NewsStory> GetLatestStories()
+        {
+            Debug.WriteLine("Getting Twitter");
+            
+            var temp = userClient.Timelines.GetUserTimelineAsync("rgbsync").Result;
+            
+            Debug.WriteLine("Got Twitter");
+
+            return temp.Select(Convert).ToList();
+        }
+
+        public async Task<List<NewsStory>> GetLatestStoriesAsync()
+        {
+            Debug.WriteLine("Getting Twitter");
+
+            var temp = await userClient.Timelines.GetUserTimelineAsync("rgbsync");
+
+            Debug.WriteLine("Got Twitter");
+
+            return temp.Select(Convert).ToList();
+        }
+
+        private NewsStory Convert(ITweet x)
+        {
+            return new NewsStory
+            {
+                Author = "RGBSync Twitter",
+                Body = x.Text,
+                Date = x.CreatedAt.ToLocalTime().Date,
+                Ident = x.TweetDTO.Id.ToString(),
+                Images = x.Media.Select(xx => xx.MediaURL).ToList(),
+                Url = x.Url,
+                Title = x.Text.Split('.', '!', ',','?').First()
+            };
+        }
+
     }
 
     public class RGBSyncStories : INewsSource
@@ -51,6 +104,11 @@ namespace RGBSyncStudio
             }
         }
 
+        public async Task<List<NewsStory>> GetLatestStoriesAsync()
+        {
+            return GetLatestStories();
+        }
+
 
 
         public class RGBSyncNewsStory
@@ -74,6 +132,7 @@ namespace RGBSyncStudio
 
         static NewsManager()
         {
+            NewsSources.Add(new TwitterStories());
             NewsSources.Add(new RGBSyncStories());
         }
 
@@ -83,6 +142,17 @@ namespace RGBSyncStudio
             foreach (INewsSource newsSource in NewsSources)
             {
                 stories.AddRange(newsSource.GetLatestStories());
+            }
+
+            return stories.OrderByDescending(x => x.Date).ToList();
+        }
+
+        public static async Task<List<NewsStory>> GetStoriesAsync()
+        {
+            List<NewsStory> stories = new List<NewsStory>();
+            foreach (INewsSource newsSource in NewsSources)
+            {
+                stories.AddRange(await newsSource.GetLatestStoriesAsync());
             }
 
             return stories.OrderByDescending(x => x.Date).ToList();

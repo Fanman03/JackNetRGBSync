@@ -326,12 +326,13 @@ namespace RGBSyncStudio.UI.Tabs
                     x.SourceName == source.Name && x.SourceProviderName == source.Driver.Name() &&
                     x.SourceConnectedTo == source.ConnectedTo);
 
-                current = things.FirstOrDefault(x => x.SourceName == source.Driver.Name() && x.Name == source.Name && x.ConnectedTo == source.ConnectedTo);
+                var ngDeviceProfileSettingsEnumerable = things as DeviceMappingModels.NGDeviceProfileSettings[] ?? things.ToArray();
+                current = ngDeviceProfileSettingsEnumerable.FirstOrDefault(x => x.SourceName == source.Driver.Name() && x.Name == source.Name && x.ConnectedTo == source.ConnectedTo);
                 bool enabled = current != null && source.Driver.Name() == current.SourceProviderName && source.Name == current.SourceName && source.ConnectedTo == current.SourceConnectedTo;
                 //  enabled = things.Any();
                 SourceDevices.Add(new DeviceMappingModels.SourceModel
                 {
-                    HasConfig = source.Driver != null && source.Driver is ISimpleLedWithConfig,
+                    HasConfig = source.Driver is ISimpleLedWithConfig,
                     DeviceType = source.DeviceType,
                     ProviderName = source.Driver.Name(),
                     Device = source,
@@ -339,15 +340,15 @@ namespace RGBSyncStudio.UI.Tabs
                     Enabled = enabled,
                     Image = (source.ProductImage.ToBitmapImage()),
                     ConnectedTo = source.ConnectedTo,
-                    Controlling = string.Join(", ", things.Select(x => x.Name)),
-                    ControllingModels = new ObservableCollection<DeviceMappingModels.SourceControllingModel>(things.Select(x => new DeviceMappingModels.SourceControllingModel
+                    Controlling = string.Join(", ", ngDeviceProfileSettingsEnumerable.Select(x => x.Name)),
+                    ControllingModels = new ObservableCollection<DeviceMappingModels.SourceControllingModel>(ngDeviceProfileSettingsEnumerable.Select(x => new DeviceMappingModels.SourceControllingModel
                     {
                         ProviderName = x.ProviderName,
                         ConnectedTo = x.ConnectedTo,
                         Name = x.Name,
                         IsCurrent = SLSDevicesFiltered.Any(y => y.Selected && y.Name == x.Name && y.ProviderName == x.ProviderName && x.ConnectedTo == y.ConnectedTo)
                     }).ToList()),
-                    ControllingModelsCount = things.Count()
+                    ControllingModelsCount = ngDeviceProfileSettingsEnumerable.Count()
                 });
 
                 if (SourceGroups.Any(x => source.Driver.Name() == x.Name && x.SubName == source.DeviceType))

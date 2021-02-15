@@ -114,7 +114,7 @@ namespace RGBSyncStudio.Services
                     x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName &&
                     x.ConnectedTo == currentProfileDeviceProfileSetting.SourceConnectedTo);
 
-                ControlDevice dest = ServiceManager.Instance.LedService.SLSDevices.FirstOrDefault(x =>
+                ControlDevice dest = ServiceManager.Instance.LedService.SLSDevices.ToArray().FirstOrDefault(x =>
                     x.Name == currentProfileDeviceProfileSetting.Name &&
                     x.Driver.Name() == currentProfileDeviceProfileSetting.ProviderName &&
                     x.ConnectedTo == currentProfileDeviceProfileSetting.ConnectedTo);

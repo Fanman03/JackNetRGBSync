@@ -2,7 +2,6 @@
                                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                                     xmlns:ui="clr-namespace:RGBSyncStudio.UI"
                                     xmlns:styles="clr-namespace:RGBSyncStudio.Styles"
-                                    xmlns:controls="clr-namespace:RGBSyncStudio.Controls"
                                     xmlns:converter="clr-namespace:RGBSyncStudio.Converter">
 
     <converter:EqualsToBoolConverter x:Key="EqualsToBoolConverter" />

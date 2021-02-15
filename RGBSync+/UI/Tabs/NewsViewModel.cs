@@ -2,12 +2,29 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace RGBSyncStudio.UI.Tabs
 {
-    public class NewsViewModel : BaseViewModel
+    public class NewsViewModel : TabViewModel
     {
+        public override async Task InitializeAsync()
+        {
+            NewsItems = new ObservableCollection<NewsItemViewModel>((await NewsManager.GetStoriesAsync()).ToList().Select(x =>
+                new NewsItemViewModel
+                {
+                    Author = x.Author,
+                    Content = x.Body,
+                    Date = x.Date,
+                    Title = x.Title,
+                    Images = x.Images != null ? new ObservableCollection<string>(x.Images) : null,
+                    Videos = x.Videos != null ? new ObservableCollection<string>(x.Videos) : null
+                }));
+
+            await base.InitializeAsync();
+        }
+
         private ObservableCollection<NewsItemViewModel> newsItems;
 
         public ObservableCollection<NewsItemViewModel> NewsItems
@@ -26,16 +43,7 @@ namespace RGBSyncStudio.UI.Tabs
 
         public NewsViewModel()
         {
-            NewsItems = new ObservableCollection<NewsItemViewModel>(NewsManager.GetStories().Select(x =>
-                new NewsItemViewModel
-                {
-                    Author = x.Author,
-                    Content = x.Body,
-                    Date = x.Date,
-                    Title = x.Title,
-                    Images = x.Images != null ? new ObservableCollection<string>(x.Images) : null,
-                    Videos = x.Videos != null ? new ObservableCollection<string>(x.Videos) : null
-                }));
+
 
             // SelectedNewsItem = NewsItems.Last();
         }

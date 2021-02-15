@@ -21,14 +21,7 @@ namespace RGBSyncStudio.UI
             this.Title = "RGB Sync Studio " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
 
             this.SourceInitialized += new EventHandler(OnSourceInitialized); //this makes minimize to tray work
-
-
-            //ServiceManager.Instance.LedService.RssBackgroundDevice.ColourChange += (sender, args) =>
-            //{
-
-            //};
-
-
+            
         }
 
         //This is a semi-hacky way to create custom minimize actions
@@ -117,7 +110,7 @@ namespace RGBSyncStudio.UI
                 }
                 else
                 {
-                    vm.CurrentTab = lvm.Key;
+                    SetTab(lvm.Key);
                 }
             }
         }

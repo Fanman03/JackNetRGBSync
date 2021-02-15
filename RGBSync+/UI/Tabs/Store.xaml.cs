@@ -31,7 +31,7 @@ namespace RGBSyncStudio.UI.Tabs
 
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
-                (this.DataContext as StoreViewModel)?.Init();
+                (this.DataContext as StoreViewModel)?.InitAsync();
             }
             else
             {

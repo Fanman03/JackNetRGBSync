@@ -468,7 +468,7 @@
                     </StackPanel>
                 </Grid>
 
-                <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisConverter}}" >
+                <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SubViewMode, ConverterParameter=SyncTo, Converter={StaticResource StringMatchToVisConverter}}" HorizontalAlignment="Stretch" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200"></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
@@ -485,11 +485,11 @@
                               ItemTemplate="{DynamicResource DeviceMapperSourceItemTemplate}" 
                               BorderBrush="Transparent" 
                               SelectionMode="Single" 
-                              HorizontalContentAlignment="Left" 
+                              HorizontalContentAlignment="Stretch" 
                               Margin="0"
                               Padding="0"
                               HorizontalAlignment="Stretch"
-                              VerticalAlignment="Top"
+                              Width="{Binding ActualWidth, ConverterParameter=200, Converter={StaticResource SubtractorConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                     >
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate >

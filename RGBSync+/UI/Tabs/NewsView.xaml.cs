@@ -17,6 +17,7 @@ namespace RGBSyncStudio.UI.Tabs
         public NewsView()
         {
             InitializeComponent();
+            vm.InitializeAsync();
         }
 
         private void CloseModal(object sender, RoutedEventArgs e)

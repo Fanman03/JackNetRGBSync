@@ -15,7 +15,7 @@ using RGBSyncStudio.Helper;
 
 namespace RGBSyncStudio.UI.Tabs
 {
-    public class StoreViewModel : LanguageAwareBaseViewModel
+    public class StoreViewModel : TabViewModel
     {
         private StoreHandler storeHandler;
         public StoreViewModel()
@@ -23,7 +23,7 @@ namespace RGBSyncStudio.UI.Tabs
 
         }
 
-        public void Init()
+        public async Task InitAsync()
         {
             ShowPreRelease = ServiceManager.Instance.ConfigService.NGSettings.Experimental;
 
@@ -35,8 +35,7 @@ namespace RGBSyncStudio.UI.Tabs
             ShowStore = false;
             ShowUpdates = false;
 
-            if (ServiceManager.Instance.LedService.SLSDevices != null && ServiceManager.Instance.LedService.SLSDevices.Count(x =>
-                x.Driver != null && !x.Driver.GetProperties().Id.ToString().StartsWith("1111")) == 0)
+            if (ServiceManager.Instance.LedService.SLSDevices != null && ServiceManager.Instance.LedService.SLSDevices.Count(x => x.Driver != null && !x.Driver.GetProperties().Id.ToString().StartsWith("1111")) == 0)
             {
                 ShowInstalled = false;
                 ShowStore = true;
