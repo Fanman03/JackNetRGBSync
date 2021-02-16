@@ -108,6 +108,7 @@
     <Compile Include="ApplicationManager.cs" />
     <Compile Include="Attached\SliderValue.cs" />
     <Compile Include="Attached\SliderValueAdorner.cs" />
+    <Compile Include="BenchMark.cs" />
     <Compile Include="Converter\BackgroundGradientConverter.cs" />
     <Compile Include="Converter\BoolToSolidColorBrush.cs" />
     <Compile Include="Converter\DeviceTypeToImageConverter.cs" />

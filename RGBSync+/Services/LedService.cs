@@ -12,13 +12,14 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace RGBSyncStudio.Services
 {
 
     public class LedService
     {
-        public System.Timers.Timer SLSTimer;
+        //public DispatcherTimer SLSTimer;
         public const string SLSPROVIDER_DIRECTORY = "SLSProvider";
         public bool PauseSyncing { get; set; } = false;
 
@@ -58,43 +59,55 @@ namespace RGBSyncStudio.Services
             }
         };
 
-
+        bool isRunning = false;
         private void SLSUpdate(object state)
         {
+
+            if (isRunning)
+            {
+                return;
+            }
+
             DeviceMappingModels.NGProfile CurrentProfile = ServiceManager.Instance.ProfileService.CurrentProfile;
 
 
             if (PauseSyncing)
             {
+                isRunning = false;
                 return;
             }
 
             if (CurrentProfile == null || CurrentProfile.DeviceProfileSettings == null)
             {
+                isRunning = false;
                 return;
             }
 
             List<ControlDevice> devicesToPull = new List<ControlDevice>();
 
-            foreach (DeviceMappingModels.NGDeviceProfileSettings currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
+            //using (new BenchMark("Setup pull list"))
             {
-                try
+                foreach (DeviceMappingModels.NGDeviceProfileSettings currentProfileDeviceProfileSetting in
+                    CurrentProfile.DeviceProfileSettings.ToList())
                 {
-                    ControlDevice cd = ServiceManager.Instance.LedService.SLSDevices.ToList().FirstOrDefault(x =>
-                        x.Name == currentProfileDeviceProfileSetting.SourceName &&
-                        x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName &&
-                        x.ConnectedTo == currentProfileDeviceProfileSetting.SourceConnectedTo);
-
-                    if (cd != null)
+                    try
                     {
-                        if (!devicesToPull.Contains(cd))
+                        ControlDevice cd = ServiceManager.Instance.LedService.SLSDevices.ToList().FirstOrDefault(x =>
+                            x.Name == currentProfileDeviceProfileSetting.SourceName &&
+                            x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName &&
+                            x.ConnectedTo == currentProfileDeviceProfileSetting.SourceConnectedTo);
+
+                        if (cd != null)
                         {
-                            devicesToPull.Add(cd);
+                            if (!devicesToPull.Contains(cd))
+                            {
+                                devicesToPull.Add(cd);
+                            }
                         }
                     }
-                }
-                catch
-                {
+                    catch
+                    {
+                    }
                 }
             }
 
@@ -102,40 +115,47 @@ namespace RGBSyncStudio.Services
             {
                 if (controlDevice.Driver.GetProperties().SupportsPull)
                 {
-                    controlDevice.Pull();
+                    //using (new BenchMark("Pulling " + controlDevice.Name))
+                    {
+                        controlDevice.Pull();
+                    }
                 }
             }
 
             List<PushListItem> pushMe = new List<PushListItem>();
-            foreach (DeviceMappingModels.NGDeviceProfileSettings currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList())
+
+            //using (new BenchMark("mapping"))
             {
-                ControlDevice cd = ServiceManager.Instance.LedService.SLSDevices.ToArray().FirstOrDefault(x =>
-                    x.Name == currentProfileDeviceProfileSetting.SourceName &&
-                    x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName &&
-                    x.ConnectedTo == currentProfileDeviceProfileSetting.SourceConnectedTo);
 
-                ControlDevice dest = ServiceManager.Instance.LedService.SLSDevices.ToArray().FirstOrDefault(x =>
-                    x.Name == currentProfileDeviceProfileSetting.Name &&
-                    x.Driver.Name() == currentProfileDeviceProfileSetting.ProviderName &&
-                    x.ConnectedTo == currentProfileDeviceProfileSetting.ConnectedTo);
 
-                if (cd != null && dest != null)
+                foreach (DeviceMappingModels.NGDeviceProfileSettings currentProfileDeviceProfileSetting in
+                    CurrentProfile.DeviceProfileSettings.ToList())
                 {
-                    string key = currentProfileDeviceProfileSetting.SourceName +
-                                 currentProfileDeviceProfileSetting.SourceProviderName +
-                                 currentProfileDeviceProfileSetting.SourceConnectedTo +
-                                 currentProfileDeviceProfileSetting.Name +
-                                 currentProfileDeviceProfileSetting.ProviderName +
-                                 currentProfileDeviceProfileSetting.ConnectedTo;
+                    ControlDevice cd = ServiceManager.Instance.LedService.SLSDevices.ToArray().FirstOrDefault(x =>
+                        x.Name == currentProfileDeviceProfileSetting.SourceName &&
+                        x.Driver.Name() == currentProfileDeviceProfileSetting.SourceProviderName &&
+                        x.ConnectedTo == currentProfileDeviceProfileSetting.SourceConnectedTo);
 
-                    //if (!isMapping.ContainsKey(key) || isMapping[key] == false)
+                    ControlDevice dest = ServiceManager.Instance.LedService.SLSDevices.ToArray().FirstOrDefault(x =>
+                        x.Name == currentProfileDeviceProfileSetting.Name &&
+                        x.Driver.Name() == currentProfileDeviceProfileSetting.ProviderName &&
+                        x.ConnectedTo == currentProfileDeviceProfileSetting.ConnectedTo);
+
+                    if (cd != null && dest != null)
                     {
-                        if (!isMapping.ContainsKey(key))
+                        string key = currentProfileDeviceProfileSetting.SourceName +
+                                     currentProfileDeviceProfileSetting.SourceProviderName +
+                                     currentProfileDeviceProfileSetting.SourceConnectedTo +
+                                     currentProfileDeviceProfileSetting.Name +
+                                     currentProfileDeviceProfileSetting.ProviderName +
+                                     currentProfileDeviceProfileSetting.ConnectedTo;
+
+
+                        //using (new BenchMark("Mapping " + dest.Name))
                         {
-                            isMapping.Add(key, true);
+                            dest.MapLEDs(cd);
                         }
 
-                        dest.MapLEDs(cd);
                         pushMe.Add(new PushListItem
                         {
                             Device = dest,
@@ -143,50 +163,46 @@ namespace RGBSyncStudio.Services
                             Key = key
                         });
 
-
-                        isMapping[key] = true;
                     }
-
-
                 }
-
             }
 
-            foreach (IGrouping<ISimpleLed, PushListItem> gp in pushMe.GroupBy(x => x.Driver))
+            //using (new BenchMark("Push loop"))
             {
-                Task.Run(async () =>
-                {
-                    foreach (PushListItem t in gp.ToList())
-                    {
-                        try
-                        {
-                            gp.Key.Push(t.Device);
-                            await Task.Delay(0);
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.WriteLine(e.Message);
-                        }
-                    }
+                Parallel.ForEach(pushMe.GroupBy(x => x.Driver), gp =>
+                 {
 
-                    foreach (PushListItem t in gp.ToList())
-                    {
-                        try
-                        {
-                            isMapping[t.Key] = false;
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.WriteLine(e.Message);
-                        }
-                    }
-                }
-               );
+                     Parallel.ForEach(gp.ToList(), t =>
+                     {
+                         try
+                         {
+                             if (!isMapping.Contains(t.Device.Name))
+                             {
+                                 isMapping.Add(t.Device.Name);
+                                 Task.Run(() =>
+                                 {
+                                     gp.Key.Push(t.Device);
+                                     isMapping.Remove(t.Device.Name);
+                                 });
+                             }
+                         }
+                         catch (Exception e)
+                         {
+                             Debug.WriteLine(e.Message);
+                         }
+                     });
+
+                 });
+
+                // );
             }
 
+            isRunning = false;
         }
 
-        public Dictionary<string, bool> isMapping = new Dictionary<string, bool>();
+        //public Dictionary<string, bool> isMapping = new Dictionary<string, bool>();
+
+        public List<string> isMapping = new List<string>();
 
         public class PushListItem
         {
@@ -609,20 +625,50 @@ namespace RGBSyncStudio.Services
 
         public void SetUpdateRate(double tmr2)
         {
-            if (SLSTimer != null)
+            if (UpdateTick != null)
             {
-                SLSTimer.Stop();
-                SLSTimer.Dispose();
-                SLSTimer = null;
+                Debug.WriteLine("Updating up timer with ms of " + tmr2);
+                UpdateTickRate = (int)tmr2;
+            }
+            else
+            {
+                Debug.WriteLine("Setting up timer with ms of " + tmr2);
+                UpdateTick = new Thread(UpdateTickLogic);
+                UpdateTickRate = (int)tmr2;
+                UpdateTick.Start();
             }
 
-            Debug.WriteLine("Setting up timer with ms of " + tmr2);
-            SLSTimer = new System.Timers.Timer(tmr2);
-            SLSTimer.AutoReset = true;
-            SLSTimer.Elapsed += (sender, args) => SLSUpdate(null);
-            SLSTimer.Start();
-
         }
+
+        DateTime lastBenchmark = DateTime.Now;
+        private void UpdateTickLogic()
+        {
+            DateTime lastSync = DateTime.Now;
+            while (true)
+            {
+                //if ((DateTime.Now - lastBenchmark).TotalSeconds > 20)
+                //{
+                //    lastBenchmark = DateTime.Now;
+                //    BenchMarkProvider.Output();
+                //}
+
+                lastSync = DateTime.Now;
+
+                SLSUpdate(null);
+
+                var msTaken = (DateTime.Now - lastSync).TotalMilliseconds;
+
+                var remaining = UpdateTickRate - msTaken;
+
+                if (remaining > 0)
+                {
+                    Thread.Sleep(TimeSpan.FromMilliseconds(remaining));
+                }
+            }
+        }
+
+        private int UpdateTickRate = 33;
+        private Thread UpdateTick;
 
         public IEnumerable<DeviceMappingModels.Device> GetDevices() => SLSDevices.Select(ToDevice);
     }
