@@ -25,7 +25,7 @@ namespace RGBSyncStudio.Services
         public async void InstallPlugin(PositionalAssignment.PluginDetailsViewModel bdc)
         {
 
-            using (installingModal = new SimpleModal(ServiceManager.Instance.ApplicationManager.MainViewModel, "Installing..."))
+            using (installingModal = new SimpleModal(ServiceManager.Instance.ApplicationManager.MainViewModel, "Installing...", showProgressBar:true))
             {
                 ServiceManager.Instance.LedService.PauseSyncing = true;
                 Task.Delay(TimeSpan.FromSeconds(1)).Wait();
@@ -255,7 +255,7 @@ namespace RGBSyncStudio.Services
             string pluginPath = ApplicationManager.SLSPROVIDER_DIRECTORY + "\\" + parentDCPluginId;
             bool anyFail = false;
 
-            using (installingModal = new SimpleModal(ServiceManager.Instance.ApplicationManager.MainViewModel, "Installing..."))
+            using (installingModal = new SimpleModal(ServiceManager.Instance.ApplicationManager.MainViewModel, "Installing...", showProgressBar:true))
             {
 
                 ISimpleLed exist = ServiceManager.Instance.SLSManager.Drivers.FirstOrDefault(x => x.GetProperties().Id == parentDCPluginId);

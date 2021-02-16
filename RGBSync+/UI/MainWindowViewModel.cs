@@ -266,6 +266,14 @@ namespace RGBSyncStudio.UI
             set => SetProperty(ref showModalCloseButton, value);
         }
 
+        private bool showModalProgressBar = false;
+
+        public bool ShowModalProgressBar
+        {
+            get => showModalProgressBar;
+            set => SetProperty(ref showModalProgressBar, value);
+        }
+
         private string currentTab = "devices";
 
         public string CurrentTab
