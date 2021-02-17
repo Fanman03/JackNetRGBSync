@@ -31,3 +31,27 @@ C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Launch
 C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Launcher.csproj.CopyComplete
 C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\RSSLauncher.exe
 C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\RSSLauncher.pdb
+C:\Projects\RGB Sync Studio\Launcher\bin\Release\RSSLauncher.exe.config
+C:\Projects\RGB Sync Studio\Launcher\bin\Release\RSSLauncher.exe
+C:\Projects\RGB Sync Studio\Launcher\bin\Release\RSSLauncher.pdb
+C:\Projects\RGB Sync Studio\Launcher\bin\Release\Newtonsoft.Json.xml
+C:\Projects\RGB Sync Studio\Launcher\bin\Release\System.Diagnostics.DiagnosticSource.xml
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\Launcher.csprojAssemblyReference.cache
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\MainWindow.g.cs
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\UpgradingWindow.g.cs
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\App.g.cs
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\GeneratedInternalTypeHelper.g.cs
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\RSSLauncher_MarkupCompile.cache
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\RSSLauncher_MarkupCompile.lref
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\App.baml
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\MainWindow.baml
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\Resources\RGBSync+.baml
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\UpgradingWindow.baml
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\RSSLauncher.g.resources
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\Launcher.Properties.Resources.resources
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\Launcher.csproj.GenerateResource.cache
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\Launcher.csproj.CoreCompileInputs.cache
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\Launcher.csproj.Fody.CopyLocal.cache
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\Launcher.csproj.CopyComplete
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\RSSLauncher.exe
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\RSSLauncher.pdb
