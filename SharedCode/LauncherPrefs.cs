@@ -9,7 +9,7 @@
             CI
         }
 
-        public ReleaseType ReleaseBranch { get; set; } = ReleaseType.CI;
+        public ReleaseType ReleaseBranch { get; set; } = ReleaseType.Beta;
         public bool MinimizeOnStartUp { get; set; }
         public bool MinimizeToTray { get; set; }
         public bool RunAsAdmin { get; set; }

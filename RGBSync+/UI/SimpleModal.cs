@@ -8,7 +8,7 @@ namespace RGBSyncStudio.UI
     {
         private readonly MainWindowViewModel viewmodel;
         private readonly bool actuallyDispose = true;
-        public SimpleModal(MainWindowViewModel vm, string text, bool showPercentage = false)
+        public SimpleModal(MainWindowViewModel vm, string text, bool showPercentage = false, bool showProgressBar = false)
         {
             if (vm != null)
             {
@@ -22,6 +22,7 @@ namespace RGBSyncStudio.UI
                     viewmodel = vm;
                     vm.ShowModal = true;
                     vm.ModalShowPercentage = showPercentage;
+                    vm.ShowModalProgressBar = showProgressBar;
                     vm.ModalPercentage = 100;
                     vm.ModalText = text;
                     if (ServiceManager.Instance.ApplicationManager?.MainWindow?.ContainingGrid != null)
