@@ -172,9 +172,9 @@ namespace RGBSyncStudio.Services
             {
                 if (SettingsRequiresSave())
                 {
-                    HotLoadSettings();
+                    //HotLoadSettings();
 
-                    SaveSettings();
+                    //SaveSettings();
 
                 }
 

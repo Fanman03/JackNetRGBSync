@@ -128,6 +128,7 @@
     <Compile Include="Helper\ImageHelpers.cs" />
     <Compile Include="Helper\MathHelper.cs" />
     <Compile Include="Helper\ReflectionHelpers.cs" />
+    <Compile Include="Helper\TryReallyHard.cs" />
     <Compile Include="Helper\UIHelpers.cs" />
     <Compile Include="INewsSource.cs" />
     <Compile Include="Languages\LanguageModel.cs" />

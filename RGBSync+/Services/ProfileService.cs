@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using RGBSyncStudio.Helper;
 
 namespace RGBSyncStudio.Services
 {
@@ -19,10 +21,10 @@ namespace RGBSyncStudio.Services
         public readonly Dictionary<string, string> profilePathMapping = new Dictionary<string, string>();
         private readonly SimpleLogger Logger = ServiceManager.Instance.Logger;
         private readonly DeviceMappingModels.Settings Settings = ServiceManager.Instance.ConfigService.Settings;
-        public string ProfileS_DIRECTORY;
+        public string PROFILES_DIRECTORY;
         public ProfileService(string profilesDir)
         {
-            ProfileS_DIRECTORY = profilesDir;
+            PROFILES_DIRECTORY = profilesDir;
         }
 
         public bool ProfilesRequiresSave()
@@ -33,27 +35,40 @@ namespace RGBSyncStudio.Services
 
         public void SaveCurrentProfile()
         {
-            if (CurrentProfile.Id == Guid.Empty)
+            bool success = false;
+            int attempts = 0;
+            while (attempts < 10 && !success)
             {
-                CurrentProfile.Id = Guid.NewGuid();
-            }
-            Guid id = CurrentProfile.Id;
+                try
+                {
+                    if (CurrentProfile.Id == Guid.Empty)
+                    {
+                        CurrentProfile.Id = Guid.NewGuid();
+                    }
 
-            string json = JsonConvert.SerializeObject(CurrentProfile);
-            string path;
-            if (profilePathMapping.ContainsKey(CurrentProfile.Name))
-            {
-                path = profilePathMapping[CurrentProfile.Name];
-            }
-            else
-            {
-                path = ProfileS_DIRECTORY + "\\" + id + ".rsprofile";
-                profilePathMapping.Add(CurrentProfile.Name, path);
-            }
+                    Guid id = CurrentProfile.Id;
 
-            ServiceManager.Instance.ConfigService.TimeSettingsLastSave = DateTime.Now;
-            File.WriteAllText(path, json);
-            CurrentProfile.IsProfileStale = false;
+                    string json = JsonConvert.SerializeObject(CurrentProfile);
+                    string path;
+                    if (profilePathMapping.ContainsKey(CurrentProfile.Name))
+                    {
+                        path = profilePathMapping[CurrentProfile.Name];
+                    }
+                    else
+                    {
+                        path = PROFILES_DIRECTORY + "\\" + id + ".rsprofile";
+                        profilePathMapping.Add(CurrentProfile.Name, path);
+                    }
+
+                    ServiceManager.Instance.ConfigService.TimeSettingsLastSave = DateTime.Now;
+                    File.WriteAllText(path, json);
+                    CurrentProfile.IsProfileStale = false;
+                }
+                catch
+                {
+                    Thread.Sleep(1000);
+                }
+            }
         }
 
         public void GenerateNewProfile(string name, bool hotLoad = true)
@@ -63,9 +78,9 @@ namespace RGBSyncStudio.Services
                 throw new ArgumentException("Profile name '" + name + "' already exists");
             }
 
-            if (!Directory.Exists(ProfileS_DIRECTORY))
+            if (!Directory.Exists(PROFILES_DIRECTORY))
             {
-                Directory.CreateDirectory(ProfileS_DIRECTORY);
+                Directory.CreateDirectory(PROFILES_DIRECTORY);
             }
 
             DeviceMappingModels.Profile newProfile = new DeviceMappingModels.Profile();
@@ -74,7 +89,7 @@ namespace RGBSyncStudio.Services
             Guid idGuid = Guid.NewGuid();
             newProfile.Id = idGuid;
             string filename = idGuid.ToString() + ".rsprofile";
-            string fullPath = ProfileS_DIRECTORY + "\\" + filename;
+            string fullPath = PROFILES_DIRECTORY + "\\" + filename;
             string json = JsonConvert.SerializeObject(newProfile);
             File.WriteAllText(fullPath, json);
 
@@ -157,27 +172,33 @@ namespace RGBSyncStudio.Services
 
         public DeviceMappingModels.Profile GetProfileFromName(string profileName)
         {
-            if (profilePathMapping.ContainsKey(profileName))
+            return TryReallyHard.ToRun(thisCode: () =>
             {
-                string map = profilePathMapping[profileName];
-                DeviceMappingModels.Profile result = GetProfileFromPath(map);
-
-                if (result.Id == Guid.Empty)
+                if (profilePathMapping.ContainsKey(profileName))
                 {
-                    string gid = map.Split('\\').Last().Split('.').First();
-                    result.Id = Guid.Parse(gid);
+                    string map = profilePathMapping[profileName];
+                    DeviceMappingModels.Profile result = GetProfileFromPath(map);
+
+                    if (result.Id == Guid.Empty)
+                    {
+                        string gid = map.Split('\\').Last().Split('.').First();
+                        result.Id = Guid.Parse(gid);
+                    }
+
+                    return result;
                 }
 
-                return result;
-            }
-
-            return null;
+                return null;
+            });
         }
 
         public DeviceMappingModels.Profile GetProfileFromPath(string path)
         {
-            string json = File.ReadAllText(path);
-            return JsonConvert.DeserializeObject<DeviceMappingModels.Profile>(json);
+            return TryReallyHard.ToRun(thisCode: () =>
+            {
+                string json = File.ReadAllText(path);
+                return JsonConvert.DeserializeObject<DeviceMappingModels.Profile>(json);
+            });
         }
 
 

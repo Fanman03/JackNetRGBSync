@@ -127,14 +127,14 @@ namespace RGBSyncStudio.UI.Tabs
             OnPropertyChanged("ReleaseType");
             OnPropertyChanged("MinimizeToTray");
 
-            ApiEnabled = ServiceManager.Instance.ConfigService.NGSettings.ApiEnabled;
-            DiscordEnabled = ServiceManager.Instance.ConfigService.NGSettings.EnableDiscordRPC;
+            ApiEnabled = ServiceManager.Instance.ConfigService.Settings.ApiEnabled;
+            DiscordEnabled = ServiceManager.Instance.ConfigService.Settings.EnableDiscordRPC;
 
-            Background = ServiceManager.Instance.ConfigService.NGSettings.Background;
-            BackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.BackgroundOpacity * 100;
-            DimBackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.DimBackgroundOpacity * 100;
-            BackgroundBlur = ServiceManager.Instance.ConfigService.NGSettings.BackgroundBlur * 5;
-            ControllableBG = ServiceManager.Instance.ConfigService.NGSettings.ControllableBG;
+            Background = ServiceManager.Instance.ConfigService.Settings.Background;
+            BackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.BackgroundOpacity * 100;
+            DimBackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.DimBackgroundOpacity * 100;
+            BackgroundBlur = ServiceManager.Instance.ConfigService.Settings.BackgroundBlur * 5;
+            ControllableBG = ServiceManager.Instance.ConfigService.Settings.ControllableBG;
 
             UpdateRate = ServiceManager.Instance.ConfigService.Settings.UpdateRate;
 
@@ -187,7 +187,7 @@ namespace RGBSyncStudio.UI.Tabs
             set
             {
                 SetProperty(ref apiEnabled, value);
-                ServiceManager.Instance.ConfigService.NGSettings.ApiEnabled = value;
+                ServiceManager.Instance.ConfigService.Settings.ApiEnabled = value;
             }
         }
 
@@ -198,7 +198,7 @@ namespace RGBSyncStudio.UI.Tabs
             set
             {
                 SetProperty(ref discordEnabled, value);
-                ServiceManager.Instance.ConfigService.NGSettings.EnableDiscordRPC = value;
+                ServiceManager.Instance.ConfigService.Settings.EnableDiscordRPC = value;
             }
         }
 

@@ -175,8 +175,22 @@ namespace RGBSyncStudio.Model
                 ProfileChange?.Invoke(this, new EventArgs());
             }
 
+
+            private bool areSettingStale = false;
             [JsonIgnore]
-            public bool AreSettingsStale { get; set; }
+            public bool AreSettingsStale
+            {
+                get => areSettingStale;
+                set
+                {
+                    areSettingStale = value;
+                    if (value)
+                    {
+                        ServiceManager.Instance.ConfigService.SaveSettings();
+                        areSettingStale = false;
+                    }
+                }
+            }
             private ObservableCollection<string> profileNames;
             [JsonIgnore]
             public ObservableCollection<string> ProfileNames
