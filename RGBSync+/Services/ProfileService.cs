@@ -18,11 +18,11 @@ namespace RGBSyncStudio.Services
         }
         public readonly Dictionary<string, string> profilePathMapping = new Dictionary<string, string>();
         private readonly SimpleLogger Logger = ServiceManager.Instance.Logger;
-        private readonly DeviceMappingModels.NGSettings NGSettings = ServiceManager.Instance.ConfigService.NGSettings;
-        public string NGPROFILES_DIRECTORY;
+        private readonly DeviceMappingModels.Settings Settings = ServiceManager.Instance.ConfigService.Settings;
+        public string ProfileS_DIRECTORY;
         public ProfileService(string profilesDir)
         {
-            NGPROFILES_DIRECTORY = profilesDir;
+            ProfileS_DIRECTORY = profilesDir;
         }
 
         public bool ProfilesRequiresSave()
@@ -31,7 +31,7 @@ namespace RGBSyncStudio.Services
             return (CurrentProfile.IsProfileStale);
         }
 
-        public void SaveCurrentNGProfile()
+        public void SaveCurrentProfile()
         {
             if (CurrentProfile.Id == Guid.Empty)
             {
@@ -47,7 +47,7 @@ namespace RGBSyncStudio.Services
             }
             else
             {
-                path = NGPROFILES_DIRECTORY + "\\" + id + ".rsprofile";
+                path = ProfileS_DIRECTORY + "\\" + id + ".rsprofile";
                 profilePathMapping.Add(CurrentProfile.Name, path);
             }
 
@@ -58,33 +58,33 @@ namespace RGBSyncStudio.Services
 
         public void GenerateNewProfile(string name, bool hotLoad = true)
         {
-            if (NGSettings?.ProfileNames != null && NGSettings.ProfileNames.Any(x => x.ToLower() == name.ToLower()))
+            if (Settings?.ProfileNames != null && Settings.ProfileNames.Any(x => x.ToLower() == name.ToLower()))
             {
                 throw new ArgumentException("Profile name '" + name + "' already exists");
             }
 
-            if (!Directory.Exists(NGPROFILES_DIRECTORY))
+            if (!Directory.Exists(ProfileS_DIRECTORY))
             {
-                Directory.CreateDirectory(NGPROFILES_DIRECTORY);
+                Directory.CreateDirectory(ProfileS_DIRECTORY);
             }
 
-            DeviceMappingModels.NGProfile newProfile = new DeviceMappingModels.NGProfile();
+            DeviceMappingModels.Profile newProfile = new DeviceMappingModels.Profile();
             newProfile.Name = name;
 
             Guid idGuid = Guid.NewGuid();
             newProfile.Id = idGuid;
             string filename = idGuid.ToString() + ".rsprofile";
-            string fullPath = NGPROFILES_DIRECTORY + "\\" + filename;
+            string fullPath = ProfileS_DIRECTORY + "\\" + filename;
             string json = JsonConvert.SerializeObject(newProfile);
             File.WriteAllText(fullPath, json);
 
             //profilePathMapping.Add(name,fullPath);
-            NGSettings.CurrentProfile = name;
+            Settings.CurrentProfile = name;
             CurrentProfile = newProfile;
             profilePathMapping.Clear();
             if (hotLoad)
             {
-                ServiceManager.Instance.ConfigService.HotLoadNGSettings();
+                ServiceManager.Instance.ConfigService.HotLoadSettings();
             }
 
         }
@@ -151,16 +151,16 @@ namespace RGBSyncStudio.Services
                     CurrentProfile.IsProfileStale = true;
                 }
 
-                NGSettings.CurrentProfile = profileName;
+                Settings.CurrentProfile = profileName;
             }
         }
 
-        public DeviceMappingModels.NGProfile GetProfileFromName(string profileName)
+        public DeviceMappingModels.Profile GetProfileFromName(string profileName)
         {
             if (profilePathMapping.ContainsKey(profileName))
             {
                 string map = profilePathMapping[profileName];
-                DeviceMappingModels.NGProfile result = GetProfileFromPath(map);
+                DeviceMappingModels.Profile result = GetProfileFromPath(map);
 
                 if (result.Id == Guid.Empty)
                 {
@@ -174,21 +174,21 @@ namespace RGBSyncStudio.Services
             return null;
         }
 
-        public DeviceMappingModels.NGProfile GetProfileFromPath(string path)
+        public DeviceMappingModels.Profile GetProfileFromPath(string path)
         {
             string json = File.ReadAllText(path);
-            return JsonConvert.DeserializeObject<DeviceMappingModels.NGProfile>(json);
+            return JsonConvert.DeserializeObject<DeviceMappingModels.Profile>(json);
         }
 
 
-        public DeviceMappingModels.NGProfile CurrentProfile;
+        public DeviceMappingModels.Profile CurrentProfile;
 
         public void DeleteProfile(string dcName)
         {
             string path = profilePathMapping[dcName];
             ServiceManager.Instance.ConfigService.TimeSettingsLastSave = DateTime.Now;
             File.Delete(path);
-            ServiceManager.Instance.ConfigService.HotLoadNGSettings();
+            ServiceManager.Instance.ConfigService.HotLoadSettings();
         }
 
         public void RenameProfile(string currentProfileOriginalName, string currentProfileName)
@@ -196,17 +196,17 @@ namespace RGBSyncStudio.Services
             if (profilePathMapping.ContainsKey(currentProfileOriginalName))
             {
                 string map = profilePathMapping[currentProfileOriginalName];
-                DeviceMappingModels.NGProfile profile = GetProfileFromPath(map);
+                DeviceMappingModels.Profile profile = GetProfileFromPath(map);
 
                 profile.Name = currentProfileName;
 
-                SaveNGProfile(profile, map);
-                ServiceManager.Instance.ConfigService.HotLoadNGSettings();
+                SaveProfile(profile, map);
+                ServiceManager.Instance.ConfigService.HotLoadSettings();
             }
         }
 
 
-        public void SaveNGProfile(DeviceMappingModels.NGProfile profile)
+        public void SaveProfile(DeviceMappingModels.Profile profile)
         {
             string json = JsonConvert.SerializeObject(profile);
             string path = profilePathMapping[profile.Name];
@@ -215,7 +215,7 @@ namespace RGBSyncStudio.Services
             CurrentProfile.IsProfileStale = false;
         }
 
-        public void SaveNGProfile(DeviceMappingModels.NGProfile profile, string path)
+        public void SaveProfile(DeviceMappingModels.Profile profile, string path)
         {
             string json = JsonConvert.SerializeObject(profile);
             ServiceManager.Instance.ConfigService.TimeSettingsLastSave = DateTime.Now;

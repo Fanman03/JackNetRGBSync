@@ -8,7 +8,7 @@ namespace RGBSyncStudio.API
     {
         public List<string> GetProfiles()
         {
-            return ServiceManager.Instance.ConfigService.NGSettings.ProfileNames.ToList();
+            return ServiceManager.Instance.ConfigService.Settings.ProfileNames.ToList();
         }
 
         public void SetProfile(string profileName)

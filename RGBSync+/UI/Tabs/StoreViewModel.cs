@@ -25,7 +25,7 @@ namespace RGBSyncStudio.UI.Tabs
 
         public async Task InitAsync()
         {
-            ShowPreRelease = ServiceManager.Instance.ConfigService.NGSettings.Experimental;
+            ShowPreRelease = ServiceManager.Instance.ConfigService.Settings.Experimental;
 
             storeHandler = new StoreHandler();
 

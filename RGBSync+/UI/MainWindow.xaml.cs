@@ -37,7 +37,7 @@ namespace RGBSyncStudio.UI
             // 0xF020 == SC_MINIMIZE, command to minimize the window.
             if (msg == 0x0112 && ((int)wParam & 0xFFF0) == 0xF020)
             {
-                if (ServiceManager.Instance.ConfigService.NGSettings.MinimizeToTray == true)
+                if (ServiceManager.Instance.ConfigService.Settings.MinimizeToTray == true)
                 {
                     // Cancel the minimize.
                     handled = true;

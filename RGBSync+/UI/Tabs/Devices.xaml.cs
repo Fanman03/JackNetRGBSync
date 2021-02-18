@@ -144,7 +144,7 @@ namespace RGBSyncStudio.UI.Tabs
         {
             try
             {
-                DeviceMappingModels.NGProfile profile = ServiceManager.Instance.ProfileService.CurrentProfile;
+                DeviceMappingModels.Profile profile = ServiceManager.Instance.ProfileService.CurrentProfile;
                 if (profile?.DeviceProfileSettings == null)
                 {
                     profile.DeviceProfileSettings = new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();
@@ -362,7 +362,7 @@ namespace RGBSyncStudio.UI.Tabs
             foreach (DeviceMappingModels.Device parentDevice in selectedParents)
             {
                 {
-                    DeviceMappingModels.NGProfile profile = ServiceManager.Instance.ProfileService.CurrentProfile;
+                    DeviceMappingModels.Profile profile = ServiceManager.Instance.ProfileService.CurrentProfile;
                     if (profile?.DeviceProfileSettings == null)
                     {
                         profile.DeviceProfileSettings = new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();

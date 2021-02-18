@@ -35,7 +35,7 @@ namespace RGBSyncStudio.Services
 
         public void Stop()
         {
-            if (ServiceManager.Instance.ConfigService.NGSettings.EnableDiscordRPC == true)
+            if (ServiceManager.Instance.ConfigService.Settings.EnableDiscordRPC == true)
             {
                 try
                 {

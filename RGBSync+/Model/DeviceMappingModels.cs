@@ -37,7 +37,7 @@ namespace RGBSyncStudio.Model
 
 
 
-        public class NGSettings : BaseViewModel
+        public class Settings : BaseViewModel
         {
             private string simpleLedUserName;
 
@@ -320,7 +320,7 @@ namespace RGBSyncStudio.Model
             }
         }
 
-        public class NGProfile : BaseViewModel
+        public class Profile : BaseViewModel
         {
 
             private ColorProfile colorProfile;

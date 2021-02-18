@@ -65,7 +65,7 @@ namespace RGBSyncStudio.UI.Tabs
             set
             {
                 SetProperty(ref minimizeToTray, value);
-                ServiceManager.Instance.ConfigService.NGSettings.MinimizeToTray = value;
+                ServiceManager.Instance.ConfigService.Settings.MinimizeToTray = value;
                 ServiceManager.Instance.ConfigService.LauncherPrefs.MinimizeToTray = value;
                 SaveLauncherSettings();
             }
@@ -95,7 +95,7 @@ namespace RGBSyncStudio.UI.Tabs
         }
 
         public ObservableCollection<LauncherPrefs.ReleaseType> ReleaseTypes { get; set; }
-        public DeviceMappingModels.NGSettings NGSettings { get; set; }
+        public DeviceMappingModels.Settings Settings { get; set; }
 
         public SettingsUIViewModel()
         {
@@ -104,8 +104,8 @@ namespace RGBSyncStudio.UI.Tabs
 
         public void Init()
         {
-            NGSettings = ServiceManager.Instance.ConfigService.NGSettings;
-            CurrentLanguage = Languages.FirstOrDefault(x => x.Code == ServiceManager.Instance.ConfigService.NGSettings.Lang);
+            Settings = ServiceManager.Instance.ConfigService.Settings;
+            CurrentLanguage = Languages.FirstOrDefault(x => x.Code == ServiceManager.Instance.ConfigService.Settings.Lang);
 
             ReleaseTypes = new ObservableCollection<LauncherPrefs.ReleaseType>();
 
@@ -118,7 +118,7 @@ namespace RGBSyncStudio.UI.Tabs
             MinimizeToTray = ServiceManager.Instance.ConfigService.LauncherPrefs.MinimizeToTray;
 
             ReleaseType = ServiceManager.Instance.ConfigService.LauncherPrefs.ReleaseBranch;
-            SimpleLedUserName = ServiceManager.Instance.ConfigService.NGSettings.SimpleLedUserName;
+            SimpleLedUserName = ServiceManager.Instance.ConfigService.Settings.SimpleLedUserName;
 
             OnPropertyChanged("ReleaseTypes");
             OnPropertyChanged("StartAsAdmin");
@@ -126,13 +126,13 @@ namespace RGBSyncStudio.UI.Tabs
             OnPropertyChanged("ReleaseType");
             OnPropertyChanged("MinimizeToTray");
 
-            Background = ServiceManager.Instance.ConfigService.NGSettings.Background;
-            BackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.BackgroundOpacity * 100;
-            DimBackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.DimBackgroundOpacity * 100;
-            BackgroundBlur = ServiceManager.Instance.ConfigService.NGSettings.BackgroundBlur * 5;
-            ControllableBG = ServiceManager.Instance.ConfigService.NGSettings.ControllableBG;
+            Background = ServiceManager.Instance.ConfigService.Settings.Background;
+            BackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.BackgroundOpacity * 100;
+            DimBackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.DimBackgroundOpacity * 100;
+            BackgroundBlur = ServiceManager.Instance.ConfigService.Settings.BackgroundBlur * 5;
+            ControllableBG = ServiceManager.Instance.ConfigService.Settings.ControllableBG;
 
-            UpdateRate = ServiceManager.Instance.ConfigService.NGSettings.UpdateRate;
+            UpdateRate = ServiceManager.Instance.ConfigService.Settings.UpdateRate;
 
             enableReleaseTypeModal = true;
         }
@@ -146,7 +146,7 @@ namespace RGBSyncStudio.UI.Tabs
             set
             {
                 SetProperty(ref background, value);
-                ServiceManager.Instance.ConfigService.NGSettings.Background = value;
+                ServiceManager.Instance.ConfigService.Settings.Background = value;
             }
         }
 
@@ -159,7 +159,7 @@ namespace RGBSyncStudio.UI.Tabs
             set
             {
                 SetProperty(ref bgopacity, (float)Math.Floor(value));
-                ServiceManager.Instance.ConfigService.NGSettings.BackgroundOpacity = (float)Math.Floor(value) / 100f;
+                ServiceManager.Instance.ConfigService.Settings.BackgroundOpacity = (float)Math.Floor(value) / 100f;
             }
         }
 
@@ -171,7 +171,7 @@ namespace RGBSyncStudio.UI.Tabs
             set
             {
                 SetProperty(ref updateRate, value);
-                ServiceManager.Instance.ConfigService.NGSettings.UpdateRate = value;
+                ServiceManager.Instance.ConfigService.Settings.UpdateRate = value;
             }
         }
 
@@ -183,7 +183,7 @@ namespace RGBSyncStudio.UI.Tabs
             set
             {
                 SetProperty(ref controllableBG, value);
-                ServiceManager.Instance.ConfigService.NGSettings.ControllableBG = value;
+                ServiceManager.Instance.ConfigService.Settings.ControllableBG = value;
             }
         }
 
@@ -195,7 +195,7 @@ namespace RGBSyncStudio.UI.Tabs
             set
             {
                 SetProperty(ref rainbowTab, value);
-                ServiceManager.Instance.ConfigService.NGSettings.RainbowTabBars = value;
+                ServiceManager.Instance.ConfigService.Settings.RainbowTabBars = value;
             }
         }
 
@@ -207,7 +207,7 @@ namespace RGBSyncStudio.UI.Tabs
             set
             {
                 SetProperty(ref accentColor, value);
-                ServiceManager.Instance.ConfigService.NGSettings.AccentColor = value;
+                ServiceManager.Instance.ConfigService.Settings.AccentColor = value;
             }
         }
 
@@ -219,7 +219,7 @@ namespace RGBSyncStudio.UI.Tabs
             set
             {
                 SetProperty(ref dimbgopacity, (float)Math.Floor(value));
-                ServiceManager.Instance.ConfigService.NGSettings.DimBackgroundOpacity = (float)Math.Floor(value) / 100f;
+                ServiceManager.Instance.ConfigService.Settings.DimBackgroundOpacity = (float)Math.Floor(value) / 100f;
             }
         }
 
@@ -231,7 +231,7 @@ namespace RGBSyncStudio.UI.Tabs
             set
             {
                 SetProperty(ref backgroundBlur, (float)Math.Floor(value));
-                ServiceManager.Instance.ConfigService.NGSettings.BackgroundBlur = (float)Math.Floor(value) / 5f;
+                ServiceManager.Instance.ConfigService.Settings.BackgroundBlur = (float)Math.Floor(value) / 5f;
                 //if (blurTimer != null)
                 //{
                 //    blurTimer.Stop();
@@ -246,7 +246,7 @@ namespace RGBSyncStudio.UI.Tabs
                 //blurTimer.Tick += (sender, args) =>
                 //{
                 //    blurTimer.Stop();
-                //    ServiceManager.Instance.ConfigService.NGSettings.BackgroundBlur = (float)Math.Floor(value) / 20f;
+                //    ServiceManager.Instance.ConfigService.Settings.BackgroundBlur = (float)Math.Floor(value) / 20f;
                 //};
 
                 //blurTimer.Start();
@@ -275,7 +275,7 @@ namespace RGBSyncStudio.UI.Tabs
                 currentLanguage = value;
                 if (value != null)
                 {
-                    NGSettings.Lang = value.Code;
+                    Settings.Lang = value.Code;
                 }
 
             }

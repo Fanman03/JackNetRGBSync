@@ -171,14 +171,14 @@ namespace RGBSyncStudio.UI.Tabs
 
         public ProfileTabViewModel()
         {
-            ProfileNames = ServiceManager.Instance.ConfigService.NGSettings.ProfileNames;
+            ProfileNames = ServiceManager.Instance.ConfigService.Settings.ProfileNames;
             SetUpProfileModels();
 
             EnsureCorrectProfileIndex();
 
             OnPropertyChanged(nameof(ProfileTriggerTypeNames));
 
-            ServiceManager.Instance.ConfigService.NGSettings.ProfileChange += delegate (object sender, EventArgs args) { CheckCurrentProfile(); };
+            ServiceManager.Instance.ConfigService.Settings.ProfileChange += delegate (object sender, EventArgs args) { CheckCurrentProfile(); };
         }
 
         public void SetUpProfileModels(bool setActive = true)
@@ -206,7 +206,7 @@ namespace RGBSyncStudio.UI.Tabs
 
                     if (setActive)
                     {
-                        ActiveProfile = ServiceManager.Instance.ConfigService.NGSettings.CurrentProfile;
+                        ActiveProfile = ServiceManager.Instance.ConfigService.Settings.CurrentProfile;
                     }
                 }
             }
@@ -217,9 +217,9 @@ namespace RGBSyncStudio.UI.Tabs
 
         public void CheckCurrentProfile()
         {
-            if (ActiveProfile != ServiceManager.Instance.ConfigService.NGSettings.CurrentProfile)
+            if (ActiveProfile != ServiceManager.Instance.ConfigService.Settings.CurrentProfile)
             {
-                ActiveProfile = ServiceManager.Instance.ConfigService.NGSettings.CurrentProfile;
+                ActiveProfile = ServiceManager.Instance.ConfigService.Settings.CurrentProfile;
             }
 
 
@@ -244,7 +244,7 @@ namespace RGBSyncStudio.UI.Tabs
                 modalSubmitAction = (text) =>
                 {
                     ServiceManager.Instance.ProfileService.GenerateNewProfile(text);
-                    ProfileNames = ServiceManager.Instance.ConfigService.NGSettings.ProfileNames;
+                    ProfileNames = ServiceManager.Instance.ConfigService.Settings.ProfileNames;
                     ServiceManager.Instance.ProfileService.LoadProfileFromName(text);
                     EnsureCorrectProfileIndex();
                 }
@@ -306,7 +306,7 @@ namespace RGBSyncStudio.UI.Tabs
 
         public void RefreshProfiles(bool setActive = true)
         {
-            ProfileNames = ServiceManager.Instance.ConfigService.NGSettings.ProfileNames;
+            ProfileNames = ServiceManager.Instance.ConfigService.Settings.ProfileNames;
             SetUpProfileModels(setActive);
             ShowEditProfile = false;
             OnPropertyChanged("ProfileNames");

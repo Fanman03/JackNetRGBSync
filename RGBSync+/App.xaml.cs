@@ -15,7 +15,7 @@ namespace RGBSyncStudio
     public partial class App : Application
     {
         public const string SLSPROVIDER_DIRECTORY = "SLSProvider";
-        private const string NGPROFILES_DIRECTORY = "NGProfiles";
+        private const string ProfileS_DIRECTORY = "Profiles";
         private const string SLSCONFIGS_DIRECTORY = "SLSConfigs";
 
         #region Constants
@@ -50,7 +50,7 @@ namespace RGBSyncStudio
                 this.DispatcherUnhandledException += App_DispatcherUnhandledException;
             }
 
-            ServiceManager.Initialize(SLSCONFIGS_DIRECTORY, NGPROFILES_DIRECTORY);
+            ServiceManager.Initialize(SLSCONFIGS_DIRECTORY, ProfileS_DIRECTORY);
             ServiceManager.Instance.ApplicationManager.Initialize();
 
             ServiceManager.Instance.ProfileService.OnProfilesChanged += (object sender, EventArgs ev) => appBvm.RefreshProfiles();
@@ -135,16 +135,16 @@ namespace RGBSyncStudio
 
         public static ObservableCollection<ProfileObject> GetProfiles()
         {
-            if (ServiceManager.Instance?.ConfigService?.NGSettings?.ProfileNames != null)
+            if (ServiceManager.Instance?.ConfigService?.Settings?.ProfileNames != null)
             {
                 ObservableCollection<ProfileObject> prfs = new ObservableCollection<ProfileObject>();
-                foreach (string name in ServiceManager.Instance.ConfigService.NGSettings.ProfileNames)
+                foreach (string name in ServiceManager.Instance.ConfigService.Settings.ProfileNames)
                 {
                     ProfileObject prf = new ProfileObject();
                     prf.Name = name;
                     prfs.Add(prf);
 
-                    if (prf.Name == ServiceManager.Instance.ConfigService.NGSettings.CurrentProfile)
+                    if (prf.Name == ServiceManager.Instance.ConfigService.Settings.CurrentProfile)
                     {
                         prf.IsSelected = true;
                     }

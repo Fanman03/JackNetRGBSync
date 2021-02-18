@@ -55,22 +55,22 @@ namespace RGBSyncStudio.UI
 
             CurrentTab = "devices";
 
-            ServiceManager.Instance.ConfigService.NGSettings.BGChangedEvent += (sender, args) =>
+            ServiceManager.Instance.ConfigService.Settings.BGChangedEvent += (sender, args) =>
             {
-                this.BackGround = ServiceManager.Instance.ConfigService.NGSettings.Background;
-                this.BackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.BackgroundOpacity;
-                this.DimBackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.DimBackgroundOpacity;
-                this.BackgroundBlur = ServiceManager.Instance.ConfigService.NGSettings.BackgroundBlur;
-                this.ControllableBG = ServiceManager.Instance.ConfigService.NGSettings.ControllableBG;
-                this.RainbowTabBars = ServiceManager.Instance.ConfigService.NGSettings.RainbowTabBars;
+                this.BackGround = ServiceManager.Instance.ConfigService.Settings.Background;
+                this.BackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.BackgroundOpacity;
+                this.DimBackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.DimBackgroundOpacity;
+                this.BackgroundBlur = ServiceManager.Instance.ConfigService.Settings.BackgroundBlur;
+                this.ControllableBG = ServiceManager.Instance.ConfigService.Settings.ControllableBG;
+                this.RainbowTabBars = ServiceManager.Instance.ConfigService.Settings.RainbowTabBars;
             };
 
-            this.BackGround = ServiceManager.Instance.ConfigService.NGSettings.Background;
-            this.BackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.BackgroundOpacity;
-            this.DimBackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.DimBackgroundOpacity;
-            this.BackgroundBlur = ServiceManager.Instance.ConfigService.NGSettings.BackgroundBlur;
-            this.ControllableBG = ServiceManager.Instance.ConfigService.NGSettings.ControllableBG;
-            this.RainbowTabBars = ServiceManager.Instance.ConfigService.NGSettings.RainbowTabBars;
+            this.BackGround = ServiceManager.Instance.ConfigService.Settings.Background;
+            this.BackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.BackgroundOpacity;
+            this.DimBackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.DimBackgroundOpacity;
+            this.BackgroundBlur = ServiceManager.Instance.ConfigService.Settings.BackgroundBlur;
+            this.ControllableBG = ServiceManager.Instance.ConfigService.Settings.ControllableBG;
+            this.RainbowTabBars = ServiceManager.Instance.ConfigService.Settings.RainbowTabBars;
 
             DispatcherTimer update = new DispatcherTimer()
             {

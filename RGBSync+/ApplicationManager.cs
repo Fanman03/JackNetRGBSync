@@ -17,7 +17,7 @@ namespace RGBSyncStudio
         public MainWindowViewModel MainViewModel => MainWindow.DataContext as MainWindowViewModel;
 
         public const string SLSPROVIDER_DIRECTORY = "SLSProvider";
-        private const string NGPROFILES_DIRECTORY = "NGProfiles";
+        private const string ProfileS_DIRECTORY = "Profiles";
         private const string SLSCONFIGS_DIRECTORY = "SLSConfigs";
 
         public MainWindow MainWindow;
@@ -33,9 +33,9 @@ namespace RGBSyncStudio
         {
             try
             {
-                if (!Directory.Exists(NGPROFILES_DIRECTORY))
+                if (!Directory.Exists(ProfileS_DIRECTORY))
                 {
-                    Directory.CreateDirectory(NGPROFILES_DIRECTORY);
+                    Directory.CreateDirectory(ProfileS_DIRECTORY);
                     ServiceManager.Instance.ProfileService.GenerateNewProfile("Default", false);
                     ServiceManager.Instance.ConfigService.isHotLoading = false;
                 }
@@ -62,16 +62,16 @@ namespace RGBSyncStudio
             ServiceManager.Instance.Logger.Debug("============ JackNet RGB Sync is Starting ============");
 
             CultureInfo ci = CultureInfo.InstalledUICulture;
-            if (ServiceManager.Instance.ConfigService.NGSettings.Lang == null)
+            if (ServiceManager.Instance.ConfigService.Settings.Lang == null)
             {
                 ServiceManager.Instance.Logger.Debug("Language is not set, inferring language from system culture. Lang=" + ci.TwoLetterISOLanguageName);
-                ServiceManager.Instance.ConfigService.NGSettings.Lang = ci.TwoLetterISOLanguageName;
+                ServiceManager.Instance.ConfigService.Settings.Lang = ci.TwoLetterISOLanguageName;
             }
 
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(ServiceManager.Instance.ConfigService.NGSettings.Lang);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(ServiceManager.Instance.ConfigService.Settings.Lang);
 
             LoadingSplash.LoadingText.Text = "Starting Discord";
-            if (ServiceManager.Instance.ConfigService.NGSettings.EnableDiscordRPC)
+            if (ServiceManager.Instance.ConfigService.Settings.EnableDiscordRPC)
             {
                 ServiceManager.Instance.DiscordService.ConnectDiscord();
             }
@@ -83,7 +83,7 @@ namespace RGBSyncStudio
             ServiceManager.Instance.ConfigService.SetUpMappedDevicesFromConfig();
 
             LoadingSplash.LoadingText.Text = "Loading Settings";
-            ServiceManager.Instance.ConfigService.LoadNGSettings();
+            ServiceManager.Instance.ConfigService.LoadSettings();
             LoadingSplash.LoadingText.Text = "All done";
 
             OpenConfiguration();
@@ -102,11 +102,11 @@ namespace RGBSyncStudio
 
         public void HideConfiguration()
         {
-            if (ServiceManager.Instance.ConfigService.NGSettings.EnableDiscordRPC == true)
+            if (ServiceManager.Instance.ConfigService.Settings.EnableDiscordRPC == true)
             {
                 ServiceManager.Instance.DiscordService.Stop();
             }
-            if (ServiceManager.Instance.ConfigService.NGSettings.MinimizeToTray)
+            if (ServiceManager.Instance.ConfigService.Settings.MinimizeToTray)
             {
                 if (MainWindow.IsVisible)
                     MainWindow.Hide();

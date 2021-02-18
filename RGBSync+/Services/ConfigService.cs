@@ -15,11 +15,11 @@ namespace RGBSyncStudio.Services
 {
     public class ConfigService
     {
-        public string NGPROFILES_DIRECTORY;
+        public string ProfileS_DIRECTORY;
         public string SLSCONFIGS_DIRECTORY;
-        public ConfigService(string ngprofiles_dir, string configs_dir)
+        public ConfigService(string Profiles_dir, string configs_dir)
         {
-            NGPROFILES_DIRECTORY = ngprofiles_dir;
+            ProfileS_DIRECTORY = Profiles_dir;
             SLSCONFIGS_DIRECTORY = configs_dir;
 
             if (!Directory.Exists(SLSCONFIGS_DIRECTORY))
@@ -99,27 +99,27 @@ namespace RGBSyncStudio.Services
             }
         }
 
-        public DeviceMappingModels.NGSettings NGSettings = new DeviceMappingModels.NGSettings
+        public DeviceMappingModels.Settings Settings = new DeviceMappingModels.Settings
         {
             BackgroundOpacity = 0.5f
         };
 
         public LauncherPrefs LauncherPrefs { get; set; } = new LauncherPrefs();
 
-        public void LoadNGSettings()
+        public void LoadSettings()
         {
-            if (File.Exists("NGSettings.json"))
+            if (File.Exists("Settings.json"))
             {
-                string json = File.ReadAllText("NGSettings.json");
+                string json = File.ReadAllText("Settings.json");
                 //try
                 {
-                    NGSettings = JsonConvert.DeserializeObject<DeviceMappingModels.NGSettings>(json);
-                    if (NGSettings == null)
+                    Settings = JsonConvert.DeserializeObject<DeviceMappingModels.Settings>(json);
+                    if (Settings == null)
                     {
-                        NGSettings = new DeviceMappingModels.NGSettings();
+                        Settings = new DeviceMappingModels.Settings();
                     }
                     ServiceManager.Instance.Logger.Info("Settings loaded");
-                    HotLoadNGSettings();
+                    HotLoadSettings();
                 }
                 //catch
                 //{
@@ -128,22 +128,22 @@ namespace RGBSyncStudio.Services
             }
             else
             {
-                NGSettings = new DeviceMappingModels.NGSettings();
-                SaveNGSettings();
-                HotLoadNGSettings();
+                Settings = new DeviceMappingModels.Settings();
+                SaveSettings();
+                HotLoadSettings();
             }
         }
 
         public DateTime TimeSettingsLastSave = DateTime.MinValue;
 
-        public void SaveNGSettings()
+        public void SaveSettings()
         {
             try
             {
-                string json = JsonConvert.SerializeObject(NGSettings);
-                File.WriteAllText("NGSettings.json", json);
+                string json = JsonConvert.SerializeObject(Settings);
+                File.WriteAllText("Settings.json", json);
                 TimeSettingsLastSave = DateTime.Now;
-                NGSettings.AreSettingsStale = false;
+                Settings.AreSettingsStale = false;
             }
             catch
             {
@@ -153,12 +153,12 @@ namespace RGBSyncStudio.Services
 
         public bool SettingsRequiresSave()
         {
-            if (ServiceManager.Instance.ConfigService.NGSettings != null)
+            if (ServiceManager.Instance.ConfigService.Settings != null)
             {
-                if (ServiceManager.Instance.ConfigService.NGSettings.AreSettingsStale) return true;
-                if (ServiceManager.Instance.ConfigService.NGSettings.DeviceSettings != null)
+                if (ServiceManager.Instance.ConfigService.Settings.AreSettingsStale) return true;
+                if (ServiceManager.Instance.ConfigService.Settings.DeviceSettings != null)
                 {
-                    if (ServiceManager.Instance.ConfigService.NGSettings.DeviceSettings.Any(x => x.AreDeviceSettingsStale)) return true;
+                    if (ServiceManager.Instance.ConfigService.Settings.DeviceSettings.Any(x => x.AreDeviceSettingsStale)) return true;
                 }
             }
 
@@ -172,15 +172,15 @@ namespace RGBSyncStudio.Services
             {
                 if (SettingsRequiresSave())
                 {
-                    HotLoadNGSettings();
+                    HotLoadSettings();
 
-                    SaveNGSettings();
+                    SaveSettings();
 
                 }
 
                 if (ServiceManager.Instance.ProfileService.ProfilesRequiresSave())
                 {
-                    ServiceManager.Instance.ProfileService.SaveCurrentNGProfile();
+                    ServiceManager.Instance.ProfileService.SaveCurrentProfile();
                 }
 
                 if (ServiceManager.Instance.LedService.OverridesDirty)
@@ -189,7 +189,7 @@ namespace RGBSyncStudio.Services
                     try
                     {
                         string json = JsonConvert.SerializeObject(ServiceManager.Instance.LedService.DeviceOverrides.ToList());
-                        File.WriteAllText("NGOverrides.json", json);
+                        File.WriteAllText("Overrides.json", json);
                     }
                     catch
                     {
@@ -201,7 +201,7 @@ namespace RGBSyncStudio.Services
 
         }
 
-        public void HotLoadNGSettings()
+        public void HotLoadSettings()
         {
             if (isHotLoading) return;
 
@@ -210,22 +210,22 @@ namespace RGBSyncStudio.Services
             ServiceManager.Instance.LedService.LoadOverrides();
 
             ServiceManager.Instance.ProfileService.profilePathMapping.Clear();
-            if (!Directory.Exists(NGPROFILES_DIRECTORY))
+            if (!Directory.Exists(ProfileS_DIRECTORY))
             {
-                Directory.CreateDirectory(NGPROFILES_DIRECTORY);
+                Directory.CreateDirectory(ProfileS_DIRECTORY);
                 ServiceManager.Instance.ProfileService.GenerateNewProfile("Default");
                 isHotLoading = false;
                 return;
             }
 
-            string[] profiles = Directory.GetFiles(NGPROFILES_DIRECTORY, "*.rsprofile");
+            string[] profiles = Directory.GetFiles(ProfileS_DIRECTORY, "*.rsprofile");
 
             if (profiles == null || profiles.Length == 0)
             {
                 ServiceManager.Instance.ProfileService.GenerateNewProfile("Default");
             }
 
-            NGSettings.ProfileNames = new ObservableCollection<string>();
+            Settings.ProfileNames = new ObservableCollection<string>();
 
             foreach (string profile in profiles)
             {
@@ -237,11 +237,11 @@ namespace RGBSyncStudio.Services
 
                         ServiceManager.Instance.ProfileService.profilePathMapping.Add(profileName, profile);
 
-                        if (NGSettings.ProfileNames == null)
+                        if (Settings.ProfileNames == null)
                         {
-                            NGSettings.ProfileNames = new ObservableCollection<string>();
+                            Settings.ProfileNames = new ObservableCollection<string>();
                         }
-                        NGSettings.ProfileNames.Add(profileName);
+                        Settings.ProfileNames.Add(profileName);
                         ServiceManager.Instance.ProfileService.OnProfilesChangedInvoke(this, new EventArgs());
                     }
                     catch
@@ -250,53 +250,53 @@ namespace RGBSyncStudio.Services
                 }
             }
 
-            if (NGSettings.ProfileNames == null)
+            if (Settings.ProfileNames == null)
             {
-                NGSettings.ProfileNames = new ObservableCollection<string>();
+                Settings.ProfileNames = new ObservableCollection<string>();
             }
 
-            if (NGSettings.ProfileNames.Contains(NGSettings.CurrentProfile))
+            if (Settings.ProfileNames.Contains(Settings.CurrentProfile))
             {
-                ServiceManager.Instance.ProfileService.LoadProfileFromName(NGSettings.CurrentProfile);
+                ServiceManager.Instance.ProfileService.LoadProfileFromName(Settings.CurrentProfile);
             }
             else
             {
-                NGSettings.CurrentProfile = "Default";
-                ServiceManager.Instance.ProfileService.LoadProfileFromName(NGSettings.CurrentProfile);
+                Settings.CurrentProfile = "Default";
+                ServiceManager.Instance.ProfileService.LoadProfileFromName(Settings.CurrentProfile);
             }
 
 
-            double tmr2 = 1000.0 / MathHelper.Clamp(NGSettings.UpdateRate, 1, 100);
+            double tmr2 = 1000.0 / MathHelper.Clamp(Settings.UpdateRate, 1, 100);
 
             ServiceManager.Instance.LedService.SetUpdateRate(tmr2);
 
             ServiceManager.Instance.ApiServerService.Stop();
 
-            if (NGSettings.ApiEnabled)
+            if (Settings.ApiEnabled)
             {
                 ServiceManager.Instance.ApiServerService.Start();
             }
 
-            if (NGSettings.DeviceSettings != null)
+            if (Settings.DeviceSettings != null)
             {
-                foreach (DeviceMappingModels.NGDeviceSettings ngSettingsDeviceSetting in NGSettings.DeviceSettings)
+                foreach (DeviceMappingModels.NGDeviceSettings SettingsDeviceSetting in Settings.DeviceSettings)
                 {
-                    ControlDevice cd = ServiceManager.Instance.LedService.GetControlDeviceFromName(ngSettingsDeviceSetting.ProviderName, ngSettingsDeviceSetting.Name);
+                    ControlDevice cd = ServiceManager.Instance.LedService.GetControlDeviceFromName(SettingsDeviceSetting.ProviderName, SettingsDeviceSetting.Name);
 
                     if (cd != null)
                     {
-                        cd.LedShift = ngSettingsDeviceSetting.LEDShift;
-                        cd.Reverse = ngSettingsDeviceSetting.Reverse;
+                        cd.LedShift = SettingsDeviceSetting.LEDShift;
+                        cd.Reverse = SettingsDeviceSetting.Reverse;
 
                     }
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(NGSettings.SimpleLedAuthToken))
+            if (!string.IsNullOrWhiteSpace(Settings.SimpleLedAuthToken))
             {
-                ServiceManager.Instance.SLSAuthService.SimpleLedAuth.AccessToken = NGSettings.SimpleLedAuthToken;
-                ServiceManager.Instance.SLSAuthService.SimpleLedAuth.UserName = NGSettings.SimpleLedUserName;
-                ServiceManager.Instance.SLSAuthService.SimpleLedAuth.UserId = NGSettings.SimpleLedUserId;
+                ServiceManager.Instance.SLSAuthService.SimpleLedAuth.AccessToken = Settings.SimpleLedAuthToken;
+                ServiceManager.Instance.SLSAuthService.SimpleLedAuth.UserName = Settings.SimpleLedUserName;
+                ServiceManager.Instance.SLSAuthService.SimpleLedAuth.UserId = Settings.SimpleLedUserId;
                 try
                 {
                     ServiceManager.Instance.SLSAuthService.SimpleLedAuth.Authenticate(() =>
@@ -312,9 +312,9 @@ namespace RGBSyncStudio.Services
                     ServiceManager.Instance.SLSAuthService.SimpleLedAuth.UserId = Guid.Empty;
                     ServiceManager.Instance.SLSAuthService.SimpleLedAuthenticated = false;
 
-                    NGSettings.SimpleLedAuthToken = "";
-                    NGSettings.SimpleLedUserId = Guid.Empty;
-                    NGSettings.SimpleLedUserName = "";
+                    Settings.SimpleLedAuthToken = "";
+                    Settings.SimpleLedUserId = Guid.Empty;
+                    Settings.SimpleLedUserName = "";
                 }
             }
 

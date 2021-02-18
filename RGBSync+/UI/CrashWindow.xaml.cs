@@ -49,8 +49,8 @@ namespace RGBSyncStudio.UI
 
             if (ServiceManager.Instance.SLSAuthService?.SimpleLedAuthenticated == true)
             {
-                crashContainer.SimpleLedUserId = ServiceManager.Instance.ConfigService.NGSettings.SimpleLedUserId;
-                crashContainer.SimpleLedUserName = ServiceManager.Instance.ConfigService.NGSettings.SimpleLedUserName;
+                crashContainer.SimpleLedUserId = ServiceManager.Instance.ConfigService.Settings.SimpleLedUserId;
+                crashContainer.SimpleLedUserName = ServiceManager.Instance.ConfigService.Settings.SimpleLedUserName;
             }
 
             StackTrace st = new StackTrace(exception, true);

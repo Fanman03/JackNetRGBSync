@@ -68,7 +68,7 @@ namespace RGBSyncStudio.Services
                 return;
             }
 
-            DeviceMappingModels.NGProfile CurrentProfile = ServiceManager.Instance.ProfileService.CurrentProfile;
+            DeviceMappingModels.Profile CurrentProfile = ServiceManager.Instance.ProfileService.CurrentProfile;
 
 
             if (PauseSyncing)
@@ -374,9 +374,9 @@ namespace RGBSyncStudio.Services
 
         public void LoadOverrides()
         {
-            if (File.Exists("NGOverrides.json"))
+            if (File.Exists("Overrides.json"))
             {
-                string json = File.ReadAllText("NGOverrides.json");
+                string json = File.ReadAllText("Overrides.json");
                 List<DeviceMappingModels.DeviceOverrides> tmp = JsonConvert.DeserializeObject<List<DeviceMappingModels.DeviceOverrides>>(json);
                 DeviceOverrides = new ObservableCollection<DeviceMappingModels.DeviceOverrides>(tmp);
             }

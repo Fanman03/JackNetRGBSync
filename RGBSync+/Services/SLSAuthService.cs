@@ -12,9 +12,9 @@ namespace RGBSyncStudio.Services
         {
             Process.Start(SimpleLedAuth.Login(() =>
             {
-                ServiceManager.Instance.ConfigService.NGSettings.SimpleLedUserId = SimpleLedAuth.UserId.Value;
-                ServiceManager.Instance.ConfigService.NGSettings.SimpleLedUserName = SimpleLedAuth.UserName;
-                ServiceManager.Instance.ConfigService.NGSettings.SimpleLedAuthToken = SimpleLedAuth.AccessToken;
+                ServiceManager.Instance.ConfigService.Settings.SimpleLedUserId = SimpleLedAuth.UserId.Value;
+                ServiceManager.Instance.ConfigService.Settings.SimpleLedUserName = SimpleLedAuth.UserName;
+                ServiceManager.Instance.ConfigService.Settings.SimpleLedAuthToken = SimpleLedAuth.AccessToken;
                 SimpleLedAuthenticated = true;
                 onLoginAction?.Invoke();
             }));

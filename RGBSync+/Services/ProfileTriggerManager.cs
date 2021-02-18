@@ -25,11 +25,11 @@ namespace RGBSyncStudio
 
         public ProfileTriggerManager()
         {
-            if (File.Exists("NGProfileTriggers.json"))
+            if (File.Exists("ProfileTriggers.json"))
             {
                 try
                 {
-                    string json = File.ReadAllText("NGProfileTriggers.json");
+                    string json = File.ReadAllText("ProfileTriggers.json");
                     List<ProfileTriggerEntry> temp = JsonConvert.DeserializeObject<List<ProfileTriggerEntry>>(json);
                     ProfileTriggers = new ObservableCollection<ProfileTriggerEntry>(temp);
                     IsDirty = false;
@@ -73,7 +73,7 @@ namespace RGBSyncStudio
                 string json = JsonConvert.SerializeObject(ProfileTriggers.ToList());
                 try
                 {
-                    File.WriteAllText("NGProfileTriggers.json", json);
+                    File.WriteAllText("ProfileTriggers.json", json);
                 }
                 catch
                 {
