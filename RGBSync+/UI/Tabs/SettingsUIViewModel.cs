@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Autofac.Core;
 using RGBSyncStudio.Services;
 
 namespace RGBSyncStudio.UI.Tabs
@@ -126,6 +127,9 @@ namespace RGBSyncStudio.UI.Tabs
             OnPropertyChanged("ReleaseType");
             OnPropertyChanged("MinimizeToTray");
 
+            ApiEnabled = ServiceManager.Instance.ConfigService.NGSettings.ApiEnabled;
+            DiscordEnabled = ServiceManager.Instance.ConfigService.NGSettings.EnableDiscordRPC;
+
             Background = ServiceManager.Instance.ConfigService.NGSettings.Background;
             BackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.BackgroundOpacity * 100;
             DimBackgroundOpacity = ServiceManager.Instance.ConfigService.NGSettings.DimBackgroundOpacity * 100;
@@ -172,6 +176,29 @@ namespace RGBSyncStudio.UI.Tabs
             {
                 SetProperty(ref updateRate, value);
                 ServiceManager.Instance.ConfigService.NGSettings.UpdateRate = value;
+            }
+        }
+
+        private bool apiEnabled;
+
+        public bool ApiEnabled
+        {
+            get => apiEnabled;
+            set
+            {
+                SetProperty(ref apiEnabled, value);
+                ServiceManager.Instance.ConfigService.NGSettings.ApiEnabled = value;
+            }
+        }
+
+        private bool discordEnabled;
+        public bool DiscordEnabled
+        {
+            get => discordEnabled;
+            set
+            {
+                SetProperty(ref discordEnabled, value);
+                ServiceManager.Instance.ConfigService.NGSettings.EnableDiscordRPC = value;
             }
         }
 

@@ -1,4 +1,4 @@
-EN-US
+en-US
 English (American)	
 English (American)	
 Crash.TitleText	RGB Sync Studio has crashed.
@@ -17,9 +17,8 @@ Settings.DelayLabel	Startup Delay:
 Settings.DelayToolTip	DelayToolTip
 Settings.DelayUnit	Seconds
 Settings.DevicesLabel	Devices:
-Settings.DiscordLabel	Discord:
-Settings.DiscordText	DiscordText
-Settings.DiscordToolTip	DiscordToolTip
+Settings.Discord	Enable Discord integration
+Settings.DiscordHelp	Should the app change your Discord status to show others that you are using it?
 Settings.LanguageLabel	Language:
 Settings.MinimizationLabel	Enable Minimization:
 Settings.MinimizationText	MinimizationText

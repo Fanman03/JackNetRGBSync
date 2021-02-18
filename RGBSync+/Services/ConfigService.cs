@@ -108,9 +108,9 @@ namespace RGBSyncStudio.Services
 
         public void LoadNGSettings()
         {
-            if (File.Exists("NGSettings.json"))
+            if (File.Exists("Settings.json"))
             {
-                string json = File.ReadAllText("NGSettings.json");
+                string json = File.ReadAllText("Settings.json");
                 //try
                 {
                     NGSettings = JsonConvert.DeserializeObject<DeviceMappingModels.NGSettings>(json);
@@ -141,7 +141,7 @@ namespace RGBSyncStudio.Services
             try
             {
                 string json = JsonConvert.SerializeObject(NGSettings);
-                File.WriteAllText("NGSettings.json", json);
+                File.WriteAllText("Settings.json", json);
                 TimeSettingsLastSave = DateTime.Now;
                 NGSettings.AreSettingsStale = false;
             }
