@@ -7,9 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace RGBSyncStudio.Services
 {
@@ -99,10 +102,7 @@ namespace RGBSyncStudio.Services
             }
         }
 
-        public DeviceMappingModels.Settings Settings = new DeviceMappingModels.Settings
-        {
-            BackgroundOpacity = 0.5f
-        };
+        public DeviceMappingModels.Settings Settings = null;
 
         public LauncherPrefs LauncherPrefs { get; set; } = new LauncherPrefs();
 
@@ -136,18 +136,52 @@ namespace RGBSyncStudio.Services
 
         public DateTime TimeSettingsLastSave = DateTime.MinValue;
 
+        private bool actuallySaveRunning = false;
+        private bool actualySaveContention = false;
+        private async Task ActuallySave()
+        {
+            if (Settings != null)
+            {
+                if (actuallySaveRunning)
+                {
+                    actualySaveContention = true;
+                    return;
+                }
+
+                actuallySaveRunning = true;
+
+                DateTime start = DateTime.Now;
+
+                while ((DateTime.Now - start).TotalMilliseconds < 1000)
+                {
+                    await Task.Delay(10);
+                    if (actualySaveContention)
+                    {
+                        start = DateTime.Now;
+                        actualySaveContention = false;
+                    }
+                }
+
+                try
+                {
+                    Debug.WriteLine(
+                        "********************************************************************************************* SAVING SETTINGS!");
+                    string json = JsonConvert.SerializeObject(Settings);
+                    File.WriteAllText("Settings.json", json);
+                    TimeSettingsLastSave = DateTime.Now;
+                    Settings.AreSettingsStale = false;
+                }
+                catch
+                {
+                }
+
+                actuallySaveRunning = false;
+            }
+        }
+        
         public void SaveSettings()
         {
-            try
-            {
-                string json = JsonConvert.SerializeObject(Settings);
-                File.WriteAllText("Settings.json", json);
-                TimeSettingsLastSave = DateTime.Now;
-                Settings.AreSettingsStale = false;
-            }
-            catch
-            {
-            }
+            ActuallySave();
         }
 
 
@@ -155,8 +189,8 @@ namespace RGBSyncStudio.Services
         {
             if (ServiceManager.Instance.ConfigService.Settings != null)
             {
-                if (ServiceManager.Instance.ConfigService.Settings.AreSettingsStale) return true;
-                if (ServiceManager.Instance.ConfigService.Settings.DeviceSettings != null)
+                if (Settings.AreSettingsStale) return true;
+                if (Settings.DeviceSettings != null)
                 {
                     if (ServiceManager.Instance.ConfigService.Settings.DeviceSettings.Any(x => x.AreDeviceSettingsStale)) return true;
                 }
@@ -206,6 +240,20 @@ namespace RGBSyncStudio.Services
             if (isHotLoading) return;
 
             isHotLoading = true;
+
+            CultureInfo ci = CultureInfo.InstalledUICulture;
+            if (ServiceManager.Instance.ConfigService.Settings.Lang == null)
+            {
+                ServiceManager.Instance.Logger.Debug("Language is not set, inferring language from system culture. Lang=" + ci.TwoLetterISOLanguageName);
+                ServiceManager.Instance.ConfigService.Settings.Lang = ci.TwoLetterISOLanguageName;
+            }
+
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(ServiceManager.Instance.ConfigService.Settings.Lang);
+
+            if (ServiceManager.Instance.ConfigService.Settings.EnableDiscordRPC)
+            {
+                ServiceManager.Instance.DiscordService.ConnectDiscord();
+            }
 
             ServiceManager.Instance.LedService.LoadOverrides();
 

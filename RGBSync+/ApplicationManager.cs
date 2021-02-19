@@ -61,20 +61,7 @@ namespace RGBSyncStudio
 
             ServiceManager.Instance.Logger.Debug("============ JackNet RGB Sync is Starting ============");
 
-            CultureInfo ci = CultureInfo.InstalledUICulture;
-            if (ServiceManager.Instance.ConfigService.Settings.Lang == null)
-            {
-                ServiceManager.Instance.Logger.Debug("Language is not set, inferring language from system culture. Lang=" + ci.TwoLetterISOLanguageName);
-                ServiceManager.Instance.ConfigService.Settings.Lang = ci.TwoLetterISOLanguageName;
-            }
-
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(ServiceManager.Instance.ConfigService.Settings.Lang);
-
-            LoadingSplash.LoadingText.Text = "Starting Discord";
-            if (ServiceManager.Instance.ConfigService.Settings.EnableDiscordRPC)
-            {
-                ServiceManager.Instance.DiscordService.ConnectDiscord();
-            }
+            
 
             ServiceManager.Instance.LedService.LoadOverrides();
             ServiceManager.Instance.LedService.LoadSLSProviders();

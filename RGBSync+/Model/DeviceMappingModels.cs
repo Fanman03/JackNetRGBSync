@@ -186,8 +186,10 @@ namespace RGBSyncStudio.Model
                     areSettingStale = value;
                     if (value)
                     {
-                        ServiceManager.Instance.ConfigService.SaveSettings();
-                        areSettingStale = false;
+                        if (ServiceManager.Instance?.ConfigService != null) {
+                            ServiceManager.Instance.ConfigService.SaveSettings();
+                            areSettingStale = false;
+                        }
                     }
                 }
             }

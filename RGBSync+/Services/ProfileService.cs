@@ -166,7 +166,7 @@ namespace RGBSyncStudio.Services
                     CurrentProfile.IsProfileStale = true;
                 }
 
-                Settings.CurrentProfile = profileName;
+                ServiceManager.Instance.ConfigService.Settings.CurrentProfile = profileName;
             }
         }
 
