@@ -75,6 +75,8 @@ namespace RGBSyncStudio.Services
         {
             if (Settings?.ProfileNames != null && Settings.ProfileNames.Any(x => x.ToLower() == name.ToLower()))
             {
+                LoadProfileFromName(name);
+                return;
                 throw new ArgumentException("Profile name '" + name + "' already exists");
             }
 
