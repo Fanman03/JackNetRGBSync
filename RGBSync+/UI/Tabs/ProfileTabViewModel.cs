@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace RGBSyncStudio.UI.Tabs
+namespace SyncStudio.WPF.UI.Tabs
 {
     public class ProfileTabViewModel : LanguageAwareBaseViewModel
     {
@@ -138,7 +138,7 @@ namespace RGBSyncStudio.UI.Tabs
                 if (value > -1 && value < profileNames.Count)
                 {
                     string newProfileName = ProfileNames[value];
-                    if (ServiceManager.Instance.ProfileService.CurrentProfile.Name != newProfileName)
+                    if (SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().Name != newProfileName)
                     {
                         ServiceManager.Instance.ProfileService.LoadProfileFromName(newProfileName);
 
@@ -254,12 +254,12 @@ namespace RGBSyncStudio.UI.Tabs
 
         public void EnsureCorrectProfileIndex()
         {
-            if (profileItems != null && ServiceManager.Instance.ProfileService?.CurrentProfile != null)
+            if (profileItems != null && SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile() != null)
             {
                 if (profileNames != null)
                 {
-                    SelectedProfileIndex = profileNames.IndexOf(ServiceManager.Instance.ProfileService.CurrentProfile.Name);
-                    SelectedProfileItem = ServiceManager.Instance.ProfileService.CurrentProfile.Name;
+                    SelectedProfileIndex = profileNames.IndexOf(SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().Name);
+                    SelectedProfileItem = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().Name;
                 }
             }
         }

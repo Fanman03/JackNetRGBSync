@@ -3,16 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RGBSyncStudio.UI"
+        xmlns:local="clr-namespace:SyncStudio.WPF.UI"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
-        xmlns:Converter="clr-namespace:RGBSyncStudio.Converter" xmlns:Tabs="clr-namespace:RGBSyncStudio.UI.Tabs" 
-        x:Class="RGBSyncStudio.UI.MainWindow"
+        xmlns:Converter="clr-namespace:SyncStudio.WPF.Converter" xmlns:Tabs="clr-namespace:SyncStudio.WPF.UI.Tabs" 
+        x:Class="SyncStudio.WPF.UI.MainWindow"
         mc:Ignorable="d"
-        Title="RGB Sync Studio" 
+        Title="Sync Studio" 
         Height="720" 
         Width="1300"
         MinHeight="360"
         MinWidth="640"
+        fw:AcrylicWindow.FallbackColor="{Binding SecondaryMediumHigh}"
+        fw:AcrylicWindow.TintColor="{Binding SecondaryColor}"
+        fw:AcrylicWindow.TintOpacity="0.8"
         fw:AcrylicWindow.Enabled="True" Icon="/RGBSync+;component/ProgramIcon.ico">
     <Window.Resources>
 
@@ -106,7 +109,7 @@ Foreground="Transparent"
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Image Grid.Column="1"  Grid.ColumnSpan="2" Source="{Binding BackGround}" Stretch="UniformToFill" Opacity="{Binding BackgroundOpacity}">
+        <Image Grid.Column="1"  Source="{Binding BackGround}" Stretch="UniformToFill" Opacity="{Binding BackgroundOpacity}">
             <Image.Effect>
                 <BlurEffect Radius="{Binding BackgroundBlur}"></BlurEffect>
             </Image.Effect>
@@ -197,7 +200,8 @@ Foreground="Transparent"
 
         </Grid>
         <Grid Grid.Column="0" Width="auto" Background="{x:Null}" fw:PointerTracker.Enabled="True" >
-            <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"/>
+            
+            <Grid Background="{Binding AccentSolidColorBrush}" Opacity="0.5"/>
             <ListView ItemsSource="{Binding TabItems, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" ItemTemplate="{DynamicResource TabItemTemplate}"  Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" Padding="0" Margin="0,0" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
 
                 <!--<Button BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" Height="48" Click="ShowSettings" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="0,0" Style="{DynamicResource ButtonRevealStyle}">
@@ -255,7 +259,7 @@ Foreground="Transparent"
                         </Rectangle>
                     </Grid>
 
-                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" ToolTip="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" Text="&#xE713;" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="White"/>
+                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" ToolTip="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" Text="&#xE713;" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="{Binding PrimaryColor}"/>
                 <TextBlock
                     Grid.Column="1"
                     Margin="10,0" 
@@ -274,38 +278,38 @@ Foreground="Transparent"
 
       
 
-        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=devices, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="DevicesUserControl">
+        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=devices, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="DevicesUserControl" d:IsHidden="True">
             <Tabs:Devices HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>
 
-        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=store, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="StoreUserControl">
+        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=store, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="StoreUserControl" d:IsHidden="True">
             <Tabs:Store HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>
 
-        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=about, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="AboutUserControl">
+        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=about, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="AboutUserControl" d:IsHidden="True">
             <Tabs:About HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>
 
 
-        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=profiles, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="ProfilesUserControl">
+        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=profiles, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="ProfilesUserControl" d:IsHidden="True">
             <Tabs:ProfilesTab HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>
 
-        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=palettes, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="PaettesUserControl">
+        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=palettes, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="PaettesUserControl" d:IsHidden="True">
             <Tabs:Palettes HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>
 
-        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="SettingsUserControl">
+        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="SettingsUserControl" d:IsHidden="True">
             <Tabs:SettingsUI HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>
 
-        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=news, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="NewsUserControl">
+        <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=news, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="NewsUserControl" d:IsHidden="True">
             <Tabs:NewsView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>
-        <Grid Grid.Column="1" Background="#c0000000" Visibility="{Binding ShowModal, Converter={StaticResource BoolToVisibilityConverter}}">
+        <Grid Grid.Column="1" Background="#c0000000" Visibility="{Binding ShowModal, Converter={StaticResource BoolToVisibilityConverter}}" d:IsHidden="True">
             <Grid Width="500" Background="{x:Null}" VerticalAlignment="Center">
                 <Grid Background="#c0000000" />
-                <Grid Background="{x:Static SystemParameters.WindowGlassBrush}" Opacity="0.5"/>
+                <Grid Background="{Binding AccentSolidColorBrush}" Opacity="0.5"/>
 
                 <StackPanel Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock  FontFamily="Segoe UI Light" FontSize="36" FontWeight="Bold" Margin="0,0" Text="{Binding ModalText}" TextWrapping="WrapWithOverflow" Foreground="White"/>

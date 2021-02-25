@@ -1,12 +1,12 @@
 ﻿using System.Web.Http;
 
-namespace RGBSyncStudio.API
+namespace SyncStudio.WPF.API
 {
     public class AppControlController : ApiController
     {
         public void PauseSyncing(bool pause)
         {
-            ServiceManager.Instance.LedService.PauseSyncing = pause;
+            SyncStudio.Core.ServiceManager.LedService.PauseSyncing = pause;
         }
     }
 }

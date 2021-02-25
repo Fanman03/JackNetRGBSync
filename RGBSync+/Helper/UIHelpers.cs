@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace RGBSyncStudio.Helper
+namespace SyncStudio.WPF.Helper
 {
     public static class UIHelpers
     {

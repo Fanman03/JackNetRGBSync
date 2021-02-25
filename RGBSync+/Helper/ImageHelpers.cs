@@ -3,7 +3,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Media.Imaging;
 
-namespace RGBSyncStudio.Helper
+namespace SyncStudio.WPF.Helper
 {
     public static class ImageHelpers
     {

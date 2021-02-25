@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace RGBSyncStudio.Converter
+namespace SyncStudio.WPF.Converter
 {
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public class BoolToVisibilityConverter : IValueConverter

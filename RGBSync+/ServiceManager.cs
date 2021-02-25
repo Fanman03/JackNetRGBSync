@@ -1,8 +1,11 @@
-﻿using RGBSyncStudio.Services;
-using SimpleLed;
+﻿using SimpleLed;
 using System.Windows;
+using Nan0SyncStudio.Branding;
+using RGBSyncStudio.Branding;
+using SyncStudio.Branding;
+using SyncStudio.WPF.Services;
 
-namespace RGBSyncStudio
+namespace SyncStudio.WPF
 {
     public class ServiceManager
     {
@@ -10,39 +13,41 @@ namespace RGBSyncStudio
 
         public ApplicationManager ApplicationManager;
         public SLSManager SLSManager;
-        public LedService LedService;
+        
         public ApiServerService ApiServerService;
         public SimpleLogger Logger;
         public ConfigService ConfigService;
         public ProfileService ProfileService;
         public DiscordService DiscordService;
         public SLSAuthService SLSAuthService;
-        public ColorProfileService ColorProfileService;
         public ModalService ModalService;
         public ProfileTriggerManager ProfileTriggerManager;
         public StoreService StoreService;
+        public IBranding Branding;
         public static void Initialize(string slsConfigsDirectory, string ProfileDir)
         {
             Instance = new ServiceManager();
             Instance.ApplicationManager = new ApplicationManager();
-            Instance.LedService = new LedService();
-            Instance.SLSManager = new SLSManager(slsConfigsDirectory);
+        
+            Instance.SLSManager = SyncStudio.Core.ServiceManager.SLSManager;
             Instance.ApiServerService = new ApiServerService();
             Instance.Logger = new SimpleLogger();
             Instance.ConfigService = new ConfigService(ProfileDir, slsConfigsDirectory);
             Instance.ProfileService = new ProfileService(ProfileDir);
             Instance.DiscordService = new DiscordService();
             Instance.SLSAuthService = new SLSAuthService();
-            Instance.ColorProfileService = new ColorProfileService();
             Instance.ModalService = new ModalService();
             Instance.ProfileTriggerManager = new ProfileTriggerManager();
             Instance.StoreService = new StoreService();
+
+            Instance.Branding = new Nan0SyncBranding();
         }
 
         public static void Shutdown()
         {
-            Instance.LedService.PauseSyncing = true;
-            Instance.LedService.UnloadSLSProviders();
+            
+            Core.ServiceManager.LedService.PauseSyncing = true;
+            Core.ServiceManager.Store.UnloadSLSProviders();
 
             Instance.DiscordService.Stop();
             Application.Current.Shutdown();

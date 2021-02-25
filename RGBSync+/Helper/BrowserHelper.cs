@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 using System.Diagnostics;
 
-namespace RGBSyncStudio.Helper
+namespace SyncStudio.WPF.Helper
 {
     public static class BrowserHelper
     {

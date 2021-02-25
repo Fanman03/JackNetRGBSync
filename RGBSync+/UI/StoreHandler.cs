@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using RGBSyncStudio.Model;
+using SyncStudio.WPF.Model;
 using System.Collections.Generic;
 
-namespace RGBSyncStudio.UI
+namespace SyncStudio.WPF.UI
 {
     public class StoreHandler
     {

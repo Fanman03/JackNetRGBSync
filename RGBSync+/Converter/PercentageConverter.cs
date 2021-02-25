@@ -1,4 +1,4 @@
-﻿using RGBSyncStudio.Helper;
+﻿using SyncStudio.WPF.Helper;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace RGBSyncStudio.Converter
+namespace SyncStudio.WPF.Converter
 {
     public class PercentageConverter : MarkupExtension, IValueConverter
     {

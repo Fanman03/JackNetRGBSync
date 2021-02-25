@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RGBSyncStudio
+namespace SyncStudio.WPF
 {
     public static class BenchMarkProvider
     {

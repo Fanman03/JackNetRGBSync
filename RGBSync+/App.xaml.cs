@@ -1,5 +1,4 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
-using RGBSyncStudio.Helper;
 using SimpleLed;
 using System;
 using System.Collections.ObjectModel;
@@ -9,12 +8,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
+using SyncStudio.WPF.Helper;
 
-namespace RGBSyncStudio
+namespace SyncStudio.WPF
 {
     public partial class App : Application
     {
-        public const string SLSPROVIDER_DIRECTORY = "SLSProvider";
+        public const string SLSPROVIDER_DIRECTORY = "Providers";
         private const string ProfileS_DIRECTORY = "Profiles";
         private const string SLSCONFIGS_DIRECTORY = "SLSConfigs";
 

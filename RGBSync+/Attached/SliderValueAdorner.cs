@@ -5,7 +5,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using Point = System.Windows.Point;
 
-namespace RGBSyncStudio.Attached
+namespace SyncStudio.WPF.Attached
 {
     public class SliderValueAdorner : System.Windows.Documents.Adorner
     {

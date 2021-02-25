@@ -1,5 +1,5 @@
-﻿using RGBSyncStudio.Helper;
-using RGBSyncStudio.Model;
+﻿using SyncStudio.WPF.Helper;
+using SyncStudio.WPF.Model;
 using SharpCompress.Archives;
 using SimpleLed;
 using System;
@@ -17,7 +17,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace RGBSyncStudio.UI.Tabs
+namespace SyncStudio.WPF.UI.Tabs
 {
     /// <summary>
     /// Interaction logic for Store.xaml
@@ -61,7 +61,7 @@ namespace RGBSyncStudio.UI.Tabs
             vm.ShowPreRelease = !vm.ShowPreRelease;
         }
 
-        
+
         private void RefreshStore(object sender, RoutedEventArgs e)
         {
             vm.LoadStoreAndPlugins();
@@ -72,7 +72,7 @@ namespace RGBSyncStudio.UI.Tabs
             throw new NotImplementedException();
         }
 
-        private void DeletePlugin(object sender, RoutedEventArgs e)
+        private async void DeletePlugin(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn)
             {
@@ -80,13 +80,9 @@ namespace RGBSyncStudio.UI.Tabs
                 {
                     PositionalAssignment.PluginDetailsViewModel vmplugin = vm.Plugins.First(x => x.PluginId == tvm.PluginId);
 
-                    ISimpleLed existingPlugin = ServiceManager.Instance.SLSManager.Drivers.First(x => x.GetProperties().Id == tvm.PluginId);
+                    SyncStudio.Core.ServiceManager.Store.RemoveProvider(tvm.PluginId, null, null);
 
-                    ServiceManager.Instance.StoreService.DeletePlugin(existingPlugin);
-
-                    vm.Plugins.Remove(vmplugin);
-
-                    vm.RefreshPlungs();
+                    await vm.LoadStoreAndPlugins();
                 }
             }
         }
@@ -120,9 +116,9 @@ namespace RGBSyncStudio.UI.Tabs
                 if (btn.DataContext is PositionalAssignment.PluginDetailsViewModel tvm)
                 {
                     ServiceManager.Instance.StoreService.ShowPlugInUI(tvm.PluginId, ConfigHere);
-                        vm.ShowConfig = true;
-                        double i = 1 / 20d;
-                    
+                    vm.ShowConfig = true;
+                    double i = 1 / 20d;
+
                 }
             }
         }
@@ -174,17 +170,21 @@ namespace RGBSyncStudio.UI.Tabs
             {
                 ComboBox parent = e.Source as ComboBox;
                 PositionalAssignment.PluginDetailsViewModel parentDC = parent.DataContext as PositionalAssignment.PluginDetailsViewModel;
-                bool anyFail = false;
-
-
+                
                 if (e.AddedItems != null && e.AddedItems.Count > 0)
                 {
                     PositionalAssignment.PluginVersionDetails bdc = e.AddedItems[0] as PositionalAssignment.PluginVersionDetails;
 
-                   bool success= await ServiceManager.Instance.StoreService.InstallPlugin(parentDC.PluginId, bdc);
-                   if (success)
-                   {
-                       vm.LoadStoreAndPlugins();
+                    bool success = false;
+                    using (var installingModal = new SimpleModal(ServiceManager.Instance.ApplicationManager.MainViewModel, "Installing...", showProgressBar: true))
+                    {
+                        success = await SyncStudio.Core.ServiceManager.Store.InstallProvider(parentDC.PluginId, bdc.ReleaseNumber, null, msg => installingModal.UpdateModalPercentage(ServiceManager.Instance.ApplicationManager.MainViewModel, msg));
+                    }
+
+                    //await ServiceManager.Instance.StoreService.InstallPlugin(parentDC.PluginId, bdc);
+                    if (success)
+                    {
+                       await vm.LoadStoreAndPlugins();
                     }
 
                 }

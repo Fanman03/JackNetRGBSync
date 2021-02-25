@@ -1,10 +1,10 @@
-﻿using RGBSyncStudio.UI.Tabs;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using SyncStudio.WPF.UI.Tabs;
 
-namespace RGBSyncStudio.UI
+namespace SyncStudio.WPF.UI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -18,10 +18,12 @@ namespace RGBSyncStudio.UI
             ServiceManager.Instance.ApplicationManager.MainWindow = this;
             InitializeComponent();
 
-            this.Title = "RGB Sync Studio " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
+            this.Title = ServiceManager.Instance.Branding.GetAppName()+" " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
 
             this.SourceInitialized += new EventHandler(OnSourceInitialized); //this makes minimize to tray work
             
+            this.Icon = ServiceManager.Instance.Branding.GetIcon();
+
         }
 
         //This is a semi-hacky way to create custom minimize actions

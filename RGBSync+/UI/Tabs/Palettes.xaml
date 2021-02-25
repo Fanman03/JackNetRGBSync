@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:RGBSyncStudio.UI.Tabs"
-             xmlns:Converter="clr-namespace:RGBSyncStudio.Converter"
+             xmlns:local="clr-namespace:SyncStudio.WPF.UI.Tabs"
+             xmlns:Converter="clr-namespace:SyncStudio.WPF.Converter"
              xmlns:controls="clr-namespace:ColorPickerWPF.Controls;assembly=ColorPickerWPF"
-             x:Class="RGBSyncStudio.UI.Tabs.Palettes"
+             x:Class="SyncStudio.WPF.UI.Tabs.Palettes"
              mc:Ignorable="d" 
              d:DesignHeight="1080" d:DesignWidth="1920">
     <UserControl.Resources>
@@ -19,9 +19,9 @@
         <Converter:ColorModelToStringConverter x:Key="ColorModelToStringConverter"/>
         <DataTemplate x:Key="ColorBankTemplate">
             <Grid VerticalAlignment="Top" Margin="5" HorizontalAlignment="Stretch" Width="{Binding ActualWidth, ConverterParameter=96, Converter={StaticResource PercentageConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" >
-                <Grid Background="{DynamicResource SystemBaseLowColorBrush}" Opacity="0.5"/>
+                <Grid Background="{Binding SecondarySolidColorBrush}" Opacity="0.5"/>
                 <StackPanel>
-                    <TextBox Text="{Binding BankName}" Background="{x:Null}" Foreground="White" FontWeight="Light" FontSize="24" Margin="10,0" BorderThickness="0"/>
+                    <TextBox Text="{Binding BankName}" Background="{x:Null}" Foreground="{Binding PrimarySolidColorBrush}" FontWeight="Light" FontSize="24" Margin="10,0" BorderThickness="0"/>
 
                     <!--MaxWidth="{Binding ActualWidth, ConverterParameter=90, Converter={StaticResource PercentageConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"-->
                     <ListView ItemsSource="{Binding Colors}" ItemTemplate="{DynamicResource ColorBankItemTemplate}" Margin="10,0" HorizontalAlignment="Left" Width="{Binding ActualWidth, ConverterParameter=90, Converter={StaticResource PercentageConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
@@ -45,7 +45,7 @@
             <Grid HorizontalAlignment="Stretch" Margin="5,0"  Height="64" Width="132" VerticalAlignment="Stretch">
                 <StackPanel>
                     <Grid Background="{Binding Color, Converter={StaticResource ColorModelToSolidColorBrushConverter}, Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,5,0,0">
-                        <TextBox Text="{Binding ColorString}" TextChanged="TextBox_TextChanged" Visibility="Collapsed"></TextBox>
+                        <TextBox Text="{Binding ColorString}" TextChanged="TextBox_TextChanged" Visibility="Collapsed" ></TextBox>
                         <Button HorizontalAlignment="Right" VerticalAlignment="Top" FontFamily="Segoe MDL2 Assets" Background="{x:Null}" BorderThickness="0" Margin="2" Foreground="Red" Click="DeleteColor">
                             <TextBlock Text="&#xEF2C;">
                                 <TextBlock.Effect>
@@ -73,7 +73,7 @@
             <RowDefinition Height="56"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="{DynamicResource SystemBaseLowColorBrush}" HorizontalAlignment="Stretch">
+        <Grid Grid.Row="0" Background="{Binding SecondaryMediumHighSolidColorBrush}" HorizontalAlignment="Stretch">
 
             <StackPanel Orientation="Horizontal">
                 <Button Background="#80000000" Style="{StaticResource SmallSquareIcon}"  Width="180" HorizontalContentAlignment="Left" Click="AddProfile">
@@ -99,9 +99,9 @@
 
         <StackPanel Grid.Row="1" Margin="10" HorizontalAlignment="Stretch">
             <Grid>
-            <TextBlock  FontFamily="Segoe MDL2 Assets" FontSize="36" Foreground="{DynamicResource SystemBaseHighColorBrush}" Visibility="{Binding Unsaved, Converter={StaticResource BooleanToVisibilityConverter}}" ></TextBlock>
+            <!--<TextBlock  FontFamily="Segoe MDL2 Assets" FontSize="36" Foreground="{Binding PrimarySolidColorBrush}" Visibility="{Binding Unsaved, Converter={StaticResource BooleanToVisibilityConverter}}" ></TextBlock>-->
 
-            <TextBox Text="{Binding CurrentProfile.ProfileName}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{DynamicResource SystemBaseHighColorBrush}" FontWeight="Light" FontSize="24"/>
+            <TextBox Text="{Binding CurrentProfile.ProfileName}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{Binding PrimarySolidColorBrush}" FontWeight="Light" FontSize="24"/>
             </Grid>
             <ListView ItemsSource="{Binding CurrentProfile.ColorBanks}" ItemTemplate="{DynamicResource ColorBankTemplate}" HorizontalAlignment="Stretch" 
                       Width="{Binding ActualWidth, ConverterParameter=100, Converter={StaticResource PercentageConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" Margin="0,0,10,0">

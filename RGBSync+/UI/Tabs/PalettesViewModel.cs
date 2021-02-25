@@ -6,7 +6,7 @@ using System.Linq;
 using System.Timers;
 using System.Windows.Threading;
 
-namespace RGBSyncStudio.UI.Tabs
+namespace SyncStudio.WPF.UI.Tabs
 {
     public class PalettesViewModel : LanguageAwareBaseViewModel
     {
@@ -52,8 +52,8 @@ namespace RGBSyncStudio.UI.Tabs
             File.WriteAllText(path, json);
 
             ServiceManager.Instance.SLSManager.ColorProfile = CurrentProfile;
-            ServiceManager.Instance.ProfileService.CurrentProfile.ColorProfileId = CurrentProfile.Id;
-            ServiceManager.Instance.ProfileService.CurrentProfile.IsProfileStale = true;
+            SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().ColorProfileId = CurrentProfile.Id;
+            SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().IsProfileStale = true;
 
             Dispatcher.CurrentDispatcher.Invoke(() => Unsaved = false);
         }
@@ -68,73 +68,10 @@ namespace RGBSyncStudio.UI.Tabs
 
         public PalettesViewModel()
         {
-            CurrentProfile = new ColorProfile()
-            {
-                ProfileName = "Default",
-                ColorBanks = new ObservableCollection<ColorBank>()
-                {
-                    new ColorBank()
-                    {
-                        BankName = "Basic colors",
-                        Colors = new ObservableCollection<ColorObject>
-                        {
-                            new ColorObject {Color = new ColorModel(255,0,0)},
-                            new ColorObject {Color = new ColorModel(0,255,0)},
-                            new ColorObject {Color = new ColorModel(0,0,255)},
-                            new ColorObject {Color = new ColorModel(255,255,255)},
-                        }
-                    },
-                    new ColorBank()
-                    {
-                        BankName = "Rainbow",
-                        Colors = new ObservableCollection<ColorObject>
-                        {
-                            new ColorObject {Color = new ColorModel(255,0,0)},
-                            new ColorObject {Color = new ColorModel(255,153,0)},
-                            new ColorObject {Color = new ColorModel(204,255,0)},
-                            new ColorObject {Color = new ColorModel(51, 255, 0)},
-                            new ColorObject {Color = new ColorModel(0, 255, 102)},
-                            new ColorObject {Color = new ColorModel(0, 255, 255)},
-                            new ColorObject {Color = new ColorModel(0, 102, 255)},
-                            new ColorObject {Color = new ColorModel(51,0,255)},
-                            new ColorObject {Color = new ColorModel(204, 0, 255)},
-                            new ColorObject {Color = new ColorModel(255, 0, 153)},
-                        }
-                    }
-                    ,
-                    new ColorBank()
-                    {
-                        BankName = "Simple",
-                        Colors = new ObservableCollection<ColorObject>
-                        {
-                            new ColorObject {Color = new ColorModel(255,0,255)},
-                            new ColorObject {Color = new ColorModel(0,0,0)},
-                        }
-                    }
-                    ,
-                    new ColorBank()
-                    {
-                        BankName = "Complicated",
-                        Colors = new ObservableCollection<ColorObject>
-                        {
-                            new ColorObject {Color = new ColorModel(255,0,0)},
-                            new ColorObject {Color = new ColorModel(0,255,0)},
-                            new ColorObject {Color = new ColorModel(0,0,255)},
-                            new ColorObject {Color = new ColorModel(255,0,255)},
-                            new ColorObject {Color = new ColorModel(255,0,0)},
-                            new ColorObject {Color = new ColorModel(0,255,0)}
-                        }
-                    }
-                }
-            };
+            CurrentProfile = SyncStudio.Core.ServiceManager.ColorPallets.GetActiveColorPallet();
 
-
-            ColorProfiles = new ObservableCollection<ColorProfile>(ServiceManager.Instance.ColorProfileService.GetColorProfiles());
-
-            if (ServiceManager.Instance.ProfileService.CurrentProfile.ColorProfileId != null)
-            {
-                CurrentProfile = ColorProfiles.FirstOrDefault(x => x.Id == ServiceManager.Instance.ProfileService.CurrentProfile.ColorProfileId);
-            }
+            ColorProfiles = new ObservableCollection<ColorProfile>(SyncStudio.Core.ServiceManager.ColorPallets.GetAllColorPallets());
+            
         }
 
         private ColorProfile currentProfile;

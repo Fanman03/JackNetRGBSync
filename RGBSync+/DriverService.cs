@@ -1,14 +1,15 @@
-﻿using RGBSyncStudio.Model;
+﻿using SyncStudio.WPF.Model;
 using SimpleLed;
 using System.Collections.ObjectModel;
+using SyncStudio.Domain;
 
-namespace RGBSyncStudio
+namespace SyncStudio.WPF
 {
     public class DriverService : BaseViewModel
     {
 
-        private ObservableCollection<DeviceMappingModels.Device> slsDevices;
-        public ObservableCollection<DeviceMappingModels.Device> SLSDevices
+        private ObservableCollection<Device> slsDevices;
+        public ObservableCollection<Device> SLSDevices
         {
             get => slsDevices;
             set

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RGBSyncStudio.Helper
+namespace SyncStudio.WPF.Helper
 {
     public static class TryReallyHard
     {

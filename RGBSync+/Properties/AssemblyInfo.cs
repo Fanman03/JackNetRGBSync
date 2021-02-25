@@ -5,12 +5,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RGB Sync Studio")]
+[assembly: AssemblyTitle("Sync Studio")]
 [assembly: AssemblyDescription("The one-stop utility for syncing your RGB perhipherals and components. Compatible with Corsair iCUE, Asus AURA, Razer Synapse, Logitech Gaming, and Cooler Master Masterplus.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("RGB Suite Software")]
-[assembly: AssemblyProduct("RGB Sync")]
-[assembly: AssemblyCopyright("Copyright © 2020 RGB Suite Software")]
+[assembly: AssemblyCompany("Sync Studio Team")]
+[assembly: AssemblyProduct("Sync Studio")]
+[assembly: AssemblyCopyright("Copyright © 2020 Sync Studio Team")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

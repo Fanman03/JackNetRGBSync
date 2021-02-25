@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using Color = System.Drawing.Color;
 
-namespace RGBSyncStudio
+namespace SyncStudio.WPF
 {
     public class GradientDriver : ISimpleLed
     {
@@ -25,7 +25,11 @@ namespace RGBSyncStudio
                 {
                     Driver = this,
                     Name = "Gradient",
-                    ConnectedTo = "Bank " + (i + 1),
+                    ControlChannel = new ControlChannel
+                    {
+                        Name = "Bank " + (i + 1),
+                        Serial = "GRADIENT"+i
+                        },
                     DeviceType = DeviceTypes.Effect,
                     LEDs = new ControlDevice.LedUnit[16]
                 });
@@ -72,8 +76,8 @@ namespace RGBSyncStudio
                 SupportsPush = false,
                 IsSource = true,
                 SupportsPull = true,
-                Id = Guid.Parse("11111111-1111-1111-1111-111111111112"),
-                Author = "RGB Sync Studio Team",
+                ProductId = Guid.Parse("11111111-1111-1111-1111-111111111112"),
+                Author = "Sync Studio Team",
                 Blurb = "Solid Colors provided by Color Profile",
                 CurrentVersion = new ReleaseNumber(1, 0, 0, 0),
                 IsPublicRelease = true,
@@ -156,7 +160,11 @@ namespace RGBSyncStudio
                 {
                     Driver = this,
                     Name = "Solid Color",
-                    ConnectedTo = "Bank " + (i + 1),
+                    ControlChannel = new ControlChannel
+                    {
+                        Name = "Bank " + (i + 1),
+                        Serial = "SOLIDCOLOR" + i
+                    },
                     DeviceType = DeviceTypes.Effect,
                     LEDs = new ControlDevice.LedUnit[1]
                     {
@@ -202,8 +210,8 @@ namespace RGBSyncStudio
                 SupportsPush = false,
                 IsSource = true,
                 SupportsPull = true,
-                Id = Guid.Parse("11111111-1111-1111-1111-111111111112"),
-                Author = "RGB Sync Studio Team",
+                ProductId = Guid.Parse("11111111-1111-1111-1111-111111111112"),
+                Author = "Sync Studio Team",
                 Blurb = "Solid Colors provided by Color Profile",
                 CurrentVersion = new ReleaseNumber(1, 0, 0, 0),
                 IsPublicRelease = true,
@@ -260,14 +268,18 @@ namespace RGBSyncStudio
     public class RSSBackgroundDevice : ISimpleLed
     {
         public static Assembly assembly = Assembly.GetExecutingAssembly();
-        public static Stream imageStream = assembly.GetManifestResourceStream("RGBSyncStudio.UI.hires.png");
+        public static Stream imageStream = assembly.GetManifestResourceStream("SyncStudio.WPF.UI.hires.png");
         public RSSBackgroundDevice()
         {
             dvs = new ControlDevice
             {
                 Name = "Background",
                 Driver = this,
-                ConnectedTo = "RGB Sync Studio",
+                ControlChannel = new ControlChannel
+                {
+                    Name = "App BG",
+                    Serial = "AppBG"
+                },
                 DeviceType = DeviceTypes.Other,
                 ProductImage = new Bitmap(imageStream),
                 LEDs = new ControlDevice.LedUnit[8]
@@ -373,8 +385,8 @@ namespace RGBSyncStudio
                 SupportsPush = true,
                 IsSource = false,
                 SupportsPull = false,
-                Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
-                Author = "RGB Sync Studio Team",
+                ProductId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                Author = "Sync Studio Team",
                 Blurb = "Control the background of your RSS window.",
                 CurrentVersion = new ReleaseNumber(1, 0, 0, 0),
                 IsPublicRelease = true

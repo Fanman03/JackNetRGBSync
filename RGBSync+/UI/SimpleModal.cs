@@ -1,8 +1,8 @@
-﻿using RGBSyncStudio.Helper;
+﻿using SyncStudio.WPF.Helper;
 using System;
 using System.Threading.Tasks;
 
-namespace RGBSyncStudio.UI
+namespace SyncStudio.WPF.UI
 {
     public class SimpleModal : IDisposable
     {

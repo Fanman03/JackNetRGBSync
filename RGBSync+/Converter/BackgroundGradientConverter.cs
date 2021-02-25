@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace RGBSyncStudio.Converter
+namespace SyncStudio.WPF.Converter
 {
     public class BackgroundGradientConverter : IValueConverter
     {

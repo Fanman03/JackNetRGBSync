@@ -1,13 +1,13 @@
-﻿using RGBSyncStudio.Languages;
-using SimpleLed;
+﻿using SimpleLed;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Threading;
+using SyncStudio.WPF.Languages;
 
-namespace RGBSyncStudio.UI
+namespace SyncStudio.WPF.UI
 {
     public class MainWindowViewModel : LanguageAwareBaseViewModel
     {
@@ -79,9 +79,12 @@ namespace RGBSyncStudio.UI
 
             update.Tick += (sender, args) =>
             {
+                //todo
+
+                /*
                 if (ControllableBG)
                 {
-                    RSSBackgroundDevice rbd = ServiceManager.Instance.LedService.RssBackgroundDevice;
+                    RSSBackgroundDevice rbd = SyncStudio.Core.ServiceManager.LedService.RssBackgroundDevice;
                     SCTop = GetBrush(rbd.Leds[0]);
                     SCTopRight = GetBrush(rbd.Leds[1]);
                     SCRight = GetBrush(rbd.Leds[2]);
@@ -91,6 +94,7 @@ namespace RGBSyncStudio.UI
                     SCLeft = GetBrush(rbd.Leds[6]);
                     SCTopLeft = GetBrush(rbd.Leds[7]);
                 }
+                */
             };
 
             update.Start();

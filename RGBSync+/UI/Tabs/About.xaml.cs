@@ -1,8 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using SimpleLed;
 
-namespace RGBSyncStudio.UI.Tabs
+namespace SyncStudio.WPF.UI.Tabs
 {
     /// <summary>
     /// Interaction logic for About.xaml
@@ -12,6 +13,19 @@ namespace RGBSyncStudio.UI.Tabs
         public About()
         {
             InitializeComponent();
+
+            UserControl splashLogo;
+            if (SyncStudio.Core.ServiceManager.SLSManager.GetTheme() == ThemeWatcher.WindowsTheme.Dark)
+            {
+                splashLogo = ServiceManager.Instance.Branding.GetDarkSplashLogo();
+            }
+            else
+            {
+                splashLogo = ServiceManager.Instance.Branding.GetLightSplashLogo();
+            }
+
+            
+            this.LogoHere.Child = (splashLogo);
         }
 
         private void DonatePatreon(object sender, RoutedEventArgs e)

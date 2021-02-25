@@ -1,6 +1,6 @@
 ﻿using SimpleLed;
 
-namespace RGBSyncStudio.UI
+namespace SyncStudio.WPF.UI
 {
     public class LanguageAwareBaseViewModel : BaseViewModel
     {

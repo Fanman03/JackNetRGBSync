@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Web.Http;
 
-namespace RGBSyncStudio.API
+namespace SyncStudio.WPF.API
 {
     public class DevicesController : ApiController
     {
@@ -31,13 +31,13 @@ namespace RGBSyncStudio.API
         public List<ApiDeviceModel> GetDevices()
         {
             List<ApiDeviceModel> result = new List<ApiDeviceModel>();
-            foreach (ControlDevice instanceSlsDevice in ServiceManager.Instance.LedService.SLSDevices)
+            foreach (ControlDevice instanceSlsDevice in SyncStudio.Core.ServiceManager.Devices.GetDevices())
             {
                 result.Add(new ApiDeviceModel
                 {
                     DeviceType = instanceSlsDevice.DeviceType,
                     Name = instanceSlsDevice.Name,
-                    ConnectedTo = instanceSlsDevice.ConnectedTo,
+                    ConnectedTo = instanceSlsDevice.ControlChannel.Name,
                     Driver = instanceSlsDevice.Driver,
                     LedCount = instanceSlsDevice.LEDs.Length,
                     //ProductImage = instanceSlsDevice.ProductImage,

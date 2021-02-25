@@ -1,6 +1,6 @@
 ﻿using DiscordRPC;
 
-namespace RGBSyncStudio.Services
+namespace SyncStudio.WPF.Services
 {
     public class DiscordService
     {
@@ -21,12 +21,12 @@ namespace RGBSyncStudio.Services
             ServiceManager.Instance.Logger.Info("Setting Discord presence.");
             client.SetPresence(new RichPresence()
             {
-                State = "Profile: " + ServiceManager.Instance.ProfileService.CurrentProfile.Name,
+                State = "Profile: " + SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().Name,
                 Details = "Syncing lighting effects",
                 Assets = new Assets()
                 {
                     LargeImageKey = "logo",
-                    LargeImageText = "RGB Sync Studio"
+                    LargeImageText = ServiceManager.Instance.Branding.GetAppName()
                 }
             });
         }

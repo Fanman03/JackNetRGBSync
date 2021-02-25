@@ -1,5 +1,4 @@
-﻿using RGBSyncStudio.UI;
-using System;
+﻿using System;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -7,16 +6,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using SyncStudio.WPF.UI;
 
 
-namespace RGBSyncStudio
+namespace SyncStudio.WPF
 {
     public class ApplicationManager
     {
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
         public MainWindowViewModel MainViewModel => MainWindow.DataContext as MainWindowViewModel;
 
-        public const string SLSPROVIDER_DIRECTORY = "SLSProvider";
+        public const string SLSPROVIDER_DIRECTORY = "Providers";
         private const string ProfileS_DIRECTORY = "Profiles";
         private const string SLSCONFIGS_DIRECTORY = "SLSConfigs";
 
@@ -59,12 +59,15 @@ namespace RGBSyncStudio
 
             LoadingSplash.Activate();
 
-            ServiceManager.Instance.Logger.Debug("============ JackNet RGB Sync is Starting ============");
+            ServiceManager.Instance.Logger.Debug("============ "+ ServiceManager.Instance.Branding.GetAppName()+" is Starting ============");
 
-            
 
-            ServiceManager.Instance.LedService.LoadOverrides();
-            ServiceManager.Instance.LedService.LoadSLSProviders();
+            SyncStudio.Core.ServiceManager.LoadingMessage = (s => LoadingSplash.LoadingText.Text = s);
+            SyncStudio.Core.ServiceManager.LoadingMax = f => LoadingSplash.ProgressBar.Maximum = f;
+            SyncStudio.Core.ServiceManager.LoadingAmount = f => LoadingSplash.ProgressBar.Value = f;
+
+
+            SyncStudio.Core.ServiceManager.LedService.LoadSLSProviders();
 
             LoadingSplash.LoadingText.Text = "Mapping from config";
             ServiceManager.Instance.ConfigService.SetUpMappedDevicesFromConfig();

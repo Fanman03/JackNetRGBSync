@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace RGBSyncStudio.Services
+namespace SyncStudio.WPF.Services
 {
     public class SLSAuthService
     {

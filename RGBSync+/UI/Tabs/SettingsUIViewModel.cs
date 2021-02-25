@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
-using RGBSyncStudio.Languages;
-using RGBSyncStudio.Model;
+using SyncStudio.WPF.Model;
 using SharedCode;
 using System;
 using System.Collections.ObjectModel;
@@ -9,9 +8,11 @@ using System.Linq;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Autofac.Core;
-using RGBSyncStudio.Services;
+using SyncStudio.Domain;
+using SyncStudio.WPF.Languages;
+using SyncStudio.WPF.Services;
 
-namespace RGBSyncStudio.UI.Tabs
+namespace SyncStudio.WPF.UI.Tabs
 {
     public class SettingsUIViewModel : LanguageAwareBaseViewModel
     {
@@ -96,7 +97,7 @@ namespace RGBSyncStudio.UI.Tabs
         }
 
         public ObservableCollection<LauncherPrefs.ReleaseType> ReleaseTypes { get; set; }
-        public DeviceMappingModels.Settings Settings { get; set; }
+        public Settings Settings { get; set; }
 
         public SettingsUIViewModel()
         {

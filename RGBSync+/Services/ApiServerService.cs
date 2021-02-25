@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
 
-namespace RGBSyncStudio.Services
+namespace SyncStudio.WPF.Services
 {
     public class ApiServerService
     {

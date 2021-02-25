@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
-using RGBSyncStudio.Helper;
-using RGBSyncStudio.Model;
+using SyncStudio.WPF.Model;
 using SharedCode;
 using SimpleLed;
 using System;
@@ -13,8 +12,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using SyncStudio.Domain;
+using SyncStudio.WPF.Helper;
 
-namespace RGBSyncStudio.Services
+namespace SyncStudio.WPF.Services
 {
     public class ConfigService
     {
@@ -34,13 +35,13 @@ namespace RGBSyncStudio.Services
         }
 
         public Timer configTimer;
-        public List<DeviceMappingModels.DeviceMap> MappedDevices = new List<DeviceMappingModels.DeviceMap>();
+        public List<DeviceMap> MappedDevices = new List<DeviceMap>();
         public bool isHotLoading;
 
 
-        private List<DeviceMappingModels.DeviceMapping> deviceMappingProxy;
+        private List<DeviceMapping> deviceMappingProxy;
 
-        public List<DeviceMappingModels.DeviceMapping> DeviceMappingProxy
+        public List<DeviceMapping> DeviceMappingProxy
         {
             get => deviceMappingProxy;
             set { deviceMappingProxy = value; }
@@ -50,25 +51,25 @@ namespace RGBSyncStudio.Services
         public void SetUpMappedDevicesFromConfig()
         {
             List<ControlDevice> alreadyBeingSyncedTo = new List<ControlDevice>();
-            MappedDevices = new List<DeviceMappingModels.DeviceMap>();
+            MappedDevices = new List<DeviceMap>();
             if (ServiceManager.Instance.ConfigService.DeviceMappingProxy != null)
             {
-                foreach (DeviceMappingModels.DeviceMapping deviceMapping in ServiceManager.Instance.ConfigService.DeviceMappingProxy)
+                foreach (DeviceMapping deviceMapping in ServiceManager.Instance.ConfigService.DeviceMappingProxy)
                 {
-                    ControlDevice src = ServiceManager.Instance.LedService.SLSDevices.FirstOrDefault(x =>
+                    ControlDevice src = SyncStudio.Core.ServiceManager.Devices.GetDevices().FirstOrDefault(x =>
                         x.Name == deviceMapping.SourceDevice.DeviceName &&
                         x.Driver.Name() == deviceMapping.SourceDevice.DriverName);
                     if (src != null)
                     {
-                        DeviceMappingModels.DeviceMap dm = new DeviceMappingModels.DeviceMap
+                        DeviceMap dm = new DeviceMap
                         {
                             Source = src,
                             Dest = new List<ControlDevice>()
                         };
 
-                        foreach (DeviceMappingModels.DeviceProxy deviceMappingDestinationDevice in deviceMapping.DestinationDevices)
+                        foreach (DeviceProxy deviceMappingDestinationDevice in deviceMapping.DestinationDevices)
                         {
-                            ControlDevice tmp = ServiceManager.Instance.LedService.SLSDevices.FirstOrDefault(x =>
+                            ControlDevice tmp = SyncStudio.Core.ServiceManager.Devices.GetDevices().FirstOrDefault(x =>
                                 x.Name == deviceMappingDestinationDevice.DeviceName &&
                                 x.Driver.Name() == deviceMappingDestinationDevice.DriverName);
 
@@ -102,7 +103,7 @@ namespace RGBSyncStudio.Services
             }
         }
 
-        public DeviceMappingModels.Settings Settings = null;
+        public Settings Settings = null;
 
         public LauncherPrefs LauncherPrefs { get; set; } = new LauncherPrefs();
 
@@ -113,10 +114,10 @@ namespace RGBSyncStudio.Services
                 string json = File.ReadAllText("Settings.json");
                 //try
                 {
-                    Settings = JsonConvert.DeserializeObject<DeviceMappingModels.Settings>(json);
+                    Settings = JsonConvert.DeserializeObject<Settings>(json);
                     if (Settings == null)
                     {
-                        Settings = new DeviceMappingModels.Settings();
+                        Settings = new Settings();
                     }
                     ServiceManager.Instance.Logger.Info("Settings loaded");
                     HotLoadSettings();
@@ -128,7 +129,7 @@ namespace RGBSyncStudio.Services
             }
             else
             {
-                Settings = new DeviceMappingModels.Settings();
+                Settings = new Settings();
                 SaveSettings();
                 HotLoadSettings();
             }
@@ -217,19 +218,20 @@ namespace RGBSyncStudio.Services
                     ServiceManager.Instance.ProfileService.SaveCurrentProfile();
                 }
 
-                if (ServiceManager.Instance.LedService.OverridesDirty)
-                {
-                    ServiceManager.Instance.LedService.OverridesDirty = false;
-                    try
-                    {
-                        string json = JsonConvert.SerializeObject(ServiceManager.Instance.LedService.DeviceOverrides.ToList());
-                        File.WriteAllText("Overrides.json", json);
-                    }
-                    catch
-                    {
-                    }
+                //todo
+                //if (SyncStudio.Core.ServiceManager.LedService.OverridesDirty)
+                //{
+                //    SyncStudio.Core.ServiceManager.LedService.OverridesDirty = false;
+                //    try
+                //    {
+                //        string json = JsonConvert.SerializeObject(SyncStudio.Core.ServiceManager.LedService.DeviceOverrides.ToList());
+                //        File.WriteAllText("Overrides.json", json);
+                //    }
+                //    catch
+                //    {
+                //    }
 
-                }
+                //}
             }
 
 
@@ -255,7 +257,8 @@ namespace RGBSyncStudio.Services
                 ServiceManager.Instance.DiscordService.ConnectDiscord();
             }
 
-            ServiceManager.Instance.LedService.LoadOverrides();
+            //todo
+            //SyncStudio.Core.ServiceManager.LedService.LoadOverrides();
 
             ServiceManager.Instance.ProfileService.profilePathMapping.Clear();
             if (!Directory.Exists(ProfileS_DIRECTORY))
@@ -316,7 +319,7 @@ namespace RGBSyncStudio.Services
 
             double tmr2 = 1000.0 / MathHelper.Clamp(Settings.UpdateRate, 1, 100);
 
-            ServiceManager.Instance.LedService.SetUpdateRate(tmr2);
+            SyncStudio.Core.ServiceManager.LedService.SetUpdateRate(tmr2);
 
             ServiceManager.Instance.ApiServerService.Stop();
 
@@ -327,9 +330,9 @@ namespace RGBSyncStudio.Services
 
             if (Settings.DeviceSettings != null)
             {
-                foreach (DeviceMappingModels.NGDeviceSettings SettingsDeviceSetting in Settings.DeviceSettings)
+                foreach (DeviceSettings SettingsDeviceSetting in Settings.DeviceSettings)
                 {
-                    ControlDevice cd = ServiceManager.Instance.LedService.GetControlDeviceFromName(SettingsDeviceSetting.ProviderName, SettingsDeviceSetting.Name);
+                    ControlDevice cd = SyncStudio.Core.ServiceManager.Devices.GetControlDeviceFromName(SettingsDeviceSetting.ProviderName, SettingsDeviceSetting.Name);
 
                     if (cd != null)
                     {

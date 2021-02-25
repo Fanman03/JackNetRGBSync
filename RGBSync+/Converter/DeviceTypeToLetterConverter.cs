@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Windows.Data;
 using SimpleLed;
 
-namespace RGBSyncStudio.Converter
+namespace SyncStudio.WPF.Converter
 {
     public class DeviceTypeToLetterConverter : IValueConverter
     {

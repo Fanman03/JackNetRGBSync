@@ -1,6 +1,8 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
+using SimpleLed;
 
-namespace RGBSyncStudio.UI
+namespace SyncStudio.WPF.UI
 {
     /// <summary>
     /// Interaction logic for SplashLoader.xaml
@@ -10,6 +12,19 @@ namespace RGBSyncStudio.UI
         public SplashLoader()
         {
             InitializeComponent();
+            
+            
+            UserControl splashLogo;
+            if (SyncStudio.Core.ServiceManager.SLSManager.GetTheme() == ThemeWatcher.WindowsTheme.Dark)
+            {
+                splashLogo = ServiceManager.Instance.Branding.GetDarkSplashLogo();
+            }
+            else
+            {
+                splashLogo = ServiceManager.Instance.Branding.GetLightSplashLogo();
+            }
+
+            SplashHere.Child = splashLogo;
         }
     }
 }

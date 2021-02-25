@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace RGBSyncStudio.API
+namespace SyncStudio.WPF.API
 {
     public class TriggerController : ApiController
     {

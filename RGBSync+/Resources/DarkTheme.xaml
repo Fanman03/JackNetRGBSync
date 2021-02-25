@@ -1,8 +1,8 @@
 ﻿<styles:CachedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                                    xmlns:ui="clr-namespace:RGBSyncStudio.UI"
-                                    xmlns:styles="clr-namespace:RGBSyncStudio.Styles"
-                                    xmlns:converter="clr-namespace:RGBSyncStudio.Converter">
+                                    xmlns:ui="clr-namespace:SyncStudio.WPF.UI"
+                                    xmlns:styles="clr-namespace:SyncStudio.WPF.Styles"
+                                    xmlns:converter="clr-namespace:SyncStudio.WPF.Converter">
 
     <converter:EqualsToBoolConverter x:Key="EqualsToBoolConverter" />
     <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />

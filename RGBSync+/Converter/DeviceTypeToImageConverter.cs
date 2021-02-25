@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
-namespace RGBSyncStudio.Converter
+namespace SyncStudio.WPF.Converter
 {
     public class DeviceTypeToImageConverter : IValueConverter
     {

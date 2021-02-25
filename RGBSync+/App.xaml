@@ -1,14 +1,14 @@
 ﻿<Application
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:p = "clr-namespace:RGBSyncStudio.Properties"
+             xmlns:p = "clr-namespace:SyncStudio.WPF.Properties"
              xmlns:tb="http://www.hardcodet.net/taskbar"
-             xmlns:styles="clr-namespace:RGBSyncStudio.Styles"
-             xmlns:RGBSyncStudio="clr-namespace:RGBSyncStudio" xmlns:Converter="clr-namespace:RGBSyncStudio.Converter"
+             xmlns:styles="clr-namespace:SyncStudio.WPF.Styles"
+             xmlns:RGBSyncStudio="clr-namespace:SyncStudio.WPF" xmlns:Converter="clr-namespace:SyncStudio.WPF.Converter"
              xmlns:fluentWpf="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:presentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
-             x:Class="RGBSyncStudio.App"
+             x:Class="SyncStudio.WPF.App"
              Exit="App_OnExit">
     <Application.Resources>
         <ResourceDictionary>
@@ -76,34 +76,34 @@
                         <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Left" Click="HideClicked">
                             <DockPanel Margin="2,0" LastChildFill="True">
                                 <Image Margin="2" DockPanel.Dock="Left" Width="22" Source="/RGBSync+;component/Resources/hires.ico" />
-                                <TextBlock Margin="2" DockPanel.Dock="Right" Background="Transparent" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="RGB Sync Studio" />
+                                <TextBlock Margin="2" DockPanel.Dock="Right" Background="Transparent" FontSize="16" Foreground="{Binding PrimarySolidColorBrush}" Text="RGB Sync Studio" />
                             </DockPanel>
                         </Button>
 
                         <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="1" HorizontalContentAlignment="Stretch" Click="ToggleProfilesPopup" Background="{Binding Path=appBvm.ProfilesBackground, Source={x:Static Application.Current}}">
                             <DockPanel Margin="2,0" LastChildFill="False">
-                                <TextBlock DockPanel.Dock="Left" Margin="4" FontSize="18" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
-                                <TextBlock Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Profiles"/>
-                                <TextBlock DockPanel.Dock="Right" Margin="4" FontSize="18" FontFamily="Segoe MDL2 Assets" Text="{Binding Path=appBvm.Arrow, Source={x:Static Application.Current}}" HorizontalAlignment="Right" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
+                                <TextBlock DockPanel.Dock="Left" Margin="4" FontSize="18" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{Binding PrimarySolidColorBrush}"/>
+                                <TextBlock Background="Transparent" Margin="2" FontSize="16" Foreground="{Binding PrimarySolidColorBrush}" Text="Profiles"/>
+                                <TextBlock DockPanel.Dock="Right" Margin="4" FontSize="18" FontFamily="Segoe MDL2 Assets" Text="{Binding Path=appBvm.Arrow, Source={x:Static Application.Current}}" HorizontalAlignment="Right" Foreground="{Binding PrimarySolidColorBrush}"/>
                             </DockPanel>
                         </Button>
 
                         <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="2" HorizontalContentAlignment="Left" Click="TechSupportClick">
                             <DockPanel Margin="2,0" LastChildFill="True">
-                                <TextBlock DockPanel.Dock="Left" Margin="4" FontSize="18" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
-                                <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Tech Support"/>
+                                <TextBlock DockPanel.Dock="Left" Margin="4" FontSize="18" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{Binding PrimarySolidColorBrush}"/>
+                                <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{Binding PrimarySolidColorBrush}" Text="Tech Support"/>
                             </DockPanel>
                         </Button>
                         <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="3" HorizontalContentAlignment="Left" Click="RestartAppClick">
                             <DockPanel Margin="2,0" LastChildFill="True">
-                                <TextBlock DockPanel.Dock="Left" Margin="6" FontSize="16" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
-                                <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Restart App"/>
+                                <TextBlock DockPanel.Dock="Left" Margin="6" FontSize="16" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{Binding PrimarySolidColorBrush}"/>
+                                <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{Binding PrimarySolidColorBrush}" Text="Restart App"/>
                             </DockPanel>
                         </Button>
                         <Button Style="{StaticResource ButtonAccentRevealStyle}" Grid.Column="0" Grid.Row="4" HorizontalContentAlignment="Left" Click="ExitClicked">
                             <DockPanel Margin="2,0" LastChildFill="True">
-                                <TextBlock DockPanel.Dock="Left" Margin="6" FontSize="16" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{DynamicResource SystemBaseHighColorBrush}"/>
-                                <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" Text="Exit App"/>
+                                <TextBlock DockPanel.Dock="Left" Margin="6" FontSize="16" FontFamily="Segoe MDL2 Assets" Text="" Foreground="{Binding PrimarySolidColorBrush}"/>
+                                <TextBlock DockPanel.Dock="Right" Background="Transparent" Margin="2" FontSize="16" Foreground="{Binding PrimarySolidColorBrush}" Text="Exit App"/>
                             </DockPanel>
                         </Button>
 
@@ -122,7 +122,7 @@
                 </tb:TaskbarIcon.TrayPopup>
                 <tb:TaskbarIcon.TrayToolTip>
                     <Grid Background="{StaticResource SystemAltHighColorBrush}">
-                        <TextBlock Margin="6,2"  FontSize="16" Foreground="{DynamicResource SystemBaseHighColorBrush}" />
+                        <TextBlock Margin="6,2"  FontSize="16" Foreground="{Binding PrimarySolidColorBrush}" />
                     </Grid>
                 </tb:TaskbarIcon.TrayToolTip>
             </tb:TaskbarIcon>
@@ -234,7 +234,7 @@
             </Style>
 
             <Style TargetType="Button" x:Key="FloatingCircularButton">
-                <Setter Property="Foreground" Value="{DynamicResource SystemBaseHighColorBrush}"/>
+                <Setter Property="Foreground" Value="{Binding PrimarySolidColorBrush}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">

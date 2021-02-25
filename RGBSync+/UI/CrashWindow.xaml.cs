@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using RGBSyncStudio.Helper;
+using SyncStudio.WPF.Helper;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace RGBSyncStudio.UI
+namespace SyncStudio.WPF.UI
 {
     /// <summary>
     /// Interaction logic for CrashWindow.xaml

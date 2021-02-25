@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace RGBSyncStudio.UI
+namespace SyncStudio.WPF.UI
 {
     /// <summary>
     /// Interaction logic for EnterKeyDialog.xaml

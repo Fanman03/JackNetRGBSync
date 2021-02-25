@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace RGBSyncStudio.UI.Tabs
+namespace SyncStudio.WPF.UI.Tabs
 {
     public class NewsViewModel : TabViewModel
     {

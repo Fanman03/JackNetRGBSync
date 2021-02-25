@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SimpleLed;
 
-namespace RGBSyncStudio.UI.Tabs
+namespace SyncStudio.WPF.UI.Tabs
 {
     public class TabViewModel : LanguageAwareBaseViewModel
     {

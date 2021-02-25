@@ -3,8 +3,9 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using SyncStudio.Domain;
 
-namespace RGBSyncStudio.UI.Tabs
+namespace SyncStudio.WPF.UI.Tabs
 {
     /// <summary>
     /// Interaction logic for ProfilesTab.xaml
@@ -33,7 +34,7 @@ namespace RGBSyncStudio.UI.Tabs
             vm.ShowTriggers = !vm.ShowTriggers;
             vm.CurrentProfile = dc;
 
-            Model.DeviceMappingModels.Profile tempProfile = ServiceManager.Instance.ProfileService.GetProfileFromName(dc.Name);
+            Profile tempProfile = ServiceManager.Instance.ProfileService.GetProfileFromName(dc.Name);
             vm.CurrentProfile.ProfileId = tempProfile.Id;
         }
 

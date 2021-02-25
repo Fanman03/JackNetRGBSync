@@ -1,8 +1,8 @@
-﻿using RGBSyncStudio.Helper;
+﻿using SyncStudio.WPF.Helper;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace RGBSyncStudio.UI.Tabs
+namespace SyncStudio.WPF.UI.Tabs
 {
     /// <summary>
     /// Interaction logic for NewsView.xaml

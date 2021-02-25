@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:RGBSyncStudio.Styles">
+                    xmlns:local="clr-namespace:SyncStudio.WPF.Styles">
     <Style x:Key="ScrollBarTrackThumb"
         TargetType="{x:Type Thumb}">
         <Setter Property="Template">
@@ -19,7 +19,7 @@
                             Width="Auto"
                             Height="Auto"
                             Margin="0,3,0,3"
-                            Background="{DynamicResource SystemBaseLowColorBrush}" />
+                            Background="{Binding SecondarySolidColorBrush}" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Tag"

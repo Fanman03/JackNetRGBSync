@@ -1,4 +1,4 @@
-﻿using RGBSyncStudio.Helper;
+﻿using SyncStudio.WPF.Helper;
 using SimpleLed;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace RGBSyncStudio.UI.Tabs
+namespace SyncStudio.WPF.UI.Tabs
 {
     /// <summary>
     /// Interaction logic for Palettes.xaml

@@ -290,12 +290,12 @@
     </ControlTemplate>
 
     <Style x:Key="AcrylicWindowStyle" TargetType="{x:Type Window}">
-        <Setter Property="local:AcrylicWindow.TintColor" Value="{DynamicResource SystemControlAcrylicWindowTintColor}"/>
-        <Setter Property="local:AcrylicWindow.FallbackColor" Value="{DynamicResource SystemControlAcrylicWindowFallbackColor}"/>
+        <Setter Property="local:AcrylicWindow.TintColor" Value="Transparent"/>
+        <Setter Property="local:AcrylicWindow.FallbackColor" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource SystemControlAcrylicWindowForegroundBrush}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{Binding Path=(local:AccentColors.ImmersiveSystemAccentBrush)}" />
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>

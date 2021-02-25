@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32;
-using RGBSyncStudio.Helper;
-using RGBSyncStudio.Model;
+using SyncStudio.WPF.Helper;
 using SimpleLed;
 using System;
 using System.Collections.Generic;
@@ -16,9 +15,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using SyncStudio.Domain;
 using CustomDeviceSpecification = SimpleLed.CustomDeviceSpecification;
 
-namespace RGBSyncStudio.UI.Tabs
+namespace SyncStudio.WPF.UI.Tabs
 {
     /// <summary>
     /// Interaction logic for Devices.xaml
@@ -107,35 +107,35 @@ namespace RGBSyncStudio.UI.Tabs
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (ServiceManager.Instance.LedService.DeviceBeingAligned != null)
+            if (SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned != null)
             {
-                int vl = ServiceManager.Instance.LedService.DeviceBeingAligned.LedShift;
+                int vl = SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LedShift;
 
                 vl--;
-                if (vl < 0) vl = ServiceManager.Instance.LedService.DeviceBeingAligned.LEDs.Length - 1;
+                if (vl < 0) vl = SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LEDs.Length - 1;
 
-                ServiceManager.Instance.LedService.DeviceBeingAligned.LedShift = vl;
+                SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LedShift = vl;
             }
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            if (ServiceManager.Instance.LedService.DeviceBeingAligned != null)
+            if (SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned != null)
             {
-                int vl = ServiceManager.Instance.LedService.DeviceBeingAligned.LedShift;
+                int vl = SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LedShift;
 
                 vl++;
-                if (vl >= ServiceManager.Instance.LedService.DeviceBeingAligned.LEDs.Length) vl = 0;
+                if (vl >= SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LEDs.Length) vl = 0;
 
-                ServiceManager.Instance.LedService.DeviceBeingAligned.LedShift = vl;
+                SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LedShift = vl;
             }
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            if (ServiceManager.Instance.LedService.DeviceBeingAligned != null)
+            if (SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned != null)
             {
-                ServiceManager.Instance.LedService.DeviceBeingAligned.Reverse = !ServiceManager.Instance.LedService.DeviceBeingAligned.Reverse;
+                SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.Reverse = !SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.Reverse;
 
             }
         }
@@ -144,10 +144,10 @@ namespace RGBSyncStudio.UI.Tabs
         {
             try
             {
-                DeviceMappingModels.Profile profile = ServiceManager.Instance.ProfileService.CurrentProfile;
+                Profile profile = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile();
                 if (profile?.DeviceProfileSettings == null)
                 {
-                    profile.DeviceProfileSettings = new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();
+                    profile.DeviceProfileSettings = new ObservableCollection<DeviceProfileSettings>();
                 }
 
 
@@ -157,7 +157,7 @@ namespace RGBSyncStudio.UI.Tabs
 
                 foreach (object item in DeviceConfigList.Items)
                 {
-                    DeviceMappingModels.Device cItem = (DeviceMappingModels.Device)item;
+                    Device cItem = (Device)item;
 
                     cItem.Selected = false;
                     if (DeviceConfigList.SelectedItems.Contains(item))
@@ -191,9 +191,9 @@ namespace RGBSyncStudio.UI.Tabs
 
                     foreach (object item in DeviceConfigList.SelectedItems)
                     {
-                        if (item is DeviceMappingModels.Device cd)
+                        if (item is Device cd)
                         {
-                            ServiceManager.Instance.StoreService.ShowPlugInUI(cd.ControlDevice.Driver.GetProperties().Id, this.ConfigHere);
+                            ServiceManager.Instance.StoreService.ShowPlugInUI(cd.ControlDevice.Driver.GetProperties().ProductId, this.ConfigHere);
                             vm.SingleSelectedSourceControlDevice = cd;
                         }
                     }
@@ -208,16 +208,16 @@ namespace RGBSyncStudio.UI.Tabs
                 AddBottomPanel();
 
                 ControlDevice selectedDevice = null;
-                if (ConfigPanel != null && ((DeviceMappingModels.Device)ConfigPanel.DataContext) != null)
+                if (ConfigPanel != null && ((Device)ConfigPanel.DataContext) != null)
                 {
-                    ServiceManager.Instance.LedService.DeviceBeingAligned =
-                        ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
+                    SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned =
+                        ((Device)ConfigPanel.DataContext).ControlDevice;
                     ((DevicesViewModel)this.DataContext).SetupSourceDevices(
-                        ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice);
+                        ((Device)ConfigPanel.DataContext).ControlDevice);
                 }
                 else
                 {
-                    ServiceManager.Instance.LedService.DeviceBeingAligned = null;
+                    SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned = null;
                     ((DevicesViewModel)this.DataContext).SetupSourceDevices(null);
                 }
 
@@ -297,7 +297,7 @@ namespace RGBSyncStudio.UI.Tabs
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DeviceMappingModels.Device dvc = ConfigHere.DataContext as DeviceMappingModels.Device;
+            Device dvc = ConfigHere.DataContext as Device;
             ControlDevice cd = null;
             if (dvc != null)
             {
@@ -311,7 +311,7 @@ namespace RGBSyncStudio.UI.Tabs
         {
             Debug.WriteLine(sender);
             Button but = sender as Button;
-            DeviceMappingModels.SourceModel dc = but.DataContext as DeviceMappingModels.SourceModel;
+            SourceModel dc = but.DataContext as SourceModel;
             ListView_SelectionChanged(this.SourceList, null, dc);
 
             vm.UpdateFilteredSourceDevices();
@@ -319,26 +319,26 @@ namespace RGBSyncStudio.UI.Tabs
             vm.UpdateSourceDevice(dc);
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e, DeviceMappingModels.SourceModel selected)
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e, SourceModel selected)
         {
             ListView items = (System.Windows.Controls.ListView)sender;
 
-            //DeviceMappingModels.SourceModel selected = (DeviceMappingModels.SourceModel)items.SelectedItem;
+            //SourceModel selected = (SourceModel)items.SelectedItem;
             if (selected == null)
             {
                 return;
             }
 
-            List<DeviceMappingModels.SourceModel> selectedItems = new List<DeviceMappingModels.SourceModel>();
+            List<SourceModel> selectedItems = new List<SourceModel>();
             foreach (object itemsSelectedItem in items.SelectedItems)
             {
-                DeviceMappingModels.SourceModel castItem = (DeviceMappingModels.SourceModel)itemsSelectedItem;
+                SourceModel castItem = (SourceModel)itemsSelectedItem;
                 selectedItems.Add(castItem);
             }
 
             foreach (object item in items.Items)
             {
-                DeviceMappingModels.SourceModel castItem = (DeviceMappingModels.SourceModel)item;
+                SourceModel castItem = (SourceModel)item;
 
 
                 bool shouldEnable = selectedItems.Contains(item);
@@ -357,26 +357,24 @@ namespace RGBSyncStudio.UI.Tabs
             }
 
             DevicesViewModel vm = this.DataContext as DevicesViewModel;
-            IEnumerable<DeviceMappingModels.Device> selectedParents = vm.SLSDevices.Where(x => x.Selected == true);
+            IEnumerable<Device> selectedParents = vm.SLSDevices.Where(x => x.Selected == true);
 
-            foreach (DeviceMappingModels.Device parentDevice in selectedParents)
+            foreach (Device parentDevice in selectedParents)
             {
                 {
-                    DeviceMappingModels.Profile profile = ServiceManager.Instance.ProfileService.CurrentProfile;
+                    Profile profile = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile();
                     if (profile?.DeviceProfileSettings == null)
                     {
-                        profile.DeviceProfileSettings = new ObservableCollection<DeviceMappingModels.NGDeviceProfileSettings>();
+                        profile.DeviceProfileSettings = new ObservableCollection<DeviceProfileSettings>();
                     }
 
-                    DeviceMappingModels.NGDeviceProfileSettings configDevice = profile.DeviceProfileSettings.FirstOrDefault(x => x.Name == parentDevice.Name && x.ProviderName == parentDevice.ProviderName && x.ConnectedTo == parentDevice.ConnectedTo);
+                    DeviceProfileSettings configDevice = profile.DeviceProfileSettings.FirstOrDefault(x => x.UID == parentDevice.UID);
 
                     if (configDevice == null)
                     {
-                        configDevice = new DeviceMappingModels.NGDeviceProfileSettings
+                        configDevice = new DeviceProfileSettings
                         {
-                            Name = parentDevice.Name,
-                            ProviderName = parentDevice.ProviderName,
-                            ConnectedTo = parentDevice.ConnectedTo
+                            UID = parentDevice.UID,
                         };
 
                         profile.DeviceProfileSettings.Add(configDevice);
@@ -385,17 +383,14 @@ namespace RGBSyncStudio.UI.Tabs
 
                     if (selected.Name.Trim() != "None")
                     {
-                        configDevice.SourceName = selected?.Name;
-                        configDevice.SourceProviderName = selected?.ProviderName;
-                        configDevice.SourceConnectedTo = selected?.ConnectedTo;
+                        configDevice.SourceUID= selected?.UID;
 
-                        parentDevice.SunkTo = configDevice.SourceName;
+                        //parentDevice.SunkTo = configDevice.SourceName;
                     }
                     else
                     {
-                        configDevice.SourceName = null;
-                        configDevice.SourceProviderName = null;
-                        configDevice.SourceConnectedTo = null;
+                        configDevice.SourceUID = null;
+                        
                         parentDevice.SunkTo = "";
 
                         foreach (ControlDevice.LedUnit controlDeviceLeD in parentDevice.ControlDevice.LEDs)
@@ -425,7 +420,7 @@ namespace RGBSyncStudio.UI.Tabs
 
             foreach (object item in DeviceConfigCondensedList.Items)
             {
-                DeviceMappingModels.Device cItem = (DeviceMappingModels.Device)item;
+                Device cItem = (Device)item;
 
                 cItem.Selected = false;
                 if (DeviceConfigCondensedList.SelectedItems.Contains(item))
@@ -439,18 +434,18 @@ namespace RGBSyncStudio.UI.Tabs
 
             AddBottomPanel();
 
-            if (ConfigPanel != null && ((DeviceMappingModels.Device)ConfigPanel.DataContext) != null)
+            if (ConfigPanel != null && ((Device)ConfigPanel.DataContext) != null)
             {
-                ServiceManager.Instance.LedService.DeviceBeingAligned = ((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice;
-                ((DevicesViewModel)this.DataContext).SetupSourceDevices(((DeviceMappingModels.Device)ConfigPanel.DataContext).ControlDevice);
+                SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned = ((Device)ConfigPanel.DataContext).ControlDevice;
+                ((DevicesViewModel)this.DataContext).SetupSourceDevices(((Device)ConfigPanel.DataContext).ControlDevice);
             }
             else
             {
-                ServiceManager.Instance.LedService.DeviceBeingAligned = null;
+                SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned = null;
                 ((DevicesViewModel)this.DataContext).SetupSourceDevices(null);
             }
 
-            DeviceMappingModels.Device dvc = ConfigHere.DataContext as DeviceMappingModels.Device;
+            Device dvc = ConfigHere.DataContext as Device;
             ControlDevice cd = dvc.ControlDevice;
 
             vm.DevicesSelectedCount = vm.SLSDevices.Count(x => x.Selected);
@@ -504,9 +499,9 @@ namespace RGBSyncStudio.UI.Tabs
         private void MouseEnterMapper(object sender, MouseEventArgs e)
         {
             Grid grid = sender as Grid;
-            DeviceMappingModels.SourceModel dc = grid.DataContext as DeviceMappingModels.SourceModel;
+            SourceModel dc = grid.DataContext as SourceModel;
 
-            foreach (DeviceMappingModels.SourceModel vmFilteredSourceDevice in vm.FilteredSourceDevices)
+            foreach (SourceModel vmFilteredSourceDevice in vm.FilteredSourceDevices)
             {
                 vmFilteredSourceDevice.Hovered = vmFilteredSourceDevice == dc;
             }
@@ -520,7 +515,7 @@ namespace RGBSyncStudio.UI.Tabs
         private async void ConfigSource(object sender, RoutedEventArgs e)
         {
             Button grid = sender as Button;
-            DeviceMappingModels.SourceModel dc = grid.DataContext as DeviceMappingModels.SourceModel;
+            SourceModel dc = grid.DataContext as SourceModel;
 
             UpdateDeviceConfigUi(dc.Device);
             vm.SubViewMode = "Config";
@@ -554,11 +549,11 @@ namespace RGBSyncStudio.UI.Tabs
 
             Debug.WriteLine(cds);
 
-            DeviceMappingModels.Device parentContext = parent.DataContext as DeviceMappingModels.Device;
+            Device parentContext = parent.DataContext as Device;
 
             if (parentContext.Overrides == null)
             {
-                parentContext.Overrides = ServiceManager.Instance.LedService.GenerateOverride(parentContext.ControlDevice);
+                parentContext.Overrides = SyncStudio.Core.ServiceManager.Devices.GetOverride(parentContext.ControlDevice);
             }
 
             parentContext.Overrides.CustomDeviceSpecification = cds;
@@ -574,7 +569,7 @@ namespace RGBSyncStudio.UI.Tabs
             Button button = sender as Button;
 
             StackPanel parent = button.Parent as StackPanel;
-            DeviceMappingModels.Device device = parent.DataContext as DeviceMappingModels.Device;
+            Device device = parent.DataContext as Device;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
@@ -596,7 +591,7 @@ namespace RGBSyncStudio.UI.Tabs
 
                             if (device.Overrides.CustomDeviceSpecification == null)
                             {
-                                device.Overrides = ServiceManager.Instance.LedService.GetOverride(device.ControlDevice);
+                                device.Overrides = SyncStudio.Core.ServiceManager.Devices.GetOverride(device.ControlDevice);
                                 if (device.Overrides.CustomDeviceSpecification == null)
                                 {
                                     device.Overrides.CustomDeviceSpecification = new CustomDeviceSpecification();
@@ -638,7 +633,7 @@ namespace RGBSyncStudio.UI.Tabs
 
             RGBOrder order = (RGBOrder)Enum.Parse(typeof(RGBOrder), (string)sis.Content);
 
-            DeviceMappingModels.Device pp = cb.DataContext as DeviceMappingModels.Device;
+            Device pp = cb.DataContext as Device;
             pp.Overrides.CustomDeviceSpecification.RGBOrder = order;
 
             Debug.WriteLine(cb);
@@ -646,8 +641,8 @@ namespace RGBSyncStudio.UI.Tabs
 
         private void LedCountChanged(object sender, TextChangedEventArgs e)
         {
-            //var dc = this.DataContext as DeviceMappingModels.Device;
-            //var cd = (this.DataContext as DeviceMappingModels.Device).ControlDevice;
+            //var dc = this.DataContext as Device;
+            //var cd = (this.DataContext as Device).ControlDevice;
             //    var props = cd.Driver.GetProperties();
             //    if (props.SetDeviceOverride != null)
             //    {
@@ -658,7 +653,7 @@ namespace RGBSyncStudio.UI.Tabs
         private void WriteCDS(object sender, RoutedEventArgs e)
         {
             Button sb = sender as Button;
-            DeviceMappingModels.Device dave = sb.DataContext as DeviceMappingModels.Device;
+            Device dave = sb.DataContext as Device;
 
             ControlDevice cd = dave.ControlDevice;
             DriverProperties props = cd.Driver.GetProperties();

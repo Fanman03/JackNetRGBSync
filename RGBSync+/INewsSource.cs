@@ -9,7 +9,7 @@ using Tweetinvi;
 using Tweetinvi.Models;
 using TweetSharp;
 
-namespace RGBSyncStudio
+namespace SyncStudio.WPF
 {
     public interface INewsSource
     {

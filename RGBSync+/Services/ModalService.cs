@@ -1,7 +1,7 @@
-﻿using RGBSyncStudio.UI;
-using RGBSyncStudio.UI.Tabs;
+﻿using SyncStudio.WPF.UI;
+using SyncStudio.WPF.UI.Tabs;
 
-namespace RGBSyncStudio.Services
+namespace SyncStudio.WPF.Services
 {
     public class ModalService
     {

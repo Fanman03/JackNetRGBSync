@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Controls;
 
-namespace RGBSyncStudio.Helper
+namespace SyncStudio.WPF.Helper
 {
     public static class TypeLoaderExtensions
     {
