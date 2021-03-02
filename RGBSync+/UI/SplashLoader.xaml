@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SyncStudio.WPF.UI"
         xmlns:fluentWpf="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
-        xmlns:WPF="clr-namespace:SyncStudio.WPF" x:Class="SyncStudio.WPF.UI.SplashLoader"
+        xmlns:WPF="clr-namespace:SyncStudio.WPF" xmlns:local="clr-namespace:SyncStudio.WPF.UI" x:Class="SyncStudio.WPF.UI.SplashLoader"
         mc:Ignorable="d"
         Title="" Height="300" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None"
         
@@ -13,20 +12,11 @@
         fluentWpf:AcrylicWindow.TintColor="{Binding SecondaryColor}"
         fluentWpf:AcrylicWindow.TintOpacity="0.8"
         fluentWpf:AcrylicWindow.Enabled="True" Background="#40000000">
-    <Window.Resources>
-        <LinearGradientBrush x:Key="RainbowGradient" StartPoint="0,0" EndPoint="1,0">
-            <GradientStop Color="#ff0000" Offset="0"/>
-            <GradientStop Color="#FFFF00" Offset="0.2"/>
-            <GradientStop Color="#00ff00" Offset="0.4"/>
-            <GradientStop Color="#00ffff" Offset="0.5"/>
-            <GradientStop Color="#0000ff" Offset="0.6"/>
-            <GradientStop Color="#FF00FF" Offset="0.8"/>
-            <GradientStop Color="#ff0000" Offset="1"/>
-        </LinearGradientBrush>
-    </Window.Resources>
+
     <Window.DataContext>
-        <WPF:SplashViewModel/>
+        <local:SplashLoaderViewModel/>
     </Window.DataContext>
+
     <Grid>
         <TextBlock Cursor="Wait" x:Name="LoadingText" HorizontalAlignment="Center" Foreground="{Binding PrimarySolidColorBrush}" VerticalAlignment="Center" Margin="0,0,0,-150"><Run Text="Loading..."/></TextBlock>
         <ProgressBar x:Name="ProgressBar" Width="350" Height="10" Background="{Binding SecondarySolidColorBrush}" BorderBrush="{x:Null}" Margin="0,0,0,-200">
@@ -41,21 +31,9 @@
                     <GradientStop Color="#ff0000" Offset="1"/>
                 </LinearGradientBrush>
             </ProgressBar.Foreground>
-            <!--<ProgressBar.Triggers>
-                <EventTrigger RoutedEvent="Window.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation 
-                                Storyboard.TargetName="PbStop1"
-                                Storyboard.TargetProperty="Offset"
-                                From="0.0" To="1.0" Duration="0:0:10" FillBehavior="Stop" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </ProgressBar.Triggers> -->
         </ProgressBar>
         <DockPanel DockPanel.Dock="Top" Margin="0,-60,0,0">
-            <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Width="400" x:Name="SplashHere"/>
+            <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Width="400" x:Name="SplashHere"/>
         </DockPanel>
     </Grid>
 </Window>

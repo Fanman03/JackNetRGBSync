@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using SimpleLed;
 
 namespace SyncStudio.WPF.UI
@@ -18,11 +19,20 @@ namespace SyncStudio.WPF.UI
             if (SyncStudio.Core.ServiceManager.SLSManager.GetTheme() == ThemeWatcher.WindowsTheme.Dark)
             {
                 splashLogo = ServiceManager.Instance.Branding.GetDarkSplashLogo();
+                (this.DataContext as SplashLoaderViewModel).SecondaryColor = Colors.Black;
+                (this.DataContext as SplashLoaderViewModel).PrimaryColor = Colors.White;
+                (this.DataContext as SplashLoaderViewModel).PrimarySolidColorBrush = new SolidColorBrush(Colors.White);
             }
             else
             {
                 splashLogo = ServiceManager.Instance.Branding.GetLightSplashLogo();
+                (this.DataContext as SplashLoaderViewModel).SecondaryColor = Colors.White;
+                (this.DataContext as SplashLoaderViewModel).PrimaryColor = Colors.Black;
+                (this.DataContext as SplashLoaderViewModel).PrimarySolidColorBrush = new SolidColorBrush(Colors.Black);
+
             }
+
+            this.Icon = ServiceManager.Instance.Branding.GetIcon();
 
             SplashHere.Child = splashLogo;
         }

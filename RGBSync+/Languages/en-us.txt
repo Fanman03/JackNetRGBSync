@@ -30,34 +30,34 @@ Settings.ThemeLabel	Theme:
 Settings.UpdateBtnText	Check for Update
 Settings.UpdateLabel	Updates:
 Settings.VersionLabel	Version:
-Settings.StartAsAdmin    Start As Admin
-Settings.StartAsAdminHelp    Can increase compatability
+Settings.StartAsAdmin	Start As Admin
+Settings.StartAsAdminHelp	Can increase compatability
 Settings.ReleaseType Release Type
 Settings.ReleaseTypeHelp Which release do you want? Release is stable, Beta less so, CI is unstable
-Settings.MinimizeToTray  Minimize To Tray
-Settings.MinimizeToTrayHelp  Should the app minimize to toolbar or the system tray?
+Settings.MinimizeToTray	Minimize To Tray
+Settings.MinimizeToTrayHelp	Should the app minimize to toolbar or the system tray?
 Settings.MinimizeOnStart Minimize On Start
 Settings.MinimizeOnStartHelp Should the app show its window on start, or instantly minimize?
 Settings.BackgroundPath Background Image
 Settings.BackgroundHelp Path to a background image to use
-Settings.BackgroundOpacity  Background Opacity
+Settings.BackgroundOpacity	Background Opacity
 Settings.BackgroundOpacityHelp Adjusts the transparency of the background image
-Settings.DimBackgroundOpacity   Background Dimmer
-Settings.DimBackgroundOpacityHelp   Adjusts the Darkening effect on background
+Settings.DimBackgroundOpacity	Background Dimmer
+Settings.DimBackgroundOpacityHelp	Adjusts the Darkening effect on background
 Settings.BackgroundBlur Background Blur
 Settings.BackgroundBlurHelp Amount to blur the chosen background image
 Settings.SyncableBG Syncable Background
 Settings.SyncableBGHelp Enable a device controlling background colors.
 Settings.RainbowTab Rainbow Tab Markers
 Settings.RainbowTabHelp Should the tab markers in the left panel be all the colors.
-Settings.AppSettings    App Settings
-Settings.LaunchBehaviour    Launch Behaviour
-Settings.MinimizeBehaviour  Minimize Behaviour
+Settings.AppSettings	App Settings
+Settings.LaunchBehaviour	Launch Behaviour
+Settings.MinimizeBehaviour	Minimize Behaviour
 Settings.AppStyling App Styling
 Settings.AccentColor Accent Color
 Settings.AccentColorHelp Override the app accent color.
-Settings.SimpleLedAuth  SimpleLED Authentication
-Settings.SimpleLedAuthHelp  Connect to the SimpleLED authentication servers to unlock functionality
+Settings.SimpleLedAuth	SimpleLED Authentication
+Settings.SimpleLedAuthHelp	Connect to the SimpleLED authentication servers to unlock functionality
 Settings.SimpleLedLogin Log In
 Settings.SimpleLedLogout Log Out
 Store.ExperimentalBtnText	Experimental
@@ -71,25 +71,25 @@ Store.Plugin.VersionsBtnLabel	Versions
 Store.RefreshBtnText	Refresh Store
 Store.RestartAllBtnText	Restart All
 Store.ShowStore Show Store
-Store.Experimental  Toggle Experimental
-Store.Updates   Toggle Updates
-Store.StoreButton   Store
-Store.NotStoreButton   Installed
-Store.ExperimentalButton    Experimental
+Store.Experimental	Toggle Experimental
+Store.Updates	Toggle Updates
+Store.StoreButton	Store
+Store.NotStoreButton	Installed
+Store.ExperimentalButton	Experimental
 Store.UpdatesButton Updates
 Store.Configure Configure
-Store.Details   Details
+Store.Details	Details
 TrayMenu.ExitAppItem	Exit App
 TrayMenu.OpenUIItem	Open App
 TrayMenu.RestartAppItem	Restart App
 TrayMenu.TechSupportItem	Tech Support
 ColorProfile.AddProfile Add Profile
-ColorProfile.DeleteProfile  Delete Profile
+ColorProfile.DeleteProfile	Delete Profile
 UI.AboutTabHeader	About
 UI.AppName	RGB Sync
 UI.DeviceTabHeader	Devices
 UI.ProfileTabHeader	Sync Profiles
-UI.Main.palettes    Color Profiles
+UI.Main.palettes	Color Profiles
 UI.SettingsTabHeader	Settings
 UI.StoreTabHeader	Devices
 About.OrigDev	RGB Sync Original Development
@@ -99,83 +99,83 @@ About.Donations	RGB Sync Studio is a work of free and open-source software. The 
 Donate.Patreon	DONATE VIA PATREON
 Donate.PayPal	DONATE VIA PAYPAL
 About.Thanks	A special thank you to all patrons, translators, and contributors who helped make this software possible. Your contributions are greatly appreciated.
-Devices.Info    Info
-Devices.SyncTo  Sync To
-Devices.InfoDriver  Driver:
-Devices.InfoName    Name:
-Devices.InfoAuthor  Author:
-Devices.InfoDriverVersion   Driver Version:
-Devices.Multiple    Multiple devices
-Devices.Selected    selected
-Devices.Config  Config
-Devices.Customize   Customize
-Devices.Alignment   Alignment
-Devices.NoConfig    This device has no configuration.
+Devices.Info	Info
+Devices.SyncTo	Sync To
+Devices.InfoDriver	Driver:
+Devices.InfoName	Name:
+Devices.InfoAuthor	Author:
+Devices.InfoDriverVersion	Driver Version:
+Devices.Multiple	Multiple devices
+Devices.Selected	selected
+Devices.Config	Config
+Devices.Customize	Customize
+Devices.Alignment	Alignment
+Devices.NoConfig	This device has no configuration.
 Devices.ZoomOut Zoom Out
-Devices.ZoomIn  Zoom In
-Devices.Condensed   Condensed View
-Devices.IconView    Icon View
-Devices.ShowSources     Show Sources
+Devices.ZoomIn	Zoom In
+Devices.Condensed	Condensed View
+Devices.IconView	Icon View
+Devices.ShowSources	Show Sources
 Customize.Align Edit Alignment
 Customize.AlignHint Use the controls below to make your device match the images
 Customize.TitleOverride Override Title
 Customize.SubTitleOverride Override SubTitle
 Customize.ChannelOverride Override Channel text
-Customize.LEDCount  LED Count
-Customize.Template  Template
+Customize.LEDCount	LED Count
+Customize.Template	Template
 Customize.Image Product Image
-Customize.Mapper    Mapper
+Customize.Mapper	Mapper
 Customize.GridWidth 2D Width
-Customize.GridHeight    2D Height
-Customize.RGBOrder    RGB Order
-Profile.TimeBasedTrigger    Time Based Trigger
-Profile.TimeToTrigger   Time at which to trigger:
-Profile.ProcessTrigger  Running Process Trigger
-Profile.ProcessName     Name of process to watch for:
-Profile.ProcessInvert   Trigger on absence
-Profile.TriggerDesc     Triggers for 
-Profile.SelectProfile   Switch to this profile
-Profile.EditProfile     Edit Profile
-Profile.Triggers    Triggers
-Profile.RemoveProfile   Remove Profile
+Customize.GridHeight	2D Height
+Customize.RGBOrder	RGB Order
+Profile.TimeBasedTrigger	Time Based Trigger
+Profile.TimeToTrigger	Time at which to trigger:
+Profile.ProcessTrigger	Running Process Trigger
+Profile.ProcessName	Name of process to watch for:
+Profile.ProcessInvert	Trigger on absence
+Profile.TriggerDesc	Triggers for 
+Profile.SelectProfile	Switch to this profile
+Profile.EditProfile	Edit Profile
+Profile.Triggers	Triggers
+Profile.RemoveProfile	Remove Profile
 Profile.MomentaryTrigger Momentary Trigger
-Profile.Expand  Expande
-Profile.Collapse    Collapse
+Profile.Expand	Expande
+Profile.Collapse	Collapse
 Generic.Off Off
-Generic.On  On
+Generic.On	On
 Generic.Yes Yes
-Generic.No  No
-Main.Devices    Devices
+Generic.No	No
+Main.Devices	Devices
 Main.Profiles	Profiles
-Main.Palettes   Palettes
-Main.Store  Drivers
-Main.About  About
-Main.CrashMe  Crash
-Main.Settings   Settings
-Main.News  News
-Settings.ApiServer  API Server
-Settings.ApiServerHelp  Enable this to enable RGB Sync Studio REST API Server
-Settings.RefreshFreq    Refresh Frequency
-Settings.RefreshFreqHelp    Adjust the number of timers per second RGB is updated
-Settings.Language   Language
-Settings.Experimental   Experimental Drivers
-Settings.ExperimentalHelp   Show experimental drivers in the store
+Main.Palettes	Palettes
+Main.Store	Drivers
+Main.About	About
+Main.CrashMe	Crash
+Main.Settings	Settings
+Main.News	News
+Settings.ApiServer	API Server
+Settings.ApiServerHelp	Enable this to enable RGB Sync Studio REST API Server
+Settings.RefreshFreq	Refresh Frequency
+Settings.RefreshFreqHelp	Adjust the number of timers per second RGB is updated
+Settings.Language	Language
+Settings.Experimental	Experimental Drivers
+Settings.ExperimentalHelp	Show experimental drivers in the store
 Fan Fan
-LEDStrip    LED Strip
+LEDStrip	LED Strip
 GPU GPU
 MotherBoard MotherBoard
-Keyboard    Keyboard
-Keypad  Keypad
-Mouse   Mouse
-MousePad    Mouse Pad
+Keyboard	Keyboard
+Keypad	Keypad
+Mouse	Mouse
+MousePad	Mouse Pad
 Headset Headset
-HeadsetStand    Headset Stand
+HeadsetStand	Headset Stand
 PSU PSU
-Cooler  Cooler
-Memory  Memory
+Cooler	Cooler
+Memory	Memory
 Speaker Speaker
-Other   Other
+Other	Other
 AIO AIO
-WaterBlock  Water Block
-Effect  Effect
+WaterBlock	Water Block
+Effect	Effect
 

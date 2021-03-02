@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using MarkdownUI.WPF;
 using SyncStudio.WPF.Model;
 using SyncStudio.WPF.UI.Tabs;
 using SharpCompress.Archives;
@@ -22,7 +23,7 @@ namespace SyncStudio.WPF.Services
     public class StoreService
     {
         private SimpleModal installingModal;
-        
+
 
         public void RemoveInstalledPlugin(ISimpleLed exist)
         {
@@ -112,7 +113,7 @@ namespace SyncStudio.WPF.Services
 
             return anyFail;
         }
-      
+
         public void ShowPlugInUI(Guid pluginID, Grid designationGrid)
         {
             var herp = SyncStudio.Core.ServiceManager.SLSManager.Drivers.ToList();
@@ -123,25 +124,50 @@ namespace SyncStudio.WPF.Services
 
 
             ISimpleLed existingPlugin = lookup[pluginID];
-                // berks.First(x =>  x.GetProperties().ProductId == pluginID);
+            // berks.First(x =>  x.GetProperties().ProductId == pluginID);
 
             ISimpleLedWithConfig testDrv = existingPlugin as ISimpleLedWithConfig;
 
             if (existingPlugin is ISimpleLedWithConfig drv)
             {
-                UserControl cfgUI = drv.GetCustomConfig(null);
+
+
+                MarkdownUIBundle cfgUI = drv.GetCustomConfig(null);
                 designationGrid.Children.Clear();
-                designationGrid.Children.Add(cfgUI);
+                StackPanel sp = new StackPanel();
+                designationGrid.Children.Add(sp);
 
-                designationGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
-                designationGrid.VerticalAlignment = VerticalAlignment.Stretch;
+                ResourceDictionary theme = new ResourceDictionary { Source = new Uri(@"\UI\MarkdownDark.xaml", UriKind.Relative) };
+                if (Core.ServiceManager.SLSManager.GetTheme() == ThemeWatcher.WindowsTheme.Dark)
+                {
+                    ((SolidColorBrush)theme["Primary"]).Color = Colors.Black;
+                    ((SolidColorBrush)theme["Secondary"]).Color = Colors.White;
+                }
+                else
+                {
+                    ((SolidColorBrush)theme["Primary"]).Color = Colors.White;
+                    ((SolidColorBrush)theme["Secondary"]).Color = Colors.Black;
+                }
+                ((SolidColorBrush)theme["AccentColor"]).Color = Core.ServiceManager.SLSManager.GetAccent();
 
-                cfgUI.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-                cfgUI.HorizontalAlignment = HorizontalAlignment.Stretch;
-                cfgUI.VerticalAlignment = VerticalAlignment.Stretch;
-                cfgUI.VerticalContentAlignment = VerticalAlignment.Stretch;
 
-                cfgUI.Foreground = new SolidColorBrush(Colors.Black); //Make theme aware
+                MarkdownUIHandler handler = new MarkdownUIHandler(cfgUI.Markdown, cfgUI.ViewModel, theme);
+                handler.RenderToUI(sp);
+
+
+
+                //todo
+                //designationGrid.Children.Add(cfgUI);
+
+                //designationGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
+                //designationGrid.VerticalAlignment = VerticalAlignment.Stretch;
+
+                //cfgUI.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                //cfgUI.HorizontalAlignment = HorizontalAlignment.Stretch;
+                //cfgUI.VerticalAlignment = VerticalAlignment.Stretch;
+                //cfgUI.VerticalContentAlignment = VerticalAlignment.Stretch;
+
+                //cfgUI.Foreground = new SolidColorBrush(Colors.Black); //Make theme aware
             }
         }
 

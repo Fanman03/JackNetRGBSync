@@ -85,7 +85,7 @@ namespace SyncStudio.Core.Services.Led
             //using (new BenchMark("Setup pull list"))
             {
                 foreach (DeviceProfileSettings currentProfileDeviceProfileSetting in
-                    CurrentProfile.DeviceProfileSettings.ToList())
+                    CurrentProfile.DeviceProfileSettings.ToList().Where(x=>x.DestinationUID!=null && x.SourceUID!=null))
                 {
                     try
                     {
@@ -122,19 +122,15 @@ namespace SyncStudio.Core.Services.Led
             {
 
 
-                foreach (DeviceProfileSettings currentProfileDeviceProfileSetting in
-                    CurrentProfile.DeviceProfileSettings.ToList())
+                foreach (DeviceProfileSettings currentProfileDeviceProfileSetting in CurrentProfile.DeviceProfileSettings.ToList().Where(x => x.DestinationUID != null && x.SourceUID != null))
                 {
-                    ControlDevice cd = ((Devices)ServiceManager.Devices).SLSDevices.ToArray().FirstOrDefault(x =>
-                        x.UniqueIdentifier == currentProfileDeviceProfileSetting.SourceUID );
-
-                    ControlDevice dest = ((Devices)ServiceManager.Devices).SLSDevices.ToArray().FirstOrDefault(x =>
-                        x.UniqueIdentifier == currentProfileDeviceProfileSetting.UID);
+                    ControlDevice cd = ((Devices)ServiceManager.Devices).SLSDevices.ToArray().FirstOrDefault(x => x.UniqueIdentifier == currentProfileDeviceProfileSetting.SourceUID );
+                    ControlDevice dest = ((Devices)ServiceManager.Devices).SLSDevices.ToArray().FirstOrDefault(x => x.UniqueIdentifier == currentProfileDeviceProfileSetting.DestinationUID);
 
                     if (cd != null && dest != null)
                     {
                         string key = currentProfileDeviceProfileSetting.SourceUID +
-                                     currentProfileDeviceProfileSetting.UID;
+                                     currentProfileDeviceProfileSetting.DestinationUID;
 
 
                         //using (new BenchMark("Mapping " + dest.Name))
@@ -203,7 +199,7 @@ namespace SyncStudio.Core.Services.Led
         //{
         //    ObservableCollection<DeviceProfileSettings> temp = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile()?.DeviceProfileSettings;
 
-        //    DeviceProfileSettings thingy = temp.FirstOrDefault(x => x.UID == device.UniqueIdentifier);
+        //    DeviceProfileSettings thingy = temp.FirstOrDefault(x => x.DestinationUID == device.UniqueIdentifier);
 
         //    DriverProperties props = device.Driver.GetProperties();
 

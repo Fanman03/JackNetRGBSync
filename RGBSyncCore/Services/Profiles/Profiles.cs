@@ -38,7 +38,7 @@ namespace SyncStudio.Core.Services.Profiles
 
         public Profile GetProfile(string profileName)
         {
-            var profiles = Directory.GetFiles(ServiceManager.PROFILES_DIRECTORY, "*.rsprofile").ToList();
+            var profiles = Directory.GetFiles(ServiceManager.PROFILES_DIRECTORY, "*.json").ToList();
 
             foreach (string profile in profiles)
             {
@@ -58,7 +58,7 @@ namespace SyncStudio.Core.Services.Profiles
 
         public List<string> GetAvailableProfiles()
         {
-            return Directory.GetFiles(ServiceManager.PROFILES_DIRECTORY, "*.rsprofile").ToList();
+            return Directory.GetFiles(ServiceManager.PROFILES_DIRECTORY, "*.json").ToList();
         }
 
         public void SaveProfile(Profile profile)
@@ -81,7 +81,7 @@ namespace SyncStudio.Core.Services.Profiles
                 }
                 else
                 {
-                    path = ServiceManager.PROFILES_DIRECTORY + "\\" + id + ".rsprofile";
+                    path = ServiceManager.PROFILES_DIRECTORY + "\\" + id + ".json";
                     profilePathMapping.Add(CurrentProfile.Name, path);
                 }
 
@@ -107,7 +107,7 @@ namespace SyncStudio.Core.Services.Profiles
 
         public void RemoveProfile(string profileName)
         {
-            var profiles = Directory.GetFiles(ServiceManager.PROFILES_DIRECTORY, "*.rsprofile").ToList();
+            var profiles = Directory.GetFiles(ServiceManager.PROFILES_DIRECTORY, "*.json").ToList();
             string fileToDelete = "";
             foreach (string profile in profiles)
             {

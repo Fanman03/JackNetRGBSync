@@ -46,7 +46,10 @@ namespace Nan0SyncStudio.Branding
 
             return null;
         }
-
+        public string GetAppAuthor()
+        {
+            return "Sync Studio Team";
+        }
         private BitmapImage Convert(Bitmap src)
         {
             MemoryStream ms = new MemoryStream();

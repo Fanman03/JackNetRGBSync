@@ -75,7 +75,28 @@ namespace SyncStudio.Core.Services.Device
 
         public void SyncDevice(ControlDevice @from, ControlDevice to)
         {
-            throw new NotImplementedException();
+            SyncDevice(@from.UniqueIdentifier, to.UniqueIdentifier);
+        }
+
+        public void SyncDevice(string fromUID, string toUID)
+        {
+            var profile = ServiceManager.Profiles.GetCurrentProfile();
+            var removeList = profile.DeviceProfileSettings.Where(x => x.DestinationUID == toUID).ToList();
+
+            foreach (DeviceProfileSettings deviceProfileSettings in removeList)
+            {
+                profile.DeviceProfileSettings.Remove(deviceProfileSettings);
+            }
+
+            profile.DeviceProfileSettings.Add(new DeviceProfileSettings
+            {
+                SourceUID = fromUID,
+                DestinationUID = toUID
+            });
+
+            ServiceManager.Profiles.SetCurrentProfile(profile);
+
+            ServiceManager.Profiles.SaveProfile(ServiceManager.Profiles.GetCurrentProfile());
         }
 
         public IEnumerable<ControlDevice> GetDevices()
@@ -144,7 +165,7 @@ namespace SyncStudio.Core.Services.Device
                 {
                     try
                     {
-                        ControlDevice cd = SLSDevices.ToList().FirstOrDefault(x =>x.UniqueIdentifier == currentProfileDeviceProfileSetting.UID);
+                        ControlDevice cd = SLSDevices.ToList().FirstOrDefault(x =>x.UniqueIdentifier == currentProfileDeviceProfileSetting.DestinationUID);
 
                         if (cd != null)
                         {
@@ -182,11 +203,11 @@ namespace SyncStudio.Core.Services.Device
                 {
                     ControlDevice cd = SLSDevices.ToArray().FirstOrDefault(x => x.UniqueIdentifier== currentProfileDeviceProfileSetting.SourceUID);
 
-                    ControlDevice dest = SLSDevices.ToArray().FirstOrDefault(x => x.UniqueIdentifier == currentProfileDeviceProfileSetting.UID);
+                    ControlDevice dest = SLSDevices.ToArray().FirstOrDefault(x => x.UniqueIdentifier == currentProfileDeviceProfileSetting.DestinationUID);
 
                     if (cd != null && dest != null)
                     {
-                        string key = currentProfileDeviceProfileSetting.UID + currentProfileDeviceProfileSetting.SourceUID;
+                        string key = currentProfileDeviceProfileSetting.DestinationUID + currentProfileDeviceProfileSetting.SourceUID;
                         
                         //using (new BenchMark("Mapping " + dest.Name))
                         {
@@ -254,7 +275,7 @@ namespace SyncStudio.Core.Services.Device
         //{
         //    ObservableCollection<DeviceProfileSettings> temp = ServiceManager.Profiles.GetCurrentProfile()?.DeviceProfileSettings;
 
-        //    DeviceProfileSettings thingy = temp.FirstOrDefault(x => x.UID == device.UniqueIdentifier);
+        //    DeviceProfileSettings thingy = temp.FirstOrDefault(x => x.DestinationUID == device.UniqueIdentifier);
 
         //    DriverProperties props = device.Driver.GetProperties();
 

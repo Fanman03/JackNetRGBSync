@@ -22,7 +22,6 @@
             <FontFamily x:Key="RssSymbol">pack://application:,,,/Fonts/#Rss Symbol</FontFamily>
             <Converter:LocConverter x:Key="LocConverter"/>
             <Converter:ProfileSelectedToColorBrushConverter x:Key="ProfileSelectedToColorBrushConverter"></Converter:ProfileSelectedToColorBrushConverter>
-
             <Style TargetType="ListView">
                 <Setter Property="BorderThickness" Value="0"></Setter>
                 <Setter Property="Padding" Value="0,0,0,20"></Setter>

@@ -19,7 +19,7 @@ namespace SyncStudio.Core
         public const string PROFILES_DIRECTORY = "Profiles";
         public const string SLSCONFIGS_DIRECTORY = "Configs";
 
-        public static SLSManager SLSManager = new SLSManager(SLSCONFIGS_DIRECTORY);
+        public static SLSManager SLSManager;
 
         public static IStore Store = new Store();
         public static IDevices Devices = new Devices();
@@ -31,5 +31,9 @@ namespace SyncStudio.Core
         public static Action<float> LoadingAmount;
         public static Action<float> LoadingMax;
 
+        static ServiceManager()
+        {
+            SLSManager = new SLSManager(SLSCONFIGS_DIRECTORY);
+        }
     }
 }

@@ -24,6 +24,7 @@ namespace SyncStudio.Core.Services.Device
         ControlDevice GetControlDeviceFromName(string providerName, string name);
 
         void SyncDevice(ControlDevice from, ControlDevice to);
+        void SyncDevice(string fromUID, string toUID);
         IEnumerable<ControlDevice> GetDevices();
     }
 }

@@ -189,6 +189,17 @@
         <Rectangle Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Fill="#d0000000" Visibility="{Binding ShowConfig, Converter={StaticResource BoolToVisConverter}}" d:IsHidden="True"/>
 
         <Grid Grid.Column="0" Visibility="{Binding ShowConfig, Converter={StaticResource BoolToVisConverter}}" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2" d:IsHidden="True">
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Foreground" Value="{Binding SecondaryColor}" />
+                </Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="Foreground" Value="{Binding SecondaryColor}" />
+                </Style>
+                <Style TargetType="{x:Type Label}">
+                    <Setter Property="Foreground" Value="{Binding SecondaryColor}" />
+                </Style>
+            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"></ColumnDefinition>
                 <ColumnDefinition Width="11*"></ColumnDefinition>

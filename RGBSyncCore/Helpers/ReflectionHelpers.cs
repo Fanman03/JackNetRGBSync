@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using MarkdownUI.WPF;
 using SimpleLed;
 
 namespace SyncStudio.Core.Helpers
@@ -97,7 +98,7 @@ namespace SyncStudio.Core.Helpers
                 {
                     if (slsDriver is ISimpleLedWithConfig slsWithConfig)
                     {
-                        UserControl temp = slsWithConfig.GetCustomConfig(null);
+                        MarkdownUIBundle temp = slsWithConfig.GetCustomConfig(null);
 
                     }
 

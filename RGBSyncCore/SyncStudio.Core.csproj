@@ -89,6 +89,10 @@
       <Project>{EB4729F4-0BF6-41D3-9548-F8C7846A2025}</Project>
       <Name>SimpleLed</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MarkdownUI.WPF\MarkdownUI.WPF.csproj">
+      <Project>{0ED1B140-9FA4-44F0-A5BE-3BDDC12270AB}</Project>
+      <Name>MarkdownUI.WPF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SyncStudio.Domain\SyncStudio.Domain.csproj">
       <Project>{790A3D76-28FA-4DFC-959E-81302CC5C9B4}</Project>
       <Name>SyncStudio.Domain</Name>

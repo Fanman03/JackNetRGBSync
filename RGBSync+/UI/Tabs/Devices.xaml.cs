@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using MarkdownUI.WPF;
 using SyncStudio.Domain;
 using CustomDeviceSpecification = SimpleLed.CustomDeviceSpecification;
 
@@ -181,7 +182,7 @@ namespace SyncStudio.WPF.UI.Tabs
                     vm.AnyDevicesSelected = false;
                     vm.SingledDeviceSelected = false;
                 }
-                
+
                 if (DeviceConfigList.SelectedItems.Count == 1)
                 {
                     vm.MultipleDeviceSelected = false;
@@ -270,18 +271,40 @@ namespace SyncStudio.WPF.UI.Tabs
             {
                 if (cd.Driver is ISimpleLedWithConfig drv)
                 {
-                    UserControl cfgUI = drv.GetCustomConfig(cd);
-                    ConfigHere.Children.Add(cfgUI);
+                    MarkdownUIBundle cfgUI = drv.GetCustomConfig(cd);
+                    ConfigHere.Children.Clear();
+                    StackPanel sp = new StackPanel();
+                    ConfigHere.Children.Add(sp);
 
-                    ConfigHere.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    ConfigHere.VerticalAlignment = VerticalAlignment.Stretch;
+                    var primary = Colors.White;
+                    var secondary = Colors.Black;
+                    if (Core.ServiceManager.SLSManager.GetTheme() == ThemeWatcher.WindowsTheme.Dark)
+                    {
+                        primary = Colors.Black;
+                        secondary = Colors.White;
+                    }
 
-                    cfgUI.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-                    cfgUI.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    cfgUI.VerticalAlignment = VerticalAlignment.Stretch;
-                    cfgUI.VerticalContentAlignment = VerticalAlignment.Stretch;
+                    ((Style)App.Current.Resources["MarkdownHeader1"]).Setters.Add(new Setter(System.Windows.Controls.Button.ForegroundProperty, primary));
+                    ((Style)App.Current.Resources["MarkdownHeader2"]).Setters.Add(new Setter(System.Windows.Controls.Button.ForegroundProperty, primary));
+                    ((Style)App.Current.Resources["MarkdownHeader3"]).Setters.Add(new Setter(System.Windows.Controls.Button.ForegroundProperty, primary));
 
-                    cfgUI.Foreground = new SolidColorBrush(Colors.White);
+                    ResourceDictionary style = new ResourceDictionary();
+                    
+                    MarkdownUIHandler handler = new MarkdownUIHandler(cfgUI.Markdown, cfgUI.ViewModel, Application.Current.Resources);
+                    handler.RenderToUI(sp);
+
+                    //todo
+                    //ConfigHere.Children.Add(cfgUI);
+
+                    //ConfigHere.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    //ConfigHere.VerticalAlignment = VerticalAlignment.Stretch;
+
+                    //cfgUI.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                    //cfgUI.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    //cfgUI.VerticalAlignment = VerticalAlignment.Stretch;
+                    //cfgUI.VerticalContentAlignment = VerticalAlignment.Stretch;
+
+                    //cfgUI.Foreground = new SolidColorBrush(Colors.White);
 
                 }
             }
@@ -312,104 +335,106 @@ namespace SyncStudio.WPF.UI.Tabs
             Debug.WriteLine(sender);
             Button but = sender as Button;
             SourceModel dc = but.DataContext as SourceModel;
-            ListView_SelectionChanged(this.SourceList, null, dc);
 
-            vm.UpdateFilteredSourceDevices();
+            vm.SyncTo(dc);
+            //ListView_SelectionChanged(this.SourceList, null, dc);
 
-            vm.UpdateSourceDevice(dc);
+            //vm.UpdateFilteredSourceDevices();
+
+            //vm.UpdateSourceDevice(dc);
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e, SourceModel selected)
         {
-            ListView items = (System.Windows.Controls.ListView)sender;
+            //ListView items = (System.Windows.Controls.ListView)sender;
 
-            //SourceModel selected = (SourceModel)items.SelectedItem;
-            if (selected == null)
-            {
-                return;
-            }
+            ////SourceModel selected = (SourceModel)items.SelectedItem;
+            //if (selected == null)
+            //{
+            //    return;
+            //}
 
-            List<SourceModel> selectedItems = new List<SourceModel>();
-            foreach (object itemsSelectedItem in items.SelectedItems)
-            {
-                SourceModel castItem = (SourceModel)itemsSelectedItem;
-                selectedItems.Add(castItem);
-            }
+            //List<SourceModel> selectedItems = new List<SourceModel>();
+            //foreach (object itemsSelectedItem in items.SelectedItems)
+            //{
+            //    SourceModel castItem = (SourceModel)itemsSelectedItem;
+            //    selectedItems.Add(castItem);
+            //}
 
-            foreach (object item in items.Items)
-            {
-                SourceModel castItem = (SourceModel)item;
-
-
-                bool shouldEnable = selectedItems.Contains(item);
-                //castItem == selected;
-
-                if (castItem.Enabled)
-                {
-                    castItem.Enabled = false;
-                }
-                else
-                {
-                    castItem.Enabled = shouldEnable;
-                }
+            //foreach (object item in items.Items)
+            //{
+            //    SourceModel castItem = (SourceModel)item;
 
 
-            }
+            //    bool shouldEnable = selectedItems.Contains(item);
+            //    //castItem == selected;
 
-            DevicesViewModel vm = this.DataContext as DevicesViewModel;
-            IEnumerable<Device> selectedParents = vm.SLSDevices.Where(x => x.Selected == true);
-
-            foreach (Device parentDevice in selectedParents)
-            {
-                {
-                    Profile profile = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile();
-                    if (profile?.DeviceProfileSettings == null)
-                    {
-                        profile.DeviceProfileSettings = new ObservableCollection<DeviceProfileSettings>();
-                    }
-
-                    DeviceProfileSettings configDevice = profile.DeviceProfileSettings.FirstOrDefault(x => x.UID == parentDevice.UID);
-
-                    if (configDevice == null)
-                    {
-                        configDevice = new DeviceProfileSettings
-                        {
-                            UID = parentDevice.UID,
-                        };
-
-                        profile.DeviceProfileSettings.Add(configDevice);
-                    }
+            //    if (castItem.Enabled)
+            //    {
+            //        castItem.Enabled = false;
+            //    }
+            //    else
+            //    {
+            //        castItem.Enabled = shouldEnable;
+            //    }
 
 
-                    if (selected.Name.Trim() != "None")
-                    {
-                        configDevice.SourceUID= selected?.UID;
+            //}
 
-                        //parentDevice.SunkTo = configDevice.SourceName;
-                    }
-                    else
-                    {
-                        configDevice.SourceUID = null;
-                        
-                        parentDevice.SunkTo = "";
+            //DevicesViewModel vm = this.DataContext as DevicesViewModel;
+            //IEnumerable<Device> selectedParents = vm.SLSDevices.Where(x => x.Selected == true);
 
-                        foreach (ControlDevice.LedUnit controlDeviceLeD in parentDevice.ControlDevice.LEDs)
-                        {
-                            controlDeviceLeD.Color = new LEDColor(0, 0, 0);
-                        }
+            //foreach (Device parentDevice in selectedParents)
+            //{
+            //    {
+            //        Profile profile = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile();
+            //        if (profile?.DeviceProfileSettings == null)
+            //        {
+            //            profile.DeviceProfileSettings = new ObservableCollection<DeviceProfileSettings>();
+            //        }
 
-                        if (parentDevice.SupportsPush)
-                        {
-                            parentDevice.ControlDevice.Push();
-                        }
-                    }
+            //        DeviceProfileSettings configDevice = profile.DeviceProfileSettings.FirstOrDefault(x => x.DestinationUID == parentDevice.UID);
 
-                    profile.IsProfileStale = true;
-                }
-            }
+            //        if (configDevice == null)
+            //        {
+            //            configDevice = new DeviceProfileSettings
+            //            {
+            //                DestinationUID = parentDevice.UID,
+            //            };
 
-            vm.SetupSourceDevices();
-            // vm.SinkThing();
+            //            profile.DeviceProfileSettings.Add(configDevice);
+            //        }
+
+
+            //        if (selected.Name.Trim() != "None")
+            //        {
+            //            configDevice.SourceUID= selected?.UID;
+
+            //            //parentDevice.SunkTo = configDevice.SourceName;
+            //        }
+            //        else
+            //        {
+            //            configDevice.SourceUID = null;
+
+            //            parentDevice.SunkTo = "";
+
+            //            foreach (ControlDevice.LedUnit controlDeviceLeD in parentDevice.ControlDevice.LEDs)
+            //            {
+            //                controlDeviceLeD.Color = new LEDColor(0, 0, 0);
+            //            }
+
+            //            if (parentDevice.SupportsPush)
+            //            {
+            //                parentDevice.ControlDevice.Push();
+            //            }
+            //        }
+
+            //        profile.IsProfileStale = true;
+            //    }
+            //}
+
+            //vm.SetupSourceDevices();
+            //// vm.SinkThing();
         }
 
 
@@ -544,23 +569,31 @@ namespace SyncStudio.WPF.UI.Tabs
 
             StackPanel parent = cb.Parent as StackPanel;
 
-            CustomDeviceSpecification cds = cb.SelectedItem as CustomDeviceSpecification;
-            // CustomDeviceSpecification cds = cbi.DataContext as CustomDeviceSpecification;
-
-            Debug.WriteLine(cds);
-
-            Device parentContext = parent.DataContext as Device;
-
-            if (parentContext.Overrides == null)
+            if (cb.SelectedItem == null)
             {
-                parentContext.Overrides = SyncStudio.Core.ServiceManager.Devices.GetOverride(parentContext.ControlDevice);
+                //dunno
             }
-
-            parentContext.Overrides.CustomDeviceSpecification = cds;
-
-            if (cds.Bitmap != null)
+            else
             {
-                parentContext.Image = (cds.Bitmap.ToBitmapImage());
+                CustomDeviceSpecification cds = cb.SelectedItem as CustomDeviceSpecification;
+                // CustomDeviceSpecification cds = cbi.DataContext as CustomDeviceSpecification;
+
+                Debug.WriteLine(cds);
+
+                Device parentContext = parent.DataContext as Device;
+
+                if (parentContext.Overrides == null)
+                {
+                    parentContext.Overrides =
+                        SyncStudio.Core.ServiceManager.Devices.GetOverride(parentContext.ControlDevice);
+                }
+
+                parentContext.Overrides.CustomDeviceSpecification = cds;
+
+                if (cds.Bitmap != null)
+                {
+                    parentContext.Image = (cds.Bitmap.ToBitmapImage());
+                }
             }
         }
 

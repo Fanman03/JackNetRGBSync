@@ -95,7 +95,7 @@ namespace SyncStudio.WPF.Helper
                 {
                     if (slsDriver is ISimpleLedWithConfig slsWithConfig)
                     {
-                        UserControl temp = slsWithConfig.GetCustomConfig(null);
+                        var temp = slsWithConfig.GetCustomConfig(null);
 
                     }
 

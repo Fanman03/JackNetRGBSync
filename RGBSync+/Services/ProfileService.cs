@@ -21,7 +21,6 @@ namespace SyncStudio.WPF.Services
         }
         public readonly Dictionary<string, string> profilePathMapping = new Dictionary<string, string>();
         private readonly SimpleLogger Logger = ServiceManager.Instance.Logger;
-        //private readonly Settings Settings = ServiceManager.Instance.ConfigService.Settings;
         
         public ProfileService(string profilesDir)
         {

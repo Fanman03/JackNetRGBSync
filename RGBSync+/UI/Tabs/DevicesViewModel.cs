@@ -4,6 +4,7 @@ using SimpleLed;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Media.Imaging;
 using SyncStudio.Domain;
@@ -329,7 +330,7 @@ namespace SyncStudio.WPF.UI.Tabs
 
             if (controlDevice != null)
             {
-                temp?.FirstOrDefault(x => x.UID == controlDevice.UniqueIdentifier);
+                temp?.FirstOrDefault(x => x.DestinationUID == controlDevice.UniqueIdentifier);
             }
 
             SourceDevices = new ObservableCollection<SourceModel>();
@@ -340,7 +341,7 @@ namespace SyncStudio.WPF.UI.Tabs
                 Device = null,
                 Name = "None",
                 Enabled = false,
-
+                
                 
                 Controlling = "",
             });
@@ -375,14 +376,14 @@ namespace SyncStudio.WPF.UI.Tabs
                     Name = source.Name,
                     Enabled = enabled,
                     Image = (source.ProductImage.ToBitmapImage()),
-                    
+                    UID = source.UniqueIdentifier,
                     //Controlling = string.Join(", ", DeviceProfileSettingsEnumerable.Select(x => x.Name)),
                     ControllingModels = new ObservableCollection<SourceControllingModel>(DeviceProfileSettingsEnumerable.Select(x => new SourceControllingModel
                     {
-                        ProviderName = SLSDevices.First(p=>p.UID==x.UID).ProviderName,
+                        ProviderName = SLSDevices.First(p=>p.UID==x.DestinationUID).ProviderName,
                         
-                        Name = SLSDevices.First(p => p.UID == x.UID).Name,
-                        IsCurrent = SLSDevicesFiltered.Any(y => y.Selected && y.UID == x.UID )
+                        Name = SLSDevices.First(p => p.UID == x.DestinationUID).Name,
+                        IsCurrent = SLSDevicesFiltered.Any(y => y.Selected && y.UID == x.DestinationUID )
                     }).ToList()),
                     ControllingModelsCount = DeviceProfileSettingsEnumerable.Count()
                 });
@@ -457,11 +458,11 @@ namespace SyncStudio.WPF.UI.Tabs
                 sd.ControllingModels = new ObservableCollection<SourceControllingModel>(things
                     .Select(x => new SourceControllingModel
                     {
-                        ProviderName = SLSDevices.First(p => p.UID == x.UID).ProviderName,
+                        ProviderName = SLSDevices.First(p => p.UID == x.DestinationUID).ProviderName,
 
-                        Name = SLSDevices.First(p => p.UID == x.UID).Name,
+                        Name = SLSDevices.First(p => p.UID == x.DestinationUID).Name,
                         IsCurrent = SLSDevicesFiltered.Any(y =>
-                            y.Selected && y.UID == x.UID)
+                            y.Selected && y.UID == x.DestinationUID)
                     }).ToList());
                 sd.ControllingModelsCount = sd.ControllingModels.Count;
                 sd.IsControllingSomething = sd.ControllingModels.Any(x => x.IsCurrent);
@@ -507,9 +508,9 @@ namespace SyncStudio.WPF.UI.Tabs
                     
                     ControllingModels = new ObservableCollection<SourceControllingModel>(things.Select(x => new SourceControllingModel
                     {
-                        ProviderName = SLSDevices.First(p => p.UID == x.UID).ProviderName,
-                        Name = SLSDevices.First(p => p.UID == x.UID).Name,
-                        IsCurrent = SLSDevicesFiltered.Any(y => y.Selected && y.UID == x.UID)
+                        ProviderName = SLSDevices.First(p => p.UID == x.DestinationUID).ProviderName,
+                        Name = SLSDevices.First(p => p.UID == x.DestinationUID).Name,
+                        IsCurrent = SLSDevicesFiltered.Any(y => y.Selected && y.UID == x.DestinationUID)
                     }).ToList())
                 });
             }
@@ -642,7 +643,7 @@ namespace SyncStudio.WPF.UI.Tabs
             {
                 ObservableCollection<DeviceProfileSettings> temp = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile()?.DeviceProfileSettings;
                 IEnumerable<Device> selected = SLSDevices.Where(x => x.Selected);
-                List<DeviceProfileSettings> s2 = temp.Where(x => selected.Any(y => y.UID == x.UID)).ToList();
+                List<DeviceProfileSettings> s2 = temp.Where(x => selected.Any(y => y.UID == x.DestinationUID)).ToList();
 
                 foreach (SourceModel sourceDevice in SourceDevices)
                 {
@@ -687,6 +688,17 @@ namespace SyncStudio.WPF.UI.Tabs
         public void RefreshDevicesUI()
         {
             OnPropertyChanged("SLSDevices");
+        }
+
+        public void SyncTo(SourceModel dc)
+        {
+            string sourceUID = dc.UID;
+            
+            foreach (Device device in SLSDevicesFiltered.Where(x=>x.Selected))
+            {
+                var destUID = device.UID;
+                Core.ServiceManager.Devices.SyncDevice(sourceUID, destUID);
+            }
         }
     }
 }

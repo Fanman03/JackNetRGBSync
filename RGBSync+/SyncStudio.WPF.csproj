@@ -147,7 +147,6 @@
     <Compile Include="Services\SLSAuthService.cs" />
     <Compile Include="Services\StoreService.cs" />
     <Compile Include="SimpleLogger.cs" />
-    <Compile Include="SplashViewModel.cs" />
     <Compile Include="Styles\CachedResourceDictionary.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -172,6 +171,7 @@
     <Compile Include="UI\SplashLoader.xaml.cs">
       <DependentUpon>SplashLoader.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\SplashLoaderViewModel.cs" />
     <Compile Include="UI\StoreHandler.cs" />
     <Compile Include="UI\Tabs\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
@@ -228,6 +228,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MarkdownDark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -464,6 +468,10 @@
     <ProjectReference Include="..\FluentWPF\FluentWPF.csproj">
       <Project>{23a9ed3d-5354-4707-91e3-5a57104779bf}</Project>
       <Name>FluentWPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MarkdownUI.WPF\MarkdownUI.WPF.csproj">
+      <Project>{0ED1B140-9FA4-44F0-A5BE-3BDDC12270AB}</Project>
+      <Name>MarkdownUI.WPF</Name>
     </ProjectReference>
     <ProjectReference Include="..\Nan0SyncStudio.Branding\Nan0SyncStudio.Branding.csproj">
       <Project>{518EA12F-6E44-49B7-9D62-49C837087779}</Project>

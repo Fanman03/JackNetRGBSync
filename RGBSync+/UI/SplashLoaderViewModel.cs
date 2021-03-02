@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using SimpleLed;
 
-namespace SyncStudio.WPF
+namespace SyncStudio.WPF.UI
 {
- public   class SplashViewModel : BaseViewModel
+    public class SplashLoaderViewModel : BaseViewModel
     {
     }
 }

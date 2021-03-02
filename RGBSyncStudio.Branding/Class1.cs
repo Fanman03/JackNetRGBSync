@@ -29,6 +29,11 @@ namespace RGBSyncStudio.Branding
             return "RGB Sync Studio";
         }
 
+        public string GetAppAuthor()
+        {
+            return "Sync Studio Team";
+        }
+
         public BitmapImage GetIcon()
         {
             var derp = Assembly.GetAssembly(typeof(RGBSyncStudioBranding)).GetManifestResourceNames();

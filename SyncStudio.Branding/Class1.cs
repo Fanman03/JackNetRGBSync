@@ -14,7 +14,7 @@ namespace SyncStudio.Branding
         UserControl GetLightSplashLogo();
 
         string GetAppName();
-
+        string GetAppAuthor();
         BitmapImage GetIcon();
 
     }

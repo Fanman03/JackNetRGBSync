@@ -72,7 +72,7 @@ namespace SyncStudio.WPF
                 catch { Environment.Exit(0); }
             }
 
-
+            
         }
         #endregion
 

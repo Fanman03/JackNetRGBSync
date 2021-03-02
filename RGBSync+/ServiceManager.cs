@@ -40,7 +40,10 @@ namespace SyncStudio.WPF
             Instance.ProfileTriggerManager = new ProfileTriggerManager();
             Instance.StoreService = new StoreService();
 
-            Instance.Branding = new Nan0SyncBranding();
+            Instance.Branding = new RGBSyncStudioBranding();
+
+            Core.ServiceManager.SLSManager.AppName = Instance.Branding.GetAppName();
+            Core.ServiceManager.SLSManager.AppAuthor = Instance.Branding.GetAppAuthor();
         }
 
         public static void Shutdown()

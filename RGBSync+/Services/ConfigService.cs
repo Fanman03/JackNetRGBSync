@@ -269,7 +269,7 @@ namespace SyncStudio.WPF.Services
                 return;
             }
 
-            string[] profiles = Directory.GetFiles(ProfileS_DIRECTORY, "*.rsprofile");
+            string[] profiles = Directory.GetFiles(ProfileS_DIRECTORY, "*.json");
 
             if (profiles == null || profiles.Length == 0)
             {

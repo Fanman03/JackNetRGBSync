@@ -21,11 +21,13 @@
             <StackPanel>
                 <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="Uniform" Height="160" x:Name="LogoHere" Margin="10"/>
                 
-                <TextBlock x:Name="textBlock" Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{Binding PrimarySolidColorBrush}" Text="{Binding Language, ConverterParameter=About.OrigDev, Converter={StaticResource LocConverter}}"/>
+                
+
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{Binding PrimarySolidColorBrush}" Text="{Binding AppName}"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{Binding PrimarySolidColorBrush}" Text="James Johnston"/>
                 <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{Binding PrimarySolidColorBrush}" Text="Jack Pendleton"/>
 
-                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{Binding PrimarySolidColorBrush}" Text="{Binding Language, ConverterParameter=About.20dev, Converter={StaticResource LocConverter}}"/>
-                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{Binding PrimarySolidColorBrush}" Text="James Johnston"/>
+                <TextBlock x:Name="textBlock" Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{Binding PrimarySolidColorBrush}" Text="{Binding Language, ConverterParameter=About.OrigDev, Converter={StaticResource LocConverter}}"/>
                 <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{Binding PrimarySolidColorBrush}" Text="Jack Pendleton"/>
 
                 <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{Binding PrimarySolidColorBrush}" Text="{Binding Language, ConverterParameter=About.simpleleddev, Converter={StaticResource LocConverter}}"/>
