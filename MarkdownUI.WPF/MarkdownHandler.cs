@@ -46,277 +46,462 @@ namespace MarkdownUI.WPF
 
         private void ProcessInline(TextBlock panel, MarkdownInline inline)
         {
-            var tp = inline.GetType();
-            // Debug.WriteLine(tp);
-
-            switch (inline)
+            try
             {
-                case TextRunInline textRun:
-                    {
-                        panel.Inlines.Add(textRun.Text);
-                        break;
-                    }
+                var tp = inline.GetType();
+                // Debug.WriteLine(tp);
 
-                case BoldTextInline boldText:
-                    {
-                        TextBlock tb = new TextBlock();
-                        //tb.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownBold"));
-                        tb.FontWeight = FontWeights.Bold;
-
-                        foreach (var il in boldText.Inlines)
+                switch (inline)
+                {
+                    case TextRunInline textRun:
                         {
-                            ProcessInline(tb, il);
+                            panel.Inlines.Add(textRun.Text);
+                            break;
                         }
 
-                        panel.Inlines.Add(tb);
-
-                        break;
-                    }
-
-                case ItalicTextInline italic:
-                    {
-                        TextBlock tb = new TextBlock();
-                        //tb.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownParagraph"));
-                        tb.FontStyle = FontStyles.Italic;
-
-                        foreach (var il in italic.Inlines)
+                    case BoldTextInline boldText:
                         {
-                            ProcessInline(tb, il);
-                        }
+                            TextBlock tb = new TextBlock();
+                            //tb.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownBold"));
+                            tb.FontWeight = FontWeights.Bold;
 
-                        panel.Inlines.Add(tb);
-
-                        break;
-                    }
-
-                case MarkdownLinkInline linkInline:
-                    {
-                        Debug.WriteLine(linkInline.Url);
-
-
-
-                        TextBlock buttonTextBlock = new TextBlock();
-                        buttonTextBlock.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownParagraph"));
-                        foreach (var il in linkInline.Inlines)
-                        {
-                            ProcessInline(buttonTextBlock, il);
-                        }
-
-                        Button but = new Button();
-                        but.HorizontalAlignment = HorizontalAlignment.Left;
-
-                        
-
-                        but.Content = buttonTextBlock;
-
-                        if (linkInline.Url.StartsWith("mdvm>"))
-                        {
-                            but.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownButton"));
-                            but.Click += (object sender, RoutedEventArgs e) =>
+                            foreach (var il in boldText.Inlines)
                             {
-                                var asm = Assembly.GetAssembly(ViewModel.GetType());
-                                MethodInfo[] mi = ViewModel.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance);
-                                MethodInfo thisOne = mi.First(x => x.Name.ToLower() == linkInline.Url.Split('>').Last());
-                                thisOne?.Invoke(ViewModel, null);
-                            };
-                        }
-                        else
-                        {
-                            buttonTextBlock.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownHrefTextBlock"));
-                            but.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownHref"));
-                            but.Click += (object sender, RoutedEventArgs e) => NavigateToUrl(linkInline.Url);
-                        }
-
-                        panel.Inlines.Add(but);
-
-                        break;
-                    }
-
-                case ImageInline imageInline:
-                    {
-                        Image image = new Image();
-                        image.Source = new BitmapImage(new Uri(imageInline.Url));
-                        image.ToolTip = imageInline.Tooltip;
-                        if (imageInline.ImageWidth > 0)
-                        {
-                            image.Width = imageInline.ImageWidth;
-                        }
-
-                        if (imageInline.ImageHeight > 0)
-                        {
-                            image.Height = imageInline.ImageHeight;
-                        }
-
-                        image.HorizontalAlignment = HorizontalAlignment.Left;
-                        image.VerticalAlignment = VerticalAlignment.Top;
-                        
-                        panel.Inlines.Add(image);
-
-                        break;
-                    }
-
-                case CodeInline codeInline:
-                    {
-                        TextBlock tb = new TextBlock();
-                        tb.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownCode"));
-                        
-                        tb.Text = codeInline.Text;
-
-                        panel.Inlines.Add(tb);
-                        break;
-                    }
-
-                case SuperscriptTextInline superScript:
-                    {
-                        Debug.WriteLine(superScript);
-
-                        int tt = 0;
-                        foreach(var i in superScript.Inlines)
-                        {
-                            Debug.WriteLine(tt + " : " +i.GetType()+"/"+ i.ToString());
-                            tt++;
-                        }
-
-                        if (superScript.Inlines.Count > 1 && superScript.Inlines.First() is CodeInline codeInline)
-                        {
-                            string cmd = codeInline.Text;
-                            Dictionary<string, string> args = new Dictionary<string, string>();
-                            for (int i=1;i< superScript.Inlines.Count; i = i + 2)
-                            {
-                                if (superScript.Inlines[i] is TextRunInline trl)
-                                {
-                                    if (trl.Text.EndsWith("=")) {
-                                        if (superScript.Inlines.Count > i)
-                                        {
-                                            if (superScript.Inlines[i + 1] is CodeInline ci)
-                                            {
-                                                args.Add(trl.Text.Substring(0, trl.Text.Length - 1).Trim(), ci.Text);
-                                            }
-                                        }
-                                    }
-                                }
+                                ProcessInline(tb, il);
                             }
 
-                            Debug.WriteLine(args);
+                            panel.Inlines.Add(tb);
 
-                            switch (cmd.ToLower())
+                            break;
+                        }
+
+                    case ItalicTextInline italic:
+                        {
+                            TextBlock tb = new TextBlock();
+                            //tb.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownParagraph"));
+                            tb.FontStyle = FontStyles.Italic;
+
+                            foreach (var il in italic.Inlines)
                             {
-                              
-                                case "input":
+                                ProcessInline(tb, il);
+                            }
+
+                            panel.Inlines.Add(tb);
+
+                            break;
+                        }
+
+                    case MarkdownLinkInline linkInline:
+                        {
+                            Debug.WriteLine(linkInline.Url);
+
+
+
+                            TextBlock buttonTextBlock = new TextBlock();
+                            buttonTextBlock.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownParagraph"));
+                            foreach (var il in linkInline.Inlines)
+                            {
+                                ProcessInline(buttonTextBlock, il);
+                            }
+
+                            Button but = new Button();
+                            but.HorizontalAlignment = HorizontalAlignment.Left;
+
+
+
+                            but.Content = buttonTextBlock;
+
+                            if (!linkInline.Url.StartsWith("http"))
+                            {
+                                but.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownButton"));
+                                but.Click += (object sender, RoutedEventArgs e) =>
+                                {
+                                    var asm = Assembly.GetAssembly(ViewModel.GetType());
+                                    MethodInfo[] mi = ViewModel.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance);
+                                    Debug.Write("Executing " + linkInline.Url + " method");
+                                    foreach (var t in mi)
                                     {
-                                        if (RequireArgs(args, "binding"))
+                                        Debug.WriteLine(t.Name.ToString());
+                                    }
+                                    MethodInfo thisOne = mi.First(x => x.Name == linkInline.Url);
+                                    thisOne?.Invoke(ViewModel, null);
+                                };
+                            }
+                            else
+                            {
+                                buttonTextBlock.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownHrefTextBlock"));
+                                but.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownHref"));
+                                but.Click += (object sender, RoutedEventArgs e) => NavigateToUrl(linkInline.Url);
+                            }
+
+                            panel.Inlines.Add(but);
+
+                            break;
+                        }
+
+                    case ImageInline imageInline:
+                        {
+                            Image image = new Image();
+                            image.Source = new BitmapImage(new Uri(imageInline.Url));
+                            image.ToolTip = imageInline.Tooltip;
+                            if (imageInline.ImageWidth > 0)
+                            {
+                                image.Width = imageInline.ImageWidth;
+                            }
+
+                            if (imageInline.ImageHeight > 0)
+                            {
+                                image.Height = imageInline.ImageHeight;
+                            }
+
+                            image.HorizontalAlignment = HorizontalAlignment.Left;
+                            image.VerticalAlignment = VerticalAlignment.Top;
+
+                            panel.Inlines.Add(image);
+
+                            break;
+                        }
+
+                    case CodeInline codeInline:
+                        {
+                            TextBlock tb = new TextBlock();
+                            tb.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownCode"));
+
+                            tb.Text = codeInline.Text;
+
+                            panel.Inlines.Add(tb);
+                            break;
+                        }
+                    case InputInline inputInline:
+                        {
+                            switch (inputInline.InputType.ToLower())
+                            {
+                                case "text":
+                                    {
+
+                                        TextBox tb = new TextBox();
+                                        tb.HorizontalAlignment = HorizontalAlignment.Left;
+                                        tb.Width = 300;
+                                        tb.Text = GetVMValue(inputInline.BoundTo);
+
+
+
+                                        if (RequireArgs(inputInline.Args, "width"))
                                         {
-
-                                            TextBox tb = new TextBox();
-                                            tb.HorizontalAlignment = HorizontalAlignment.Left;
-                                            tb.Width = 300;
-                                            tb.Text = GetVMValue(args["binding"]);
-
-                                            if (RequireArgs(args, "width"))
-                                            {
-                                                tb.Width = int.Parse(args["width"]);
-                                            }
-                                            
-
-                                            MarkDownViewModel vm = GetVM(args["binding"]);
-
-                                            if (!vm.updateUIBindings.ContainsKey(GetPropName(args["binding"])))
-                                            {
-                                                vm.updateUIBindings.Add(GetPropName(args["binding"]), new List<Action<string>>());
-                                            }
-
-                                            vm.updateUIBindings[GetPropName(args["binding"])].Add(
-                                                (newString) =>
-                                                {
-                                                    tb.Text = newString;
-                                                });
-
-                                            tb.TextChanged += (object sender, TextChangedEventArgs e) =>
-                                            {
-                                                Type myType = vm.GetType();
-                                                PropertyInfo myPropInfo = myType.GetProperty(GetPropName(args["binding"]));
-                                                myPropInfo.SetValue(vm, tb.Text, null);
-                                            };
-
-                                            panel.Inlines.Add(tb);
-                                            
+                                            tb.Width = int.Parse(inputInline.Args["width"]);
                                         }
+
+
+                                        MarkDownViewModel vm = GetVM(inputInline.BoundTo);
+
+                                        if (GetPropName(inputInline.BoundTo) != null && !vm.updateUIBindings.ContainsKey(GetPropName(inputInline.BoundTo)))
+                                        {
+                                            vm.updateUIBindings.Add(GetPropName(inputInline.BoundTo), new List<Action<string>>());
+                                        }
+
+                                        vm.updateUIBindings[GetPropName(inputInline.BoundTo)].Add(
+                                            (newString) =>
+                                            {
+                                                tb.Text = newString;
+                                            });
+
+                                        tb.TextChanged += (object sender, TextChangedEventArgs e) =>
+                                        {
+                                            Type myType = vm.GetType();
+                                            PropertyInfo myPropInfo = myType.GetProperty(GetPropName(inputInline.BoundTo));
+                                            myPropInfo.SetValue(vm, tb.Text, null);
+                                        };
+
+                                        panel.Inlines.Add(tb);
+                                        break;
+                                    }
+
+                                case "label":
+                                    {
+                                        TextBlock tb = new TextBlock();
+                                        tb.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownParagraph"));
+
+                                        tb.Text = GetVMValue(inputInline.BoundTo);
+
+                                        if (RequireArgs(inputInline.Args, "width"))
+                                        {
+                                            tb.Width = int.Parse(inputInline.Args["width"]);
+                                        }
+                                        MarkDownViewModel vm = GetVM(inputInline.BoundTo);
+
+                                        if (GetPropName(inputInline.BoundTo) != null && !vm.updateUIBindings.ContainsKey(GetPropName(inputInline.BoundTo)))
+                                        {
+                                            vm.updateUIBindings.Add(GetPropName(inputInline.BoundTo), new List<Action<string>>());
+                                        }
+
+                                        vm.updateUIBindings[GetPropName(inputInline.BoundTo)].Add(
+                                            (newString) =>
+                                            {
+                                                tb.Text = newString;
+                                            });
+
+
+                                        panel.Inlines.Add(tb);
                                         break;
                                     }
 
                                 case "slider":
                                     {
-                                        if (RequireArgs(args, "binding"))
+
+                                        Slider tb = new Slider();
+                                        tb.HorizontalAlignment = HorizontalAlignment.Left;
+                                        tb.Width = 300;
+                                        tb.Value = double.Parse(GetVMValue(inputInline.BoundTo));
+                                        tb.Minimum = 0;
+                                        tb.Maximum = 100;
+
+                                        if (RequireArgs(inputInline.Args, "width")) tb.Width = int.Parse(inputInline.Args["width"]);
+                                        if (RequireArgs(inputInline.Args, "min")) tb.Minimum = int.Parse(inputInline.Args["min"]);
+                                        if (RequireArgs(inputInline.Args, "max")) tb.Minimum = int.Parse(inputInline.Args["max"]);
+
+
+                                        MarkDownViewModel vm = GetVM(inputInline.BoundTo);
+
+                                        if (GetPropName(inputInline.BoundTo) != null && !vm.updateUIBindings.ContainsKey(GetPropName(inputInline.BoundTo)))
                                         {
-                                            Slider sl = new Slider();
-                                            sl.Minimum = 0;
-                                            sl.Maximum = 100;
-                                            sl.HorizontalAlignment = HorizontalAlignment.Left;
-                                            sl.Width = 300;
+                                            vm.updateUIBindings.Add(GetPropName(inputInline.BoundTo), new List<Action<string>>());
+                                        }
 
-                                            if (RequireArgs(args, "width"))
+                                        vm.updateUIBindings[GetPropName(inputInline.BoundTo)].Add(
+                                            (newString) =>
                                             {
-                                                sl.Width = int.Parse(args["width"]);
-                                            }
+                                                tb.Value = double.Parse(newString);
+                                            });
 
-                                            if (RequireArgs(args, "min"))
+                                        tb.ValueChanged += (object sender, RoutedPropertyChangedEventArgs<double> e) =>
+                                        {
+                                            Type myType = vm.GetType();
+                                            PropertyInfo myPropInfo = myType.GetProperty(GetPropName(inputInline.BoundTo));
+                                            myPropInfo.SetValue(vm, tb.Value.ToString(), null);
+                                        };
+
+                                        panel.Inlines.Add(tb);
+                                        break;
+                                    }
+
+                                case "dropdown":
+                                    {
+                                        if (RequireArgs(inputInline.Args, "source"))
+                                        {
+                                            ComboBox tb = new ComboBox();
+                                            if (RequireArgs(inputInline.Args, "width")) tb.Width = int.Parse(inputInline.Args["width"]);
+                                            Type myType = ViewModel.GetType();
+                                            PropertyInfo myPropInfo = myType.GetProperty(inputInline.BoundTo);
+
+                                            var tx = myPropInfo.GetValue(ViewModel);
+
+                                            List<object> doop = (tx as IEnumerable<object>).Cast<object>().ToList();
+                                            List<MarkDownViewModel> doop2 = (tx as IEnumerable<MarkDownViewModel>).Cast<MarkDownViewModel>().ToList();
+
+                                            List<string> prps = new List<string>();
+                                            string fname = inputInline.Args["source"];
+                                            foreach (var op in doop2)
                                             {
-                                                sl.Minimum = int.Parse(args["min"]);
-                                            }
-
-                                            if (RequireArgs(args, "max"))
-                                            {
-                                                sl.Maximum = int.Parse(args["max"]);
-                                            }
-
-                                            if (!ViewModel.updateUIBindings.ContainsKey(args["binding"]))
-                                            {
-                                                ViewModel.updateUIBindings.Add(args["binding"], new List<Action<string>>());
-                                            }
-
-                                            ViewModel.updateUIBindings[args["binding"]].Add(
-                                                (newString) =>
+                                                Type myType2 = op.GetType();
+                                                PropertyInfo myPropInfo2 = myType2.GetProperty(fname);
+                                                if (myPropInfo2 != null)
                                                 {
-                                                    int vl = 0;
-                                                    if (int.TryParse(newString, out vl))
-                                                    {
-                                                        sl.Value = vl;
-                                                    }
-                                                });
+                                                    var herp = myPropInfo2.GetValue(op);
 
-                                            sl.ValueChanged += (object sender, RoutedPropertyChangedEventArgs<double> e) =>
+                                                    Debug.WriteLine(herp);
+                                                    prps.Add((string)herp);
+                                                    tb.Items.Add(herp);
+                                                }
+                                            }
+
+
+
+                                            if (RequireArgs(inputInline.Args, "selected"))
                                             {
-                                                Type myType = ViewModel.GetType();
-                                                PropertyInfo myPropInfo = myType.GetProperty(args["binding"]);
-                                                myPropInfo.SetValue(ViewModel, sl.Value.ToString(), null);
-                                            };
+                                                string selectedPropName = inputInline.Args["selected"];
 
-                                            panel.Inlines.Add(sl);
+                                                var tt = GetVMValue(selectedPropName);
+
+                                                if (prps.Contains(tt))
+                                                {
+                                                    tb.SelectedIndex = prps.IndexOf(tt);
+                                                }
+
+                                                tb.SelectionChanged += (object sender, SelectionChangedEventArgs e) =>
+                                                {
+                                                    int selected = tb.SelectedIndex;
+                                                    string i1 = (string)tb.SelectedItem;
+                                                    string i2 = prps[tb.SelectedIndex];
+                                                    SetVMValue(selectedPropName, i1);
+                                                };
+                                            }
+
+
+                                            panel.Inlines.Add(tb);
                                         }
                                         break;
                                     }
                             }
+
+                            break;
+                        }
+
+                    case SuperscriptTextInline superScript:
+                        {
+                            Debug.WriteLine(superScript);
+
+                            int tt = 0;
+                            foreach (var i in superScript.Inlines)
+                            {
+                                Debug.WriteLine(tt + " : " + i.GetType() + "/" + i.ToString());
+                                tt++;
                             }
 
+                            if (superScript.Inlines.Count > 1 && superScript.Inlines.First() is CodeInline codeInline)
+                            {
+                                string cmd = codeInline.Text;
+                                Dictionary<string, string> args = new Dictionary<string, string>();
+                                for (int i = 1; i < superScript.Inlines.Count; i = i + 2)
+                                {
+                                    if (superScript.Inlines[i] is TextRunInline trl)
+                                    {
+                                        if (trl.Text.EndsWith("="))
+                                        {
+                                            if (superScript.Inlines.Count > i)
+                                            {
+                                                if (superScript.Inlines[i + 1] is CodeInline ci)
+                                                {
+                                                    args.Add(trl.Text.Substring(0, trl.Text.Length - 1).Trim(), ci.Text);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Debug.WriteLine(args);
+
+                                switch (cmd.ToLower())
+                                {
+
+                                    case "input":
+                                        {
+                                            if (RequireArgs(args, "binding"))
+                                            {
+
+                                                TextBox tb = new TextBox();
+                                                tb.HorizontalAlignment = HorizontalAlignment.Left;
+                                                tb.Width = 300;
+                                                tb.Text = GetVMValue(args["binding"]);
+
+                                                if (RequireArgs(args, "width"))
+                                                {
+                                                    tb.Width = int.Parse(args["width"]);
+                                                }
+
+
+                                                MarkDownViewModel vm = GetVM(args["binding"]);
+
+                                                if (!vm.updateUIBindings.ContainsKey(GetPropName(args["binding"])))
+                                                {
+                                                    vm.updateUIBindings.Add(GetPropName(args["binding"]), new List<Action<string>>());
+                                                }
+
+                                                vm.updateUIBindings[GetPropName(args["binding"])].Add(
+                                                    (newString) =>
+                                                    {
+                                                        tb.Text = newString;
+                                                    });
+
+                                                tb.TextChanged += (object sender, TextChangedEventArgs e) =>
+                                                {
+                                                    Type myType = vm.GetType();
+                                                    PropertyInfo myPropInfo = myType.GetProperty(GetPropName(args["binding"]));
+                                                    myPropInfo.SetValue(vm, tb.Text, null);
+                                                };
+
+                                                panel.Inlines.Add(tb);
+
+                                            }
+                                            break;
+                                        }
+
+                                    case "slider":
+                                        {
+                                            if (RequireArgs(args, "binding"))
+                                            {
+                                                Slider sl = new Slider();
+                                                sl.Minimum = 0;
+                                                sl.Maximum = 100;
+                                                sl.HorizontalAlignment = HorizontalAlignment.Left;
+                                                sl.Width = 300;
+
+                                                if (RequireArgs(args, "width"))
+                                                {
+                                                    sl.Width = int.Parse(args["width"]);
+                                                }
+
+                                                if (RequireArgs(args, "min"))
+                                                {
+                                                    sl.Minimum = int.Parse(args["min"]);
+                                                }
+
+                                                if (RequireArgs(args, "max"))
+                                                {
+                                                    sl.Maximum = int.Parse(args["max"]);
+                                                }
+
+                                                if (!ViewModel.updateUIBindings.ContainsKey(args["binding"]))
+                                                {
+                                                    ViewModel.updateUIBindings.Add(args["binding"], new List<Action<string>>());
+                                                }
+
+                                                ViewModel.updateUIBindings[args["binding"]].Add(
+                                                    (newString) =>
+                                                    {
+                                                        int vl = 0;
+                                                        if (int.TryParse(newString, out vl))
+                                                        {
+                                                            sl.Value = vl;
+                                                        }
+                                                    });
+
+                                                sl.ValueChanged += (object sender, RoutedPropertyChangedEventArgs<double> e) =>
+                                                {
+                                                    Type myType = ViewModel.GetType();
+                                                    PropertyInfo myPropInfo = myType.GetProperty(args["binding"]);
+                                                    myPropInfo.SetValue(ViewModel, sl.Value.ToString(), null);
+                                                };
+
+                                                panel.Inlines.Add(sl);
+                                            }
+                                            break;
+                                        }
+                                }
+                            }
+
+                            break;
+                        }
+
+                    //case CommentInline commentInline:
+                    //    {
+                    //        Debug.WriteLine(commentInline);
+                    //        break;
+                    //    }
+
+                    default:
+
+                        Debug.WriteLine("WTF IS '" + tp + "'");
                         break;
-                    }
-
-                //case CommentInline commentInline:
-                //    {
-                //        Debug.WriteLine(commentInline);
-                //        break;
-                //    }
-
-                default:
-                    
-                    Debug.WriteLine("WTF IS '" + tp + "'");
-                    break;
+                }
             }
+            catch { }
         }
 
-        private bool RequireArgs(Dictionary<string,string> args, params string[] requiredArgs)
+
+
+        private bool RequireArgs(Dictionary<string, string> args, params string[] requiredArgs)
         {
-            foreach(var s in requiredArgs)
+            foreach (var s in requiredArgs)
             {
                 if (!args.ContainsKey(s)) return false;
             }
@@ -333,7 +518,7 @@ namespace MarkdownUI.WPF
         {
             TextBlock test = new TextBlock();
             test.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownParagraph"));
-            
+
 
             foreach (var inline in inlines)
             {
@@ -461,7 +646,7 @@ namespace MarkdownUI.WPF
                         {
                             TextBlock tb = new TextBlock();
                             tb.SetValue(FrameworkElement.StyleProperty, GetResource("MarkdownParagraph"));
-                            
+
                             tb.Text = String.Join(" ", i);
 
 
@@ -519,6 +704,7 @@ namespace MarkdownUI.WPF
             {
                 Type myType = ViewModel.GetType();
                 PropertyInfo myPropInfo = myType.GetProperty(propName);
+                if (myPropInfo == null) return null;
                 object derp = myPropInfo.GetValue(ViewModel);
                 return derp.ToString();
             }
@@ -573,10 +759,11 @@ namespace MarkdownUI.WPF
             {
                 Type myType = ViewModel.GetType();
                 PropertyInfo myPropInfo = myType.GetProperty(propName);
+                if (myPropInfo == null) return null;
                 object derp = myPropInfo.GetValue(ViewModel);
-                var herp= derp as MarkDownViewModel;
+                var herp = derp as MarkDownViewModel;
 
-                if (herp==null)
+                if (herp == null)
                 {
                     return ViewModel;
                 }
@@ -620,7 +807,6 @@ namespace MarkdownUI.WPF
                 myPropInfo.SetValue(ViewModel, value);
             }
         }
-
         PropertyInfo GetProp(string propName)
         {
             if (propName.StartsWith("["))
@@ -655,14 +841,11 @@ namespace MarkdownUI.WPF
                 return myPropInfo;
             }
         }
-
-
         Style GetResource(string name)
         {
             object found = resourceDictionary[name];
             return (Style)found;
         }
-
         public string Unroll(string markdown)
         {
             var thing = Regex.Matches(markdown, "<<LoopOver~(.+)>>");
@@ -680,9 +863,7 @@ namespace MarkdownUI.WPF
                     var thing2 = Regex.Matches(markdown, "(?s)(?<=<<LoopOver~" + p + ">>).*?(?=<<LoopEnd~" + p + ">>)");
                     if (thing2.Count > 0)
                     {
-                        //Debug.WriteLine(thing2);
                         var tttt = thing2[0];
-                        //Debug.WriteLine(tttt);
 
                         Type myType = ViewModel.GetType();
                         PropertyInfo myPropInfo = myType.GetProperty(p);
@@ -708,6 +889,7 @@ namespace MarkdownUI.WPF
                 finders.Add(p);
             }
 
+            Debug.WriteLine(markdown);
             return markdown;
         }
 
@@ -859,20 +1041,27 @@ namespace MarkdownUI.WPF
                                 int ax = 0;
                                 foreach (var x in tableBlock.ColumnDefinitions)
                                 {
-                                    StackPanel sp = new StackPanel();
-                                    Border border = new Border();
-                                    border.BorderBrush = Brushes.Black;
-                                    border.BorderThickness = new Thickness(1);
-                                    border.Child = sp;
-                                    grid.Children.Add(border);
+                                    if (y.Cells.Count >= ax)
+                                    {
+                                        try
+                                        {
+                                            StackPanel sp = new StackPanel();
+                                            Border border = new Border();
+                                            border.BorderBrush = Brushes.Black;
+                                            border.BorderThickness = new Thickness(1);
+                                            border.Child = sp;
+                                            grid.Children.Add(border);
 
-                                    Grid.SetColumn(border, ax);
-                                    Grid.SetRow(border, ay);
+                                            Grid.SetColumn(border, ax);
+                                            Grid.SetRow(border, ay);
 
-                                    var current = y.Cells[ax];
+                                            var current = y.Cells[ax];
 
-                                    AddInlinesToStackPanel(sp, current.Inlines);
-                                    ax++;
+                                            AddInlinesToStackPanel(sp, current.Inlines);
+                                        }
+                                        catch { }
+                                        ax++;
+                                    }
                                 }
 
                                 ay++;

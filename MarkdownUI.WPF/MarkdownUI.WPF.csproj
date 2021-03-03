@@ -31,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Toolkit, Version=6.1.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
-      <HintPath>..\RGBSync+\packages\Microsoft.Toolkit.6.1.1\lib\netstandard2.0\Microsoft.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Toolkit.Parsers, Version=6.1.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
-      <HintPath>..\RGBSync+\packages\Microsoft.Toolkit.Parsers.6.1.1\lib\netstandard2.0\Microsoft.Toolkit.Parsers.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -67,9 +61,66 @@
     <Compile Include="MarkdownHandler.cs" />
     <Compile Include="MarkdownReader.cs" />
     <Compile Include="MarkdownUIBundle.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Core\IParser.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Core\ParseHelpers.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Core\SchemaBase.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Core\StringValueAttribute.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Blocks\CodeBlock.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Blocks\HeaderBlock.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Blocks\HorizontalRuleBlock.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Blocks\LinkReferenceBlock.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Blocks\ListBlock.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Blocks\List\ListItemBlock.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Blocks\List\ListItemBuilder.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Blocks\List\ListItemPreamble.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Blocks\List\NestedListInfo.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Blocks\ParagraphBlock.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Blocks\QuoteBlock.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Blocks\TableBlock.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Blocks\YamlHeaderBlock.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Enums\ColumnAlignment.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Enums\HyperlinkType.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Enums\InlineParseMethod.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Enums\ListStyle.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Enums\MarkdownBlockType.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Enums\MarkdownInlineType.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Helpers\Common.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Helpers\DebuggingReporter.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Helpers\InlineParseResult.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Helpers\InlineTripCharHelper.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Helpers\LineInfo.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\BoldItalicTextInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\BoldTextInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\CodeInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\CommentInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\EmojiInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\EmojiInline.EmojiCodes.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\HyperlinkInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\IInlineContainer.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\IInlineLeaf.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\ILinkElement.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\ImageInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\InputInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\ItalicTextInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\LinkAnchorInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\MarkdownLinkInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\StrikethroughTextInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\SubscriptTextInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\SuperscriptTextInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Inlines\TextRunInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\MarkdownBlock.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\MarkdownDocument.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\MarkdownElement.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\MarkdownInline.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Render\IRenderContext.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Render\MarkdownRendererBase.Blocks.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Render\MarkdownRendererBase.cs" />
+    <Compile Include="Microsoft.Toolkit.Parsers\Markdown\Render\MarkdownRendererBase.Inlines.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
