@@ -1,6 +1,7 @@
-﻿using System.Web.Http;
+﻿
+using System.Web.Http;
 
-namespace SyncStudio.WPF.API
+namespace SyncStudio.ClientService
 {
     public class AppControlController : ApiController
     {

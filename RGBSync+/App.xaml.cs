@@ -14,6 +14,7 @@ namespace SyncStudio.WPF
 {
     public partial class App : Application
     {
+        
         public const string SLSPROVIDER_DIRECTORY = "Providers";
         private const string ProfileS_DIRECTORY = "Profiles";
         private const string SLSCONFIGS_DIRECTORY = "SLSConfigs";
@@ -29,6 +30,7 @@ namespace SyncStudio.WPF
         #region Properties & Fields
 
         private TaskbarIcon _taskbarIcon;
+        
 
         public AppBVM appBvm { get; set; } = new AppBVM();
 
@@ -53,7 +55,7 @@ namespace SyncStudio.WPF
             ServiceManager.Initialize(SLSCONFIGS_DIRECTORY, ProfileS_DIRECTORY);
             ServiceManager.Instance.ApplicationManager.Initialize();
 
-            ServiceManager.Instance.ProfileService.OnProfilesChanged += (object sender, EventArgs ev) => appBvm.RefreshProfiles();
+//            ServiceManager.Instance.ProfileService.OnProfilesChanged += (object sender, EventArgs ev) => appBvm.RefreshProfiles();
 
             try
             {
@@ -101,7 +103,8 @@ namespace SyncStudio.WPF
         private void SwitchProfile(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            ServiceManager.Instance.ProfileService.LoadProfileFromName(btn.Content.ToString());
+            ServiceManager.Instance.ProfilesService.GetProfile(Guid.NewGuid());
+                //.Get.ProfileService.LoadProfileFromName(btn.Content.ToString());
             appBvm.Profiles = AppBVM.GetProfiles();
         }
 
@@ -135,30 +138,32 @@ namespace SyncStudio.WPF
 
         public static ObservableCollection<ProfileObject> GetProfiles()
         {
-            if (ServiceManager.Instance?.ConfigService?.Settings?.ProfileNames != null)
-            {
-                ObservableCollection<ProfileObject> prfs = new ObservableCollection<ProfileObject>();
-                foreach (string name in ServiceManager.Instance.ConfigService.Settings.ProfileNames)
-                {
-                    ProfileObject prf = new ProfileObject();
-                    prf.Name = name;
-                    prfs.Add(prf);
+            return null;
+            //todo wtf why here?
+            //if (ServiceManager.Instance?.ConfigService?.Settings?.ProfileNames != null)
+            //{
+            //    ObservableCollection<ProfileObject> prfs = new ObservableCollection<ProfileObject>();
+            //    foreach (string name in settings.ProfileNames)
+            //    {
+            //        ProfileObject prf = new ProfileObject();
+            //        prf.Name = name;
+            //        prfs.Add(prf);
 
-                    if (prf.Name == ServiceManager.Instance.ConfigService.Settings.CurrentProfile)
-                    {
-                        prf.IsSelected = true;
-                    }
-                    else
-                    {
-                        prf.IsSelected = false;
-                    }
-                }
-                return prfs;
-            }
-            else
-            {
-                return new ObservableCollection<ProfileObject>();
-            }
+            //        if (prf.Name == settings.CurrentProfile)
+            //        {
+            //            prf.IsSelected = true;
+            //        }
+            //        else
+            //        {
+            //            prf.IsSelected = false;
+            //        }
+            //    }
+            //    return prfs;
+            //}
+            //else
+            //{
+            //    return new ObservableCollection<ProfileObject>();
+            //}
 
         }
         private Visibility popupVisibility = Visibility.Collapsed;

@@ -41,21 +41,22 @@ namespace SyncStudio.WPF.UI.Tabs
         private Timer saveTimer = null;
         private void ActuallySaveProfile()
         {
-            string path = "ColorProfiles\\" + CurrentProfile.Id + ".json";
+            //todo move to api?
+            //string path = "ColorProfiles\\" + CurrentProfile.Id + ".json";
 
-            if (!Directory.Exists("ColorProfiles"))
-            {
-                Directory.CreateDirectory("ColorProfiles");
-            }
+            //if (!Directory.Exists("ColorProfiles"))
+            //{
+            //    Directory.CreateDirectory("ColorProfiles");
+            //}
 
-            string json = JsonConvert.SerializeObject(CurrentProfile);
-            File.WriteAllText(path, json);
+            //string json = JsonConvert.SerializeObject(CurrentProfile);
+            //File.WriteAllText(path, json);
 
-            ServiceManager.Instance.SLSManager.ColorProfile = CurrentProfile;
-            SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().ColorProfileId = CurrentProfile.Id;
-            SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().IsProfileStale = true;
+            //ServiceManager.Instance.SLSManager.ColorProfile = CurrentProfile;
+            //SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().ColorProfileId = CurrentProfile.Id;
+            //SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().IsProfileStale = true;
 
-            Dispatcher.CurrentDispatcher.Invoke(() => Unsaved = false);
+            //Dispatcher.CurrentDispatcher.Invoke(() => Unsaved = false);
         }
 
         private bool unsaved;
@@ -68,9 +69,10 @@ namespace SyncStudio.WPF.UI.Tabs
 
         public PalettesViewModel()
         {
-            CurrentProfile = SyncStudio.Core.ServiceManager.ColorPallets.GetActiveColorPallet();
+            //todo
+      //      CurrentProfile = SyncStudio.Core.ServiceManager.ColorPallets.GetActiveColorPallet();
 
-            ColorProfiles = new ObservableCollection<ColorProfile>(SyncStudio.Core.ServiceManager.ColorPallets.GetAllColorPallets());
+//            ColorProfiles = new ObservableCollection<ColorProfile>(SyncStudio.Core.ServiceManager.ColorPallets.GetAllColorPallets());
             
         }
 
@@ -85,7 +87,8 @@ namespace SyncStudio.WPF.UI.Tabs
                 SetUpWatchers();
                 try
                 {
-                    ServiceManager.Instance.SLSManager.ColorProfile = value;
+                    //todo
+                  //  ServiceManager.Instance.SLSManager.ColorProfile = value;
                 }
                 catch
                 {

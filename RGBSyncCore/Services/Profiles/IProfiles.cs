@@ -14,7 +14,7 @@ namespace SyncStudio.Core.Services.Profiles
 
         Profile GetProfile(string fileName);
 
-        List<string> GetAvailableProfiles();
+        List<Profile> GetAvailableProfiles();
 
         void SaveProfile(Profile profile);
 

@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using Autofac;
 using SyncStudio.Domain;
 
 namespace SyncStudio.WPF.UI.Tabs
@@ -22,19 +24,39 @@ namespace SyncStudio.WPF.UI.Tabs
             set => SetProperty(ref showConfig, value);
         }
 
+        ClientService.Profiles _profiles;
+        ClientService.Devices _devices;
         public DevicesViewModel()
         {
+            _devices = ServiceManager.Container.Resolve<ClientService.Devices>();
+            _profiles = ServiceManager.Container.Resolve<ClientService.Profiles>();
             this.ZoomLevel = 4;
-            SetUpDeviceMapViewModel();
 
-            ServiceManager.Instance.ApplicationManager.LanguageChangedEvent += Instance_LanguageChangedEvent;
-            SyncStudio.Core.ServiceManager.Devices.DeviceAdded += Devices_DeviceAdded;
-            SyncStudio.Core.ServiceManager.Devices.DeviceRemoved += Devices_DeviceRemoved;
 
-            SLSDevices = new ObservableCollection<Device>(SyncStudio.Core.ServiceManager.Devices.GetDevices().Select(GetDevice));
+            Init();
         }
 
-        private void Devices_DeviceRemoved(object sender, Events.DeviceChangeEventArgs e)
+        public async Task Init()
+        {
+            IEnumerable<InterfaceControlDevice> devices;
+            try
+            {
+                devices = await _devices.GetDevicesAsync();
+                SLSDevices = new ObservableCollection<Device>((devices).Select(GetDevice));
+            }
+            catch
+            {
+            }
+
+            
+         //   SetUpDeviceMapViewModel();
+
+            ServiceManager.Instance.ApplicationManager.LanguageChangedEvent += Instance_LanguageChangedEvent;
+            _devices.DeviceAdded += Devices_DeviceAdded;
+            _devices.DeviceRemoved += Devices_DeviceRemoved;
+        }
+
+        private void Devices_DeviceRemoved(object sender, InterfaceEvents.InterfaceDeviceChangeEventArgs e)
         {
             var rm = SLSDevices.FirstOrDefault(x => x.UID == e.ControlDevice.UniqueIdentifier);
 
@@ -46,27 +68,45 @@ namespace SyncStudio.WPF.UI.Tabs
             }
         }
 
-        private Device GetDevice(ControlDevice p)
+        private Device GetDevice(InterfaceControlDevice p)
         {
-            var pp = p.Driver.GetProperties();
+            var pp = p.InterfaceDriverProperties;
 
-            return new Device()
+            var device = new Device()
             {
                 ControlDevice = p,
                 Name = p.Name,
                 UID = p.UniqueIdentifier,
-                DriverProps = p.Driver.GetProperties(),
-                Image = p.ProductImage.ToBitmapImage(),
-                Overrides = SyncStudio.Core.ServiceManager.Devices.GetOverride(p),
-                ProviderName = p.Driver.Name(),
+                DriverProps = pp,
+                Image = p.Bitmap.ToBitmapImage(),
+                
+                ProviderName = p.InterfaceDriverProperties.Name,
                 Title = p.TitleOverride,
                 SupportsPull = pp.SupportsPull,
                 SupportsPush = pp.SupportsPush,
-
             };
+
+            Task t = new Task(async () =>
+            {
+                device.Overrides = await _devices.GetOverride(p);
+                if (device.Overrides?.CustomDeviceSpecification?.Bitmap != null)
+                {
+                    device.Image = device.Overrides.CustomDeviceSpecification.Bitmap.ToBitmapImage();
+                }
+            });
+
+            try
+            {
+                t.Start();
+            }
+            catch
+            {
+            }
+
+            return device;
         }
 
-        private void Devices_DeviceAdded(object sender, Events.DeviceChangeEventArgs e)
+        private void Devices_DeviceAdded(object sender, InterfaceEvents.InterfaceDeviceChangeEventArgs e)
         {
             SLSDevices.Add(GetDevice(e.ControlDevice));
             this.OnPropertyChanged("SLSDevicesFiltered");
@@ -135,7 +175,7 @@ namespace SyncStudio.WPF.UI.Tabs
 
                 }
 
-                if (!(SLSDevices.FirstOrDefault(x => x.Selected)?.ControlDevice.Driver is ISimpleLedWithConfig))
+                if (SLSDevices.Any(x=>x.Selected) && !(SLSDevices.First(x => x.Selected).ControlDevice.HasUI))
                 {
                     ShowConfigTab = false;
                 }
@@ -293,129 +333,131 @@ namespace SyncStudio.WPF.UI.Tabs
             get => showOverrides;
             set => SetProperty(ref showOverrides, value);
         }
-        public void SetupSourceDevices(ControlDevice controlDevice)
+        public void SetupSourceDevices(InterfaceControlDevice controlDevice)
         {
-            if (controlDevice == null) return;
 
-            DriverProperties props = controlDevice.Driver.GetProperties();
+            //todo
+            //if (controlDevice == null) return;
 
-            ShowOverrides = controlDevice.OverrideSupport != OverrideSupport.None;
+            //InterfaceDriverProperties props = controlDevice.InterfaceDriverProperties;
 
-            if (controlDevice.OverrideSupport != OverrideSupport.None)
-            {
-                if (controlDevice.OverrideSupport == OverrideSupport.All)
-                {
-                    OverrideSpecs = new ObservableCollection<CustomDeviceSpecification>(ServiceManager.Instance.SLSManager.GetCustomDeviceSpecifications());
-                }
+            //ShowOverrides = controlDevice.OverrideSupport != OverrideSupport.None;
 
-                if (controlDevice.OverrideSupport == OverrideSupport.Self && props.GetCustomDeviceSpecifications != null)
-                {
-                    OverrideSpecs = new ObservableCollection<CustomDeviceSpecification>(props.GetCustomDeviceSpecifications());
-                }
+            //if (controlDevice.OverrideSupport != OverrideSupport.None)
+            //{
+            //    if (controlDevice.OverrideSupport == OverrideSupport.All)
+            //    {
+            //        OverrideSpecs = new ObservableCollection<CustomDeviceSpecification>(ServiceManager.Instance.SLSManager.GetCustomDeviceSpecifications());
+            //    }
 
-                List<Type> mappers = ServiceManager.Instance.SLSManager.GetMappers(controlDevice.Driver);
-                AvailableMappers = new ObservableCollection<string>();
-                AvailableMappers.Add("");
-                foreach (Type mapper in mappers)
-                {
-                    Mapper mapperInstance = (Mapper)Activator.CreateInstance(mapper);
-                    AvailableMappers.Add(mapperInstance.GetName());
-                }
-            }
+            //    if (controlDevice.OverrideSupport == OverrideSupport.Self && props.GetCustomDeviceSpecifications != null)
+            //    {
+            //        OverrideSpecs = new ObservableCollection<CustomDeviceSpecification>(props.GetCustomDeviceSpecifications());
+            //    }
 
-            IEnumerable<ControlDevice> sources = SyncStudio.Core.ServiceManager.Devices.GetDevices().Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
+            //    List<Type> mappers = ServiceManager.Instance.SLSManager.GetMappers(controlDevice.Driver);
+            //    AvailableMappers = new ObservableCollection<string>();
+            //    AvailableMappers.Add("");
+            //    foreach (Type mapper in mappers)
+            //    {
+            //        Mapper mapperInstance = (Mapper)Activator.CreateInstance(mapper);
+            //        AvailableMappers.Add(mapperInstance.GetName());
+            //    }
+            //}
 
-            ObservableCollection<DeviceProfileSettings> temp = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile()?.DeviceProfileSettings;
-            DeviceProfileSettings current = null;
+            //IEnumerable<InterfaceControlDevice> sources = _devices.GetDevices().Where(x => x.InterfaceDriverProperties.IsSource || x.InterfaceDriverProperties.SupportsPull);
 
-            if (controlDevice != null)
-            {
-                temp?.FirstOrDefault(x => x.DestinationUID == controlDevice.UniqueIdentifier);
-            }
+            //ObservableCollection<DeviceProfileSettings> temp = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile()?.DeviceProfileSettings;
+            //DeviceProfileSettings current = null;
 
-            SourceDevices = new ObservableCollection<SourceModel>();
+            //if (controlDevice != null)
+            //{
+            //    temp?.FirstOrDefault(x => x.DestinationUID == controlDevice.UniqueIdentifier);
+            //}
 
-            SourceDevices.Add(new SourceModel
-            {
-                ProviderName = "",
-                Device = null,
-                Name = "None",
-                Enabled = false,
+            //SourceDevices = new ObservableCollection<SourceModel>();
+
+            //SourceDevices.Add(new SourceModel
+            //{
+            //    ProviderName = "",
+            //    Device = null,
+            //    Name = "None",
+            //    Enabled = false,
                 
                 
-                Controlling = "",
-            });
+            //    Controlling = "",
+            //});
 
-            SourceGroups = new ObservableCollection<SourceGroup>();
-            SourceGroups.Add(new SourceGroup
-            {
-                Plugins = 1,
-                Name = "Show All",
+            //SourceGroups = new ObservableCollection<SourceGroup>();
+            //SourceGroups.Add(new SourceGroup
+            //{
+            //    Plugins = 1,
+            //    Name = "Show All",
 
-            });
+            //});
 
-            if (SelectedSourceGroup == null)
-            {
-                SelectedSourceGroup = SourceGroups.First();
-            }
+            //if (SelectedSourceGroup == null)
+            //{
+            //    SelectedSourceGroup = SourceGroups.First();
+            //}
 
-            foreach (ControlDevice source in sources)
-            {
-                IEnumerable<DeviceProfileSettings> things = temp.Where(x => x.SourceUID == source.UniqueIdentifier);
+            //foreach (ControlDevice source in sources)
+            //{
+            //    IEnumerable<DeviceProfileSettings> things = temp.Where(x => x.SourceUID == source.UniqueIdentifier);
 
-                var DeviceProfileSettingsEnumerable = things as DeviceProfileSettings[] ?? things.ToArray();
-                current = DeviceProfileSettingsEnumerable.FirstOrDefault(x => x.SourceUID == source.UniqueIdentifier);
-                bool enabled = current != null &&  current.SourceUID == source.UniqueIdentifier;
-                //  enabled = things.Any();
-                SourceDevices.Add(new SourceModel
-                {
-                    HasConfig = source.Driver is ISimpleLedWithConfig,
-                    DeviceType = source.DeviceType,
-                    ProviderName = source.Driver.Name(),
-                    Device = source,
-                    Name = source.Name,
-                    Enabled = enabled,
-                    Image = (source.ProductImage.ToBitmapImage()),
-                    UID = source.UniqueIdentifier,
-                    //Controlling = string.Join(", ", DeviceProfileSettingsEnumerable.Select(x => x.Name)),
-                    ControllingModels = new ObservableCollection<SourceControllingModel>(DeviceProfileSettingsEnumerable.Select(x => new SourceControllingModel
-                    {
-                        ProviderName = SLSDevices.First(p=>p.UID==x.DestinationUID).ProviderName,
+            //    var DeviceProfileSettingsEnumerable = things as DeviceProfileSettings[] ?? things.ToArray();
+            //    current = DeviceProfileSettingsEnumerable.FirstOrDefault(x => x.SourceUID == source.UniqueIdentifier);
+            //    bool enabled = current != null &&  current.SourceUID == source.UniqueIdentifier;
+            //    //  enabled = things.Any();
+            //    SourceDevices.Add(new SourceModel
+            //    {
+            //        HasConfig = source.Driver is ISimpleLedWithConfig,
+            //        DeviceType = source.DeviceType,
+            //        ProviderName = source.Driver.Name(),
+            //        Device = source,
+            //        Name = source.Name,
+            //        Enabled = enabled,
+            //        Image = (source.ProductImage.ToBitmapImage()),
+            //        UID = source.UniqueIdentifier,
+            //        //Controlling = string.Join(", ", DeviceProfileSettingsEnumerable.Select(x => x.Name)),
+            //        ControllingModels = new ObservableCollection<SourceControllingModel>(DeviceProfileSettingsEnumerable.Select(x => new SourceControllingModel
+            //        {
+            //            ProviderName = SLSDevices.First(p=>p.UID==x.DestinationUID).ProviderName,
                         
-                        Name = SLSDevices.First(p => p.UID == x.DestinationUID).Name,
-                        IsCurrent = SLSDevicesFiltered.Any(y => y.Selected && y.UID == x.DestinationUID )
-                    }).ToList()),
-                    ControllingModelsCount = DeviceProfileSettingsEnumerable.Count()
-                });
+            //            Name = SLSDevices.First(p => p.UID == x.DestinationUID).Name,
+            //            IsCurrent = SLSDevicesFiltered.Any(y => y.Selected && y.UID == x.DestinationUID )
+            //        }).ToList()),
+            //        ControllingModelsCount = DeviceProfileSettingsEnumerable.Count()
+            //    });
 
-                if (SourceGroups.Any(x => source.Driver.Name() == x.Name && x.SubName == source.DeviceType))
-                {
-                    SourceGroup existing = SourceGroups.First(x => source.Driver.Name() == x.Name && x.SubName == source.DeviceType);
-                    existing.Plugins++;
-                }
-                else
-                {
-                    SourceGroups.Add(new SourceGroup
-                    {
-                        Plugins = 1,
-                        Name = source.Driver.Name(),
-                        SubName = source.DeviceType,
-                        Image = (source.ProductImage.ToBitmapImage())
-                    });
-                }
-            }
+            //    if (SourceGroups.Any(x => source.Driver.Name() == x.Name && x.SubName == source.DeviceType))
+            //    {
+            //        SourceGroup existing = SourceGroups.First(x => source.Driver.Name() == x.Name && x.SubName == source.DeviceType);
+            //        existing.Plugins++;
+            //    }
+            //    else
+            //    {
+            //        SourceGroups.Add(new SourceGroup
+            //        {
+            //            Plugins = 1,
+            //            Name = source.Driver.Name(),
+            //            SubName = source.DeviceType,
+            //            Image = (source.ProductImage.ToBitmapImage())
+            //        });
+            //    }
+            //}
 
-            if (SelectedSourceGroup == null)
-            {
-                SelectedSourceGroup = SourceGroups.First(x => x.Name.ToLower() == "show all");
-            }
+            //if (SelectedSourceGroup == null)
+            //{
+            //    SelectedSourceGroup = SourceGroups.First(x => x.Name.ToLower() == "show all");
+            //}
 
-            FilterSourceDevices();
+            //FilterSourceDevices();
 
-            foreach (DevicesViewModel.SourceGroup vmSourceGroup in SourceGroups)
-            {
-                vmSourceGroup.Selected = vmSourceGroup == SelectedSourceGroup;
-            }
+            //foreach (DevicesViewModel.SourceGroup vmSourceGroup in SourceGroups)
+            //{
+            //    vmSourceGroup.Selected = vmSourceGroup == SelectedSourceGroup;
+            //}
         }
 
         public void UpdateFilteredSourceDevices()
@@ -449,7 +491,7 @@ namespace SyncStudio.WPF.UI.Tabs
 
         public void UpdateSourceDevice(SourceModel sd)
         {
-            ObservableCollection<DeviceProfileSettings> temp = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile()?.DeviceProfileSettings;
+            ObservableCollection<DeviceProfileSettings> temp = _profiles.GetCurrentProfileSync()?.DeviceProfileSettings;
 
             IEnumerable<DeviceProfileSettings> things = temp.Where(x => x.SourceUID == sd.UID);
 
@@ -469,55 +511,55 @@ namespace SyncStudio.WPF.UI.Tabs
             }
         }
 
-        public void SetupSourceDevices()
-        {
+        //public void SetupSourceDevices()
+        //{
 
 
-            IEnumerable<ControlDevice> sources = SyncStudio.Core.ServiceManager.Devices.GetDevices().Where(x => x.Driver.GetProperties().IsSource || x.Driver.GetProperties().SupportsPull);
+        //    IEnumerable<InterfaceControlDevice> sources = _devices.GetDevices().Where(x => x.InterfaceDriverProperties.IsSource || x.InterfaceDriverProperties.SupportsPull);
 
-            ObservableCollection<DeviceProfileSettings> temp = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile()?.DeviceProfileSettings;
-            DeviceProfileSettings current = null;
+        //    ObservableCollection<DeviceProfileSettings> temp = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile()?.DeviceProfileSettings;
+        //    DeviceProfileSettings current = null;
 
-            SourceDevices = new ObservableCollection<SourceModel>();
+        //    SourceDevices = new ObservableCollection<SourceModel>();
 
-            SourceDevices.Add(new SourceModel
-            {
-                ProviderName = "",
-                Device = null,
-                Name = "None",
-                Enabled = false,
+        //    SourceDevices.Add(new SourceModel
+        //    {
+        //        ProviderName = "",
+        //        Device = null,
+        //        Name = "None",
+        //        Enabled = false,
                 
-                Controlling = "",
-            });
+        //        Controlling = "",
+        //    });
 
 
-            foreach (ControlDevice source in sources)
-            {
-                IEnumerable<DeviceProfileSettings> things = temp.Where(x => x.SourceUID == source.UniqueIdentifier);
+        //    foreach (ControlDevice source in sources)
+        //    {
+        //        IEnumerable<DeviceProfileSettings> things = temp.Where(x => x.SourceUID == source.UniqueIdentifier);
 
 
 
-                bool enabled = current != null && current.SourceUID == source.UniqueIdentifier;
-                SourceDevices.Add(new SourceModel
-                {
-                    ProviderName = source.Driver.Name(),
-                    Device = source,
-                    Name = source.Name,
-                    Enabled = enabled,
-                    Image = (source.ProductImage.ToBitmapImage()),
+        //        bool enabled = current != null && current.SourceUID == source.UniqueIdentifier;
+        //        SourceDevices.Add(new SourceModel
+        //        {
+        //            ProviderName = source.Driver.Name(),
+        //            Device = source,
+        //            Name = source.Name,
+        //            Enabled = enabled,
+        //            Image = (source.ProductImage.ToBitmapImage()),
                     
-                    ControllingModels = new ObservableCollection<SourceControllingModel>(things.Select(x => new SourceControllingModel
-                    {
-                        ProviderName = SLSDevices.First(p => p.UID == x.DestinationUID).ProviderName,
-                        Name = SLSDevices.First(p => p.UID == x.DestinationUID).Name,
-                        IsCurrent = SLSDevicesFiltered.Any(y => y.Selected && y.UID == x.DestinationUID)
-                    }).ToList())
-                });
-            }
+        //            ControllingModels = new ObservableCollection<SourceControllingModel>(things.Select(x => new SourceControllingModel
+        //            {
+        //                ProviderName = SLSDevices.First(p => p.UID == x.DestinationUID).ProviderName,
+        //                Name = SLSDevices.First(p => p.UID == x.DestinationUID).Name,
+        //                IsCurrent = SLSDevicesFiltered.Any(y => y.Selected && y.UID == x.DestinationUID)
+        //            }).ToList())
+        //        });
+        //    }
 
-            OnPropertyChanged("SourceDevices");
-            //SinkThing();
-        }
+        //    OnPropertyChanged("SourceDevices");
+        //    //SinkThing();
+        //}
 
 
 
@@ -641,7 +683,7 @@ namespace SyncStudio.WPF.UI.Tabs
         {
             if (SourceDevices != null)
             {
-                ObservableCollection<DeviceProfileSettings> temp = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile()?.DeviceProfileSettings;
+                ObservableCollection<DeviceProfileSettings> temp = _profiles.GetCurrentProfileSync()?.DeviceProfileSettings;
                 IEnumerable<Device> selected = SLSDevices.Where(x => x.Selected);
                 List<DeviceProfileSettings> s2 = temp.Where(x => selected.Any(y => y.UID == x.DestinationUID)).ToList();
 
@@ -655,35 +697,35 @@ namespace SyncStudio.WPF.UI.Tabs
             }
         }
 
-        public void SetUpDeviceMapViewModel()
-        {
+        //public void SetUpDeviceMapViewModel()
+        //{
 
-            if (SyncStudio.Core.ServiceManager.Devices.GetDevices() != null && SyncStudio.Core.ServiceManager.Devices.GetDevices().Count(x => x.Driver != null && x.Driver.GetProperties().ProductId != Guid.Parse("11111111-1111-1111-1111-111111111111")) == 0)
-            {
-                ServiceManager.Instance.ApplicationManager.NavigateToTab("store");
-            }
+        //    if (_devices.GetDevices() != null && _devices.GetDevices().Count(x => x.Driver != null && x.InterfaceDriverProperties.ProductId != Guid.Parse("11111111-1111-1111-1111-111111111111")) == 0)
+        //    {
+        //        ServiceManager.Instance.ApplicationManager.NavigateToTab("store");
+        //    }
 
-            if (SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile() == null)
-            {
-                return;
-            }
+        //    if (SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile() == null)
+        //    {
+        //        return;
+        //    }
 
-            SLSDevices = new ObservableCollection<Device>(SyncStudio.Core.ServiceManager.Devices.GetDevices().Select(p => new Device()
-            {
-                UID = p.UniqueIdentifier,
-                ControlDevice = p,
-                Name = p.Name,
-                DriverProps = p.Driver.GetProperties(),
-                Image = p.ProductImage.ToBitmapImage(),
-                Overrides = SyncStudio.Core.ServiceManager.Devices.GetOverride(p),
-                ProviderName = p.Driver.Name(),
-                Title = p.TitleOverride
-            }));
+        //    SLSDevices = new ObservableCollection<Device>(_devices.GetDevices().Select(p => new Device()
+        //    {
+        //        UID = p.UniqueIdentifier,
+        //        ControlDevice = p,
+        //        Name = p.Name,
+        //        DriverProps = p.InterfaceDriverProperties,
+        //        Image = p.ProductImage.ToBitmapImage(),
+        //        Overrides = _devices.GetOverride(p),
+        //        ProviderName = p.Driver.Name(),
+        //        Title = p.TitleOverride
+        //    }));
 
-            SinkThing();
-            this.OnPropertyChanged("SLSDevicesFiltered");
+        //    SinkThing();
+        //    this.OnPropertyChanged("SLSDevicesFiltered");
 
-        }
+        //}
 
         public void RefreshDevicesUI()
         {
@@ -697,7 +739,7 @@ namespace SyncStudio.WPF.UI.Tabs
             foreach (Device device in SLSDevicesFiltered.Where(x=>x.Selected))
             {
                 var destUID = device.UID;
-                Core.ServiceManager.Devices.SyncDevice(sourceUID, destUID);
+                _devices.SyncDevice(sourceUID, destUID);
             }
         }
     }

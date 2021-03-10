@@ -1,9 +1,11 @@
 ﻿using DiscordRPC;
+using SyncStudio.ClientService;
 
 namespace SyncStudio.WPF.Services
 {
     public class DiscordService
     {
+        private ClientService.Settings settings = new Settings();
         public DiscordRpcClient client;
         public void ConnectDiscord()
         {
@@ -21,7 +23,7 @@ namespace SyncStudio.WPF.Services
             ServiceManager.Instance.Logger.Info("Setting Discord presence.");
             client.SetPresence(new RichPresence()
             {
-                State = "Profile: " + SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().Name,
+                State = "Profile: " +"profile",//todo SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().Name,
                 Details = "Syncing lighting effects",
                 Assets = new Assets()
                 {
@@ -33,7 +35,7 @@ namespace SyncStudio.WPF.Services
 
         public void Stop()
         {
-            if (ServiceManager.Instance.ConfigService.Settings.EnableDiscordRPC == true)
+            if(settings.EnableDiscordRPC == true)
             {
                 try
                 {

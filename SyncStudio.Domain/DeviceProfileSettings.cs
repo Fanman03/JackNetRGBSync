@@ -6,13 +6,6 @@ namespace SyncStudio.Domain
 {
     public class DeviceProfileSettings : BaseViewModel
     {
-        //[JsonIgnore]
-        //public ControlDevice Device { get; set; }
-
-        //[JsonIgnore]
-        //public ControlDevice SourceDevice { get; set; }
-        
-
         private string sourceUID;
         private string destinationDestinationUid;
 
@@ -27,7 +20,5 @@ namespace SyncStudio.Domain
             get => destinationDestinationUid;
             set => SetProperty(ref destinationDestinationUid, value);
         }
-
-
     }
 }

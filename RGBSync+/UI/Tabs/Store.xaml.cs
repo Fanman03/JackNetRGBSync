@@ -16,6 +16,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Autofac;
 
 namespace SyncStudio.WPF.UI.Tabs
 {
@@ -24,10 +25,12 @@ namespace SyncStudio.WPF.UI.Tabs
     /// </summary>
     public partial class Store : UserControl
     {
+        ClientService.Devices _devices;
         public Store()
         {
+            _devices = ServiceManager.Container.Resolve<ClientService.Devices>();
             InitializeComponent();
-            ServiceManager.Instance.SLSManager.RescanRequired += SLSManagerOnRescanRequired;
+            //ServiceManager.Instance.SLSManager.RescanRequired += SLSManagerOnRescanRequired;
 
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
@@ -80,7 +83,7 @@ namespace SyncStudio.WPF.UI.Tabs
                 {
                     PositionalAssignment.PluginDetailsViewModel vmplugin = vm.Plugins.First(x => x.PluginId == tvm.PluginId);
 
-                    SyncStudio.Core.ServiceManager.Store.RemoveProvider(tvm.PluginId, null, null);
+                    _devices.RemoveProvider(tvm.PluginId);
 
                     await vm.LoadStoreAndPlugins();
                 }
@@ -178,7 +181,8 @@ namespace SyncStudio.WPF.UI.Tabs
                     bool success = false;
                     using (var installingModal = new SimpleModal(ServiceManager.Instance.ApplicationManager.MainViewModel, "Installing...", showProgressBar: true))
                     {
-                        success = await SyncStudio.Core.ServiceManager.Store.InstallProvider(parentDC.PluginId, bdc.ReleaseNumber, null, msg => installingModal.UpdateModalPercentage(ServiceManager.Instance.ApplicationManager.MainViewModel, msg));
+                        //todo
+                        //success = await _devices.InstallProvider(parentDC.PluginId, bdc.ReleaseNumber, null, msg => installingModal.UpdateModalPercentage(ServiceManager.Instance.ApplicationManager.MainViewModel, msg));
                     }
 
                     //await ServiceManager.Instance.StoreService.InstallPlugin(parentDC.PluginId, bdc);

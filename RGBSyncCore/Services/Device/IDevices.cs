@@ -26,5 +26,27 @@ namespace SyncStudio.Core.Services.Device
         void SyncDevice(ControlDevice from, ControlDevice to);
         void SyncDevice(string fromUID, string toUID);
         IEnumerable<ControlDevice> GetDevices();
+        Task<IEnumerable<ControlDevice>> GetDevicesAsync();
+    }
+
+    public interface IInterfaceDevices
+    {
+        event InterfaceEvents.InterfaceDeviceChangeEventHandler DeviceAdded;
+
+        event InterfaceEvents.InterfaceDeviceChangeEventHandler DeviceRemoved;
+
+        void AddDevice(InterfaceControlDevice device);
+        void RemoveDevice(InterfaceControlDevice device);
+        void RemoveProvider(Guid providerId);
+
+        Task<DeviceOverrides> GetOverride(InterfaceControlDevice device);
+        void SetOverride(InterfaceControlDevice device, DeviceOverrides overRide);
+
+        InterfaceControlDevice GetControlDeviceFromName(string providerName, string name);
+
+        void SyncDevice(InterfaceControlDevice from, InterfaceControlDevice to);
+        void SyncDevice(string fromUID, string toUID);
+        IEnumerable<InterfaceControlDevice> GetDevices();
+        Task<IEnumerable<InterfaceControlDevice>> GetDevicesAsync();
     }
 }

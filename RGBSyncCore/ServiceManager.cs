@@ -21,11 +21,11 @@ namespace SyncStudio.Core
 
         public static SLSManager SLSManager;
 
-        public static IStore Store = new Store();
-        public static IDevices Devices = new Devices();
-        public static IProfiles Profiles = new Profiles();
-        public static IColorPallets ColorPallets = new ColorPallets();
-        public static LedService LedService = new LedService();
+        public static IStore Store;// = new Store();
+        public static IDevices Devices;// = new Devices();
+        public static IProfiles Profiles;// = new Profiles();
+        public static IColorPallets ColorPallets;// = new ColorPallets();
+        public static LedService LedService;// = new LedService();
 
         public static Action<string> LoadingMessage;
         public static Action<float> LoadingAmount;
@@ -34,6 +34,12 @@ namespace SyncStudio.Core
         static ServiceManager()
         {
             SLSManager = new SLSManager(SLSCONFIGS_DIRECTORY);
+
+            Store = new Store();
+            Devices = new Devices();
+            Profiles = new Profiles();
+            ColorPallets = new ColorPallets();
+            LedService = new LedService();
         }
     }
 }

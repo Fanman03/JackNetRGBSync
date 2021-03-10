@@ -102,10 +102,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="API\AppControlController.cs" />
-    <Compile Include="API\DevicesController.cs" />
-    <Compile Include="API\ProfilesController.cs" />
-    <Compile Include="API\TriggerController.cs" />
     <Compile Include="ApplicationManager.cs" />
     <Compile Include="Attached\SliderValue.cs" />
     <Compile Include="Attached\SliderValueAdorner.cs" />
@@ -139,11 +135,9 @@
     <Compile Include="RSSBackgroundDevice.cs" />
     <Compile Include="ServiceManager.cs" />
     <Compile Include="Services\ApiServerService.cs" />
-    <Compile Include="Services\ConfigService.cs" />
     <Compile Include="Services\DiscordService.cs" />
     <Compile Include="Services\LedService.cs" />
     <Compile Include="Services\ModalService.cs" />
-    <Compile Include="Services\ProfileService.cs" />
     <Compile Include="Services\SLSAuthService.cs" />
     <Compile Include="Services\StoreService.cs" />
     <Compile Include="SimpleLogger.cs" />
@@ -295,6 +289,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Autofac">
+      <Version>6.1.0</Version>
+    </PackageReference>
     <PackageReference Include="Costura.Fody">
       <Version>4.1.0</Version>
     </PackageReference>
@@ -477,10 +474,6 @@
       <Project>{518EA12F-6E44-49B7-9D62-49C837087779}</Project>
       <Name>Nan0SyncStudio.Branding</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RGBSyncCore\SyncStudio.Core.csproj">
-      <Project>{69a31d81-1626-49e2-b7b3-c30cf6df55a9}</Project>
-      <Name>SyncStudio.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RGBSyncStudio.Branding\RGBSyncStudio.Branding.csproj">
       <Project>{25C9A16E-F361-47B0-9566-17EC0BF34E36}</Project>
       <Name>RGBSyncStudio.Branding</Name>
@@ -488,6 +481,10 @@
     <ProjectReference Include="..\SyncStudio.Branding\SyncStudio.Branding.csproj">
       <Project>{6c755854-b53f-4e8f-817b-5de28cf7580f}</Project>
       <Name>SyncStudio.Branding</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SyncStudio.ClientService\SyncStudio.ClientService.csproj">
+      <Project>{55d3373b-bc73-4065-883f-c5f6ee4dea06}</Project>
+      <Name>SyncStudio.ClientService</Name>
     </ProjectReference>
     <ProjectReference Include="..\SyncStudio.Domain\SyncStudio.Domain.csproj">
       <Project>{790A3D76-28FA-4DFC-959E-81302CC5C9B4}</Project>

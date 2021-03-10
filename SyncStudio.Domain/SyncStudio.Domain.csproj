@@ -37,6 +37,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +55,7 @@
     <Compile Include="DeviceProxy.cs" />
     <Compile Include="DeviceSettings.cs" />
     <Compile Include="DeviceProfileSettings.cs" />
+    <Compile Include="InterfaceModals.cs" />
     <Compile Include="PositionalAssignment.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

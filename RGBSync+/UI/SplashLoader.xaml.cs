@@ -16,7 +16,9 @@ namespace SyncStudio.WPF.UI
             
             
             UserControl splashLogo;
-            if (SyncStudio.Core.ServiceManager.SLSManager.GetTheme() == ThemeWatcher.WindowsTheme.Dark)
+        //todo    if (SyncStudio.Core.ServiceManager.SLSManager.GetTheme() == ThemeWatcher.WindowsTheme.Dark)
+
+        if (true)
             {
                 splashLogo = ServiceManager.Instance.Branding.GetDarkSplashLogo();
                 (this.DataContext as SplashLoaderViewModel).SecondaryColor = Colors.Black;

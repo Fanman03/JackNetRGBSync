@@ -68,9 +68,9 @@ namespace SyncStudio.Domain
             set => SetProperty(ref image, value);
         }
 
-        private ControlDevice controlDevice;
+        private InterfaceControlDevice controlDevice;
 
-        public ControlDevice ControlDevice
+        public InterfaceControlDevice ControlDevice
         {
             get => controlDevice;
             set => SetProperty(ref controlDevice, value);
@@ -93,9 +93,9 @@ namespace SyncStudio.Domain
             set => SetProperty(ref supportsPull, value);
         }
 
-        private DriverProperties driverProps;
+        private InterfaceDriverProperties driverProps;
 
-        public DriverProperties DriverProps
+        public InterfaceDriverProperties DriverProps
         {
             get => driverProps;
             set => SetProperty(ref driverProps, value);

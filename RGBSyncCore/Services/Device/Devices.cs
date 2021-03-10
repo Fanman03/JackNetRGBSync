@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -14,6 +15,11 @@ namespace SyncStudio.Core.Services.Device
 {
     public class Devices : IDevices
     {
+        public string CMN;
+        public Devices([CallerMemberName] string smn = "")
+        {
+            CMN = smn;
+        }
         public event Events.DeviceChangeEventHandler DeviceAdded;
 
         public event Events.DeviceChangeEventHandler DeviceRemoved;
@@ -78,7 +84,7 @@ namespace SyncStudio.Core.Services.Device
             SyncDevice(@from.UniqueIdentifier, to.UniqueIdentifier);
         }
 
-        public void SyncDevice(string fromUID, string toUID)
+        public async void SyncDevice(string fromUID, string toUID)
         {
             var profile = ServiceManager.Profiles.GetCurrentProfile();
             var removeList = profile.DeviceProfileSettings.Where(x => x.DestinationUID == toUID).ToList();
@@ -96,12 +102,17 @@ namespace SyncStudio.Core.Services.Device
 
             ServiceManager.Profiles.SetCurrentProfile(profile);
 
-            ServiceManager.Profiles.SaveProfile(ServiceManager.Profiles.GetCurrentProfile());
+            ServiceManager.Profiles.SaveProfile(profile);
         }
 
         public IEnumerable<ControlDevice> GetDevices()
         {
             return SLSDevices;
+        }
+
+        public Task<IEnumerable<ControlDevice>> GetDevicesAsync()
+        {
+            return new Task<IEnumerable<ControlDevice>>(GetDevices);
         }
 
 
@@ -123,7 +134,7 @@ namespace SyncStudio.Core.Services.Device
             {
                 Name = cd.Name,
                 UID = cd.UniqueIdentifier,
-                ProviderName = cd.Driver?.Name(),
+                ProviderName = cd.Driver.Name(),
                 TitleOverride = string.IsNullOrWhiteSpace(cd.TitleOverride) ? cd.Driver.Name() : cd.TitleOverride,
                 SubTitleOverride = cd.Name,
                 CustomDeviceSpecification = new CustomDeviceSpecification()

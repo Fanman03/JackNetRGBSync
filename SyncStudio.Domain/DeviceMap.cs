@@ -5,7 +5,7 @@ namespace SyncStudio.Domain
 {
     public class DeviceMap
     {
-        public ControlDevice Source { get; set; }
-        public List<ControlDevice> Dest { get; set; }
+        public InterfaceControlDevice Source { get; set; }
+        public List<InterfaceControlDevice> Dest { get; set; }
     }
 }

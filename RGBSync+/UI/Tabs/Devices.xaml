@@ -242,7 +242,7 @@
                           MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" 
                           Background="{Binding PrimaryMediumHighSolidColorBrush}">
 
-                        <TextBlock Text="{Binding Overrides.TitleOverride}" 
+                        <TextBlock Text="{Binding ProviderName}" 
                                    Margin="6" 
                                    FontSize="20" 
                                    FontWeight="Bold" 
@@ -259,8 +259,8 @@
 
 
                         <StackPanel>
-                            <TextBlock Text="{Binding Overrides.SubTitleOverride}" Margin="6" FontSize="14" MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right"  Foreground="{Binding PrimarySolidColorBrush}" />
-                            <TextBlock Text="{Binding Overrides.ChannelOverride}" Margin="6" FontSize="12" MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right" Visibility="{Binding ConnectedTo, Converter={StaticResource NonEmptyStringToVisibilityConverter}}"  Foreground="{Binding PrimarySolidColorBrush}" />
+                            <TextBlock Text="{Binding Name}" Margin="6" FontSize="14" MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right"  Foreground="{Binding PrimarySolidColorBrush}" />
+                            <!--<TextBlock Text="{Binding ChannelName}" Margin="6" FontSize="12" MaxWidth="{Binding DataContext.ThumbWidth, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Right" TextAlignment="Right" Visibility="{Binding ConnectedTo, Converter={StaticResource NonEmptyStringToVisibilityConverter}}"  Foreground="{Binding PrimarySolidColorBrush}" />-->
                         </StackPanel>
                     </Grid>
 

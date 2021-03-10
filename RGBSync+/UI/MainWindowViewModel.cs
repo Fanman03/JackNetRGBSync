@@ -5,12 +5,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Threading;
+using SyncStudio.ClientService;
 using SyncStudio.WPF.Languages;
 
 namespace SyncStudio.WPF.UI
 {
     public class MainWindowViewModel : LanguageAwareBaseViewModel
     {
+        private ClientService.Settings settings = new Settings();
         public MainWindowViewModel()
         {
             TabItems = new ObservableCollection<TabItem>
@@ -54,50 +56,54 @@ namespace SyncStudio.WPF.UI
             };
 
             CurrentTab = "devices";
+            
 
-            ServiceManager.Instance.ConfigService.Settings.BGChangedEvent += (sender, args) =>
-            {
-                this.BackGround = ServiceManager.Instance.ConfigService.Settings.Background;
-                this.BackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.BackgroundOpacity;
-                this.DimBackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.DimBackgroundOpacity;
-                this.BackgroundBlur = ServiceManager.Instance.ConfigService.Settings.BackgroundBlur;
-                this.ControllableBG = ServiceManager.Instance.ConfigService.Settings.ControllableBG;
-                this.RainbowTabBars = ServiceManager.Instance.ConfigService.Settings.RainbowTabBars;
-            };
+            
 
-            this.BackGround = ServiceManager.Instance.ConfigService.Settings.Background;
-            this.BackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.BackgroundOpacity;
-            this.DimBackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.DimBackgroundOpacity;
-            this.BackgroundBlur = ServiceManager.Instance.ConfigService.Settings.BackgroundBlur;
-            this.ControllableBG = ServiceManager.Instance.ConfigService.Settings.ControllableBG;
-            this.RainbowTabBars = ServiceManager.Instance.ConfigService.Settings.RainbowTabBars;
+            //todo
+            //ServiceManager.Instance.ConfigService.Settings.BGChangedEvent += (sender, args) =>
+            //{
+            //    this.BackGround = ServiceManager.Instance.ConfigService.Settings.Background;
+            //    this.BackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.BackgroundOpacity;
+            //    this.DimBackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.DimBackgroundOpacity;
+            //    this.BackgroundBlur = ServiceManager.Instance.ConfigService.Settings.BackgroundBlur;
+            //    this.ControllableBG = ServiceManager.Instance.ConfigService.Settings.ControllableBG;
+            //    this.RainbowTabBars = ServiceManager.Instance.ConfigService.Settings.RainbowTabBars;
+            //};
 
-            DispatcherTimer update = new DispatcherTimer()
-            {
-                Interval = TimeSpan.FromMilliseconds(16)
-            };
+            this.BackGround =           settings.Background;
+            this.BackgroundOpacity =    settings.BackgroundOpacity;
+            this.DimBackgroundOpacity = settings.DimBackgroundOpacity;
+            this.BackgroundBlur =       settings.BackgroundBlur;
+            this.ControllableBG =       settings.ControllableBG;
+            this.RainbowTabBars = settings.RainbowTabBars;
 
-            update.Tick += (sender, args) =>
-            {
-                //todo
+            //DispatcherTimer update = new DispatcherTimer()
+            //{
+            //    Interval = TimeSpan.FromMilliseconds(16)
+            //};
 
-                /*
-                if (ControllableBG)
-                {
-                    RSSBackgroundDevice rbd = SyncStudio.Core.ServiceManager.LedService.RssBackgroundDevice;
-                    SCTop = GetBrush(rbd.Leds[0]);
-                    SCTopRight = GetBrush(rbd.Leds[1]);
-                    SCRight = GetBrush(rbd.Leds[2]);
-                    SCBottomRight = GetBrush(rbd.Leds[3]);
-                    SCBottom = GetBrush(rbd.Leds[4]);
-                    SCBottomLeft = GetBrush(rbd.Leds[5]);
-                    SCLeft = GetBrush(rbd.Leds[6]);
-                    SCTopLeft = GetBrush(rbd.Leds[7]);
-                }
-                */
-            };
+            //update.Tick += (sender, args) =>
+            //{
+            //    //todo
 
-            update.Start();
+            //    /*
+            //    if (ControllableBG)
+            //    {
+            //        RSSBackgroundDevice rbd = SyncStudio.Core.ServiceManager.LedService.RssBackgroundDevice;
+            //        SCTop = GetBrush(rbd.Leds[0]);
+            //        SCTopRight = GetBrush(rbd.Leds[1]);
+            //        SCRight = GetBrush(rbd.Leds[2]);
+            //        SCBottomRight = GetBrush(rbd.Leds[3]);
+            //        SCBottom = GetBrush(rbd.Leds[4]);
+            //        SCBottomLeft = GetBrush(rbd.Leds[5]);
+            //        SCLeft = GetBrush(rbd.Leds[6]);
+            //        SCTopLeft = GetBrush(rbd.Leds[7]);
+            //    }
+            //    */
+            //};
+//
+  //          update.Start();
         }
 
         private RadialGradientBrush GetBrush(LEDColor clr)

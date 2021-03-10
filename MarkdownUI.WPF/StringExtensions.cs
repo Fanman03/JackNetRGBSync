@@ -14,6 +14,31 @@ namespace MarkdownUI.WPF
     /// </summary>
     public static class StringExtensions
     {
+        public static Dictionary<string,string> GetArgs(string markdown,int urlStart, int pos)
+        {
+            Dictionary<string, string> args = new Dictionary<string, string>();
+
+            var imageDimensionsPos = markdown.IndexOf(" ", urlStart, pos - urlStart, StringComparison.Ordinal);
+
+
+            if (imageDimensionsPos > 0)
+            {
+                string remainingText = markdown.Substring(imageDimensionsPos + 1, pos - imageDimensionsPos - 1);
+
+                var parts = remainingText.Split(',');
+                foreach (var part in parts)
+                {
+                    var seperator = part.IndexOf('=');
+                    string name = part.Substring(0, seperator);
+                    string value = part.Substring(seperator + 1);
+
+                    args.Add(name, value);
+                }
+            }
+
+            return args;
+        }
+
         /// <summary>
         /// Regular expression for matching a phone number.
         /// </summary>

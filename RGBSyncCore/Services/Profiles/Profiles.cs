@@ -56,9 +56,9 @@ namespace SyncStudio.Core.Services.Profiles
             return null;
         }
 
-        public List<string> GetAvailableProfiles()
+        public List<Profile> GetAvailableProfiles()
         {
-            return Directory.GetFiles(ServiceManager.PROFILES_DIRECTORY, "*.json").ToList();
+            return Directory.GetFiles(ServiceManager.PROFILES_DIRECTORY, "*.json").Select(x=>JsonConvert.DeserializeObject<Profile>(File.ReadAllText(x))).ToList();
         }
 
         public void SaveProfile(Profile profile)

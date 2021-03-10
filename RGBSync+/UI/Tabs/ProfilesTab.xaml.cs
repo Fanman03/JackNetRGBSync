@@ -34,8 +34,8 @@ namespace SyncStudio.WPF.UI.Tabs
             vm.ShowTriggers = !vm.ShowTriggers;
             vm.CurrentProfile = dc;
 
-            Profile tempProfile = ServiceManager.Instance.ProfileService.GetProfileFromName(dc.Name);
-            vm.CurrentProfile.ProfileId = tempProfile.Id;
+            //Profile tempProfile = ServiceManager.Instance.ProfileService.GetProfileFromName(dc.Name);
+            //vm.CurrentProfile.ProfileId = tempProfile.Id;
         }
 
         private void AddNewProfile(object sender, RoutedEventArgs e)

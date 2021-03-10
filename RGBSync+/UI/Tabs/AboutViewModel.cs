@@ -2,7 +2,7 @@
 {
     public class AboutViewModel : LanguageAwareBaseViewModel
     {
-        private string appName = ServiceManager.Instance.SLSManager.AppName;
+        private string appName = "TODO";//ServiceManager.Instance.SLSManager.AppName;
         public string AppName
         {
             get => appName;

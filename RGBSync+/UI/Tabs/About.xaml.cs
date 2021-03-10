@@ -15,7 +15,8 @@ namespace SyncStudio.WPF.UI.Tabs
             InitializeComponent();
 
             UserControl splashLogo;
-            if (SyncStudio.Core.ServiceManager.SLSManager.GetTheme() == ThemeWatcher.WindowsTheme.Dark)
+            //todo
+            if (true)//todo || SyncStudio.Core.ServiceManager.SLSManager.GetTheme() == ThemeWatcher.WindowsTheme.Dark)
             {
                 splashLogo = ServiceManager.Instance.Branding.GetDarkSplashLogo();
             }

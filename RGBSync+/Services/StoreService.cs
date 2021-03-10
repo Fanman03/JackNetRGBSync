@@ -15,7 +15,6 @@ using SyncStudio.WPF.Model;
 using SyncStudio.WPF.UI.Tabs;
 using SharpCompress.Archives;
 using SimpleLed;
-using SyncStudio.Core.Models;
 using SyncStudio.WPF.UI;
 
 namespace SyncStudio.WPF.Services
@@ -27,25 +26,26 @@ namespace SyncStudio.WPF.Services
 
         public void RemoveInstalledPlugin(ISimpleLed exist)
         {
-            Guid id = exist.GetProperties().ProductId;
+            //todo remove?
+            //Guid id = exist.GetProperties().ProductId;
 
-            ServiceManager.Instance.SLSManager.Drivers.Remove(exist);
-            Thread.Sleep(100);
-            exist.Dispose();
-            Thread.Sleep(1000);
+            //ServiceManager.Instance.SLSManager.Drivers.Remove(exist);
+            //Thread.Sleep(100);
+            //exist.Dispose();
+            //Thread.Sleep(1000);
 
 
-            string pluginPath = ApplicationManager.SLSPROVIDER_DIRECTORY + "\\" + id;
-            if (Directory.Exists(pluginPath))
-            {
-                try
-                {
-                    Directory.Delete(pluginPath, true);
-                }
-                catch
-                {
-                }
-            }
+            //string pluginPath = ApplicationManager.SLSPROVIDER_DIRECTORY + "\\" + id;
+            //if (Directory.Exists(pluginPath))
+            //{
+            //    try
+            //    {
+            //        Directory.Delete(pluginPath, true);
+            //    }
+            //    catch
+            //    {
+            //    }
+            //}
         }
 
         public async Task<bool> InstallPlugin(Guid pluginId, ReleaseNumber releaseNumber)
@@ -116,43 +116,44 @@ namespace SyncStudio.WPF.Services
 
         public void ShowPlugInUI(Guid pluginID, Grid designationGrid)
         {
-            var herp = SyncStudio.Core.ServiceManager.SLSManager.Drivers.ToList();
-            var derp = ServiceManager.Instance.SLSManager.Drivers.ToList();
-            List<ProviderInfo> berks = SyncStudio.Core.ServiceManager.Store.GetInstalledProviders().ToList();
+            //todo
+            //var herp = SyncStudio.Core.ServiceManager.SLSManager.Drivers.ToList();
+            
+            //List<ProviderInfo> berks = SyncStudio.Core.ServiceManager.Store.GetInstalledProviders().ToList();
 
-            Dictionary<Guid, ISimpleLed> lookup = herp.ToDictionary(simpleLed => simpleLed.GetProperties().ProductId);
-
-
-            ISimpleLed existingPlugin = lookup[pluginID];
-            // berks.First(x =>  x.GetProperties().ProductId == pluginID);
-
-            ISimpleLedWithConfig testDrv = existingPlugin as ISimpleLedWithConfig;
-
-            if (existingPlugin is ISimpleLedWithConfig drv)
-            {
+            //Dictionary<Guid, ISimpleLed> lookup = herp.ToDictionary(simpleLed => simpleLed.GetProperties().ProductId);
 
 
-                MarkdownUIBundle cfgUI = drv.GetCustomConfig(null);
-                designationGrid.Children.Clear();
-                StackPanel sp = new StackPanel();
-                designationGrid.Children.Add(sp);
+            //ISimpleLed existingPlugin = lookup[pluginID];
+            //// berks.First(x =>  x.GetProperties().ProductId == pluginID);
 
-                ResourceDictionary theme = new ResourceDictionary { Source = new Uri(@"\UI\MarkdownDark.xaml", UriKind.Relative) };
-                if (Core.ServiceManager.SLSManager.GetTheme() == ThemeWatcher.WindowsTheme.Dark)
-                {
-                    ((SolidColorBrush)theme["Primary"]).Color = Colors.Black;
-                    ((SolidColorBrush)theme["Secondary"]).Color = Colors.White;
-                }
-                else
-                {
-                    ((SolidColorBrush)theme["Primary"]).Color = Colors.White;
-                    ((SolidColorBrush)theme["Secondary"]).Color = Colors.Black;
-                }
-                ((SolidColorBrush)theme["AccentColor"]).Color = Core.ServiceManager.SLSManager.GetAccent();
+            //ISimpleLedWithConfig testDrv = existingPlugin as ISimpleLedWithConfig;
+
+            //if (existingPlugin is ISimpleLedWithConfig drv)
+            //{
 
 
-                MarkdownUIHandler handler = new MarkdownUIHandler(cfgUI.Markdown, cfgUI.ViewModel, theme);
-                handler.RenderToUI(sp);
+            //    MarkdownUIBundle cfgUI = drv.GetCustomConfig(null);
+            //    designationGrid.Children.Clear();
+            //    StackPanel sp = new StackPanel();
+            //    designationGrid.Children.Add(sp);
+
+            //    ResourceDictionary theme = new ResourceDictionary { Source = new Uri(@"\UI\MarkdownDark.xaml", UriKind.Relative) };
+            //    if (Core.ServiceManager.SLSManager.GetTheme() == ThemeWatcher.WindowsTheme.Dark)
+            //    {
+            //        ((SolidColorBrush)theme["Primary"]).Color = Colors.Black;
+            //        ((SolidColorBrush)theme["Secondary"]).Color = Colors.White;
+            //    }
+            //    else
+            //    {
+            //        ((SolidColorBrush)theme["Primary"]).Color = Colors.White;
+            //        ((SolidColorBrush)theme["Secondary"]).Color = Colors.Black;
+            //    }
+            //    ((SolidColorBrush)theme["AccentColor"]).Color = Core.ServiceManager.SLSManager.GetAccent();
+
+
+            //    MarkdownUIHandler handler = new MarkdownUIHandler(cfgUI.Markdown, cfgUI.ViewModel, theme);
+            //    handler.RenderToUI(sp);
 
 
 
@@ -168,7 +169,7 @@ namespace SyncStudio.WPF.Services
                 //cfgUI.VerticalContentAlignment = VerticalAlignment.Stretch;
 
                 //cfgUI.Foreground = new SolidColorBrush(Colors.Black); //Make theme aware
-            }
+            
         }
 
         public async Task<List<DriverProperties>> GetDriversFromStore()

@@ -11,22 +11,30 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using SyncStudio.Core.Models;
+using Autofac;
+using SyncStudio.ClientService;
 using SyncStudio.WPF.Helper;
 
 namespace SyncStudio.WPF.UI.Tabs
 {
     public class StoreViewModel : TabViewModel
     {
+        private ClientService.Settings settings = new Settings();
         private StoreHandler storeHandler;
+        private ClientService.Devices _devices;
+        public StoreViewModel(ClientService.Devices devices)
+        {
+            _devices = devices;
+        }
+
         public StoreViewModel()
         {
-
+            _devices = ServiceManager.Container.Resolve<ClientService.Devices>();
         }
 
         public async Task InitAsync()
         {
-            ShowPreRelease = ServiceManager.Instance.ConfigService.Settings.Experimental;
+            ShowPreRelease = settings.Experimental;
 
             storeHandler = new StoreHandler();
 
@@ -35,8 +43,13 @@ namespace SyncStudio.WPF.UI.Tabs
             ShowInstalled = true;
             ShowStore = false;
             ShowUpdates = false;
+            if (_devices == null)
+            {
+                return;
+            }
 
-            if (SyncStudio.Core.ServiceManager.Devices.GetDevices() != null && SyncStudio.Core.ServiceManager.Devices.GetDevices().Count(x => x.Driver != null && !x.Driver.GetProperties().ProductId.ToString().StartsWith("1111")) == 0)
+            var devices = await _devices.GetDevicesAsync();
+            if (devices != null && devices.Count(x => x.InterfaceDriverProperties != null && !x.InterfaceDriverProperties.ProductId.ToString().StartsWith("1111")) == 0)
             {
                 ShowInstalled = false;
                 ShowStore = true;
@@ -163,98 +176,100 @@ namespace SyncStudio.WPF.UI.Tabs
 
         public async Task LoadStoreAndPlugins()
         {
-            using (new SimpleModal(mainVm, "Refreshing store...."))
-            {
-                Plugins = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>();
+            //todo
+            return;
+            //using (new SimpleModal(mainVm, "Refreshing store...."))
+            //{
+            //    Plugins = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>();
 
 
-                var storeProviders = (await SyncStudio.Core.ServiceManager.Store.GetStoreProviders()).ToList();
-                var installedProviders = SyncStudio.Core.ServiceManager.Store.GetInstalledProviders().ToList();
+            //    var storeProviders = (await SyncStudio.Core.ServiceManager.Store.GetStoreProviders()).ToList();
+            //    var installedProviders = SyncStudio.Core.ServiceManager.Store.GetInstalledProviders().ToList();
 
 
-                var uniqueStoreProviders = storeProviders.GroupBy(x => x.ProviderId).Select(y => y.OrderByDescending(p => p.Version).First()).ToList();
+            //    var uniqueStoreProviders = storeProviders.GroupBy(x => x.ProviderId).Select(y => y.OrderByDescending(p => p.Version).First()).ToList();
 
-                Plugins = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(uniqueStoreProviders.Select(slsManagerDriver =>
-                    new PositionalAssignment.PluginDetailsViewModel
-                    {
-                        Author = slsManagerDriver.Author,
-                        Blurb = slsManagerDriver.Blurb,
-                        Id = slsManagerDriver.InstanceId.ToString(),
-                        Image = slsManagerDriver.Image,
-                        Installed = false,
-                        Name = slsManagerDriver.Name,
-                        PluginId = slsManagerDriver.ProviderId,
-                        Version = slsManagerDriver.Version.ToString(),
-                        Visible = true,
-                        PluginDetails = new PositionalAssignment.PluginDetails
-                        {
-                            Version = slsManagerDriver.Version,
-                            Id = slsManagerDriver.InstanceId.ToString(),
-                            PluginId = slsManagerDriver.ProviderId,
-                            // DriverProperties = pid,
-                            Author = slsManagerDriver.Author,
-                            Name = slsManagerDriver.Name,
-                            //Repo = pid.GitHubLink
-                        },
-                        VersionsAvailable = new ObservableCollection<PositionalAssignment.PluginVersionDetails>(
-                        storeProviders
-                            .Where(x => x.ProviderId == slsManagerDriver.ProviderId)
-                            .Select(g =>
-                                new PositionalAssignment.PluginVersionDetails
-                                {
-                                    IsExperimental = !slsManagerDriver.IsPublicRelease,
-                                    IsInstalled = installedProviders.Any(i => i.ProviderId == slsManagerDriver.ProviderId),
-                                    ReleaseNumber = g.Version
-                                }
-                            ).OrderByDescending(o => o.ReleaseNumber).ToList())
+            //    Plugins = new ObservableCollection<PositionalAssignment.PluginDetailsViewModel>(uniqueStoreProviders.Select(slsManagerDriver =>
+            //        new PositionalAssignment.PluginDetailsViewModel
+            //        {
+            //            Author = slsManagerDriver.Author,
+            //            Blurb = slsManagerDriver.Blurb,
+            //            Id = slsManagerDriver.InstanceId.ToString(),
+            //            Image = slsManagerDriver.Image,
+            //            Installed = false,
+            //            Name = slsManagerDriver.Name,
+            //            PluginId = slsManagerDriver.ProviderId,
+            //            Version = slsManagerDriver.Version.ToString(),
+            //            Visible = true,
+            //            PluginDetails = new PositionalAssignment.PluginDetails
+            //            {
+            //                Version = slsManagerDriver.Version,
+            //                Id = slsManagerDriver.InstanceId.ToString(),
+            //                PluginId = slsManagerDriver.ProviderId,
+            //                // DriverProperties = pid,
+            //                Author = slsManagerDriver.Author,
+            //                Name = slsManagerDriver.Name,
+            //                //Repo = pid.GitHubLink
+            //            },
+            //            VersionsAvailable = new ObservableCollection<PositionalAssignment.PluginVersionDetails>(
+            //            storeProviders
+            //                .Where(x => x.ProviderId == slsManagerDriver.ProviderId)
+            //                .Select(g =>
+            //                    new PositionalAssignment.PluginVersionDetails
+            //                    {
+            //                        IsExperimental = !slsManagerDriver.IsPublicRelease,
+            //                        IsInstalled = installedProviders.Any(i => i.ProviderId == slsManagerDriver.ProviderId),
+            //                        ReleaseNumber = g.Version
+            //                    }
+            //                ).OrderByDescending(o => o.ReleaseNumber).ToList())
 
-                    }));
+            //        }));
                 
-                var localOnly = installedProviders.Where(x => Plugins.All(p => p.PluginId != x.ProviderId));
+            //    var localOnly = installedProviders.Where(x => Plugins.All(p => p.PluginId != x.ProviderId));
 
-                foreach (ProviderInfo slsManagerDriver in localOnly)
-                {
-                    Plugins.Add(new PositionalAssignment.PluginDetailsViewModel
-                    {
-                        Author = slsManagerDriver.Author,
-                        Blurb = slsManagerDriver.Blurb,
-                        Id = slsManagerDriver.InstanceId.ToString(),
-                        Installed = true,
-                        Name = slsManagerDriver.Name,
-                        PluginId = slsManagerDriver.ProviderId,
-                        Version = slsManagerDriver.Version.ToString(),
-                        Visible = true,
-                        PluginDetails = new PositionalAssignment.PluginDetails
-                        {
-                            Version = slsManagerDriver.Version,
-                            Id = slsManagerDriver.InstanceId.ToString(),
-                            PluginId = slsManagerDriver.ProviderId,
-                            // DriverProperties = pid,
-                            Author = slsManagerDriver.Author,
-                            Name = slsManagerDriver.Name,
-                            //Repo = pid.GitHubLink
-                        }
-                    });
-                }
+            //    foreach (ProviderInfo slsManagerDriver in localOnly)
+            //    {
+            //        Plugins.Add(new PositionalAssignment.PluginDetailsViewModel
+            //        {
+            //            Author = slsManagerDriver.Author,
+            //            Blurb = slsManagerDriver.Blurb,
+            //            Id = slsManagerDriver.InstanceId.ToString(),
+            //            Installed = true,
+            //            Name = slsManagerDriver.Name,
+            //            PluginId = slsManagerDriver.ProviderId,
+            //            Version = slsManagerDriver.Version.ToString(),
+            //            Visible = true,
+            //            PluginDetails = new PositionalAssignment.PluginDetails
+            //            {
+            //                Version = slsManagerDriver.Version,
+            //                Id = slsManagerDriver.InstanceId.ToString(),
+            //                PluginId = slsManagerDriver.ProviderId,
+            //                // DriverProperties = pid,
+            //                Author = slsManagerDriver.Author,
+            //                Name = slsManagerDriver.Name,
+            //                //Repo = pid.GitHubLink
+            //            }
+            //        });
+            //    }
 
-                foreach (ProviderInfo installedProvider in installedProviders)
-                {
-                    var existing = Plugins.First(x => x.PluginId == installedProvider.ProviderId);
-                    existing.Version = installedProvider.Version.ToString();
-                    existing.Installed = true;
-                    existing.InstalledButOutdated = existing.VersionsAvailable.Any(x => x.ReleaseNumber > installedProvider.Version);
-                    existing.InstalledVersionModel = existing.VersionsAvailable.FirstOrDefault(x => x.ReleaseNumber.ToString() == installedProvider.Version.ToString());
-                    if (existing.InstalledVersionModel != null)
-                    {
-                        existing.InstalledVersionModel.IsInstalled = true;
-                    }
-                }
+            //    foreach (ProviderInfo installedProvider in installedProviders)
+            //    {
+            //        var existing = Plugins.First(x => x.PluginId == installedProvider.ProviderId);
+            //        existing.Version = installedProvider.Version.ToString();
+            //        existing.Installed = true;
+            //        existing.InstalledButOutdated = existing.VersionsAvailable.Any(x => x.ReleaseNumber > installedProvider.Version);
+            //        existing.InstalledVersionModel = existing.VersionsAvailable.FirstOrDefault(x => x.ReleaseNumber.ToString() == installedProvider.Version.ToString());
+            //        if (existing.InstalledVersionModel != null)
+            //        {
+            //            existing.InstalledVersionModel.IsInstalled = true;
+            //        }
+            //    }
                 
-                FilterPlugins();
+            //    FilterPlugins();
 
-            }
+            //}
 
-            OnPropertyChanged("FilteredPlugins");
+            //OnPropertyChanged("FilteredPlugins");
         }
 
         public void FilterPlugins()

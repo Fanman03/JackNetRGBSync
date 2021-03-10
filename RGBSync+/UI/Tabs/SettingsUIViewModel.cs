@@ -16,10 +16,13 @@ namespace SyncStudio.WPF.UI.Tabs
 {
     public class SettingsUIViewModel : LanguageAwareBaseViewModel
     {
+        private ClientService.Settings settings = new ClientService.Settings();
+        private LauncherPrefs launcherPrefs;
+
         public bool enableReleaseTypeModal = false;
         private void SaveLauncherSettings()
         {
-            string json = JsonConvert.SerializeObject(ServiceManager.Instance.ConfigService.LauncherPrefs);
+            string json = JsonConvert.SerializeObject(launcherPrefs);
             File.WriteAllText("launcherPrefs.json", json);
         }
 
@@ -31,7 +34,7 @@ namespace SyncStudio.WPF.UI.Tabs
             set
             {
                 SetProperty(ref startAsAdmin, value);
-                ServiceManager.Instance.ConfigService.LauncherPrefs.RunAsAdmin = value;
+                launcherPrefs.RunAsAdmin = value;
                 SaveLauncherSettings();
             }
         }
@@ -44,7 +47,7 @@ namespace SyncStudio.WPF.UI.Tabs
             set
             {
                 SetProperty(ref releaseType, value);
-                ServiceManager.Instance.ConfigService.LauncherPrefs.ReleaseBranch = value;
+                launcherPrefs.ReleaseBranch = value;
                 SaveLauncherSettings();
                 if (value == LauncherPrefs.ReleaseType.CI && enableReleaseTypeModal)
                 {
@@ -67,8 +70,8 @@ namespace SyncStudio.WPF.UI.Tabs
             set
             {
                 SetProperty(ref minimizeToTray, value);
-                ServiceManager.Instance.ConfigService.Settings.MinimizeToTray = value;
-                ServiceManager.Instance.ConfigService.LauncherPrefs.MinimizeToTray = value;
+                settings.MinimizeToTray = value;
+                launcherPrefs.MinimizeToTray = value;
                 SaveLauncherSettings();
             }
         }
@@ -79,7 +82,7 @@ namespace SyncStudio.WPF.UI.Tabs
             set
             {
                 SetProperty(ref minimizeOnStart, value);
-                ServiceManager.Instance.ConfigService.LauncherPrefs.MinimizeOnStartUp = value;
+                launcherPrefs.MinimizeOnStartUp = value;
                 SaveLauncherSettings();
             }
         }
@@ -101,13 +104,13 @@ namespace SyncStudio.WPF.UI.Tabs
 
         public SettingsUIViewModel()
         {
-
+            launcherPrefs = JsonConvert.DeserializeObject<LauncherPrefs>(File.ReadAllText("launcherPrefs.json"));
         }
 
         public void Init()
         {
-            Settings = ServiceManager.Instance.ConfigService.Settings;
-            CurrentLanguage = Languages.FirstOrDefault(x => x.Code == ServiceManager.Instance.ConfigService.Settings.Lang);
+            
+            CurrentLanguage = Languages.FirstOrDefault(x => x.Code == settings.Lang);
 
             ReleaseTypes = new ObservableCollection<LauncherPrefs.ReleaseType>();
 
@@ -115,12 +118,12 @@ namespace SyncStudio.WPF.UI.Tabs
             ReleaseTypes.Add(LauncherPrefs.ReleaseType.Beta);
             ReleaseTypes.Add(LauncherPrefs.ReleaseType.CI);
 
-            StartAsAdmin = ServiceManager.Instance.ConfigService.LauncherPrefs.MinimizeToTray;
-            MinimizeOnStart = ServiceManager.Instance.ConfigService.LauncherPrefs.MinimizeOnStartUp;
-            MinimizeToTray = ServiceManager.Instance.ConfigService.LauncherPrefs.MinimizeToTray;
+            StartAsAdmin = launcherPrefs.MinimizeToTray;
+            MinimizeOnStart = launcherPrefs.MinimizeOnStartUp;
+            MinimizeToTray = launcherPrefs.MinimizeToTray;
 
-            ReleaseType = ServiceManager.Instance.ConfigService.LauncherPrefs.ReleaseBranch;
-            SimpleLedUserName = ServiceManager.Instance.ConfigService.Settings.SimpleLedUserName;
+            ReleaseType = launcherPrefs.ReleaseBranch;
+            SimpleLedUserName = settings.SimpleLedUserName;
 
             OnPropertyChanged("ReleaseTypes");
             OnPropertyChanged("StartAsAdmin");
@@ -128,16 +131,16 @@ namespace SyncStudio.WPF.UI.Tabs
             OnPropertyChanged("ReleaseType");
             OnPropertyChanged("MinimizeToTray");
 
-            ApiEnabled = ServiceManager.Instance.ConfigService.Settings.ApiEnabled;
-            DiscordEnabled = ServiceManager.Instance.ConfigService.Settings.EnableDiscordRPC;
+            
+            DiscordEnabled = settings.EnableDiscordRPC;
 
-            Background = ServiceManager.Instance.ConfigService.Settings.Background;
-            BackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.BackgroundOpacity * 100;
-            DimBackgroundOpacity = ServiceManager.Instance.ConfigService.Settings.DimBackgroundOpacity * 100;
-            BackgroundBlur = ServiceManager.Instance.ConfigService.Settings.BackgroundBlur * 5;
-            ControllableBG = ServiceManager.Instance.ConfigService.Settings.ControllableBG;
+            Background = settings.Background;
+            BackgroundOpacity = settings.BackgroundOpacity * 100;
+            DimBackgroundOpacity = settings.DimBackgroundOpacity * 100;
+            BackgroundBlur = settings.BackgroundBlur * 5;
+            ControllableBG = settings.ControllableBG;
 
-            UpdateRate = ServiceManager.Instance.ConfigService.Settings.UpdateRate;
+            UpdateRate = settings.UpdateRate;
 
             enableReleaseTypeModal = true;
         }
@@ -151,7 +154,7 @@ namespace SyncStudio.WPF.UI.Tabs
             set
             {
                 SetProperty(ref background, value);
-                ServiceManager.Instance.ConfigService.Settings.Background = value;
+                settings.Background = value;
             }
         }
 
@@ -164,7 +167,7 @@ namespace SyncStudio.WPF.UI.Tabs
             set
             {
                 SetProperty(ref bgopacity, (float)Math.Floor(value));
-                ServiceManager.Instance.ConfigService.Settings.BackgroundOpacity = (float)Math.Floor(value) / 100f;
+                settings.BackgroundOpacity = (float)Math.Floor(value) / 100f;
             }
         }
 
@@ -176,19 +179,7 @@ namespace SyncStudio.WPF.UI.Tabs
             set
             {
                 SetProperty(ref updateRate, value);
-                ServiceManager.Instance.ConfigService.Settings.UpdateRate = value;
-            }
-        }
-
-        private bool apiEnabled;
-
-        public bool ApiEnabled
-        {
-            get => apiEnabled;
-            set
-            {
-                SetProperty(ref apiEnabled, value);
-                ServiceManager.Instance.ConfigService.Settings.ApiEnabled = value;
+                settings.UpdateRate = value;
             }
         }
 
@@ -199,7 +190,7 @@ namespace SyncStudio.WPF.UI.Tabs
             set
             {
                 SetProperty(ref discordEnabled, value);
-                ServiceManager.Instance.ConfigService.Settings.EnableDiscordRPC = value;
+                settings.EnableDiscordRPC = value;
             }
         }
 
@@ -211,7 +202,7 @@ namespace SyncStudio.WPF.UI.Tabs
             set
             {
                 SetProperty(ref controllableBG, value);
-                ServiceManager.Instance.ConfigService.Settings.ControllableBG = value;
+                settings.ControllableBG = value;
             }
         }
 
@@ -223,21 +214,21 @@ namespace SyncStudio.WPF.UI.Tabs
             set
             {
                 SetProperty(ref rainbowTab, value);
-                ServiceManager.Instance.ConfigService.Settings.RainbowTabBars = value;
+                settings.RainbowTabBars = value;
             }
         }
 
-        private Color accentColor;
+        //private Color accentColor;
 
-        public Color AccentColor
-        {
-            get => accentColor;
-            set
-            {
-                SetProperty(ref accentColor, value);
-                ServiceManager.Instance.ConfigService.Settings.AccentColor = value;
-            }
-        }
+        //public Color AccentColor
+        //{
+        //    get => accentColor;
+        //    set
+        //    {
+        //        SetProperty(ref accentColor, value);
+        //        settings.AccentColor = value;
+        //    }
+        //}
 
         private float dimbgopacity;
 
@@ -247,7 +238,7 @@ namespace SyncStudio.WPF.UI.Tabs
             set
             {
                 SetProperty(ref dimbgopacity, (float)Math.Floor(value));
-                ServiceManager.Instance.ConfigService.Settings.DimBackgroundOpacity = (float)Math.Floor(value) / 100f;
+                settings.DimBackgroundOpacity = (float)Math.Floor(value) / 100f;
             }
         }
 
@@ -259,7 +250,7 @@ namespace SyncStudio.WPF.UI.Tabs
             set
             {
                 SetProperty(ref backgroundBlur, (float)Math.Floor(value));
-                ServiceManager.Instance.ConfigService.Settings.BackgroundBlur = (float)Math.Floor(value) / 5f;
+                settings.BackgroundBlur = (float)Math.Floor(value) / 5f;
                 //if (blurTimer != null)
                 //{
                 //    blurTimer.Stop();
@@ -274,7 +265,7 @@ namespace SyncStudio.WPF.UI.Tabs
                 //blurTimer.Tick += (sender, args) =>
                 //{
                 //    blurTimer.Stop();
-                //    ServiceManager.Instance.ConfigService.Settings.BackgroundBlur = (float)Math.Floor(value) / 20f;
+                //    settings.BackgroundBlur = (float)Math.Floor(value) / 20f;
                 //};
 
                 //blurTimer.Start();
@@ -303,7 +294,7 @@ namespace SyncStudio.WPF.UI.Tabs
                 currentLanguage = value;
                 if (value != null)
                 {
-                    Settings.Lang = value.Code;
+                    settings.Lang = value.Code;
                 }
 
             }

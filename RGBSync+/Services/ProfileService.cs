@@ -27,7 +27,14 @@ namespace SyncStudio.WPF.Services
             
         }
 
-        private Profile CurrentProfile => SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile();
+        private Profile cp => new Profile
+        {
+            Name = "Default",
+            Id = Guid.NewGuid()
+        };
+
+        //todo
+        private Profile CurrentProfile => cp;// SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile();
 
         public bool ProfilesRequiresSave()
         {
@@ -49,6 +56,9 @@ namespace SyncStudio.WPF.Services
 
         public void LoadProfileFromName(string profileName)
         {
+            //todo
+            return;
+
             var profile = Core.ServiceManager.Profiles.GetProfile(profileName);
             Core.ServiceManager.Profiles.SetCurrentProfile(profile);
         }

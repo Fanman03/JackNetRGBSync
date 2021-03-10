@@ -122,7 +122,7 @@ namespace SyncStudio.WPF
 
                     if (doit && blockedTriggers.All(x => x != profileTriggerEntry.Id))
                     {
-                        ServiceManager.Instance.ProfileService.LoadProfileFromName(profileTriggerEntry.ProfileName);
+                        //ServiceManager.Instance.ProfileService.LoadProfileFromName(profileTriggerEntry.ProfileName);
                         blockedTriggers.Add(profileTriggerEntry.Id);
                     }
 

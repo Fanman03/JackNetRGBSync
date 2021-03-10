@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using SyncStudio.ClientService;
 
 namespace SyncStudio.WPF.Languages
 {
@@ -61,6 +62,7 @@ namespace SyncStudio.WPF.Languages
 
     public static class LanguageManager
     {
+        private static ClientService.Settings settings = new Settings();
         public static List<LanguageModel> Languages { get; set; } = new List<LanguageModel>();
         static LanguageManager()
         {
@@ -113,7 +115,7 @@ namespace SyncStudio.WPF.Languages
                     return "[" + lang + ":" + key + "]";
                 }
 
-                Debug.WriteLine("Looking for " + key + " in " + l?.Code);
+                //Debug.WriteLine("Looking for " + key + " in " + l?.Code);
                 string r = l.Items.FirstOrDefault(x => x.Key.ToLower() == key.ToLower())?.Value;
                 if (string.IsNullOrWhiteSpace(r))
                 {
@@ -144,9 +146,9 @@ namespace SyncStudio.WPF.Languages
 
                 if (ServiceManager.Instance.ApplicationManager != null)
                 {
-                    if (ServiceManager.Instance.ConfigService.Settings?.Lang != null)
+                    if (settings?.Lang != null)
                     {
-                        lang = ServiceManager.Instance.ConfigService.Settings.Lang;
+                        lang = settings.Lang;
                     }
                 }
 
@@ -154,10 +156,10 @@ namespace SyncStudio.WPF.Languages
                 {
                     lang = System.Globalization.CultureInfo.CurrentCulture.Name;
 
-                    if (ServiceManager.Instance?.ConfigService?.Settings != null)
+                    if (settings != null)
                     {
 
-                        ServiceManager.Instance.ConfigService.Settings.Lang = lang;
+                        settings.Lang = lang;
                     }
                 }
 
@@ -192,7 +194,7 @@ namespace SyncStudio.WPF.Languages
                     return "[" + lang + ":" + key + "]";
                 }
 
-                Debug.WriteLine("Looking for " + key + " in " + l?.Code);
+                //Debug.WriteLine("Looking for " + key + " in " + l?.Code);
                 string r = l.Items.FirstOrDefault(x => x.Key.ToLower() == key.ToLower())?.Value;
                 if (string.IsNullOrWhiteSpace(r))
                 {

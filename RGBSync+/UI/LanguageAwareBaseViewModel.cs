@@ -1,9 +1,11 @@
 ﻿using SimpleLed;
+using SyncStudio.ClientService;
 
 namespace SyncStudio.WPF.UI
 {
     public class LanguageAwareBaseViewModel : BaseViewModel
     {
+        private ClientService.Settings settings = new Settings();
         public LanguageAwareBaseViewModel()
         {
             try
@@ -12,9 +14,9 @@ namespace SyncStudio.WPF.UI
                 {
                     ServiceManager.Instance.ApplicationManager.LanguageChangedEvent += (sender, args) =>
                     {
-                        if (ServiceManager.Instance?.ConfigService?.Settings != null)
+                        if (settings != null)
                         {
-                            Language = ServiceManager.Instance.ConfigService.Settings.Lang;
+                            Language = settings.Lang;
                         }
                     };
                 }

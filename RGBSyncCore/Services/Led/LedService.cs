@@ -259,10 +259,12 @@ namespace SyncStudio.Core.Services.Led
                     Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) ?? string.Empty,
                         SLSPROVIDER_DIRECTORY);
 
+            deviceProvierDir = "C:\\Projects\\JackNet\\bin\\Providers";
+
             if (!Directory.Exists(deviceProvierDir)) return;
             string[] pluginFolders = Directory.GetDirectories(deviceProvierDir);
-            ServiceManager.LoadingMessage("Loading SLS plugins");
-            ServiceManager.LoadingMax(pluginFolders.Length);
+         //   ServiceManager.LoadingMessage("Loading SLS plugins");
+         //   ServiceManager.LoadingMax(pluginFolders.Length);
 
             int ct = 0;
             foreach (string pluginFolder in pluginFolders)
@@ -270,7 +272,7 @@ namespace SyncStudio.Core.Services.Led
                 //LoadingSplash.Activate();
                 ct++;
 
-                ServiceManager.LoadingAmount(ct);
+          //      ServiceManager.LoadingAmount(ct);
                 ServiceManager.Store.LoadPluginFolder(pluginFolder);
             }
 
@@ -297,33 +299,34 @@ namespace SyncStudio.Core.Services.Led
 
             //SLSManager.RescanRequired += Rescan;
 
-            ServiceManager.LoadingMessage("Updating SLS devices");
+       //     ServiceManager.LoadingMessage("Updating SLS devices");
             UpdateSLSDevices();
         }
         
         public void UpdateSLSDevices()
         {
-            ServiceManager.LoadingMessage("Loading Configs");
+         //   ServiceManager.LoadingMessage("Loading Configs");
             foreach (ISimpleLed drv in ServiceManager.SLSManager.Drivers)
             {
                 if (drv is ISimpleLedWithConfig cfgdrv)
                 {
                     try
                     {
+                      //  Console.WriteLine("Loading config for "+cfgdrv.Name());
                         ServiceManager.SLSManager.LoadConfig(cfgdrv);
                     }
                     catch (Exception e)
                     {
-                        Debug.WriteLine(e.Message);
+                     //   Debug.WriteLine(e.Message);
                     }
                 }
             }
 
 
-            ServiceManager.LoadingMessage("Getting devices");
+         //   ServiceManager.LoadingMessage("Getting devices");
             //SLSDevices = SLSManager.GetDevices();
-            ServiceManager.LoadingAmount(0);
-            ServiceManager.LoadingMax(ServiceManager.SLSManager.Drivers.Count);
+        //    ServiceManager.LoadingAmount(0);
+         //   ServiceManager.LoadingMax(ServiceManager.SLSManager.Drivers.Count);
 
         }
         

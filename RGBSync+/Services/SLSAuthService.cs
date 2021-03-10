@@ -1,20 +1,22 @@
 ﻿using SimpleLed;
 using System;
 using System.Diagnostics;
+using SyncStudio.ClientService;
 
 namespace SyncStudio.WPF.Services
 {
     public class SLSAuthService
     {
+        private ClientService.Settings settings = new Settings();
         public SimpleLed.LoginSystem SimpleLedAuth = new LoginSystem();
         public bool SimpleLedAuthenticated = false;
         public void SimpleLedLogIn(Action onLoginAction)
         {
             Process.Start(SimpleLedAuth.Login(() =>
             {
-                ServiceManager.Instance.ConfigService.Settings.SimpleLedUserId = SimpleLedAuth.UserId.Value;
-                ServiceManager.Instance.ConfigService.Settings.SimpleLedUserName = SimpleLedAuth.UserName;
-                ServiceManager.Instance.ConfigService.Settings.SimpleLedAuthToken = SimpleLedAuth.AccessToken;
+                settings.SimpleLedUserId = SimpleLedAuth.UserId.Value;
+                settings.SimpleLedUserName = SimpleLedAuth.UserName;
+                settings.SimpleLedAuthToken = SimpleLedAuth.AccessToken;
                 SimpleLedAuthenticated = true;
                 onLoginAction?.Invoke();
             }));

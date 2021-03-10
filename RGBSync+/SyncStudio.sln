@@ -39,6 +39,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownUI.WPF", "..\Markdo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdrownUI.Tester", "..\MarkdrownUI.Tester\MarkdrownUI.Tester.csproj", "{2BD1843A-E114-4C55-AE56-53CDD0FC42D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncStudio.Service", "..\SyncStudio.Service\SyncStudio.Service.csproj", "{8DD34248-90FD-41B6-84BB-658B1B880D36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncStudio.ClientService", "..\SyncStudio.ClientService\SyncStudio.ClientService.csproj", "{55D3373B-BC73-4065-883F-C5F6EE4DEA06}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\SharedCode\SharedCode.projitems*{285a3e6c-652a-4ca2-9b27-3a4dc4e1177b}*SharedItemsImports = 13
@@ -164,6 +168,22 @@ Global
 		{2BD1843A-E114-4C55-AE56-53CDD0FC42D3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2BD1843A-E114-4C55-AE56-53CDD0FC42D3}.Release|x64.ActiveCfg = Release|Any CPU
 		{2BD1843A-E114-4C55-AE56-53CDD0FC42D3}.Release|x64.Build.0 = Release|Any CPU
+		{8DD34248-90FD-41B6-84BB-658B1B880D36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DD34248-90FD-41B6-84BB-658B1B880D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DD34248-90FD-41B6-84BB-658B1B880D36}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8DD34248-90FD-41B6-84BB-658B1B880D36}.Debug|x64.Build.0 = Debug|Any CPU
+		{8DD34248-90FD-41B6-84BB-658B1B880D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DD34248-90FD-41B6-84BB-658B1B880D36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DD34248-90FD-41B6-84BB-658B1B880D36}.Release|x64.ActiveCfg = Release|Any CPU
+		{8DD34248-90FD-41B6-84BB-658B1B880D36}.Release|x64.Build.0 = Release|Any CPU
+		{55D3373B-BC73-4065-883F-C5F6EE4DEA06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55D3373B-BC73-4065-883F-C5F6EE4DEA06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55D3373B-BC73-4065-883F-C5F6EE4DEA06}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{55D3373B-BC73-4065-883F-C5F6EE4DEA06}.Debug|x64.Build.0 = Debug|Any CPU
+		{55D3373B-BC73-4065-883F-C5F6EE4DEA06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55D3373B-BC73-4065-883F-C5F6EE4DEA06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55D3373B-BC73-4065-883F-C5F6EE4DEA06}.Release|x64.ActiveCfg = Release|Any CPU
+		{55D3373B-BC73-4065-883F-C5F6EE4DEA06}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

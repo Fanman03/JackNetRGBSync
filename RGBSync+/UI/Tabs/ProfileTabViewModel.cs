@@ -2,12 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using Autofac;
+using Autofac.Core;
+using SyncStudio.ClientService;
 
 namespace SyncStudio.WPF.UI.Tabs
 {
     public class ProfileTabViewModel : LanguageAwareBaseViewModel
     {
+        private ClientService.Settings settings = new Settings();
+        private ClientService.Profiles _profiles = ServiceManager.Container.Resolve<ClientService.Profiles>();
         private string activeProfile;
 
         public string ActiveProfile
@@ -138,9 +144,12 @@ namespace SyncStudio.WPF.UI.Tabs
                 if (value > -1 && value < profileNames.Count)
                 {
                     string newProfileName = ProfileNames[value];
-                    if (SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().Name != newProfileName)
+                    if (_profiles.GetCurrentProfileSync().Name != newProfileName)
                     {
-                        ServiceManager.Instance.ProfileService.LoadProfileFromName(newProfileName);
+                        //tood
+                        Debug.WriteLine("todo");
+
+                        //_profiles.LoadProfileFromName(newProfileName);
 
                     }
                 }
@@ -171,14 +180,15 @@ namespace SyncStudio.WPF.UI.Tabs
 
         public ProfileTabViewModel()
         {
-            ProfileNames = ServiceManager.Instance.ConfigService.Settings.ProfileNames;
+            ProfileNames = new ObservableCollection<string>(_profiles.GetAvailableProfilesSync().Select(x => x.Name).ToList());
             SetUpProfileModels();
 
             EnsureCorrectProfileIndex();
 
             OnPropertyChanged(nameof(ProfileTriggerTypeNames));
 
-            ServiceManager.Instance.ConfigService.Settings.ProfileChange += delegate (object sender, EventArgs args) { CheckCurrentProfile(); };
+            //todo
+            //ServiceManager.Instance.ConfigService.Settings.ProfileChange += delegate (object sender, EventArgs args) { CheckCurrentProfile(); };
         }
 
         public void SetUpProfileModels(bool setActive = true)
@@ -206,7 +216,8 @@ namespace SyncStudio.WPF.UI.Tabs
 
                     if (setActive)
                     {
-                        ActiveProfile = ServiceManager.Instance.ConfigService.Settings.CurrentProfile;
+                        //todo
+                        //ActiveProfile = ServiceManager.Instance.ConfigService.Settings.CurrentProfile;
                     }
                 }
             }
@@ -217,51 +228,31 @@ namespace SyncStudio.WPF.UI.Tabs
 
         public void CheckCurrentProfile()
         {
-            if (ActiveProfile != ServiceManager.Instance.ConfigService.Settings.CurrentProfile)
-            {
-                ActiveProfile = ServiceManager.Instance.ConfigService.Settings.CurrentProfile;
-            }
+            //todo
+            //if (ActiveProfile != ServiceManager.Instance.ConfigService.Settings.CurrentProfile)
+            //{
+            //    ActiveProfile = ServiceManager.Instance.ConfigService.Settings.CurrentProfile;
+            //}
 
 
-            foreach (ProfileItemViewModel profileItemViewModel in ProfileItems)
-            {
-                profileItemViewModel.IsActiveProfile = ActiveProfile == profileItemViewModel.Name;
-            }
-        }
-
-        public void SubmitModalTextBox(string text)
-        {
-            modalSubmitAction?.Invoke(text);
-        }
-
-        public void ShowCreateNewProfile()
-        {
-            ServiceManager.Instance.ModalService.ShowModal(new ModalModel
-            {
-                ModalText = "Enter name for new profile",
-                ShowModalTextBox = true,
-                ShowModalCloseButton = true,
-                modalSubmitAction = (text) =>
-                {
-                    ServiceManager.Instance.ProfileService.GenerateNewProfile(text);
-                    ProfileNames = ServiceManager.Instance.ConfigService.Settings.ProfileNames;
-                    ServiceManager.Instance.ProfileService.LoadProfileFromName(text);
-                    EnsureCorrectProfileIndex();
-                }
-            });
-
+            //foreach (ProfileItemViewModel profileItemViewModel in ProfileItems)
+            //{
+            //    profileItemViewModel.IsActiveProfile = ActiveProfile == profileItemViewModel.Name;
+            //}
         }
 
         public void EnsureCorrectProfileIndex()
         {
-            if (profileItems != null && SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile() != null)
-            {
-                if (profileNames != null)
-                {
-                    SelectedProfileIndex = profileNames.IndexOf(SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().Name);
-                    SelectedProfileItem = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().Name;
-                }
-            }
+            //todo?
+            return;
+            //if (profileItems != null && SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile() != null)
+            //{
+            //    if (profileNames != null)
+            //    {
+            //        SelectedProfileIndex = profileNames.IndexOf(SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().Name);
+            //        SelectedProfileItem = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile().Name;
+            //    }
+            //}
         }
 
         private readonly Action<string> modalSubmitAction;
@@ -279,13 +270,13 @@ namespace SyncStudio.WPF.UI.Tabs
 
         public void CreateProfile()
         {
-            ServiceManager.Instance.ProfileService.GenerateNewProfile(CurrentProfile.Name);
+            //ServiceManager.Instance.ProfileService.GenerateNewProfile(CurrentProfile.Name);
             RefreshProfiles();
         }
 
         public void DeleteProfile(ProfileItemViewModel dc)
         {
-            ServiceManager.Instance.ProfileService.DeleteProfile(dc.Name);
+           // ServiceManager.Instance.ProfileService.DeleteProfile(dc.Name);
             RefreshProfiles();
         }
 
@@ -306,7 +297,7 @@ namespace SyncStudio.WPF.UI.Tabs
 
         public void RefreshProfiles(bool setActive = true)
         {
-            ProfileNames = ServiceManager.Instance.ConfigService.Settings.ProfileNames;
+            ProfileNames = new ObservableCollection<string>(_profiles.GetAvailableProfilesSync().Select(x => x.Name).ToList());
             SetUpProfileModels(setActive);
             ShowEditProfile = false;
             OnPropertyChanged("ProfileNames");
@@ -315,13 +306,13 @@ namespace SyncStudio.WPF.UI.Tabs
 
         public void SaveProfile()
         {
-            ServiceManager.Instance.ProfileService.RenameProfile(CurrentProfile.OriginalName, CurrentProfile.Name);
+           // ServiceManager.Instance.ProfileService.RenameProfile(CurrentProfile.OriginalName, CurrentProfile.Name);
             RefreshProfiles();
         }
 
         public void SwitchToProfile(ProfileItemViewModel dc)
         {
-            ServiceManager.Instance.ProfileService.LoadProfileFromName(dc.Name);
+          //  ServiceManager.Instance.ProfileService.LoadProfileFromName(dc.Name);
             RefreshProfiles();
             AppBVM appBVM = new AppBVM();
             appBVM.RefreshProfiles();

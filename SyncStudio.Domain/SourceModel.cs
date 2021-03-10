@@ -153,7 +153,7 @@ namespace SyncStudio.Domain
             set => SetProperty(ref image, value);
         }
 
-        public ControlDevice Device { get; set; }
+        public InterfaceControlDevice Device { get; set; }
 
         private bool hovered;
         [JsonIgnore]

@@ -255,6 +255,7 @@ namespace SyncStudio.Core.Services.Store
 
                     if (slsDriver != null)
                     {
+                        Console.Write(slsDriver.Name().PadRight(40,'.'));
                         try
                         {
                             if (ServiceManager.SLSManager.Drivers.All(p => p.GetProperties().ProductId != slsDriver.GetProperties().ProductId))
@@ -262,31 +263,33 @@ namespace SyncStudio.Core.Services.Store
                                 slsDriver.DeviceAdded += SlsDriver_DeviceAdded;
                                 slsDriver.DeviceRemoved += SlsDriver_DeviceRemoved;
                                 ServiceManager.SLSManager.Drivers.Add(slsDriver);
-
+                                string pad = "";
                                 try
                                 {
                                     slsDriver.Configure(new DriverDetails() { HomeFolder = justPath });
-                                    Debug.WriteLine("Have Configured: " + slsDriver.Name());
+                                    Console.Write("Configured");
+                                    pad = "..........";
                                 }
                                 catch (Exception ex)
                                 {
                                     Debug.WriteLine(ex.Message);
                                 }
 
-                                Debug.WriteLine("Have Initialized: " + slsDriver.Name());
+                                Console.Write(pad+"Initialized");
 
                             }
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine(ex.Message);
+                            Console.WriteLine(ex.Message);
                         }
+                        Console.WriteLine("");
                     }
 
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine(e.Message);
+                    Console.WriteLine(e.Message);
                 }
             }
         }
@@ -298,7 +301,7 @@ namespace SyncStudio.Core.Services.Store
             List<Guid> driversAdded = new List<Guid>();
             foreach (string file in files)
             {
-                Debug.WriteLine("Checking " + file);
+                //Console.WriteLine("Checking " + file);
                 LoadPlugin(file);
             }
         }

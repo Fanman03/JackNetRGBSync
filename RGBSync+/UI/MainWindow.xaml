@@ -115,9 +115,11 @@ Foreground="Transparent"
             </Image.Effect>
         </Image>
         <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Fill="Black" Opacity="{Binding DimBackgroundOpacity}"></Rectangle>
-
+        <!--
         <Grid  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.5" Visibility="{Binding ControllableBG, Converter={StaticResource BoolToVisibilityConverter}}" >
-            <!--Left-->
+            -->
+        <!--Left-->
+        <!--
             <Ellipse 
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
@@ -127,7 +129,9 @@ Foreground="Transparent"
                 Margin="{Binding ActualWidth, ConverterParameter=-left|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
 
 
-            <!--Right-->
+            -->
+        <!--Right-->
+        <!--
             <Ellipse 
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
@@ -136,7 +140,9 @@ Foreground="Transparent"
                 Margin="{Binding ActualHeight, ConverterParameter=-right|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Fill="{Binding SCRight}"/>
 
-            <!--Top-->
+            -->
+        <!--Top-->
+        <!--
             <Ellipse 
                 VerticalAlignment="Top"
                 HorizontalAlignment="Center"
@@ -145,7 +151,9 @@ Foreground="Transparent"
                 Margin="{Binding ActualWidth, ConverterParameter=-top|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Fill="{Binding SCTop}"/>
 
-            <!--Bottom-->
+            -->
+        <!--Bottom-->
+        <!--
             <Ellipse 
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Center"
@@ -158,7 +166,9 @@ Foreground="Transparent"
 
 
 
-            <!--TopLeft-->
+            -->
+        <!--TopLeft-->
+        <!--
             <Ellipse 
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
@@ -168,7 +178,9 @@ Foreground="Transparent"
                 Margin="{Binding ActualWidth, ConverterParameter=-topleft|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
 
 
-            <!--TopRight-->
+            -->
+        <!--TopRight-->
+        <!--
             <Ellipse 
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
@@ -177,7 +189,9 @@ Foreground="Transparent"
                 Margin="{Binding ActualHeight, ConverterParameter=-topright|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Fill="{Binding SCTopRight}"/>
 
-            <!--BottomLeft-->
+            -->
+        <!--BottomLeft-->
+        <!--
             <Ellipse 
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Left"
@@ -186,7 +200,9 @@ Foreground="Transparent"
                 Margin="{Binding ActualWidth, ConverterParameter=-bottomleft|0.5, Converter={StaticResource MarginConverter}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Fill="{Binding SCBottomLeft}"/>
 
-            <!--BottomRight-->
+            -->
+        <!--BottomRight-->
+        <!--
             <Ellipse 
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right"
@@ -198,13 +214,13 @@ Foreground="Transparent"
 
 
 
-        </Grid>
+        </Grid>-->
         <Grid Grid.Column="0" Width="auto" Background="{x:Null}" fw:PointerTracker.Enabled="True" >
-            
+
             <Grid Background="{Binding AccentSolidColorBrush}" Opacity="0.5"/>
             <ListView ItemsSource="{Binding TabItems, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" ItemTemplate="{DynamicResource TabItemTemplate}"  Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" Padding="0" Margin="0,0" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
 
-              
+
 
             <Grid>
 
@@ -212,9 +228,9 @@ Foreground="Transparent"
                 <Grid HorizontalAlignment="Stretch" Margin="0,4"  VerticalAlignment="Bottom" MouseDown="Grid_MouseDown_1" Height="40">
 
                     <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="34"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="34"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
                     <Grid.Style>
                         <Style TargetType="{x:Type Grid}">
                             <Style.Triggers>
@@ -228,8 +244,6 @@ Foreground="Transparent"
                         </Style>
                     </Grid.Style>
                     <Rectangle HorizontalAlignment="Stretch" Fill="Black" Opacity="0.5" Margin="0,0" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" Grid.ColumnSpan="2"></Rectangle>
-                    <!--<Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" Fill="White" Grid.ColumnSpan="2" />-->
-
                     <Grid Visibility="{Binding CurrentTab, ConverterParameter=settings, Converter={StaticResource StringMatchToVisibilityConverter}}" Grid.ColumnSpan="2">
                         <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding RainbowTabBars, Converter={StaticResource InvertedBoolToVisibilityConverter}}" Fill="White" />
                         <Rectangle Width="4" HorizontalAlignment="Left" Margin="0,0" Visibility="{Binding RainbowTabBars, Converter={StaticResource BoolToVisibilityConverter}}"  >
@@ -248,7 +262,7 @@ Foreground="Transparent"
                     </Grid>
 
                     <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" ToolTip="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" Text="&#xE713;" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="{Binding PrimarySolidColorBrush}"/>
-                <TextBlock
+                    <TextBlock
                     Grid.Column="1"
                     Margin="10,0" 
                     FontSize="20" 
@@ -260,14 +274,13 @@ Foreground="Transparent"
                     HorizontalAlignment="Left"
                     Text="{Binding Language, ConverterParameter=Main.Settings, Converter={StaticResource LocConverter}}" 
                     Visibility="{Binding DataContext.HamburgerExtended, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Window}}}"/>
+                </Grid>
             </Grid>
-</Grid>
         </Grid>
 
-      
 
         <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=devices, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="DevicesUserControl" d:IsHidden="True">
-            <Tabs:Devices HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Tabs:Devices HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         </UserControl>
 
         <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=store, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="StoreUserControl" d:IsHidden="True">
@@ -294,6 +307,7 @@ Foreground="Transparent"
         <UserControl Grid.Column="1" Visibility="{Binding CurrentTab, ConverterParameter=news, Converter={StaticResource StringMatchToVisibilityConverter}}" x:Name="NewsUserControl" d:IsHidden="True">
             <Tabs:NewsView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </UserControl>
+        
         <Grid Grid.Column="1" Background="#c0000000" Visibility="{Binding ShowModal, Converter={StaticResource BoolToVisibilityConverter}}" d:IsHidden="True">
             <Grid Width="500" Background="{x:Null}" VerticalAlignment="Center">
                 <Grid Background="#c0000000" />

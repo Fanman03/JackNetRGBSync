@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
+using SyncStudio.ClientService;
 
 namespace SyncStudio.WPF.UI
 {
@@ -14,6 +15,7 @@ namespace SyncStudio.WPF.UI
     /// </summary>
     public partial class CrashWindow : Window
     {
+        private ClientService.Settings settings = new Settings();
         public CrashWindow()
         {
             InitializeComponent();
@@ -49,8 +51,8 @@ namespace SyncStudio.WPF.UI
 
             if (ServiceManager.Instance.SLSAuthService?.SimpleLedAuthenticated == true)
             {
-                crashContainer.SimpleLedUserId = ServiceManager.Instance.ConfigService.Settings.SimpleLedUserId;
-                crashContainer.SimpleLedUserName = ServiceManager.Instance.ConfigService.Settings.SimpleLedUserName;
+                crashContainer.SimpleLedUserId = settings.SimpleLedUserId;
+                crashContainer.SimpleLedUserName = settings.SimpleLedUserName;
             }
 
             StackTrace st = new StackTrace(exception, true);

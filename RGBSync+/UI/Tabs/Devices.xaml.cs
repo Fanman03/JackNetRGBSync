@@ -15,7 +15,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Autofac;
 using MarkdownUI.WPF;
+
 using SyncStudio.Domain;
 using CustomDeviceSpecification = SimpleLed.CustomDeviceSpecification;
 
@@ -27,10 +29,13 @@ namespace SyncStudio.WPF.UI.Tabs
     public partial class Devices : UserControl
     {
         private DevicesViewModel vm => (DevicesViewModel)DataContext;
+        private ClientService.Devices _devices;
+        private ClientService.Profiles _profiles;
         public Devices()
         {
             InitializeComponent();
-
+            _devices = ServiceManager.Container.Resolve<ClientService.Devices>();
+            _profiles = ServiceManager.Container.Resolve<ClientService.Profiles>();
             if (DesignerProperties.GetIsInDesignMode(this))
             {
                 this.ConfigPanelRow.Height = new GridLength(400);
@@ -108,44 +113,48 @@ namespace SyncStudio.WPF.UI.Tabs
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned != null)
-            {
-                int vl = SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LedShift;
+            //todo
+            //if (SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned != null)
+            //{
+            //    int vl = SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LedShift;
 
-                vl--;
-                if (vl < 0) vl = SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LEDs.Length - 1;
+            //    vl--;
+            //    if (vl < 0) vl = SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LEDs.Length - 1;
 
-                SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LedShift = vl;
-            }
+            //    SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LedShift = vl;
+            //}
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            if (SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned != null)
-            {
-                int vl = SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LedShift;
+            //todo
+            //if (SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned != null)
+            //{
+            //    int vl = SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LedShift;
 
-                vl++;
-                if (vl >= SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LEDs.Length) vl = 0;
+            //    vl++;
+            //    if (vl >= SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LEDs.Length) vl = 0;
 
-                SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LedShift = vl;
-            }
+            //    SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.LedShift = vl;
+            //}
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            if (SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned != null)
-            {
-                SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.Reverse = !SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.Reverse;
+            //todo
+            //if (SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned != null)
+            //{
+            //    SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.Reverse = !SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned.Reverse;
 
-            }
+            //}
         }
 
         private void DevicesListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
-                Profile profile = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile();
+                Profile profile = _profiles.GetCurrentProfileSync();
+                    
                 if (profile?.DeviceProfileSettings == null)
                 {
                     profile.DeviceProfileSettings = new ObservableCollection<DeviceProfileSettings>();
@@ -194,7 +203,7 @@ namespace SyncStudio.WPF.UI.Tabs
                     {
                         if (item is Device cd)
                         {
-                            ServiceManager.Instance.StoreService.ShowPlugInUI(cd.ControlDevice.Driver.GetProperties().ProductId, this.ConfigHere);
+                            ServiceManager.Instance.StoreService.ShowPlugInUI(cd.ControlDevice.InterfaceDriverProperties.ProductId, this.ConfigHere);
                             vm.SingleSelectedSourceControlDevice = cd;
                         }
                     }
@@ -211,14 +220,15 @@ namespace SyncStudio.WPF.UI.Tabs
                 ControlDevice selectedDevice = null;
                 if (ConfigPanel != null && ((Device)ConfigPanel.DataContext) != null)
                 {
-                    SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned =
-                        ((Device)ConfigPanel.DataContext).ControlDevice;
-                    ((DevicesViewModel)this.DataContext).SetupSourceDevices(
-                        ((Device)ConfigPanel.DataContext).ControlDevice);
+                    //SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned =
+                    //    ((Device)ConfigPanel.DataContext).ControlDevice;
+                    //((DevicesViewModel)this.DataContext).SetupSourceDevices(
+                    //    ((Device)ConfigPanel.DataContext).ControlDevice);
                 }
                 else
                 {
-                    SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned = null;
+                    //todo
+//                    SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned = null;
                     ((DevicesViewModel)this.DataContext).SetupSourceDevices(null);
                 }
 
@@ -264,9 +274,12 @@ namespace SyncStudio.WPF.UI.Tabs
             ConfigPanelRow.MaxHeight = Math.Max(0, ContainerGrid.ActualHeight - 200);
         }
 
-        public void UpdateDeviceConfigUi(ControlDevice cd)
+        public void UpdateDeviceConfigUi(InterfaceControlDevice cd)
         {
-            ConfigHere.Children.Clear();
+            //todo
+            /*
+             ConfigHere.Children.Clear();
+             
             if (cd != null)
             {
                 if (cd.Driver is ISimpleLedWithConfig drv)
@@ -308,6 +321,7 @@ namespace SyncStudio.WPF.UI.Tabs
 
                 }
             }
+            */
         }
 
         private void UIElement_OnMouseUp(object sender, MouseButtonEventArgs e)
@@ -318,17 +332,17 @@ namespace SyncStudio.WPF.UI.Tabs
             Debug.WriteLine(derp);
         }
 
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Device dvc = ConfigHere.DataContext as Device;
-            ControlDevice cd = null;
-            if (dvc != null)
-            {
-                cd = dvc.ControlDevice;
-            }
+        //private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    Device dvc = ConfigHere.DataContext as Device;
+        //    ControlDevice cd = null;
+        //    if (dvc != null)
+        //    {
+        //        cd = dvc.ControlDevice;
+        //    }
 
-            UpdateDeviceConfigUi(cd);
-        }
+        //    UpdateDeviceConfigUi(cd);
+        //}
 
         private void ClickSource(object sender, RoutedEventArgs routedEventArgs)
         {
@@ -387,7 +401,7 @@ namespace SyncStudio.WPF.UI.Tabs
             //foreach (Device parentDevice in selectedParents)
             //{
             //    {
-            //        Profile profile = SyncStudio.Core.ServiceManager.Profiles.GetCurrentProfile();
+            //        Profile profile = ServiceManager.Instance.ProfilesService.GetCurrentProfileSync();
             //        if (profile?.DeviceProfileSettings == null)
             //        {
             //            profile.DeviceProfileSettings = new ObservableCollection<DeviceProfileSettings>();
@@ -461,17 +475,18 @@ namespace SyncStudio.WPF.UI.Tabs
 
             if (ConfigPanel != null && ((Device)ConfigPanel.DataContext) != null)
             {
-                SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned = ((Device)ConfigPanel.DataContext).ControlDevice;
-                ((DevicesViewModel)this.DataContext).SetupSourceDevices(((Device)ConfigPanel.DataContext).ControlDevice);
+                //SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned = ((Device)ConfigPanel.DataContext).ControlDevice;
+                //((DevicesViewModel)this.DataContext).SetupSourceDevices(((Device)ConfigPanel.DataContext).ControlDevice);
             }
             else
             {
-                SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned = null;
+                //todo
+                //SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned = null;
                 ((DevicesViewModel)this.DataContext).SetupSourceDevices(null);
             }
 
             Device dvc = ConfigHere.DataContext as Device;
-            ControlDevice cd = dvc.ControlDevice;
+            InterfaceControlDevice cd = dvc.ControlDevice;
 
             vm.DevicesSelectedCount = vm.SLSDevices.Count(x => x.Selected);
 
@@ -563,7 +578,7 @@ namespace SyncStudio.WPF.UI.Tabs
             Debug.WriteLine(ContainerGrid.RowDefinitions[2].ActualHeight);
         }
 
-        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cb = sender as ComboBox;
 
@@ -584,8 +599,7 @@ namespace SyncStudio.WPF.UI.Tabs
 
                 if (parentContext.Overrides == null)
                 {
-                    parentContext.Overrides =
-                        SyncStudio.Core.ServiceManager.Devices.GetOverride(parentContext.ControlDevice);
+                    parentContext.Overrides = await _devices.GetOverride(parentContext.ControlDevice);
                 }
 
                 parentContext.Overrides.CustomDeviceSpecification = cds;
@@ -597,7 +611,7 @@ namespace SyncStudio.WPF.UI.Tabs
             }
         }
 
-        public void PickFile(object sender, RoutedEventArgs e)
+        public async void PickFile(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
 
@@ -624,7 +638,7 @@ namespace SyncStudio.WPF.UI.Tabs
 
                             if (device.Overrides.CustomDeviceSpecification == null)
                             {
-                                device.Overrides = SyncStudio.Core.ServiceManager.Devices.GetOverride(device.ControlDevice);
+                                device.Overrides = await _devices.GetOverride(device.ControlDevice);
                                 if (device.Overrides.CustomDeviceSpecification == null)
                                 {
                                     device.Overrides.CustomDeviceSpecification = new CustomDeviceSpecification();
@@ -676,7 +690,7 @@ namespace SyncStudio.WPF.UI.Tabs
         {
             //var dc = this.DataContext as Device;
             //var cd = (this.DataContext as Device).ControlDevice;
-            //    var props = cd.Driver.GetProperties();
+            //    var props = cd.InterfaceDriverProperties;
             //    if (props.SetDeviceOverride != null)
             //    {
             //        props.SetDeviceOverride(cd, cd.CustomDeviceSpecification);
@@ -688,13 +702,15 @@ namespace SyncStudio.WPF.UI.Tabs
             Button sb = sender as Button;
             Device dave = sb.DataContext as Device;
 
-            ControlDevice cd = dave.ControlDevice;
-            DriverProperties props = cd.Driver.GetProperties();
-            if (props.SetDeviceOverride != null)
-            {
-                props.SetDeviceOverride(cd, dave.Overrides.CustomDeviceSpecification);
-                cd.CustomDeviceSpecification = dave.Overrides.CustomDeviceSpecification;
-            }
+            InterfaceControlDevice cd = dave.ControlDevice;
+            var props = cd.InterfaceDriverProperties;
+          
+            //todo SetOverride
+            //if (props.SetDeviceOverride != null)
+            //{
+            //    props.SetDeviceOverride(cd, dave.Overrides.CustomDeviceSpecification);
+            //    cd.CustomDeviceSpecification = dave.Overrides.CustomDeviceSpecification;
+            //}
 
             Debug.WriteLine(sb);
         }
