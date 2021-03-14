@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MarkdownUI.WPF;
 using SyncStudio.Core.Models;
 
 namespace SyncStudio.Core.Services.Store
@@ -15,5 +16,6 @@ namespace SyncStudio.Core.Services.Store
         bool RemoveProvider(Guid providerId, Action<string> setInstallingMessage, Action<int> setInstallingPercentage);
         void LoadPluginFolder(string folder);
         void UnloadSLSProviders();
+        MarkdownUIBundle GetUIBundle(string driverName);
     }
 }

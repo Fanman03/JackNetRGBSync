@@ -298,6 +298,9 @@
     <PackageReference Include="DiscordRichPresence">
       <Version>1.0.150</Version>
     </PackageReference>
+    <PackageReference Include="FluentWPF">
+      <Version>0.9.0</Version>
+    </PackageReference>
     <PackageReference Include="Fody">
       <Version>6.2.4</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -461,10 +464,6 @@
     <ProjectReference Include="..\ColorpickerWPF\ColorPickerWPF.csproj">
       <Project>{7028e44e-407c-4460-a51e-00171036fb36}</Project>
       <Name>ColorPickerWPF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FluentWPF\FluentWPF.csproj">
-      <Project>{23a9ed3d-5354-4707-91e3-5a57104779bf}</Project>
-      <Name>FluentWPF</Name>
     </ProjectReference>
     <ProjectReference Include="..\MarkdownUI.WPF\MarkdownUI.WPF.csproj">
       <Project>{0ED1B140-9FA4-44F0-A5BE-3BDDC12270AB}</Project>

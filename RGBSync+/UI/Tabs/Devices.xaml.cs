@@ -222,8 +222,7 @@ namespace SyncStudio.WPF.UI.Tabs
                 {
                     //SyncStudio.Core.ServiceManager.LedService.DeviceBeingAligned =
                     //    ((Device)ConfigPanel.DataContext).ControlDevice;
-                    //((DevicesViewModel)this.DataContext).SetupSourceDevices(
-                    //    ((Device)ConfigPanel.DataContext).ControlDevice);
+                    ((DevicesViewModel)this.DataContext).SetupSourceDevices(((Device)ConfigPanel.DataContext).ControlDevice);
                 }
                 else
                 {
@@ -276,6 +275,9 @@ namespace SyncStudio.WPF.UI.Tabs
 
         public void UpdateDeviceConfigUi(InterfaceControlDevice cd)
         {
+            var bundle = _devices.GetUIBundle(cd.InterfaceDriverProperties.Name);
+            Debug.WriteLine(bundle);
+
             //todo
             /*
              ConfigHere.Children.Clear();
@@ -590,7 +592,7 @@ namespace SyncStudio.WPF.UI.Tabs
             }
             else
             {
-                CustomDeviceSpecification cds = cb.SelectedItem as CustomDeviceSpecification;
+                SLSManager.CDSBundle cds = cb.SelectedItem as SLSManager.CDSBundle;
                 // CustomDeviceSpecification cds = cbi.DataContext as CustomDeviceSpecification;
 
                 Debug.WriteLine(cds);
@@ -602,11 +604,15 @@ namespace SyncStudio.WPF.UI.Tabs
                     parentContext.Overrides = await _devices.GetOverride(parentContext.ControlDevice);
                 }
 
-                parentContext.Overrides.CustomDeviceSpecification = cds;
+                parentContext.Overrides.CustomDeviceSpecification = cds?.CustomDeviceSpecification;
 
-                if (cds.Bitmap != null)
+                if (cds?.CustomDeviceSpecification?.Bitmap != null)
                 {
-                    parentContext.Image = (cds.Bitmap.ToBitmapImage());
+                    parentContext.Image = (cds.CustomDeviceSpecification.Bitmap.ToBitmapImage());
+                }
+                else
+                {
+                    Debug.WriteLine(cb.SelectedItem);
                 }
             }
         }
@@ -715,10 +721,13 @@ namespace SyncStudio.WPF.UI.Tabs
             Debug.WriteLine(sb);
         }
 
-        private void ShowConfig(object sender, RoutedEventArgs e)
+        private async void ShowConfig(object sender, RoutedEventArgs e)
         {
             //ServiceManager.Instance.StoreService.ShowPlugInUI();
-            vm.ShowConfig = true;
+            //            vm.ShowConfig = true;
+            vm.SubViewMode = "Config";
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            await SetMaxHeight();
         }
     }
 }

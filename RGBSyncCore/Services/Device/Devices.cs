@@ -33,12 +33,14 @@ namespace SyncStudio.Core.Services.Device
         {
             SLSDevices.Add(device);
             DeviceAdded?.Invoke(this, new Events.DeviceChangeEventArgs(device));
+            ServiceManager.PushEvent("DeviceAdded",new InterfaceControlDevice(device));
         }
 
         public void RemoveDevice(ControlDevice device)
         {
             SLSDevices.Remove(device);
             DeviceRemoved?.Invoke(this, new Events.DeviceChangeEventArgs(device));
+            ServiceManager.PushEvent("DeviceRemoved", new InterfaceControlDevice(device));
         }
 
         public void RemoveProvider(Guid providerId)

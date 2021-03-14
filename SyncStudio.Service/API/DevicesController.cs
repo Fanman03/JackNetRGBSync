@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Web.Http;
+using MarkdownUI.WPF;
+using SyncStudio.Core.Models;
 using SyncStudio.Domain;
 
 namespace SyncStudio.Service.API
@@ -33,12 +35,31 @@ namespace SyncStudio.Service.API
             //Core.ServiceManager.Devices.RemoveDevice(device);
         }
 
-        [HttpPost]
-        [Route("GetOverride")]
-        public DeviceOverrides GetOverride(InterfaceControlDevice device)
+
+
+        [HttpGet]
+        [Route("GetUIBundle/{driverName}")]
+        public MarkdownUIBundle GetUI(string driverName)
+        {
+            return Core.ServiceManager.Store.GetUIBundle(driverName);
+        }
+
+
+        [HttpGet]
+        [Route("GetOverrideTemplates/{uniqueIdentifier}")]
+        public List<SLSManager.CDSBundle> GetOverrideTemplates(string uniqueIdentifier)
         {
             var devices = Core.ServiceManager.Devices.GetDevices();
-            var match = devices.FirstOrDefault(x => x.UniqueIdentifier == device.UniqueIdentifier);
+            var match = devices.FirstOrDefault(x => x.UniqueIdentifier == uniqueIdentifier);
+            return Core.ServiceManager.SLSManager.GetCDSBundles(match);
+        }
+
+        [HttpGet]
+        [Route("GetOverride/{uniqueIdentifier}")]
+        public DeviceOverrides GetOverride(string uniqueIdentifier)
+        {
+            var devices = Core.ServiceManager.Devices.GetDevices();
+            var match = devices.FirstOrDefault(x => x.UniqueIdentifier == uniqueIdentifier);
             if (match == null)
             {
                 return null;
@@ -51,7 +72,7 @@ namespace SyncStudio.Service.API
         [Route("SetOverride")]
         public void SetOverride(InterfaceControlDevice device, DeviceOverrides overRide)
         {
-          //  Core.ServiceManager.Devices.SetOverride(device, overRide);
+            //  Core.ServiceManager.Devices.SetOverride(device, overRide);
         }
 
         [HttpGet]

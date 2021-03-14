@@ -9,14 +9,31 @@ namespace MarkdrownUI.Tester
 {
     public class DemoVM : MarkDownViewModel
     {
-        private string textBoxText = "1337";
+        public DemoVM()
+        {
+            MadLedViewDevices = new List<MadLedViewDevice>();
+            MadLedViewDevices.Add(new MadLedViewDevice()
+            {
+                Name = "test 1",
+                LedCount = "8",
+                Serial = "1234"
+            });
+
+            MadLedViewDevices.Add(new MadLedViewDevice()
+            {
+                Name = "test 2",
+                LedCount = "16",
+                Serial = "5678"
+            });
+        }
+        private string textBoxText = "example Text";
         public string TextBoxText
         {
             get => textBoxText;
             set => Set(ref textBoxText, value);
         }
 
-        private string sliderValue;
+        private string sliderValue = "17";
         public string SliderValue
         {
             get => sliderValue;
@@ -31,15 +48,18 @@ namespace MarkdrownUI.Tester
             TextBoxText = new string(ca);
         }
 
-        public List<TestObject> TestList { get; set; } = new List<TestObject>
-        {
-            new TestObject{Name="one",Number="1"},
-            new TestObject{Name="two",Number="2"},
-            new TestObject{Name="three",Number="3"},
-        };
 
-        public class TestObject : MarkDownViewModel
+        public List<MadLedViewDevice> MadLedViewDevices { get; set; }
+
+        public class MadLedViewDevice : MarkDownViewModel
         {
+            private string serialNumber;
+            public string Serial
+            {
+                get => serialNumber;
+                set => Set(ref serialNumber, value);
+            }
+
             private string name;
             public string Name
             {
@@ -47,13 +67,12 @@ namespace MarkdrownUI.Tester
                 set => Set(ref name, value);
             }
 
-            private string number;
-            public string Number
+            private string ledCount = "0";
+            public string LedCount
             {
-                get => number;
-                set => Set(ref number, value);
+                get => ledCount;
+                set => Set(ref ledCount, value);
             }
         }
-
     }
 }

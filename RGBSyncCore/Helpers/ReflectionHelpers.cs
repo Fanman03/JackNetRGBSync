@@ -98,7 +98,7 @@ namespace SyncStudio.Core.Helpers
                 {
                     if (slsDriver is ISimpleLedWithConfig slsWithConfig)
                     {
-                        MarkdownUIBundle temp = slsWithConfig.GetCustomConfig(null);
+                      //  MarkdownUIBundle temp = slsWithConfig.GetCustomConfig(null);
 
                     }
 

@@ -191,26 +191,41 @@ namespace MarkdownUI.WPF
                                             tb.Width = int.Parse(inputInline.Args["width"]);
                                         }
 
-
+                                        Debug.WriteLine(inputInline.BoundTo);
                                         MarkDownViewModel vm = GetVM(inputInline.BoundTo);
 
-                                        if (GetPropName(inputInline.BoundTo) != null && !vm.updateUIBindings.ContainsKey(GetPropName(inputInline.BoundTo)))
+                                        if (vm == null)
                                         {
-                                            vm.updateUIBindings.Add(GetPropName(inputInline.BoundTo), new List<Action<string>>());
+                                            Debug.WriteLine("Couldnt ascertain VM");
                                         }
-
-                                        vm.updateUIBindings[GetPropName(inputInline.BoundTo)].Add(
-                                            (newString) =>
-                                            {
-                                                tb.Text = newString;
-                                            });
-
-                                        tb.TextChanged += (object sender, TextChangedEventArgs e) =>
+                                        else
                                         {
-                                            Type myType = vm.GetType();
-                                            PropertyInfo myPropInfo = myType.GetProperty(GetPropName(inputInline.BoundTo));
-                                            myPropInfo.SetValue(vm, tb.Text, null);
-                                        };
+                                            if (GetPropName(inputInline.BoundTo) != null &&
+                                                !vm.updateUIBindings.ContainsKey(GetPropName(inputInline.BoundTo)))
+                                            {
+                                                vm.updateUIBindings.Add(GetPropName(inputInline.BoundTo),
+                                                    new List<Action<string>>());
+                                            }
+
+                                            vm.updateUIBindings[GetPropName(inputInline.BoundTo)].Add(
+                                                (newString) => { tb.Text = newString; });
+
+                                            tb.TextChanged += (object sender, TextChangedEventArgs e) =>
+                                            {
+                                                Type myType = vm.GetType();
+                                                PropertyInfo myPropInfo =
+                                                    myType.GetProperty(GetPropName(inputInline.BoundTo));
+                                                if (myPropInfo != null)
+                                                {
+                                                    myPropInfo.SetValue(vm, tb.Text, null);
+                                                }
+                                                else
+                                                {
+                                                    string dummy = Guid.NewGuid().ToString();
+                                                    ViewModel.Set(ref dummy, tb.Text, inputInline.BoundTo);
+                                                }
+                                            };
+                                        }
 
                                         panel.Inlines.Add(tb);
                                         break;
@@ -759,7 +774,7 @@ namespace MarkdownUI.WPF
             {
                 Type myType = ViewModel.GetType();
                 PropertyInfo myPropInfo = myType.GetProperty(propName);
-                if (myPropInfo == null) return null;
+                if (myPropInfo == null) return ViewModel;
                 object derp = myPropInfo.GetValue(ViewModel);
                 var herp = derp as MarkDownViewModel;
 
@@ -870,7 +885,6 @@ namespace MarkdownUI.WPF
 
                         var tx = myPropInfo.GetValue(ViewModel);
 
-                        List<object> doop = (tx as IEnumerable<object>).Cast<object>().ToList();
                         List<MarkDownViewModel> doop2 = (tx as IEnumerable<MarkDownViewModel>).Cast<MarkDownViewModel>().ToList();
 
                         string newbody = "";
@@ -1055,9 +1069,12 @@ namespace MarkdownUI.WPF
                                             Grid.SetColumn(border, ax);
                                             Grid.SetRow(border, ay);
 
-                                            var current = y.Cells[ax];
+                                            if (ax < y.Cells.Count)
+                                            {
+                                                var current = y.Cells[ax];
 
-                                            AddInlinesToStackPanel(sp, current.Inlines);
+                                                AddInlinesToStackPanel(sp, current.Inlines);
+                                            }
                                         }
                                         catch { }
                                         ax++;

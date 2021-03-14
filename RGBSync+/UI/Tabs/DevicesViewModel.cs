@@ -26,10 +26,12 @@ namespace SyncStudio.WPF.UI.Tabs
 
         ClientService.Profiles _profiles;
         ClientService.Devices _devices;
+        ClientService.Events _events;
         public DevicesViewModel()
         {
             _devices = ServiceManager.Container.Resolve<ClientService.Devices>();
             _profiles = ServiceManager.Container.Resolve<ClientService.Profiles>();
+            _events = ServiceManager.Container.Resolve<ClientService.Events>();
             this.ZoomLevel = 4;
 
 
@@ -52,8 +54,9 @@ namespace SyncStudio.WPF.UI.Tabs
          //   SetUpDeviceMapViewModel();
 
             ServiceManager.Instance.ApplicationManager.LanguageChangedEvent += Instance_LanguageChangedEvent;
-            _devices.DeviceAdded += Devices_DeviceAdded;
-            _devices.DeviceRemoved += Devices_DeviceRemoved;
+
+            _events.DeviceAdded += Devices_DeviceAdded;
+            _events.DeviceRemoved += Devices_DeviceRemoved;
         }
 
         private void Devices_DeviceRemoved(object sender, InterfaceEvents.InterfaceDeviceChangeEventArgs e)
@@ -208,7 +211,19 @@ namespace SyncStudio.WPF.UI.Tabs
         public string SubViewMode
         {
             get => subViewMode;
-            set => SetProperty(ref subViewMode, value);
+            set
+            {
+                SetProperty(ref subViewMode, value);
+                if (value == "Config")
+                {
+                    var selectedDevices = SLSDevices.Where(x => x.Selected).ToArray();
+                    if (selectedDevices.Count() == 1)
+                    {
+                        Device selectedDevice = selectedDevices.First();
+
+                    }
+                }
+            }
         }
 
         private bool devicesCondenseView = false;
@@ -318,9 +333,9 @@ namespace SyncStudio.WPF.UI.Tabs
             set => SetProperty(ref filteredSourceDevices, value);
         }
 
-        private ObservableCollection<CustomDeviceSpecification> overrideSpecs = new ObservableCollection<CustomDeviceSpecification>();
+        private ObservableCollection<SLSManager.CDSBundle> overrideSpecs = new ObservableCollection<SLSManager.CDSBundle>();
 
-        public ObservableCollection<CustomDeviceSpecification> OverrideSpecs
+        public ObservableCollection<SLSManager.CDSBundle> OverrideSpecs
         {
             get => overrideSpecs;
             set => SetProperty(ref overrideSpecs, value);
@@ -337,33 +352,35 @@ namespace SyncStudio.WPF.UI.Tabs
         {
 
             //todo
-            //if (controlDevice == null) return;
+            if (controlDevice == null) return;
 
-            //InterfaceDriverProperties props = controlDevice.InterfaceDriverProperties;
+            InterfaceDriverProperties props = controlDevice.InterfaceDriverProperties;
 
-            //ShowOverrides = controlDevice.OverrideSupport != OverrideSupport.None;
+            ShowOverrides = controlDevice.OverrideSupport != OverrideSupport.None;
 
-            //if (controlDevice.OverrideSupport != OverrideSupport.None)
-            //{
-            //    if (controlDevice.OverrideSupport == OverrideSupport.All)
-            //    {
-            //        OverrideSpecs = new ObservableCollection<CustomDeviceSpecification>(ServiceManager.Instance.SLSManager.GetCustomDeviceSpecifications());
-            //    }
+            OverrideSpecs = new ObservableCollection<SLSManager.CDSBundle>(_devices.GetOverrideTemplatesSync(controlDevice));
 
-            //    if (controlDevice.OverrideSupport == OverrideSupport.Self && props.GetCustomDeviceSpecifications != null)
-            //    {
-            //        OverrideSpecs = new ObservableCollection<CustomDeviceSpecification>(props.GetCustomDeviceSpecifications());
-            //    }
+            if (controlDevice.OverrideSupport != OverrideSupport.None)
+            {
+                //if (controlDevice.OverrideSupport == OverrideSupport.All)
+                //{
+                //    OverrideSpecs = new ObservableCollection<CustomDeviceSpecification>(ServiceManager.Instance.SLSManager.GetCustomDeviceSpecifications());
+                //}
 
-            //    List<Type> mappers = ServiceManager.Instance.SLSManager.GetMappers(controlDevice.Driver);
-            //    AvailableMappers = new ObservableCollection<string>();
-            //    AvailableMappers.Add("");
-            //    foreach (Type mapper in mappers)
-            //    {
-            //        Mapper mapperInstance = (Mapper)Activator.CreateInstance(mapper);
-            //        AvailableMappers.Add(mapperInstance.GetName());
-            //    }
-            //}
+                //if (controlDevice.OverrideSupport == OverrideSupport.Self && props.GetCustomDeviceSpecifications != null)
+                //{
+                //    OverrideSpecs = new ObservableCollection<CustomDeviceSpecification>(props.GetCustomDeviceSpecifications());
+                //}
+
+                //List<Type> mappers = ServiceManager.Instance.SLSManager.GetMappers(controlDevice.Driver);
+                //AvailableMappers = new ObservableCollection<string>();
+                //AvailableMappers.Add("");
+                //foreach (Type mapper in mappers)
+                //{
+                //    Mapper mapperInstance = (Mapper)Activator.CreateInstance(mapper);
+                //    AvailableMappers.Add(mapperInstance.GetName());
+                //}
+            }
 
             //IEnumerable<InterfaceControlDevice> sources = _devices.GetDevices().Where(x => x.InterfaceDriverProperties.IsSource || x.InterfaceDriverProperties.SupportsPull);
 
@@ -383,8 +400,8 @@ namespace SyncStudio.WPF.UI.Tabs
             //    Device = null,
             //    Name = "None",
             //    Enabled = false,
-                
-                
+
+
             //    Controlling = "",
             //});
 
@@ -423,7 +440,7 @@ namespace SyncStudio.WPF.UI.Tabs
             //        ControllingModels = new ObservableCollection<SourceControllingModel>(DeviceProfileSettingsEnumerable.Select(x => new SourceControllingModel
             //        {
             //            ProviderName = SLSDevices.First(p=>p.UID==x.DestinationUID).ProviderName,
-                        
+
             //            Name = SLSDevices.First(p => p.UID == x.DestinationUID).Name,
             //            IsCurrent = SLSDevicesFiltered.Any(y => y.Selected && y.UID == x.DestinationUID )
             //        }).ToList()),

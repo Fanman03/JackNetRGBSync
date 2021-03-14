@@ -74,7 +74,9 @@
   <ItemGroup>
     <Compile Include="API\ConfigController.cs" />
     <Compile Include="API\DevicesController.cs" />
+    <Compile Include="API\EventsController.cs" />
     <Compile Include="API\ProfilesController.cs" />
+    <Compile Include="API\SyncStudioController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solids.cs" />
@@ -87,6 +89,10 @@
     <ProjectReference Include="..\..\..\Users\james\source\repos\Org\SimpleLed\Interface\SimpleLed\SimpleLed.csproj">
       <Project>{EB4729F4-0BF6-41D3-9548-F8C7846A2025}</Project>
       <Name>SimpleLed</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MarkdownUI.WPF\MarkdownUI.WPF.csproj">
+      <Project>{0ED1B140-9FA4-44F0-A5BE-3BDDC12270AB}</Project>
+      <Name>MarkdownUI.WPF</Name>
     </ProjectReference>
     <ProjectReference Include="..\RGBSyncCore\SyncStudio.Core.csproj">
       <Project>{69a31d81-1626-49e2-b7b3-c30cf6df55a9}</Project>

@@ -9,6 +9,6 @@ namespace MarkdownUI.WPF
     public class MarkdownUIBundle
     {
         public string Markdown { get; set; }
-        public MarkDownViewModel ViewModel { get; set; }
+        public VirtualViewModel ViewModel { get; set; }
     }
 }

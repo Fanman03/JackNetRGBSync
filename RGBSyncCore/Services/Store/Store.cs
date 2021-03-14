@@ -8,6 +8,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using MarkdownUI.WPF;
 using SharpCompress.Archives;
 using SimpleLed;
 using SyncStudio.Core.Helpers;
@@ -312,6 +313,20 @@ namespace SyncStudio.Core.Services.Store
             {
                 UnloadProvider(slsManagerDriver);
             }
+        }
+
+        public MarkdownUIBundle GetUIBundle(string driverName)
+        {
+            ISimpleLed driver = ServiceManager.SLSManager.Drivers.FirstOrDefault(t => t.Name() == driverName);
+            if (driver != null)
+            {
+                if (driver is ISimpleLedWithConfig cfg)
+                {
+                    return cfg.GetCustomConfig(null);
+                }
+            }
+
+            return null;
         }
 
         private void SlsDriver_DeviceRemoved(object sender, Events.DeviceChangeEventArgs e)

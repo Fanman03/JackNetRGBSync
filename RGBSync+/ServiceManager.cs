@@ -37,6 +37,7 @@ namespace SyncStudio.WPF
             var builder = new ContainerBuilder();
             builder.RegisterType<ClientService.Devices>().InstancePerLifetimeScope();
             builder.RegisterType<ClientService.Profiles>().InstancePerLifetimeScope();
+            builder.RegisterType<ClientService.Events>().InstancePerLifetimeScope();
             Container = builder.Build();
             ClientService.Devices devices;
             using (var scope = Container.BeginLifetimeScope())

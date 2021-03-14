@@ -54,6 +54,7 @@
     <Compile Include="AppControlController.cs" />
     <Compile Include="Devices.cs" />
     <Compile Include="EasyRest.cs" />
+    <Compile Include="Events.cs" />
     <Compile Include="Profiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
@@ -63,6 +64,10 @@
     <ProjectReference Include="..\..\..\Users\james\source\repos\Org\SimpleLed\Interface\SimpleLed\SimpleLed.csproj">
       <Project>{EB4729F4-0BF6-41D3-9548-F8C7846A2025}</Project>
       <Name>SimpleLed</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MarkdownUI.WPF\MarkdownUI.WPF.csproj">
+      <Project>{0ED1B140-9FA4-44F0-A5BE-3BDDC12270AB}</Project>
+      <Name>MarkdownUI.WPF</Name>
     </ProjectReference>
     <ProjectReference Include="..\RGBSyncCore\SyncStudio.Core.csproj">
       <Project>{69A31D81-1626-49E2-B7B3-C30CF6DF55A9}</Project>

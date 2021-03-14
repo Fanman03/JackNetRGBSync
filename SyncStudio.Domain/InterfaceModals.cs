@@ -27,6 +27,65 @@ namespace SyncStudio.Domain
 
     public class InterfaceControlDevice
     {
+
+        public InterfaceControlDevice()
+        {
+
+        }
+
+        public InterfaceControlDevice(ControlDevice cd)
+        {
+            byte[] ImageToByte2(Image img)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                    return stream.ToArray();
+                }
+            }
+
+            var thing = cd.Driver.GetProperties();
+
+            PngData = ImageToByte2(cd.ProductImage);
+            HasUI = cd.Driver is ISimpleLedWithConfig;
+            UniqueIdentifier = cd.UniqueIdentifier;
+            Name = cd.Name;
+            ChannelUniqueId = cd.ChannelUniqueId;
+            TitleOverride = cd.TitleOverride;
+            Reverse = cd.Reverse;
+            OverrideSupport = cd.OverrideSupport;
+            ControlChannel = new ControlChannel
+            {
+                Name = cd.ControlChannel?.Name,
+                Serial = cd.ControlChannel?.Serial
+            };
+            DeviceType = cd.DeviceType;
+            CustomDeviceSpecification = cd.CustomDeviceSpecification;
+            LedShift = cd.LedShift;
+            InterfaceDriverProperties = cd.DriverProperties == null
+                    ? null
+                    : new InterfaceDriverProperties
+                    {
+                        Author = cd.DriverProperties.Author,
+                        AuthorId = cd.DriverProperties.AuthorId,
+                        Blurb = cd.DriverProperties.Blurb,
+                        CurrentVersion = cd.DriverProperties.CurrentVersion,
+                        GitHubLink = cd.DriverProperties.GitHubLink,
+                        HomePage = cd.DriverProperties.HomePage,
+                        InstanceId = cd.DriverProperties.InstanceId,
+                        IsPublicRelease = cd.DriverProperties.IsPublicRelease,
+                        IsSource = cd.DriverProperties.IsSource,
+                        Name = cd.DriverName,
+                        Price = cd.DriverProperties.Price,
+                        ProductCategory = cd.DriverProperties.ProductCategory,
+                        ProductId = cd.DriverProperties.ProductId,
+                        SupportsCustomConfig = cd.DriverProperties.SupportsCustomConfig,
+                        SupportsPull = cd.DriverProperties.SupportsPull,
+                        SupportsPush = cd.DriverProperties.SupportsPush
+                    };
+        }
+
+
         public bool HasUI { get; set; }
         public ControlChannel ControlChannel { get; set; }
         public string Name { get; set; }

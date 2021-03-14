@@ -31,9 +31,9 @@ namespace SyncStudio.Core.Services.Device
 
     public interface IInterfaceDevices
     {
-        event InterfaceEvents.InterfaceDeviceChangeEventHandler DeviceAdded;
+        //event InterfaceEvents.InterfaceDeviceChangeEventHandler DeviceAdded;
 
-        event InterfaceEvents.InterfaceDeviceChangeEventHandler DeviceRemoved;
+        //event InterfaceEvents.InterfaceDeviceChangeEventHandler DeviceRemoved;
 
         void AddDevice(InterfaceControlDevice device);
         void RemoveDevice(InterfaceControlDevice device);

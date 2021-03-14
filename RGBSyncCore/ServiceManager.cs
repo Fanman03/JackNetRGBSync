@@ -41,5 +41,21 @@ namespace SyncStudio.Core
             ColorPallets = new ColorPallets();
             LedService = new LedService();
         }
+
+        private static List<SerializableEvent> events = new List<SerializableEvent>();
+        public static void PushEvent(SerializableEvent @event)
+        {
+            events.Add(@event);
+        }
+        public static void PushEvent(string name, object eventArgs)
+        {
+            events.Add(new SerializableEvent(name, eventArgs));
+        }
+        public static List<SerializableEvent> PullEvents()
+        {
+            List<SerializableEvent> result = events.ToList();
+            events.Clear();
+            return result;
+        }
     }
 }
