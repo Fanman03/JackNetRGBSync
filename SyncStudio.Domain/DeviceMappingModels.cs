@@ -4,7 +4,7 @@ using SimpleLed;
 
 namespace SyncStudio.Domain
 {
-    public class DeviceMappingViewModel : BaseViewModel
+    public class DeviceMappingViewModel
         {
             public DeviceMappingViewModel()
             {
@@ -27,7 +27,7 @@ namespace SyncStudio.Domain
                 get => enabled;
                 set
                 {
-                    SetProperty(ref enabled, value);
+                enabled = value;
                     SyncBack?.Invoke(this);
                 }
             }
@@ -38,7 +38,7 @@ namespace SyncStudio.Domain
                 get => expanded;
                 set
                 {
-                    SetProperty(ref expanded, value);
+                    expanded = value;
                     SyncBack?.Invoke(this);
                 }
             }

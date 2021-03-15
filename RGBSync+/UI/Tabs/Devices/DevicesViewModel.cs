@@ -44,7 +44,7 @@ namespace SyncStudio.WPF.UI.Tabs
             try
             {
                 devices = await _devices.GetDevicesAsync();
-                SLSDevices = new ObservableCollection<Device>((devices).Select(GetDevice));
+                SLSDevices = new ObservableCollection<DeviceViewModel>((devices).Select(x=>new DeviceViewModel(GetDevice(x))));
             }
             catch
             {
@@ -111,7 +111,7 @@ namespace SyncStudio.WPF.UI.Tabs
 
         private void Devices_DeviceAdded(object sender, InterfaceEvents.InterfaceDeviceChangeEventArgs e)
         {
-            SLSDevices.Add(GetDevice(e.ControlDevice));
+            SLSDevices.Add(new DeviceViewModel(GetDevice(e.ControlDevice)));
             this.OnPropertyChanged("SLSDevicesFiltered");
             this.OnPropertyChanged("SLSDevices");
         }
@@ -122,8 +122,8 @@ namespace SyncStudio.WPF.UI.Tabs
             this.OnPropertyChanged("SLSDevices");
         }
 
-        private ObservableCollection<Device> slsDevices;
-        public ObservableCollection<Device> SLSDevices
+        private ObservableCollection<DeviceViewModel> slsDevices;
+        public ObservableCollection<DeviceViewModel> SLSDevices
         {
             get => slsDevices;
             set
@@ -133,7 +133,7 @@ namespace SyncStudio.WPF.UI.Tabs
             }
         }
 
-        public ObservableCollection<Device> SLSDevicesFiltered
+        public ObservableCollection<DeviceViewModel> SLSDevicesFiltered
         {
             get
             {
@@ -141,7 +141,7 @@ namespace SyncStudio.WPF.UI.Tabs
                 {
                     return null;
                 }
-                return new ObservableCollection<Device>(SLSDevices.Where(x => x.SupportsPush || ShowSources));
+                return new ObservableCollection<DeviceViewModel>(SLSDevices.Where(x => x.SupportsPush || ShowSources));
             }
         }
 
@@ -219,7 +219,7 @@ namespace SyncStudio.WPF.UI.Tabs
                     var selectedDevices = SLSDevices.Where(x => x.Selected).ToArray();
                     if (selectedDevices.Count() == 1)
                     {
-                        Device selectedDevice = selectedDevices.First();
+                        DeviceViewModel selectedDevice = selectedDevices.First();
 
                     }
                 }
@@ -701,7 +701,7 @@ namespace SyncStudio.WPF.UI.Tabs
             if (SourceDevices != null)
             {
                 ObservableCollection<DeviceProfileSettings> temp = _profiles.GetCurrentProfileSync()?.DeviceProfileSettings;
-                IEnumerable<Device> selected = SLSDevices.Where(x => x.Selected);
+                IEnumerable<DeviceViewModel> selected = SLSDevices.Where(x => x.Selected);
                 List<DeviceProfileSettings> s2 = temp.Where(x => selected.Any(y => y.UID == x.DestinationUID)).ToList();
 
                 foreach (SourceModel sourceDevice in SourceDevices)
@@ -753,7 +753,7 @@ namespace SyncStudio.WPF.UI.Tabs
         {
             string sourceUID = dc.UID;
             
-            foreach (Device device in SLSDevicesFiltered.Where(x=>x.Selected))
+            foreach (DeviceViewModel device in SLSDevicesFiltered.Where(x=>x.Selected))
             {
                 var destUID = device.UID;
                 _devices.SyncDevice(sourceUID, destUID);

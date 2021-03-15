@@ -5,158 +5,49 @@ using SimpleLed;
 
 namespace SyncStudio.Domain
 {
-    public class SourceModel : BaseViewModel
+    public class SourceModel
     {
         public override string ToString()
         {
             return Device?.DeviceType + " - " + Device?.Name;
         }
 
-        private string titleOverride;
-        private string subTitleOverride;
-        private string channelOverride;
-        private string deviceType;
         [JsonIgnore]
-        public string TitleOverride
-        {
-            get => titleOverride;
-            set => SetProperty(ref titleOverride, value);
-        }
+        public string TitleOverride { get; set; }
+        [JsonIgnore]
+        public string DeviceType { get; set; }
+        [JsonIgnore]
+        public string SubTitleOverride { get; set; }
 
         [JsonIgnore]
-        public string DeviceType
-        {
-            get => deviceType;
-            set => SetProperty(ref deviceType, value);
-        }
+        public string ChannelOverride { get; set; }
+
+        public bool IsControllingSomething { get; set; }
+
+        public bool IsHidden { get; set; }
+
+        public bool HasConfig { get; set; }
+        public string Name { get; set; }
+        public string ProviderName { get; set; }
 
         [JsonIgnore]
-        public string SubTitleOverride
-        {
-            get => subTitleOverride;
-            set => SetProperty(ref subTitleOverride, value);
-        }
+        public string Controlling { get; set; }
+
+
+        public string UID { get; set; }
 
         [JsonIgnore]
-        public string ChannelOverride
-        {
-            get => channelOverride;
-            set => SetProperty(ref channelOverride, value);
-        }
-
-        private bool isControllingSomething;
-
-        public bool IsControllingSomething
-        {
-            get => isControllingSomething;
-            set => SetProperty(ref isControllingSomething, value);
-        }
-
-
-        private bool isHidden;
-
-        public bool IsHidden
-        {
-            get => isHidden;
-            set => SetProperty(ref isHidden, value);
-        }
-
-
-        private bool hasConfig;
-
-        public bool HasConfig
-        {
-            get => hasConfig;
-            set => SetProperty(ref hasConfig, value);
-        }
-
-
-        private string name;
-        public string Name
-        {
-            get => name;
-            set => SetProperty(ref name, value);
-        }
-
-
-        private string providerName;
-        public string ProviderName
-        {
-            get => providerName;
-            set => SetProperty(ref providerName, value);
-        }
-
-        //private string connectedTo;
-
-        //public string ConnectedTo
-        //{
-        //    get => connectedTo;
-        //    set => SetProperty(ref connectedTo, value);
-        //}
-
-        private string controlling;
+        public int ControllingModelsCount { get; set; }
 
         [JsonIgnore]
-        public string Controlling
-        {
-            get => controlling;
-            set => SetProperty(ref controlling, value);
-        }
+        public ObservableCollection<SourceControllingModel> ControllingModels { get; set; }
 
-        private string uid;
+        public bool Enabled { get; set; }
 
-        
-        public string UID
-        {
-            get => uid;
-            set => SetProperty(ref uid, value);
-        }
-
-        private int controllingModelsCount;
-
-        [JsonIgnore]
-        public int ControllingModelsCount
-        {
-            get => controllingModelsCount;
-            set => SetProperty(ref controllingModelsCount, value);
-        }
-
-        private ObservableCollection<SourceControllingModel> controllingModels;
-
-        [JsonIgnore]
-        public ObservableCollection<SourceControllingModel> ControllingModels
-        {
-            get => controllingModels;
-            set
-            {
-                SetProperty(ref controllingModels, value);
-                //     ControllingModelsCount = controllingModels.Count;
-            }
-        }
-
-        private bool enabled;
-
-        public bool Enabled
-        {
-            get => enabled;
-            set
-            {
-                SetProperty(ref enabled, value);
-            }
-        }
-
-        private BitmapImage image;
-
-        public BitmapImage Image
-        {
-            get => image;
-            set => SetProperty(ref image, value);
-        }
-
+        public BitmapImage Image { get; set; }
         public InterfaceControlDevice Device { get; set; }
-
-        private bool hovered;
+        
         [JsonIgnore]
-        public bool Hovered { get => hovered; set => SetProperty(ref hovered, value); }
+        public bool Hovered { get; set; }
     }
 }

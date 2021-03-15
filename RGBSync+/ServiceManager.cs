@@ -1,5 +1,6 @@
 ﻿using SimpleLed;
 using System.Windows;
+using System.Windows.Media;
 using Autofac;
 using Autofac.Core;
 using Nan0SyncStudio.Branding;
@@ -12,6 +13,16 @@ namespace SyncStudio.WPF
 {
     public class ServiceManager
     {
+        public Color GetAccent()
+        {
+            return InternalSolids.themeWatcher.CurrentAccent;
+        }
+
+        public ThemeWatcher.WindowsTheme GetTheme()
+        {
+            return InternalSolids.WindowsTheme;
+        }
+
         public static ServiceManager Instance;
 
         public ApplicationManager ApplicationManager;

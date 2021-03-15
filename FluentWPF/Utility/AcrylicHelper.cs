@@ -74,6 +74,8 @@ namespace SourceChord.FluentWPF.Utility
                 accent.AccentState = AccentState.ACCENT_ENABLE_TRANSPARENTGRADIENT;
             }
 
+            accent.AccentState = AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND;
+
             if (style == AccentFlagsType.Window)
             {
                 accent.AccentFlags = 2;

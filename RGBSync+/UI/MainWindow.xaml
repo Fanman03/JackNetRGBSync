@@ -13,10 +13,10 @@
         Width="1300"
         MinHeight="360"
         MinWidth="640"
-        fw:AcrylicWindow.FallbackColor="{Binding SecondaryMediumHigh}"
+        fw:AcrylicWindow.FallbackColor="{Binding SecondaryLow}"
         fw:AcrylicWindow.TintColor="{Binding SecondaryColor}"
-        fw:AcrylicWindow.TintOpacity="0.8"
-        fw:AcrylicWindow.Enabled="True" Icon="/RGBSync+;component/ProgramIcon.ico">
+        fw:AcrylicWindow.TintOpacity="0.5"
+        fw:AcrylicWindow.Enabled="True">
     <Window.Resources>
 
         <Converter:InvertedBoolToVisibilityConverter x:Key="InvertedBoolToVisibilityConverter"/>

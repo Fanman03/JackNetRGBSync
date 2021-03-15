@@ -2,37 +2,13 @@
 
 namespace SyncStudio.Domain
 {
-    public class SourceControllingModel : BaseViewModel
+    public class SourceControllingModel 
     {
-        private string name;
-        public string Name
-        {
-            get => name;
-            set => SetProperty(ref name, value);
-        }
+        public string Name { get; set; }
+        public string ProviderName { get; set; }
 
+        public string ConnectedTo { get; set; }
 
-        private string providerName;
-        public string ProviderName
-        {
-            get => providerName;
-            set => SetProperty(ref providerName, value);
-        }
-
-        private string connectedTo;
-
-        public string ConnectedTo
-        {
-            get => connectedTo;
-            set => SetProperty(ref connectedTo, value);
-        }
-
-        private bool isCurrent;
-
-        public bool IsCurrent
-        {
-            get => isCurrent;
-            set => SetProperty(ref isCurrent, value);
-        }
+        public bool IsCurrent { get; set; }
     }
 }

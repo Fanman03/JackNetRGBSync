@@ -2,6 +2,7 @@
 using SimpleLed;
 using System.Collections.ObjectModel;
 using SyncStudio.Domain;
+using SyncStudio.WPF.UI;
 
 namespace SyncStudio.WPF
 {

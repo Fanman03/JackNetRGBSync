@@ -3,7 +3,8 @@ using SimpleLed;
 
 namespace SyncStudio.Domain
 {
-    public class DeviceMappingItemViewModel : BaseViewModel
+    //todo - will this survive?
+    public class DeviceMappingItemViewModel
     {
         public Action<object> SyncBack;
         public ControlDevice DestinationDevice { get; set; }
@@ -14,7 +15,7 @@ namespace SyncStudio.Domain
             get => enabled;
             set
             {
-                SetProperty(ref enabled, value);
+                enabled = value;
                 SyncBack?.Invoke(this);
             }
         }

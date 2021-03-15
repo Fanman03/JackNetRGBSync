@@ -7,7 +7,7 @@ using SimpleLed;
 
 namespace SyncStudio.Domain
 {
-    public class DeviceOverrides : BaseViewModel
+    public class DeviceOverrides
     {
         private string titleOverride;
         private string subTitleOverride;
@@ -19,7 +19,7 @@ namespace SyncStudio.Domain
             get => customDeviceSpecification;
             set
             {
-                SetProperty(ref customDeviceSpecification, value);
+                customDeviceSpecification = value;
                 PushUpdate();
             }
         }
@@ -28,7 +28,7 @@ namespace SyncStudio.Domain
             get => titleOverride;
             set
             {
-                SetProperty(ref titleOverride, value);
+                titleOverride = value;
                 PushUpdate();
             }
         }
@@ -40,7 +40,7 @@ namespace SyncStudio.Domain
             get => subTitleOverride;
             set
             {
-                SetProperty(ref subTitleOverride, value);
+                subTitleOverride = value;
                 PushUpdate();
             }
         }
@@ -61,7 +61,7 @@ namespace SyncStudio.Domain
             get => name;
             set
             {
-                SetProperty(ref name, value);
+                name = value;
                 // PushUpdate();
             }
         }
@@ -73,7 +73,7 @@ namespace SyncStudio.Domain
             get => connectedTo;
             set
             {
-                SetProperty(ref connectedTo, value);
+                connectedTo = value;
                 // PushUpdate();
             }
         }
@@ -84,7 +84,7 @@ namespace SyncStudio.Domain
             get => providerName;
             set
             {
-                SetProperty(ref providerName, value);
+                providerName = value;
                 // PushUpdate();
             }
         }

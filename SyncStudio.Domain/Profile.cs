@@ -9,54 +9,19 @@ using SimpleLed;
 
 namespace SyncStudio.Domain
 {
-    public class Profile : BaseViewModel
+    public class Profile
     {
-
-        private ColorProfile colorProfile;
-
         [JsonIgnore]
-        public ColorProfile LoadedColorProfile
-        {
-            get => colorProfile;
-            set { SetProperty(ref colorProfile, value); }
-        }
-        private Guid? colorProfileId;
-
-        public Guid? ColorProfileId
-        {
-            get => colorProfileId;
-            set
-            {
-                SetProperty(ref colorProfileId, value);
-                IsProfileStale = true;
-            }
-        }
+        public ColorProfile LoadedColorProfile { get; set; }
+        
+        public Guid? ColorProfileId { get; set; }
 
         [JsonIgnore]
         public bool IsProfileStale { get; set; }
+        
+        public string Name { get; set; }
 
-        private string name;
-        public string Name
-        {
-            get => name;
-            set
-            {
-                SetProperty(ref name, value);
-                IsProfileStale = true;
-            }
-        }
-
-        private ObservableCollection<DeviceProfileSettings> deviceProfileSettings = new ObservableCollection<DeviceProfileSettings>();
-
-        public ObservableCollection<DeviceProfileSettings> DeviceProfileSettings
-        {
-            get => deviceProfileSettings;
-            set
-            {
-                SetProperty(ref deviceProfileSettings, value);
-                IsProfileStale = true;
-            }
-        }
+        public ObservableCollection<DeviceProfileSettings> DeviceProfileSettings { get; set; }
 
         public Guid Id { get; set; }
     }

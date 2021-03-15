@@ -4,21 +4,10 @@ using SimpleLed;
 
 namespace SyncStudio.Domain
 {
-    public class DeviceProfileSettings : BaseViewModel
+    public class DeviceProfileSettings 
     {
-        private string sourceUID;
-        private string destinationDestinationUid;
+        public string SourceUID { get; set; }
 
-        public string SourceUID
-        {
-            get => sourceUID;
-            set => SetProperty(ref sourceUID, value);
-        }
-
-        public string DestinationUID
-        {
-            get => destinationDestinationUid;
-            set => SetProperty(ref destinationDestinationUid, value);
-        }
+        public string DestinationUID { get; set; }
     }
 }

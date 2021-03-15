@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using SyncStudio.WPF.Helper;
+using SyncStudio.WPF.UI;
 
 namespace SyncStudio.WPF
 {
