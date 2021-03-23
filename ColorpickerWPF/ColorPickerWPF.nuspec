@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/drogoganor/ColorPickerWPF</projectUrl>
+    <iconUrl>https://github.com/drogoganor/ColorPickerWPF/raw/master/src/ColorPickerWPF/Resources/icon64.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright DMW 2018</copyright>
+    <tags>WPF color picker</tags>
+  </metadata>
+</package>

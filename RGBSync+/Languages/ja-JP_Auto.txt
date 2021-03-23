@@ -1,0 +1,59 @@
+ja-JP
+日本語
+Japanese
+Crash.TitleText	RGB同期Studioがクラッシュしました。
+Dialog.CopyCommand	クリップボードにコピー
+Dialog.No	番号
+Dialog.NoPremiumTitle	NoPremiumTitle
+Dialog.NoUpdateText	現在、アプリの最新バージョンを使用しています。
+Dialog.NoUpdateTitle	利用可能なアップデートがありません
+Dialog.OKCommand	OK
+Dialog.UpdateText	RGB同期の更新が可能です。アップデートをしますか？
+Dialog.UpdateTitle	利用可能な更新
+Dialog.Yes	はい
+Settings.AdminLabel	管理者として実行します。
+Settings.AdminText	AdminText
+Settings.DelayLabel	スタートアップ遅延：
+Settings.DelayToolTip	DelayToolTip
+Settings.DelayUnit	秒
+Settings.DevicesLabel	デバイス：
+Settings.DiscordLabel	不和：
+Settings.DiscordText	DiscordText
+Settings.DiscordToolTip	DiscordToolTip
+Settings.LanguageLabel	言語：
+Settings.MinimizationLabel	最小化を有効にします：
+Settings.MinimizationText	MinimizationText
+Settings.PollingRateLabel	ポーリングレート：
+Settings.PollingRateToolTip	PollingRateTooltip
+Settings.PollingRateUnit	PollingRateUnit
+Settings.ThemeApplyBtnText	Settings.ThemeApplyBtnText
+Settings.ThemeLabel	テーマ：
+Settings.UpdateBtnText	更新を確認
+Settings.UpdateLabel	アップデート：
+Settings.VersionLabel	バージョン：
+Store.ExperimentalBtnText	実験的
+Store.FilterLabel	探す
+Store.Plugin.DisableBtnLabel	無効化
+Store.Plugin.InstallBtnLabel	インストール済み
+Store.Plugin.InstalledBtnLabel	インストール済み
+Store.Plugin.UninstallBtnLabel	アンインストール
+Store.Plugin.VersionsBtnLabel	バージョン
+Store.RefreshBtnText	リフレッシュストア
+Store.RestartAllBtnText	再起動してすべての
+TrayMenu.ExitAppItem	出口のApp
+TrayMenu.OpenUIItem	オープンアプリの
+TrayMenu.RestartAppItem	再起動のApp
+TrayMenu.TechSupportItem	技術サポート
+UI.AboutTabHeader	約
+UI.AppName	RGB同期
+UI.DeviceTabHeader	デバイス
+UI.ProfileTabHeader	プロフィール
+UI.SettingsTabHeader	設定
+UI.StoreTabHeader	デバイス
+About.OrigDev	RGB同期オリジナル開発
+About.20dev	RGBSync Studioの開発
+About.simpleleddev	SimpleLEDプロジェクトコーディネーター
+About.Donations	JackNet RGB同期は無料で、オープンソースソフトウェアの仕事です。それはすべてに利用できるようにすることができるようにプログラムは無料です。しかし、寄付金はまだWebホスティングのようなもののために感謝し、助けを支払うされています。
+Donate.Patreon	VIA PATREONを寄付
+Donate.PayPal	VIA PAYPALを寄付
+About.Thanks	特別には、このソフトウェアが可能にさせてくれたすべての常連客、翻訳者、寄稿者にお願いします。あなたの貢献は大歓迎されています。

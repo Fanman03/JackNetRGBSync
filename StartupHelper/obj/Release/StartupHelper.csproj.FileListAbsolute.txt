@@ -1,9 +1,0 @@
-C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\StartupHelper\bin\Release\StartupHelper.exe.config
-C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\StartupHelper\bin\Release\StartupHelper.exe
-C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\StartupHelper\bin\Release\StartupHelper.pdb
-C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\StartupHelper\bin\Release\Newtonsoft.Json.xml
-C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\StartupHelper\obj\Release\StartupHelper.csprojAssemblyReference.cache
-C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\StartupHelper\obj\Release\StartupHelper.csproj.Fody.CopyLocal.cache
-C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\StartupHelper\obj\Release\StartupHelper.csproj.CopyComplete
-C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\StartupHelper\obj\Release\StartupHelper.exe
-C:\Users\jacklrpendleton\source\repos\JackNetRGBSync\StartupHelper\obj\Release\StartupHelper.pdb

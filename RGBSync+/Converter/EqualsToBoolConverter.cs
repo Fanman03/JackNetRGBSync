@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace RGBSyncPlus.Converter
+namespace SyncStudio.WPF.Converter
 {
     [ValueConversion(typeof(object), typeof(bool))]
     public class EqualsToBoolConverter : IValueConverter

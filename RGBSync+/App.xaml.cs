@@ -1,20 +1,25 @@
-﻿using System;
+﻿using Hardcodet.Wpf.TaskbarNotification;
+using SimpleLed;
+using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Resources;
-using Hardcodet.Wpf.TaskbarNotification;
-using Newtonsoft.Json;
-using RGBSyncPlus.Configuration;
-using RGBSyncPlus.Configuration.Legacy;
-using RGBSyncPlus.Helper;
-using RGBSyncPlus.UI;
+using System.Windows.Media;
+using System.Windows.Threading;
+using SyncStudio.WPF.Helper;
+using SyncStudio.WPF.UI;
 
-namespace RGBSyncPlus
+namespace SyncStudio.WPF
 {
     public partial class App : Application
     {
+        
+        public const string SLSPROVIDER_DIRECTORY = "Providers";
+        private const string ProfileS_DIRECTORY = "Profiles";
+        private const string SLSCONFIGS_DIRECTORY = "SLSConfigs";
+
         #region Constants
 
         private const string PATH_SETTINGS = "Profile.json";
@@ -26,87 +31,198 @@ namespace RGBSyncPlus
         #region Properties & Fields
 
         private TaskbarIcon _taskbarIcon;
+        
+
+        public AppBVM appBvm { get; set; } = new AppBVM();
 
         #endregion
 
         #region Methods
+        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            ServiceManager.Instance.Logger.CrashWindow(e.Exception);
+
+            e.Handled = true;
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            if (!Debugger.IsAttached)
+            {
+                this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+            }
+
+            ServiceManager.Initialize(SLSCONFIGS_DIRECTORY, ProfileS_DIRECTORY);
+            ServiceManager.Instance.ApplicationManager.Initialize();
+
+//            ServiceManager.Instance.ProfileService.OnProfilesChanged += (object sender, EventArgs ev) => appBvm.RefreshProfiles();
 
             try
             {
                 ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(int.MaxValue));
 
                 _taskbarIcon = (TaskbarIcon)FindResource("TaskbarIcon");
-                _taskbarIcon.DoubleClickCommand = ApplicationManager.Instance.OpenConfigurationCommand;
+                _taskbarIcon.DoubleClickCommand = new ActionCommand(() => ServiceManager.Instance.ApplicationManager.OpenConfiguration());
 
-                Settings settings = null;
-                try { settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(PATH_SETTINGS), new ColorSerializer()); }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    /* File doesn't exist or is corrupt - just create a new one. */
-                }
-
-                AppSettings appsettings = null;
-                try { appsettings = JsonConvert.DeserializeObject<AppSettings>(File.ReadAllText(PATH_APPSETTINGS), new ColorSerializer()); }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    /* File doesn't exist or is corrupt - just create a new one. */
-                }
-
-                if (settings == null)
-                {
-                    settings = new Settings { Version = Settings.CURRENT_VERSION };
-                    _taskbarIcon.ShowBalloonTip("JackNet RGB Sync is starting in the tray!", "Click on the icon to open the configuration.", BalloonIcon.Info);
-                }
-
-                else if (settings.Version != Settings.CURRENT_VERSION)
-                    ConfigurationUpdates.PerformOn(settings);
-
-                if (appsettings == null)
-                {
-                    appsettings = new AppSettings { Version = AppSettings.CURRENT_VERSION };
-                }
-
-
-                ApplicationManager.Instance.Settings = settings;
-                ApplicationManager.Instance.AppSettings = appsettings;
-                ApplicationManager.Instance.Initialize();
-                if (!appsettings.MinimizeToTray) //HACK Fanman03 05.12.2019: Workaround to create the window
-                {
-                    ApplicationManager.Instance.OpenConfigurationCommand.Execute(null);
-                    ApplicationManager.Instance.HideConfigurationCommand.Execute(null);
-                }
+                //ServiceManager.Instance.ApplicationManager.OpenConfigurationCommand.Execute(null);
             }
             catch (Exception ex)
             {
                 File.WriteAllText("error.log", $"[{DateTime.Now:G}] Exception!\r\n\r\nMessage:\r\n{ex.GetFullMessage()}\r\n\r\nStackTrace:\r\n{ex.StackTrace}\r\n\r\n");
-                GenericErrorDialog dialog = new GenericErrorDialog("An error occured while starting JackNet RGB Sync.\r\nMore information can be found in the error.log file in the application directory.", "Can't start JackNet RGB Sync.", $"[{DateTime.Now:G}] Exception!\r\n\r\nMessage:\r\n{ex.GetFullMessage()}\r\n\r\nStackTrace:\r\n{ex.StackTrace}\r\n\r\n");
-                dialog.Show();
 
-                try { ApplicationManager.Instance.ExitCommand.Execute(null); }
+                try { ServiceManager.Instance.ApplicationManager.Exit(); }
                 catch { Environment.Exit(0); }
+            }
+
+            
+        }
+        #endregion
+
+        private void App_OnExit(object sender, ExitEventArgs e)
+        {
+            //  throw new NotImplementedException();
+        }
+
+
+        private void ToggleProfilesPopup(object sender, RoutedEventArgs e)
+        {
+            if (appBvm.PopupVisibility == Visibility.Collapsed)
+            {
+                appBvm.PopupVisibility = Visibility.Visible;
+                appBvm.Arrow = "";
+                appBvm.ProfilesBackground = SystemParameters.WindowGlassBrush;
+            }
+            else
+            {
+                appBvm.PopupVisibility = Visibility.Collapsed;
+                appBvm.Arrow = "";
+                appBvm.ProfilesBackground = new SolidColorBrush(Color.FromRgb(64, 64, 64));
             }
         }
 
-        protected override void OnExit(ExitEventArgs e)
+        private void SwitchProfile(object sender, RoutedEventArgs e)
         {
-            base.OnExit(e);
-
-            File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
-            File.WriteAllText(PATH_APPSETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.AppSettings, new ColorSerializer()));
+            Button btn = sender as Button;
+            ServiceManager.Instance.ProfilesService.GetProfile(Guid.NewGuid());
+                //.Get.ProfileService.LoadProfileFromName(btn.Content.ToString());
+            appBvm.Profiles = AppBVM.GetProfiles();
         }
 
-        public static void SaveSettings()
+        private void TechSupportClick(object sender, RoutedEventArgs e)
         {
-            File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
-            File.WriteAllText(PATH_APPSETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.AppSettings, new ColorSerializer()));
+            System.Diagnostics.Process.Start("https://rgbsync.com/discord");
         }
 
-        #endregion
+        private void RestartAppClick(object sender, RoutedEventArgs e)
+        {
+            ServiceManager.Instance.ApplicationManager.RestartApp();
+        }
+
+        private void ExitClicked(object sender, RoutedEventArgs e)
+        {
+            ServiceManager.Instance.ApplicationManager.Exit();
+        }
+
+        private void HideClicked(object sender, RoutedEventArgs e)
+        {
+            ServiceManager.Instance.ApplicationManager.HideConfiguration();
+        }
+    }
+
+    public class AppBVM : BaseViewModel
+    {
+        public void RefreshProfiles()
+        {
+            Profiles = GetProfiles();
+        }
+
+        public static ObservableCollection<ProfileObject> GetProfiles()
+        {
+            return null;
+            //todo wtf why here?
+            //if (ServiceManager.Instance?.ConfigService?.Settings?.ProfileNames != null)
+            //{
+            //    ObservableCollection<ProfileObject> prfs = new ObservableCollection<ProfileObject>();
+            //    foreach (string name in settings.ProfileNames)
+            //    {
+            //        ProfileObject prf = new ProfileObject();
+            //        prf.Name = name;
+            //        prfs.Add(prf);
+
+            //        if (prf.Name == settings.CurrentProfile)
+            //        {
+            //            prf.IsSelected = true;
+            //        }
+            //        else
+            //        {
+            //            prf.IsSelected = false;
+            //        }
+            //    }
+            //    return prfs;
+            //}
+            //else
+            //{
+            //    return new ObservableCollection<ProfileObject>();
+            //}
+
+        }
+        private Visibility popupVisibility = Visibility.Collapsed;
+        public Visibility PopupVisibility
+        {
+            get
+            {
+                return popupVisibility;
+            }
+            set
+            {
+                SetProperty(ref popupVisibility, value);
+            }
+        }
+
+        private string arrow = "";
+
+        public string Arrow
+        {
+            get
+            {
+                return arrow;
+            }
+            set
+            {
+                SetProperty(ref arrow, value);
+            }
+        }
+
+        private Brush profilesBackground = new SolidColorBrush(Color.FromRgb(64, 64, 64));
+        public Brush ProfilesBackground
+        {
+            get
+            {
+                return profilesBackground;
+            }
+            set
+            {
+                SetProperty(ref profilesBackground, value);
+            }
+        }
+
+        private ObservableCollection<ProfileObject> profiles = GetProfiles();
+        public ObservableCollection<ProfileObject> Profiles
+        {
+            get
+            {
+                return profiles;
+            }
+            set
+            {
+                SetProperty(ref profiles, value);
+            }
+        }
+        public class ProfileObject
+        {
+            public string Name { get; set; }
+            public bool IsSelected { get; set; }
+        }
     }
 }

@@ -1,0 +1,166 @@
+ES-es
+Español de España
+Español de España
+Crash.TitleText	RGB Sync Studio ha dejado de funcionar.
+Dialog.CopyCommand	Copiar a Portapapeles
+Dialog.No	No
+Dialog.NoPremiumTitle	NoPremium
+Dialog.NoUpdateText	Estás usando la última versión de la app.
+Dialog.NoUpdateTitle	No hay actualizaciones disponibles
+Dialog.OKCommand	Vale
+Dialog.UpdateText	Hay una actualizacion nueva. Quieres actualizar?
+Dialog.UpdateTitle	Actualización Disponible
+Dialog.Yes	Sí
+Settings.AppSettings Ajustes de Aplicación
+Settings.LaunchBehaviour Ajustes de Inicio
+Settings.AppStyling Apariencia
+Settings.MinimizeBehaviour Ajustes Minimización
+Settings.AdminLabel	Ejecutar como administrador:
+Settings.AdminText	TextoDeAdmin
+Settings.DelayLabel	Inicio Atrasado:
+Settings.DelayToolTip	ConsejoInicioAtrasado
+Settings.DelayUnit	Segundos
+Settings.DevicesLabel	Dispositivos:
+Settings.DiscordLabel	Discord:
+Settings.DiscordText	TextoDeDiscord
+Settings.DiscordToolTip	ConsejoDeDiscord
+Settings.LanguageLabel	Idioma:
+Settings.MinimizationLabel	Habilitar Minimización:
+Settings.MinimizationText	TextoDeMinimización
+Settings.PollingRateLabel	Frecuencia de Actualización:
+Settings.PollingRateToolTip	ConsejoFrecuenciaDeActualización
+Settings.PollingRateUnit	UnidadFrecuenciaDeActualización
+Settings.ThemeApplyBtnText	Settings.ThemeApplyBtnText
+Settings.ThemeLabel	Tema:
+Settings.UpdateBtnText	Buscar Actualizaciones
+Settings.UpdateLabel	Actualizaciones:
+Settings.VersionLabel	Versión:
+Settings.ApiServer  Servidor API
+Settings.ApiServerHelp  Activar servidor RGB Sync Studio REST API
+Settings.RefreshFreq    Frequencia de Actualización
+Settings.RefreshFreqHelp    Ajusta la velocidad a la que se actualiza el RGB
+Settings.Language   Idioma
+Settings.BackgroundPath Imagen de Fondo
+Settings.BackgroundHelp Ruta de la Imagen
+Settings.BackgroundOpacity Opacidad del Fondo
+Settings.BackgroundOpacityHelp Ajusta la transparencia del Fondo
+Settings.DimBackgroundOpacity Intensidad del Fondo
+Settings.DimBackgroundOpacityHelp Ajusta el efecto Oscuro sobre el fondo
+Settings.BackgroundBlur Difuminado del Fondo
+Settings.BackgroundBlurHelp Ajustar la Cantidad del Difuminado sobre el Fondo
+Settings.SyncableBG Fondo Sincronizable
+Settings.SyncableBGHelp Activa el Fondo RGB Sincronizable
+Settings.RainbowTab Marcadores de Pestaña Arcoíris
+Settings.RainbowTabHelp Activa los marcadores arcoirís para las pestañas
+Settings.StartAsAdmin Ejecutar como administrador
+Settings.StartAsAdminHelp Puede ayudar con la compatibilidad
+Settings.ReleaseType Tipo de cliente
+Settings.ReleaseTypeHelp ¿Qué tipo de versión quieres? Release es estable, Beta no tanto y Cl es inestable
+Settings.MinimizeToTray Minimización
+Settings.MinimizeToTrayHelp ¿La app debe minimizar a la barra de tareas o al área de notificaciones?
+Settings.MinimizeOnStart Minimizar al iniciar
+Settings.MinimizeOnStartHelp ¿La app debe mostrarse al inciar, o minimizarse instantáneamente?
+Settings.Experimental Drivers Experimentales
+Settings.ExperimentalHelp Muestra los drivers experimentales en la tienda
+Settings.SimpleLedAuth Autenticación de SimpleLed
+Settings.SimpleLedAuthHelp Conectarse a los servidores de SimpleLed para desbloquear funcionalidades
+Settings.SimpleLedLogin Iniciar Sesión
+Settings.SimpleLedLogout Cerrar Sesión
+Store.ExperimentalBtnText	Experimental
+Store.FilterLabel	Buscar
+Store.Plugin.DisableBtnLabel	Deshabilitar
+Store.Plugin.InstallBtnLabel	Instalado 
+Store.Plugin.InstalledBtnLabel	Instalado 
+Store.Plugin.UninstallBtnLabel	Desinstalar
+Store.Plugin.VersionsBtnLabel	Versiones
+Store.RefreshBtnText	Actualizar Tienda
+Store.RestartAllBtnText	Reiniciar Todo
+Store.NotStoreButton Instalado
+Store.ShowStore Tienda
+Store.StoreButton Tienda
+Store.UpdatesButton Actualizaciones
+Store.Updates Actualizaciones
+TrayMenu.ExitAppItem	Salir
+TrayMenu.OpenUIItem	Abrir
+TrayMenu.RestartAppItem	Reiniciar
+TrayMenu.TechSupportItem	Soporte Técnico
+UI.AboutTabHeader	Acerca de
+UI.AppName	RGB Sync
+UI.DeviceTabHeader	Dispositivos
+UI.ProfileTabHeader	Perfiles
+UI.SettingsTabHeader	Ajustes
+UI.StoreTabHeader	Dispositivos
+About.OrigDev	Desarrollo Original de RGB Sync
+About.20dev     Desarrollo de RGBSync Studio
+About.simpleleddev	Coordinador de Proyecto de SimpleLED
+About.Donations	JackNet RGB Sync es gratis y de código abierto. El programa es gratis para que todos puedan utilizarlo. Las donaciones son bienvenidas y ayudan como ejemplo, al hospedaje de los servidores.
+Donate.Patreon	DONAR VÍA PATREON
+Donate.PayPal	DONAR VÍA PAYPAL
+About.Thanks	Gracias a todos los Patrons, tradcutores y contribuidores a hacer este programa posible. Vuestras contribuciones son agradecidas.
+Devices.Info    Información
+Devices.SyncTo  Sincronizar a
+Devices.Customize Personalizar
+Devices.InfoDriver  Controlador:
+Devices.InfoName    Nombre:
+Devices.InfoAuthor  Autor:
+Devices.InfoDriverVersion   Version de Controlador:
+Devices.Multiple    Varios Dispositivos
+Devices.Selected    Seleccionado(s)
+Devices.Config  Configuración
+Devices.Alignment   Alineamiento
+Devices.NoConfig    Este dispositivo no tiene configuración.
+Devices.ZoomOut Alejar
+Devices.ZoomIn Acercar
+Devices.Condensed Compacto
+Devices.ShowSources Mostrar efectos
+Customize.Align Editar Alineamiento
+Customize.AlignHint Usa estos controles para que tu dispositivo coincida con la imágenes
+Customize.TitleOverride Cambiar Título
+Customize.SubTitleOverride Cambiar SubTítulo
+Customize.ChannelOverride Cambiar Nombre de Canal
+Profile.Triggers Acciones
+Profile.EditProfile Editar Perfil
+Profile.SelectProfile Selccionar Perfil
+Profile.RemoveProfile Eliminar Perfil
+Profile.TimeBasedTrigger    Acción Basada en Tiempo
+Profile.TimeToTrigger   Hora de la Acción:
+Profile.ProcessTrigger  Acción Basada en Proceso
+Profile.ProcessName Nombre del proceso:
+Profile.ProcessInvert   Acción Basada en Ausencia
+Profile.TriggerDesc Acciones por 
+Profile.MomentaryTrigger Acción Instantánea
+Profile.Expand Expandir
+Profile.Collapse Colapsar
+ColorProfile.AddProfile Crear Perfil
+ColorProfile.DeleteProfile  Eliminar Perfil
+Generic.Off Apagado
+Generic.On  Encendido
+Generic.Yes Sí
+Generic.No  No
+Main.Devices Dispositivos
+Main.Profiles Perfiles de Sincronización
+Main.palettes Perfiles de Color
+Main.Store Tienda
+Main.About Acerca de
+Main.Crash  Fallo!
+Main.news Novedades
+Main.crashme Crasheame
+Main.Settings   Ajustes
+Fan Ventilador
+LEDStrip    Tira LED
+GPU GPU
+MotherBoard Placa Base
+Keyboard    Teclado
+Keypad  Teclado Numérico
+Mouse   Ratón
+MousePad    Alfombrilla
+Headset Auriculares
+HeadsetStand    Soporte de Auriculares
+PSU PSU
+Cooler  Disipador
+Memory  Memoria
+Speaker Altavoz
+Other   Otro
+AIO AIO
+WaterBlock   Bloque de Agua
+Effect  Efecto

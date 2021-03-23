@@ -1,0 +1,57 @@
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\bin\Release\RSSLauncher.exe.config
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\bin\Release\RSSLauncher.exe
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\bin\Release\RSSLauncher.pdb
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\bin\Release\Newtonsoft.Json.xml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\bin\Release\System.Diagnostics.DiagnosticSource.xml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Launcher.csprojAssemblyReference.cache
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\MainWindow.g.cs
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\UpgradingWindow.g.cs
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\App.g.cs
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\GeneratedInternalTypeHelper.g.cs
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\RSSLauncher_MarkupCompile.cache
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\RSSLauncher_MarkupCompile.lref
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\App.baml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\MainWindow.baml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Resources\RGBSync+.baml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Styles\RainbowDefault\BlurredDecorationWindow.baml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Styles\RainbowDefault\Button.baml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Styles\RainbowDefault\CheckBox.baml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Styles\RainbowDefault\ColorSelector.baml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Styles\RainbowDefault\ComboBox.baml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Styles\RainbowDefault\Form.baml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Styles\RainbowDefault\FrameworkElement.baml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Styles\RainbowDefault\GroupBox.baml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Styles\RainbowDefault\Scrollbar.baml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\UpgradingWindow.baml
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\RSSLauncher.g.resources
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Launcher.Properties.Resources.resources
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Launcher.csproj.GenerateResource.cache
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Launcher.csproj.CoreCompileInputs.cache
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Launcher.csproj.Fody.CopyLocal.cache
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\Launcher.csproj.CopyComplete
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\RSSLauncher.exe
+C:\Users\jacklrpendleton\Source\Repos\JackNetRGBSync\Launcher\obj\Release\RSSLauncher.pdb
+C:\Projects\RGB Sync Studio\Launcher\bin\Release\RSSLauncher.exe.config
+C:\Projects\RGB Sync Studio\Launcher\bin\Release\RSSLauncher.exe
+C:\Projects\RGB Sync Studio\Launcher\bin\Release\RSSLauncher.pdb
+C:\Projects\RGB Sync Studio\Launcher\bin\Release\Newtonsoft.Json.xml
+C:\Projects\RGB Sync Studio\Launcher\bin\Release\System.Diagnostics.DiagnosticSource.xml
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\Launcher.csprojAssemblyReference.cache
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\MainWindow.g.cs
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\UpgradingWindow.g.cs
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\App.g.cs
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\GeneratedInternalTypeHelper.g.cs
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\RSSLauncher_MarkupCompile.cache
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\RSSLauncher_MarkupCompile.lref
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\App.baml
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\MainWindow.baml
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\Resources\RGBSync+.baml
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\UpgradingWindow.baml
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\RSSLauncher.g.resources
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\Launcher.Properties.Resources.resources
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\Launcher.csproj.GenerateResource.cache
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\Launcher.csproj.CoreCompileInputs.cache
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\Launcher.csproj.Fody.CopyLocal.cache
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\Launcher.csproj.CopyComplete
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\RSSLauncher.exe
+C:\Projects\RGB Sync Studio\Launcher\obj\Release\RSSLauncher.pdb

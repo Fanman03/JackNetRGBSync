@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Windows;
+using System.Windows.Threading;
 
-namespace RGBSyncPlus.Helper
+namespace SyncStudio.WPF.Helper
 {
     public static class ExceptionExtension
     {
@@ -16,6 +18,15 @@ namespace RGBSyncPlus.Helper
                 message += "\r\nInnerException: " + GetFullMessage(ex.InnerException);
 
             return message;
+        }
+
+        private static readonly Action EmptyDelegate = delegate () { };
+
+
+        public static void Refresh(this UIElement uiElement)
+
+        {
+            uiElement?.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
         }
 
         #endregion

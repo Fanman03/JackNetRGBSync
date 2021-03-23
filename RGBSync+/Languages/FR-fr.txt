@@ -1,0 +1,141 @@
+FR-FR
+Français
+Français
+Crash.TitleText	RGB Sync Studio est tombé en panne.
+Dialog.CopyCommand	Copier dans le presse-papier
+Dialog.No	Non
+Dialog.NoPremiumTitle	Pas de titre premium
+Dialog.NoUpdateText	Vous utilisez actuellement la dernière version de l'application.
+Dialog.NoUpdateTitle	Pas de mise a jour disponible
+Dialog.OKCommand	D'accord
+Dialog.UpdateText	Une mise à jour de RGB Sync est disponible. Voulez-vous mettre à jour?
+Dialog.UpdateTitle	Mise à jour disponible
+Dialog.Yes	Oui
+Settings.AdminLabel	Exécuter en tant qu'administrateur:
+Settings.AdminText		Texte de l'administrateur
+Settings.DelayLabel	Délai de démarrage:
+Settings.DelayToolTip	Info-bulle sur les délais
+Settings.DelayUnit	Seconds
+Settings.DevicesLabel	Dispositifs:
+Settings.DiscordLabel	Discorde:
+Settings.DiscordText	Texte de Discorde
+Settings.DiscordToolTip	Info-bulle Discord
+Settings.LanguageLabel	Langue:
+Settings.MinimizationLabel	Activer la minimisation:
+Settings.MinimizationText	Texte de minimisation
+Settings.PollingRateLabel	Taux d'interrogation:
+Settings.PollingRateToolTip	Info-bulle relative au taux d'interrogation
+Settings.PollingRateUnit	Unité de taux d'interrogation
+Settings.ThemeApplyBtnText	Réglages. Thème Appliquer le texte btn
+Settings.ThemeLabel	Thème:
+Settings.UpdateBtnText	Vérifier les mises à jour
+Settings.UpdateLabel	Mises à jour:
+Settings.VersionLabel	Version:
+Settings.StartAsAdmin    Commencer en tant qu'administrateur
+Settings.StartAsAdminHelp    Peut augmenter la compatibilité
+Settings.ReleaseType Type de version
+Settings.ReleaseTypeHelp Quelle version voulez-vous? La version est stable, la version bêta moins, le CI est instable
+Settings.MinimizeToTray  Réduire dans le bac
+Settings.MinimizeToTrayHelp  L'application doit-elle être réduite à la barre d'outils ou à la barre d'état système?
+Settings.MinimizeOnStart Réduire au démarrage
+Settings.MinimizeOnStartHelp L'application doit-elle afficher sa fenêtre au démarrage ou la réduire instantanément?
+Store.ExperimentalBtnTexte expérimental
+Store.FilterLabel	Chercher
+Store.Plugin.UpdateAvail	Mise à jour disponible
+Store.Plugin.DisableBtnLabel	Désactiver
+Store.Plugin.InstallBtnLabel	Installé 
+Store.Plugin.InstalledBtnLabel	Installé 
+Store.Plugin.UninstallBtnLabel	Désinstaller
+Store.Plugin.VersionsBtnLabel	Versions
+Store.RefreshBtnText	Actualiser le magasin
+Store.RestartAllBtnText	Tout redémarrer
+Store.ShowStore Afficher le magasin
+Store.Experimental  Toggle Expérimental
+Store.Updates   Toggle Mises à jour
+Store.StoreButton   Magasin
+Store.NotStoreButton   Installé
+Store.ExperimentalButton    Expérimental
+Store.UpdatesButton Mises à jour
+Store.Configure Configurer
+Store.Details   Détails
+TrayMenu.ExitAppItem	Quitter l'application
+TrayMenu.OpenUIItem	Ouvrir application
+TrayMenu.RestartAppItem	Redémarrez l'application
+TrayMenu.TechSupportItem	Support technique
+UI.AboutTabHeader	About
+UI.AppName	RGB Sync
+UI.DeviceTabHeader	Dispositifs
+UI.ProfileTabHeader	Profil
+UI.SettingsTabHeader	Réglages
+UI.StoreTabHeader	Devices
+About.OrigDev	Développement original de RGB Sync
+About.20dev	Développement RGB Sync Studio
+About.simpleleddev	Coordinateur de projet SimpleLED
+About.Donations	JackNet RGB Sync est une œuvre de logiciel libre et open-source. Le programme est gratuit afin d'être accessible à tous. Cependant, les dons sont toujours appréciés et aident à payer des choses comme l'hébergement Web.
+Donate.Patreon	faire un don via Patreon
+Donate.PayPal	faire un don via Paypal
+About.Thanks	Un merci spécial à tous les mécènes, traducteurs et contributeurs qui ont contribué à rendre ce logiciel possible. Vos contributions sont grandement appréciées.
+Devices.Info    Info
+Devices.SyncTo  Synchroniser avec 
+Devices.InfoDriver  Conducteur:
+Devices.InfoName    Nom:
+Devices.InfoAuthor  Auteur:
+Devices.InfoDriverVersion   Conducteur Version:
+Devices.Multiple    Plusieurs appareils
+Devices.Selected    choisi
+Devices.Config  Config
+Devices.Alignment   Alignement
+Devices.NoConfig    Cet appareil n'a pas de configuration.
+Devices.ZoomOut Dézoomer
+Devices.ZoomIn  Agrandir
+Devices.Condensed   vue condensée
+Devices.IconView    vue des icônes
+Devices.ShowSources     Afficher les sources
+Profile.TimeBasedTrigger    Déclencheur basé sur le temps
+Profile.TimeToTrigger   Heure à laquelle déclencher:
+Profile.ProcessTrigger  Déclencheur de processus en cours
+Profile.ProcessName     Nom du processus à surveiller:
+Profile.ProcessInvert   Déclenchement en cas d'absence
+Profile.TriggerDesc     Déclencheurs pour
+Profile.SelectProfile   Passer à ce profil
+Profile.EditProfile     Editer le Profil
+Profile.Triggers    Déclencheurs
+Profile.RemoveProfile   Supprimer le profil
+Profile.MomentaryTrigger Déclenchement momentané
+Profile.Expand  accroître
+Profile.Collapse    Effondrer
+Generic.Off De
+Generic.On  Sur
+Generic.Yes Oui
+Generic.No  Non
+Main.Devices    Dispositifs
+Main.Profiles		Profils
+Main.Store  Conducteurs
+Main.About  À propos
+Main.CrashMe  Fracas
+Main.Settings   Réglages
+Settings.ApiServer  API Serveur
+Settings.ApiServerHelp  Activez cette option pour activer le serveur API REST RGB Sync Studio
+Settings.RefreshFreq    Fréquence de rafraîchissement
+Settings.RefreshFreqHelp    Ajuster le nombre de minuteries par seconde RGB est mis à jour
+Settings.Language   Langue
+Settings.Experimental   Conducteur expérimentaux
+Settings.ExperimentalHelp   Afficher les conducteur expérimentaux dans le magasin
+Fan  Ventilateur
+LEDStrip    Bande LED
+GPU GPU
+MotherBoard Carte mère
+Keyboard    Clavier
+Keypad  Clavier
+Mouse   Souris
+MousePad    Tapis de souris
+Headset Casque
+HeadsetStand    Support de casque
+PSU PSU
+Cooler  Refroidisseur
+Memory  Mémoire
+Speaker haut-parleurs
+Other   Autre
+AIO AIO
+WaterBlock  Bloc d'eau
+Effect  Effet

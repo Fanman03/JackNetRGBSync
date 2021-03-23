@@ -1,0 +1,173 @@
+﻿<fluentWpf:AcrylicWindow x:Class="Launcher.UpgradingWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:local="clr-namespace:Launcher"
+                  xmlns:fluentWpf="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+                  mc:Ignorable="d"
+                  Title="" Height="300" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None"
+                  KeyDown="UpgradingWindow_OnKeyDown" Focusable="True"
+                  fluentWpf:AcrylicWindow.Enabled="True" Background="#40000000" Loaded="AcrylicWindow_Loaded">
+    <Window.DataContext>
+        <local:UpgradingViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <LinearGradientBrush x:Key="RainbowGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="#ff0000" Offset="0"/>
+            <GradientStop Color="#FFFF00" Offset="0.2"/>
+            <GradientStop Color="#00ff00" Offset="0.4"/>
+            <GradientStop Color="#00ffff" Offset="0.5"/>
+            <GradientStop Color="#0000ff" Offset="0.6"/>
+            <GradientStop Color="#FF00FF" Offset="0.8"/>
+            <GradientStop Color="#ff0000" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Resources>
+    <Grid>
+        <TextBlock Cursor="Wait" x:Name="LoadingText" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" Margin="0,0,0,-150" Text="{Binding Message}"></TextBlock>
+        <ProgressBar x:Name="ProgressBar" Width="350" Height="10" Foreground="Black" BorderBrush="{x:Null}" Margin="0,0,0,-200" Value="{Binding Percentage}" RenderTransformOrigin="0.5,0.5">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="180"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+            <ProgressBar.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop x:Name="PbStop1" Color="#ff0000" Offset="0"/>
+                    <GradientStop Color="#FFFF00" Offset="0.2"/>
+                    <GradientStop Color="#00ff00" Offset="0.4"/>
+                    <GradientStop Color="#00ffff" Offset="0.5"/>
+                    <GradientStop Color="#0000ff" Offset="0.6"/>
+                    <GradientStop Color="#FF00FF" Offset="0.8"/>
+                    <GradientStop Color="#ff0000" Offset="1"/>
+                </LinearGradientBrush>
+            </ProgressBar.Background>
+        </ProgressBar>
+        <DockPanel Dock="Top" Margin="0,-60,0,0">
+            <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Width="400">
+                <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="Layer_1" Width="1403.14" Height="525.9">
+                    <Canvas.RenderTransform>
+                        <TranslateTransform X="0" Y="0"/>
+                    </Canvas.RenderTransform>
+                    <Canvas.Resources>
+                        <Color x:Key="GradientColor1" A="#FF" R="#FF" G="#00" B="#00"></Color>
+                        <LinearGradientBrush xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Key="RainbowGradient3" MappingMode="Absolute" StartPoint="0,0" EndPoint="450,0">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Color="#ff0000" Offset="0"/>
+                                    <GradientStop Color="#FFFF00" Offset="0.2"/>
+                                    <GradientStop Color="#00ff00" Offset="0.4"/>
+                                    <GradientStop Color="#00ffff" Offset="0.5"/>
+                                    <GradientStop Color="#0000ff" Offset="0.6"/>
+                                    <GradientStop Color="#FF00FF" Offset="0.9"/>
+                                    <GradientStop Color="#ff0000" Offset="1"/>
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                        <LinearGradientBrush xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Key="RainbowGradient4" MappingMode="Absolute" StartPoint="69,335" EndPoint="407,335">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Color="#ff0000" Offset="0"/>
+                                    <GradientStop Color="#FFFF00" Offset="0.2"/>
+                                    <GradientStop Color="#00ff00" Offset="0.4"/>
+                                    <GradientStop Color="#00ffff" Offset="0.45"/>
+                                    <GradientStop Color="#0000ff" Offset="0.56"/>
+                                    <GradientStop Color="#FF00FF" Offset="0.73"/>
+                                    <GradientStop Color="#ff0000" Offset="1"/>
+                                </GradientStopCollection>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Canvas.Resources>
+                    <Canvas.Triggers>
+                        <!--<EventTrigger RoutedEvent="Window.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation 
+                                        Storyboard.TargetName="Resources.RainbowGradient4.GradientStops[0].Offset"
+                                        Storyboard.TargetProperty="Offset"
+                                        From="0.0" To="1.0" Duration="0:0:1.5"
+                                        AutoReverse="True" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>-->
+                    </Canvas.Triggers>
+                    <!--Unknown tag: metadata-->
+                    <!--Unknown tag: sodipodi:namedview-->
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Stroke="{DynamicResource RainbowGradient3}" StrokeThickness="10" Name="path54" Fill="Black">
+                        <Path.Data>
+                            <PathGeometry Figures="M456.33 379.57V142.33a19.7 19.7 0 0 0-9.85-17.07L241 6.64a19.71 19.71 0 0 0-19.71 0L15.86 125.26A19.71 19.71 0 0 0 6 142.33V379.57a19.71 19.71 0 0 0 9.86 17.07L221.31 515.26a19.71 19.71 0 0 0 19.71 0L446.48 396.64A19.7 19.7 0 0 0 456.33 379.57Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path56" Fill="White">
+                        <Path.Data>
+                            <PathGeometry Figures="M70 275.85v-123h48.81q13.92 0 23.83 4.95a35 35 0 0 1 15.13 14q5.22 9.06 5.22 21.31t-5.31 21.19a34.09 34.09 0 0 1-15.37 13.48q-10.05 4.65-24.16 4.65H85.69V211.19h28a32.47 32.47 0 0 0 12.18-2 14.69 14.69 0 0 0 7.3-6 19.11 19.11 0 0 0 2.43-10 19.85 19.85 0 0 0-2.43-10.2 15.08 15.08 0 0 0-7.3-6.25 31 31 0 0 0-12.24-2.1H96.5V275.85Zm66.82-56 30.56 56H138l-29.9-56Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path58" Fill="White">
+                        <Path.Data>
+                            <PathGeometry Figures="M262.42 192.7a25.66 25.66 0 0 0-3.45-7.56 23.15 23.15 0 0 0-5.43-5.65 23.54 23.54 0 0 0-7.32-3.57 31.6 31.6 0 0 0-9-1.23 29.14 29.14 0 0 0-16.39 4.62 30.25 30.25 0 0 0-10.92 13.45Q206 201.58 206 214.19t3.82 21.64a28.26 28.26 0 0 0 27.58 18.22A33 33 0 0 0 252.28 251a21.85 21.85 0 0 0 9.42-8.7A26.06 26.06 0 0 0 265 229l5.34.72H239V209.81h51.63v15.67q0 16.2-6.84 27.85a46.3 46.3 0 0 1-18.88 17.92q-12 6.28-27.65 6.28-17.36 0-30.47-7.66a52.68 52.68 0 0 1-20.44-21.76Q179 234 179 214.55a76.12 76.12 0 0 1 4.38-26.74 56.72 56.72 0 0 1 12.28-19.9A53 53 0 0 1 214 155.48a59.8 59.8 0 0 1 22.69-4.26 61.09 61.09 0 0 1 19.54 3 52.46 52.46 0 0 1 16 8.56A46.53 46.53 0 0 1 283.74 176a45.3 45.3 0 0 1 5.7 16.75Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path60" Fill="White">
+                        <Path.Data>
+                            <PathGeometry Figures="M309.85 275.85v-123h49.47q13.62 0 22.75 4T395.79 168a29.34 29.34 0 0 1 4.59 16.33A26.34 26.34 0 0 1 397.47 197a24.77 24.77 0 0 1-8 8.89 32.76 32.76 0 0 1-11.46 4.89V212a28.47 28.47 0 0 1 23.29 14.23 30.29 30.29 0 0 1 3.84 15.61 32 32 0 0 1-4.86 17.47A33 33 0 0 1 386 271.4q-9.45 4.46-23.26 4.45Zm26.53-71.68h18.85a22.73 22.73 0 0 0 9.34-1.83 15.36 15.36 0 0 0 6.51-5.26 13.84 13.84 0 0 0 2.4-8.16 13.3 13.3 0 0 0-4.65-10.6q-4.65-4-13.12-4H336.38Zm0 49.94h20.78q10.68 0 15.6-4.05a13.45 13.45 0 0 0 4.93-10.95 16.26 16.26 0 0 0-2.43-8.89 16.65 16.65 0 0 0-6.91-6A24 24 0 0 0 357.7 222H336.38Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path86" Fill="{DynamicResource RainbowGradient4}">
+                        <Path.Data>
+                            <PathGeometry Figures="M120.31 316.07a11.18 11.18 0 0 0-4.64-8.4q-4.11-3-11-3a21.12 21.12 0 0 0-8 1.36 11.49 11.49 0 0 0-5 3.73 9.14 9.14 0 0 0-1.78 5.39 7.94 7.94 0 0 0 1.11 4.38 10.15 10.15 0 0 0 3.18 3.18A22 22 0 0 0 98.73 325a46.34 46.34 0 0 0 5.46 1.58l8.06 1.95a55.38 55.38 0 0 1 10.38 3.38 33.16 33.16 0 0 1 8.38 5.24 22.48 22.48 0 0 1 5.64 7.41 23.37 23.37 0 0 1 2.08 9.88 24.49 24.49 0 0 1-4.1 14 26.31 26.31 0 0 1-11.7 9.23q-7.65 3.28-18.44 3.29a47.56 47.56 0 0 1-18.43-3.27A27.15 27.15 0 0 1 73.84 368q-4.41-6.37-4.66-15.73H86.6a13.36 13.36 0 0 0 2.66 7.52 14.26 14.26 0 0 0 6.26 4.5 24.39 24.39 0 0 0 8.8 1.5 23.43 23.43 0 0 0 8.6-1.45 13.35 13.35 0 0 0 5.7-4 9.6 9.6 0 0 0 2.08-6 8 8 0 0 0-1.86-5.25 14 14 0 0 0-5.25-3.57 56.6 56.6 0 0 0-8.23-2.67l-9.84-2.47q-11.13-2.73-17.59-8.51t-6.41-15.54a23 23 0 0 1 4.29-14A28.5 28.5 0 0 1 87.68 293a42.1 42.1 0 0 1 17.16-3.34 40.65 40.65 0 0 1 17 3.34 27.31 27.31 0 0 1 11.42 9.3 24.3 24.3 0 0 1 4.24 13.75Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path88" Fill="{DynamicResource RainbowGradient4}">
+                        <Path.Data>
+                            <PathGeometry Figures="M146.35 290.9h20.11l20.71 38.56H188l20.71-38.56h20.1l-32.32 56.81v31.93H178.72V347.71Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path90" Fill="{DynamicResource RainbowGradient4}">
+                        <Path.Data>
+                            <PathGeometry Figures="M313.26 290.9v88.74h-15.6l-39.6-57.33h-.69v57.33h-17.9V290.9h15.77l39.43 57.33h.78V290.9Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path92" Fill="{DynamicResource RainbowGradient4}">
+                        <Path.Data>
+                            <PathGeometry Figures="M406.9 321.62H388.83a18.93 18.93 0 0 0-2.25-6.76 17.78 17.78 0 0 0-4.29-5 18.6 18.6 0 0 0-6-3.16 23.6 23.6 0 0 0-7.26-1.08 21.75 21.75 0 0 0-12.24 3.46 22.73 22.73 0 0 0-8.21 10.1 39.64 39.64 0 0 0-2.95 16.12q0 9.71 3 16.34a22.26 22.26 0 0 0 8.21 10A22 22 0 0 0 369 365a24.08 24.08 0 0 0 7.12-1 18.55 18.55 0 0 0 5.92-3 17.38 17.38 0 0 0 4.35-4.83 19.1 19.1 0 0 0 2.45-6.54l18.07.13a34.51 34.51 0 0 1-3.72 11.76 35.48 35.48 0 0 1-7.85 10 36.21 36.21 0 0 1-11.59 6.89 42.48 42.48 0 0 1-15.06 2.51 41.39 41.39 0 0 1-21.08-5.37 37.84 37.84 0 0 1-14.66-15.58q-5.38-10.2-5.38-24.63T333 310.61a38.16 38.16 0 0 1 14.73-15.55 41.23 41.23 0 0 1 21-5.38 45.2 45.2 0 0 1 14.17 2.15 36.34 36.34 0 0 1 11.62 6.24 33.07 33.07 0 0 1 8.29 10A36.91 36.91 0 0 1 406.9 321.62Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path94" Fill="White">
+                        <Path.Data>
+                            <PathGeometry Figures="M643.7 196.61q-1.82-18.21-16.08-29t-35.91-10.76q-15.23 0-26.79 5.22a43.79 43.79 0 0 0-18.11 14.44 35.21 35.21 0 0 0-6.55 20.93A29.8 29.8 0 0 0 544 212.59a35.53 35.53 0 0 0 10.06 11.13 71.1 71.1 0 0 0 14.07 7.94 130.16 130.16 0 0 0 15.6 5.54l23 6.61a161.15 161.15 0 0 1 20.89 7.35 86.12 86.12 0 0 1 19.12 11.24 52 52 0 0 1 14 16.51q5.28 9.75 5.28 23.38a56.45 56.45 0 0 1-9.06 31.43q-9 14-26 22.11T590.33 364q-22.27 0-38.67-7.41t-25.78-20.5a57.82 57.82 0 0 1-10.55-30.37h20.45q1.07 12.9 8.53 21.84a46.6 46.6 0 0 0 19.39 13.59 73 73 0 0 0 26.63 4.63q16.3 0 29-5.49a47.75 47.75 0 0 0 20-15.34 37.56 37.56 0 0 0 7.3-23q0-11.07-5.76-18.59a45 45 0 0 0-16-12.62 144.4 144.4 0 0 0-23.81-9.06L575 254q-25.68-7.67-39.85-21.2T521 198.32q0-17.58 9.42-30.95A63.1 63.1 0 0 1 556 146.49Q572.11 139 592.25 139q20.34 0 36 7.45a62.81 62.81 0 0 1 24.87 20.51A53.88 53.88 0 0 1 663 196.61Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path96" Fill="White">
+                        <Path.Data>
+                            <PathGeometry Figures="M 720.83008 157.41016 L 720.82812 196.60938 L 696.43945 196.60938 L 696.43945 213.11914 L 720.82617 213.11914 L 720.82031 322 C 720.82031 330.98667 722.88 338.48047 727 344.48047 A 39.33 39.33 0 0 0 742.74023 358.13086 A 49 49 0 0 0 772.83984 361.80078 A 48.9 48.9 0 0 0 779.66016 359.80078 L 775.66016 342.65039 C 774.31016 343.00039 772.7407 343.33039 770.9707 343.65039 A 36.68 36.68 0 0 1 764.58008 344.13086 A 30.45 30.45 0 0 1 752.58008 341.73047 A 19.48 19.48 0 0 1 743.41992 333.5293 C 741.07326 329.68263 739.90039 324.3493 739.90039 317.5293 L 739.90039 213.11914 L 774.5293 213.11914 L 774.5293 196.60938 L 739.90039 196.60938 L 739.90039 157.41016 L 720.83008 157.41016 z " FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path98" Fill="White">
+                        <Path.Data>
+                            <PathGeometry Figures="M921.54 297.71V196.61h19V360.25h-19V333.08h-1.49A50.18 50.18 0 0 1 901.83 354q-12.47 8.36-30.47 8.36-15.66 0-27.8-6.87a47.9 47.9 0 0 1-19.07-20.19q-6.93-13.32-6.93-32.71v-106h19V301.44q0 19.19 11.29 30.84t29 11.67a45.53 45.53 0 0 0 21.3-5.33A44 44 0 0 0 914.94 323Q921.54 312.74 921.54 297.71Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path100" Fill="White">
+                        <Path.Data>
+                            <PathGeometry Figures="M1049.48 363.66q-20.13 0-35.26-10.66t-23.6-29.72q-8.46-19.06-8.47-44.42t8.47-44.27q8.48-19 23.71-29.62t35.47-10.6q14.92 0 24.83 5.28a48 48 0 0 1 15.87 13 76.59 76.59 0 0 1 9.27 15.13h1.7V142.07h19.07V360.25H1102V329.89h-2.24a74.2 74.2 0 0 1-9.38 15.28 49.26 49.26 0 0 1-16 13.16Q1064.4 363.66 1049.48 363.66Zm2.24-17.37q15.87 0 27.06-8.68t17.1-24q5.91-15.28 5.91-35.1 0-19.6-5.86-34.68t-17-23.65q-11.19-8.58-27.17-8.58-16.41 0-27.64 8.9t-17 24q-5.81 15.13-5.81 34a96 96 0 0 0 5.86 34.41q5.86 15.35 17.1 24.34T1051.72 346.29Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path102" Fill="White">
+                        <Path.Data>
+                            <PathGeometry Figures="M1184.57 168.49a14.09 14.09 0 0 1-10.07-4 13.14 13.14 0 0 1 0-19.28 14.54 14.54 0 0 1 20 0 13.14 13.14 0 0 1 0 19.28A14 14 0 0 1 1184.57 168.49Zm-9.8 191.76V196.61h19.07V360.25Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path104" Fill="White">
+                        <Path.Data>
+                            <PathGeometry Figures="M1307.72 363.66q-21.2 0-37.44-10.76t-25.41-29.78q-9.16-19-9.16-43.94 0-25.14 9.16-44.27t25.41-29.83q16.24-10.71 37.44-10.71t37.4 10.76q16.19 10.77 25.41 29.83t9.21 44.22q0 24.93-9.16 43.94t-25.41 29.78Q1328.92 363.66 1307.72 363.66Zm0-17.37q17.05 0 28.87-9.16a56.92 56.92 0 0 0 18-24.4 95.2 95.2 0 0 0 0-67.22 57.59 57.59 0 0 0-18-24.61q-11.82-9.27-28.87-9.27t-28.81 9.27a57.38 57.38 0 0 0-18 24.61 95.35 95.35 0 0 0 0 67.22 57 57 0 0 0 17.95 24.4Q1290.69 346.3 1307.72 346.29Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                </Canvas>
+            </Viewbox>
+        </DockPanel>
+    </Grid>
+</fluentWpf:AcrylicWindow>

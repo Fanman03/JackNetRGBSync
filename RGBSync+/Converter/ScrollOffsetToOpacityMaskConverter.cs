@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace RGBSyncPlus.Converter
+namespace SyncStudio.WPF.Converter
 {
     public class ScrollOffsetToOpacityMaskConverter : IMultiValueConverter
     {
@@ -19,11 +19,11 @@ namespace RGBSyncPlus.Converter
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            double offset = double.Parse(values[0].ToString());
-            double maxHeight = double.Parse(values[1].ToString());
-            double height = double.Parse(values[2].ToString());
+            double offset = double.Parse(values[0].ToString(), CultureInfo.InvariantCulture);
+            double maxHeight = double.Parse(values[1].ToString(), CultureInfo.InvariantCulture);
+            double height = double.Parse(values[2].ToString(), CultureInfo.InvariantCulture);
 
-            double transparencyHeight = double.Parse(parameter.ToString());
+            double transparencyHeight = double.Parse(parameter.ToString(), CultureInfo.InvariantCulture);
             double transparencyFactor = (transparencyHeight - 6) / height;
             double transparencyFadeFactor = (transparencyHeight + 4) / height;
 

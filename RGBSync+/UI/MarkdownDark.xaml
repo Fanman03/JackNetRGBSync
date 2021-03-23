@@ -1,0 +1,121 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="AccentColor" Color="CornflowerBlue"/>
+    <SolidColorBrush x:Key="Primary" Color="Black"/>
+    <SolidColorBrush x:Key="Secondary" Color="White"/>
+    <FontFamily x:Key="MainFont">Segoe UI</FontFamily>
+    <Style x:Key="MarkdownHeader1" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="Foreground" Value="{StaticResource Primary}" />
+        <Setter Property="Margin" Value="10,0,0,0"/>
+        <Setter Property="FontFamily" Value="{StaticResource MainFont}"/>
+    </Style>
+    <Style x:Key="MarkdownHeader2" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Margin" Value="10,0,0,0"/>
+        <Setter Property="Foreground" Value="{StaticResource Primary}" />
+        <Setter Property="FontFamily" Value="{StaticResource MainFont}"/>
+    </Style>
+    <Style x:Key="MarkdownHeader3" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Margin" Value="10,0,0,0"/>
+        <Setter Property="Foreground" Value="{StaticResource Primary}" />
+        <Setter Property="FontFamily" Value="{StaticResource MainFont}"/>
+    </Style>
+
+    <Style x:Key="MarkdownParagraph" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Light"/>
+        <Setter Property="Foreground" Value="{StaticResource Primary}" />
+        <Setter Property="FontFamily" Value="{StaticResource MainFont}"/>
+    </Style>
+
+    <Style x:Key="MarkdownCode" TargetType="TextBlock">
+        <Setter Property="Background" Value="#808080"/>
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Light"/>
+        <Setter Property="Foreground" Value="{StaticResource Primary}" />
+        <Setter Property="Opacity" Value="90"/>
+        <Setter Property="FontFamily" Value="Consolas"/>
+    </Style>
+
+    <Style x:Key="MarkdownCodeBlock" TargetType="TextBlock">
+        <Setter Property="Background" Value="#808080"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Light"/>
+        <Setter Property="Foreground" Value="{StaticResource Primary}" />
+        <Setter Property="Opacity" Value="90"/>
+        <Setter Property="FontFamily" Value="Consolas"/>
+    </Style>
+
+    <Style x:Key="MarkdownCodeGrid" TargetType="Grid">
+        <Setter Property="Margin" Value="0,10"/>
+    </Style>
+
+    <Style x:Key="MarkdownBold" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource Primary}" />
+        <Setter Property="FontFamily" Value="{StaticResource MainFont}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <Style x:Key="MarkdownButton" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource AccentColor}"/>
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Padding" Value="10"></Setter>
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="0,0,0,0"/>
+        <Setter Property="Foreground" Value="{StaticResource Primary}" />
+        <Setter Property="FontFamily" Value="{StaticResource MainFont}"/>
+    </Style>
+
+    <Style x:Key="MarkdownHref" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Padding" Value="0"></Setter>
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Foreground" Value="{StaticResource AccentColor}" />
+        <Setter Property="FontFamily" Value="{StaticResource MainFont}"/>
+    </Style>
+
+    <Style x:Key="MarkdownHrefTextBlock" TargetType="TextBlock">
+        <Setter Property="TextDecorations" Value="Underline"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"></Setter>
+    </Style>
+
+    <Style x:Key="MarkdownBlockQuoteBorder" TargetType="Border">
+        <Setter Property="Margin" Value="0,10"/>
+        <Setter Property="Padding" Value="0,10"/>
+        <Setter Property="BorderThickness" Value="5,0,0,0"/>
+        <Setter Property="Background" Value="#80808080"/>
+        <Setter Property="BorderBrush" Value="{StaticResource AccentColor}"/>
+    </Style>
+
+    <Style x:Key="MarkdownBlockQuoteGrid" TargetType="Grid">
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="10,0"/>
+    </Style>
+
+    <Style x:Key="MarkdownOrderedList" TargetType="Grid">
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="10,5"/>
+    </Style>
+
+    <Style x:Key="MarkdownOrderedListIndex" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,0,10,0"/>
+        <Setter Property="Padding" Value="0,0,10,0"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource Primary}" />
+        <Setter Property="FontFamily" Value="{StaticResource MainFont}"/>
+    </Style>
+
+    <Style x:Key="MarkdownHorizontalRule" TargetType="Grid">
+        <Setter Property="Height" Value="2"/>
+        <Setter Property="Background" Value="{StaticResource AccentColor}"/>
+        <Setter Property="Margin" Value="0,10"/>
+    </Style>
+</ResourceDictionary>

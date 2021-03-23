@@ -1,0 +1,6 @@
+[submodule "SLS"]
+	path = SLS
+	url = https://github.com/madninjaskillz/Simple-LED-SDK.git
+[submodule "RGBPluginManager"]
+	path = RGBPluginManager
+	url = https://github.com/Fanman03/RGBPluginManager.git

@@ -1,0 +1,69 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SyncStudio.WPF.UI.Tabs"
+             xmlns:Converter="clr-namespace:SyncStudio.WPF.Converter" x:Class="SyncStudio.WPF.UI.Tabs.About"
+             mc:Ignorable="d" 
+             d:DesignHeight="3000" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Converter:LocConverter x:Key="LocConverter"/>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <local:AboutViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer>
+            <StackPanel>
+                <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="Uniform" Height="160" x:Name="LogoHere" Margin="10"/>
+                
+                
+
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{Binding PrimarySolidColorBrush}" Text="{Binding AppName}"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{Binding PrimarySolidColorBrush}" Text="James Johnston"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{Binding PrimarySolidColorBrush}" Text="Jack Pendleton"/>
+
+                <TextBlock x:Name="textBlock" Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{Binding PrimarySolidColorBrush}" Text="{Binding Language, ConverterParameter=About.OrigDev, Converter={StaticResource LocConverter}}"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{Binding PrimarySolidColorBrush}" Text="Jack Pendleton"/>
+
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{Binding PrimarySolidColorBrush}" Text="{Binding Language, ConverterParameter=About.simpleleddev, Converter={StaticResource LocConverter}}"/>
+                <TextBlock Margin="10,0,5,10" FontSize="18" FontFamily="Segoe UI Light" Foreground="{Binding PrimarySolidColorBrush}" Text="James Johnston"/>
+
+                <Grid Background="#40000000" Grid.ColumnSpan="2">
+                    <StackPanel>
+                        <TextBlock Margin="10,0,5,10" FontSize="14" FontFamily="Segoe UI Light" Foreground="{Binding PrimarySolidColorBrush}" Text="{Binding Language, ConverterParameter=About.Donations, Converter={StaticResource LocConverter}}" TextWrapping="WrapWithOverflow"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Margin="5" FontFamily="Segoe UI" Padding="5" Foreground="White" Width="140" Click="DonatePatreon" Content="{Binding Language, ConverterParameter=Donate.Patreon, Converter={StaticResource LocConverter}}">
+                                <Button.Background>
+                                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                        <GradientStop Color="#ffff424d" Offset="0"/>
+                                        <GradientStop Color="#FFff6260" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+
+
+
+                            <Button Margin="5" FontFamily="Segoe UI" Padding="5" Foreground="White" Width="140" Click="DonatePayPal" Content="{Binding Language, ConverterParameter=Donate.PayPal, Converter={StaticResource LocConverter}}">
+                                <Button.Background>
+                                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                        <GradientStop Color="#FF69ADFF" Offset="0"/>
+                                        <GradientStop Color="#FF0053B8" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+                <TextBlock Margin="10" FontSize="18" FontFamily="Segoe UI" FontWeight="Bold" Foreground="{Binding PrimarySolidColorBrush}" Text="{Binding Language, ConverterParameter=About.Thanks, Converter={StaticResource LocConverter}}" TextWrapping="WrapWithOverflow"/>
+            </StackPanel>
+        </ScrollViewer>
+        <Grid Grid.Column="1">
+            <!--<Image Source="/RGBSync+;component/Resources/DefaultBanner.png"></Image>-->
+        </Grid>
+    </Grid>
+</UserControl>
