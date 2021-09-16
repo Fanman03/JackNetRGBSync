@@ -296,6 +296,8 @@ namespace RGBSyncPlus
 
             try
             {
+                // Set system security protocol to the best of our capabilities
+                ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
                 using (WebClient w = new WebClient())
                 {
                     Logger.Info("Checking for update...");
